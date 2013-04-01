@@ -3,7 +3,7 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Security;
 
-namespace MPersistence.Core
+namespace MPersist.Core
 {
     public class Logger
     {
