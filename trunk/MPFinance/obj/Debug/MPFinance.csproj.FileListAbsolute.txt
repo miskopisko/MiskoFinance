@@ -1,8 +1,0 @@
-C:\Users\Michael\Dev\C#\MPFinance\MPFinance\bin\Debug\MPFinance.exe.config
-C:\Users\Michael\Dev\C#\MPFinance\MPFinance\bin\Debug\MPFinance.exe
-C:\Users\Michael\Dev\C#\MPFinance\MPFinance\bin\Debug\MPFinance.pdb
-C:\Users\Michael\Dev\C#\MPFinance\MPFinance\obj\Debug\MPFinance.csprojResolveAssemblyReference.cache
-C:\Users\Michael\Dev\C#\MPFinance\MPFinance\obj\Debug\MPFinance.Properties.Resources.resources
-C:\Users\Michael\Dev\C#\MPFinance\MPFinance\obj\Debug\MPFinance.csproj.GenerateResource.Cache
-C:\Users\Michael\Dev\C#\MPFinance\MPFinance\obj\Debug\MPFinance.exe
-C:\Users\Michael\Dev\C#\MPFinance\MPFinance\obj\Debug\MPFinance.pdb
