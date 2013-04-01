@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Common;
+using MPersistence.Core.Persistences;
+using MPersist.Core.Data;
 using System.Data;
 
-namespace MPersistence.Core
+namespace MPersist.Core
 {
     public abstract class Persistence
     {
         #region Variable Declarations
-
-        public static readonly int TIMEOUT = 300;
 
         private Session session_ = null;
         private DbDataReader rs_ = null;
@@ -17,10 +17,6 @@ namespace MPersistence.Core
         private String sql_ = "";
 	    private List<Object> parameters_ = new List<Object>();
         
-        private static readonly Int32 SQLType_SQL_ = 0;
-	    private static readonly Int32 SQLType_PROCEDURE_ = 1;
-	    private static readonly Int32 SQLType_FUNCTION_ = 2;
-
         #endregion
 
         #region Properties
@@ -46,6 +42,21 @@ namespace MPersistence.Core
         public Persistence(Session session)
         {
             session_ = session;
+        }
+
+        public static Persistence GetInstance(Session session)
+        {
+            switch (session.SessionType)
+            {
+                case MPersist.Resources.Enums.SessionType.Oracle:
+                    return new OraclePersistence(session);
+                case MPersist.Resources.Enums.SessionType.MySql:
+                    return new MySqlPersistence(session);
+                case MPersist.Resources.Enums.SessionType.Sqlite:
+                    return new SqlitePersistence(session);
+                default:
+                    return null;
+            }
         }
 
         public void Close()
@@ -105,10 +116,8 @@ namespace MPersistence.Core
         {
             session_.PersistencePool.Add(this);
 
-            command_.CommandText = sql_;
-            perepareParameters();
-
             command_.Prepare();
+            rs_ = command_.ExecuteReader();
 
             return command_.ExecuteNonQuery();
         }
@@ -117,6 +126,15 @@ namespace MPersistence.Core
         {
             //command_.Parameters.Add(new DbParameter());
         }
+
+        #region Abstract Methods
+
+        public abstract void GenerateSelectStatement(Type clazz, Parameters parameters);
+        public abstract void GenerateUpdateStatement(Type clazz, Parameters parameters);
+        public abstract void GenerateDeleteStatement(Type clazz, Parameters parameters);
+        public abstract void GenerateInsertStatement(Type clazz);
+
+        #endregion
 
     }
 }

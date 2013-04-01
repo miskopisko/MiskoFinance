@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPersistence", "MPersistence\MPersistence.csproj", "{F538732A-122B-40BB-86B0-199F99B0386C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPersist", "MPersistence\MPersist.csproj", "{F538732A-122B-40BB-86B0-199F99B0386C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPFinance", "MPFinance\MPFinance.csproj", "{B21F4609-E55B-4D30-9D04-CA58B3999C55}"
 	ProjectSection(ProjectDependencies) = postProject

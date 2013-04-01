@@ -1,9 +1,10 @@
-﻿using MPersistence.Security;
+﻿using MPersist.Security;
 using System;
 using System.Data.Common;
 using System.Collections.Generic;
+using MPersist.Resources.Enums;
 
-namespace MPersistence.Core
+namespace MPersist.Core
 {
     public sealed class Session
     {
@@ -11,6 +12,7 @@ namespace MPersistence.Core
 
         #region Variable Declarations
 
+        private readonly SessionType sessionType_;
         private readonly DbConnection conn_;
         private Boolean transactionInProgress_ = false;
         private OperatorProfile operator_;
@@ -19,6 +21,11 @@ namespace MPersistence.Core
         #endregion
 
         #region Properties
+
+        public SessionType SessionType
+        {
+            get { return sessionType_; }
+        }
 
         public DbConnection Conn
         {
@@ -43,9 +50,15 @@ namespace MPersistence.Core
 
         #endregion
 
-        public Session(DbConnection connection)
+        public Session(SessionType sessionType, DbConnection connection)
         {
+            sessionType_ = sessionType;
             conn_ = connection;
+        }
+
+        public void Error(Type clazz, ErrorLevel errorLevel, String errorMessage)
+        {
+            
         }
     }
 }
