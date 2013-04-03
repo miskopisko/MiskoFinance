@@ -16,6 +16,14 @@
 	    Function = 2
     }
 
+    public enum UpdateMode
+    {
+        NULL = -1,
+        Insert = 0,
+        Update = 1,
+        Delete = 2
+    }
+
     public enum Gender
     {
         NULL = -1,

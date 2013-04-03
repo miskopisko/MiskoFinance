@@ -126,9 +126,6 @@
     <None Include="DBA\Sqlite\Tables.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Libraries\SQLite.Interop.dll" />
-  </ItemGroup>
-  <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

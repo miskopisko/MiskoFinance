@@ -2,6 +2,7 @@ using System;
 using MPersist.Core;
 using System.Reflection;
 using MySql.Data.MySqlClient;
+using MPersist.Core.Data;
 
 namespace MPersistence.Core.Persistences
 {
@@ -42,7 +43,7 @@ namespace MPersistence.Core.Persistences
         {
             String result = "";
 
-            if (clazz != null)
+            if (clazz != null && clazz.IsSubclassOf(typeof(AbstractStoredData)))
             {
                 result += "SELECT ";
 
@@ -58,43 +59,63 @@ namespace MPersistence.Core.Persistences
                 for (Int32 i = 0; Parameters != null && i < Parameters.Count; i++)
                 {
                     result += Environment.NewLine;
-                    result += (i == 0 ? " WHERE " : "   AND ") + Parameters[i].ParameterName + " = ?";                    
-                }
+                    result += (i == 0 ? " WHERE " : "   AND ") + Parameters[i].ParameterName + " = @param_" + i;
 
-                Int32 end = 0;
-                Int32 position = 0;
-
-                while ((end = result.IndexOf("?")) > 0) // Replace typical ? marks with @param_ values
-                {
-                    result = result.Substring(0, end) + ("@param_" + position++) + result.Substring(end + 1);
-                    end = -1;
+                    // Add the parameter to the command
+                    ((MySqlCommand)command_).Parameters.AddWithValue("@param_" + i, parameters_[i].Value);
                 }
             }
 
             return result;
         }
 
-        protected override String GenerateUpdateStatement(Type clazz)
+        protected override String GenerateUpdateStatement(AbstractStoredData clazz)
         {
             throw new NotImplementedException();
         }
 
-        protected override String GenerateDeleteStatement(Type clazz)
+        protected override String GenerateDeleteStatement(AbstractStoredData clazz)
         {
             throw new NotImplementedException();
         }
 
-        protected override String GenerateInsertStatement(Type clazz)
+        protected override String GenerateInsertStatement(AbstractStoredData clazz)
         {
-            throw new NotImplementedException();
-        }
+            String result = "";
 
-        protected override void AddParameters()
-        {
-            for (int i = 0; i < parameters_.Count; i++)
+            if (clazz != null)
             {
-                ((MySqlCommand)command_).Parameters.AddWithValue("@param_" + i, parameters_[i].Value);
+                result += "INSERT INTO " + clazz.GetType().Name + " (";
+
+                PropertyInfo[] properties = clazz.GetType().GetProperties();
+                for (int i = 0; i < properties.Length; i++)
+                {
+                    result += properties[i].Name.ToUpper() + (i + 1 < properties.Length ? ", " : "");
+                }
+
+                result += ")" + Environment.NewLine + "VALUES (";
+                for (int i = 0; i < properties.Length; i++)
+                {
+                    result += "@" + properties[i].Name.ToLower() + (i + 1 < properties.Length ? ", " : "");
+
+                    if (properties[i].PropertyType.IsSubclassOf(typeof(Enum)) && (Int32)properties[i].GetValue(clazz, null) < 0)
+                    {
+                        Parameters.AddNew(properties[i].Name, DBNull.Value);
+                    }
+                    else
+                    {
+                        Parameters.AddNew(properties[i].Name, properties[i].GetValue(clazz, null));
+                    }
+
+                    // Add the parameter to the command
+                    ((MySqlCommand)command_).Parameters.AddWithValue("@" + parameters_[i].ParameterName.ToLower(), parameters_[i].Value);
+                }
+
+                result += ");" + Environment.NewLine;
+                result += "SELECT LAST_INSERT_ID() AS ID;";
             }
+
+            return result;
         }
 
         #endregion

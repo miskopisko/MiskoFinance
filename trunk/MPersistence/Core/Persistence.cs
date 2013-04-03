@@ -2,6 +2,11 @@
 using System.Data.Common;
 using MPersistence.Core.Persistences;
 using MPersist.Resources.Enums;
+using MPersist.Core.Data;
+using MySql.Data.MySqlClient;
+using System.Data.OracleClient;
+using System.Data.SQLite;
+using System.Data;
 
 namespace MPersist.Core
 {
@@ -116,12 +121,13 @@ namespace MPersist.Core
             }
         }
 
+        #region Execute Methods
+
         public bool ExecuteSelect(Type clazz)
         {
             session_.PersistencePool.Add(this);
 
             command_.CommandText = GenerateSelectStatement(clazz);
-            AddParameters();
             command_.Prepare();
 
             try
@@ -133,16 +139,106 @@ namespace MPersist.Core
                 session_.Error(GetType(), ErrorLevel.Critical, e.Message);
             }
 
-            return rs_ != null && rs_.HasRows;
+            return rs_ != null && rs_.Read();
         }
+
+        public bool ExecuteUpdate(AbstractStoredData clazz)
+        {
+            session_.PersistencePool.Add(this);
+
+            command_.CommandText = GenerateUpdateStatement(clazz);
+            command_.Prepare();
+
+            try
+            {
+                return command_.ExecuteNonQuery() > 0;
+            }
+            catch (Exception e)
+            {
+                session_.Error(GetType(), ErrorLevel.Critical, e.Message);
+            }
+
+            return false;
+        }
+
+        public int ExecuteInsert(AbstractStoredData clazz)
+        {
+            session_.PersistencePool.Add(this);
+
+            command_.CommandText = GenerateInsertStatement(clazz);
+            command_.Prepare();
+
+            try
+            {
+                if (command_ is MySqlCommand || command_ is SQLiteCommand)
+                {
+                    return Int32.Parse(command_.ExecuteScalar().ToString());
+                }
+                else if (command_ is OracleCommand)
+                {
+                    OracleParameter lastId = new OracleParameter(":LASTID", OracleType.Int32);
+                    lastId.Direction = ParameterDirection.Output;
+                    ((OracleCommand)command_).Parameters.Add(lastId);
+
+                    command_.ExecuteNonQuery();
+
+                    return (Int32)lastId.Value;
+                }
+            }
+            catch (Exception e)
+            {
+                session_.Error(GetType(), ErrorLevel.Critical, e.Message);
+            }
+
+            return -1;
+        }
+
+        public bool ExecuteDelete(AbstractStoredData clazz)
+        {
+            session_.PersistencePool.Add(this);
+
+            command_.CommandText = GenerateDeleteStatement(clazz);
+            command_.Prepare();
+
+            try
+            {
+                return command_.ExecuteNonQuery() > 0;
+            }
+            catch (Exception e)
+            {
+                session_.Error(GetType(), ErrorLevel.Critical, e.Message);
+            }
+
+            return false;
+        }
+
+        public bool ExecuteQuery(String sql)
+        {
+            session_.PersistencePool.Add(this);
+
+            command_.CommandText = sql;
+            command_.Prepare();
+
+            try
+            {
+                rs_ = command_.ExecuteReader();                
+            }
+            catch (Exception e)
+            {
+                session_.Error(GetType(), ErrorLevel.Critical, e.Message);
+            }
+
+            return rs_ != null && rs_.Read();
+        }
+
+        #endregion
 
         #region Abstract Methods
 
         protected abstract String GenerateSelectStatement(Type clazz);
-        protected abstract String GenerateUpdateStatement(Type clazz);
-        protected abstract String GenerateDeleteStatement(Type clazz);
-        protected abstract String GenerateInsertStatement(Type clazz);
-        protected abstract void AddParameters();
+        protected abstract String GenerateUpdateStatement(AbstractStoredData clazz);
+        protected abstract String GenerateDeleteStatement(AbstractStoredData clazz);
+        protected abstract String GenerateInsertStatement(AbstractStoredData clazz);
 
         #endregion
     }

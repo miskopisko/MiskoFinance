@@ -2,6 +2,7 @@ using System;
 using MPersist.Core;
 using System.Reflection;
 using System.Data.OracleClient;
+using MPersist.Core.Data;
 
 namespace MPersistence.Core.Persistences
 {
@@ -38,15 +39,11 @@ namespace MPersistence.Core.Persistences
 
         #region Public Methods
 
-
-
-        #endregion
-
         protected override String GenerateSelectStatement(Type clazz)
         {
             String result = "";
 
-            if (clazz != null)
+            if (clazz != null && clazz.IsSubclassOf(typeof(AbstractStoredData)))
             {
                 result += "SELECT ";
 
@@ -62,34 +59,72 @@ namespace MPersistence.Core.Persistences
                 for (Int32 i = 0; Parameters != null && i < Parameters.Count; i++)
                 {
                     result += Environment.NewLine;
-                    result += (i == 0 ? " WHERE " : "   AND ") + Parameters[i].ParameterName + " = :param" + i;
+                    result += (i == 0 ? " WHERE " : "   AND ") + Parameters[i].ParameterName + " = :" + Parameters[i].ParameterName.ToLower();
+
+                    // Add the parameter to the command
+                    ((OracleCommand)command_).Parameters.AddWithValue(":" + parameters_[i].ParameterName.ToLower(), parameters_[i].Value);
                 }
             }
 
             return result;
         }
 
-        protected override String GenerateUpdateStatement(Type clazz)
+        protected override String GenerateUpdateStatement(AbstractStoredData clazz)
         {
             throw new NotImplementedException();
         }
 
-        protected override String GenerateDeleteStatement(Type clazz)
+        protected override String GenerateDeleteStatement(AbstractStoredData clazz)
         {
             throw new NotImplementedException();
         }
 
-        protected override String GenerateInsertStatement(Type clazz)
+        protected override String GenerateInsertStatement(AbstractStoredData clazz)
         {
-            throw new NotImplementedException();
-        }
+            String result = "";
 
-        protected override void AddParameters()
-        {
-            for (int i = 0; i < parameters_.Count; i++)
+            if (clazz != null)
             {
-                ((OracleCommand)command_).Parameters.AddWithValue(":param" + i, parameters_[i].Value);
+                result += "INSERT INTO " + clazz.GetType().Name + " (";
+
+                PropertyInfo[] properties = clazz.GetType().GetProperties();
+                for (int i = 0; i < properties.Length; i++)
+                {
+                    result += properties[i].Name.ToUpper() + (i + 1 < properties.Length ? ", " : "");
+                }
+
+                result += ")" + Environment.NewLine + "VALUES (";
+                for (int i = 0; i < properties.Length; i++)
+                {
+                    if(properties[i].Name.Equals("ID", StringComparison.OrdinalIgnoreCase))
+                    {
+                        result += "SQ_" + clazz.GetType().Name + ".nextval" + (i + 1 < properties.Length ? ", " : "");
+                    }
+                    else
+                    {
+                        result += ":" + properties[i].Name.ToLower() + (i + 1 < properties.Length ? ", " : "");
+                        
+                        if (properties[i].PropertyType.IsSubclassOf(typeof(Enum)) && (Int32)properties[i].GetValue(clazz, null) < 0)
+                        {
+                            Parameters.AddNew(properties[i].Name, DBNull.Value);
+                        }
+                        else
+                        {
+                            Parameters.AddNew(properties[i].Name, properties[i].GetValue(clazz, null));
+                        }
+
+                        // Add the parameter to the command
+                        ((OracleCommand)command_).Parameters.AddWithValue(":" + properties[i].Name.ToLower(), properties[i].GetValue(clazz, null));
+                    }
+                }
+
+                result += ")" + Environment.NewLine;
+                result += "RETURNING ID INTO :LASTID";                
             }
+
+            return result;
         }
+
+        #endregion
     }
 }
