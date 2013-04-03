@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Common;
 using MPersistence.Core.Persistences;
-using MPersist.Core.Data;
-using System.Data;
+using MPersist.Resources.Enums;
 
 namespace MPersist.Core
 {
@@ -11,11 +9,11 @@ namespace MPersist.Core
     {
         #region Variable Declarations
 
-        private Session session_ = null;
-        private DbDataReader rs_ = null;
-        private DbCommand command_ = null;
-        private String sql_ = "";
-	    private List<Object> parameters_ = new List<Object>();
+        protected Session session_ = null;
+        protected DbDataReader rs_ = null;
+        protected DbCommand command_ = null;
+        protected String sql_ = "";
+        protected Parameters parameters_ = new Parameters();
         
         #endregion
 
@@ -27,14 +25,20 @@ namespace MPersist.Core
             set { sql_ = value; }
         }
 
-        public Boolean IsEOF
+        public Parameters Parameters
         {
-            get { return rs_ != null && !rs_.IsClosed; }
+            get { return parameters_; }
+            set { parameters_ = value; }
         }
 
-        public Int32 RecordCount
+        public Boolean HasRows
         {
-            get { return rs_ != null ? rs_.RecordsAffected : 0; }
+            get { return rs_ != null && rs_.HasRows; }
+        }
+
+        public DbDataReader Results
+        {
+            get { return rs_; }
         }
        
         #endregion
@@ -107,34 +111,39 @@ namespace MPersist.Core
             finally
             {
                 sql_ = "";
-                parameters_ = new List<Object>();
+                parameters_ = new Parameters();
                 session_.PersistencePool.Remove(this);
             }
         }
 
-        private int ExecuteCommand()
+        public bool ExecuteSelect(Type clazz)
         {
             session_.PersistencePool.Add(this);
 
+            command_.CommandText = GenerateSelectStatement(clazz);
+            AddParameters();
             command_.Prepare();
-            rs_ = command_.ExecuteReader();
 
-            return command_.ExecuteNonQuery();
-        }
+            try
+            {
+                rs_ = command_.ExecuteReader();
+            }
+            catch (Exception e)
+            {
+                session_.Error(GetType(), ErrorLevel.Critical, e.Message);
+            }
 
-        private void perepareParameters()
-        {
-            //command_.Parameters.Add(new DbParameter());
+            return rs_ != null && rs_.HasRows;
         }
 
         #region Abstract Methods
 
-        public abstract void GenerateSelectStatement(Type clazz, Parameters parameters);
-        public abstract void GenerateUpdateStatement(Type clazz, Parameters parameters);
-        public abstract void GenerateDeleteStatement(Type clazz, Parameters parameters);
-        public abstract void GenerateInsertStatement(Type clazz);
+        protected abstract String GenerateSelectStatement(Type clazz);
+        protected abstract String GenerateUpdateStatement(Type clazz);
+        protected abstract String GenerateDeleteStatement(Type clazz);
+        protected abstract String GenerateInsertStatement(Type clazz);
+        protected abstract void AddParameters();
 
         #endregion
-
     }
 }

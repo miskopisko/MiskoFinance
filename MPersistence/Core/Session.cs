@@ -27,7 +27,7 @@ namespace MPersist.Core
             get { return sessionType_; }
         }
 
-        public DbConnection Conn
+        public DbConnection Connection
         {
             get { return conn_; }
         }
