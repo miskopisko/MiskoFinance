@@ -6,35 +6,16 @@ namespace MPersist.Core
     {
         private static Logger Log = Logger.GetInstance(typeof(Parameters));
 
-        #region Variable Declarations
-
-
-
-        #endregion
-
-        #region Properties
-
-
-
-        #endregion
-
-        #region Constructors
-
         public Parameters()
         {
         }
 
-        #endregion
-
-        #region Private Methods
-
-
-
-        #endregion
-
         #region Public Methods
 
-
+        public void AddNew(string parameterName, object value)
+        {
+            Add(new Parameter(parameterName, value));
+        }
 
         #endregion
     }

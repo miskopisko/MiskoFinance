@@ -17,125 +17,32 @@ namespace MPersist.Core
 
         #region Properties
 
-        public override DbType DbType
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public override DbType DbType { get; set; }
 
-        public override ParameterDirection Direction
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public override ParameterDirection Direction { get; set; }
 
-        public override bool IsNullable
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public override bool IsNullable { get; set; }
 
-        public override string ParameterName
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public override string ParameterName { get; set; }        
 
-        public override void ResetDbType()
-        {
-            throw new NotImplementedException();
-        }
+        public override int Size { get; set; }
 
-        public override int Size
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public override string SourceColumn { get; set; }
 
-        public override string SourceColumn
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public override bool SourceColumnNullMapping { get; set; }
 
-        public override bool SourceColumnNullMapping
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public override DataRowVersion SourceVersion { get; set; }
 
-        public override DataRowVersion SourceVersion
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public override object Value
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public override object Value { get; set; }
 
         #endregion
 
         #region Constructors
 
-        public Parameter()
+        public Parameter(String parameterName, object value)
         {
+            ParameterName = parameterName;
+            Value = value;
         }
 
         #endregion
@@ -148,10 +55,11 @@ namespace MPersist.Core
 
         #region Public Methods
 
-
+        public override void ResetDbType()
+        {
+            throw new NotImplementedException();
+        }
 
         #endregion
-
-        
     }
 }

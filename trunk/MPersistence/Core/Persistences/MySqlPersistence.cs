@@ -1,9 +1,7 @@
 using System;
 using MPersist.Core;
-using MPersist.Core.Data;
-using System.Collections.Generic;
 using System.Reflection;
-using System.Data.Common;
+using MySql.Data.MySqlClient;
 
 namespace MPersistence.Core.Persistences
 {
@@ -27,6 +25,7 @@ namespace MPersistence.Core.Persistences
 
         public MySqlPersistence(Session session) : base(session)
         {
+            command_ = ((MySqlConnection)session_.Connection).CreateCommand();
         }
 
         #endregion
@@ -39,56 +38,65 @@ namespace MPersistence.Core.Persistences
 
         #region Public Methods
 
-
-
-        #endregion
-
-        public override void GenerateSelectStatement(Type clazz, Parameters parameters)
+        protected override String GenerateSelectStatement(Type clazz)
         {
+            String result = "";
+
             if (clazz != null)
             {
-                SQL += "SELECT ";
-                List<String> columns = new List<String>();
+                result += "SELECT ";
 
-                columns.Add(clazz.Name.ToUpper() + "ID");
-
-                foreach (PropertyInfo property in clazz.GetProperties())
+                PropertyInfo[] properties = clazz.GetProperties();
+                for (int i = 0; i < properties.Length; i++)
                 {
-                    columns.Add(property.Name.ToUpper());
+                    result += properties[i].Name.ToUpper() + (i + 1 < properties.Length ? ", " : "");
                 }
 
-                for (Int32 i = 0; i < columns.Count; i++)
+                result += Environment.NewLine;
+                result += "  FROM " + clazz.Name;
+
+                for (Int32 i = 0; Parameters != null && i < Parameters.Count; i++)
                 {
-                    SQL += columns[i] + (i + 1 < columns.Count ? ", " : "");
+                    result += Environment.NewLine;
+                    result += (i == 0 ? " WHERE " : "   AND ") + Parameters[i].ParameterName + " = ?";                    
                 }
 
-                SQL += " FROM " + clazz.Name.ToUpper();
+                Int32 end = 0;
+                Int32 position = 0;
 
-                String where = ""; Int32 where_item_ctr = 0;
-
-                for (Int32 i = 0; parameters != null && i < parameters.Count; i++)
+                while ((end = result.IndexOf("?")) > 0) // Replace typical ? marks with @param_ values
                 {
-                    where += (where_item_ctr == 0 ? " WHERE " : " AND ") + parameters[i].ParameterName + "` = ?";
-                    where_item_ctr++;
+                    result = result.Substring(0, end) + ("@param_" + position++) + result.Substring(end + 1);
+                    end = -1;
                 }
+            }
 
-                SQL += where;
+            return result;
+        }
+
+        protected override String GenerateUpdateStatement(Type clazz)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override String GenerateDeleteStatement(Type clazz)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override String GenerateInsertStatement(Type clazz)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void AddParameters()
+        {
+            for (int i = 0; i < parameters_.Count; i++)
+            {
+                ((MySqlCommand)command_).Parameters.AddWithValue("@param_" + i, parameters_[i].Value);
             }
         }
 
-        public override void GenerateUpdateStatement(Type clazz, Parameters parameters)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void GenerateDeleteStatement(Type clazz, Parameters parameters)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void GenerateInsertStatement(Type clazz)
-        {
-            throw new NotImplementedException();
-        }
+        #endregion
     }
 }
