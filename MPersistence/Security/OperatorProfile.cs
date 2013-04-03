@@ -31,6 +31,15 @@ namespace MPersist.Security
         {
         }
 
+        public OperatorProfile(String name, String email, DateTime birthday, Gender gender, Int32 age)
+        {
+            Name = name;
+            Email = email;
+            Birthday = birthday;
+            Gender = gender;
+            Age = age;
+        }
+
         #endregion
 
         #region Private Methods
@@ -47,7 +56,6 @@ namespace MPersist.Security
 
             Persistence p = Persistence.GetInstance(session);
             p.Parameters.AddNew("Id", id);
-            //p.Parameters.AddNew("Email", "michael@piskuric.ca");
             p.ExecuteSelect(typeof(OperatorProfile));
 
             if (p.HasRows)

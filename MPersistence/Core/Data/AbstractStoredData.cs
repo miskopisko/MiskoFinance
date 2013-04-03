@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using MPersist.Resources.Enums;
 
 namespace MPersist.Core.Data
 {
@@ -38,9 +39,53 @@ namespace MPersist.Core.Data
 
         #region Public Methods
 
+        public AbstractStoredData Save(Session session)
+        {
+            Persistence p = Persistence.GetInstance(session);
+            
+            if (Id == 0)
+            {
+                preSave(session, UpdateMode.Insert);
+                Id = p.ExecuteInsert(this);
+                postSave(session, UpdateMode.Insert);
+            }
+            else if (Id > 0)
+            {
+                preSave(session, UpdateMode.Update);
+                p.ExecuteUpdate(this);
+                postSave(session, UpdateMode.Update);
+            }
+            else
+            {
+                preSave(session, UpdateMode.Delete);
+                p.ExecuteDelete(this);
+                postSave(session, UpdateMode.Delete);
+            }
+
+            p.Close();
+            p = null;
+
+            return this;
+        }
+
+        public void preSave(Session session, UpdateMode mode)
+        {
+            if (mode.Equals(UpdateMode.Insert))
+            {
+                // Setup the default fields
+                DtCreated = DateTime.Now;
+                DtModified = DtCreated;
+                RowVer = 0;
+            }            
+        }
+
+        public void postSave(Session session, UpdateMode mode)
+        {
+        }
+
         public void set(Persistence p)
         {
-            if (p.Results.Read())
+            if (p.HasRows)
             {
                 PropertyInfo[] properties = GetType().GetProperties();
 
