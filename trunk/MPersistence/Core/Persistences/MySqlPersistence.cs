@@ -26,7 +26,7 @@ namespace MPersistence.Core.Persistences
 
         public MySqlPersistence(Session session) : base(session)
         {
-            command_ = ((MySqlConnection)session_.Connection).CreateCommand();
+            command_ = session_.Connection.CreateCommand();
         }
 
         #endregion
@@ -38,6 +38,14 @@ namespace MPersistence.Core.Persistences
         #endregion
 
         #region Public Methods
+
+        protected override void FillDbParameters()
+        {
+            foreach (Parameter p in Parameters)
+	        {
+                ((MySqlCommand)command_).Parameters.AddWithValue(p.ParameterName, p.Value);
+	        }
+        }
 
         protected override String GenerateSelectStatement(Type clazz)
         {
@@ -59,11 +67,10 @@ namespace MPersistence.Core.Persistences
                 for (Int32 i = 0; Parameters != null && i < Parameters.Count; i++)
                 {
                     result += Environment.NewLine;
-                    result += (i == 0 ? " WHERE " : "   AND ") + Parameters[i].ParameterName + " = @param_" + i;
-
-                    // Add the parameter to the command
-                    ((MySqlCommand)command_).Parameters.AddWithValue("@param_" + i, parameters_[i].Value);
+                    result += (i == 0 ? " WHERE " : "   AND ") + Parameters[i].ParameterName.ToUpper() + " = @" + Parameters[i].ParameterName.ToUpper();
                 }
+
+                result += ";";
             }
 
             return result;
@@ -71,12 +78,48 @@ namespace MPersistence.Core.Persistences
 
         protected override String GenerateUpdateStatement(AbstractStoredData clazz)
         {
-            throw new NotImplementedException();
+            String result = "";
+
+            if (clazz != null)
+            {
+                result += "UPDATE " + clazz.GetType().Name + Environment.NewLine + "SET    ";
+
+                PropertyInfo[] properties = clazz.GetType().GetProperties();
+
+                for (int i = 0; i < properties.Length; i++)
+                {
+                    if (!properties[i].Name.Equals("ID", StringComparison.OrdinalIgnoreCase))
+                    {
+                        result += properties[i].Name.ToUpper() + " = @" + properties[i].Name.ToUpper() + "," + Environment.NewLine + "       ";
+
+                        Parameters.AddNew("@" + properties[i].Name.ToUpper(), properties[i].PropertyType, properties[i].GetValue(clazz, null));                        
+                    }
+                }
+
+                result += "DTMODIFIED = NOW()," + Environment.NewLine;
+                result += "       ROWVER = ROWVER + 1" + Environment.NewLine;
+                result += "WHERE  ID = @ID;";
+
+                Parameters.AddNew("@ID", typeof(Int32), clazz.Id);
+            }
+
+            return result;
         }
 
         protected override String GenerateDeleteStatement(AbstractStoredData clazz)
         {
-            throw new NotImplementedException();
+            String result = "";
+
+            if (clazz != null)
+            {
+                result += "DELETE" + Environment.NewLine;
+                result += "FROM   " + clazz.GetType().Name + Environment.NewLine;
+                result += "WHERE  ID = @ID;";
+
+                Parameters.AddNew("@ID", typeof(Int32), clazz.Id);
+            }
+
+            return result;
         }
 
         protected override String GenerateInsertStatement(AbstractStoredData clazz)
@@ -85,33 +128,30 @@ namespace MPersistence.Core.Persistences
 
             if (clazz != null)
             {
-                result += "INSERT INTO " + clazz.GetType().Name + " (";
+                result += "INSERT INTO " + clazz.GetType().Name + " (ID";
 
                 PropertyInfo[] properties = clazz.GetType().GetProperties();
                 for (int i = 0; i < properties.Length; i++)
                 {
-                    result += properties[i].Name.ToUpper() + (i + 1 < properties.Length ? ", " : "");
+                    if (!properties[i].Name.Equals("ID", StringComparison.OrdinalIgnoreCase))
+                    {
+                        result += ", " + properties[i].Name.ToUpper();
+                    }
                 }
 
-                result += ")" + Environment.NewLine + "VALUES (";
+                result += ", DTCREATED, DTMODIFIED, ROWVER)" + Environment.NewLine + "VALUES (NULL, ";
+                
                 for (int i = 0; i < properties.Length; i++)
                 {
-                    result += "@" + properties[i].Name.ToLower() + (i + 1 < properties.Length ? ", " : "");
-
-                    if (properties[i].PropertyType.IsSubclassOf(typeof(Enum)) && (Int32)properties[i].GetValue(clazz, null) < 0)
+                    if (!properties[i].Name.Equals("ID", StringComparison.OrdinalIgnoreCase))
                     {
-                        Parameters.AddNew(properties[i].Name, DBNull.Value);
-                    }
-                    else
-                    {
-                        Parameters.AddNew(properties[i].Name, properties[i].GetValue(clazz, null));
-                    }
+                        result += "@" + properties[i].Name.ToUpper() + ", ";
 
-                    // Add the parameter to the command
-                    ((MySqlCommand)command_).Parameters.AddWithValue("@" + parameters_[i].ParameterName.ToLower(), parameters_[i].Value);
+                        Parameters.AddNew("@" + properties[i].Name.ToUpper(), properties[i].PropertyType, properties[i].GetValue(clazz, null));                        
+                    }
                 }
 
-                result += ");" + Environment.NewLine;
+                result += "NOW(), NOW(), 0);" + Environment.NewLine;
                 result += "SELECT LAST_INSERT_ID() AS ID;";
             }
 

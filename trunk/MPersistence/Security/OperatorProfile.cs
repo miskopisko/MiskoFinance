@@ -22,6 +22,7 @@ namespace MPersist.Security
         public DateTime? Birthday { get; set; }
         public Gender Gender { get; set; }
         public Int32? Age { get; set; }
+        public OperatorProfile TeamLead { get; set; }
 
         #endregion
 
@@ -31,13 +32,14 @@ namespace MPersist.Security
         {
         }
 
-        public OperatorProfile(String name, String email, DateTime birthday, Gender gender, Int32 age)
+        public OperatorProfile(String name, String email, DateTime? birthday, Gender gender, Int32? age, OperatorProfile tl)
         {
             Name = name;
             Email = email;
-            Birthday = birthday;
+            Birthday = birthday.Value;
             Gender = gender;
-            Age = age;
+            Age = age.Value;
+            TeamLead = tl;
         }
 
         #endregion
@@ -50,23 +52,14 @@ namespace MPersist.Security
 
         #region Public Methods
 
-        public static OperatorProfile GetInstance(Session session, Int32 id)
+        public static OperatorProfile GetInstanceById(Session session, Int32 id)
         {
-            OperatorProfile result = new OperatorProfile();
+            return (OperatorProfile)fetchById(session, typeof(OperatorProfile), id, false);
+        }
 
-            Persistence p = Persistence.GetInstance(session);
-            p.Parameters.AddNew("Id", id);
-            p.ExecuteSelect(typeof(OperatorProfile));
-
-            if (p.HasRows)
-            {
-                result.set(p);
-            }
-
-            p.Close();
-            p = null;
-
-            return result;
+        public static OperatorProfile GetInstanceById(Session session, Int32 id, Boolean deep)
+        {
+            return (OperatorProfile)fetchById(session, typeof(OperatorProfile), id, deep);
         }
 
         #endregion
