@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System;
+using MPersist.Core.Data;
 
 namespace MPersist.Core
 {
@@ -12,9 +14,24 @@ namespace MPersist.Core
 
         #region Public Methods
 
-        public void AddNew(string parameterName, object value)
+        public void AddNew(string parameterName, Type type, object value)
         {
-            Add(new Parameter(parameterName, value));
+            if(type.IsSubclassOf(typeof(Enum)) && (int)value < 0)
+            {
+                Add(new Parameter(parameterName, DBNull.Value));
+            }
+            else if (type.IsSubclassOf(typeof(AbstractStoredData)) && value != null)
+            {
+                Add(new Parameter(parameterName, ((AbstractStoredData)value).Id));
+            }
+            else if (type.IsSubclassOf(typeof(AbstractStoredData)) && value == null)
+            {
+                Add(new Parameter(parameterName, DBNull.Value));
+            }
+            else
+            {
+                Add(new Parameter(parameterName, value != null ? value : DBNull.Value));
+            }
         }
 
         #endregion

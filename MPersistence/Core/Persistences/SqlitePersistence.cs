@@ -26,7 +26,7 @@ namespace MPersistence.Core.Persistences
 
         public SqlitePersistence(Session session) : base(session)
         {
-            command_ = ((SQLiteConnection)session_.Connection).CreateCommand();
+            command_ = session.Connection.CreateCommand();
         }
 
         #endregion
@@ -38,6 +38,14 @@ namespace MPersistence.Core.Persistences
         #endregion
 
         #region Public Methods
+
+        protected override void FillDbParameters()
+        {
+            foreach (Parameter p in Parameters)
+            {
+                ((SQLiteCommand)command_).Parameters.AddWithValue(p.ParameterName, p.Value);
+            }
+        }
 
         protected override String GenerateSelectStatement(Type clazz)
         {
@@ -54,25 +62,15 @@ namespace MPersistence.Core.Persistences
                 }
 
                 result += Environment.NewLine;
-                result += "  FROM " + clazz.Name;
+                result += "  FROM " + clazz.Name.ToUpper();
 
                 for (Int32 i = 0; Parameters != null && i < Parameters.Count; i++)
                 {
                     result += Environment.NewLine;
-                    result += (i == 0 ? " WHERE " : "   AND ") + Parameters[i].ParameterName + " = ?";
-
-                    // Add the paramter to the command
-                    ((SQLiteCommand)command_).Parameters.AddWithValue("@param_" + i, parameters_[i].Value);
+                    result += (i == 0 ? " WHERE " : "   AND ") + Parameters[i].ParameterName.ToUpper() + " = @" + Parameters[i].ParameterName.ToUpper();
                 }
 
-                Int32 end = 0;
-                Int32 position = 0;
-
-                while ((end = result.IndexOf("?")) > 0) // Replace typical ? marks with @param_ values
-                {
-                    result = result.Substring(0, end) + ("@param_" + position++) + result.Substring(end + 1);
-                    end = -1;
-                }
+                result += ";";
             }
 
             return result;
@@ -80,12 +78,48 @@ namespace MPersistence.Core.Persistences
 
         protected override String GenerateUpdateStatement(AbstractStoredData clazz)
         {
-            throw new NotImplementedException();
+            String result = "";
+
+            if (clazz != null)
+            {
+                result += "UPDATE " + clazz.GetType().Name.ToUpper() + Environment.NewLine + "SET    ";
+
+                PropertyInfo[] properties = clazz.GetType().GetProperties();
+
+                for (int i = 0; i < properties.Length; i++)
+                {
+                    if (!properties[i].Name.Equals("ID", StringComparison.OrdinalIgnoreCase))
+                    {
+                        result += properties[i].Name.ToUpper() + " = @" + properties[i].Name.ToUpper() + "," + Environment.NewLine + "       ";
+
+                        Parameters.AddNew("@" + properties[i].Name.ToUpper(), properties[i].PropertyType, properties[i].GetValue(clazz, null));
+                    }
+                }
+
+                result += "DTMODIFIED = DATETIME('NOW')," + Environment.NewLine;
+                result += "       ROWVER = ROWVER + 1" + Environment.NewLine;
+                result += "WHERE  ID = @ID;";
+
+                Parameters.AddNew("@ID", typeof(Int32), clazz.Id);
+            }
+
+            return result;
         }
 
         protected override String GenerateDeleteStatement(AbstractStoredData clazz)
         {
-            throw new NotImplementedException();
+            String result = "";
+
+            if (clazz != null)
+            {
+                result += "DELETE" + Environment.NewLine;
+                result += "FROM   " + clazz.GetType().Name + Environment.NewLine;
+                result += "WHERE  ID = @ID;";
+
+                Parameters.AddNew("@ID", typeof(Int32), clazz.Id);
+            }
+
+            return result;
         }
 
         protected override String GenerateInsertStatement(AbstractStoredData clazz)
@@ -94,37 +128,30 @@ namespace MPersistence.Core.Persistences
 
             if (clazz != null)
             {
-                result += "INSERT INTO " + clazz.GetType().Name + " (";
+                result += "INSERT INTO " + clazz.GetType().Name.ToUpper() + " (ID";
 
                 PropertyInfo[] properties = clazz.GetType().GetProperties();
                 for (int i = 0; i < properties.Length; i++)
                 {
-                    result += properties[i].Name.ToUpper() + (i + 1 < properties.Length ? ", " : "");
+                    if (!properties[i].Name.Equals("ID", StringComparison.OrdinalIgnoreCase))
+                    {
+                        result += ", " + properties[i].Name.ToUpper();
+                    }
                 }
 
-                result += ")" + Environment.NewLine + "VALUES (";
+                result += ", DTCREATED, DTMODIFIED, ROWVER)" + Environment.NewLine + "VALUES (NULL, ";
+
                 for (int i = 0; i < properties.Length; i++)
                 {
-                    result += "@" + properties[i].Name.ToLower() + (i + 1 < properties.Length ? ", " : "");
+                    if (!properties[i].Name.Equals("ID", StringComparison.OrdinalIgnoreCase))
+                    {
+                        result += "@" + properties[i].Name.ToUpper() + ", ";
 
-                    if (properties[i].PropertyType.IsSubclassOf(typeof(Enum)) && (Int32)properties[i].GetValue(clazz, null) < 0)
-                    {
-                        Parameters.AddNew(properties[i].Name, DBNull.Value);
-                    }
-                    else if (properties[i].Name.Equals("ID",StringComparison.OrdinalIgnoreCase))
-                    {
-                        Parameters.AddNew(properties[i].Name, DBNull.Value);
-                    }
-                    else
-                    {
-                        Parameters.AddNew(properties[i].Name, properties[i].GetValue(clazz, null));
-                    }
-
-                    // Add the parameter to the command
-                    ((SQLiteCommand)command_).Parameters.AddWithValue("@" + parameters_[i].ParameterName.ToLower(), parameters_[i].Value);
+                        Parameters.AddNew("@" + properties[i].Name.ToUpper(), properties[i].PropertyType, properties[i].GetValue(clazz, null));
+                    }                    
                 }
 
-                result += ");" + Environment.NewLine;
+                result += "DATETIME('NOW'), DATETIME('NOW'), 0);" + Environment.NewLine;
                 result += "SELECT LAST_INSERT_ROWID() AS ID;";
             }
 

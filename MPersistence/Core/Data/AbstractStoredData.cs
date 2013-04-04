@@ -1,6 +1,7 @@
 using System;
 using System.Reflection;
 using MPersist.Resources.Enums;
+using System.Data;
 
 namespace MPersist.Core.Data
 {
@@ -17,9 +18,6 @@ namespace MPersist.Core.Data
         #region Properties
 
         public Int32 Id { get; set; }
-        public DateTime DtCreated { get; set; }
-        public DateTime DtModified { get; set; }
-        public Int32 RowVer { get; set; }
 
         #endregion
 
@@ -39,7 +37,64 @@ namespace MPersist.Core.Data
 
         #region Public Methods
 
-        public AbstractStoredData Save(Session session)
+        public static AbstractStoredData fetchById(Session session, Type type, Int32 id, Boolean deep)
+        {
+            AbstractStoredData result = (AbstractStoredData)type.Assembly.CreateInstance(type.FullName);
+
+            Persistence p = Persistence.GetInstance(session);
+            p.Parameters.AddNew("Id", typeof(Int32), id);
+            p.ExecuteSelect(type);
+
+            if (p.HasRows && p.RecordCount == 1)
+            {
+                result.set(p);
+                if (deep)
+                {
+                    result.fetchDeep(session);
+                }
+            }
+
+            p.Close();
+            p = null;
+
+            return result;
+        }
+
+        public void fetchDeep(Session session)
+        {
+            foreach (PropertyInfo property in GetType().GetProperties())
+            {
+                if (property.PropertyType.IsSubclassOf(typeof(AbstractStoredData)))
+                {
+                    AbstractStoredData item = (AbstractStoredData)property.GetValue(this, null);
+                    if (item != null && item.Id > 0)
+                    {
+                        item.fetchById(session, item.Id, true);
+                    }
+                }
+            }
+        }
+
+        public void fetchById(Session session, Int32 id, Boolean deep)
+        {
+            Persistence p = Persistence.GetInstance(session);
+            p.Parameters.AddNew("Id", typeof(Int32), id);
+            p.ExecuteSelect(GetType());
+
+            if (p.HasRows && p.RecordCount == 1)
+            {
+                set(p);
+                if (deep)
+                {
+                    fetchDeep(session);
+                }
+            }
+
+            p.Close();
+            p = null;
+        }
+
+        public void Save(Session session)
         {
             Persistence p = Persistence.GetInstance(session);
             
@@ -55,28 +110,41 @@ namespace MPersist.Core.Data
                 p.ExecuteUpdate(this);
                 postSave(session, UpdateMode.Update);
             }
-            else
-            {
-                preSave(session, UpdateMode.Delete);
-                p.ExecuteDelete(this);
-                postSave(session, UpdateMode.Delete);
-            }
 
             p.Close();
             p = null;
+        }
 
-            return this;
+        public void Delete(Session session)
+        {
+            if (Id > 0)
+            {
+                Persistence p = Persistence.GetInstance(session);
+                p.ExecuteDelete(this);
+                p.Close();
+                p = null;
+                Id = -1;
+            }
+            else
+            {
+                session.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Technical, "Object does not exist. Cannot delete");
+            }
         }
 
         public void preSave(Session session, UpdateMode mode)
         {
-            if (mode.Equals(UpdateMode.Insert))
+            // Save any StoredData objects before storing this object
+            foreach (PropertyInfo property in GetType().GetProperties())
             {
-                // Setup the default fields
-                DtCreated = DateTime.Now;
-                DtModified = DtCreated;
-                RowVer = 0;
-            }            
+                if (property.PropertyType.IsSubclassOf(typeof(AbstractStoredData)))
+                {
+                    AbstractStoredData item = (AbstractStoredData)property.GetValue(this, null);
+                    if (item != null)
+                    {
+                        item.Save(session);
+                    }                    
+                }
+            }
         }
 
         public void postSave(Session session, UpdateMode mode)
@@ -85,106 +153,111 @@ namespace MPersist.Core.Data
 
         public void set(Persistence p)
         {
-            if (p.HasRows)
+            foreach (PropertyInfo property in GetType().GetProperties())
             {
-                PropertyInfo[] properties = GetType().GetProperties();
-
-                foreach (PropertyInfo property in properties)
+                if (property.Name.Equals("Id"))
                 {
-                    Int32 ordinal = p.Results.GetOrdinal(property.Name);
-
-                    if (property.Name.Equals("Id"))
+                    property.SetValue(this, p.GetInt(property.Name), null);
+                }
+                else
+                {                    
+                    if (property.PropertyType == typeof(String))
                     {
-                        property.SetValue(this, p.Results.GetInt32(ordinal), null);
+                        property.SetValue(this, p.GetString(property.Name), null);
                     }
-                    else if(p.Results.IsDBNull(ordinal))
+                    else if (property.PropertyType == typeof(Boolean?))
                     {
-                        if (property.PropertyType.IsEnum)
+                        property.SetValue(this, p.GetBoolean(property.Name), null);
+                    }
+                    else if (property.PropertyType == typeof(Int32?))
+                    {
+                        property.SetValue(this, p.GetInt(property.Name), null);
+                    }                        
+                    else if (property.PropertyType == typeof(Int64?))
+                    {
+                        property.SetValue(this, p.GetLong(property.Name), null);
+                    }
+                    else if (property.PropertyType == typeof(Double?))
+                    {
+                        property.SetValue(this, p.GetDouble(property.Name), null);
+                    }
+                    else if (property.PropertyType == typeof(DateTime?))
+                    {
+                        property.SetValue(this, p.GetDate(property.Name), null);
+                    }
+                    else if (property.PropertyType == typeof(Boolean))
+                    {
+                        Boolean? value = p.GetBoolean(property.Name);
+                        property.SetValue(this, value.HasValue ? value.Value : false, null);
+                    }
+                    else if (property.PropertyType == typeof(Int32))
+                    {
+                        Int32? value = p.GetInt(property.Name);
+                        property.SetValue(this, value.HasValue ? value.Value : 0, null);
+                    }
+                    else if (property.PropertyType == typeof(Int64))
+                    {
+                        Int64? value = p.GetLong(property.Name);
+                        property.SetValue(this, value.HasValue ? value.Value : 0, null);
+                    }
+                    else if (property.PropertyType == typeof(Double))
+                    {
+                        Double? value = p.GetDouble(property.Name);
+                        property.SetValue(this, value.HasValue ? value.Value : 0, null);
+                    }
+                    else if (property.PropertyType == typeof(DateTime))
+                    {
+                        DateTime? value = p.GetDate(property.Name);
+                        property.SetValue(this, value.HasValue ? value.Value : DateTime.MinValue, null);
+                    }
+                    else if (property.PropertyType.IsEnum)
+                    {
+                        Int32? value = p.GetInt(property.Name);
+
+                        if (value.HasValue)
+                        {
+                            property.SetValue(this, Enum.ToObject(property.PropertyType, p.GetInt(property.Name).Value), null);
+                        }
+                        else
                         {
                             property.SetValue(this, -1, null);
+                        }                        
+                    }
+                    else if (property.PropertyType.IsSubclassOf(typeof(AbstractStoredData)))
+                    {
+                        AbstractStoredData item = null;
+
+                        if (p.GetInt(property.Name) > 0)
+                        {
+                            item = (AbstractStoredData)property.PropertyType.Assembly.CreateInstance(property.PropertyType.FullName);
+                            item.Id = p.GetInt(property.Name).Value;
+                        }
+
+                        property.SetValue(this, item, null);
+                    }
+                    else if (property.PropertyType == typeof(Guid))
+                    {
+                        property.SetValue(this, new Guid(p.GetString(property.Name)), null);
+                    }
+                    else if (property.PropertyType.IsGenericType && property.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>) && property.PropertyType.GetGenericArguments()[0].IsEnum)
+                    {
+                        Int32? value = p.GetInt(property.Name);
+
+                        if (value.HasValue)
+                        {
+                            Enum e = (Enum)Enum.ToObject(property.PropertyType.GetGenericArguments()[0], value.Value);
+
+                            property.SetValue(this, e, null);
                         }
                         else
                         {
                             property.SetValue(this, null, null);
-                        }
+                        } 
                     }
-                    else
+                    else if (property.PropertyType.IsGenericType) // Leave this out for now
                     {
-                        if (property.PropertyType == typeof(String))
-                        {
-                            property.SetValue(this, p.Results.GetString(ordinal), null);
-                        }
-                        else if (property.PropertyType == typeof(Boolean?))
-                        {
-                            property.SetValue(this, p.Results.GetBoolean(ordinal), null);
-                        }
-                        else if (property.PropertyType == typeof(Int32?))
-                        {
-                            property.SetValue(this, p.Results.GetInt32(ordinal), null);
-                        }                        
-                        else if (property.PropertyType == typeof(Int64?))
-                        {
-                            property.SetValue(this, p.Results.GetInt64(ordinal), null);
-                        }
-                        else if (property.PropertyType == typeof(Double?))
-                        {
-                            property.SetValue(this, p.Results.GetDouble(ordinal), null);
-                        }
-                        else if (property.PropertyType == typeof(DateTime?))
-                        {
-                            property.SetValue(this, p.Results.GetDateTime(ordinal), null);
-                        }
-                        else if (property.PropertyType == typeof(Boolean))
-                        {
-                            Boolean? value = p.Results.GetBoolean(ordinal);
-                            property.SetValue(this, value.HasValue ? value.Value : false, null);
-                        }
-                        else if (property.PropertyType == typeof(Int32))
-                        {
-                            Int32? value = p.Results.GetInt32(ordinal);
-                            property.SetValue(this, value.HasValue ? value.Value : 0, null);
-                        }
-                        else if (property.PropertyType == typeof(Int64))
-                        {
-                            Int64? value = p.Results.GetInt64(ordinal);
-                            property.SetValue(this, value.HasValue ? value.Value : 0, null);
-                        }
-                        else if (property.PropertyType == typeof(Double))
-                        {
-                            Double? value = p.Results.GetDouble(ordinal);
-                            property.SetValue(this, value.HasValue ? value.Value : 0, null);
-                        }
-                        else if (property.PropertyType == typeof(DateTime))
-                        {
-                            DateTime? value = p.Results.GetDateTime(ordinal);
-                            property.SetValue(this, value.HasValue ? value.Value : DateTime.MinValue, null);
-                        }
-                        else if (property.PropertyType.IsEnum)
-                        {
-                            property.SetValue(this, Enum.ToObject(property.PropertyType, p.Results.GetInt32(ordinal)), null);
-                        }
-                        else if (property.PropertyType.IsSubclassOf(typeof(AbstractViewedData)))
-                        {
-                            //AbstractViewedData item = null;
-
-                            //if (result.GetLong(name).HasValue)
-                            //{
-                            //    item = (AbstractViewedData)property.PropertyType.Assembly.CreateInstance(property.PropertyType.FullName);
-                            //    item.Id = result.GetLong(name).Value;
-                            //}
-
-                            //property.SetValue(obj, item, null);
-                        }
-                        else if (property.PropertyType == typeof(Guid))
-                        {
-                            Guid? value = p.Results.GetGuid(ordinal);
-                            property.SetValue(this, value.HasValue ? value : Guid.Empty, null);
-                        }
-                        else if (property.PropertyType.IsGenericType) // Leave this out for now
-                        {
-                            //Object list = Activator.CreateInstance(property.PropertyType.MakeGenericType(property.PropertyType.GetGenericArguments()));
-                            //property.SetValue(this, list, null);
-                        }
+                        //Object list = Activator.CreateInstance(property.PropertyType.MakeGenericType(property.PropertyType.GetGenericArguments()));
+                       // property.SetValue(this, list, null);
                     }
                 }
             }
