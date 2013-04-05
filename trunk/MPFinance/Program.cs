@@ -1,40 +1,58 @@
 ﻿using System;
-using MPersist.Security;
 using MPersist.Core;
 using MPersist.Resources.Enums;
-using System.Globalization;
+using MPFinance.Security;
+using System.Windows.Forms;
+using MPersist.Security;
 
-namespace MPFinance
+namespace MPersist
 {
     static class Program
     {
         [STAThread]
         static void Main()
         {
-            //Session session = new Session(SessionType.MySql, ServiceLocator.GetMysqlConnection("rpm-cvl", "test", "cvl", "cvl"));
-            Session session = new Session(SessionType.Oracle, ServiceLocator.GetOracleConnection("devdb", 1521, "nbcdev02.world", "rpmprd", "open"));
-            //Session session = new Session(SessionType.Sqlite, ServiceLocator.GetSqliteConnection(@"D:\TEMP\mpfinance\MPersistence\DBA\MPersist_DB"));
+            AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionTrapper;
 
-            OperatorProfile profile = OperatorProfile.GetInstanceById(session, 2, true);
+            Session session = new Session(SessionType.MySql, ServiceLocator.GetMysqlConnection("rpm-cvl", "test", "cvl", "cvl"));
+            //Session session = new Session(SessionType.Oracle, ServiceLocator.GetOracleConnection("devdb", 1521, "nbcdev02.world", "rpmprd", "open"));
+            //Session session = new Session(SessionType.Sqlite, ServiceLocator.GetSqliteConnection(@"D:\TEMP\mpfinance\MPFinance\DBA\MPersist_DB.sqlite3"));
 
-            //OperatorProfile tl = new OperatorProfile("Team Lead", "Test@test.com", new DateTime(1982, 05, 15), Gender.Male, 33, null);
+            Users u = new Users();
+            u.fetchAll(session);
 
-            //profile.Age = profile.Age + 1;
-            //profile.Gender = Gender.Female;
-            //profile.Birthday = new DateTime(1982,05,15);
-            //profile.Name = "Michael Piskuric";
-            //profile.Email = "michael@piskuric.cs";
-            //profile.TeamLead = tl;
 
-            //tl.TeamLead = new OperatorProfile("XXXXX", "Test@test.com", new DateTime(1982, 05, 15), Gender.Female, 33, null);
 
-            //tl.Save(session);
-            //profile.Delete(session);
+            Operator profile = Operator.GetInstanceById(session, 2, true);
 
-            //OperatorProfile pro = new OperatorProfile("Test", "Test@test.com", new DateTime(1982, 05, 15), Gender.Male, 33, null);
-            //pro.Save(session);
+            Operator tl = new Operator("miskop", "secret", "TeamLead", "Test@test.com", new DateTime(1982, 05, 15), Gender.Male, 33, null);
+
+            profile.Age = 30;
+            profile.Gender = Gender.Male;
+            profile.Birthday = new DateTime(1982,05,15);
+            profile.Name = "Michael Piskuric";
+            profile.Email = "michael@piskuric.cs";
+            profile.TeamLead = tl;
+
+            profile.Save(session);
+
+            tl.TeamLead = new Operator("user", "pass", "XXXXX", "Test@test.com", new DateTime(1982, 05, 15), Gender.Female, 33, null);
+                      
+            profile.Delete(session);
+            Operator pro = new Operator("miskooop","more","Follower", "Test@test.com", new DateTime(1982, 05, 15), Gender.Female, 33, tl);
+            pro.Save(session);
+
+            Operators profiles = new Operators();
+            profiles.fetchAll(session);            
+
 
             int i = 1;
+        }
+
+        static void UnhandledExceptionTrapper(object sender, UnhandledExceptionEventArgs e)
+        {
+            MessageBox.Show(e.ExceptionObject.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            Environment.Exit(1);
         }
     }
 }
