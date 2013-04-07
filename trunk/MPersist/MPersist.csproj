@@ -86,7 +86,11 @@
     <Compile Include="Core\ServiceLocator.cs" />
     <Compile Include="Core\Session.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resources\Enums\CoreEnums.cs" />
+    <Compile Include="Resources\Enums\AbstractEnum.cs" />
+    <Compile Include="Resources\Enums\ErrorLevel.cs" />
+    <Compile Include="Resources\Enums\Gender.cs" />
+    <Compile Include="Resources\Enums\SqlSessionType.cs" />
+    <Compile Include="Resources\Enums\UpdateMode.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">

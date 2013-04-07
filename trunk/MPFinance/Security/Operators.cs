@@ -38,6 +38,21 @@ namespace MPFinance.Security
 
         #region Public Methods
 
+        public void fetchTest(Session session)
+        {
+            String[] unames = {"miskop", "user"};
+
+            Persistence p = Persistence.GetInstance(session);
+            p.ExecuteQuery("SELECT * FROM Operator WHERE Username IN (?)", new Object[] {unames});
+
+            //p.ExecuteQuery("SELECT * FROM Operator WHERE Username LIKE '%?%'", new Object[] { "se" });
+
+
+            set(session, BaseType, p);
+            p.Close();
+            p = null;
+
+        }
 
         #endregion
     }
