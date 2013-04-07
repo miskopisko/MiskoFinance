@@ -22,7 +22,7 @@ namespace MPFinance.Security
         public String Name { get; set; }
         public String Email { get; set; }
         public DateTime? Birthday { get; set; }
-        public Gender? Gender { get; set; }
+        public Gender Gender { get; set; }
         public Int32? Age { get; set; }
         public Operator TeamLead { get; set; }
 

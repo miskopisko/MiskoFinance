@@ -57,6 +57,12 @@ namespace MPersist.Core.Persistences
                 {
                     ((MySqlCommand)command_).Parameters.AddWithValue("@param" + cnt, ((AbstractStoredData)item).Id);
                 }
+                else if(item is Array)
+                {
+                    MySqlParameter p = new MySqlParameter("@param" + cnt, MySqlDbType.VarChar);
+                    p.Value = item;
+                    ((MySqlCommand)command_).Parameters.Add(p);
+                }
                 else
                 {
                     ((MySqlCommand)command_).Parameters.AddWithValue("@param" + cnt, item != null ? item : DBNull.Value);

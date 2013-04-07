@@ -53,16 +53,21 @@ namespace MPersist.Core
 
         public static Persistence GetInstance(Session session)
         {
-            switch (session.SessionType)
+            if(session.SessionType.Equals(SqlSessionType.Oracle))
             {
-                case MPersist.Resources.Enums.SessionType.Oracle:
-                    return new OraclePersistence(session);
-                case MPersist.Resources.Enums.SessionType.MySql:
-                    return new MySqlPersistence(session);
-                case MPersist.Resources.Enums.SessionType.Sqlite:
-                    return new SqlitePersistence(session);
-                default:
-                    return null;
+                return new OraclePersistence(session);
+            }
+            else if(session.SessionType.Equals(SqlSessionType.MySql))
+            {
+                return new MySqlPersistence(session);
+            }
+            else if (session.SessionType.Equals(SqlSessionType.Sqlite))
+            {
+                return new SqlitePersistence(session);
+            }
+            else
+            {
+                return null;
             }
         }
 

@@ -13,7 +13,7 @@ namespace MPersist.Core
 
         #region Variable Declarations
 
-        private readonly SessionType sessionType_;
+        private readonly SqlSessionType sessionType_;
         private readonly DbConnection conn_;
         private Boolean transactionInProgress_ = false;
         private List<Persistence> persistencePool_ = new List<Persistence>();
@@ -22,7 +22,7 @@ namespace MPersist.Core
 
         #region Properties
 
-        public SessionType SessionType
+        public SqlSessionType SessionType
         {
             get { return sessionType_; }
         }
@@ -44,7 +44,7 @@ namespace MPersist.Core
 
         #endregion
 
-        public Session(SessionType sessionType, DbConnection connection)
+        public Session(SqlSessionType sessionType, DbConnection connection)
         {
             sessionType_ = sessionType;
             conn_ = connection;

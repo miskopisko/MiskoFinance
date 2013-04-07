@@ -1,3 +1,4 @@
+using MPersist.Resources.Enums;
 using System;
 using System.Reflection;
 
@@ -94,18 +95,16 @@ namespace MPersist.Core.Data
                         DateTime? value = p.GetDate(property.Name);
                         property.SetValue(this, value.HasValue ? value.Value : DateTime.MinValue, null);
                     }
-                    else if (property.PropertyType.IsEnum)
+                    else if (property.PropertyType.IsSubclassOf(typeof(AbstractEnum)))
                     {
-                        Int32? value = p.GetInt(property.Name);
+                        AbstractEnum item = null;
 
-                        if (value.HasValue)
+                        if (p.GetLong(property.Name).HasValue)
                         {
-                            property.SetValue(this, Enum.ToObject(property.PropertyType, p.GetInt(property.Name).Value), null);
+                            item = (AbstractEnum)property.PropertyType.InvokeMember("GetElement", BindingFlags.Default | BindingFlags.InvokeMethod, null, null, new object[] { p.GetLong(property.Name) });
                         }
-                        else
-                        {
-                            property.SetValue(this, -1, null);
-                        }
+
+                        property.SetValue(this, item, null);
                     }
                     else if (property.PropertyType.IsSubclassOf(typeof(AbstractStoredData)))
                     {
@@ -122,21 +121,6 @@ namespace MPersist.Core.Data
                     else if (property.PropertyType == typeof(Guid))
                     {
                         property.SetValue(this, new Guid(p.GetString(property.Name)), null);
-                    }
-                    else if (property.PropertyType.IsGenericType && property.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>) && property.PropertyType.GetGenericArguments()[0].IsEnum)
-                    {
-                        Int32? value = p.GetInt(property.Name);
-
-                        if (value.HasValue)
-                        {
-                            Enum e = (Enum)Enum.ToObject(property.PropertyType.GetGenericArguments()[0], value.Value);
-
-                            property.SetValue(this, e, null);
-                        }
-                        else
-                        {
-                            property.SetValue(this, null, null);
-                        }
                     }
                     else if (property.PropertyType.IsGenericType) // Leave this out for now
                     {
