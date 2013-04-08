@@ -11,6 +11,8 @@ namespace MPersist.Resources.Enums
         public String Code { get; set; }
         public String Description { get; set; }
 
+        public bool IsSet { get { return Value != -1; } }
+
         #endregion
 
         #region Constructors
@@ -49,16 +51,6 @@ namespace MPersist.Resources.Enums
                 return Code.CompareTo(((AbstractEnum)e).Code);
             }
             return -1;
-        }
-
-        public bool isNotSet()
-        {
-            return Value == -1;
-        }
-
-        public bool isSet()
-        {
-            return Value != -1;
         }
     }
 }

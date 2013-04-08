@@ -2,7 +2,7 @@ using System;
 using System.Data.Common;
 using MySql.Data.MySqlClient;
 using System.Data.SQLite;
-using Oracle.DataAccess.Client;
+using System.Data.OracleClient;
 
 namespace MPersist.Core
 {

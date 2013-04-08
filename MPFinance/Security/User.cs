@@ -1,6 +1,7 @@
 using System;
 using MPersist.Core;
 using MPersist.Core.Data;
+using MPersist.Core.Attributes;
 
 namespace MPersist.Security
 {
@@ -16,7 +17,9 @@ namespace MPersist.Security
 
         #region Properties
 
+        [Viewed]
         public String Follower { get; set; }
+        [Viewed]
         public String Leader { get; set; }
 
         #endregion

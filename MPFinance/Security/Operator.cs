@@ -2,12 +2,13 @@ using System;
 using MPersist.Core.Data;
 using MPersist.Core;
 using MPersist.Resources.Enums;
+using MPersist.Core.Attributes;
 
 namespace MPFinance.Security
 {
-    public class Operator : AbstractStoredData
+    public class OperatorProfile : AbstractStoredData
     {
-        private static Logger Log = Logger.GetInstance(typeof(Operator));
+        private static Logger Log = Logger.GetInstance(typeof(OperatorProfile));
 
         #region Variable Declarations
 
@@ -17,32 +18,43 @@ namespace MPFinance.Security
 
         #region Properties
 
+        [Stored]
         public String Username { get; set; }
+        [Stored]
         public String Password { get; set; }
+        [Stored]
         public String Name { get; set; }
+        [Stored]
         public String Email { get; set; }
+        [Stored]
         public DateTime? Birthday { get; set; }
+        [Stored]
         public Gender Gender { get; set; }
+        [Stored]
         public Int32? Age { get; set; }
-        public Operator TeamLead { get; set; }
+        [Stored]
+        public OperatorProfile TeamLead { get; set; }
+
+        public bool IsFollower { get{ return TeamLead == null;} }
 
         #endregion
 
         #region Constructors
 
-        public Operator()
+        public OperatorProfile()
         {
         }
 
-        public Operator(String username, String password, String name, String email, DateTime? birthday, Gender gender, Int32? age, Operator tl)
+        public OperatorProfile(String username, String password, String name, String email, DateTime? birthday, Gender gender, Int32? age, OperatorProfile tl)
         {
+            IsSet = true;
             Username = username;
             Password = password;
             Name = name;
             Email = email;
-            Birthday = birthday.Value;
+            Birthday = birthday;
             Gender = gender;
-            Age = age.Value;
+            Age = age;
             TeamLead = tl;
         }
 
@@ -56,14 +68,14 @@ namespace MPFinance.Security
 
         #region Public Methods
 
-        public static Operator GetInstanceById(Session session, Int32 id)
+        public static OperatorProfile GetInstanceById(Session session, Int32 id)
         {
-            return (Operator)fetchById(session, typeof(Operator), id, false);
+            return (OperatorProfile)fetchById(session, typeof(OperatorProfile), id, false);
         }
 
-        public static Operator GetInstanceById(Session session, Int32 id, Boolean deep)
+        public static OperatorProfile GetInstanceById(Session session, Int32 id, Boolean deep)
         {
-            return (Operator)fetchById(session, typeof(Operator), id, deep);
+            return (OperatorProfile)fetchById(session, typeof(OperatorProfile), id, deep);
         }
 
         #endregion
