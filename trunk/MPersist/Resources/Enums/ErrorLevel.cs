@@ -30,8 +30,7 @@ namespace MPersist.Resources.Enums
 
         #endregion
 
-        protected ErrorLevel(Int64 value, String code, String description)
-            : base(value, code, description)
+        protected ErrorLevel(Int64 value, String code, String description) : base(value, code, description)
         {
         }
 

@@ -1,9 +1,11 @@
 using System;
-using MPersist.Core;
-using System.Reflection;
-using MPersist.Core.Data;
 using System.Collections.Generic;
-using Oracle.DataAccess.Client;
+using System.ComponentModel;
+using System.Data;
+using System.Data.OracleClient;
+using MPersist.Core.Attributes;
+using MPersist.Core.Data;
+using MPersist.Resources.Enums;
 
 namespace MPersist.Core.Persistences
 {
@@ -27,7 +29,6 @@ namespace MPersist.Core.Persistences
 
         public OraclePersistence(Session session) : base(session)
         {
-            ((OracleCommand)command_).BindByName = true;
         }
 
         #endregion
@@ -40,9 +41,9 @@ namespace MPersist.Core.Persistences
 
         #region Public Methods
 
-        protected override void SetParameters(Object[] value)
+        protected override void SetParameters(Object[] values)
         {
-            // Normalize the parameters by replacing typical ? marks with :param values
+            // Normalize the parameters by replacing typical ? marks with @param values
             Int32 end = 0;
             Int32 position = 0;
             while ((end = command_.CommandText.IndexOf("?")) > 0)
@@ -51,22 +52,57 @@ namespace MPersist.Core.Persistences
                 end = -1;
             }
 
-            int cnt = 0;
-            foreach (Object item in value)
+            position = 0;
+            foreach (Object item in values)
             {
-                if (item is AbstractStoredData)
+                OracleParameter param = new OracleParameter();
+                param.ParameterName = ":param" + position;
+
+                if (item == null)
                 {
-                    ((OracleCommand)command_).Parameters.Add(":param" + cnt, ((AbstractStoredData)item).Id);
+                    param.IsNullable = true;
+                    param.Value = DBNull.Value;
+                    command_.Parameters.Add(param);
                 }
-                else if (item is Enum)
+                else if (item is AbstractStoredData)
                 {
-                    ((OracleCommand)command_).Parameters.Add(":param" + cnt, ((Enum)item).GetHashCode());
+                    param.IsNullable = false;
+                    param.DbType = DbType.Int32;
+                    param.Value = item != null ? (Object)((AbstractStoredData)item).Id : DBNull.Value;
+                    command_.Parameters.Add(param);
+                }
+                else if (item is AbstractEnum)
+                {
+                    param.IsNullable = true;
+                    param.DbType = DbType.Int32;
+                    param.Value = ((AbstractEnum)item).IsSet ? (Object)((AbstractEnum)item).Value : DBNull.Value;
+                    command_.Parameters.Add(param);
+                }
+                else if (item is Array)
+                {
+                    String firstHalf = command_.CommandText.Substring(0, command_.CommandText.IndexOf(param.ParameterName));
+                    String secondHalf = command_.CommandText.Substring(command_.CommandText.IndexOf(param.ParameterName) + 7);
+                    String middle = "";
+
+                    foreach (Object o in ((Array)item))
+                    {
+                        OracleParameter innerParam = new OracleParameter();
+                        innerParam.ParameterName = ":param" + position;
+                        innerParam.Value = o;
+                        middle += innerParam.ParameterName + ", ";
+                        command_.Parameters.Add(innerParam);
+                        position++;
+                    }
+
+                    command_.CommandText = firstHalf + middle.Substring(0, middle.Length - 2) + secondHalf;
                 }
                 else
                 {
-                    ((OracleCommand)command_).Parameters.Add(":param" + cnt, item != null ? item : DBNull.Value);
-                }                
-                cnt++;
+                    param.Value = item;
+                    command_.Parameters.Add(param);
+                }
+
+                position++;
             }
         }
         
@@ -79,14 +115,14 @@ namespace MPersist.Core.Persistences
             {
                 result += "UPDATE " + clazz.GetType().Name.ToUpper() + Environment.NewLine + "SET    ";
 
-                PropertyInfo[] properties = clazz.GetType().GetProperties();
+                PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(clazz.GetType(), new Attribute[] { new StoredAttribute() });
 
-                for (int i = 0; i < properties.Length; i++)
+                for (int i = 0; i < properties.Count; i++)
                 {
                     if (!properties[i].Name.Equals("ID", StringComparison.OrdinalIgnoreCase))
                     {
                         result += properties[i].Name.ToUpper() + " = ?, " + Environment.NewLine + "       ";
-                        values.Add(properties[i].GetValue(clazz, null));
+                        values.Add(properties[i].GetValue(clazz));
                     }
                 }
                 
@@ -128,9 +164,10 @@ namespace MPersist.Core.Persistences
             {
                 result += "INSERT INTO " + clazz.GetType().Name.ToUpper() + " (ID";
 
-                PropertyInfo[] properties = clazz.GetType().GetProperties();
-                for (int i = 0; i < properties.Length; i++)
-                {
+                PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(clazz.GetType(), new Attribute[] { new StoredAttribute() });
+
+                for (int i = 0; i < properties.Count; i++)
+                {                    
                     if(!properties[i].Name.Equals("ID", StringComparison.OrdinalIgnoreCase))
                     {
                         result += ", " + properties[i].Name.ToUpper();
@@ -139,12 +176,12 @@ namespace MPersist.Core.Persistences
 
                 result += ", DTCREATED, DTMODIFIED, ROWVER)" + Environment.NewLine + "VALUES (SQ_" + clazz.GetType().Name.ToUpper() + ".NEXTVAL, ";
 
-                for (int i = 0; i < properties.Length; i++)
+                for (int i = 0; i < properties.Count; i++)
                 {
                     if(!properties[i].Name.Equals("ID", StringComparison.OrdinalIgnoreCase))
                     {
                         result += "?, ";
-                        values.Add(properties[i].GetValue(clazz, null));
+                        values.Add(properties[i].GetValue(clazz));
                     }                    
                 }
 

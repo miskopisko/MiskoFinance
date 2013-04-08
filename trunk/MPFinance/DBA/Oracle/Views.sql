@@ -1,6 +1,6 @@
-﻿-- MySql View Definitions
+﻿-- Oracle View Definitions
 
-DROP VIEW IF EXISTS Operator;
+DROP VIEW Operator;
 
 CREATE VIEW Operator 
 AS

@@ -1,6 +1,7 @@
 using System;
 using System.Reflection;
 using MPersist.Resources.Enums;
+using MPersist.Core.Attributes;
 
 namespace MPersist.Core.Data
 {
@@ -16,7 +17,9 @@ namespace MPersist.Core.Data
 
         #region Properties
 
-        public Int32 Id { get; set; }
+        [Stored]
+        public Int64 Id { get; set; }        
+        public bool IsSet { get; set; }
 
         #endregion
 
@@ -36,7 +39,7 @@ namespace MPersist.Core.Data
 
         #region Public Methods
 
-        public static AbstractStoredData fetchById(Session session, Type type, Int32 id, Boolean deep)
+        public static AbstractStoredData fetchById(Session session, Type type, Int64 id, Boolean deep)
         {
             AbstractStoredData result = (AbstractStoredData)type.Assembly.CreateInstance(type.FullName);
 
@@ -60,7 +63,7 @@ namespace MPersist.Core.Data
             }
         }
 
-        public void fetchById(Session session, Int32 id, Boolean deep)
+        public void fetchById(Session session, Int64 id, Boolean deep)
         {
             Persistence p = Persistence.GetInstance(session);
             p.ExecuteQuery("SELECT * FROM " + GetType().Name + " WHERE ID = ?", new Object[] { id });
@@ -123,7 +126,7 @@ namespace MPersist.Core.Data
                 if (property.PropertyType.IsSubclassOf(typeof(AbstractStoredData)))
                 {
                     AbstractStoredData item = (AbstractStoredData)property.GetValue(this, null);
-                    if (item != null)
+                    if (item != null && item.IsSet)
                     {
                         item.Save(session);
                     }                    

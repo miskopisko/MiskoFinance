@@ -1,7 +1,6 @@
 using System;
 using MPersist.Core;
 using MPersist.Core.Data;
-using MPersist.Resources.Enums;
 
 namespace MPFinance.Security
 {
@@ -25,7 +24,7 @@ namespace MPFinance.Security
 
         public Operators()
         {
-            BaseType = typeof(Operator);
+            BaseType = typeof(OperatorProfile);
         }
 
         #endregion
@@ -43,7 +42,7 @@ namespace MPFinance.Security
             String[] unames = {"miskop", "user"};
 
             Persistence p = Persistence.GetInstance(session);
-            p.ExecuteQuery("SELECT * FROM Operator WHERE Username IN (?)", new Object[] {unames});
+            p.ExecuteQuery("SELECT * FROM OperatorProfile WHERE Password = ? AND ID IN (?)", new Object[] {"secret", new Int32[] { 1000003, 1000005 } });
 
             //p.ExecuteQuery("SELECT * FROM Operator WHERE Username LIKE '%?%'", new Object[] { "se" });
 

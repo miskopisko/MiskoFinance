@@ -114,7 +114,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DBA\Oracle\Viwes.sql" />
+    <Content Include="DBA\Oracle\Views.sql" />
     <Content Include="DBA\Sqlite\Views.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

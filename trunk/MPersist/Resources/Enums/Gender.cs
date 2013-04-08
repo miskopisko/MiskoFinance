@@ -27,8 +27,7 @@ namespace MPersist.Resources.Enums
 
         #endregion
 
-        protected Gender(Int64 value, String code, String description)
-            : base(value, code, description)
+        protected Gender(Int64 value, String code, String description) : base(value, code, description)
         {
         }
 

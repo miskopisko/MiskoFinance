@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Data;
 using System.Data.Common;
+using System.Data.OracleClient;
 using System.Data.SQLite;
 using System.Reflection;
 using MPersist.Core.Data;
 using MPersist.Core.Persistences;
 using MPersist.Resources.Enums;
 using MySql.Data.MySqlClient;
-using Oracle.DataAccess.Client;
-using Oracle.DataAccess.Types;
 
 namespace MPersist.Core
 {
@@ -43,8 +42,9 @@ namespace MPersist.Core
 
         public Persistence(Session session)
         {
-            session_ = session;
+            session_ = session;            
             command_ = session_.Connection.CreateCommand();
+            command_.Transaction = session.Transaction;
         }
 
         #endregion
@@ -156,7 +156,7 @@ namespace MPersist.Core
             return false;
         }
 
-        public int ExecuteInsert(AbstractStoredData clazz)
+        public Int64 ExecuteInsert(AbstractStoredData clazz)
         {
             session_.PersistencePool.Add(this);
 
@@ -170,12 +170,15 @@ namespace MPersist.Core
                 }
                 else if (command_ is OracleCommand)
                 {
-                    OracleParameter lastId = new OracleParameter(":LASTID", OracleDbType.Int16, ParameterDirection.Output);
+                    OracleParameter lastId = new OracleParameter();
+                    lastId.ParameterName = ":LASTID";
+                    lastId.OracleType = OracleType.Number;
+                    lastId.Direction = ParameterDirection.Output;
                     ((OracleCommand)command_).Parameters.Add(lastId);
 
                     command_.ExecuteNonQuery();
 
-                    return ((OracleDecimal)lastId.Value).ToInt32();
+                    return Convert.ToInt64(lastId.Value);
                 }
             }
             catch (Exception e)

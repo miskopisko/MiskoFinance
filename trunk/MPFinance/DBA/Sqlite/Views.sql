@@ -1,8 +1,9 @@
 ﻿-- MySql View Definitions
 
-DROP VIEW User;
+DROP VIEW IF EXISTS Operator;
 
-CREATE VIEW User AS
+CREATE VIEW Operator 
+AS
 SELECT  O1.Name Follower, O2.Name Leader
-FROM    Operator O1, Operator O2
+FROM    OperatorProfile O1, OperatorProfile O2
 WHERE   O1.TeamLead = O2.Id;

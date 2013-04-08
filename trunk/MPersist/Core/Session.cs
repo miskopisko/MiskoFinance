@@ -17,6 +17,8 @@ namespace MPersist.Core
         private readonly DbConnection conn_;
         private Boolean transactionInProgress_ = false;
         private List<Persistence> persistencePool_ = new List<Persistence>();
+        private DbTransaction transaction_;
+        private bool errorEncountered_ = false;
 
         #endregion
 
@@ -42,6 +44,11 @@ namespace MPersist.Core
             get { return persistencePool_; }
         }
 
+        public DbTransaction Transaction
+        {
+            get { return transaction_; }
+        }
+
         #endregion
 
         public Session(SqlSessionType sessionType, DbConnection connection)
@@ -50,12 +57,44 @@ namespace MPersist.Core
             conn_ = connection;
         }
 
+        public void BeginTransaction()
+        {
+            if (transactionInProgress_)
+            {
+                Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Critical, "Transaction already in progress.");
+            }
+            else
+            {
+                transactionInProgress_ = true;
+                transaction_ = conn_.BeginTransaction();
+            }
+        }
+
+        public void EndTransaction()
+        {
+            if (transactionInProgress_)
+            {
+                if (errorEncountered_)
+                {
+                    transaction_.Rollback();
+                }
+                else
+                {
+                    transaction_.Commit();
+                }
+
+                transactionInProgress_ = false;
+            }
+        }
+
         public void Error(Type clazz, MethodBase method, ErrorLevel errorLevel, String errorMessage)
         {
             String message = clazz.Name + "." + method.Name + Environment.NewLine + errorMessage;
 
             Log.Error(errorMessage);
-            MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            errorEncountered_ = true;
         }
     }
 }
