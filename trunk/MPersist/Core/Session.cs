@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Data.Common;
 using System.Collections.Generic;
-using MPersist.Resources.Enums;
 using System.Windows.Forms;
 using System.Reflection;
+using MPersist.Core.Enums;
 
 namespace MPersist.Core
 {
@@ -83,6 +83,7 @@ namespace MPersist.Core
                     transaction_.Commit();
                 }
 
+                transaction_ = null;
                 transactionInProgress_ = false;
             }
         }
@@ -92,9 +93,17 @@ namespace MPersist.Core
             String message = clazz.Name + "." + method.Name + Environment.NewLine + errorMessage;
 
             Log.Error(errorMessage);
-            //MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             errorEncountered_ = true;
+
+            if(!errorLevel.Equals(ErrorLevel.Warning))
+            {
+                throw new SystemException(message);
+            }
+            else
+            {
+                MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

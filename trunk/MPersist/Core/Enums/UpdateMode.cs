@@ -1,6 +1,6 @@
 using System;
 
-namespace MPersist.Resources.Enums
+namespace MPersist.Core.Enums
 {
     public class UpdateMode : AbstractEnum
     {

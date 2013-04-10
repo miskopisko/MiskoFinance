@@ -5,7 +5,7 @@ using System.Data;
 using System.Data.SQLite;
 using MPersist.Core.Attributes;
 using MPersist.Core.Data;
-using MPersist.Resources.Enums;
+using MPersist.Core.Enums;
 
 namespace MPersist.Core.Persistences
 {
@@ -96,6 +96,11 @@ namespace MPersist.Core.Persistences
 
                     command_.CommandText = firstHalf + middle.Substring(0, middle.Length - 2) + secondHalf;
                 }
+                else if (item is Money)
+                {
+                    param.Value = ((Money)item).ToDecimal(null);
+                    command_.Parameters.Add(param);
+                }
                 else
                 {
                     param.Value = item;
@@ -113,7 +118,7 @@ namespace MPersist.Core.Persistences
 
             if (clazz != null)
             {
-                result += "UPDATE " + clazz.GetType().Name.ToUpper() + Environment.NewLine + "SET    ";
+                result += "UPDATE '" + clazz.GetType().Name.ToUpper() + "'" + Environment.NewLine + "SET    ";
 
                 PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(clazz.GetType(), new Attribute[] { new StoredAttribute() });
 
@@ -145,7 +150,7 @@ namespace MPersist.Core.Persistences
             if (clazz != null)
             {
                 result += "DELETE" + Environment.NewLine;
-                result += "FROM   " + clazz.GetType().Name + Environment.NewLine;
+                result += "FROM   '" + clazz.GetType().Name + "'" + Environment.NewLine;
                 result += "WHERE  ID = ?;";
 
                 values.Add(clazz.Id);
@@ -162,7 +167,7 @@ namespace MPersist.Core.Persistences
 
             if (clazz != null)
             {
-                result += "INSERT INTO " + clazz.GetType().Name.ToUpper() + " (ID";
+                result += "INSERT INTO '" + clazz.GetType().Name.ToUpper() + "' (ID";
 
                 PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(clazz.GetType(), new Attribute[] { new StoredAttribute() });
 

@@ -2,7 +2,7 @@ using System;
 using System.Data.Common;
 using MySql.Data.MySqlClient;
 using System.Data.SQLite;
-using System.Data.OracleClient;
+using Oracle.DataAccess.Client;
 
 namespace MPersist.Core
 {
@@ -19,8 +19,9 @@ namespace MPersist.Core
                 connection = new MySqlConnection("SERVER=" + server + ";DATABASE=" + datasource + ";UID=" + username + ";PASSWORD=" + password + ";");
                 connection.Open();
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                throw e;
             }
 
             return connection;
@@ -35,8 +36,9 @@ namespace MPersist.Core
                 connection = new OracleConnection("Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=" + host + ")(PORT=" + port + ")))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=" + datasource + ")));User Id=" + username + ";Password=" + password + ";");
                 connection.Open();
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                throw e;
             }
 
             return connection;
@@ -51,9 +53,9 @@ namespace MPersist.Core
                 connection = new SQLiteConnection("Data Source=" + dataSource + ";Version=3;");
                 connection.Open();
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw new Exception("Could not open Sqlite database at " + dataSource);
+                throw e;
             }
 
             return connection;

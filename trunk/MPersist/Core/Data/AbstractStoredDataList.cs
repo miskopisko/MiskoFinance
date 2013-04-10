@@ -34,6 +34,14 @@ namespace MPersist.Core.Data
 
         #region Public Methods
 
+        public void Save(Session session)
+        {
+            foreach (AbstractStoredData item in this)
+            {
+                item.Save(session);
+            }
+        }
+
         public void set(Session session, Type type, Persistence p)
         {
             while (p.Next())

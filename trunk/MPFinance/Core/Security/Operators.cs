@@ -24,7 +24,7 @@ namespace MPFinance.Security
 
         public Operators()
         {
-            BaseType = typeof(OperatorProfile);
+            BaseType = typeof(Operator);
         }
 
         #endregion
