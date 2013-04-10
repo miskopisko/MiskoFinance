@@ -1,47 +1,119 @@
-﻿using System;
-using MPersist.Core;
-using MPersist.Resources.Enums;
+﻿using MPersist.Core;
+using MPersist.Core.Enums;
+using MPFinance.Core.Data;
+using MPFinance.Core.Enums;
+using MPFinance.Forms;
 using MPFinance.Security;
+using System;
+using System.Security.Cryptography;
+using System.Text;
 using System.Windows.Forms;
 
-namespace MPersist
+namespace MPFinance
 {
     static class Program
     {
-        static Session session = new Session(SqlSessionType.MySql, ServiceLocator.GetMysqlConnection("rpm-cvl", "test", "cvl", "cvl"));
-        //Session session = new Session(SqlSessionType.Oracle, ServiceLocator.GetOracleConnection("devdb", 1521, "nbcdev02.world", "rpmprd", "open"));
-        //Session session = new Session(SqlSessionType.Sqlite, ServiceLocator.GetSqliteConnection(@"..\..\DBA\MPersist_DB.sqlite3"));
+        //static Session session = new Session(SqlSessionType.MySql, ServiceLocator.GetMysqlConnection("piskuric.ca", "miskop_MPersistenceTest", "miskop_michael", "sarpatt06"));
+        static Session session = new Session(SqlSessionType.Oracle, ServiceLocator.GetOracleConnection("192.168.0.111", 1521, "xe", "MPersist", "MPersist"));
+        //static Session session = new Session(SqlSessionType.Sqlite, ServiceLocator.GetSqliteConnection(@"..\..\DBA\MPersist_DB.sqlite3"));
 
         [STAThread]
         static void Main()
         {
-            AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionTrapper;            
+            Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
+            Application.ThreadException += Application_ThreadException;
 
-            session.BeginTransaction();
-            OperatorProfile tl = new OperatorProfile("miskop", "secret", "TeamLead", "Test@test.com", new DateTime(1982, 05, 15), Gender.Male, 33, null);
-            OperatorProfile pro = new OperatorProfile("Follower", "xxxx", "minion", "Test@test.com", null, Gender.NULL, 33, tl);
+            Operator o = new Operator();
+            o.fetchByUsername(session, "miskopisko");
+            o.fetchDeep(session);
 
-            session.BeginTransaction();
-            session.EndTransaction();
+            if (!o.IsSet)
+            {
+                o.Username = "miskopisko";
+                o.Password = GetMd5Hash(MD5.Create(), "secret");
+                o.Save(session);
+            }
 
-            pro.Save(session);
+            if (o.Client == null)
+            {
+                Client c = new Client();
+                c.Birthday = new DateTime(1982, 05, 15);
+                c.Email = "michael@piskuric.ca";
+                c.Gender = Gender.Male;
+                c.FirstName = "Michael";
+                c.LastName = "Piskuric";
+                c.IsSet = true;
+                o.Client = c;
+                o.Save(session);
+            }
 
-            //Operators profiles = new Operators();
-            //profiles.fetchTest(session);
+            //OfxDocument document = new OfxDocument(session, new FileStream(@"C:\Users\Michael\Downloads\cibc.qfx", FileMode.Open));
 
-            //OperatorProfile o = OperatorProfile.GetInstanceById(session, 1000005, true);
-            //o.Age = o.Age + 1;
-            //o.Gender = Gender.Male;
-            //o.Email = "changed email again";
-            //o.Save(session);
+            //Account account = Account.GetInstanceByComposite(session, o.Client, document.AccountType, document.BankID, document.AccountID);
 
-            int j = 0;
-            int i = 1/j;            
+            //if(!account.IsSet)
+            //{
+            //    account.Client = o.Client;
+            //    account.AccountType = document.AccountType;
+            //    account.BankNumber = document.BankID;
+            //    account.AccountNumber = document.AccountID;
+            //    account.Save(session);
+            //}
+            
+            //session.BeginTransaction();
+
+            
+
+            //session.EndTransaction();
+
+            int i = 1;
+
+           
+            Application.Run(new MPFinanceMain(session, o));
         }
 
-        static void UnhandledExceptionTrapper(Object sender, UnhandledExceptionEventArgs e)
+        private static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
         {
-            session.Error(e.ExceptionObject.GetType(), null, ErrorLevel.Critical, "Unknown error");
+            MessageBox.Show(e.Exception.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        static String GetMd5Hash(MD5 md5Hash, string input)
+        {
+            // Convert the input string to a byte array and compute the hash. 
+            byte[] data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
+
+            // Create a new Stringbuilder to collect the bytes 
+            // and create a string.
+            StringBuilder sBuilder = new StringBuilder();
+
+            // Loop through each byte of the hashed data  
+            // and format each one as a hexadecimal string. 
+            for (int i = 0; i < data.Length; i++)
+            {
+                sBuilder.Append(data[i].ToString("x2"));
+            }
+
+            // Return the hexadecimal string. 
+            return sBuilder.ToString();
+        }
+
+        // Verify a hash against a string. 
+        static bool VerifyMd5Hash(MD5 md5Hash, string input, string hash)
+        {
+            // Hash the input. 
+            string hashOfInput = GetMd5Hash(md5Hash, input);
+
+            // Create a StringComparer an compare the hashes.
+            StringComparer comparer = StringComparer.OrdinalIgnoreCase;
+
+            if (0 == comparer.Compare(hashOfInput, hash))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

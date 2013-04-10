@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MPersist.Resources.Enums
+namespace MPersist.Core.Enums
 {
     [Serializable]
     public abstract class AbstractEnum : IComparable

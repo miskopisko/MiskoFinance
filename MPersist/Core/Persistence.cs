@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Data;
 using System.Data.Common;
-using System.Data.OracleClient;
 using System.Data.SQLite;
 using System.Reflection;
 using MPersist.Core.Data;
 using MPersist.Core.Persistences;
-using MPersist.Resources.Enums;
 using MySql.Data.MySqlClient;
+using Oracle.DataAccess.Client;
+using MPersist.Core.Enums;
 
 namespace MPersist.Core
 {
@@ -26,7 +26,7 @@ namespace MPersist.Core
 
         #region Properties
 
-        private Boolean HasNext
+        public Boolean HasNext
         {
             get { return rs_ != null && currentResult_ < rs_.Rows.Count; }
         }
@@ -172,7 +172,7 @@ namespace MPersist.Core
                 {
                     OracleParameter lastId = new OracleParameter();
                     lastId.ParameterName = ":LASTID";
-                    lastId.OracleType = OracleType.Number;
+                    lastId.DbType = DbType.Decimal;
                     lastId.Direction = ParameterDirection.Output;
                     ((OracleCommand)command_).Parameters.Add(lastId);
 
@@ -348,9 +348,15 @@ namespace MPersist.Core
             Int32 ordinal = rs_.Columns.IndexOf(key);
             Object o = (Object)result_.ItemArray[ordinal];
 
+            Type t = o.GetType();
+
             if (o == null)
             {
                 return null;
+            }
+            else if (o is Int16)
+            {
+                return Convert.ToInt64((Int16)o);
             }
             else if (o is Int64)
             {

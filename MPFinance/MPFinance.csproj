@@ -7,7 +7,7 @@
     <ProjectGuid>{B21F4609-E55B-4D30-9D04-CA58B3999C55}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MPersist</RootNamespace>
+    <RootNamespace>MPFinance</RootNamespace>
     <AssemblyName>MPFinance</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -36,6 +36,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -47,16 +48,38 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    <Reference Include="Money">
+      <HintPath>..\MPersist\Libraries\Money.dll</HintPath>
     </Reference>
+    <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Data\Account.cs" />
+    <Compile Include="Core\Data\Accounts.cs" />
+    <Compile Include="Core\Data\Client.cs" />
+    <Compile Include="Core\Data\Clients.cs" />
+    <Compile Include="Core\Data\Transactions.cs" />
+    <Compile Include="Core\Enums\AccountType.cs" />
+    <Compile Include="Core\Enums\Gender.cs" />
+    <Compile Include="Core\Enums\TransactionType.cs" />
+    <Compile Include="Core\OFX\OfxDocument.cs" />
+    <Compile Include="Core\Data\Transaction.cs" />
+    <Compile Include="Forms\MPFinanceMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MPFinanceMain.Designer.cs">
+      <DependentUpon>MPFinanceMain.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Forms\MPFinanceMain.resx">
+      <DependentUpon>MPFinanceMain.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -80,10 +103,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Security\Operator.cs" />
-    <Compile Include="Security\Operators.cs" />
-    <Compile Include="Security\User.cs" />
-    <Compile Include="Security\Users.cs" />
+    <Compile Include="Core\Security\Operator.cs" />
+    <Compile Include="Core\Security\Operators.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
@@ -116,6 +137,10 @@
   <ItemGroup>
     <Content Include="DBA\Oracle\Views.sql" />
     <Content Include="DBA\Sqlite\Views.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Forms\Controls\" />
+    <Folder Include="Forms\Panels\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

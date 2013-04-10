@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Data.OracleClient;
 using MPersist.Core.Attributes;
 using MPersist.Core.Data;
-using MPersist.Resources.Enums;
+using Oracle.DataAccess.Client;
+using MPersist.Core.Enums;
 
 namespace MPersist.Core.Persistences
 {
@@ -95,6 +95,11 @@ namespace MPersist.Core.Persistences
                     }
 
                     command_.CommandText = firstHalf + middle.Substring(0, middle.Length - 2) + secondHalf;
+                }
+                else if(item is Money)
+                {
+                    param.Value = ((Money)item).ToDecimal(null);
+                    command_.Parameters.Add(param);
                 }
                 else
                 {

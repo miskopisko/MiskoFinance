@@ -1,7 +1,7 @@
+using MPersist.Core.Enums;
 using System;
-using System.Reflection;
 
-namespace MPersist.Resources.Enums
+namespace MPFinance.Core.Enums
 {
     public class Gender : AbstractEnum
     {
