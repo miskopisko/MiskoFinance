@@ -63,21 +63,17 @@ namespace MPersist.Core.Data
             }
         }
 
+        public void fetchById(Session session, Int64 id)
+        {
+            fetchById(session, id, false);
+        }
+
         public void fetchById(Session session, Int64 id, Boolean deep)
         {
             Persistence p = Persistence.GetInstance(session);
             p.ExecuteQuery("SELECT * FROM " + GetType().Name + " WHERE ID = ?", new Object[] { id });
-
-            if (p.Next())
-            {
-                set(p);
-                if (deep)
-                {
-                    fetchDeep(session);
-                }
-            }
-
-            p.Close();
+            set(session, p, deep);
+            p.close();
             p = null;
         }
 
@@ -98,7 +94,7 @@ namespace MPersist.Core.Data
                 postSave(session, UpdateMode.Update);
             }
 
-            p.Close();
+            p.close();
             p = null;
         }
 
@@ -108,7 +104,7 @@ namespace MPersist.Core.Data
             {
                 Persistence p = Persistence.GetInstance(session);
                 p.ExecuteDelete(this);
-                p.Close();
+                p.close();
                 p = null;
                 Id = -1;
             }

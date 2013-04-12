@@ -2,10 +2,8 @@ using System;
 using System.IO;
 using System.Text.RegularExpressions;
 using MPersist.Core;
-using MPFinance.Core.Data;
 using MPFinance.Resources.Enums;
-using System.Reflection;
-using MPersist.Core.Enums;
+using MPFinance.Core.Data.Stored;
 
 namespace MPFinance.Core.OFX
 {
@@ -15,9 +13,6 @@ namespace MPFinance.Core.OFX
 
         #region Variable Declarations
 
-        private AccountType AccountType;
-        private String AccountID;
-        private String BankID;
         private String OfxHeader;
         private String Data;
         private String Version;
@@ -33,7 +28,9 @@ namespace MPFinance.Core.OFX
         #region Properties
 
         public Transactions Transactions { get; set; }
-        public Account Account { get; set; }
+        public AccountType AccountType { get; set; }
+        public String AccountID { get; set; }
+        public String BankID { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 
@@ -41,7 +38,7 @@ namespace MPFinance.Core.OFX
 
         #region Constructors
 
-        public OfxDocument(Session session, Client client, Stream stream)
+        public OfxDocument(Stream stream)
         {
             using (StreamReader reader = new StreamReader(stream))
             {
@@ -99,7 +96,7 @@ namespace MPFinance.Core.OFX
                         restOfFile = Regex.Replace(restOfFile, "\n", "");
                         restOfFile = Regex.Replace(restOfFile, "\t", "");
 
-                        FillAccountInfo(session, client, restOfFile);
+                        FillAccountInfo(restOfFile);
                         FillTransactions(Regex.Match(restOfFile, @"(?<=<banktranlist>).+(?=<\/banktranlist>)", RegexOptions.Multiline | RegexOptions.IgnoreCase).Value);
                     }
                 }
@@ -110,42 +107,24 @@ namespace MPFinance.Core.OFX
 
         #region Private Methods
 
-        private void FillAccountInfo(Session session, Client client, String text)
+        private void FillAccountInfo(String text)
         {
             BankID = Regex.Match(text, @"(?<=bankid>).+?(?=<)", RegexOptions.Multiline | RegexOptions.IgnoreCase).Value;
             AccountID = Regex.Match(text, @"(?<=acctid>).+?(?=<)", RegexOptions.Multiline | RegexOptions.IgnoreCase).Value;
-            String acctType = Regex.Match(text, @"(?<=accttype>).+?(?=<)", RegexOptions.Multiline | RegexOptions.IgnoreCase).Value;
-            AccountType = AccountType.GetElement(acctType);
+            AccountType = AccountType.GetElement(Regex.Match(text, @"(?<=accttype>).+?(?=<)", RegexOptions.Multiline | RegexOptions.IgnoreCase).Value);
             StartDate = DateTime.ParseExact(Regex.Match(text, @"(?<=dtstart>).+?(?=<)", RegexOptions.Multiline | RegexOptions.IgnoreCase).Value.Substring(0,8),"yyyyMMdd", null);
             EndDate = DateTime.ParseExact(Regex.Match(text, @"(?<=dtend>).+?(?=<)", RegexOptions.Multiline | RegexOptions.IgnoreCase).Value.Substring(0, 8), "yyyyMMdd", null);
-
-            Account account = Account.GetInstanceByComposite(session, client, AccountType, BankID, AccountID);
-            account.fetchDeep(session);
-
-            if (!account.IsSet)
-            {
-                account.Client = client;
-                account.AccountType = AccountType;
-                account.BankNumber = BankID;
-                account.AccountNumber = AccountID;
-                account.Save(session);
-
-                session.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Warning, "Added new account " + AccountID);
-            }
-
-            Account = account;
         }
 
         private void FillTransactions(String banktranlist)
         {
-            Transactions = new Core.Data.Transactions();
+            Transactions = new Core.Data.Stored.Transactions();
             MatchCollection m = Regex.Matches(banktranlist, @"<stmttrn>.+?<\/stmttrn>", RegexOptions.Multiline | RegexOptions.IgnoreCase);
             foreach (Match match in m)
             {
                 foreach (Capture capture in match.Captures)
                 {
                     Transaction trans = new Transaction();
-                    trans.Account = Account;
                     if (Regex.Match(capture.Value, @"(?<=<trntype>).+?(?=<)", RegexOptions.Multiline | RegexOptions.IgnoreCase).Value.ToLower().Equals("credit"))
                         trans.Type = TransactionType.Credit;
                     if (Regex.Match(capture.Value, @"(?<=<trntype>).+?(?=<)", RegexOptions.Multiline | RegexOptions.IgnoreCase).Value.ToLower().Equals("debit"))

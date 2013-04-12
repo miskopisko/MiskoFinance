@@ -30,12 +30,12 @@
         {
             System.Windows.Forms.GroupBox Transactions;
             System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Accounts");
-            this.TransactionsView = new System.Windows.Forms.DataGridView();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.AccountsView = new System.Windows.Forms.TreeView();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.ToolStrip = new System.Windows.Forms.ToolStrip();
             this.AccountHeader = new System.Windows.Forms.Label();
+            this.ImportTxns = new System.Windows.Forms.Button();
             this.StatusStrip = new System.Windows.Forms.StatusStrip();
             this.MenuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -46,17 +46,17 @@
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.ImportTxns = new System.Windows.Forms.Button();
+            this.transactionsGridView = new MPFinance.Forms.Controls.TransactionsGridView();
             Transactions = new System.Windows.Forms.GroupBox();
             Transactions.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.TransactionsView)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.MenuStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.transactionsGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // Transactions
             // 
-            Transactions.Controls.Add(this.TransactionsView);
+            Transactions.Controls.Add(this.transactionsGridView);
             Transactions.Dock = System.Windows.Forms.DockStyle.Fill;
             Transactions.Location = new System.Drawing.Point(194, 112);
             Transactions.Name = "Transactions";
@@ -64,18 +64,6 @@
             Transactions.TabIndex = 1;
             Transactions.TabStop = false;
             Transactions.Text = "Transactions";
-            // 
-            // TransactionsView
-            // 
-            this.TransactionsView.AllowUserToAddRows = false;
-            this.TransactionsView.AllowUserToDeleteRows = false;
-            this.TransactionsView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.TransactionsView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TransactionsView.Location = new System.Drawing.Point(3, 16);
-            this.TransactionsView.Name = "TransactionsView";
-            this.TransactionsView.ReadOnly = true;
-            this.TransactionsView.Size = new System.Drawing.Size(909, 326);
-            this.TransactionsView.TabIndex = 0;
             // 
             // openFileDialog
             // 
@@ -138,6 +126,17 @@
             this.AccountHeader.Text = "label1";
             this.AccountHeader.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // ImportTxns
+            // 
+            this.ImportTxns.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ImportTxns.Location = new System.Drawing.Point(3, 463);
+            this.ImportTxns.Name = "ImportTxns";
+            this.ImportTxns.Size = new System.Drawing.Size(185, 29);
+            this.ImportTxns.TabIndex = 4;
+            this.ImportTxns.Text = "Import Txns";
+            this.ImportTxns.UseVisualStyleBackColor = true;
+            this.ImportTxns.Click += new System.EventHandler(this.ImportTxns_Click);
+            // 
             // StatusStrip
             // 
             this.StatusStrip.Location = new System.Drawing.Point(0, 495);
@@ -170,18 +169,18 @@
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.settingsToolStripMenuItem.Text = "Settings";
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(113, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -212,16 +211,20 @@
             this.helpToolStripMenuItem1.Size = new System.Drawing.Size(107, 22);
             this.helpToolStripMenuItem1.Text = "Help";
             // 
-            // ImportTxns
+            // transactionsGridView
             // 
-            this.ImportTxns.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ImportTxns.Location = new System.Drawing.Point(3, 463);
-            this.ImportTxns.Name = "ImportTxns";
-            this.ImportTxns.Size = new System.Drawing.Size(185, 29);
-            this.ImportTxns.TabIndex = 4;
-            this.ImportTxns.Text = "Import Txns";
-            this.ImportTxns.UseVisualStyleBackColor = true;
-            this.ImportTxns.Click += new System.EventHandler(this.ImportTxns_Click);
+            this.transactionsGridView.AllowUserToAddRows = false;
+            this.transactionsGridView.AllowUserToDeleteRows = false;
+            this.transactionsGridView.AllowUserToResizeColumns = false;
+            this.transactionsGridView.AllowUserToResizeRows = false;
+            this.transactionsGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.transactionsGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.transactionsGridView.Location = new System.Drawing.Point(3, 16);
+            this.transactionsGridView.Name = "transactionsGridView";
+            this.transactionsGridView.ReadOnly = true;
+            this.transactionsGridView.RowHeadersVisible = false;
+            this.transactionsGridView.Size = new System.Drawing.Size(909, 326);
+            this.transactionsGridView.TabIndex = 0;
             // 
             // MPFinanceMain
             // 
@@ -236,11 +239,11 @@
             this.Text = "MPFinance";
             this.Load += new System.EventHandler(this.MPFinanceMain_Load);
             Transactions.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.TransactionsView)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.MenuStrip.ResumeLayout(false);
             this.MenuStrip.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.transactionsGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -251,7 +254,6 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.TreeView AccountsView;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.DataGridView TransactionsView;
         private System.Windows.Forms.ToolStrip ToolStrip;
         private System.Windows.Forms.StatusStrip StatusStrip;
         private System.Windows.Forms.MenuStrip MenuStrip;
@@ -265,6 +267,7 @@
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem1;
         private System.Windows.Forms.Label AccountHeader;
         private System.Windows.Forms.Button ImportTxns;
+        private MPFinance.Forms.Controls.TransactionsGridView transactionsGridView;
 
     }
 }

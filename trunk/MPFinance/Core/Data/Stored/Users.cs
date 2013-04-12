@@ -1,11 +1,11 @@
 using MPersist.Core;
 using MPersist.Core.Data;
 
-namespace MPFinance.Core.Data
+namespace MPFinance.Core.Data.Stored
 {
-    public class Transactions : AbstractStoredDataList
+    public class Users : AbstractStoredDataList
     {
-        private static Logger Log = Logger.GetInstance(typeof(Transactions));
+        private static Logger Log = Logger.GetInstance(typeof(Users));
 
         #region Variable Declarations
 
@@ -21,9 +21,9 @@ namespace MPFinance.Core.Data
 
         #region Constructors
 
-        public Transactions()
+        public Users()
         {
-            BaseType = typeof(Transaction);
+            BaseType = typeof(User);
         }
 
         #endregion
@@ -36,7 +36,7 @@ namespace MPFinance.Core.Data
 
         #region Public Methods
 
-
+        
 
         #endregion
     }

@@ -40,17 +40,16 @@ namespace MPersist.Core.Data
             Persistence persistence = Persistence.GetInstance(session);
             persistence.ExecuteQuery("SELECT * FROM " + BaseType.Name);
             set(session, BaseType, persistence);
-            persistence.Close();
+            persistence.close();
             persistence = null;
         }
 
         public void set(Session session, Type type, Persistence p)
         {
-            while (p.Next())
+            while (p.HasNext)
             {
                 AbstractViewedData o = (AbstractViewedData)type.Assembly.CreateInstance(type.FullName);
-
-                Add((AbstractViewedData)o.set(p));
+                Add((AbstractViewedData)o.set(session, p));
             }
         }
 
