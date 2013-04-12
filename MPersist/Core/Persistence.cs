@@ -71,7 +71,7 @@ namespace MPersist.Core
             }
         }
 
-        public void Close()
+        public void close()
         {
             try
             {
@@ -149,7 +149,7 @@ namespace MPersist.Core
             }
             catch (Exception e)
             {
-                Close();
+                close();
                 session_.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Critical, e.Message);
             }
 
@@ -183,7 +183,7 @@ namespace MPersist.Core
             }
             catch (Exception e)
             {
-                Close();
+                close();
                 session_.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Critical, e.Message);
             }
 
@@ -202,7 +202,7 @@ namespace MPersist.Core
             }
             catch (Exception e)
             {
-                Close();
+                close();
                 session_.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Critical, e.Message);
             }
 
@@ -242,7 +242,7 @@ namespace MPersist.Core
             }
             catch (Exception e)
             {
-                Close();
+                close();
                 session_.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Critical, e.Message);
             }
 

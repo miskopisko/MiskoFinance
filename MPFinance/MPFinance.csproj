@@ -52,6 +52,9 @@
       <HintPath>..\MPersist\Libraries\Money.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Security" />
@@ -59,16 +62,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\Data\Account.cs" />
-    <Compile Include="Core\Data\Accounts.cs" />
-    <Compile Include="Core\Data\Client.cs" />
-    <Compile Include="Core\Data\Clients.cs" />
-    <Compile Include="Core\Data\Transactions.cs" />
+    <Compile Include="Core\Data\Stored\Account.cs" />
+    <Compile Include="Core\Data\Stored\Accounts.cs" />
+    <Compile Include="Core\Data\Stored\Transactions.cs" />
+    <Compile Include="Core\Data\Viewed\VwTransaction.cs" />
+    <Compile Include="Core\Data\Viewed\VwTransactions.cs" />
     <Compile Include="Core\Enums\AccountType.cs" />
     <Compile Include="Core\Enums\Gender.cs" />
     <Compile Include="Core\Enums\TransactionType.cs" />
     <Compile Include="Core\OFX\OfxDocument.cs" />
-    <Compile Include="Core\Data\Transaction.cs" />
+    <Compile Include="Core\Data\Stored\Transaction.cs" />
+    <Compile Include="Forms\Controls\TransactionsGridView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\Controls\TransactionsGridView.Designer.cs">
+      <DependentUpon>TransactionsGridView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\MPFinanceMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -77,8 +86,13 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Forms\Controls\TransactionsGridView.resx">
+      <DependentUpon>TransactionsGridView.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\MPFinanceMain.resx">
       <DependentUpon>MPFinanceMain.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -103,8 +117,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Core\Security\Operator.cs" />
-    <Compile Include="Core\Security\Operators.cs" />
+    <Compile Include="Core\Data\Stored\User.cs" />
+    <Compile Include="Core\Data\Stored\Users.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
@@ -139,7 +153,6 @@
     <Content Include="DBA\Sqlite\Views.sql" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Forms\Controls\" />
     <Folder Include="Forms\Panels\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

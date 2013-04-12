@@ -4,7 +4,7 @@ using MPersist.Core.Data;
 using MPersist.Core;
 using MPFinance.Resources.Enums;
 
-namespace MPFinance.Core.Data
+namespace MPFinance.Core.Data.Stored
 {
     public class Transaction : AbstractStoredData
     {
@@ -34,6 +34,8 @@ namespace MPFinance.Core.Data
         public String Memo { get; set; }
         [Stored]
         public String CheckNum { get; set; }
+        [Stored]
+        public String Category { get; set; } // This will be its own class soon
 
         #endregion
 

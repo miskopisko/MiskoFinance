@@ -1,31 +1,31 @@
 ﻿using MPersist.Core;
-using MPFinance.Core.Data;
 using MPFinance.Core.OFX;
-using MPFinance.Security;
 using System;
 using System.IO;
 using System.Windows.Forms;
+using MPFinance.Core.Data.Stored;
+using System.Reflection;
+using MPersist.Core.Enums;
+using MPFinance.Core.Data.Viewed;
 
 namespace MPFinance.Forms
 {
     public partial class MPFinanceMain : Form
     {
-        private Session session_;
-        private Operator operator_;
+        private readonly Session session;
+        private readonly User user;
 
-        public MPFinanceMain(Session session, Operator o)
+        public MPFinanceMain(Session s, User u)
         {
-            
+            session = s;
+            user = u;
 
-            InitializeComponent();
+            InitializeComponent();            
 
-            session_ = session;
-            operator_ = o;
-
-            AccountHeader.Text = o.Client.LastName + ", " + o.Client.FirstName;
+            AccountHeader.Text = user.LastName + ", " + user.FirstName;
 
             Accounts accounts = new Accounts();
-            accounts.fetchByClient(session_, o.Client);
+            accounts.fetchByUser(session, user);
 
             foreach (Account a in accounts)
             {
@@ -33,7 +33,6 @@ namespace MPFinance.Forms
             }
 
             AccountsView.ExpandAll();
-
         }
         
         private void MPFinanceMain_Load(object sender, EventArgs e)
@@ -48,19 +47,51 @@ namespace MPFinance.Forms
 
         private void AccountsView_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            int i = 1;
+            if(!e.Node.Name.Equals("Accounts", StringComparison.OrdinalIgnoreCase))
+            {
+                Account account = new Account();
+                account.fetchById(session, Convert.ToInt64(e.Node.Name));
+
+                transactionsGridView.SetDataSource(VwTransactions.fetchAllByAccount(session, account));
+            }
         }
 
         private void ImportTxns_Click(object sender, EventArgs e)
         {
-            openFileDialog.ShowDialog();
-            OfxDocument document = new OfxDocument(session_, operator_.Client, new FileStream(openFileDialog.FileName, FileMode.Open));
+            if(openFileDialog.ShowDialog().Equals(DialogResult.OK))
+            {
+                OfxDocument document = new OfxDocument(new FileStream(openFileDialog.FileName, FileMode.Open));
 
+                Account account = Account.GetInstanceByComposite(session, user, document.AccountType, document.BankID, document.AccountID);
 
+                if (!account.IsSet)
+                {
+                    account.AccountNumber = document.AccountID;
+                    account.AccountType = document.AccountType;
+                    account.BankNumber = document.BankID;
+                    account.User = user;
+                    account.IsSet = true;
+                    account.Save(session);              
 
+                    session.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Warning, "New account added");
+                }
 
+                foreach (Transaction txn in document.Transactions)
+                {
+                    txn.Account = account;
+                }
 
-            TransactionsView.DataSource = document.Account.GetTransactions(session_);;
+                document.Transactions.Save(session);
+
+                transactionsGridView.DataSource = VwTransactions.fetchAllByAccount(session, account);
+
+                int i = 1;
+            }            
+        }
+
+        private void vwTransactionsBindingSource_CurrentChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

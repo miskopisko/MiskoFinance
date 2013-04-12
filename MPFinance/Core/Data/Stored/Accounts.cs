@@ -2,7 +2,7 @@ using MPersist.Core;
 using MPersist.Core.Data;
 using System;
 
-namespace MPFinance.Core.Data
+namespace MPFinance.Core.Data.Stored
 {
     public class Accounts : AbstractStoredDataList
     {
@@ -37,15 +37,12 @@ namespace MPFinance.Core.Data
 
         #region Public Methods
 
-        public void fetchByClient(Session session, Client c)
+        public void fetchByUser(Session session, User user)
         {
             Persistence p = Persistence.GetInstance(session);
-            p.ExecuteQuery("SELECT * FROM Account WHERE Client = ?", new Object[] { c.Id });
-            if(p.HasNext)
-            {
-                set(session, BaseType, p);
-            }
-            p.Close();
+            p.ExecuteQuery("SELECT * FROM Account WHERE User = ?", new Object[] { user.Id });
+            set(session, BaseType, p);
+            p.close();
             p = null;
         }
 
