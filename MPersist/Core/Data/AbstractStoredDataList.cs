@@ -48,12 +48,12 @@ namespace MPersist.Core.Data
             }
         }
 
-        public void set(Session session, Type type, Persistence p)
+        public void set(Session session, Persistence persistence, Page page)
         {
-            while (p.HasNext)
+            while (persistence.HasNext)
             {
-                AbstractStoredData o = (AbstractStoredData)type.Assembly.CreateInstance(type.FullName);
-                Add((AbstractStoredData)o.set(session, p));
+                AbstractStoredData o = (AbstractStoredData)BaseType.Assembly.CreateInstance(BaseType.FullName);
+                Add((AbstractStoredData)o.set(session, persistence));
             }
         }
 
@@ -61,7 +61,7 @@ namespace MPersist.Core.Data
         {
             Persistence persistence = Persistence.GetInstance(session);
             persistence.ExecuteQuery("SELECT * FROM " + BaseType.Name);
-            set(session, BaseType, persistence);
+            set(session, persistence, new Page());
             persistence.Close();
             persistence = null;
         }

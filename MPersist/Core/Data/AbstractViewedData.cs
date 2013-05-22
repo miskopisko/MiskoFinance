@@ -1,3 +1,4 @@
+using System.Data;
 
 namespace MPersist.Core.Data
 {
@@ -20,6 +21,10 @@ namespace MPersist.Core.Data
         #region Constructors
 
         public AbstractViewedData()
+        {
+        }
+
+        public AbstractViewedData(Session session, Persistence persistence)
         {
         }
 

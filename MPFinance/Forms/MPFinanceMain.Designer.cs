@@ -29,16 +29,17 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-            System.Windows.Forms.Label label6;
-            System.Windows.Forms.Label label7;
             System.Windows.Forms.GroupBox Transactions;
             System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Accounts");
+            System.Windows.Forms.Label label6;
+            System.Windows.Forms.Label label7;
+            MPersist.Core.Data.Page page1 = new MPersist.Core.Data.Page();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MPFinanceMain));
-            this.transactionsGridView = new MPFinance.Forms.Controls.TransactionsGridView();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.StatusStrip = new System.Windows.Forms.StatusStrip();
             this.messageStatusBar = new System.Windows.Forms.ToolStripProgressBar();
             this.messageStatusLbl = new System.Windows.Forms.ToolStripStatusLabel();
+            this.recordPageCounts = new System.Windows.Forms.ToolStripStatusLabel();
             this.MenuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -53,54 +54,32 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.headerPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.ToDatePicker = new System.Windows.Forms.DateTimePicker();
-            this.headerLbl = new System.Windows.Forms.Label();
-            this.FromDatePicker = new System.Windows.Forms.DateTimePicker();
-            this.txnSearch = new System.Windows.Forms.Button();
             this.AccountsList = new System.Windows.Forms.TreeView();
             this.MainLayout = new System.Windows.Forms.TableLayoutPanel();
+            this.headerLbl = new System.Windows.Forms.Label();
+            this.FromDatePicker = new System.Windows.Forms.DateTimePicker();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.MoreBtn = new System.Windows.Forms.Button();
+            this.txnSearch = new System.Windows.Forms.Button();
+            this.ToDatePicker = new System.Windows.Forms.DateTimePicker();
+            this.transactionsGridView = new MPFinance.Forms.Controls.TransactionsGridView();
             this.summaryPanel = new MPFinance.Forms.Panels.SummaryPanel();
             toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            Transactions = new System.Windows.Forms.GroupBox();
             label6 = new System.Windows.Forms.Label();
             label7 = new System.Windows.Forms.Label();
-            Transactions = new System.Windows.Forms.GroupBox();
             Transactions.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.transactionsGridView)).BeginInit();
             this.StatusStrip.SuspendLayout();
             this.MenuStrip.SuspendLayout();
-            this.headerPanel.SuspendLayout();
             this.MainLayout.SuspendLayout();
+            this.flowLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.transactionsGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
             toolStripSeparator1.Size = new System.Drawing.Size(104, 6);
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Dock = System.Windows.Forms.DockStyle.Fill;
-            label6.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            label6.Location = new System.Drawing.Point(504, 0);
-            label6.Name = "label6";
-            label6.Size = new System.Drawing.Size(69, 29);
-            label6.TabIndex = 3;
-            label6.Text = "From Date:";
-            label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.Dock = System.Windows.Forms.DockStyle.Fill;
-            label7.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            label7.Location = new System.Drawing.Point(679, 0);
-            label7.Name = "label7";
-            label7.Size = new System.Drawing.Size(69, 29);
-            label7.TabIndex = 4;
-            label7.Text = "To Date:";
-            label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // Transactions
             // 
@@ -109,25 +88,10 @@
             Transactions.Location = new System.Drawing.Point(253, 62);
             Transactions.Name = "Transactions";
             this.MainLayout.SetRowSpan(Transactions, 2);
-            Transactions.Size = new System.Drawing.Size(928, 675);
+            Transactions.Size = new System.Drawing.Size(928, 655);
             Transactions.TabIndex = 1;
             Transactions.TabStop = false;
             Transactions.Text = "Transactions";
-            // 
-            // transactionsGridView
-            // 
-            this.transactionsGridView.AllowUserToAddRows = false;
-            this.transactionsGridView.AllowUserToDeleteRows = false;
-            this.transactionsGridView.AllowUserToResizeColumns = false;
-            this.transactionsGridView.AllowUserToResizeRows = false;
-            this.transactionsGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.transactionsGridView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.transactionsGridView.Location = new System.Drawing.Point(3, 16);
-            this.transactionsGridView.Name = "transactionsGridView";
-            this.transactionsGridView.RowHeadersVisible = false;
-            this.transactionsGridView.Size = new System.Drawing.Size(922, 656);
-            this.transactionsGridView.TabIndex = 0;
-            this.transactionsGridView.VirtualMode = true;
             // 
             // openFileDialog
             // 
@@ -137,7 +101,8 @@
             // 
             this.StatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.messageStatusBar,
-            this.messageStatusLbl});
+            this.messageStatusLbl,
+            this.recordPageCounts});
             this.StatusStrip.Location = new System.Drawing.Point(0, 740);
             this.StatusStrip.Name = "StatusStrip";
             this.StatusStrip.Size = new System.Drawing.Size(1184, 22);
@@ -154,6 +119,14 @@
             // 
             this.messageStatusLbl.Name = "messageStatusLbl";
             this.messageStatusLbl.Size = new System.Drawing.Size(0, 17);
+            // 
+            // recordPageCounts
+            // 
+            this.recordPageCounts.Name = "recordPageCounts";
+            this.recordPageCounts.Size = new System.Drawing.Size(967, 17);
+            this.recordPageCounts.Spring = true;
+            this.recordPageCounts.Text = "0/0";
+            this.recordPageCounts.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // MenuStrip
             // 
@@ -238,6 +211,7 @@
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
             this.settingsToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.settingsToolStripMenuItem.Text = "Settings";
+            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -262,72 +236,6 @@
             this.helpToolStripMenuItem1.Size = new System.Drawing.Size(107, 22);
             this.helpToolStripMenuItem1.Text = "Help";
             // 
-            // headerPanel
-            // 
-            this.headerPanel.ColumnCount = 6;
-            this.headerPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 54.05405F));
-            this.headerPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.108109F));
-            this.headerPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10.81081F));
-            this.headerPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.108109F));
-            this.headerPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10.81081F));
-            this.headerPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.108109F));
-            this.headerPanel.Controls.Add(label7, 3, 0);
-            this.headerPanel.Controls.Add(this.ToDatePicker, 4, 0);
-            this.headerPanel.Controls.Add(this.headerLbl, 0, 0);
-            this.headerPanel.Controls.Add(this.FromDatePicker, 2, 0);
-            this.headerPanel.Controls.Add(label6, 1, 0);
-            this.headerPanel.Controls.Add(this.txnSearch, 5, 0);
-            this.headerPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.headerPanel.Location = new System.Drawing.Point(253, 27);
-            this.headerPanel.Name = "headerPanel";
-            this.headerPanel.RowCount = 1;
-            this.headerPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.headerPanel.Size = new System.Drawing.Size(928, 29);
-            this.headerPanel.TabIndex = 8;
-            // 
-            // ToDatePicker
-            // 
-            this.ToDatePicker.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ToDatePicker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.ToDatePicker.Location = new System.Drawing.Point(754, 3);
-            this.ToDatePicker.Name = "ToDatePicker";
-            this.ToDatePicker.Size = new System.Drawing.Size(94, 20);
-            this.ToDatePicker.TabIndex = 2;
-            // 
-            // headerLbl
-            // 
-            this.headerLbl.AutoSize = true;
-            this.headerLbl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.headerLbl.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.headerLbl.Location = new System.Drawing.Point(3, 0);
-            this.headerLbl.Name = "headerLbl";
-            this.headerLbl.Size = new System.Drawing.Size(495, 29);
-            this.headerLbl.TabIndex = 0;
-            this.headerLbl.Text = "headerLbl";
-            this.headerLbl.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // FromDatePicker
-            // 
-            this.FromDatePicker.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.FromDatePicker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.FromDatePicker.Location = new System.Drawing.Point(579, 3);
-            this.FromDatePicker.Name = "FromDatePicker";
-            this.FromDatePicker.Size = new System.Drawing.Size(94, 20);
-            this.FromDatePicker.TabIndex = 1;
-            this.FromDatePicker.Value = new System.DateTime(2013, 1, 1, 0, 0, 0, 0);
-            // 
-            // txnSearch
-            // 
-            this.txnSearch.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txnSearch.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.txnSearch.Location = new System.Drawing.Point(854, 3);
-            this.txnSearch.Name = "txnSearch";
-            this.txnSearch.Size = new System.Drawing.Size(71, 23);
-            this.txnSearch.TabIndex = 5;
-            this.txnSearch.Text = "Search";
-            this.txnSearch.UseVisualStyleBackColor = true;
-            this.txnSearch.Click += new System.EventHandler(this.txnSearch_Click);
-            // 
             // AccountsList
             // 
             this.AccountsList.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -350,18 +258,126 @@
             this.MainLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.MainLayout.Controls.Add(Transactions, 1, 1);
             this.MainLayout.Controls.Add(this.AccountsList, 0, 0);
-            this.MainLayout.Controls.Add(this.headerPanel, 1, 0);
             this.MainLayout.Controls.Add(this.summaryPanel, 0, 2);
+            this.MainLayout.Controls.Add(this.flowLayoutPanel1, 1, 0);
             this.MainLayout.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MainLayout.Location = new System.Drawing.Point(0, 0);
             this.MainLayout.Name = "MainLayout";
             this.MainLayout.Padding = new System.Windows.Forms.Padding(0, 24, 0, 22);
-            this.MainLayout.RowCount = 3;
+            this.MainLayout.RowCount = 4;
             this.MainLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.MainLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.MainLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.MainLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.MainLayout.Size = new System.Drawing.Size(1184, 762);
             this.MainLayout.TabIndex = 1;
+            // 
+            // headerLbl
+            // 
+            this.headerLbl.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.headerLbl.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.headerLbl.Location = new System.Drawing.Point(3, 0);
+            this.headerLbl.Name = "headerLbl";
+            this.headerLbl.Size = new System.Drawing.Size(422, 29);
+            this.headerLbl.TabIndex = 1;
+            this.headerLbl.Text = "headerLbl";
+            this.headerLbl.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label6
+            // 
+            label6.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            label6.Location = new System.Drawing.Point(431, 0);
+            label6.Name = "label6";
+            label6.Size = new System.Drawing.Size(69, 29);
+            label6.TabIndex = 4;
+            label6.Text = "From Date:";
+            label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // FromDatePicker
+            // 
+            this.FromDatePicker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.FromDatePicker.Location = new System.Drawing.Point(506, 3);
+            this.FromDatePicker.Name = "FromDatePicker";
+            this.FromDatePicker.Size = new System.Drawing.Size(89, 20);
+            this.FromDatePicker.TabIndex = 5;
+            this.FromDatePicker.Value = new System.DateTime(2013, 1, 1, 0, 0, 0, 0);
+            // 
+            // label7
+            // 
+            label7.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            label7.Location = new System.Drawing.Point(601, 0);
+            label7.Name = "label7";
+            label7.Size = new System.Drawing.Size(69, 29);
+            label7.TabIndex = 6;
+            label7.Text = "To Date:";
+            label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Controls.Add(this.MoreBtn);
+            this.flowLayoutPanel1.Controls.Add(this.txnSearch);
+            this.flowLayoutPanel1.Controls.Add(this.ToDatePicker);
+            this.flowLayoutPanel1.Controls.Add(label7);
+            this.flowLayoutPanel1.Controls.Add(this.FromDatePicker);
+            this.flowLayoutPanel1.Controls.Add(label6);
+            this.flowLayoutPanel1.Controls.Add(this.headerLbl);
+            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(253, 27);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(928, 29);
+            this.flowLayoutPanel1.TabIndex = 11;
+            // 
+            // MoreBtn
+            // 
+            this.MoreBtn.AutoSize = true;
+            this.MoreBtn.Location = new System.Drawing.Point(851, 3);
+            this.MoreBtn.Name = "MoreBtn";
+            this.MoreBtn.Size = new System.Drawing.Size(74, 23);
+            this.MoreBtn.TabIndex = 0;
+            this.MoreBtn.Text = "More";
+            this.MoreBtn.UseVisualStyleBackColor = true;
+            this.MoreBtn.Click += new System.EventHandler(this.MoreBtn_Click);
+            // 
+            // txnSearch
+            // 
+            this.txnSearch.AutoSize = true;
+            this.txnSearch.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.txnSearch.Location = new System.Drawing.Point(771, 3);
+            this.txnSearch.Name = "txnSearch";
+            this.txnSearch.Size = new System.Drawing.Size(74, 23);
+            this.txnSearch.TabIndex = 11;
+            this.txnSearch.Text = "Search";
+            this.txnSearch.UseVisualStyleBackColor = true;
+            this.txnSearch.Click += new System.EventHandler(this.txnSearch_Click);
+            // 
+            // ToDatePicker
+            // 
+            this.ToDatePicker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.ToDatePicker.Location = new System.Drawing.Point(676, 3);
+            this.ToDatePicker.Name = "ToDatePicker";
+            this.ToDatePicker.Size = new System.Drawing.Size(89, 20);
+            this.ToDatePicker.TabIndex = 13;
+            // 
+            // transactionsGridView
+            // 
+            this.transactionsGridView.AllowUserToAddRows = false;
+            this.transactionsGridView.AllowUserToDeleteRows = false;
+            this.transactionsGridView.AllowUserToResizeColumns = false;
+            this.transactionsGridView.AllowUserToResizeRows = false;
+            this.transactionsGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            page1.IncludeRecordCount = true;
+            page1.PageNo = 0;
+            page1.TotalPageCount = 0;
+            page1.TotalRowCount = 0;
+            this.transactionsGridView.CurrentPage = page1;
+            this.transactionsGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.transactionsGridView.Location = new System.Drawing.Point(3, 16);
+            this.transactionsGridView.Name = "transactionsGridView";
+            this.transactionsGridView.RowHeadersVisible = false;
+            this.transactionsGridView.Size = new System.Drawing.Size(922, 636);
+            this.transactionsGridView.TabIndex = 0;
+            this.transactionsGridView.VirtualMode = true;
             // 
             // summaryPanel
             // 
@@ -384,14 +400,14 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "MP Finance";
             Transactions.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.transactionsGridView)).EndInit();
             this.StatusStrip.ResumeLayout(false);
             this.StatusStrip.PerformLayout();
             this.MenuStrip.ResumeLayout(false);
             this.MenuStrip.PerformLayout();
-            this.headerPanel.ResumeLayout(false);
-            this.headerPanel.PerformLayout();
             this.MainLayout.ResumeLayout(false);
+            this.flowLayoutPanel1.ResumeLayout(false);
+            this.flowLayoutPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.transactionsGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -417,14 +433,16 @@
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripProgressBar messageStatusBar;
         private System.Windows.Forms.ToolStripStatusLabel messageStatusLbl;
-        private System.Windows.Forms.TableLayoutPanel headerPanel;
-        public System.Windows.Forms.DateTimePicker ToDatePicker;
-        private System.Windows.Forms.Label headerLbl;
-        public System.Windows.Forms.DateTimePicker FromDatePicker;
-        private System.Windows.Forms.Button txnSearch;
         private System.Windows.Forms.TableLayoutPanel MainLayout;
         private Controls.TransactionsGridView transactionsGridView;
         public System.Windows.Forms.TreeView AccountsList;
         private Panels.SummaryPanel summaryPanel;
+        private System.Windows.Forms.ToolStripStatusLabel recordPageCounts;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.Button MoreBtn;
+        private System.Windows.Forms.Button txnSearch;
+        public System.Windows.Forms.DateTimePicker FromDatePicker;
+        public System.Windows.Forms.DateTimePicker ToDatePicker;
+        private System.Windows.Forms.Label headerLbl;
     }
 }

@@ -1,11 +1,11 @@
+using System;
+using System.Security.Cryptography;
+using System.Text;
 using MPersist.Core;
 using MPersist.Core.Attributes;
 using MPersist.Core.Data;
 using MPFinance.Core.Data.Stored;
 using MPFinance.Core.Enums;
-using System;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace MPFinance.Core.Data.Viewed
 {

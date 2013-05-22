@@ -10,6 +10,8 @@ using System;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
+using MPersist.Core.Data;
+using MPFinance.Core.Data.Viewed;
 
 namespace MPFinance.Forms
 {
@@ -32,7 +34,7 @@ namespace MPFinance.Forms
 
         #region Local Private Methods
 
-        private void FetchTxns()
+        private void FetchTxns(Page page)
         {
             // Feth all txns as per the search criteria
             GetTxnsRQ findTxns = new GetTxnsRQ();
@@ -40,6 +42,7 @@ namespace MPFinance.Forms
             findTxns.Account = (Account)AccountsList.SelectedNode.Tag;
             findTxns.FromDate = FromDatePicker.Value;
             findTxns.ToDate = ToDatePicker.Value;
+            findTxns.Page = page;
             MessageProcessor.SendRequest(findTxns, this);
         }
 
@@ -78,12 +81,12 @@ namespace MPFinance.Forms
 
         private void AccountsView_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            FetchTxns();
+            FetchTxns(new Page(1));
         }
 
         private void txnSearch_Click(object sender, EventArgs e)
         {
-            FetchTxns();
+            FetchTxns(new Page(1));
         }
 
         private void oFXFileToolStripMenuItem_Click(object sender, EventArgs e)
@@ -101,7 +104,7 @@ namespace MPFinance.Forms
         private void accountsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // Show the edit account dialog
-            new EditAccounts().ShowDialog(this);
+            new EditAccountsDialog().ShowDialog(this);
 
             // reload the accounts tree
             FetchAccounts();
@@ -113,7 +116,19 @@ namespace MPFinance.Forms
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // Show the about dialog
-            new About().ShowDialog(this);
+            new AboutDialog().ShowDialog(this);
+        }
+
+        private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Show settings dialog
+            new SettingsDialog().ShowDialog(this);
+        }
+
+        private void MoreBtn_Click(object sender, EventArgs e)
+        {
+            // Fetch next page of txns
+            FetchTxns(new Page(transactionsGridView.CurrentPage.PageNo + 1));
         }
 
         #endregion
@@ -153,14 +168,14 @@ namespace MPFinance.Forms
 
         public void MessageReceived(String message)
         {
-            //messageStatusLbl.Text = message;
-            //messageStatusBar.Increment(-10);
+            messageStatusLbl.Text = message;
+            messageStatusBar.Increment(-10);
         }
 
         public void MessageSent(String message)
         {
-            //messageStatusLbl.Text = message;
-            //messageStatusBar.Increment(10);
+            messageStatusLbl.Text = message;
+            messageStatusBar.Increment(10);
         }
 
         public void ResponseRecieved(AbstractResponse response)
@@ -194,8 +209,21 @@ namespace MPFinance.Forms
                 }
                 else if (response is GetTxnsRS)
                 {
-                    transactionsGridView.DataSource = ((GetTxnsRS)response).Txns;
+                    if (((GetTxnsRS)response).Page.PageNo.Equals(1))
+                    {
+                        transactionsGridView.DataSource = ((GetTxnsRS)response).Txns;
+                    }
+                    else
+                    {
+                        ((AbstractViewedDataList<VwTxn>)transactionsGridView.DataSource).AddRange(((GetTxnsRS)response).Txns);
+                        ((AbstractViewedDataList<VwTxn>)transactionsGridView.DataSource).ResetBindings();
+                    }
+                    
                     summaryPanel.Update(((GetTxnsRS)response).Summary);
+                    recordPageCounts.Text = ((GetTxnsRS)response).Page.PageNo + " / " + ((GetTxnsRS)response).Page.TotalPageCount;
+                    transactionsGridView.CurrentPage = ((GetTxnsRS)response).Page;
+
+                    MoreBtn.Enabled = transactionsGridView.CurrentPage.PageNo != transactionsGridView.CurrentPage.TotalPageCount;
                 }
                 else if (response is GetSummaryRS)
                 {
@@ -209,5 +237,7 @@ namespace MPFinance.Forms
         }
 
         #endregion
+
+        
     }
 }

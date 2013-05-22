@@ -45,7 +45,6 @@ namespace MPFinance.Forms
 
             InitializeComponent();
 
-            selectAllBox.Visible = false;
             backBtn.Visible = false;
             nextBtn.Visible = true;
             importBtn.Visible = false;
@@ -124,17 +123,10 @@ namespace MPFinance.Forms
             mChooseAccountPanel_.Visible = true;
             mChooseTransactionsPanel_.Visible = false;
             Text = "Choose an account to add the transactions to...";
-            selectAllBox.Visible = false;
             backBtn.Visible = false;
             nextBtn.Visible = true;
             importBtn.Visible = false;
             repositionWindow();
-        }
-
-        private void selectAllBox_CheckedChanged(object sender, System.EventArgs e)
-        {
-            mChooseTransactionsPanel_.importedTransactionsGridView.ToggleSelectAll(selectAllBox.Checked);
-            selectAllBox.Text = selectAllBox.Checked ? "Unselect All" : "Select All";
         }
 
         public void ResponseRecieved(AbstractResponse response)
@@ -154,7 +146,6 @@ namespace MPFinance.Forms
                 mChooseAccountPanel_.Visible = false;
                 mChooseTransactionsPanel_.VwTxns = ((CheckDuplicateTxnsRS)response).Txns;
                 mChooseTransactionsPanel_.Visible = true;
-                selectAllBox.Visible = true;
                 backBtn.Visible = true;
                 nextBtn.Visible = false;
                 importBtn.Visible = true;

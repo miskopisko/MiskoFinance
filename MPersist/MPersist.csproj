@@ -18,6 +18,7 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -32,7 +33,6 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -79,12 +79,15 @@
   <ItemGroup>
     <Compile Include="Core\Attributes\StoredAttribute.cs" />
     <Compile Include="Core\Attributes\ViewedAttribute.cs" />
+    <Compile Include="Core\Data\Page.cs" />
+    <Compile Include="Core\Enums\ConnectionType.cs" />
     <Compile Include="Core\Interfaces\IOController.cs" />
     <Compile Include="Core\Data\AbstractData.cs" />
     <Compile Include="Core\Data\AbstractStoredData.cs" />
     <Compile Include="Core\Data\AbstractStoredDataList.cs" />
     <Compile Include="Core\Data\AbstractViewedData.cs" />
-    <Compile Include="Core\Data\AbstractViewedDataList.cs" />
+    <Compile Include="Core\Data\AbstractViewedDataList.cs">
+    </Compile>
     <Compile Include="Core\Data\PropertyComparer.cs" />
     <Compile Include="Core\Enums\MessageMode.cs" />
     <Compile Include="Core\ErrorMessage.cs" />
@@ -149,10 +152,12 @@
     <EmbeddedResource Include="Core\Resources\ErrorStrings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ErrorStrings.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Core\Resources\Strings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

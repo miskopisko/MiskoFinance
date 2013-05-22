@@ -191,7 +191,7 @@
             this.Nickname.Location = new System.Drawing.Point(132, 105);
             this.Nickname.Name = "Nickname";
             this.Nickname.Size = new System.Drawing.Size(156, 20);
-            this.Nickname.TabIndex = 7;
+            this.Nickname.TabIndex = 4;
             // 
             // AccountNumber
             // 
@@ -199,7 +199,7 @@
             this.AccountNumber.Location = new System.Drawing.Point(132, 39);
             this.AccountNumber.Name = "AccountNumber";
             this.AccountNumber.Size = new System.Drawing.Size(156, 20);
-            this.AccountNumber.TabIndex = 3;
+            this.AccountNumber.TabIndex = 2;
             // 
             // BankName
             // 
@@ -217,7 +217,7 @@
             this.AccountTypeCmb.Location = new System.Drawing.Point(132, 72);
             this.AccountTypeCmb.Name = "AccountTypeCmb";
             this.AccountTypeCmb.Size = new System.Drawing.Size(156, 21);
-            this.AccountTypeCmb.TabIndex = 10;
+            this.AccountTypeCmb.TabIndex = 3;
             // 
             // OpeningBalance
             // 
@@ -226,7 +226,7 @@
             this.OpeningBalance.Location = new System.Drawing.Point(132, 140);
             this.OpeningBalance.Name = "OpeningBalance";
             this.OpeningBalance.Size = new System.Drawing.Size(156, 20);
-            this.OpeningBalance.TabIndex = 11;
+            this.OpeningBalance.TabIndex = 5;
             this.OpeningBalance.Text = "\r\n";
             this.OpeningBalance.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 

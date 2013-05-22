@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace MPFinance.Forms
 {
-    public partial class EditAccounts : Form, IDataRequestor
+    public partial class EditAccountsDialog : Form, IDataRequestor
     {
-        public EditAccounts()
+        public EditAccountsDialog()
         {
             InitializeComponent();
             AccountTypeCmb.DataSource = AccountType.Elements;
@@ -53,7 +53,10 @@ namespace MPFinance.Forms
                     existingAccounts.Items.Add(account);
                 }
 
-                existingAccounts.SelectedIndex = 0;
+                if (accounts.Count > 0)
+                {
+                    existingAccounts.SelectedIndex = 0;
+                }
             }
             else if (!response.HasErrors && response is UpdateAccountRS)
             {
