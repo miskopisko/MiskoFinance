@@ -20,6 +20,7 @@ namespace MPersist.Core
         private ErrorMessages errorMessages_ = new ErrorMessages();
         private ErrorLevel status_ = ErrorLevel.Success;
         private MessageMode messageMode_ = MessageMode.Normal;
+        private Int32 rowsPerPage_ = 20;
 
         #endregion
 
@@ -55,6 +56,12 @@ namespace MPersist.Core
         {
             get { return messageMode_; }
             set { messageMode_ = value; }
+        }
+
+        public Int32 RowPerPage
+        {
+            get { return rowsPerPage_; }
+            set { rowsPerPage_ = value; }
         }
 
         public ErrorMessages ErrorMessages

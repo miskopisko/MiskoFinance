@@ -8,6 +8,7 @@ using MPFinance.Core.Message.Requests;
 using MPFinance.Core.Message.Responses;
 using System;
 using System.Windows.Forms;
+using MPersist.Core.Data;
 
 namespace MPFinance.Forms.Controls
 {
@@ -24,6 +25,14 @@ namespace MPFinance.Forms.Controls
         private DataGridViewTextBoxColumn Debit = new DataGridViewTextBoxColumn();
         private DataGridViewComboBoxColumn Category = new DataGridViewComboBoxColumn();
         private DataGridViewCheckBoxColumn Transfer = new DataGridViewCheckBoxColumn();
+
+        private Page mCurrentPage_ = new Page();
+
+        public Page CurrentPage 
+        { 
+            get { return mCurrentPage_; }
+            set { mCurrentPage_ = value; } 
+        }
 
         public TransactionsGridView()
         {

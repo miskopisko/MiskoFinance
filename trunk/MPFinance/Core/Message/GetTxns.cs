@@ -35,8 +35,9 @@ namespace MPFinance.Core.Message
 
         public override void Execute(Session session)
         {
-            Response.Txns.Fetch(session, Request.PageNo, Request.NoRows, Request.Operator, Request.Account, Request.FromDate, Request.ToDate);
+            Response.Txns.Fetch(session, Request.Page, Request.Operator, Request.Account, Request.FromDate, Request.ToDate);
             Response.Summary.Fetch(session, Request.Operator, Request.Account, Request.FromDate, Request.ToDate);
+            Response.Page = Request.Page;
         }
     }
 }

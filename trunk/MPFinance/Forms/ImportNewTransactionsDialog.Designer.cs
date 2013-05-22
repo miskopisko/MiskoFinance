@@ -31,7 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ImportNewTransactionsDialog));
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.selectAllBox = new System.Windows.Forms.CheckBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.importBtn = new System.Windows.Forms.Button();
             this.nextBtn = new System.Windows.Forms.Button();
@@ -62,7 +61,6 @@
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60F));
-            this.tableLayoutPanel1.Controls.Add(this.selectAllBox, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel1, 1, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 55);
@@ -72,17 +70,6 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(316, 34);
             this.tableLayoutPanel1.TabIndex = 4;
-            // 
-            // selectAllBox
-            // 
-            this.selectAllBox.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.selectAllBox.Location = new System.Drawing.Point(3, 5);
-            this.selectAllBox.Name = "selectAllBox";
-            this.selectAllBox.Size = new System.Drawing.Size(104, 24);
-            this.selectAllBox.TabIndex = 3;
-            this.selectAllBox.Text = "Select All";
-            this.selectAllBox.UseVisualStyleBackColor = true;
-            this.selectAllBox.CheckedChanged += new System.EventHandler(this.selectAllBox_CheckedChanged);
             // 
             // flowLayoutPanel1
             // 
@@ -158,7 +145,6 @@
         private System.Windows.Forms.Button nextBtn;
         private System.Windows.Forms.Button backBtn;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.CheckBox selectAllBox;
 
     }
 }

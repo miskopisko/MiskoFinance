@@ -1,6 +1,6 @@
 ﻿namespace MPFinance.Forms
 {
-    partial class EditAccounts
+    partial class EditAccountsDialog
     {
         /// <summary>
         /// Required designer variable.
@@ -33,7 +33,7 @@
             System.Windows.Forms.Label label3;
             System.Windows.Forms.Label label2;
             System.Windows.Forms.Label label1;
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditAccounts));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditAccountsDialog));
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.Nickname = new System.Windows.Forms.TextBox();

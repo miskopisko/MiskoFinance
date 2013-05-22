@@ -1,9 +1,9 @@
-﻿using MPersist.Core;
-using MPFinance.Core.Data.Viewed;
-using MPFinance.Core.Enums;
-using System;
+﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using MPersist.Core;
+using MPFinance.Core.Data.Viewed;
+using MPFinance.Core.Enums;
 
 namespace MPFinance.Forms.Controls
 {
@@ -11,12 +11,21 @@ namespace MPFinance.Forms.Controls
     {
         private static Logger Log = Logger.GetInstance(typeof(ImportedTransactionsGridView));
 
-        public DataGridViewCheckBoxColumn Import = new DataGridViewCheckBoxColumn();
+        #region Variable Declarations
+
+        private DataGridViewCheckBoxColumn Import = new DataGridViewCheckBoxColumn();
         private DataGridViewTextBoxColumn Date = new DataGridViewTextBoxColumn();
         private DataGridViewTextBoxColumn Description = new DataGridViewTextBoxColumn();
         private DataGridViewTextBoxColumn Credit = new DataGridViewTextBoxColumn();
         private DataGridViewTextBoxColumn Debit = new DataGridViewTextBoxColumn();
         private DataGridViewCheckBoxColumn Transfer = new DataGridViewCheckBoxColumn();
+
+        private Int32 SelectableRecords = 0;
+        private Int32 SelectedRecords = 0;
+
+        #endregion
+
+        #region Constructors
 
         public ImportedTransactionsGridView()
         {
@@ -24,19 +33,63 @@ namespace MPFinance.Forms.Controls
             InitializeComponent();
         }
 
+        #endregion
+
+        #region Overridden Local Methods
+
         protected override void OnDataBindingComplete(DataGridViewBindingCompleteEventArgs e)
         {
+            SelectableRecords = Rows.Count;
+
             foreach (DataGridViewRow row in Rows)
             {
                 if (((VwTxn)row.DataBoundItem).IsDuplicate)
                 {
                     row.DefaultCellStyle.BackColor = Color.Salmon;
                     row.ReadOnly = true;
+                    SelectableRecords--;
                 }
             }
 
             base.OnDataBindingComplete(e);
-        }     
+        }
+
+        protected override void OnCellValueChanged(DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex.Equals(Columns.IndexOf(Import)) && e.RowIndex >= 0)
+            {
+                SelectedRecords += ((Boolean)Rows[e.RowIndex].Cells[e.ColumnIndex].Value) ? 1 : -1;
+
+                //Change state of the header CheckBox.
+                if (SelectableRecords == 0 || SelectedRecords < SelectableRecords)
+                {
+                    ((CheckBoxHeaderCell)Import.HeaderCell).Checked = false;
+                }
+                else if (SelectedRecords == SelectableRecords)
+                {
+                    ((CheckBoxHeaderCell)Import.HeaderCell).Checked = true;
+                }
+
+                // Repaint the checkboxes
+                InvalidateColumn(Columns.IndexOf(Import));
+            }
+
+            base.OnCellValueChanged(e);
+        }
+
+        protected override void OnCurrentCellDirtyStateChanged(EventArgs e)
+        {
+            if (CurrentCell is DataGridViewCheckBoxCell)
+            {
+                CommitEdit(DataGridViewDataErrorContexts.Commit);
+            }
+
+            base.OnCurrentCellDirtyStateChanged(e);
+        }
+
+        #endregion
+
+        #region Public Methods
 
         public VwTxns GetSelected()
         {
@@ -60,17 +113,6 @@ namespace MPFinance.Forms.Controls
             }
 
             return txns;
-        }
-
-        public void ToggleSelectAll(Boolean value)
-        {
-            foreach (DataGridViewRow row in Rows)
-            {
-                if(!row.ReadOnly)
-                {
-                    row.Cells[Columns.IndexOf(Import)].Value = value;
-                }                
-            }
         }
 
         public void FillColumns()
@@ -126,7 +168,32 @@ namespace MPFinance.Forms.Controls
                                 Credit,
                                 Debit,
                                 Transfer});
+
+                Columns["Import"].HeaderCell = new CheckBoxHeaderCell("Import");
+                ((CheckBoxHeaderCell)Columns["Import"].HeaderCell).OnCheckBoxClicked += new CheckBoxHeaderCell.CheckBoxClickedHandler(cbHeader_OnCheckBoxClicked);
             }
         }
+
+        #endregion
+
+        #region Event Listenners
+
+        private void cbHeader_OnCheckBoxClicked(bool state)
+        {
+            ((CheckBoxHeaderCell)Columns["Import"].HeaderCell).Checked = state;
+
+            for (int i = 0; i < RowCount; i++)
+            {
+                if (!Rows[i].ReadOnly)
+                {
+                    EndEdit();
+                    Rows[i].Cells["Import"].Value = state;
+                }
+            }
+
+            SelectedRecords = state ? SelectableRecords : 0;
+        }
+
+        #endregion
     }
 }

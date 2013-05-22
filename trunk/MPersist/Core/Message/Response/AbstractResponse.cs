@@ -1,5 +1,6 @@
 ﻿using MPersist.Core.Enums;
 using System;
+using MPersist.Core.Data;
 
 namespace MPersist.Core.Message.Response
 {
@@ -25,7 +26,7 @@ namespace MPersist.Core.Message.Response
 
         public MessageMode MessageMode { get; set; }
 
-        public Int32 PageNo { get; set; }
+        public Page Page { get; set; }
 
         #endregion
 

@@ -7,6 +7,7 @@ using System;
 using System.Data.Common;
 using System.Reflection;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace MPFinance
 {
@@ -14,9 +15,11 @@ namespace MPFinance
     {
         #region Variable Declarations
 
-        private static DbConnection mConnection_ = ServiceLocator.GetOracleConnection("192.168.0.111", 1521, "xe", "MPersist", "MPersist");
-        //private static DbConnection mConnection_ = ServiceLocator.GetSqliteConnection(@"..\..\DBA\MPersist_DB.sqlite3");
+        //private static DbConnection mConnection_ = ServiceLocator.GetOracleConnection("192.168.0.111", 1521, "xe", "MPersist", "MPersist");
+        private static DbConnection mConnection_ = ServiceLocator.GetSqliteConnection(@"..\..\DBA\MPersist_DB.sqlite3");
         //private static DbConnection mConnection_ = ServiceLocator.GetMysqlConnection("piskuric.ca", "miskop_MPersistenceTest", "miskop_michael", "sarpatt06");
+
+        //private static DbConnection mConnection_ = ServiceLocator.GetMysqlConnection("rpm-cvl", "test", "cvl", "cvl");
 
         private static MPFinanceMain mMPFinance_ = null;
         private static Operator mOperator_ = null;
@@ -44,7 +47,7 @@ namespace MPFinance
             Application.Run(mMPFinance_);
         }
 
-        public static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
+        public static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
         {
             if (mMPFinance_ != null)
             {

@@ -35,7 +35,7 @@ namespace MPFinance.Core.Message
 
         public override void Execute(Session session)
         {
-            Response.Categories.FetchByOperator(session, Request.Operator);
+            Response.Categories.FetchByOperator(session, Request.Operator, Request.Page);
         }
     }
 }

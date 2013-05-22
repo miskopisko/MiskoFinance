@@ -1,5 +1,6 @@
 ﻿using MPersist.Core.Enums;
 using System;
+using MPersist.Core.Data;
 
 namespace MPersist.Core.Message.Request
 {
@@ -11,8 +12,7 @@ namespace MPersist.Core.Message.Request
 
         private MessageMode mMessageMode_ = MessageMode.Normal;
         private String mCommand_ = "Execute";
-        private Int32 mPageNo_ = 0;
-        private Int32 mNoRows_ = 20;        
+        private Page mPage_ = new Page();
 
         #endregion
 
@@ -20,11 +20,9 @@ namespace MPersist.Core.Message.Request
 
         public MessageMode MessageMode { get { return mMessageMode_; } set { mMessageMode_ = value; } }
 
-        public Int32 PageNo { get { return mPageNo_; } set { mPageNo_ = value; } }
-
-        public Int32 NoRows { get { return mNoRows_; } set { mNoRows_ = value; } }
-
         public String Command { get { return mCommand_; } set { mCommand_ = value; } }
+
+        public Page Page { get { return mPage_; } set { mPage_ = value; } }        
 
         #endregion
 

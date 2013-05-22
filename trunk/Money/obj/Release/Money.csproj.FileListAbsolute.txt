@@ -1,2 +1,0 @@
-C:\Users\Michael\Downloads\MoneyType\Money\src\Money\bin\Release\Money.dll
-C:\Users\Michael\Downloads\MoneyType\Money\src\Money\obj\Release\Money.dll

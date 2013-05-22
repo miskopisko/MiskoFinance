@@ -98,7 +98,8 @@ namespace MPersist.Core.Persistences
                 }
                 else if (item is Money)
                 {
-                    param.Value = (Money)item;
+                    param.DbType = DbType.Decimal;
+                    param.Value = ((Money)item).ToDecimal(null);
                     command_.Parameters.Add(param);
                 }
                 else

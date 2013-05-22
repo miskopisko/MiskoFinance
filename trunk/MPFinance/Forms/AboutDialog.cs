@@ -8,9 +8,9 @@ using System.Windows.Forms;
 
 namespace MPFinance.Forms
 {
-    partial class About : Form
+    partial class AboutDialog : Form
     {
-        public About()
+        public AboutDialog()
         {
             InitializeComponent();
             this.Text = String.Format("About {0}", AssemblyTitle);

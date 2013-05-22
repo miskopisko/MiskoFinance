@@ -1,8 +1,8 @@
-using MPersist.Core.Attributes;
-using MPersist.Core.Enums;
 using System;
 using System.ComponentModel;
 using System.Reflection;
+using MPersist.Core.Attributes;
+using MPersist.Core.Enums;
 
 namespace MPersist.Core.Data
 {

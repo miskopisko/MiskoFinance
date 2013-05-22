@@ -54,10 +54,14 @@ namespace MPersist.Core
                 ((Form)IOController).Invoke(new MethodInvoker(delegate { IOController.MessageReceived(Strings.strPorcessing); }));
             }
 
+            Thread.Sleep(1000);
+
             if (response != null && mDataRequestor_ is Control)
             {
                 ((Control)mDataRequestor_).Invoke(new MethodInvoker(delegate { mDataRequestor_.ResponseRecieved(response); }));
             }
+
+            Thread.Sleep(1000);
 
             if (IOController != null && IOController is Form)
             {
@@ -74,6 +78,8 @@ namespace MPersist.Core
                 ((Form)IOController).Invoke(new MethodInvoker(delegate { IOController.MessageSent(Strings.strMessageSent); }));
             }
 
+            Thread.Sleep(1000);
+
             Thread ProcessMessage = new Thread(processor.Start);
             ProcessMessage.Start();
 
@@ -89,6 +95,8 @@ namespace MPersist.Core
             Boolean ResendMessage = false;
             Session session = new Session(Connection);
             session.MessageMode = mRequest_.MessageMode;
+
+            Thread.Sleep(1000);
 
             do
             {

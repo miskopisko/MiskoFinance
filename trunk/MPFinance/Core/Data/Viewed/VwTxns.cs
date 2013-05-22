@@ -38,7 +38,7 @@ namespace MPFinance.Core.Data.Viewed
 
         #region Public Methods
 
-        public void Fetch(Session session, Int32 PageNo, Int32 NoRows, Operator op, Account account, DateTime? from, DateTime? to)
+        public void Fetch(Session session, Page page, Operator op, Account account, DateTime? from, DateTime? to)
         {
             Persistence p = Persistence.GetInstance(session);
             p.SetSql("SELECT * FROM VwTxn");
@@ -47,12 +47,7 @@ namespace MPFinance.Core.Data.Viewed
             p.SqlWhere(from.HasValue, "DatePosted >= ?", new Object[] { from });
             p.SqlWhere(to.HasValue, "DatePosted <= ?", new Object[] { to });
             p.ExecuteQuery();
-
-            while (p.HasNext)
-            {
-                Add(new VwTxn(session, p));
-            }
-
+            set(session, p, page);
             p.Close();
             p = null;
         } 

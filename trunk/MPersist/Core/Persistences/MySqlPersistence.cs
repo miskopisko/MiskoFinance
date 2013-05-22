@@ -5,6 +5,7 @@ using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 
 namespace MPersist.Core.Persistences
 {
@@ -97,7 +98,8 @@ namespace MPersist.Core.Persistences
                 }
                 else if (item is Money)
                 {
-                    param.Value = (Money)item;
+                    param.DbType = DbType.Decimal;
+                    param.Value = ((Money)item).ToDecimal(null);
                     command_.Parameters.Add(param);
                 }
                 else

@@ -483,7 +483,12 @@ namespace System
             return true;
         }
 
-        public Money Round(RoundingPlaces places, MidpointRoundingRule rounding = MidpointRoundingRule.ToEven)
+        public Money Round(RoundingPlaces places)
+        {
+            return Round(places, MidpointRoundingRule.ToEven);
+        }
+
+        public Money Round(RoundingPlaces places, MidpointRoundingRule rounding)
         {
             Money remainder;
             return Round(places, rounding, out remainder);

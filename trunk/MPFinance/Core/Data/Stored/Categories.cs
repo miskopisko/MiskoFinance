@@ -37,11 +37,11 @@ namespace MPFinance.Core.Data.Stored
 
         #region Public Methods
 
-        public void FetchByOperator(Session session, Operator o)
+        public void FetchByOperator(Session session, Operator o, Page page)
         {
             Persistence p = Persistence.GetInstance(session);
             p.ExecuteQuery("SELECT * FROM Category WHERE Operator = ?", new Object[] { o.Id });
-            set(session, typeof(Category), p);
+            set(session, p, page);
             p.Close();
             p = null;
         }
