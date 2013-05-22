@@ -1,8 +1,11 @@
-using System;
 using MPersist.Core;
 using MPersist.Core.Attributes;
 using MPersist.Core.Data;
-using MPFinance.Resources.Enums;
+using MPersist.Core.Enums;
+using MPFinance.Core.Enums;
+using MPFinance.Resources;
+using System;
+using System.Reflection;
 
 namespace MPFinance.Core.Data.Stored
 {
@@ -19,21 +22,29 @@ namespace MPFinance.Core.Data.Stored
         #region Properties
 
         [Stored]
-        public User User { get; set; }
+        public Operator Operator { get; set; }
         [Stored]
         public AccountType AccountType { get; set; }
         [Stored]
         public String BankNumber { get; set; }
         [Stored]
         public String AccountNumber { get; set; }
-
-        public Transactions Transactions { get; set; }
+        [Stored]
+        public String Nickname { get; set; }
+        [Stored]
+        public Money OpeningBalance { get; set; }
 
         #endregion
 
         #region Constructors
 
+        public Account()
+        {
+        }
 
+        public Account(Session session, Persistence persistence) : base(session, persistence)
+        {
+        }
 
         #endregion
 
@@ -45,40 +56,57 @@ namespace MPFinance.Core.Data.Stored
 
         #region Public Methods
 
-        public Transactions GetTransactions(Session session)
+        public override string ToString()
         {
-            Transactions = new Transactions();
-
-            Persistence p = Persistence.GetInstance(session);
-            p.ExecuteQuery("SELECT * FROM 'Transaction' WHERE Account = ?", new Object[] { Id });
-            if(p.HasNext)
-            {
-                Transactions.set(session, typeof(Transaction), p);
-            }
-            p.close();
-            p = null;
-
-            return Transactions;
+            return AccountType.ToString() + " " + AccountNumber;
         }
 
-        public static Account GetInstanceByComposite(Session session, User user, AccountType type, String bankNo, String accountNo)
+        public static Account GetInstanceByComposite(Session session, Operator op, AccountType type, String bankNo, String accountNo)
         {
             Account result = new Account();
 
             String sql = "SELECT * " +
                          "FROM   Account A " + 
-                         "WHERE  A.User = ? " +
+                         "WHERE  A.Operator = ? " +
                          "AND    A.AccountType = ? " +
                          "AND    A.BankNumber = ? " + 
                          "AND    A.AccountNumber = ?";
 
             Persistence p = Persistence.GetInstance(session);
-            p.ExecuteQuery(sql, new Object[] { user.Id, type, bankNo, accountNo });
+            p.ExecuteQuery(sql, new Object[] { op, type, bankNo, accountNo });
             result.set(session, p);
-            p.close();
+            p.Close();
             p = null;
 
             return result;
+        }
+
+        public void Validate(Session session)
+        {
+            if (String.IsNullOrEmpty(BankNumber))
+            {
+                session.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, ErrorStrings.errBankNameMandatory);
+            }
+
+            if (String.IsNullOrEmpty(AccountNumber))
+            {
+                session.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, ErrorStrings.errAccountNumberMandatory);
+            }
+
+            if (AccountType == null || AccountType.Equals(AccountType.NULL))
+            {
+                session.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, ErrorStrings.errAccountTypeMandatory);
+            }
+
+            if (String.IsNullOrEmpty(Nickname))
+            {
+                session.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, ErrorStrings.errNicknameMandatory);
+            }
+
+            if (OpeningBalance == null)
+            {
+                session.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, ErrorStrings.errOpeningBalance);
+            }
         }
 
         #endregion

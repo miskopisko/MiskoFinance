@@ -37,12 +37,15 @@ namespace MPFinance.Core.Data.Stored
 
         #region Public Methods
 
-        public void fetchByUser(Session session, User user)
+        public void FetchByOperator(Session session, Operator op)
         {
             Persistence p = Persistence.GetInstance(session);
-            p.ExecuteQuery("SELECT * FROM Account WHERE User = ?", new Object[] { user.Id });
-            set(session, BaseType, p);
-            p.close();
+            p.ExecuteQuery("SELECT * FROM Account WHERE Operator = ?", new Object[] { op });
+            while (p.HasNext)
+            {
+                Add(new Account(session, p));
+            }
+            p.Close();
             p = null;
         }
 

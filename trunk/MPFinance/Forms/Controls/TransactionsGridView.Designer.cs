@@ -2,12 +2,12 @@
 {
     partial class TransactionsGridView
     {
-        /// <summary>
+        /// <summary> 
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
+        /// <summary> 
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
@@ -22,13 +22,12 @@
 
         #region Component Designer generated code
 
-        /// <summary>
+        /// <summary> 
         /// Required method for Designer support - do not modify 
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             this.SuspendLayout();
             // 
@@ -38,14 +37,14 @@
             this.AllowUserToDeleteRows = false;
             this.AllowUserToResizeColumns = false;
             this.AllowUserToResizeRows = false;
+            this.Dock = System.Windows.Forms.DockStyle.Fill;
             this.RowHeadersVisible = false;
-            this.Click += new System.EventHandler(this.TransactionsGridView_Click);
+            this.VirtualMode = true;
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
     }
 }

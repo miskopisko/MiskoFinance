@@ -1,9 +1,10 @@
+using MPersist.Core;
+using MPFinance.Core.Data.Stored;
+using MPFinance.Core.Data.Viewed;
+using MPFinance.Core.Enums;
 using System;
 using System.IO;
 using System.Text.RegularExpressions;
-using MPersist.Core;
-using MPFinance.Resources.Enums;
-using MPFinance.Core.Data.Stored;
 
 namespace MPFinance.Core.OFX
 {
@@ -27,7 +28,7 @@ namespace MPFinance.Core.OFX
 
         #region Properties
 
-        public Transactions Transactions { get; set; }
+        public VwTxns Transactions { get; set; }
         public AccountType AccountType { get; set; }
         public String AccountID { get; set; }
         public String BankID { get; set; }
@@ -118,29 +119,45 @@ namespace MPFinance.Core.OFX
 
         private void FillTransactions(String banktranlist)
         {
-            Transactions = new Core.Data.Stored.Transactions();
+            Transactions = new VwTxns();
             MatchCollection m = Regex.Matches(banktranlist, @"<stmttrn>.+?<\/stmttrn>", RegexOptions.Multiline | RegexOptions.IgnoreCase);
             foreach (Match match in m)
             {
                 foreach (Capture capture in match.Captures)
                 {
-                    Transaction trans = new Transaction();
-                    if (Regex.Match(capture.Value, @"(?<=<trntype>).+?(?=<)", RegexOptions.Multiline | RegexOptions.IgnoreCase).Value.ToLower().Equals("credit"))
-                        trans.Type = TransactionType.Credit;
-                    if (Regex.Match(capture.Value, @"(?<=<trntype>).+?(?=<)", RegexOptions.Multiline | RegexOptions.IgnoreCase).Value.ToLower().Equals("debit"))
-                        trans.Type = TransactionType.Debit;
-                    if (Regex.Match(capture.Value, @"(?<=<trntype>).+?(?=<)", RegexOptions.Multiline | RegexOptions.IgnoreCase).Value.ToLower().Equals("srvchg"))
-                        trans.Type = TransactionType.Debit;
+                    VwTxn txn = new VwTxn();                   
 
-                    trans.CheckNum = Regex.Match(capture.Value, @"(?<=<checknum>).+?(?=<)", RegexOptions.Multiline | RegexOptions.IgnoreCase).Value;
                     String dt = Regex.Match(capture.Value, @"(?<=<dtposted>).+?(?=<)", RegexOptions.Multiline | RegexOptions.IgnoreCase).Value;
-                    String amt = Regex.Match(capture.Value, @"(?<=<trnamt>).+?(?=<)", RegexOptions.Multiline | RegexOptions.IgnoreCase).Value;
-                    trans.DatePosted = DateTime.ParseExact(dt.Substring(0, 8), "yyyyMMdd", null);
-                    trans.Amount = new Money(Math.Abs(Decimal.Parse(amt)));
-                    trans.FITID = Regex.Match(capture.Value, @"(?<=<fitid>).+?(?=<)", RegexOptions.Multiline | RegexOptions.IgnoreCase).Value;
-                    trans.Name = Regex.Match(capture.Value, @"(?<=<name>).+?(?=<)", RegexOptions.Multiline | RegexOptions.IgnoreCase).Value;
-                    trans.Memo = Regex.Match(capture.Value, @"(?<=<memo>).+?(?=<)", RegexOptions.Multiline | RegexOptions.IgnoreCase).Value;
-                    Transactions.Add(trans);
+                    String amt = Regex.Match(capture.Value, @"(?<=<trnamt>).+?(?=<)", RegexOptions.Multiline | RegexOptions.IgnoreCase).Value;                    
+                    String name = Regex.Match(capture.Value, @"(?<=<name>).+?(?=<)", RegexOptions.Multiline | RegexOptions.IgnoreCase).Value;
+                    String memo = Regex.Match(capture.Value, @"(?<=<memo>).+?(?=<)", RegexOptions.Multiline | RegexOptions.IgnoreCase).Value;
+                    
+                    txn.Amount = new Money(Math.Abs(Decimal.Parse(amt)));
+                    txn.Description = (name + " " + memo).Trim();
+                    txn.DatePosted = DateTime.ParseExact(dt.Substring(0, 8), "yyyyMMdd", null);
+
+                    if (Regex.Match(capture.Value, @"(?<=<trntype>).+?(?=<)", RegexOptions.Multiline | RegexOptions.IgnoreCase).Value.ToLower().Equals("credit"))
+                    {
+                        txn.TxnType = TxnType.Credit;
+                        txn.Credit = txn.Amount;
+                    }
+                    if (Regex.Match(capture.Value, @"(?<=<trntype>).+?(?=<)", RegexOptions.Multiline | RegexOptions.IgnoreCase).Value.ToLower().Equals("debit"))
+                    {
+                        txn.TxnType = TxnType.Debit;
+                        txn.Debit = txn.Amount;
+                    }
+                    if (Regex.Match(capture.Value, @"(?<=<trntype>).+?(?=<)", RegexOptions.Multiline | RegexOptions.IgnoreCase).Value.ToLower().Equals("srvchg"))
+                    {
+                        txn.TxnType = TxnType.Debit;
+                        txn.Debit = txn.Amount;
+                    }
+                    if (Regex.Match(capture.Value, @"(?<=<trntype>).+?(?=<)", RegexOptions.Multiline | RegexOptions.IgnoreCase).Value.ToLower().Equals("check"))
+                    {
+                        txn.TxnType = TxnType.Debit;
+                        txn.Debit = txn.Amount;
+                    }
+
+                    Transactions.Add(txn);
                 }
             }
         }

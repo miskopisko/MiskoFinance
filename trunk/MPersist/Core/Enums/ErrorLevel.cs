@@ -7,14 +7,15 @@ namespace MPersist.Core.Enums
         #region Variable Declarations
 
         private static readonly ErrorLevel mNULL_ = new ErrorLevel(-1, "", "");
-        private static readonly ErrorLevel mCritical_ = new ErrorLevel(-1, "", "Critical");
-        private static readonly ErrorLevel mWarning_ = new ErrorLevel(0, "", "Warning");
-        private static readonly ErrorLevel mTechnical_ = new ErrorLevel(1, "", "Technical");
-        private static readonly ErrorLevel mTimeout_ = new ErrorLevel(2, "", "Timeout");
+        private static readonly ErrorLevel mSuccess_ = new ErrorLevel(0, "", "Success");
+        private static readonly ErrorLevel mInfo_ = new ErrorLevel(1, "", "Information");
+        private static readonly ErrorLevel mWarning_ = new ErrorLevel(2, "", "Warning");
+        private static readonly ErrorLevel mConfirmation_ = new ErrorLevel(3, "", "Confirmation");
+        private static readonly ErrorLevel mError_ = new ErrorLevel(4, "", "Error");
 
         private static readonly ErrorLevel[] mElements_ = new[]
 		{
-		    mNULL_, mCritical_, mWarning_,mTechnical_, mTimeout_
+		    mNULL_, mSuccess_, mInfo_, mWarning_,mConfirmation_, mError_
 		};
 
         #endregion
@@ -23,10 +24,11 @@ namespace MPersist.Core.Enums
 
         public static ErrorLevel[] Elements { get { return mElements_; } }
         public static ErrorLevel NULL { get { return mNULL_; } }
-        public static ErrorLevel Critical { get { return mCritical_; } }
+        public static ErrorLevel Success { get { return mSuccess_; } }
+        public static ErrorLevel Info { get { return mInfo_; } }
         public static ErrorLevel Warning { get { return mWarning_; } }
-        public static ErrorLevel Technical { get { return mTechnical_; } }
-        public static ErrorLevel Timeout { get { return mTimeout_; } }
+        public static ErrorLevel Confirmation { get { return mConfirmation_; } }
+        public static ErrorLevel Error { get { return mError_; } }        
 
         #endregion
 
@@ -58,6 +60,11 @@ namespace MPersist.Core.Enums
             }
 
             return null;
+        }
+
+        public Boolean IsCommitable()
+        {
+            return this == Success || this == Warning || this == Info;
         }
     }
 }

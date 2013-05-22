@@ -1,8 +1,8 @@
-using System;
-using System.Reflection;
-using System.ComponentModel;
 using MPersist.Core.Attributes;
 using MPersist.Core.Enums;
+using System;
+using System.ComponentModel;
+using System.Reflection;
 
 namespace MPersist.Core.Data
 {
@@ -145,6 +145,10 @@ namespace MPersist.Core.Data
                         {
                             property.SetValue(this, new Guid(persistence.GetString(property.Name)));
                         }
+                        else if (property.PropertyType == typeof(Money))
+                        {
+                            property.SetValue(this, persistence.GetMoney(property.Name));
+                        }
                         else if (property.PropertyType.IsGenericType) // Leave this out for now
                         {
                             //Object list = Activator.CreateInstance(property.PropertyType.MakeGenericType(property.PropertyType.GetGenericArguments()));
@@ -157,7 +161,7 @@ namespace MPersist.Core.Data
                         ((AbstractStoredData)this).IsSet = true;
                         if (deep)
                         {
-                            ((AbstractStoredData)this).fetchDeep(session);
+                            ((AbstractStoredData)this).FetchDeep(session);
                         }
                     }
                 }

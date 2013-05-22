@@ -1,11 +1,11 @@
+using MPersist.Core.Attributes;
+using MPersist.Core.Data;
+using MPersist.Core.Enums;
+using Oracle.DataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using MPersist.Core.Attributes;
-using MPersist.Core.Data;
-using Oracle.DataAccess.Client;
-using MPersist.Core.Enums;
 
 namespace MPersist.Core.Persistences
 {
@@ -98,6 +98,7 @@ namespace MPersist.Core.Persistences
                 }
                 else if(item is Money)
                 {
+                    param.DbType = DbType.Decimal;
                     param.Value = ((Money)item).ToDecimal(null);
                     command_.Parameters.Add(param);
                 }
