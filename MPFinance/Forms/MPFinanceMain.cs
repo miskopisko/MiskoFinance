@@ -1,43 +1,74 @@
 ﻿using MPersist.Core;
+using MPersist.Core.Interfaces;
+using MPersist.Core.Message.Response;
+using MPFinance.Core.Data.Stored;
+using MPFinance.Core.Message.Requests;
+using MPFinance.Core.Message.Responses;
 using MPFinance.Core.OFX;
+using MPFinance.Resources;
 using System;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Windows.Forms;
-using MPFinance.Core.Data.Stored;
-using System.Reflection;
-using MPersist.Core.Enums;
-using MPFinance.Core.Data.Viewed;
 
 namespace MPFinance.Forms
 {
-    public partial class MPFinanceMain : Form
-    {
-        private readonly Session session;
-        private readonly User user;
+    public partial class MPFinanceMain : Form, IOController, IDataRequestor
+    {   
+        private static Logger Log = Logger.GetInstance(typeof(MPFinanceMain));
 
-        public MPFinanceMain(Session s, User u)
+        public Categories UserCategories { get; set; }
+
+        public MPFinanceMain()
         {
-            session = s;
-            user = u;
+            InitializeComponent();
+            transactionsGridView.FillColumns();
 
-            InitializeComponent();            
+            transactionsGridView.TxnUpdated += transactionsGridView_TxnUpdated;
 
-            AccountHeader.Text = user.LastName + ", " + user.FirstName;
-
-            Accounts accounts = new Accounts();
-            accounts.fetchByUser(session, user);
-
-            foreach (Account a in accounts)
-            {
-                AccountsView.Nodes[0].Nodes.Add(a.Id.ToString(), a.AccountType.ToString());
-            }
-
-            AccountsView.ExpandAll();
+            FromDatePicker.Value = new DateTime(DateTime.Now.Year, 1, 1); // Jan 1 of current year
+            ToDatePicker.Value = DateTime.Now;
         }
-        
-        private void MPFinanceMain_Load(object sender, EventArgs e)
-        {
 
+        #region Local Private Methods
+
+        private void FetchTxns()
+        {
+            // Feth all txns as per the search criteria
+            GetTxnsRQ findTxns = new GetTxnsRQ();
+            findTxns.Operator = Program.Operator;
+            findTxns.Account = (Account)AccountsList.SelectedNode.Tag;
+            findTxns.FromDate = FromDatePicker.Value;
+            findTxns.ToDate = ToDatePicker.Value;
+            MessageProcessor.SendRequest(findTxns, this);
+        }
+
+        private void FetchSummary()
+        {
+            // Fetch the summary as per the selection criteris
+            GetSummaryRQ request = new GetSummaryRQ();
+            request.Operator = Program.Operator;
+            request.Account = (Account)AccountsList.SelectedNode.Tag;
+            request.FromDate = FromDatePicker.Value;
+            request.ToDate = ToDatePicker.Value;
+            MessageProcessor.SendRequest(request, this);   
+        }
+
+        private void FetchAccounts()
+        {
+            // Reload the Accounts tree
+            GetAccountsRQ findAccounts = new GetAccountsRQ();
+            findAccounts.Operator = Program.Operator;
+            MessageProcessor.SendRequest(findAccounts, this);
+        }
+
+        #endregion
+
+        #region Event Listenners
+
+        private void transactionsGridView_TxnUpdated()
+        {
+            FetchSummary();
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -47,51 +78,136 @@ namespace MPFinance.Forms
 
         private void AccountsView_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            if(!e.Node.Name.Equals("Accounts", StringComparison.OrdinalIgnoreCase))
-            {
-                Account account = new Account();
-                account.fetchById(session, Convert.ToInt64(e.Node.Name));
+            FetchTxns();
+        }
 
-                transactionsGridView.SetDataSource(VwTransactions.fetchAllByAccount(session, account));
+        private void txnSearch_Click(object sender, EventArgs e)
+        {
+            FetchTxns();
+        }
+
+        private void oFXFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Show the file chooser
+            if (openFileDialog.ShowDialog(this).Equals(DialogResult.OK))
+            {
+                // Show the new txns dialog
+                new ImportNewTransactionsDialog(new OfxDocument(new FileStream(openFileDialog.FileName, FileMode.Open))).ShowDialog(this);
+
+                FetchAccounts();
             }
         }
 
-        private void ImportTxns_Click(object sender, EventArgs e)
+        private void accountsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(openFileDialog.ShowDialog().Equals(DialogResult.OK))
+            // Show the edit account dialog
+            new EditAccounts().ShowDialog(this);
+
+            // reload the accounts tree
+            FetchAccounts();
+
+            // Reload the summary section
+            FetchSummary();
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Show the about dialog
+            new About().ShowDialog(this);
+        }
+
+        #endregion
+
+        #region Overridden Methods
+
+        protected override void OnLoad(EventArgs e)
+        {
+            GetOperatorRQ findUser = new GetOperatorRQ();
+            findUser.Username = "miskopisko";
+            MessageProcessor.SendRequest(findUser, this);
+        }
+
+        #endregion
+
+        #region IOController Implementation Methods
+
+        public DialogResult Error(ErrorMessage message)
+        {
+            return MessageBox.Show(this, message.ToString(), Strings.strError, MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        public DialogResult Confirm(ErrorMessage message)
+        {
+            return MessageBox.Show(this, message.ToString(), Strings.strConfirm, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+        }
+
+        public DialogResult Warning(ErrorMessage message)
+        {
+            return MessageBox.Show(this, message.ToString(), Strings.strWarning, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+
+        public DialogResult Info(ErrorMessage message)
+        {
+            return MessageBox.Show(this, message.ToString(), Strings.strInfo, MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        public void MessageReceived(String message)
+        {
+            //messageStatusLbl.Text = message;
+            //messageStatusBar.Increment(-10);
+        }
+
+        public void MessageSent(String message)
+        {
+            //messageStatusLbl.Text = message;
+            //messageStatusBar.Increment(10);
+        }
+
+        public void ResponseRecieved(AbstractResponse response)
+        {
+            if (!response.HasErrors)
             {
-                OfxDocument document = new OfxDocument(new FileStream(openFileDialog.FileName, FileMode.Open));
-
-                Account account = Account.GetInstanceByComposite(session, user, document.AccountType, document.BankID, document.AccountID);
-
-                if (!account.IsSet)
+                if (response is GetOperatorRS)
                 {
-                    account.AccountNumber = document.AccountID;
-                    account.AccountType = document.AccountType;
-                    account.BankNumber = document.BankID;
-                    account.User = user;
-                    account.IsSet = true;
-                    account.Save(session);              
+                    Program.Operator = ((GetOperatorRS)response).Operator;
+                    headerLbl.Text = Program.Operator.LastName + ", " + Program.Operator.FirstName;
 
-                    session.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Warning, "New account added");
+                    GetAccountsRQ findAccounts = new GetAccountsRQ();
+                    findAccounts.Operator = Program.Operator;
+                    MessageProcessor.SendRequest(findAccounts, this);
+
+                    GetCategoriesRQ getCategories = new GetCategoriesRQ();
+                    getCategories.Operator = Program.Operator;
+                    MessageProcessor.SendRequest(getCategories, this);
                 }
-
-                foreach (Transaction txn in document.Transactions)
+                else if (response is GetAccountsRS)
                 {
-                    txn.Account = account;
+                    AccountsList.Nodes["Accounts"].Nodes.Clear();
+
+                    foreach (Account a in ((GetAccountsRS)response).Accounts)
+                    {
+                        AccountsList.Nodes["Accounts"].Nodes.Add(a.Id.ToString(), a.Nickname).Tag = a;
+                    }
+
+                    AccountsList.ExpandAll();
+                    AccountsList.SelectedNode = AccountsList.Nodes["Accounts"];
                 }
-
-                document.Transactions.Save(session);
-
-                transactionsGridView.DataSource = VwTransactions.fetchAllByAccount(session, account);
-
-                int i = 1;
-            }            
+                else if (response is GetTxnsRS)
+                {
+                    transactionsGridView.DataSource = ((GetTxnsRS)response).Txns;
+                    summaryPanel.Update(((GetTxnsRS)response).Summary);
+                }
+                else if (response is GetSummaryRS)
+                {
+                    summaryPanel.Update(((GetSummaryRS)response).Summary);
+                }
+                else if (response is GetCategoriesRS)
+                {
+                    UserCategories = ((GetCategoriesRS)response).Categories;
+                }
+            }
         }
 
-        private void vwTransactionsBindingSource_CurrentChanged(object sender, EventArgs e)
-        {
-
-        }
+        #endregion
     }
 }

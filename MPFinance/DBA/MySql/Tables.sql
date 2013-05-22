@@ -5,68 +5,67 @@ DROP TABLE IF EXISTS Operator;
 CREATE TABLE Operator
 (
     Id          int(10) NOT NULL AUTO_INCREMENT,
-	Username    varchar(128),
-	Password    varchar(128),
-	Client		int(10),
+	Username    varchar(128) NOT NULL,
+	Password	varchar(32) NOT NULL,
+	FirstName	varchar(128),
+	LastName	varchar(128),
+	Email		varchar(128),
+	Birthday	datetime,
+	Gender		int(3),
 	DtCreated   datetime NOT NULL,
 	DtModified  datetime NOT NULL,
 	RowVer      int(10) NOT NULL,
 	PRIMARY KEY (Id)
-);
-ALTER TABLE Operator AUTO_INCREMENT = 1000001;
-
--- Client - A client is an entity that owns accounts
-DROP TABLE IF EXISTS Client;
-CREATE TABLE Client
-( 
-    Id			  int(10) NOT NULL AUTO_INCREMENT,
-	FirstName	  varchar(128),
-	LastName	  varchar(128),
-	Email		  varchar(128),
-	Birthday	  datetime,
-	Gender		  int(3),
-    DtCreated     datetime NOT NULL,
-    DtModified    datetime NOT NULL,
-    RowVer		  int(10) NOT NULL,
-	PRIMARY KEY (Id)
-);
-ALTER TABLE Client AUTO_INCREMENT = 1000001;
+) ENGINE=InnoDB AUTO_INCREMENT = 1000001;
 
 -- Account - An account belongs to a client and contains transactions
 DROP TABLE IF EXISTS Account;
 CREATE TABLE Account
 ( 
     Id				int(10) NOT NULL AUTO_INCREMENT,
-	Client			int(10),
+	Operator		int(10),
 	AccountType		int(3),
 	BankNumber		varchar(128),
 	AccountNumber	varchar(128),
+	Nickname		varchar(128),
+	OpeningBalance	numeric(19,4),
     DtCreated		datetime NOT NULL,
     DtModified		datetime NOT NULL,
     RowVer			int(10) NOT NULL,
 	PRIMARY KEY (Id)
-);
-ALTER TABLE Account AUTO_INCREMENT = 1000001;
+) ENGINE=InnoDB AUTO_INCREMENT = 1000001;
 
 -- Transaction - Used to store transactions
-DROP TABLE IF EXISTS Transaction;
-CREATE TABLE Transaction
+DROP TABLE IF EXISTS Txn;
+CREATE TABLE Txn
 ( 
     Id			  int(10) NOT NULL AUTO_INCREMENT,
 	Account		  int(10) NOT NULL,
-    Type		  int(3) NOT NULL,
+    TxnType		  int(3) NOT NULL,
 	DatePosted	  datetime NOT NULL,
-	Amount		  double NOT NULL,
-	FITID		  varchar(128) NOT NULL,
-	Name		  varchar(128) NULL,
-	Memo		  varchar(128) NULL,
-	CheckNum	  varchar(128) NULL,
+	Amount		  numeric(19,4) NOT NULL,
+	Description	  varchar(128) NULL,
+	Category	  int(10) NULL,
+	HashCode	  varchar(32) NOT NULL,
     DtCreated     datetime NOT NULL,
     DtModified    datetime NOT NULL,
     RowVer		  int(10) NOT NULL,
 	PRIMARY KEY (Id)
-);
-ALTER TABLE Transaction AUTO_INCREMENT = 1000001;
+) ENGINE=InnoDB AUTO_INCREMENT = 1000001;
+
+-- Category - The transaction category user defined
+DROP TABLE IF EXISTS Category;
+CREATE TABLE Category
+( 
+    Id			  int(10) NOT NULL AUTO_INCREMENT,
+	Operator	  int(10) NOT NULL,
+	Name		  varchar(128) NOT NULL,
+	CategoryType  int(3) NOT NULL,
+    DtCreated     datetime NOT NULL,
+    DtModified    datetime NOT NULL,
+    RowVer		  int(10) NOT NULL,
+	PRIMARY KEY (Id)
+) ENGINE=InnoDB AUTO_INCREMENT = 1000001;
 
 /*
 -- XXX - Default table template
@@ -78,6 +77,5 @@ CREATE TABLE XXX
     DtModified    datetime NOT NULL,
     RowVer		  int(10) NOT NULL,
 	PRIMARY KEY (Id)
-);
-ALTER TABLE XXX AUTO_INCREMENT = 1000001;
+) ENGINE=InnoDB AUTO_INCREMENT = 1000001;
 */

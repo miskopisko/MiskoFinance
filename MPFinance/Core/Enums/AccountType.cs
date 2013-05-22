@@ -1,7 +1,7 @@
 using MPersist.Core.Enums;
 using System;
 
-namespace MPFinance.Resources.Enums
+namespace MPFinance.Core.Enums
 {
     public class AccountType : AbstractEnum
     {
@@ -12,10 +12,11 @@ namespace MPFinance.Resources.Enums
         private static readonly AccountType mSavings_ = new AccountType(1, "SAVINGS", "Savings");
         private static readonly AccountType mMoneyMarket_ = new AccountType(2, "MONEYMRKT", "Money Market");
         private static readonly AccountType mLineOfCredit_ = new AccountType(3, "CREDITLINE", "Line of Credit");
+        private static readonly AccountType mCreditCard_ = new AccountType(4, "CREDITCARD", "Credit Card");
 
         private static readonly AccountType[] mElements_ = new[]
 		{
-		    mNULL_, mChecking_, mSavings_, mMoneyMarket_, mLineOfCredit_
+		    mNULL_, mChecking_, mSavings_, mMoneyMarket_, mLineOfCredit_, mCreditCard_
 		};
 
         #endregion
@@ -28,6 +29,7 @@ namespace MPFinance.Resources.Enums
         public static AccountType Savings { get { return mSavings_; } }
         public static AccountType MoneyMarket { get { return mMoneyMarket_; } }
         public static AccountType LineOfCredit { get { return mLineOfCredit_; } }
+        public static AccountType CreditCard { get { return mCreditCard_; } }
 
         #endregion
 

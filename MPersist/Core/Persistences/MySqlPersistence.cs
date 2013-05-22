@@ -1,10 +1,10 @@
+using MPersist.Core.Attributes;
+using MPersist.Core.Data;
+using MPersist.Core.Enums;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using MPersist.Core.Attributes;
-using MPersist.Core.Data;
-using MySql.Data.MySqlClient;
-using MPersist.Core.Enums;
 
 namespace MPersist.Core.Persistences
 {
@@ -52,7 +52,7 @@ namespace MPersist.Core.Persistences
             }
 
             position = 0;
-            foreach (Object  item in values)
+            foreach (Object item in values)
             {
                 MySqlParameter param = new MySqlParameter();
                 param.ParameterName = "@param" + position;
@@ -97,7 +97,7 @@ namespace MPersist.Core.Persistences
                 }
                 else if (item is Money)
                 {
-                    param.Value = ((Money)item).ToDecimal(null);
+                    param.Value = (Money)item;
                     command_.Parameters.Add(param);
                 }
                 else

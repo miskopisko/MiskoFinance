@@ -1,23 +1,29 @@
-﻿using System;
+﻿using MPersist.Core.Data;
+using MPersist.Core.Enums;
+using MPersist.Core.Persistences;
+using MPersist.Core.Resources;
+using MySql.Data.MySqlClient;
+using Oracle.DataAccess.Client;
+using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Data.SQLite;
 using System.Reflection;
-using MPersist.Core.Data;
-using MPersist.Core.Persistences;
-using MySql.Data.MySqlClient;
-using Oracle.DataAccess.Client;
-using MPersist.Core.Enums;
 
 namespace MPersist.Core
 {
     public abstract class Persistence
     {
+        private static Logger Log = Logger.GetInstance(typeof(Persistence));
+
         #region Variable Declarations
 
         protected Session session_ = null;
         protected DataTable rs_ = new DataTable();
         protected DbCommand command_ = null;
+        protected String sql_ = "";
+        protected List<Object> parameters_ = new List<Object>();
         
         private DataRow result_;
         private Int32 currentResult_ = 0;
@@ -53,25 +59,26 @@ namespace MPersist.Core
 
         public static Persistence GetInstance(Session session)
         {
-            if(session.SessionType.Equals(SqlSessionType.Oracle))
+            if(session.Connection is OracleConnection)
             {
                 return new OraclePersistence(session);
             }
-            else if(session.SessionType.Equals(SqlSessionType.MySql))
+            else if(session.Connection is MySqlConnection)
             {
                 return new MySqlPersistence(session);
             }
-            else if (session.SessionType.Equals(SqlSessionType.Sqlite))
+            else if (session.Connection is SQLiteConnection)
             {
                 return new SqlitePersistence(session);
             }
             else
             {
+                session.Error(typeof(Persistence), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, ErrorStrings.errInvalicConnectionType);
                 return null;
             }
         }
 
-        public void close()
+        public void Close()
         {
             try
             {
@@ -149,8 +156,8 @@ namespace MPersist.Core
             }
             catch (Exception e)
             {
-                close();
-                session_.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Critical, e.Message);
+                Close();
+                session_.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, e.Message);
             }
 
             return false;
@@ -183,8 +190,8 @@ namespace MPersist.Core
             }
             catch (Exception e)
             {
-                close();
-                session_.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Critical, e.Message);
+                Close();
+                session_.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, e.Message);
             }
 
             return -1;
@@ -202,11 +209,38 @@ namespace MPersist.Core
             }
             catch (Exception e)
             {
-                close();
-                session_.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Critical, e.Message);
+                Close();
+                session_.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, e.Message);
             }
 
             return false;
+        }
+
+        public bool ExecuteQuery()
+        {
+            if (String.IsNullOrEmpty(sql_))
+            {
+                session_.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, ErrorStrings.errSqlNotSet);
+            }
+
+            return ExecuteQuery(sql_, parameters_.ToArray());            
+        }
+
+        public void SetSql(String sql)
+        {
+            sql_ = sql;
+        }
+
+        public void SqlWhere(bool condition, String expression, Object[] value)
+        {
+            if(condition)
+            {
+                sql_ = sql_ + Environment.NewLine + (!sql_.Contains("WHERE") ? "WHERE " : "AND ") + expression;
+                foreach (Object item in value)
+                {
+                    parameters_.Add(item);
+                }
+            }
         }
 
         public bool ExecuteQuery(String sql)
@@ -242,8 +276,8 @@ namespace MPersist.Core
             }
             catch (Exception e)
             {
-                close();
-                session_.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Critical, e.Message);
+                Close();
+                session_.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, e.Message);
             }
 
             return HasNext;
@@ -392,6 +426,42 @@ namespace MPersist.Core
             return null;
         }
 
+        public Money GetMoney(String key)
+        {
+            Decimal? value = GetDecimal(key);
+
+            if (value.HasValue)
+            {
+                return new Money(value.Value);
+            }
+
+            return null;
+        }
+
+        public Money GetMoney(String key, Money defaultValue)
+        {
+            Decimal? value = GetDecimal(key);
+
+            if (value.HasValue)
+            {
+                return new Money(value.Value);
+            }
+
+            return defaultValue;
+        }
+
+        public Decimal? GetDecimal(String key)
+        {
+            Double? value = GetDouble(key);
+
+            if (value.HasValue)
+            {
+                return Convert.ToDecimal(value);
+            }
+
+            return null;
+        }
+
         public Double? GetDouble(String key)
         {
             Int32 ordinal = rs_.Columns.IndexOf(key);
@@ -400,6 +470,10 @@ namespace MPersist.Core
             if (o == null)
             {
                 return null;
+            }
+            else if (o is Double)
+            {
+                return (Double)o;
             }
             else if (o is Decimal)
             {
@@ -421,17 +495,24 @@ namespace MPersist.Core
 
         public DateTime? GetDate(String key)
         {
-            Int32 ordinal = rs_.Columns.IndexOf(key);
-            Object o = (Object)result_.ItemArray[ordinal];
+            try
+            {
+                Int32 ordinal = rs_.Columns.IndexOf(key);
+                Object o = (Object)result_.ItemArray[ordinal];
 
-            if (o == null)
+                if (o == null)
+                {
+                    return null;
+                }
+                else if (o is DateTime)
+                {
+                    return (DateTime)o;
+                }
+            }
+            catch (Exception)
             {
                 return null;
-            }
-            else if (o is DateTime)
-            {
-                return (DateTime)o;
-            }
+            }            
 
             return null;
         }

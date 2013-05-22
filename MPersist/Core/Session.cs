@@ -1,9 +1,9 @@
-﻿using System;
-using System.Data.Common;
+﻿using MPersist.Core.Enums;
+using MPersist.Core.Resources;
+using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
+using System.Data.Common;
 using System.Reflection;
-using MPersist.Core.Enums;
 
 namespace MPersist.Core
 {
@@ -13,21 +13,17 @@ namespace MPersist.Core
 
         #region Variable Declarations
 
-        private readonly SqlSessionType sessionType_;
         private readonly DbConnection conn_;
         private Boolean transactionInProgress_ = false;
         private List<Persistence> persistencePool_ = new List<Persistence>();
         private DbTransaction transaction_;
-        private bool errorEncountered_ = false;
+        private ErrorMessages errorMessages_ = new ErrorMessages();
+        private ErrorLevel status_ = ErrorLevel.Success;
+        private MessageMode messageMode_ = MessageMode.Normal;
 
         #endregion
 
         #region Properties
-
-        public SqlSessionType SessionType
-        {
-            get { return sessionType_; }
-        }
 
         public DbConnection Connection
         {
@@ -49,19 +45,65 @@ namespace MPersist.Core
             get { return transaction_; }
         }
 
+        public ErrorLevel Status
+        {
+            get { return status_; }
+            set { status_ = value; }
+        }
+
+        public MessageMode MessageMode
+        {
+            get { return messageMode_; }
+            set { messageMode_ = value; }
+        }
+
+        public ErrorMessages ErrorMessages
+        {
+            get { return errorMessages_; }
+        }
+
+        public Boolean HasErrors
+        {
+            get { return Contains(ErrorLevel.Error); }
+        }
+
+        public Boolean HasWarnings
+        {
+            get { return Contains(ErrorLevel.Warning); }
+        }
+
+        public Boolean HasConfirmations
+        {
+            get { return Contains(ErrorLevel.Confirmation); }
+        }
+
+        public ErrorMessages Errors
+        {
+            get { return ListOf(ErrorLevel.Error); }
+        }
+
+        public ErrorMessages Warnings
+        {
+            get { return ListOf(ErrorLevel.Warning); }
+        }
+
+        public ErrorMessages Confirmations
+        {
+            get { return ListOf(ErrorLevel.Confirmation); }
+        }
+
         #endregion
 
-        public Session(SqlSessionType sessionType, DbConnection connection)
+        public Session(DbConnection connection)
         {
-            sessionType_ = sessionType;
             conn_ = connection;
         }
 
         public void BeginTransaction()
         {
-            if (transactionInProgress_)
+            if (transactionInProgress_ || transaction_ != null)
             {
-                Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Critical, "Transaction already in progress.");
+                Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, ErrorStrings.errTransactionAlreadyInProgress);
             }
             else
             {
@@ -72,15 +114,15 @@ namespace MPersist.Core
 
         public void EndTransaction()
         {
-            if (transactionInProgress_)
+            if (TransactionInProgress)
             {
-                if (errorEncountered_)
+                if (!Status.IsCommitable() || MessageMode.Equals(MessageMode.Trial))
                 {
-                    transaction_.Rollback();
+                    Transaction.Rollback();
                 }
                 else
                 {
-                    transaction_.Commit();
+                    Transaction.Commit();
                 }
 
                 transaction_ = null;
@@ -88,22 +130,78 @@ namespace MPersist.Core
             }
         }
 
-        public void Error(Type clazz, MethodBase method, ErrorLevel errorLevel, String errorMessage)
+        public void FlushPersistence()
         {
-            String message = clazz.Name + "." + method.Name + Environment.NewLine + errorMessage;
+            if(persistencePool_.Count > 0)
+            {
+                while(persistencePool_.Count > 0)
+                {
+                    persistencePool_[persistencePool_.Count - 1].Close();
+                }
+            }
+        }
 
-            Log.Error(errorMessage);
+        public void Error(Type clazz, MethodBase method, ErrorLevel errorLevel, String message)
+        {
+            Error(clazz, method, errorLevel, message, null);
+        }
+        
+        public void Error(Type clazz, MethodBase method, ErrorLevel errorLevel, String message, Object[] parameters)
+        {
+            ErrorMessage errorMessage = new ErrorMessage(clazz, method, errorLevel, message, parameters);
 
-            errorEncountered_ = true;
+            if (errorLevel.Equals(ErrorLevel.Confirmation) && ErrorMessages.Contains(errorMessage) && ErrorMessages[ErrorMessages.IndexOf(errorMessage)].Confirmed)
+            {
+                return;
+            }
+
+            if (Status.Value < errorLevel.Value)
+            {
+                status_ = errorLevel;
+            }
+
+            ErrorMessages.Add(errorMessage);
+            Log.Error(errorMessage.Message);
+            errorMessage = null;
 
             if(!errorLevel.Equals(ErrorLevel.Warning))
             {
-                throw new SystemException(message);
+                throw new MPException(new ErrorMessage(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, ErrorStrings.errUnexpectedApplicationErrorShort));
             }
-            else
+        }
+
+        private Boolean Contains(ErrorLevel level)
+        {
+            if (level != null && ErrorMessages != null && ErrorMessages.Count > 0)
             {
-                MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                foreach (ErrorMessage message in ErrorMessages)
+                {
+                    if (message.Level.Equals(level))
+                    {
+                        return true;
+                    }
+                }
             }
+
+            return false;
+        }
+
+        private ErrorMessages ListOf(ErrorLevel level)
+        {
+            ErrorMessages list = new ErrorMessages();
+
+            if (level != null && ErrorMessages != null && ErrorMessages.Count > 0)
+            {
+                foreach (ErrorMessage message in ErrorMessages)
+                {
+                    if (message.Level.Equals(level))
+                    {
+                        list.Add(message);
+                    }
+                }
+            }
+
+            return list;
         }
     }
 }
