@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Reflection;
 using MPersist.Core.Attributes;
 using MPersist.Core.Enums;
+using MPersist.Core.MoneyType;
 
 namespace MPersist.Core.Data
 {

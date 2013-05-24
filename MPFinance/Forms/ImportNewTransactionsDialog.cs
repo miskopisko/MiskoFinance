@@ -15,7 +15,7 @@ using System.Windows.Forms;
 
 namespace MPFinance.Forms
 {
-    public partial class ImportNewTransactionsDialog : Form, IDataRequestor
+    public partial class ImportNewTransactionsDialog : Form
     {
         #region Variable Declarations
 
@@ -86,7 +86,7 @@ namespace MPFinance.Forms
                 AddAccountRQ request = new AddAccountRQ();
                 request.Account = account;
                 request.MessageMode = MessageMode.Trial; // We dont want to save the account just yet
-                MessageProcessor.SendRequest(request, this);
+                MessageProcessor.SendRequest(request, ResponseRecieved);
             }
             else if (mChooseAccountPanel_.existingAccount.Checked)
             {
@@ -105,7 +105,7 @@ namespace MPFinance.Forms
                     CheckDuplicateTxnsRQ request = new CheckDuplicateTxnsRQ();
                     request.Account = mAccount_;
                     request.OfxDucument = mDocument_;
-                    MessageProcessor.SendRequest(request, this);                    
+                    MessageProcessor.SendRequest(request, ResponseRecieved);                    
                 }
             }
         }
@@ -115,7 +115,7 @@ namespace MPFinance.Forms
             ImportTxnsRQ request = new ImportTxnsRQ();
             request.Account = mAccount_;
             request.VwTxns = mChooseTransactionsPanel_.importedTransactionsGridView.GetSelected();
-            MessageProcessor.SendRequest(request, this);
+            MessageProcessor.SendRequest(request, ResponseRecieved);
         }
 
         private void backBtn_Click(object sender, System.EventArgs e)
@@ -138,7 +138,7 @@ namespace MPFinance.Forms
                 CheckDuplicateTxnsRQ request = new CheckDuplicateTxnsRQ();
                 request.Account = mAccount_;
                 request.OfxDucument = mDocument_;
-                MessageProcessor.SendRequest(request, this);
+                MessageProcessor.SendRequest(request, ResponseRecieved);
             }
             else if (!response.HasErrors && response is CheckDuplicateTxnsRS)
             {

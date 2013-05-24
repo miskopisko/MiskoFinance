@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace System
+namespace MPersist.Core.MoneyType
 {
     public class MoneyDistributor
     {

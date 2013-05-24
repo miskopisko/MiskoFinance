@@ -5,6 +5,7 @@ using MPFinance.Core.Enums;
 using System;
 using System.IO;
 using System.Text.RegularExpressions;
+using MPersist.Core.MoneyType;
 
 namespace MPFinance.Core.OFX
 {

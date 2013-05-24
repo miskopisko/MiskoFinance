@@ -1,6 +1,7 @@
-using MPersist.Core;
-using MPFinance.Core.Data.Stored;
 using System;
+using MPersist.Core;
+using MPersist.Core.MoneyType;
+using MPFinance.Core.Data.Stored;
 
 namespace MPFinance.Core.Data.Viewed
 {

@@ -95,9 +95,17 @@
     <Compile Include="Core\Logger.cs" />
     <Compile Include="Core\MessageProcessor.cs" />
     <Compile Include="Core\Message\AbstractMessage.cs" />
-    <Compile Include="Core\Interfaces\IDataRequestor.cs" />
     <Compile Include="Core\Message\Request\AbstractRequest.cs" />
     <Compile Include="Core\Message\Response\AbstractResponse.cs" />
+    <Compile Include="Core\Money\Currency.cs" />
+    <Compile Include="Core\Money\FractionReceivers.cs" />
+    <Compile Include="Core\Money\MersenneTwister.cs" />
+    <Compile Include="Core\Money\MidpointRoundingRule.cs" />
+    <Compile Include="Core\Money\Money.cs" />
+    <Compile Include="Core\Money\MoneyAllocationException.cs" />
+    <Compile Include="Core\Money\MoneyDistributor.cs" />
+    <Compile Include="Core\Money\MoneyExtensions.cs" />
+    <Compile Include="Core\Money\RoundingPlaces.cs" />
     <Compile Include="Core\MPException.cs" />
     <Compile Include="Core\Persistence.cs" />
     <Compile Include="Core\Persistences\MySqlPersistence.cs" />
@@ -141,12 +149,6 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Money\Money.csproj">
-      <Project>{f2416d95-7587-4634-8061-d6b01c6163dd}</Project>
-      <Name>Money</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Core\Resources\ErrorStrings.resx">

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace System
+namespace MPersist.Core.MoneyType
 {
     [Serializable]
     public class MoneyAllocationException : Exception

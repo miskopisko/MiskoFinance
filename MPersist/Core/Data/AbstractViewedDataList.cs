@@ -56,8 +56,6 @@ namespace MPersist.Core.Data
             {
                 ConstructorInfo ctor = BaseType.GetConstructor(new[] { typeof(Session), typeof(Persistence) });
                 Add((AbstractViewedData)ctor.Invoke(new object[] { session, persistence }));
-
-                persistence.Next();
             }
 
             if(page.IncludeRecordCount)

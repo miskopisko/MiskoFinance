@@ -1,9 +1,9 @@
-﻿using MPersist.Core.Enums;
-using MPersist.Core.Resources;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Reflection;
+using MPersist.Core.Enums;
+using MPersist.Core.Resources;
 
 namespace MPersist.Core
 {

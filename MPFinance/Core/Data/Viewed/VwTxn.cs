@@ -6,6 +6,7 @@ using MPersist.Core.Attributes;
 using MPersist.Core.Data;
 using MPFinance.Core.Data.Stored;
 using MPFinance.Core.Enums;
+using MPersist.Core.MoneyType;
 
 namespace MPFinance.Core.Data.Viewed
 {

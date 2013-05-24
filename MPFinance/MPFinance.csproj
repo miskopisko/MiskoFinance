@@ -305,10 +305,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Money\Money.csproj">
-      <Project>{f2416d95-7587-4634-8061-d6b01c6163dd}</Project>
-      <Name>Money</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MPersist\MPersist.csproj">
       <Project>{F538732A-122B-40BB-86B0-199F99B0386C}</Project>
       <Name>MPersist</Name>

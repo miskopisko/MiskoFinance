@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using System;
 
-namespace System
+namespace MPersist.Core.MoneyType
 {
     /// <summary>
     /// Generates pseudo-random numbers using the Mersenne Twister algorithm.

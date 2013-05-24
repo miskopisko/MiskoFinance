@@ -10,6 +10,7 @@ using MPersist.Core.Persistences;
 using MPersist.Core.Resources;
 using MySql.Data.MySqlClient;
 using Oracle.DataAccess.Client;
+using MPersist.Core.MoneyType;
 
 namespace MPersist.Core
 {
