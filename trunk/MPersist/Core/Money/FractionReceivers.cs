@@ -1,4 +1,4 @@
-﻿namespace System
+﻿namespace MPersist.Core.MoneyType
 {
     public enum FractionReceivers
     {

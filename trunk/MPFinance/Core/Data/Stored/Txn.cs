@@ -3,6 +3,7 @@ using MPersist.Core.Attributes;
 using MPersist.Core.Data;
 using MPFinance.Core.Enums;
 using System;
+using MPersist.Core.MoneyType;
 
 namespace MPFinance.Core.Data.Stored
 {

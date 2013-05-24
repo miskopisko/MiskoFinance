@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace MPFinance.Forms
 {
-    public partial class EditAccountsDialog : Form, IDataRequestor
+    public partial class EditAccountsDialog : Form
     {
         public EditAccountsDialog()
         {
@@ -34,7 +34,7 @@ namespace MPFinance.Forms
         {
             GetAccountsRQ request = new GetAccountsRQ();
             request.Operator = Program.Operator;
-            MessageProcessor.SendRequest(request, this);
+            MessageProcessor.SendRequest(request, ResponseRecieved);
         }
 
         private void Done_Click(object sender, EventArgs e)
@@ -73,7 +73,7 @@ namespace MPFinance.Forms
             request.Account.AccountType = (AccountType)AccountTypeCmb.SelectedItem;
             request.Account.Nickname = Nickname.Text;
             request.Account.OpeningBalance = OpeningBalance.Value;
-            MessageProcessor.SendRequest(request, this);
+            MessageProcessor.SendRequest(request, ResponseRecieved);
         }
     }
 }

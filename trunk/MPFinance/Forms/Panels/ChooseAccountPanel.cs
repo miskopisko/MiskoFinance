@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace MPFinance.Forms.Panels
 {
-    public partial class ChooseAccountPanel : UserControl, IDataRequestor
+    public partial class ChooseAccountPanel : UserControl
     {
         private static Logger Log = Logger.GetInstance(typeof(ChooseAccountPanel));
 
@@ -44,7 +44,7 @@ namespace MPFinance.Forms.Panels
         {
             GetAccountsRQ request = new GetAccountsRQ();
             request.Operator = Program.Operator;
-            MessageProcessor.SendRequest(request, this);
+            MessageProcessor.SendRequest(request, ResponseRecieved);
         }
 
         private void toggleAccountCreation()
@@ -91,7 +91,7 @@ namespace MPFinance.Forms.Panels
                 request.BankNo = mDocument_.BankID;
                 request.AccountType = mDocument_.AccountType;
                 request.Operator = Program.Operator;
-                MessageProcessor.SendRequest(request, this);
+                MessageProcessor.SendRequest(request, ResponseRecieved);
             }
             else if (!response.HasErrors && response is GetAccountRS)
             {

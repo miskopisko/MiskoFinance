@@ -1,15 +1,13 @@
+using System;
+using System.ComponentModel;
+using System.Reflection;
+using System.Windows.Forms;
 using MPersist.Core.Enums;
 using MPersist.Core.Interfaces;
 using MPersist.Core.Message;
 using MPersist.Core.Message.Request;
 using MPersist.Core.Message.Response;
 using MPersist.Core.Resources;
-using System;
-using System.Data.Common;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Threading;
-using System.Windows.Forms;
 
 namespace MPersist.Core
 {
@@ -17,10 +15,18 @@ namespace MPersist.Core
     {
         private static Logger Log = Logger.GetInstance(typeof(MessageProcessor));
 
+        #region Delegates
+
+        public delegate void SuccessEventHandler(AbstractResponse Response);
+        public delegate void ErrorEventHandler(AbstractResponse Response);
+
+        #endregion
+
         #region Variable Declarations
 
         private readonly AbstractRequest mRequest_;
-        private readonly IDataRequestor mDataRequestor_;
+        private readonly SuccessEventHandler mSuccess_;
+        private readonly ErrorEventHandler mError_;
 
         private static int active = 0;
 
@@ -28,17 +34,18 @@ namespace MPersist.Core
 
         #region Properties
 
-        public static DbConnection Connection { get; set; }
+        public static ConnectionSettings ConnectionSettings { get; set; }
         public static IOController IOController { get; set; }
 
         #endregion
 
         #region Constructors
 
-        private MessageProcessor(AbstractRequest request, IDataRequestor requestor)
+        private MessageProcessor(AbstractRequest request, SuccessEventHandler successfulHandler, ErrorEventHandler errorHandler)
         {
             mRequest_ = request;
-            mDataRequestor_ = requestor;
+            mSuccess_ = successfulHandler;
+            mError_ = errorHandler;
         }
 
         #endregion
@@ -49,54 +56,85 @@ namespace MPersist.Core
         {
             active--;
 
-            if (IOController != null && IOController is Form)
+            if (IOController != null && IOController is Control)
             {
-                ((Form)IOController).Invoke(new MethodInvoker(delegate { IOController.MessageReceived(Strings.strPorcessing); }));
+                if (((Control)IOController).InvokeRequired)
+                {
+                    ((Control)IOController).Invoke(new MethodInvoker(delegate { IOController.MessageReceived(Strings.strPorcessing); }));
+                }
+                else
+                {
+                    IOController.MessageReceived(Strings.strPorcessing);
+                }
             }
 
-            Thread.Sleep(1000);
-
-            if (response != null && mDataRequestor_ is Control)
+            if (response != null)
             {
-                ((Control)mDataRequestor_).Invoke(new MethodInvoker(delegate { mDataRequestor_.ResponseRecieved(response); }));
+                if (mSuccess_ != null && !response.HasErrors)
+                {
+                    if (mSuccess_.Target is Control && ((Control)(mSuccess_.Target)).InvokeRequired)
+                    {
+                        ((Control)(mSuccess_.Target)).Invoke(mSuccess_, new Object[] { response });
+                    }
+                    else
+                    {
+                        mSuccess_(response);
+                    }
+                }
             }
 
-            Thread.Sleep(1000);
-
-            if (IOController != null && IOController is Form)
+            if (IOController != null && IOController is Control)
             {
-                ((Form)IOController).Invoke(new MethodInvoker(delegate { IOController.MessageReceived(active == 0 ? Strings.strSuccess : Strings.strPorcessing); }));
+                if (((Control)IOController).InvokeRequired)
+                {
+                    ((Control)IOController).Invoke(new MethodInvoker(delegate { IOController.MessageReceived(active == 0 ? Strings.strSuccess : Strings.strPorcessing); }));
+                }
+                else
+                {
+                    IOController.MessageReceived(active == 0 ? Strings.strSuccess : Strings.strPorcessing);
+                }
             }
         }
 
-        private static void SendRequest(MessageProcessor processor)
+        private void SendRequest()
         {
             active++;
 
-            if (IOController != null && IOController is Form)
+            if (IOController != null && IOController is Control)
             {
-                ((Form)IOController).Invoke(new MethodInvoker(delegate { IOController.MessageSent(Strings.strMessageSent); }));
-            }
+                if (((Control)IOController).InvokeRequired)
+                {
+                    ((Control)IOController).Invoke(new MethodInvoker(delegate { IOController.MessageSent(Strings.strMessageSent); }));
+                }
+                else
+                {
+                    IOController.MessageSent(Strings.strMessageSent);
+                }
+            }           
 
-            Thread.Sleep(1000);
+            BackgroundWorker bw = new BackgroundWorker();
+            bw.DoWork += new DoWorkEventHandler(Start);
+            bw.RunWorkerAsync();
 
-            Thread ProcessMessage = new Thread(processor.Start);
-            ProcessMessage.Start();
-
-            if (IOController != null && IOController is Form)
+            if (IOController != null && IOController is Control)
             {
-                ((Form)IOController).Invoke(new MethodInvoker(delegate { IOController.MessageSent(Strings.strPorcessing); }));
+                if (((Control)IOController).InvokeRequired)
+                {
+                    ((Control)IOController).Invoke(new MethodInvoker(delegate { IOController.MessageSent(Strings.strPorcessing); }));
+                }
+                else
+                {
+                    IOController.MessageSent(Strings.strPorcessing);
+                }                
             }
         }
 
-        private void Start()
+        private void Start(object sender, DoWorkEventArgs e)
         {
             AbstractResponse response;
             Boolean ResendMessage = false;
-            Session session = new Session(Connection);
+            Session session = new Session(ServiceLocator.GetConnection(ConnectionSettings));
             session.MessageMode = mRequest_.MessageMode;
-
-            Thread.Sleep(1000);
 
             do
             {
@@ -114,14 +152,14 @@ namespace MPersist.Core
                             if (IOController != null && IOController is Form)
                             {
                                 ((Form)IOController).Invoke(new MethodInvoker(delegate { IOController.Error(Message); }));
-                            }                            
+                            }
                         }
                         else if (Message.Level.Equals(ErrorLevel.Warning))
                         {
                             if (IOController != null && IOController is Form)
                             {
                                 ((Form)IOController).Invoke(new MethodInvoker(delegate { IOController.Warning(Message); }));
-                            }                            
+                            }
                             session.Warnings.Add(Message);
                         }
                         else if (Message.Level.Equals(ErrorLevel.Info))
@@ -139,7 +177,7 @@ namespace MPersist.Core
                                 {
                                     Func<DialogResult> showMsg = () => IOController.Confirm(Message);
                                     DialogResult result = (DialogResult)((Form)IOController).Invoke(showMsg);
-                                        
+
                                     if (result == DialogResult.Yes)
                                     {
                                         session.Status = ErrorLevel.Success;
@@ -237,6 +275,7 @@ namespace MPersist.Core
                             Response.HasErrors = session.HasErrors;
                             Response.HasWarnings = session.HasWarnings;
                             Response.HasConfirmations = session.HasConfirmations;
+                            Response.Page = Request.Page;
                         }
                     }
                 }
@@ -249,10 +288,9 @@ namespace MPersist.Core
 
         #region Public Methods
 
-        [MethodImplAttribute(MethodImplOptions.Synchronized)]
-        public static void SendRequest(AbstractRequest request, IDataRequestor requestor)
+        public static void SendRequest(AbstractRequest request, SuccessEventHandler successfulHandler)
         {
-            SendRequest(new MessageProcessor(request, requestor));
+            new MessageProcessor(request, successfulHandler, null).SendRequest();
         }
 
         #endregion

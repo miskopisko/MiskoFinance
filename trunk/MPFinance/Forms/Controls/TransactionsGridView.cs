@@ -9,10 +9,11 @@ using MPFinance.Core.Message.Responses;
 using System;
 using System.Windows.Forms;
 using MPersist.Core.Data;
+using MPersist.Core.MoneyType;
 
 namespace MPFinance.Forms.Controls
 {
-    public partial class TransactionsGridView : DataGridView, IDataRequestor
+    public partial class TransactionsGridView : DataGridView
     {
         public delegate void TxnUpdatedEventHandler();
         public event TxnUpdatedEventHandler TxnUpdated;
@@ -65,7 +66,7 @@ namespace MPFinance.Forms.Controls
 
             UpdateTxnRQ request = new UpdateTxnRQ();
             request.VwTxn = vwTxn;
-            MessageProcessor.SendRequest(request, this); 
+            MessageProcessor.SendRequest(request, ResponseRecieved); 
 
             base.OnCellValueChanged(e);
         }

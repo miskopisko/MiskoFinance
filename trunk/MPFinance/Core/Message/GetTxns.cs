@@ -37,7 +37,6 @@ namespace MPFinance.Core.Message
         {
             Response.Txns.Fetch(session, Request.Page, Request.Operator, Request.Account, Request.FromDate, Request.ToDate);
             Response.Summary.Fetch(session, Request.Operator, Request.Account, Request.FromDate, Request.ToDate);
-            Response.Page = Request.Page;
         }
     }
 }

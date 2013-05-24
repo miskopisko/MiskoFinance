@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using MPersist.Core.MoneyType;
 
 namespace MPersist.Core.Persistences
 {

@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Globalization;
 
-namespace System
+namespace MPersist.Core.MoneyType
 {
     /// <summary>
     /// Represents a decimal amount of a specific <see cref="Currency"/>.

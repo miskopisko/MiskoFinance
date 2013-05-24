@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
 
-namespace System
+namespace MPersist.Core.MoneyType
 {
     /// <summary>
     ///     Represents a system of money within which <see cref="Money" />

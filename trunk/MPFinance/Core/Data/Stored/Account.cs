@@ -6,6 +6,7 @@ using MPFinance.Core.Enums;
 using MPFinance.Resources;
 using System;
 using System.Reflection;
+using MPersist.Core.MoneyType;
 
 namespace MPFinance.Core.Data.Stored
 {

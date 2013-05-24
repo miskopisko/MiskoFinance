@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using MPersist.Core;
 using MPFinance.Core.Data.Viewed;
 using MPFinance.Core.Enums;
+using MPersist.Core.MoneyType;
 
 namespace MPFinance.Forms.Controls
 {

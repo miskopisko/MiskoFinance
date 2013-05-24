@@ -1,4 +1,6 @@
-﻿namespace System
+﻿using System;
+
+namespace MPersist.Core.MoneyType
 {
     public static class MoneyExtensions
     {
