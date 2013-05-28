@@ -17,15 +17,15 @@ namespace MPFinance
         private static ConnectionSettings mConnectionSettings_ = ConnectionSettings.SqliteConnection(@"..\..\DBA\MPersist_DB.sqlite3");
         //private static ConnectionSettings mConnectionSettings_ = ConnectionSettings.MySqlConnection("rpm-cvl", "test", "cvl", "cvl");
         //private static ConnectionSettings mConnectionSettings_ = ConnectionSettings.MySqlConnection("piskuric.ca", "miskop_MPersistenceTest", "miskop_michael", "sarpatt06");
-        //private static ConnectionSettings mConnectionSettings_ = ConnectionSettings.GetOracleConnection("192.168.0.111", 1521, "xe", "MPersist", "MPersist");
-
-        private static Operator mOperator_ = null;
+        //private static ConnectionSettings mConnectionSettings_ = ConnectionSettings.OracleConnection("192.168.0.111", 1521, "xe", "MPersist", "MPersist");
 
         #endregion
 
         #region Properties
 
-        public static Operator Operator { get { return mOperator_; } set { mOperator_ = value; } }
+        public static Operator Operator { get; set; }
+        public static Categories ExpenseCategories { get; set; }
+        public static Categories IncomeCategories { get; set; }
 
         #endregion
 

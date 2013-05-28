@@ -1,12 +1,12 @@
-using System;
-using System.Security.Cryptography;
-using System.Text;
 using MPersist.Core;
 using MPersist.Core.Attributes;
 using MPersist.Core.Data;
+using MPersist.Core.MoneyType;
 using MPFinance.Core.Data.Stored;
 using MPFinance.Core.Enums;
-using MPersist.Core.MoneyType;
+using System;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace MPFinance.Core.Data.Viewed
 {
@@ -57,7 +57,7 @@ namespace MPFinance.Core.Data.Viewed
 
         public VwTxn(Session session, Persistence persistence)
         {
-            set(session, persistence);
+            Set(session, persistence);
         }
 
         #endregion
@@ -75,7 +75,7 @@ namespace MPFinance.Core.Data.Viewed
             VwTxn result = new VwTxn();
             Persistence p = Persistence.GetInstance(session);
             p.ExecuteQuery("SELECT * FROM VwTxn WHERE TxnId = ?", new Object[] { Id });
-            result.set(session, p);
+            result.Set(session, p);
             p.Close();
             p = null;
 

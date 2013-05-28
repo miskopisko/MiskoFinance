@@ -117,45 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="errAccountNumberMandatory" xml:space="preserve">
-    <value>Account number is mandatory.</value>
-  </data>
-  <data name="errAccountTypeMandatory" xml:space="preserve">
-    <value>Account type is mandatory.</value>
-  </data>
-  <data name="errBankNameMandatory" xml:space="preserve">
-    <value>Bank name is mandatory.</value>
-  </data>
-  <data name="errCategoryNameBlank" xml:space="preserve">
-    <value>Category name cannot be blank</value>
-  </data>
-  <data name="errCategoryTypeMissing" xml:space="preserve">
-    <value>Category type must be selected</value>
-  </data>
-  <data name="errChooseExistingAccount" xml:space="preserve">
-    <value>Must choose an existing account.</value>
-  </data>
-  <data name="errChooseOnlyOneExistingAccount" xml:space="preserve">
-    <value>Must choose only one existing account</value>
-  </data>
-  <data name="errInvalidAccount" xml:space="preserve">
-    <value>Invalid account.</value>
-  </data>
-  <data name="errNicknameMandatory" xml:space="preserve">
-    <value>Nickname is mandatory.</value>
-  </data>
-  <data name="errNoCategorySelected" xml:space="preserve">
-    <value>No category selected to delete</value>
-  </data>
-  <data name="errOpeningBalance" xml:space="preserve">
-    <value>Opening balance cannot be blank and must be a numerical value.</value>
-  </data>
-  <data name="errUnexpectedApplicationErrorLong" xml:space="preserve">
-    <value>Unexpected Application Error : {0} 
-
- {1}</value>
-  </data>
-  <data name="errUnexpectedApplicationErrorShort" xml:space="preserve">
-    <value>Unexpected Application Error : {0}</value>
-  </data>
+  <metadata name="$this.TrayLargeIcon" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>False</value>
+  </metadata>
 </root>

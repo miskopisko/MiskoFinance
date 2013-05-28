@@ -1,5 +1,6 @@
 using MPersist.Core;
 using MPersist.Core.Message;
+using MPFinance.Core.Enums;
 using MPFinance.Core.Message.Requests;
 using MPFinance.Core.Message.Responses;
 
@@ -35,7 +36,8 @@ namespace MPFinance.Core.Message
 
         public override void Execute(Session session)
         {
-            Response.Categories.FetchByOperator(session, Request.Operator, Request.Page);
+            Response.ExpenseCategories.FetchByOperatorAndType(session, Request.Operator, CategoryType.Expense);
+            Response.IncomeCategories.FetchByOperatorAndType(session, Request.Operator, CategoryType.Income);
         }
     }
 }

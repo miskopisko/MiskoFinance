@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Windows.Forms;
-using MPersist.Core;
+﻿using MPersist.Core;
 using MPersist.Core.Data;
 using MPersist.Core.Interfaces;
 using MPersist.Core.Message.Response;
@@ -11,14 +8,15 @@ using MPFinance.Core.Message.Requests;
 using MPFinance.Core.Message.Responses;
 using MPFinance.Core.OFX;
 using MPFinance.Resources;
+using System;
+using System.IO;
+using System.Windows.Forms;
 
 namespace MPFinance.Forms
 {
     public partial class MPFinanceMain : Form, IOController
     {   
-        private static Logger Log = Logger.GetInstance(typeof(MPFinanceMain));
-
-        public Categories UserCategories { get; set; }
+        private static Logger Log = Logger.GetInstance(typeof(MPFinanceMain));        
 
         public MPFinanceMain()
         {
@@ -33,9 +31,9 @@ namespace MPFinance.Forms
 
         #region Local Private Methods
 
+        // Feth all txns as per the search criteria
         private void GetTxns(Page page)
-        {
-            // Feth all txns as per the search criteria
+        {            
             GetTxnsRQ findTxns = new GetTxnsRQ();
             findTxns.Operator = Program.Operator;
             findTxns.Account = (Account)AccountsList.SelectedNode.Tag;
@@ -43,51 +41,64 @@ namespace MPFinance.Forms
             findTxns.ToDate = ToDatePicker.Value;
             findTxns.Page = page;
             MessageProcessor.SendRequest(findTxns, GetTxnsSuccess);
-        }        
+        }
 
+        // Fetch the summary as per the selection criteris
         private void GetSummary()
-        {
-            // Fetch the summary as per the selection criteris
+        {            
             GetSummaryRQ request = new GetSummaryRQ();
             request.Operator = Program.Operator;
             request.Account = (Account)AccountsList.SelectedNode.Tag;
             request.FromDate = FromDatePicker.Value;
             request.ToDate = ToDatePicker.Value;
             MessageProcessor.SendRequest(request, GetSummarySuccess);   
-        }        
+        }
 
+        // Load the Accounts tree
         private void GetAccounts()
-        {
-            // Reload the Accounts tree
+        {            
             GetAccountsRQ findAccounts = new GetAccountsRQ();
             findAccounts.Operator = Program.Operator;
             MessageProcessor.SendRequest(findAccounts, GetAccountsSuccess);
         }
 
+        // Load the Categories
+        private void GetCategories()
+        {
+            GetCategoriesRQ getCategories = new GetCategoriesRQ();
+            getCategories.Operator = Program.Operator;
+            MessageProcessor.SendRequest(getCategories, GetCategoriesSuccess);
+        }
+
+        // Callback method for GetTxns
         private void GetTxnsSuccess(AbstractResponse response)
         {
-            if (((GetTxnsRS)response).Page.PageNo.Equals(1))
+            GetTxnsRS Response = response as GetTxnsRS;
+
+            if (Response.Page.PageNo.Equals(1))
             {
-                transactionsGridView.DataSource = ((GetTxnsRS)response).Txns;
+                transactionsGridView.DataSource = Response.Txns;
             }
             else
             {
-                ((AbstractViewedDataList<VwTxn>)transactionsGridView.DataSource).AddRange(((GetTxnsRS)response).Txns);
+                ((AbstractViewedDataList<VwTxn>)transactionsGridView.DataSource).AddRange(Response.Txns);
                 ((AbstractViewedDataList<VwTxn>)transactionsGridView.DataSource).ResetBindings();
             }
 
-            summaryPanel.Update(((GetTxnsRS)response).Summary);
-            recordPageCounts.Text = ((GetTxnsRS)response).Page.PageNo + " / " + ((GetTxnsRS)response).Page.TotalPageCount;
-            transactionsGridView.CurrentPage = ((GetTxnsRS)response).Page;
+            summaryPanel.Update(Response.Summary);
+            recordPageCounts.Text = Response.Page.PageNo + " / " + Response.Page.TotalPageCount;
+            transactionsGridView.CurrentPage = Response.Page;
 
             MoreBtn.Enabled = transactionsGridView.CurrentPage.PageNo != transactionsGridView.CurrentPage.TotalPageCount;
         }
 
+        // Callback method for GetSummary
         private void GetSummarySuccess(AbstractResponse response)
         {
             summaryPanel.Update(((GetSummaryRS)response).Summary);
         }
 
+        // Callback method for GetAccounts
         private void GetAccountsSuccess(AbstractResponse response)
         {
             AccountsList.Nodes["Accounts"].Nodes.Clear();
@@ -98,26 +109,24 @@ namespace MPFinance.Forms
             }
 
             AccountsList.ExpandAll();
-            AccountsList.SelectedNode = AccountsList.Nodes["Accounts"];
         }
 
+        // Callback method for GetOperator
         private void GetOperatorSuccess(AbstractResponse response)
         {
             Program.Operator = ((GetOperatorRS)response).Operator;
             headerLbl.Text = Program.Operator.LastName + ", " + Program.Operator.FirstName;
-
-            GetAccountsRQ findAccounts = new GetAccountsRQ();
-            findAccounts.Operator = Program.Operator;
-            MessageProcessor.SendRequest(findAccounts, GetAccountsSuccess);
-
-            GetCategoriesRQ getCategories = new GetCategoriesRQ();
-            getCategories.Operator = Program.Operator;
-            MessageProcessor.SendRequest(getCategories, GetCategoriesSuccess);
+                        
+            GetCategories();            
         }
 
+        // Callback method for GetCatagories
         private void GetCategoriesSuccess(AbstractResponse response)
         {
-            UserCategories = ((GetCategoriesRS)response).Categories;
+            GetAccounts();
+
+            Program.ExpenseCategories = ((GetCategoriesRS)response).ExpenseCategories;
+            Program.IncomeCategories = ((GetCategoriesRS)response).IncomeCategories;
         }
 
         #endregion
@@ -186,6 +195,13 @@ namespace MPFinance.Forms
             GetTxns(new Page(transactionsGridView.CurrentPage.PageNo + 1));
         }
 
+        private void catagoriesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new EditCategoriesDialog().ShowDialog(this);
+
+            GetCategories();
+        }
+
         #endregion
 
         #region Overridden Methods
@@ -235,6 +251,6 @@ namespace MPFinance.Forms
             Application.DoEvents();
         }        
 
-        #endregion
+        #endregion        
     }
 }

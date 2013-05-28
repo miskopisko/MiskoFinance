@@ -3,7 +3,7 @@ using MPersist.Core.Data;
 
 namespace MPFinance.Core.Data.Stored
 {
-    public class Operators : AbstractStoredDataList
+    public class Operators : AbstractStoredDataList<Operator>
     {
         private static Logger Log = Logger.GetInstance(typeof(Operators));
 
@@ -36,7 +36,15 @@ namespace MPFinance.Core.Data.Stored
 
         #region Public Methods
 
-        
+        public override AbstractStoredDataList<Operator> Save(Session session)
+        {
+            foreach (AbstractStoredData item in this)
+            {
+                item.Save(session);
+            }
+
+            return this;
+        }
 
         #endregion
     }

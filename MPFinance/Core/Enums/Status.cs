@@ -3,35 +3,35 @@ using System;
 
 namespace MPFinance.Core.Enums
 {
-    public class CategoryType : AbstractEnum
+    public class Status : AbstractEnum
     {
         #region Variable Declarations
 
-        private static readonly CategoryType mNULL_ = new CategoryType(-1, "", "");
-        private static readonly CategoryType mIncome_ = new CategoryType(0, "", "Income");
-        private static readonly CategoryType mExpense_ = new CategoryType(1, "", "Expense");
+        private static readonly Status mNULL_ = new Status(-1, "", "");
+        private static readonly Status mActive_ = new Status(0, "", "Active");
+        private static readonly Status mInactive_ = new Status(1, "", "Inactive");
 
-        private static readonly CategoryType[] mElements_ = new[]
+        private static readonly Status[] mElements_ = new[]
 		{
-		    mNULL_, mIncome_, mExpense_
+		    mNULL_, mActive_, mInactive_
 		};
 
         #endregion
 
         #region Parameters
 
-        public static CategoryType[] Elements { get { return mElements_; } }
-        public static CategoryType NULL { get { return mNULL_; } }
-        public static CategoryType Income { get { return mIncome_; } }
-        public static CategoryType Expense { get { return mExpense_; } }
+        public static Status[] Elements { get { return mElements_; } }
+        public static Status NULL { get { return mNULL_; } }
+        public static Status Active { get { return mActive_; } }
+        public static Status Inactive { get { return mInactive_; } }
 
         #endregion
 
-        protected CategoryType(Int64 value, String code, String description): base(value, code, description)
+        protected Status(Int64 value, String code, String description) : base(value, code, description)
         {
         }
 
-        public static CategoryType GetElement(long index)
+        public static Status GetElement(long index)
         {
             for (int i = 0; Elements != null && i < Elements.Length; i++)
             {
@@ -44,7 +44,7 @@ namespace MPFinance.Core.Enums
             return null;
         }
 
-        public static CategoryType GetElement(String descriptionCode)
+        public static Status GetElement(String descriptionCode)
         {
             for (int i = 0; descriptionCode != null && Elements != null && i < Elements.Length; i++)
             {

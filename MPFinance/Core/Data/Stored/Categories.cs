@@ -1,10 +1,11 @@
 using MPersist.Core;
 using MPersist.Core.Data;
+using MPFinance.Core.Enums;
 using System;
 
 namespace MPFinance.Core.Data.Stored
 {
-    public class Categories : AbstractStoredDataList
+    public class Categories : AbstractStoredDataList<Category>
     {
         private static Logger Log = Logger.GetInstance(typeof(Categories));
 
@@ -37,11 +38,21 @@ namespace MPFinance.Core.Data.Stored
 
         #region Public Methods
 
-        public void FetchByOperator(Session session, Operator o, Page page)
+        public override AbstractStoredDataList<Category> Save(Session session)
+        {
+            foreach (AbstractStoredData item in this)
+            {
+                item.Save(session);
+            }
+
+            return this;
+        }
+
+        public void FetchByOperatorAndType(Session session, Operator o, CategoryType type)
         {
             Persistence p = Persistence.GetInstance(session);
-            p.ExecuteQuery("SELECT * FROM Category WHERE Operator = ?", new Object[] { o.Id });
-            set(session, p, page);
+            p.ExecuteQuery("SELECT * FROM Category WHERE Operator = ? AND CategoryType = ?", new Object[] { o, type });
+            Set(session, p);
             p.Close();
             p = null;
         }

@@ -32,7 +32,7 @@ namespace MPersist.Core.Data
 
         public AbstractStoredData(Session session, Persistence persistence)
         {
-            set(session, persistence);
+            Set(session, persistence);
         }
 
         #endregion
@@ -78,7 +78,7 @@ namespace MPersist.Core.Data
         {
             Persistence p = Persistence.GetInstance(session);
             p.ExecuteQuery("SELECT * FROM " + GetType().Name + " WHERE ID = ?", new Object[] { id });
-            set(session, p, deep);
+            Set(session, p, deep);
             p.Close();
             p = null;
         }

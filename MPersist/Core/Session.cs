@@ -1,9 +1,10 @@
-﻿using System;
+﻿using MPersist.Core.Enums;
+using MPersist.Core.Resources;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data.Common;
 using System.Reflection;
-using MPersist.Core.Enums;
-using MPersist.Core.Resources;
 
 namespace MPersist.Core
 {
@@ -26,21 +27,25 @@ namespace MPersist.Core
 
         #region Properties
 
+        [Browsable(false)]
         public DbConnection Connection
         {
             get { return conn_; }
         }
 
+        [Browsable(false)]
         public Boolean TransactionInProgress
         {
             get { return transactionInProgress_; }
         }
 
+        [Browsable(false)]
         public List<Persistence> PersistencePool
         {
             get { return persistencePool_; }
         }
 
+        [Browsable(false)]
         public DbTransaction Transaction
         {
             get { return transaction_; }
@@ -64,6 +69,7 @@ namespace MPersist.Core
             set { rowsPerPage_ = value; }
         }
 
+        [Browsable(false)]
         public ErrorMessages ErrorMessages
         {
             get { return errorMessages_; }
@@ -108,7 +114,7 @@ namespace MPersist.Core
 
         public void BeginTransaction()
         {
-            if (transactionInProgress_ || transaction_ != null)
+            if (transactionInProgress_)
             {
                 Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, ErrorStrings.errTransactionAlreadyInProgress);
             }
@@ -116,7 +122,7 @@ namespace MPersist.Core
             {
                 transactionInProgress_ = true;
                 transaction_ = conn_.BeginTransaction();
-            }
+            }            
         }
 
         public void EndTransaction()
@@ -171,7 +177,7 @@ namespace MPersist.Core
             Log.Error(errorMessage.Message);
             errorMessage = null;
 
-            if(!errorLevel.Equals(ErrorLevel.Warning))
+            if (!errorLevel.Equals(ErrorLevel.Warning) && !errorLevel.Equals(ErrorLevel.Info))
             {
                 throw new MPException(new ErrorMessage(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, ErrorStrings.errUnexpectedApplicationErrorShort));
             }

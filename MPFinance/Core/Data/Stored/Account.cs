@@ -2,11 +2,11 @@ using MPersist.Core;
 using MPersist.Core.Attributes;
 using MPersist.Core.Data;
 using MPersist.Core.Enums;
+using MPersist.Core.MoneyType;
 using MPFinance.Core.Enums;
 using MPFinance.Resources;
 using System;
 using System.Reflection;
-using MPersist.Core.MoneyType;
 
 namespace MPFinance.Core.Data.Stored
 {
@@ -75,7 +75,7 @@ namespace MPFinance.Core.Data.Stored
 
             Persistence p = Persistence.GetInstance(session);
             p.ExecuteQuery(sql, new Object[] { op, type, bankNo, accountNo });
-            result.set(session, p);
+            result.Set(session, p);
             p.Close();
             p = null;
 

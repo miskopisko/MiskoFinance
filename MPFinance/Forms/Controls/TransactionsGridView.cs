@@ -1,24 +1,28 @@
 ﻿using MPersist.Core;
-using MPersist.Core.Interfaces;
+using MPersist.Core.Data;
 using MPersist.Core.Message.Response;
+using MPersist.Core.MoneyType;
 using MPFinance.Core.Data.Stored;
 using MPFinance.Core.Data.Viewed;
 using MPFinance.Core.Enums;
 using MPFinance.Core.Message.Requests;
-using MPFinance.Core.Message.Responses;
 using System;
 using System.Windows.Forms;
-using MPersist.Core.Data;
-using MPersist.Core.MoneyType;
 
 namespace MPFinance.Forms.Controls
 {
     public partial class TransactionsGridView : DataGridView
     {
+        private static Logger Log = Logger.GetInstance(typeof(TransactionsGridView));
+
+        #region Delegates
+
         public delegate void TxnUpdatedEventHandler();
         public event TxnUpdatedEventHandler TxnUpdated;
 
-        private static Logger Log = Logger.GetInstance(typeof(TransactionsGridView));
+        #endregion
+
+        #region Variable Declarations
 
         private DataGridViewTextBoxColumn Date = new DataGridViewTextBoxColumn();
         private DataGridViewTextBoxColumn Description = new DataGridViewTextBoxColumn();
@@ -29,11 +33,17 @@ namespace MPFinance.Forms.Controls
 
         private Page mCurrentPage_ = new Page();
 
+        #endregion
+
+        #region Properties
+
         public Page CurrentPage 
         { 
             get { return mCurrentPage_; }
             set { mCurrentPage_ = value; } 
         }
+
+        #endregion
 
         public TransactionsGridView()
         {
@@ -41,12 +51,34 @@ namespace MPFinance.Forms.Controls
             InitializeComponent();
         }
 
+        protected override void OnDataBindingComplete(DataGridViewBindingCompleteEventArgs e)
+        {
+            foreach (DataGridViewRow row in Rows)
+            {
+                VwTxn txn = (VwTxn)row.DataBoundItem;
+
+                if(txn.TxnType.Equals(TxnType.Credit))
+                {
+                    ((DataGridViewComboBoxCell)row.Cells["Category"]).DataSource = Program.IncomeCategories;
+                    ((DataGridViewComboBoxCell)row.Cells["Category"]).Value = txn.Category;
+                }
+                else if (txn.TxnType.Equals(TxnType.Debit))
+                {
+                    ((DataGridViewComboBoxCell)row.Cells["Category"]).DataSource = Program.ExpenseCategories;
+                    ((DataGridViewComboBoxCell)row.Cells["Category"]).Value = txn.Category;
+                }
+                else
+                {
+                    ((DataGridViewComboBoxCell)row.Cells["Category"]).ReadOnly = true;
+                }
+            }
+
+            base.OnDataBindingComplete(e);
+        }
+
         protected override void OnCurrentCellDirtyStateChanged(EventArgs e)
         {
-            if (CurrentCell is DataGridViewCheckBoxCell)
-            {
-                CommitEdit(DataGridViewDataErrorContexts.Commit);
-            }
+            CommitEdit(DataGridViewDataErrorContexts.Commit);
 
             base.OnCurrentCellDirtyStateChanged(e);
         }
@@ -66,7 +98,7 @@ namespace MPFinance.Forms.Controls
 
             UpdateTxnRQ request = new UpdateTxnRQ();
             request.VwTxn = vwTxn;
-            MessageProcessor.SendRequest(request, ResponseRecieved); 
+            MessageProcessor.SendRequest(request, UpdateTxnSuccess); 
 
             base.OnCellValueChanged(e);
         }
@@ -111,11 +143,14 @@ namespace MPFinance.Forms.Controls
                 Transfer.Name = "Transfer";
                 Transfer.Width = 75;
 
+                Category.ValueType = typeof(Category);
                 Category.DataPropertyName = "Category";
                 Category.HeaderText = "Category";
                 Category.Name = "Category";
                 Category.Width = 150;
-
+                Category.ValueMember = "Self";
+                Category.DisplayMember = "Category.CategoryType";
+                
                 Columns.AddRange(new DataGridViewColumn[] {
                                 Date,
                                 Description,
@@ -126,14 +161,11 @@ namespace MPFinance.Forms.Controls
             }
         }
 
-        public void ResponseRecieved(AbstractResponse response)
+        public void UpdateTxnSuccess(AbstractResponse Response)
         {
-            if (!response.HasErrors && response is UpdateTxnRS)
+            if (TxnUpdated != null)
             {
-                if (TxnUpdated != null)
-                {
-                    TxnUpdated();
-                }
+                TxnUpdated();
             }
         }
     }

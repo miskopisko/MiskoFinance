@@ -1,19 +1,19 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Reflection;
 
 namespace MPersist.Core.Data
 {
-    public class AbstractStoredDataList : BindingList<AbstractStoredData>
+    public abstract class AbstractStoredDataList<AbstractStoredData> : BindingList<AbstractStoredData>
     {
-        private static Logger Log = Logger.GetInstance(typeof(AbstractStoredDataList));
+        private static Logger Log = Logger.GetInstance(typeof(AbstractStoredDataList<AbstractStoredData>));
 
         #region Variable Declarations
 
-        private readonly Dictionary<Type, PropertyComparer<AbstractStoredData>> comparers;
-        private bool isSorted;
-        private ListSortDirection listSortDirection;
-        private PropertyDescriptor propertyDescriptor;
+        private bool _isSorted;
+        private ListSortDirection _sortDirection = ListSortDirection.Ascending;
+        private PropertyDescriptor _sortProperty;
 
         #endregion
 
@@ -25,9 +25,12 @@ namespace MPersist.Core.Data
 
         #region Constructors
 
-        public AbstractStoredDataList() : base(new BindingList<AbstractStoredData>())
+        public AbstractStoredDataList()
         {
-            this.comparers = new Dictionary<Type, PropertyComparer<AbstractStoredData>>();
+        }
+
+        public AbstractStoredDataList(IList<AbstractStoredData> list) : base(list)
+        {
         }
 
         #endregion
@@ -40,20 +43,14 @@ namespace MPersist.Core.Data
 
         #region Public Methods
 
-        public void Save(Session session)
-        {
-            foreach (AbstractStoredData item in this)
-            {
-                item.Save(session);
-            }
-        }
-
-        public void set(Session session, Persistence persistence, Page page)
+        public abstract AbstractStoredDataList<AbstractStoredData> Save(Session session);
+        
+        public void Set(Session session, Persistence persistence)
         {
             while (persistence.HasNext)
             {
-                AbstractStoredData o = (AbstractStoredData)BaseType.Assembly.CreateInstance(BaseType.FullName);
-                Add((AbstractStoredData)o.set(session, persistence));
+                ConstructorInfo ctor = BaseType.GetConstructor(new[] { typeof(Session), typeof(Persistence) });
+                Add((AbstractStoredData)ctor.Invoke(new object[] { session, persistence }));
             }
         }
 
@@ -61,7 +58,7 @@ namespace MPersist.Core.Data
         {
             Persistence persistence = Persistence.GetInstance(session);
             persistence.ExecuteQuery("SELECT * FROM " + BaseType.Name);
-            set(session, persistence, new Page());
+            Set(session, persistence);
             persistence.Close();
             persistence = null;
         }
@@ -77,68 +74,71 @@ namespace MPersist.Core.Data
 
         protected override bool IsSortedCore
         {
-            get { return this.isSorted; }
-        }
-
-        protected override PropertyDescriptor SortPropertyCore
-        {
-            get { return this.propertyDescriptor; }
+            get { return _isSorted; }
         }
 
         protected override ListSortDirection SortDirectionCore
         {
-            get { return this.listSortDirection; }
+            get { return _sortDirection; }
         }
 
-        protected override bool SupportsSearchingCore
+        protected override PropertyDescriptor SortPropertyCore
         {
-            get { return true; }
-        }
-
-        protected override void ApplySortCore(PropertyDescriptor property, ListSortDirection direction)
-        {
-            List<AbstractStoredData> itemsList = (List<AbstractStoredData>)this.Items;
-
-            Type propertyType = property.PropertyType;
-            PropertyComparer<AbstractStoredData> comparer;
-            if (!this.comparers.TryGetValue(propertyType, out comparer))
-            {
-                comparer = new PropertyComparer<AbstractStoredData>(property, direction);
-                this.comparers.Add(propertyType, comparer);
-            }
-
-            comparer.SetPropertyAndDirection(property, direction);
-            itemsList.Sort(comparer);
-
-            this.propertyDescriptor = property;
-            this.listSortDirection = direction;
-            this.isSorted = true;
-
-            this.OnListChanged(new ListChangedEventArgs(ListChangedType.Reset, -1));
+            get { return _sortProperty; }
         }
 
         protected override void RemoveSortCore()
         {
-            this.isSorted = false;
-            this.propertyDescriptor = base.SortPropertyCore;
-            this.listSortDirection = base.SortDirectionCore;
-
-            this.OnListChanged(new ListChangedEventArgs(ListChangedType.Reset, -1));
+            _sortDirection = ListSortDirection.Ascending;
+            _sortProperty = null;
         }
 
-        protected override int FindCore(PropertyDescriptor property, object key)
+        protected override void ApplySortCore(PropertyDescriptor prop, ListSortDirection direction)
         {
-            int count = this.Count;
-            for (int i = 0; i < count; ++i)
-            {
-                AbstractStoredData element = this[i];
-                if (property.GetValue(element).Equals(key))
-                {
-                    return i;
-                }
-            }
+            _sortProperty = prop;
+            _sortDirection = direction;
 
-            return -1;
+            List<AbstractStoredData> list = Items as List<AbstractStoredData>;
+            if (list == null) return;
+
+            list.Sort(Compare);
+
+            _isSorted = true;
+            //fire an event that the list has been changed.
+            OnListChanged(new ListChangedEventArgs(ListChangedType.Reset, -1));
+        }
+
+        private int Compare(AbstractStoredData lhs, AbstractStoredData rhs)
+        {
+            var result = OnComparison(lhs, rhs);
+            //invert if descending
+            if (_sortDirection == ListSortDirection.Descending)
+                result = -result;
+            return result;
+        }
+
+        private int OnComparison(AbstractStoredData lhs, AbstractStoredData rhs)
+        {
+            object lhsValue = lhs == null ? null : _sortProperty.GetValue(lhs);
+            object rhsValue = rhs == null ? null : _sortProperty.GetValue(rhs);
+            if (lhsValue == null)
+            {
+                return (rhsValue == null) ? 0 : -1; //nulls are equal
+            }
+            if (rhsValue == null)
+            {
+                return 1; //first has value, second doesn't
+            }
+            if (lhsValue is IComparable)
+            {
+                return ((IComparable)lhsValue).CompareTo(rhsValue);
+            }
+            if (lhsValue.Equals(rhsValue))
+            {
+                return 0; //both are the same
+            }
+            //not comparable, compare ToString
+            return lhsValue.ToString().CompareTo(rhsValue.ToString());
         }
 
         #endregion

@@ -1,6 +1,6 @@
 ﻿namespace MPFinance.Forms.Controls
 {
-    partial class TransactionsGridView
+    partial class CategoriesGridView
     {
         /// <summary> 
         /// Required designer variable.
@@ -31,13 +31,13 @@
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             this.SuspendLayout();
             // 
-            // TransactionsGridView
+            // CategoriesGridView
             // 
             this.AllowUserToAddRows = false;
             this.AllowUserToDeleteRows = false;
             this.AllowUserToResizeColumns = false;
             this.AllowUserToResizeRows = false;
-            this.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.MultiSelect = false;
             this.RowHeadersVisible = false;
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
             this.ResumeLayout(false);

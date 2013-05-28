@@ -62,7 +62,7 @@ namespace MPFinance.Core.Data.Stored
         {
             Persistence p = Persistence.GetInstance(session);
             p.ExecuteQuery("SELECT * FROM Operator WHERE Username = ?", new Object[] { username });
-            set(session, p);
+            Set(session, p);
             p.Close();
             p = null;
         }
