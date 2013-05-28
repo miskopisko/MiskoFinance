@@ -43,7 +43,7 @@ namespace MPFinance.Forms.Panels
         protected override void OnLoad(EventArgs e)
         {
             GetAccountsRQ request = new GetAccountsRQ();
-            request.Operator = Program.Operator;
+            request.Operator = Program.GetOperator();
             MessageProcessor.SendRequest(request, ResponseRecieved);
         }
 
@@ -90,7 +90,7 @@ namespace MPFinance.Forms.Panels
                 request.AccountNo = mDocument_.AccountID;
                 request.BankNo = mDocument_.BankID;
                 request.AccountType = mDocument_.AccountType;
-                request.Operator = Program.Operator;
+                request.Operator = Program.GetOperator();
                 MessageProcessor.SendRequest(request, ResponseRecieved);
             }
             else if (!response.HasErrors && response is GetAccountRS)

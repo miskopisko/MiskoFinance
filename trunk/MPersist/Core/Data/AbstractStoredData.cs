@@ -1,8 +1,8 @@
+using System;
+using System.Reflection;
 using MPersist.Core.Attributes;
 using MPersist.Core.Enums;
 using MPersist.Core.Resources;
-using System;
-using System.Reflection;
 
 namespace MPersist.Core.Data
 {
@@ -52,22 +52,7 @@ namespace MPersist.Core.Data
             result.FetchById(session, id, deep);
 
             return result;
-        }
-
-        public void FetchDeep(Session session)
-        {
-            foreach (PropertyInfo property in GetType().GetProperties())
-            {
-                if (property.PropertyType.IsSubclassOf(typeof(AbstractStoredData)))
-                {
-                    AbstractStoredData item = (AbstractStoredData)property.GetValue(this, null);
-                    if (item != null && item.Id > 0)
-                    {
-                        item.FetchById(session, item.Id, true);
-                    }
-                }
-            }
-        }
+        }        
 
         public void FetchById(Session session, Int64 id)
         {

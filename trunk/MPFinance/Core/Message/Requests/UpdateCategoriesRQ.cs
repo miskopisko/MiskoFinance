@@ -1,8 +1,6 @@
 using MPersist.Core;
 using MPersist.Core.Message.Request;
 using MPFinance.Core.Data.Stored;
-using MPFinance.Core.Enums;
-using System;
 
 namespace MPFinance.Core.Message.Requests
 {
@@ -14,6 +12,7 @@ namespace MPFinance.Core.Message.Requests
 
         public Categories ExpenseCategories { get; set; }
         public Categories IncomeCategories { get; set; }
+        public Categories TransferCategories { get; set; }
 
         #endregion
 

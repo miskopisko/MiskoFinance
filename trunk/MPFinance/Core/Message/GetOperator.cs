@@ -1,3 +1,5 @@
+using System;
+using System.Reflection;
 using MPersist.Core;
 using MPersist.Core.Enums;
 using MPersist.Core.Message;
@@ -5,11 +7,8 @@ using MPFinance.Core.Data.Stored;
 using MPFinance.Core.Enums;
 using MPFinance.Core.Message.Requests;
 using MPFinance.Core.Message.Responses;
+using MPFinance.Core.Tools;
 using MPFinance.Resources;
-using System;
-using System.Reflection;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace MPFinance.Core.Message
 {
@@ -51,7 +50,7 @@ namespace MPFinance.Core.Message
                 session.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Confirmation, ConfirmStrings.conConfirmNewUser, new object[]{ Request.Username });
 
                 o.Username = Request.Username;
-                o.Password = GenerateHash("secret");
+                o.Password = Utils.GenerateHash("secret");
                 o.Birthday = new DateTime(1982, 05, 15);
                 o.Email = "michael@piskuric.ca";
                 o.Gender = Gender.Male;
@@ -62,28 +61,11 @@ namespace MPFinance.Core.Message
             }
 
             Response.Operator = o;
-        }
+            Response.Accounts.FetchByOperator(session, o);
+            Response.ExpenseCategories.FetchByOperatorAndType(session, o, CategoryType.Expense, Status.Active);
+            Response.IncomeCategories.FetchByOperatorAndType(session, o, CategoryType.Income, Status.Active);
+            Response.TransferCategories.FetchByOperatorAndType(session, o, CategoryType.Transfer, Status.Active);
 
-        private String GenerateHash(String input)
-        {
-            MD5 md5Hash = MD5.Create();
-
-            // Convert the input string to a byte array and compute the hash. 
-            byte[] data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
-
-            // Create a new Stringbuilder to collect the bytes 
-            // and create a string.
-            StringBuilder sBuilder = new StringBuilder();
-
-            // Loop through each byte of the hashed data  
-            // and format each one as a hexadecimal string. 
-            for (int i = 0; i < data.Length; i++)
-            {
-                sBuilder.Append(data[i].ToString("x2"));
-            }
-
-            // Return the hexadecimal string. 
-            return sBuilder.ToString();
         }
     }
 }

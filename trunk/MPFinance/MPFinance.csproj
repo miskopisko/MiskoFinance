@@ -115,6 +115,7 @@
     <Compile Include="Core\OFX\OfxDocument.cs" />
     <Compile Include="Core\Data\Stored\Txn.cs" />
     <Compile Include="Core\Settings\PropertyBag.cs" />
+    <Compile Include="Core\Tools\Utils.cs" />
     <Compile Include="Forms\AboutDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -132,6 +133,7 @@
     <Compile Include="Forms\Controls\CheckBoxHeaderCell.Designer.cs">
       <DependentUpon>CheckBoxHeaderCell.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Controls\DGVComboBoxColumn.cs" />
     <Compile Include="Forms\Controls\ImportedTransactionsGridView.cs">
       <SubType>Component</SubType>
     </Compile>

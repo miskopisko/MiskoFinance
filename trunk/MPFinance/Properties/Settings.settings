@@ -8,8 +8,8 @@
     <Setting Name="ConnectionType" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="RecordsPerPage" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">20</Value>
+    <Setting Name="RowsPerPage" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">7</Value>
     </Setting>
   </Settings>
 </SettingsFile>

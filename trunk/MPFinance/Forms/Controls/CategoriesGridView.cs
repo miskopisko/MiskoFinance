@@ -1,8 +1,6 @@
-﻿using MPFinance.Core.Data.Stored;
-using MPFinance.Core.Enums;
-using System;
-using System.Drawing;
+﻿using System;
 using System.Windows.Forms;
+using MPFinance.Core.Enums;
 
 namespace MPFinance.Forms.Controls
 {
@@ -11,7 +9,7 @@ namespace MPFinance.Forms.Controls
         #region Variable Declarations
 
         private DataGridViewTextBoxColumn CategoryName = new DataGridViewTextBoxColumn();
-        private DataGridViewComboBoxColumn Status = new DataGridViewComboBoxColumn();
+        private DGVComboBoxColumn Status = new DGVComboBoxColumn();
 
         #endregion
 
@@ -32,12 +30,13 @@ namespace MPFinance.Forms.Controls
                 CategoryName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
 
                 Status.ValueType = typeof(Status);
-                Status.DataPropertyName = "Status";
                 Status.HeaderText = "Status";
                 Status.Name = "Status";
                 Status.Width = 100;
-                Status.DataSource = MPFinance.Core.Enums.Status.Elements;
-
+                Status.DisplayMember = "Description";
+                Status.DataPropertyName = "Status";                
+                Status.DataSource = MPFinance.Core.Enums.Status.NonNullElements;
+                Status.DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing;
 
                 Columns.AddRange(new DataGridViewColumn[] {
                                 CategoryName,

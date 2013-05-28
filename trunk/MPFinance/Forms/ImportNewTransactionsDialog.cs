@@ -76,7 +76,7 @@ namespace MPFinance.Forms
             if (mChooseAccountPanel_.createNewAccount.Checked)
             {
                 Account account = new Account();
-                account.Operator = Program.Operator;
+                account.Operator = Program.GetOperator();
                 account.AccountNumber = mChooseAccountPanel_.AccountNumber.Text;
                 account.BankNumber = mChooseAccountPanel_.BankName.Text;
                 account.Nickname = mChooseAccountPanel_.Nickname.Text;

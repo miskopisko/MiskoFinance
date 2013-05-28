@@ -12,6 +12,7 @@ namespace MPFinance.Core.Message.Responses
 
         public Categories ExpenseCategories { get; set; }
         public Categories IncomeCategories { get; set; }
+        public Categories TransferCategories { get; set; }
 
         #endregion
 

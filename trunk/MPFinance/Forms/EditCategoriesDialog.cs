@@ -1,12 +1,11 @@
-﻿using MPersist.Core;
+﻿using System;
+using System.Windows.Forms;
+using MPersist.Core;
 using MPersist.Core.Message.Response;
 using MPFinance.Core.Data.Stored;
 using MPFinance.Core.Enums;
 using MPFinance.Core.Message.Requests;
 using MPFinance.Core.Message.Responses;
-using System;
-using System.Data;
-using System.Windows.Forms;
 
 namespace MPFinance.Forms
 {
@@ -21,9 +20,10 @@ namespace MPFinance.Forms
         {
             existingExpense.FillColumns();
             existingIncome.FillColumns();
+            existingTransfer.FillColumns();
 
             GetCategoriesRQ getCategories = new GetCategoriesRQ();
-            getCategories.Operator = Program.Operator;
+            getCategories.Operator = Program.GetOperator();
             MessageProcessor.SendRequest(getCategories, GetCategoriesSuccess);
 
             base.OnLoad(e);
@@ -35,6 +35,7 @@ namespace MPFinance.Forms
 
             existingIncome.DataSource = response.IncomeCategories;
             existingExpense.DataSource = response.ExpenseCategories;
+            existingTransfer.DataSource = response.TransferCategories;
         }
 
         private void UpdateCategorySuccess(AbstractResponse Response)
@@ -51,22 +52,32 @@ namespace MPFinance.Forms
                 newCategory = (Category)((Categories)existingExpense.DataSource).AddNew();
                 newCategory.CategoryType = CategoryType.Expense;
                 existingExpense.Rows[existingExpense.Rows.Count - 1].Selected = true;
+                existingExpense.Rows[existingExpense.Rows.Count - 1].Cells["Status"].Value = Status.Active;
             }
             else if (tabControl.SelectedTab.Equals(IncomeTab))
             {
                 newCategory = (Category)((Categories)existingIncome.DataSource).AddNew();
                 newCategory.CategoryType = CategoryType.Income;
                 existingIncome.Rows[existingIncome.Rows.Count - 1].Selected = true;
+                existingIncome.Rows[existingIncome.Rows.Count - 1].Cells["Status"].Value = Status.Active;
+            }
+            else if (tabControl.SelectedTab.Equals(TransferTab))
+            {
+                newCategory = (Category)((Categories)existingTransfer.DataSource).AddNew();
+                newCategory.CategoryType = CategoryType.Transfer;
+                existingTransfer.Rows[existingTransfer.Rows.Count - 1].Selected = true;
+                existingTransfer.Rows[existingTransfer.Rows.Count - 1].Cells["Status"].Value = Status.Active;
             }
 
-            newCategory.Operator = Program.Operator;
+            newCategory.Operator = Program.GetOperator();
         }
 
         private void DoneBtn_Click(object sender, EventArgs e)
         {
             UpdateCategoriesRQ request = new UpdateCategoriesRQ();
             request.ExpenseCategories = (Categories)existingExpense.DataSource;
-            request.IncomeCategories = (Categories)existingIncome.DataSource;            
+            request.IncomeCategories = (Categories)existingIncome.DataSource;
+            request.TransferCategories = (Categories)existingTransfer.DataSource;
             MessageProcessor.SendRequest(request, UpdateCategorySuccess);
         }
     }

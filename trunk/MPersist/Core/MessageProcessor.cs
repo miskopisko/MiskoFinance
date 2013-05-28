@@ -17,9 +17,7 @@ namespace MPersist.Core
 
         #region Delegates
 
-        [Browsable(false)]
         public delegate void SuccessEventHandler(AbstractResponse Response);
-        [Browsable(false)]
         public delegate void ErrorEventHandler(AbstractResponse Response);
 
         #endregion
@@ -36,9 +34,6 @@ namespace MPersist.Core
 
         #region Properties
 
-        [Browsable(false)]
-        public static ConnectionSettings ConnectionSettings { get; set; }
-        [Browsable(false)]
         public static IOController IOController { get; set; }
 
         #endregion
@@ -47,6 +42,11 @@ namespace MPersist.Core
 
         private MessageProcessor(AbstractRequest request, SuccessEventHandler successfulHandler, ErrorEventHandler errorHandler)
         {
+            if(IOController == null)
+            {
+                throw new Exception(ErrorStrings.errIOControllerIsNull);
+            }
+
             mRequest_ = request;
             mSuccess_ = successfulHandler;
             mError_ = errorHandler;
@@ -60,16 +60,13 @@ namespace MPersist.Core
         {
             active--;
 
-            if (IOController != null && IOController is Control)
+            if (IOController is Control && ((Control)IOController).InvokeRequired)
             {
-                if (((Control)IOController).InvokeRequired)
-                {
-                    ((Control)IOController).Invoke(new MethodInvoker(delegate { IOController.MessageReceived(Strings.strPorcessing); }));
-                }
-                else
-                {
-                    IOController.MessageReceived(Strings.strPorcessing);
-                }
+                ((Control)IOController).Invoke(new MethodInvoker(delegate { IOController.MessageReceived(Strings.strPorcessing); }));
+            }
+            else
+            {
+                IOController.MessageReceived(Strings.strPorcessing);
             }
 
             if (response != null)
@@ -87,16 +84,13 @@ namespace MPersist.Core
                 }
             }
 
-            if (IOController != null && IOController is Control)
+            if (IOController is Control && ((Control)IOController).InvokeRequired)
             {
-                if (((Control)IOController).InvokeRequired)
-                {
-                    ((Control)IOController).Invoke(new MethodInvoker(delegate { IOController.MessageReceived(active == 0 ? Strings.strSuccess : Strings.strPorcessing); }));
-                }
-                else
-                {
-                    IOController.MessageReceived(active == 0 ? Strings.strSuccess : Strings.strPorcessing);
-                }
+                ((Control)IOController).Invoke(new MethodInvoker(delegate { IOController.MessageReceived(active == 0 ? Strings.strSuccess : Strings.strPorcessing); }));
+            }
+            else
+            {
+                IOController.MessageReceived(active == 0 ? Strings.strSuccess : Strings.strPorcessing);
             }
         }
 
@@ -104,32 +98,26 @@ namespace MPersist.Core
         {
             active++;
 
-            if (IOController != null && IOController is Control)
+            if (IOController is Control && ((Control)IOController).InvokeRequired)
             {
-                if (((Control)IOController).InvokeRequired)
-                {
-                    ((Control)IOController).Invoke(new MethodInvoker(delegate { IOController.MessageSent(Strings.strMessageSent); }));
-                }
-                else
-                {
-                    IOController.MessageSent(Strings.strMessageSent);
-                }
+                ((Control)IOController).Invoke(new MethodInvoker(delegate { IOController.MessageSent(Strings.strMessageSent); }));
+            }
+            else
+            {
+                IOController.MessageSent(Strings.strMessageSent);
             }
 
             BackgroundWorker bw = new BackgroundWorker();
             bw.DoWork += new DoWorkEventHandler(Start);
             bw.RunWorkerAsync();
 
-            if (IOController != null && IOController is Control)
+            if (IOController is Control && ((Control)IOController).InvokeRequired)
             {
-                if (((Control)IOController).InvokeRequired)
-                {
-                    ((Control)IOController).Invoke(new MethodInvoker(delegate { IOController.MessageSent(Strings.strPorcessing); }));
-                }
-                else
-                {
-                    IOController.MessageSent(Strings.strPorcessing);
-                }                
+                ((Control)IOController).Invoke(new MethodInvoker(delegate { IOController.MessageSent(Strings.strPorcessing); }));
+            }
+            else
+            {
+                IOController.MessageSent(Strings.strPorcessing);
             }
         }
 
@@ -137,8 +125,9 @@ namespace MPersist.Core
         {
             AbstractResponse response;
             Boolean ResendMessage = false;
-            Session session = new Session(ServiceLocator.GetConnection(ConnectionSettings));
+            Session session = new Session(ServiceLocator.GetConnection(IOController.ConnectionSettings));
             session.MessageMode = mRequest_.MessageMode;
+            session.RowPerPage = IOController.RowsPerPage;
 
             do
             {
@@ -153,14 +142,14 @@ namespace MPersist.Core
                         ErrorMessage Message = session.ErrorMessages[i];
                         if (Message.Level.Equals(ErrorLevel.Error))
                         {
-                            if (IOController != null && IOController is Form)
+                            if (IOController is Form)
                             {
                                 ((Form)IOController).Invoke(new MethodInvoker(delegate { IOController.Error(Message); }));
                             }
                         }
                         else if (Message.Level.Equals(ErrorLevel.Warning))
                         {
-                            if (IOController != null && IOController is Form)
+                            if (IOController is Form)
                             {
                                 ((Form)IOController).Invoke(new MethodInvoker(delegate { IOController.Warning(Message); }));
                             }
@@ -168,7 +157,7 @@ namespace MPersist.Core
                         }
                         else if (Message.Level.Equals(ErrorLevel.Info))
                         {
-                            if (IOController != null && IOController is Form)
+                            if (IOController is Form)
                             {
                                 ((Form)IOController).Invoke(new MethodInvoker(delegate { IOController.Info(Message); }));
                             }
@@ -177,7 +166,7 @@ namespace MPersist.Core
                         {
                             if (!Message.Confirmed)
                             {
-                                if (IOController != null && IOController is Form)
+                                if (IOController is Form)
                                 {
                                     Func<DialogResult> showMsg = () => IOController.Confirm(Message);
                                     DialogResult result = (DialogResult)((Form)IOController).Invoke(showMsg);
