@@ -1,12 +1,12 @@
+using System;
+using System.Security.Cryptography;
+using System.Text;
 using MPersist.Core;
 using MPersist.Core.Attributes;
 using MPersist.Core.Data;
 using MPersist.Core.MoneyType;
 using MPFinance.Core.Data.Stored;
 using MPFinance.Core.Enums;
-using System;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace MPFinance.Core.Data.Viewed
 {
@@ -57,7 +57,7 @@ namespace MPFinance.Core.Data.Viewed
 
         public VwTxn(Session session, Persistence persistence)
         {
-            Set(session, persistence);
+            Set(session, persistence, true);
         }
 
         #endregion

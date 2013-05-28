@@ -26,6 +26,7 @@ namespace MPersist.Core.Data
 
         public AbstractViewedData(Session session, Persistence persistence)
         {
+            Set(session, persistence, true);
         }
 
         #endregion

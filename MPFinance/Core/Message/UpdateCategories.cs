@@ -38,6 +38,7 @@ namespace MPFinance.Core.Message
         {
             Response.ExpenseCategories = (Categories)Request.ExpenseCategories.Save(session);
             Response.IncomeCategories = (Categories)Request.IncomeCategories.Save(session);
+            Response.TransferCategories = (Categories)Request.TransferCategories.Save(session);
         }
     }
 }

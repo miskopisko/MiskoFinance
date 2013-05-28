@@ -14,18 +14,12 @@ namespace MPFinance
     {
         #region Variable Declarations
 
+        private static MPFinanceMain mMAIN_;
+
         private static ConnectionSettings mConnectionSettings_ = ConnectionSettings.SqliteConnection(@"..\..\DBA\MPersist_DB.sqlite3");
         //private static ConnectionSettings mConnectionSettings_ = ConnectionSettings.MySqlConnection("rpm-cvl", "test", "cvl", "cvl");
         //private static ConnectionSettings mConnectionSettings_ = ConnectionSettings.MySqlConnection("piskuric.ca", "miskop_MPersistenceTest", "miskop_michael", "sarpatt06");
         //private static ConnectionSettings mConnectionSettings_ = ConnectionSettings.OracleConnection("192.168.0.111", 1521, "xe", "MPersist", "MPersist");
-
-        #endregion
-
-        #region Properties
-
-        public static Operator Operator { get; set; }
-        public static Categories ExpenseCategories { get; set; }
-        public static Categories IncomeCategories { get; set; }
 
         #endregion
 
@@ -35,10 +29,29 @@ namespace MPFinance
             Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
             Application.ThreadException += Application_ThreadException;
 
-            MessageProcessor.ConnectionSettings = mConnectionSettings_;
-            MessageProcessor.IOController = new MPFinanceMain();
+            mMAIN_ = new MPFinanceMain(mConnectionSettings_);
+            MessageProcessor.IOController = mMAIN_;
+            Application.Run(mMAIN_);
+        }
 
-            Application.Run((Form)MessageProcessor.IOController);
+        public static Operator GetOperator()
+        {
+            return mMAIN_.Operator;
+        }
+
+        public static Categories GetIncomeCategories()
+        {
+            return mMAIN_.IncomeCategories;
+        }
+
+        public static Categories GetExpenseCategories()
+        {
+            return mMAIN_.ExpenseCategories;
+        }
+
+        public static Categories GetTransferCategories()
+        {
+            return mMAIN_.TransferCategories;
         }
 
         public static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
@@ -49,7 +62,7 @@ namespace MPFinance
             }
             else
             {
-                MessageBox.Show((Control)MessageProcessor.IOController, e.Exception.Message.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(mMAIN_, e.Exception.Message.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

@@ -12,6 +12,7 @@ namespace MPersist.Core.Data
         private Boolean mIncludeRecordCount_ = true;
         private Int32 mTotalPageCount_ = 0;
         private Int32 mTotalRowCount_ = 0;
+        private Int32 mRowsFetchedSoFar_ = 0;
 
         #endregion
 
@@ -39,6 +40,12 @@ namespace MPersist.Core.Data
         {
             get { return mTotalRowCount_; }
             set { mTotalRowCount_ = value; }
+        }
+
+        public Int32 RowsFetchedSoFar
+        {
+            get { return mRowsFetchedSoFar_; }
+            set { mRowsFetchedSoFar_ = value; }
         }
 
         #endregion

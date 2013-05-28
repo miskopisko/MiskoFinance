@@ -8,12 +8,17 @@ namespace MPFinance.Core.Enums
         #region Variable Declarations
 
         private static readonly Status mNULL_ = new Status(-1, "", "");
-        private static readonly Status mActive_ = new Status(0, "", "Active");
-        private static readonly Status mInactive_ = new Status(1, "", "Inactive");
+        private static readonly Status mActive_ = new Status(0, "A", "Active");
+        private static readonly Status mInactive_ = new Status(1, "I", "Inactive");
 
         private static readonly Status[] mElements_ = new[]
 		{
 		    mNULL_, mActive_, mInactive_
+		};
+
+        private static readonly Status[] mNonNullElements_ = new[]
+		{
+		    mActive_, mInactive_
 		};
 
         #endregion
@@ -21,6 +26,7 @@ namespace MPFinance.Core.Enums
         #region Parameters
 
         public static Status[] Elements { get { return mElements_; } }
+        public static Status[] NonNullElements { get { return mNonNullElements_; } }
         public static Status NULL { get { return mNULL_; } }
         public static Status Active { get { return mActive_; } }
         public static Status Inactive { get { return mInactive_; } }

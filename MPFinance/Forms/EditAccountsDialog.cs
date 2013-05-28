@@ -33,7 +33,7 @@ namespace MPFinance.Forms
         protected override void OnLoad(EventArgs e)
         {
             GetAccountsRQ request = new GetAccountsRQ();
-            request.Operator = Program.Operator;
+            request.Operator = Program.GetOperator();
             MessageProcessor.SendRequest(request, ResponseRecieved);
         }
 

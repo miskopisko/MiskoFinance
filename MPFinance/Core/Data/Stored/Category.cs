@@ -1,11 +1,11 @@
+using System;
+using System.Reflection;
 using MPersist.Core;
 using MPersist.Core.Attributes;
 using MPersist.Core.Data;
 using MPersist.Core.Enums;
 using MPFinance.Core.Enums;
 using MPFinance.Resources;
-using System;
-using System.Reflection;
 
 namespace MPFinance.Core.Data.Stored
 {

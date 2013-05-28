@@ -8,12 +8,13 @@ namespace MPFinance.Core.Enums
         #region Variable Declarations
 
         private static readonly CategoryType mNULL_ = new CategoryType(-1, "", "");
-        private static readonly CategoryType mIncome_ = new CategoryType(0, "", "Income");
-        private static readonly CategoryType mExpense_ = new CategoryType(1, "", "Expense");
+        private static readonly CategoryType mIncome_ = new CategoryType(0, "I", "Income");
+        private static readonly CategoryType mExpense_ = new CategoryType(1, "E", "Expense");
+        private static readonly CategoryType mTransfer_ = new CategoryType(2, "T", "Transfer");
 
         private static readonly CategoryType[] mElements_ = new[]
 		{
-		    mNULL_, mIncome_, mExpense_
+		    mNULL_, mIncome_, mExpense_, mTransfer_
 		};
 
         #endregion
@@ -24,6 +25,7 @@ namespace MPFinance.Core.Enums
         public static CategoryType NULL { get { return mNULL_; } }
         public static CategoryType Income { get { return mIncome_; } }
         public static CategoryType Expense { get { return mExpense_; } }
+        public static CategoryType Transfer { get { return mTransfer_; } }
 
         #endregion
 

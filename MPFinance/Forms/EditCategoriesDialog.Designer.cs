@@ -29,30 +29,50 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditCategoriesDialog));
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.IncomeTab = new System.Windows.Forms.TabPage();
             this.existingIncome = new MPFinance.Forms.Controls.CategoriesGridView();
             this.ExpenseTab = new System.Windows.Forms.TabPage();
             this.existingExpense = new MPFinance.Forms.Controls.CategoriesGridView();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.TransferTab = new System.Windows.Forms.TabPage();
+            this.existingTransfer = new MPFinance.Forms.Controls.CategoriesGridView();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.AddBtn = new System.Windows.Forms.Button();
             this.DoneBtn = new System.Windows.Forms.Button();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewButtonColumn1 = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.tableLayoutPanel1.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.IncomeTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.existingIncome)).BeginInit();
             this.ExpenseTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.existingExpense)).BeginInit();
-            this.tableLayoutPanel1.SuspendLayout();
+            this.TransferTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.existingTransfer)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 1;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Controls.Add(this.tabControl, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 1);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(312, 267);
+            this.tableLayoutPanel1.TabIndex = 4;
             // 
             // tabControl
             // 
             this.tabControl.Controls.Add(this.IncomeTab);
             this.tabControl.Controls.Add(this.ExpenseTab);
+            this.tabControl.Controls.Add(this.TransferTab);
             this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl.Location = new System.Drawing.Point(3, 3);
             this.tabControl.Name = "tabControl";
@@ -116,20 +136,31 @@
             this.existingExpense.TabIndex = 0;
             this.existingExpense.VirtualMode = true;
             // 
-            // tableLayoutPanel1
+            // TransferTab
             // 
-            this.tableLayoutPanel1.ColumnCount = 1;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Controls.Add(this.tabControl, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 1);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(312, 267);
-            this.tableLayoutPanel1.TabIndex = 4;
+            this.TransferTab.Controls.Add(this.existingTransfer);
+            this.TransferTab.Location = new System.Drawing.Point(4, 22);
+            this.TransferTab.Name = "TransferTab";
+            this.TransferTab.Padding = new System.Windows.Forms.Padding(3);
+            this.TransferTab.Size = new System.Drawing.Size(298, 200);
+            this.TransferTab.TabIndex = 2;
+            this.TransferTab.Text = "Transfer";
+            this.TransferTab.UseVisualStyleBackColor = true;
+            // 
+            // existingTransfer
+            // 
+            this.existingTransfer.AllowUserToAddRows = false;
+            this.existingTransfer.AllowUserToDeleteRows = false;
+            this.existingTransfer.AllowUserToResizeColumns = false;
+            this.existingTransfer.AllowUserToResizeRows = false;
+            this.existingTransfer.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.existingTransfer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.existingTransfer.Location = new System.Drawing.Point(3, 3);
+            this.existingTransfer.MultiSelect = false;
+            this.existingTransfer.Name = "existingTransfer";
+            this.existingTransfer.RowHeadersVisible = false;
+            this.existingTransfer.Size = new System.Drawing.Size(292, 194);
+            this.existingTransfer.TabIndex = 0;
             // 
             // tableLayoutPanel2
             // 
@@ -194,12 +225,14 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Add/Edit Categories";
+            this.tableLayoutPanel1.ResumeLayout(false);
             this.tabControl.ResumeLayout(false);
             this.IncomeTab.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.existingIncome)).EndInit();
             this.ExpenseTab.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.existingExpense)).EndInit();
-            this.tableLayoutPanel1.ResumeLayout(false);
+            this.TransferTab.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.existingTransfer)).EndInit();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -207,16 +240,18 @@
 
         #endregion
 
-        private System.Windows.Forms.TabControl tabControl;
-        private System.Windows.Forms.TabPage ExpenseTab;
-        private System.Windows.Forms.TabPage IncomeTab;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewButtonColumn dataGridViewButtonColumn1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private Controls.CategoriesGridView existingIncome;
-        private Controls.CategoriesGridView existingExpense;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Button AddBtn;
         private System.Windows.Forms.Button DoneBtn;
+        private System.Windows.Forms.TabControl tabControl;
+        private System.Windows.Forms.TabPage IncomeTab;
+        private MPFinance.Forms.Controls.CategoriesGridView existingIncome;
+        private System.Windows.Forms.TabPage ExpenseTab;
+        private MPFinance.Forms.Controls.CategoriesGridView existingExpense;
+        private System.Windows.Forms.TabPage TransferTab;
+        private MPFinance.Forms.Controls.CategoriesGridView existingTransfer;
     }
 }

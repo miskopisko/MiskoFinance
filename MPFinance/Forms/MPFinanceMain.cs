@@ -1,4 +1,7 @@
-﻿using MPersist.Core;
+﻿using System;
+using System.IO;
+using System.Windows.Forms;
+using MPersist.Core;
 using MPersist.Core.Data;
 using MPersist.Core.Interfaces;
 using MPersist.Core.Message.Response;
@@ -7,19 +10,36 @@ using MPFinance.Core.Data.Viewed;
 using MPFinance.Core.Message.Requests;
 using MPFinance.Core.Message.Responses;
 using MPFinance.Core.OFX;
+using MPFinance.Properties;
 using MPFinance.Resources;
-using System;
-using System.IO;
-using System.Windows.Forms;
 
 namespace MPFinance.Forms
 {
     public partial class MPFinanceMain : Form, IOController
     {   
-        private static Logger Log = Logger.GetInstance(typeof(MPFinanceMain));        
+        private static Logger Log = Logger.GetInstance(typeof(MPFinanceMain));
 
-        public MPFinanceMain()
+        #region Variable Declarations
+
+        private ConnectionSettings mConnectionSettings_;
+        
+        #endregion
+
+        #region Properties
+
+        public Int32 RowsPerPage { get { return Settings.Default.RowsPerPage; } set { return; } }
+        public ConnectionSettings ConnectionSettings { get { return mConnectionSettings_; } set { return; } }
+        public Operator Operator { get; set; }
+        public Categories ExpenseCategories { get; set; }
+        public Categories IncomeCategories { get; set; }
+        public Categories TransferCategories { get; set; }
+
+        #endregion
+
+        public MPFinanceMain(ConnectionSettings connectionSettings)
         {
+            mConnectionSettings_ = connectionSettings;
+
             InitializeComponent();
             transactionsGridView.FillColumns();
 
@@ -34,40 +54,13 @@ namespace MPFinance.Forms
         // Feth all txns as per the search criteria
         private void GetTxns(Page page)
         {            
-            GetTxnsRQ findTxns = new GetTxnsRQ();
-            findTxns.Operator = Program.Operator;
-            findTxns.Account = (Account)AccountsList.SelectedNode.Tag;
-            findTxns.FromDate = FromDatePicker.Value;
-            findTxns.ToDate = ToDatePicker.Value;
-            findTxns.Page = page;
-            MessageProcessor.SendRequest(findTxns, GetTxnsSuccess);
-        }
-
-        // Fetch the summary as per the selection criteris
-        private void GetSummary()
-        {            
-            GetSummaryRQ request = new GetSummaryRQ();
-            request.Operator = Program.Operator;
-            request.Account = (Account)AccountsList.SelectedNode.Tag;
+            GetTxnsRQ request = new GetTxnsRQ();
+            request.Operator = Program.GetOperator();
+            request.Account = AccountsList.SelectedNode != null ? (Account)AccountsList.SelectedNode.Tag : null;
             request.FromDate = FromDatePicker.Value;
             request.ToDate = ToDatePicker.Value;
-            MessageProcessor.SendRequest(request, GetSummarySuccess);   
-        }
-
-        // Load the Accounts tree
-        private void GetAccounts()
-        {            
-            GetAccountsRQ findAccounts = new GetAccountsRQ();
-            findAccounts.Operator = Program.Operator;
-            MessageProcessor.SendRequest(findAccounts, GetAccountsSuccess);
-        }
-
-        // Load the Categories
-        private void GetCategories()
-        {
-            GetCategoriesRQ getCategories = new GetCategoriesRQ();
-            getCategories.Operator = Program.Operator;
-            MessageProcessor.SendRequest(getCategories, GetCategoriesSuccess);
+            request.Page = page;
+            MessageProcessor.SendRequest(request, GetTxnsSuccess);
         }
 
         // Callback method for GetTxns
@@ -86,10 +79,23 @@ namespace MPFinance.Forms
             }
 
             summaryPanel.Update(Response.Summary);
-            recordPageCounts.Text = Response.Page.PageNo + " / " + Response.Page.TotalPageCount;
+            PageCountsLbl.Text = "Page " + Response.Page.PageNo + " / " + Response.Page.TotalPageCount;
+            TransactionCountsLbl.Text = "Showing " + Response.Page.RowsFetchedSoFar  + " of " + Response.Page.TotalRowCount + " transactions";
+
             transactionsGridView.CurrentPage = Response.Page;
 
             MoreBtn.Enabled = transactionsGridView.CurrentPage.PageNo != transactionsGridView.CurrentPage.TotalPageCount;
+        }
+
+        // Fetch the summary as per the selection criteris
+        private void GetSummary()
+        {            
+            GetSummaryRQ request = new GetSummaryRQ();
+            request.Operator = Operator;
+            request.Account = AccountsList.SelectedNode != null ? (Account)AccountsList.SelectedNode.Tag : null;
+            request.FromDate = FromDatePicker.Value;
+            request.ToDate = ToDatePicker.Value;
+            MessageProcessor.SendRequest(request, GetSummarySuccess);   
         }
 
         // Callback method for GetSummary
@@ -98,12 +104,26 @@ namespace MPFinance.Forms
             summaryPanel.Update(((GetSummaryRS)response).Summary);
         }
 
+        // Load the Accounts tree
+        private void GetAccounts()
+        {
+            GetAccountsRQ request = new GetAccountsRQ();
+            request.Operator = Operator;
+            MessageProcessor.SendRequest(request, GetAccountsSuccess);
+        }
+
         // Callback method for GetAccounts
         private void GetAccountsSuccess(AbstractResponse response)
         {
+            FillAccountsTree(((GetAccountsRS)response).Accounts);
+        }
+
+        // Refresh the accounts tree
+        private void FillAccountsTree(Accounts accounts)
+        {
             AccountsList.Nodes["Accounts"].Nodes.Clear();
 
-            foreach (Account a in ((GetAccountsRS)response).Accounts)
+            foreach (Account a in accounts)
             {
                 AccountsList.Nodes["Accounts"].Nodes.Add(a.Id.ToString(), a.Nickname).Tag = a;
             }
@@ -111,23 +131,42 @@ namespace MPFinance.Forms
             AccountsList.ExpandAll();
         }
 
-        // Callback method for GetOperator
-        private void GetOperatorSuccess(AbstractResponse response)
+        // Load the Categories
+        private void GetCategories()
         {
-            Program.Operator = ((GetOperatorRS)response).Operator;
-            headerLbl.Text = Program.Operator.LastName + ", " + Program.Operator.FirstName;
-                        
-            GetCategories();            
+            GetCategoriesRQ request = new GetCategoriesRQ();
+            request.Operator = Program.GetOperator();
+            MessageProcessor.SendRequest(request, GetCategoriesSuccess);
         }
 
         // Callback method for GetCatagories
         private void GetCategoriesSuccess(AbstractResponse response)
         {
-            GetAccounts();
-
-            Program.ExpenseCategories = ((GetCategoriesRS)response).ExpenseCategories;
-            Program.IncomeCategories = ((GetCategoriesRS)response).IncomeCategories;
+            ExpenseCategories = ((GetCategoriesRS)response).ExpenseCategories;
+            IncomeCategories = ((GetCategoriesRS)response).IncomeCategories;
+            TransferCategories = ((GetCategoriesRS)response).TransferCategories;
         }
+
+        // Load the operator, categories and accounts
+        private void GetOperator()
+        {
+            GetOperatorRQ request = new GetOperatorRQ();
+            request.Username = "miskopisko";
+            MessageProcessor.SendRequest(request, GetOperatorSuccess);
+        }
+
+        // Callback method for GetOperator
+        private void GetOperatorSuccess(AbstractResponse response)
+        {
+            Operator = ((GetOperatorRS)response).Operator;
+            headerLbl.Text = Operator.LastName + ", " + Operator.FirstName;
+
+            ExpenseCategories = ((GetOperatorRS)response).ExpenseCategories;
+            IncomeCategories = ((GetOperatorRS)response).IncomeCategories;
+            TransferCategories = ((GetOperatorRS)response).TransferCategories;
+
+            FillAccountsTree(((GetOperatorRS)response).Accounts);
+        }        
 
         #endregion
 
@@ -145,7 +184,12 @@ namespace MPFinance.Forms
 
         private void AccountsView_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            GetTxns(new Page(1));
+            if (Program.GetOperator() != null)
+            {
+                String accountName = AccountsList.SelectedNode.Tag != null ? " - " + ((Account)AccountsList.SelectedNode.Tag).Nickname : "";
+                headerLbl.Text = Program.GetOperator().LastName + ", " + Program.GetOperator().FirstName + accountName;
+                GetTxns(new Page(1));
+            }           
         }
 
         private void txnSearch_Click(object sender, EventArgs e)
@@ -208,9 +252,7 @@ namespace MPFinance.Forms
 
         protected override void OnLoad(EventArgs e)
         {
-            GetOperatorRQ findUser = new GetOperatorRQ();
-            findUser.Username = "miskopisko";
-            MessageProcessor.SendRequest(findUser, GetOperatorSuccess);
+            GetOperator();
         }
 
         #endregion
@@ -249,8 +291,8 @@ namespace MPFinance.Forms
             messageStatusLbl.Text = message;
             messageStatusBar.Increment(10);
             Application.DoEvents();
-        }        
+        }
 
-        #endregion        
+        #endregion
     }
 }

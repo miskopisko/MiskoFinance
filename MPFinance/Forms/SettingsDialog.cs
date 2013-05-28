@@ -41,8 +41,8 @@ namespace MPFinance.Forms
                                 case "ConnectionType":
                                     ps = new PropertySpec("DB Connection Type", typeof(ErrorLevel), "User Settings", "Default database connection type", settings.ConnectionType);
                                     break;
-                                case "RecordsPerPage":
-                                    ps = new PropertySpec("Records Per Page", typeof(Int32), "User Settings", "Number of records fetched per page", settings.RecordsPerPage);
+                                case "RowsPerPage":
+                                    ps = new PropertySpec("Rows Per Page", typeof(Int32), "User Settings", "Number of records fetched per page", settings.RowsPerPage);
                                     break;
                             }
                             proptable.Properties.Add(ps);
@@ -97,8 +97,8 @@ namespace MPFinance.Forms
                 //case "DB Connection Type":
                 //    settings.ConnectionType = (Int32)gi.Value;
                 //    break;
-                case "Records Per Page":
-                    settings.RecordsPerPage = (Int32)gi.Value;
+                case "Rows Per Page":
+                    settings.RowsPerPage = (Int32)gi.Value;
                     break;
                 default:
                     break;

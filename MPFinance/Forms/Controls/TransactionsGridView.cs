@@ -28,8 +28,8 @@ namespace MPFinance.Forms.Controls
         private DataGridViewTextBoxColumn Description = new DataGridViewTextBoxColumn();
         private DataGridViewTextBoxColumn Credit = new DataGridViewTextBoxColumn();
         private DataGridViewTextBoxColumn Debit = new DataGridViewTextBoxColumn();
-        private DataGridViewComboBoxColumn Category = new DataGridViewComboBoxColumn();
         private DataGridViewCheckBoxColumn Transfer = new DataGridViewCheckBoxColumn();
+        private DGVComboBoxColumn Category = new DGVComboBoxColumn();
 
         private Page mCurrentPage_ = new Page();
 
@@ -53,40 +53,43 @@ namespace MPFinance.Forms.Controls
 
         protected override void OnDataBindingComplete(DataGridViewBindingCompleteEventArgs e)
         {
+            base.OnDataBindingComplete(e);
+
             foreach (DataGridViewRow row in Rows)
             {
                 VwTxn txn = (VwTxn)row.DataBoundItem;
 
-                if(txn.TxnType.Equals(TxnType.Credit))
+                if (txn.TxnType.Equals(TxnType.Credit))
                 {
-                    ((DataGridViewComboBoxCell)row.Cells["Category"]).DataSource = Program.IncomeCategories;
-                    ((DataGridViewComboBoxCell)row.Cells["Category"]).Value = txn.Category;
+                    ((DGVComboBoxCell)row.Cells["Category"]).DataSource = Program.GetIncomeCategories();                    
                 }
                 else if (txn.TxnType.Equals(TxnType.Debit))
                 {
-                    ((DataGridViewComboBoxCell)row.Cells["Category"]).DataSource = Program.ExpenseCategories;
-                    ((DataGridViewComboBoxCell)row.Cells["Category"]).Value = txn.Category;
+                    ((DGVComboBoxCell)row.Cells["Category"]).DataSource = Program.GetExpenseCategories();
                 }
-                else
+                else if (txn.TxnType.Equals(TxnType.TransferIn) || txn.TxnType.Equals(TxnType.TransferOut))
                 {
-                    ((DataGridViewComboBoxCell)row.Cells["Category"]).ReadOnly = true;
+                    ((DGVComboBoxCell)row.Cells["Category"]).DataSource = Program.GetTransferCategories();
                 }
-            }
 
-            base.OnDataBindingComplete(e);
+                ((DGVComboBoxCell)row.Cells["Category"]).Value = txn.Category;
+            }
         }
 
         protected override void OnCurrentCellDirtyStateChanged(EventArgs e)
         {
-            CommitEdit(DataGridViewDataErrorContexts.Commit);
-
             base.OnCurrentCellDirtyStateChanged(e);
+            
+            CommitEdit(DataGridViewDataErrorContexts.Commit);            
         }
 
         protected override void OnCellValueChanged(DataGridViewCellEventArgs e)
         {
+            base.OnCellValueChanged(e);
+            
             VwTxn vwTxn = (VwTxn)Rows[e.RowIndex].DataBoundItem;
 
+            // Set the transaction type
             if (vwTxn.TxnType.Equals(TxnType.Credit) || vwTxn.TxnType.Equals(TxnType.TransferIn))
             {
                 vwTxn.TxnType = vwTxn.Transfer ? TxnType.TransferIn : TxnType.Credit;
@@ -96,11 +99,33 @@ namespace MPFinance.Forms.Controls
                 vwTxn.TxnType = vwTxn.Transfer ? TxnType.TransferOut : TxnType.Debit;
             }
 
+            // If the Transfer checkbox was changed then change the category
+            if (e.ColumnIndex.Equals(Columns.IndexOf(Transfer)))
+            {
+                vwTxn.Category = null;               
+
+                if(vwTxn.Transfer)
+                {
+                    ((DGVComboBoxCell)Rows[e.RowIndex].Cells["Category"]).DataSource = Program.GetTransferCategories();
+                }
+                else
+                {
+                    if(vwTxn.TxnType.Equals(TxnType.Credit))
+                    {
+                        ((DGVComboBoxCell)Rows[e.RowIndex].Cells["Category"]).DataSource = Program.GetIncomeCategories();
+                    }
+                    else if (vwTxn.TxnType.Equals(TxnType.Debit))
+                    {
+                        ((DGVComboBoxCell)Rows[e.RowIndex].Cells["Category"]).DataSource = Program.GetExpenseCategories();
+                    }
+                }
+
+                ((DGVComboBoxCell)Rows[e.RowIndex].Cells["Category"]).Value = null;
+            }
+
             UpdateTxnRQ request = new UpdateTxnRQ();
             request.VwTxn = vwTxn;
-            MessageProcessor.SendRequest(request, UpdateTxnSuccess); 
-
-            base.OnCellValueChanged(e);
+            MessageProcessor.SendRequest(request, UpdateTxnSuccess);             
         }
 
         public void FillColumns()
@@ -144,12 +169,12 @@ namespace MPFinance.Forms.Controls
                 Transfer.Width = 75;
 
                 Category.ValueType = typeof(Category);
-                Category.DataPropertyName = "Category";
                 Category.HeaderText = "Category";
                 Category.Name = "Category";
                 Category.Width = 150;
-                Category.ValueMember = "Self";
-                Category.DisplayMember = "Category.CategoryType";
+                Category.DataPropertyName = "Category";
+                Category.DisplayMember = "Name";
+                Category.DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing;
                 
                 Columns.AddRange(new DataGridViewColumn[] {
                                 Date,

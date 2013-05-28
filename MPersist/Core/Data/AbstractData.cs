@@ -1,9 +1,9 @@
-using MPersist.Core.Attributes;
-using MPersist.Core.Enums;
-using MPersist.Core.MoneyType;
 using System;
 using System.ComponentModel;
 using System.Reflection;
+using MPersist.Core.Attributes;
+using MPersist.Core.Enums;
+using MPersist.Core.MoneyType;
 
 namespace MPersist.Core.Data
 {
@@ -160,15 +160,31 @@ namespace MPersist.Core.Data
                     if (this is AbstractStoredData)
                     {
                         ((AbstractStoredData)this).IsSet = true;
-                        if (deep)
-                        {
-                            ((AbstractStoredData)this).FetchDeep(session);
-                        }
+                    }
+
+                    if (deep)
+                    {
+                        FetchDeep(session);
                     }
                 }
             }
 
             return this;
+        }
+
+        public void FetchDeep(Session session)
+        {
+            foreach (PropertyInfo property in GetType().GetProperties())
+            {
+                if (property.PropertyType.IsSubclassOf(typeof(AbstractStoredData)))
+                {
+                    AbstractStoredData item = (AbstractStoredData)property.GetValue(this, null);
+                    if (item != null && item.Id > 0)
+                    {
+                        item.FetchById(session, item.Id, true);
+                    }
+                }
+            }
         }
 
         #endregion

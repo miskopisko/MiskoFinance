@@ -49,13 +49,13 @@ namespace MPFinance.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("20")]
-        public int RecordsPerPage {
+        [global::System.Configuration.DefaultSettingValueAttribute("7")]
+        public int RowsPerPage {
             get {
-                return ((int)(this["RecordsPerPage"]));
+                return ((int)(this["RowsPerPage"]));
             }
             set {
-                this["RecordsPerPage"] = value;
+                this["RowsPerPage"] = value;
             }
         }
     }

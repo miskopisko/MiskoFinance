@@ -47,7 +47,7 @@ namespace MPFinance.Core.Data.Viewed
             p.SqlWhere(from.HasValue, "DatePosted >= ?", new Object[] { from });
             p.SqlWhere(to.HasValue, "DatePosted <= ?", new Object[] { to });
             p.ExecuteQuery();
-            set(session, p, page);
+            Set(session, p, page);
             p.Close();
             p = null;
         } 
