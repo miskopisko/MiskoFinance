@@ -74,6 +74,7 @@
     <Compile Include="Core\Enums\AccountType.cs" />
     <Compile Include="Core\Enums\CategoryType.cs" />
     <Compile Include="Core\Enums\Gender.cs" />
+    <Compile Include="Core\Enums\Status.cs" />
     <Compile Include="Core\Enums\TxnType.cs" />
     <Compile Include="Core\Message\AddAccount.cs" />
     <Compile Include="Core\Message\CheckDuplicateTxns.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="Core\Message\Requests\GetOperatorRQ.cs" />
     <Compile Include="Core\Message\Requests\ImportTxnsRQ.cs" />
     <Compile Include="Core\Message\Requests\UpdateAccountRQ.cs" />
+    <Compile Include="Core\Message\Requests\UpdateCategoriesRQ.cs" />
     <Compile Include="Core\Message\Requests\UpdateTxnRQ.cs" />
     <Compile Include="Core\Message\Responses\AddAccountRS.cs" />
     <Compile Include="Core\Message\Responses\CheckDuplicateTxnsRS.cs" />
@@ -105,8 +107,10 @@
     <Compile Include="Core\Message\Responses\GetOperatorRS.cs" />
     <Compile Include="Core\Message\Responses\ImportTxnsRS.cs" />
     <Compile Include="Core\Message\Responses\UpdateAccountRS.cs" />
+    <Compile Include="Core\Message\Responses\UpdateCategoriesRS.cs" />
     <Compile Include="Core\Message\Responses\UpdateTxnRS.cs" />
     <Compile Include="Core\Message\UpdateAccount.cs" />
+    <Compile Include="Core\Message\UpdateCategories.cs" />
     <Compile Include="Core\Message\UpdateTxn.cs" />
     <Compile Include="Core\OFX\OfxDocument.cs" />
     <Compile Include="Core\Data\Stored\Txn.cs" />
@@ -116,6 +120,12 @@
     </Compile>
     <Compile Include="Forms\AboutDialog.Designer.cs">
       <DependentUpon>AboutDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Controls\CategoriesGridView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\Controls\CategoriesGridView.Designer.cs">
+      <DependentUpon>CategoriesGridView.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Controls\CheckBoxHeaderCell.cs">
     </Compile>
@@ -145,6 +155,12 @@
     </Compile>
     <Compile Include="Forms\EditAccountsDialog.Designer.cs">
       <DependentUpon>EditAccountsDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\EditCategoriesDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\EditCategoriesDialog.Designer.cs">
+      <DependentUpon>EditCategoriesDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\ImportNewTransactionsDialog.cs">
       <SubType>Form</SubType>
@@ -208,6 +224,9 @@
       <DependentUpon>AboutDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Controls\CategoriesGridView.resx">
+      <DependentUpon>CategoriesGridView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Controls\ImportedTransactionsGridView.resx">
       <DependentUpon>ImportedTransactionsGridView.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -219,6 +238,9 @@
     <EmbeddedResource Include="Forms\EditAccountsDialog.resx">
       <DependentUpon>EditAccountsDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\EditCategoriesDialog.resx">
+      <DependentUpon>EditCategoriesDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ImportNewTransactionsDialog.resx">
       <DependentUpon>ImportNewTransactionsDialog.cs</DependentUpon>

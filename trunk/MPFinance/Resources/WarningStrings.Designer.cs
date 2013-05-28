@@ -61,11 +61,29 @@ namespace MPFinance.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Account updated successfully..
+        ///   Looks up a localized string similar to Account updated successfully.
         /// </summary>
         internal static string warnAccountUpdateSuccess {
             get {
                 return ResourceManager.GetString("warnAccountUpdateSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Category added successfully.
+        /// </summary>
+        internal static string warnCategoryAdded {
+            get {
+                return ResourceManager.GetString("warnCategoryAdded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Category updated successfully.
+        /// </summary>
+        internal static string warnCategoryUpdated {
+            get {
+                return ResourceManager.GetString("warnCategoryUpdated", resourceCulture);
             }
         }
     }

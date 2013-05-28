@@ -88,6 +88,24 @@ namespace MPFinance.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Category name cannot be blank.
+        /// </summary>
+        internal static string errCategoryNameBlank {
+            get {
+                return ResourceManager.GetString("errCategoryNameBlank", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Category type must be selected.
+        /// </summary>
+        internal static string errCategoryTypeMissing {
+            get {
+                return ResourceManager.GetString("errCategoryTypeMissing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Must choose an existing account..
         /// </summary>
         internal static string errChooseExistingAccount {
@@ -120,6 +138,15 @@ namespace MPFinance.Resources {
         internal static string errNicknameMandatory {
             get {
                 return ResourceManager.GetString("errNicknameMandatory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No category selected to delete.
+        /// </summary>
+        internal static string errNoCategorySelected {
+            get {
+                return ResourceManager.GetString("errNoCategorySelected", resourceCulture);
             }
         }
         

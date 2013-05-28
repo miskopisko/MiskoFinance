@@ -1,9 +1,9 @@
-using System;
-using System.ComponentModel;
-using System.Reflection;
 using MPersist.Core.Attributes;
 using MPersist.Core.Enums;
 using MPersist.Core.MoneyType;
+using System;
+using System.ComponentModel;
+using System.Reflection;
 
 namespace MPersist.Core.Data
 {
@@ -39,12 +39,12 @@ namespace MPersist.Core.Data
 
         #region Public Methods
 
-        public AbstractData set(Session session, Persistence persistence)
+        public AbstractData Set(Session session, Persistence persistence)
         {
-            return set(session, persistence, false);
+            return Set(session, persistence, false);
         }
 
-        public AbstractData set(Session session, Persistence persistence, bool deep)
+        public AbstractData Set(Session session, Persistence persistence, bool deep)
         {
             if (persistence.Next())
             {

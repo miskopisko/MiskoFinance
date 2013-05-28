@@ -4,7 +4,7 @@ using System;
 
 namespace MPFinance.Core.Data.Stored
 {
-    public class Accounts : AbstractStoredDataList
+    public class Accounts : AbstractStoredDataList<Account>
     {
         private static Logger Log = Logger.GetInstance(typeof(Accounts));
 
@@ -49,6 +49,16 @@ namespace MPFinance.Core.Data.Stored
             p = null;
         }
 
-        #endregion
+        public override AbstractStoredDataList<Account> Save(Session session)
+        {
+            foreach (AbstractStoredData item in this)
+            {
+                item.Save(session);
+            }
+
+            return this;
+        }
+
+        #endregion        
     }
 }

@@ -29,12 +29,11 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-            MPersist.Core.Data.Page page1 = new MPersist.Core.Data.Page();
             System.Windows.Forms.Label label6;
             System.Windows.Forms.Label label7;
             System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Accounts");
+            MPersist.Core.Data.Page page1 = new MPersist.Core.Data.Page();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MPFinanceMain));
-            this.transactionsGridView = new MPFinance.Forms.Controls.TransactionsGridView();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.StatusStrip = new System.Windows.Forms.StatusStrip();
             this.messageStatusBar = new System.Windows.Forms.ToolStripProgressBar();
@@ -56,48 +55,28 @@
             this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.AccountsList = new System.Windows.Forms.TreeView();
             this.MainLayout = new System.Windows.Forms.TableLayoutPanel();
-            this.summaryPanel = new MPFinance.Forms.Panels.SummaryPanel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.MoreBtn = new System.Windows.Forms.Button();
             this.txnSearch = new System.Windows.Forms.Button();
             this.ToDatePicker = new System.Windows.Forms.DateTimePicker();
             this.FromDatePicker = new System.Windows.Forms.DateTimePicker();
             this.headerLbl = new System.Windows.Forms.Label();
+            this.summaryPanel = new MPFinance.Forms.Panels.SummaryPanel();
+            this.transactionsGridView = new MPFinance.Forms.Controls.TransactionsGridView();
             toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             label6 = new System.Windows.Forms.Label();
             label7 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.transactionsGridView)).BeginInit();
             this.StatusStrip.SuspendLayout();
             this.MenuStrip.SuspendLayout();
             this.MainLayout.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.transactionsGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
             toolStripSeparator1.Size = new System.Drawing.Size(104, 6);
-            // 
-            // transactionsGridView
-            // 
-            this.transactionsGridView.AllowUserToAddRows = false;
-            this.transactionsGridView.AllowUserToDeleteRows = false;
-            this.transactionsGridView.AllowUserToResizeColumns = false;
-            this.transactionsGridView.AllowUserToResizeRows = false;
-            this.transactionsGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            page1.IncludeRecordCount = true;
-            page1.PageNo = 0;
-            page1.TotalPageCount = 0;
-            page1.TotalRowCount = 0;
-            this.transactionsGridView.CurrentPage = page1;
-            this.transactionsGridView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.transactionsGridView.Location = new System.Drawing.Point(253, 62);
-            this.transactionsGridView.Name = "transactionsGridView";
-            this.transactionsGridView.RowHeadersVisible = false;
-            this.MainLayout.SetRowSpan(this.transactionsGridView, 2);
-            this.transactionsGridView.Size = new System.Drawing.Size(928, 675);
-            this.transactionsGridView.TabIndex = 0;
-            this.transactionsGridView.VirtualMode = true;
             // 
             // label6
             // 
@@ -107,7 +86,7 @@
             label6.Size = new System.Drawing.Size(69, 29);
             label6.TabIndex = 4;
             label6.Text = "From Date:";
-            label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label7
             // 
@@ -117,7 +96,7 @@
             label7.Size = new System.Drawing.Size(69, 29);
             label7.TabIndex = 6;
             label7.Text = "To Date:";
-            label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // openFileDialog
             // 
@@ -225,7 +204,8 @@
             // 
             this.catagoriesToolStripMenuItem.Name = "catagoriesToolStripMenuItem";
             this.catagoriesToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
-            this.catagoriesToolStripMenuItem.Text = "Catagories";
+            this.catagoriesToolStripMenuItem.Text = "Categories";
+            this.catagoriesToolStripMenuItem.Click += new System.EventHandler(this.catagoriesToolStripMenuItem_Click);
             // 
             // toolStripSeparator4
             // 
@@ -298,13 +278,6 @@
             this.MainLayout.Size = new System.Drawing.Size(1184, 762);
             this.MainLayout.TabIndex = 1;
             // 
-            // summaryPanel
-            // 
-            this.summaryPanel.Location = new System.Drawing.Point(3, 162);
-            this.summaryPanel.Name = "summaryPanel";
-            this.summaryPanel.Size = new System.Drawing.Size(244, 272);
-            this.summaryPanel.TabIndex = 9;
-            // 
             // flowLayoutPanel1
             // 
             this.flowLayoutPanel1.Controls.Add(this.MoreBtn);
@@ -372,6 +345,33 @@
             this.headerLbl.Text = "headerLbl";
             this.headerLbl.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // summaryPanel
+            // 
+            this.summaryPanel.Location = new System.Drawing.Point(3, 162);
+            this.summaryPanel.Name = "summaryPanel";
+            this.summaryPanel.Size = new System.Drawing.Size(244, 272);
+            this.summaryPanel.TabIndex = 9;
+            // 
+            // transactionsGridView
+            // 
+            this.transactionsGridView.AllowUserToAddRows = false;
+            this.transactionsGridView.AllowUserToDeleteRows = false;
+            this.transactionsGridView.AllowUserToResizeColumns = false;
+            this.transactionsGridView.AllowUserToResizeRows = false;
+            this.transactionsGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            page1.IncludeRecordCount = true;
+            page1.PageNo = 0;
+            page1.TotalPageCount = 0;
+            page1.TotalRowCount = 0;
+            this.transactionsGridView.CurrentPage = page1;
+            this.transactionsGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.transactionsGridView.Location = new System.Drawing.Point(253, 62);
+            this.transactionsGridView.Name = "transactionsGridView";
+            this.transactionsGridView.RowHeadersVisible = false;
+            this.MainLayout.SetRowSpan(this.transactionsGridView, 2);
+            this.transactionsGridView.Size = new System.Drawing.Size(928, 675);
+            this.transactionsGridView.TabIndex = 0;
+            // 
             // MPFinanceMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -385,7 +385,6 @@
             this.Name = "MPFinanceMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "MP Finance";
-            ((System.ComponentModel.ISupportInitialize)(this.transactionsGridView)).EndInit();
             this.StatusStrip.ResumeLayout(false);
             this.StatusStrip.PerformLayout();
             this.MenuStrip.ResumeLayout(false);
@@ -393,6 +392,7 @@
             this.MainLayout.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.transactionsGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -419,7 +419,6 @@
         private System.Windows.Forms.ToolStripProgressBar messageStatusBar;
         private System.Windows.Forms.ToolStripStatusLabel messageStatusLbl;
         private System.Windows.Forms.TableLayoutPanel MainLayout;
-        private Controls.TransactionsGridView transactionsGridView;
         public System.Windows.Forms.TreeView AccountsList;
         private Panels.SummaryPanel summaryPanel;
         private System.Windows.Forms.ToolStripStatusLabel recordPageCounts;
@@ -429,5 +428,6 @@
         public System.Windows.Forms.DateTimePicker FromDatePicker;
         public System.Windows.Forms.DateTimePicker ToDatePicker;
         private System.Windows.Forms.Label headerLbl;
+        private Controls.TransactionsGridView transactionsGridView;
     }
 }

@@ -4,9 +4,9 @@ using MPFinance.Core.Data.Stored;
 
 namespace MPFinance.Core.Message.Responses
 {
-    public class GetCategoriesRS : AbstractResponse
+    public class UpdateCategoriesRS : AbstractResponse
     {
-        private static Logger Log = Logger.GetInstance(typeof(GetCategoriesRS));
+        private static Logger Log = Logger.GetInstance(typeof(UpdateCategoriesRS));
 
         #region Parameters
 
@@ -15,10 +15,9 @@ namespace MPFinance.Core.Message.Responses
 
         #endregion
 
-        public GetCategoriesRS()
+        public UpdateCategoriesRS()
         {
-            ExpenseCategories = new Categories();
-            IncomeCategories = new Categories();
+
         }
     }
 }

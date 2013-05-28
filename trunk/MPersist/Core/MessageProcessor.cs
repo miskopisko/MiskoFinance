@@ -1,13 +1,13 @@
-using System;
-using System.ComponentModel;
-using System.Reflection;
-using System.Windows.Forms;
 using MPersist.Core.Enums;
 using MPersist.Core.Interfaces;
 using MPersist.Core.Message;
 using MPersist.Core.Message.Request;
 using MPersist.Core.Message.Response;
 using MPersist.Core.Resources;
+using System;
+using System.ComponentModel;
+using System.Reflection;
+using System.Windows.Forms;
 
 namespace MPersist.Core
 {
@@ -17,7 +17,9 @@ namespace MPersist.Core
 
         #region Delegates
 
+        [Browsable(false)]
         public delegate void SuccessEventHandler(AbstractResponse Response);
+        [Browsable(false)]
         public delegate void ErrorEventHandler(AbstractResponse Response);
 
         #endregion
@@ -34,7 +36,9 @@ namespace MPersist.Core
 
         #region Properties
 
+        [Browsable(false)]
         public static ConnectionSettings ConnectionSettings { get; set; }
+        [Browsable(false)]
         public static IOController IOController { get; set; }
 
         #endregion
@@ -110,7 +114,7 @@ namespace MPersist.Core
                 {
                     IOController.MessageSent(Strings.strMessageSent);
                 }
-            }           
+            }
 
             BackgroundWorker bw = new BackgroundWorker();
             bw.DoWork += new DoWorkEventHandler(Start);
@@ -188,6 +192,7 @@ namespace MPersist.Core
                                     else
                                     {
                                         response = null;
+                                        session.Connection.Close();
                                         Done(response);
                                         return;
                                     }
@@ -203,6 +208,7 @@ namespace MPersist.Core
             }
             while (response != null && ResendMessage);
 
+            session.Connection.Close();
             Done(response);
         }
 

@@ -61,6 +61,7 @@ CREATE TABLE 'Category'
 	Operator		INTEGER NOT NULL,
 	Name			VARCHAR(128) NOT NULL,
 	CategoryType	INTEGER NOT NULL,
+	Status			INTEGER NOT NULL,
     DtCreated		DATETIME NOT NULL,
     DtModified		DATETIME NOT NULL,
     RowVer			INTEGER NOT NULL 
