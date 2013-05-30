@@ -1,13 +1,13 @@
+using System;
+using System.ComponentModel;
+using System.Reflection;
+using System.Windows.Forms;
 using MPersist.Core.Enums;
 using MPersist.Core.Interfaces;
 using MPersist.Core.Message;
 using MPersist.Core.Message.Request;
 using MPersist.Core.Message.Response;
 using MPersist.Core.Resources;
-using System;
-using System.ComponentModel;
-using System.Reflection;
-using System.Windows.Forms;
 
 namespace MPersist.Core
 {
@@ -75,7 +75,15 @@ namespace MPersist.Core
                 {
                     if (mSuccess_.Target is Control && ((Control)(mSuccess_.Target)).InvokeRequired)
                     {
-                        ((Control)(mSuccess_.Target)).Invoke(mSuccess_, new Object[] { response });
+                        try
+                        {
+                            ((Control)(mSuccess_.Target)).Invoke(mSuccess_, new Object[] { response });
+                        }
+                        catch (Exception e)
+                        {
+                            ErrorMessage message = new ErrorMessage(typeof(MessageProcessor), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, ErrorStrings.errUnexpectedApplicationErrorLong, new Object[] { e.Message, e.StackTrace });
+                            ((Control)IOController).Invoke(new MethodInvoker(delegate { IOController.Error(message); }));
+                        }
                     }
                     else
                     {
@@ -142,34 +150,34 @@ namespace MPersist.Core
                         ErrorMessage Message = session.ErrorMessages[i];
                         if (Message.Level.Equals(ErrorLevel.Error))
                         {
-                            if (IOController is Form)
+                            if (IOController is Control)
                             {
-                                ((Form)IOController).Invoke(new MethodInvoker(delegate { IOController.Error(Message); }));
+                                ((Control)IOController).Invoke(new MethodInvoker(delegate { IOController.Error(Message); }));
                             }
                         }
                         else if (Message.Level.Equals(ErrorLevel.Warning))
                         {
-                            if (IOController is Form)
+                            if (IOController is Control)
                             {
-                                ((Form)IOController).Invoke(new MethodInvoker(delegate { IOController.Warning(Message); }));
+                                ((Control)IOController).Invoke(new MethodInvoker(delegate { IOController.Warning(Message); }));
                             }
                             session.Warnings.Add(Message);
                         }
                         else if (Message.Level.Equals(ErrorLevel.Info))
                         {
-                            if (IOController is Form)
+                            if (IOController is Control)
                             {
-                                ((Form)IOController).Invoke(new MethodInvoker(delegate { IOController.Info(Message); }));
+                                ((Control)IOController).Invoke(new MethodInvoker(delegate { IOController.Info(Message); }));
                             }
                         }
                         else if (Message.Level.Equals(ErrorLevel.Confirmation))
                         {
                             if (!Message.Confirmed)
                             {
-                                if (IOController is Form)
+                                if (IOController is Control)
                                 {
                                     Func<DialogResult> showMsg = () => IOController.Confirm(Message);
-                                    DialogResult result = (DialogResult)((Form)IOController).Invoke(showMsg);
+                                    DialogResult result = (DialogResult)((Control)IOController).Invoke(showMsg);
 
                                     if (result == DialogResult.Yes)
                                     {

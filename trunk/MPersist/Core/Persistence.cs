@@ -1,16 +1,16 @@
-﻿using MPersist.Core.Data;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
+using System.Data.SQLite;
+using System.Reflection;
+using MPersist.Core.Data;
 using MPersist.Core.Enums;
 using MPersist.Core.MoneyType;
 using MPersist.Core.Persistences;
 using MPersist.Core.Resources;
 using MySql.Data.MySqlClient;
 using Oracle.DataAccess.Client;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Common;
-using System.Data.SQLite;
-using System.Reflection;
 
 namespace MPersist.Core
 {
@@ -145,23 +145,18 @@ namespace MPersist.Core
 
         #region Execute Methods
 
-        public bool ExecuteUpdate(AbstractStoredData clazz)
+        public Int64 ExecuteUpdate(AbstractStoredData clazz)
         {
             session_.PersistencePool.Add(this);
 
             GenerateUpdateStatement(clazz);
             
-            try
+            if(command_.ExecuteNonQuery() == 0)
             {
-                return command_.ExecuteNonQuery() > 0;
-            }
-            catch (Exception e)
-            {
-                Close();
-                session_.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, e.Message);
+                session_.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, ErrorStrings.errLockKeyFailed, new Object[] { clazz.GetType().Name });
             }
 
-            return false;
+            return clazz.RowVer++;
         }
 
         public Int64 ExecuteInsert(AbstractStoredData clazz)
@@ -170,32 +165,26 @@ namespace MPersist.Core
 
             GenerateInsertStatement(clazz);
 
-            try
+            Int64 newId = 0;
+
+            if (command_ is MySqlCommand || command_ is SQLiteCommand)
             {
-                if (command_ is MySqlCommand || command_ is SQLiteCommand)
-                {
-                    return Int32.Parse(command_.ExecuteScalar().ToString());
-                }
-                else if (command_ is OracleCommand)
-                {
-                    OracleParameter lastId = new OracleParameter();
-                    lastId.ParameterName = ":LASTID";
-                    lastId.DbType = DbType.Decimal;
-                    lastId.Direction = ParameterDirection.Output;
-                    ((OracleCommand)command_).Parameters.Add(lastId);
-
-                    command_.ExecuteNonQuery();
-
-                    return Convert.ToInt64(lastId.Value);
-                }
+                newId = Int64.Parse(command_.ExecuteScalar().ToString());
             }
-            catch (Exception e)
+            else if (command_ is OracleCommand)
             {
-                Close();
-                session_.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, e.Message);
+                OracleParameter lastId = new OracleParameter();
+                lastId.ParameterName = ":LASTID";
+                lastId.DbType = DbType.Decimal;
+                lastId.Direction = ParameterDirection.Output;
+                ((OracleCommand)command_).Parameters.Add(lastId);
+
+                command_.ExecuteNonQuery();
+
+                newId = Convert.ToInt64(lastId.Value);
             }
 
-            return -1;
+            return session_.MessageMode.Equals(MessageMode.Normal) ? newId : 0;
         }
 
         public bool ExecuteDelete(AbstractStoredData clazz)
@@ -204,28 +193,13 @@ namespace MPersist.Core
 
             GenerateDeleteStatement(clazz);
 
-            try
+            if (command_.ExecuteNonQuery() == 0)
             {
-                return command_.ExecuteNonQuery() > 0;
-            }
-            catch (Exception e)
-            {
-                Close();
-                session_.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, e.Message);
+                session_.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, ErrorStrings.errLockKeyFailed, new Object[] { GetType().Name });
             }
 
-            return false;
-        }
-
-        public bool ExecuteQuery()
-        {
-            if (String.IsNullOrEmpty(sql_))
-            {
-                session_.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, ErrorStrings.errSqlNotSet);
-            }
-
-            return ExecuteQuery(sql_, parameters_.ToArray());            
-        }
+            return true;
+        }        
 
         public void SetSql(String sql)
         {
@@ -244,6 +218,16 @@ namespace MPersist.Core
             }
         }
 
+        public bool ExecuteQuery()
+        {
+            if (String.IsNullOrEmpty(sql_))
+            {
+                session_.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, ErrorStrings.errSqlNotSet);
+            }
+
+            return ExecuteQuery(sql_, parameters_.ToArray());
+        }
+        
         public bool ExecuteQuery(String sql)
         {
             return ExecuteQuery(sql, new Object[]{});
@@ -256,30 +240,22 @@ namespace MPersist.Core
             command_.CommandText = sql;
             SetParameters(values);
 
-            try
-            {
-                DbDataAdapter adapter = null;
+            DbDataAdapter adapter = null;
 
-                if (command_ is OracleCommand)
-                {
-                    adapter = new OracleDataAdapter((OracleCommand)command_);
-                }
-                else if (command_ is MySqlCommand)
-                {
-                    adapter = new MySqlDataAdapter((MySqlCommand)command_);
-                }
-                else if (command_ is SQLiteCommand)
-                {
-                    adapter = new SQLiteDataAdapter((SQLiteCommand)command_);
-                }
-
-                adapter.Fill(rs_);
-            }
-            catch (Exception e)
+            if (command_ is OracleCommand)
             {
-                Close();
-                session_.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, e.Message);
+                adapter = new OracleDataAdapter((OracleCommand)command_);
             }
+            else if (command_ is MySqlCommand)
+            {
+                adapter = new MySqlDataAdapter((MySqlCommand)command_);
+            }
+            else if (command_ is SQLiteCommand)
+            {
+                adapter = new SQLiteDataAdapter((SQLiteCommand)command_);
+            }
+
+            adapter.Fill(rs_);
 
             return HasNext;
         }

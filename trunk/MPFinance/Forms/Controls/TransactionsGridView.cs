@@ -167,6 +167,7 @@ namespace MPFinance.Forms.Controls
                 Transfer.HeaderText = "Transfer";
                 Transfer.Name = "Transfer";
                 Transfer.Width = 75;
+                Transfer.SortMode = DataGridViewColumnSortMode.Automatic;
 
                 Category.ValueType = typeof(Category);
                 Category.HeaderText = "Category";
@@ -175,6 +176,7 @@ namespace MPFinance.Forms.Controls
                 Category.DataPropertyName = "Category";
                 Category.DisplayMember = "Name";
                 Category.DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing;
+                Category.SortMode = DataGridViewColumnSortMode.Automatic;
                 
                 Columns.AddRange(new DataGridViewColumn[] {
                                 Date,

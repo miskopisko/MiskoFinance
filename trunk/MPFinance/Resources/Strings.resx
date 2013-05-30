@@ -126,6 +126,12 @@
   <data name="strInfo" xml:space="preserve">
     <value>Information</value>
   </data>
+  <data name="strPageCounts" xml:space="preserve">
+    <value>Page {0} / {1}</value>
+  </data>
+  <data name="strTransactionCounts" xml:space="preserve">
+    <value>Showing {0} of {1} transactions</value>
+  </data>
   <data name="strWarning" xml:space="preserve">
     <value>Warning!</value>
   </data>

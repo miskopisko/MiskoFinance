@@ -51,7 +51,11 @@ namespace MPFinance.Core.Data.Stored
         public void FetchByOperatorAndType(Session session, Operator o, CategoryType type, Status status)
         {
             Persistence p = Persistence.GetInstance(session);
-            p.ExecuteQuery("SELECT * FROM Category WHERE Operator = ? AND CategoryType = ? AND Status = ?", new Object[] { o, type, status });
+            p.SetSql("SELECT * FROM Category");
+            p.SqlWhere(true, "Operator = ?", new Object[]{ o }); 
+            p.SqlWhere(type != null && type.IsSet, "CategoryType = ?", new Object[]{ type }); 
+            p.SqlWhere(status != null && status.IsSet, "Status = ?", new Object[]{ status });
+            p.ExecuteQuery();
             Set(session, p);
             p.Close();
             p = null;

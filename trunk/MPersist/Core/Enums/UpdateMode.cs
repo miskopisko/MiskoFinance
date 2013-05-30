@@ -28,8 +28,7 @@ namespace MPersist.Core.Enums
 
         #endregion
 
-        protected UpdateMode(Int64 value, String code, String description)
-            : base(value, code, description)
+        protected UpdateMode(Int64 value, String code, String description) : base(value, code, description)
         {
         }
 

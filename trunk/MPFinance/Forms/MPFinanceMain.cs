@@ -5,8 +5,10 @@ using MPersist.Core;
 using MPersist.Core.Data;
 using MPersist.Core.Interfaces;
 using MPersist.Core.Message.Response;
+using MPersist.Core.Tools;
 using MPFinance.Core.Data.Stored;
 using MPFinance.Core.Data.Viewed;
+using MPFinance.Core.Enums;
 using MPFinance.Core.Message.Requests;
 using MPFinance.Core.Message.Responses;
 using MPFinance.Core.OFX;
@@ -39,6 +41,7 @@ namespace MPFinance.Forms
         public MPFinanceMain(ConnectionSettings connectionSettings)
         {
             mConnectionSettings_ = connectionSettings;
+            MessageProcessor.IOController = this;
 
             InitializeComponent();
             transactionsGridView.FillColumns();
@@ -79,8 +82,8 @@ namespace MPFinance.Forms
             }
 
             summaryPanel.Update(Response.Summary);
-            PageCountsLbl.Text = "Page " + Response.Page.PageNo + " / " + Response.Page.TotalPageCount;
-            TransactionCountsLbl.Text = "Showing " + Response.Page.RowsFetchedSoFar  + " of " + Response.Page.TotalRowCount + " transactions";
+            PageCountsLbl.Text = Utils.ResolveTextParameters(Strings.strPageCounts, new Object[] { Response.Page.PageNo, Response.Page.TotalPageCount });
+            TransactionCountsLbl.Text = Utils.ResolveTextParameters(Strings.strTransactionCounts, new Object[] { Response.Page.RowsFetchedSoFar, Response.Page.TotalRowCount });
 
             transactionsGridView.CurrentPage = Response.Page;
 
@@ -136,6 +139,7 @@ namespace MPFinance.Forms
         {
             GetCategoriesRQ request = new GetCategoriesRQ();
             request.Operator = Program.GetOperator();
+            request.Status = Status.Active;
             MessageProcessor.SendRequest(request, GetCategoriesSuccess);
         }
 

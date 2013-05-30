@@ -1,8 +1,9 @@
+using System;
 using MPersist.Core;
 using MPersist.Core.Attributes;
 using MPersist.Core.Data;
+using MPersist.Core.Enums;
 using MPFinance.Core.Enums;
-using System;
 
 namespace MPFinance.Core.Data.Stored
 {
@@ -16,7 +17,7 @@ namespace MPFinance.Core.Data.Stored
 
         #endregion
 
-        #region Properties
+        #region Stored Properties
 
         [Stored]
         public String Username { get; set; }
@@ -35,9 +36,19 @@ namespace MPFinance.Core.Data.Stored
 
         #endregion
 
+        #region Other Properties
+
+        
+
+        #endregion
+
         #region Constructors
 
         public Operator()
+        {
+        }
+
+        public Operator(Session session, Persistence persistence) : base(session, persistence)
         {
         }
 
@@ -50,6 +61,18 @@ namespace MPFinance.Core.Data.Stored
 
         #endregion
 
+        #region Override Methods
+
+        public override void PreSave(Session session, UpdateMode mode)
+        {
+        }
+
+        public override void PostSave(Session session, UpdateMode mode)
+        {
+        }
+
+        #endregion
+
         #region Private Methods
 
 
@@ -58,23 +81,20 @@ namespace MPFinance.Core.Data.Stored
 
         #region Public Methods
 
-        public void FetchByUsername(Session session, String username)
+        public static Operator FetchByUsername(Session session, String username)
         {
+            Operator result = null;
+
             Persistence p = Persistence.GetInstance(session);
             p.ExecuteQuery("SELECT * FROM Operator WHERE Username = ?", new Object[] { username });
-            Set(session, p);
+            if(p.HasNext)
+            {
+                result = new Operator(session, p);
+            }
             p.Close();
             p = null;
-        }
 
-        public static Operator GetInstanceById(Session session, Int32 id)
-        {
-            return (Operator)FetchById(session, typeof(Operator), id, false);
-        }
-
-        public static Operator GetInstanceById(Session session, Int32 id, Boolean deep)
-        {
-            return (Operator)FetchById(session, typeof(Operator), id, deep);
+            return result;
         }
 
         #endregion

@@ -55,9 +55,8 @@ namespace MPFinance.Core.Data.Viewed
         {
         }
 
-        public VwTxn(Session session, Persistence persistence)
+        public VwTxn(Session session, Persistence persistence) : base (session, persistence)
         {
-            Set(session, persistence, true);
         }
 
         #endregion
