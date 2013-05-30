@@ -54,19 +54,19 @@
             this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.AccountsList = new System.Windows.Forms.TreeView();
             this.MainLayout = new System.Windows.Forms.TableLayoutPanel();
+            this.summaryPanel = new MPFinance.Forms.Panels.SummaryPanel();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.headerLbl = new System.Windows.Forms.Label();
             this.MoreBtn = new System.Windows.Forms.Button();
             this.txnSearch = new System.Windows.Forms.Button();
-            this.ToDatePicker = new System.Windows.Forms.DateTimePicker();
             this.FromDatePicker = new System.Windows.Forms.DateTimePicker();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.ToDatePicker = new System.Windows.Forms.DateTimePicker();
+            this.transactionsGridView = new MPFinance.Forms.Controls.TransactionsGridView();
             this.transactionsGrigViewStatus = new System.Windows.Forms.StatusStrip();
             this.PageCountsLbl = new System.Windows.Forms.ToolStripStatusLabel();
             this.TransactionCountsLbl = new System.Windows.Forms.ToolStripStatusLabel();
             this.ChartsPanel = new System.Windows.Forms.Panel();
-            this.headerLbl = new System.Windows.Forms.Label();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.summaryPanel = new MPFinance.Forms.Panels.SummaryPanel();
-            this.transactionsGridView = new MPFinance.Forms.Controls.TransactionsGridView();
             toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             label6 = new System.Windows.Forms.Label();
             label7 = new System.Windows.Forms.Label();
@@ -74,9 +74,9 @@
             this.MenuStrip.SuspendLayout();
             this.MainLayout.SuspendLayout();
             this.panel1.SuspendLayout();
-            this.transactionsGrigViewStatus.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.transactionsGridView)).BeginInit();
+            this.transactionsGrigViewStatus.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripSeparator1
@@ -88,9 +88,9 @@
             // 
             label6.Dock = System.Windows.Forms.DockStyle.Fill;
             label6.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            label6.Location = new System.Drawing.Point(396, 0);
+            label6.Location = new System.Drawing.Point(399, 0);
             label6.Name = "label6";
-            label6.Size = new System.Drawing.Size(64, 23);
+            label6.Size = new System.Drawing.Size(64, 29);
             label6.TabIndex = 4;
             label6.Text = "From Date:";
             label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -99,9 +99,9 @@
             // 
             label7.Dock = System.Windows.Forms.DockStyle.Fill;
             label7.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            label7.Location = new System.Drawing.Point(566, 0);
+            label7.Location = new System.Drawing.Point(569, 0);
             label7.Name = "label7";
-            label7.Size = new System.Drawing.Size(54, 23);
+            label7.Size = new System.Drawing.Size(54, 29);
             label7.TabIndex = 6;
             label7.Text = "To Date:";
             label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -278,49 +278,12 @@
             this.MainLayout.Size = new System.Drawing.Size(1184, 762);
             this.MainLayout.TabIndex = 1;
             // 
-            // MoreBtn
+            // summaryPanel
             // 
-            this.MoreBtn.AutoSize = true;
-            this.MoreBtn.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MoreBtn.Location = new System.Drawing.Point(826, 3);
-            this.MoreBtn.Name = "MoreBtn";
-            this.MoreBtn.Size = new System.Drawing.Size(94, 17);
-            this.MoreBtn.TabIndex = 0;
-            this.MoreBtn.Text = "More";
-            this.MoreBtn.UseVisualStyleBackColor = true;
-            this.MoreBtn.Click += new System.EventHandler(this.MoreBtn_Click);
-            // 
-            // txnSearch
-            // 
-            this.txnSearch.AutoSize = true;
-            this.txnSearch.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txnSearch.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.txnSearch.Location = new System.Drawing.Point(726, 3);
-            this.txnSearch.Name = "txnSearch";
-            this.txnSearch.Size = new System.Drawing.Size(94, 17);
-            this.txnSearch.TabIndex = 11;
-            this.txnSearch.Text = "Search";
-            this.txnSearch.UseVisualStyleBackColor = true;
-            this.txnSearch.Click += new System.EventHandler(this.txnSearch_Click);
-            // 
-            // ToDatePicker
-            // 
-            this.ToDatePicker.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ToDatePicker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.ToDatePicker.Location = new System.Drawing.Point(626, 3);
-            this.ToDatePicker.Name = "ToDatePicker";
-            this.ToDatePicker.Size = new System.Drawing.Size(94, 20);
-            this.ToDatePicker.TabIndex = 13;
-            // 
-            // FromDatePicker
-            // 
-            this.FromDatePicker.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.FromDatePicker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.FromDatePicker.Location = new System.Drawing.Point(466, 3);
-            this.FromDatePicker.Name = "FromDatePicker";
-            this.FromDatePicker.Size = new System.Drawing.Size(94, 20);
-            this.FromDatePicker.TabIndex = 5;
-            this.FromDatePicker.Value = new System.DateTime(2013, 1, 1, 0, 0, 0, 0);
+            this.summaryPanel.Location = new System.Drawing.Point(3, 162);
+            this.summaryPanel.Name = "summaryPanel";
+            this.summaryPanel.Size = new System.Drawing.Size(244, 269);
+            this.summaryPanel.TabIndex = 9;
             // 
             // panel1
             // 
@@ -334,52 +297,6 @@
             this.MainLayout.SetRowSpan(this.panel1, 3);
             this.panel1.Size = new System.Drawing.Size(928, 404);
             this.panel1.TabIndex = 12;
-            // 
-            // transactionsGrigViewStatus
-            // 
-            this.transactionsGrigViewStatus.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.PageCountsLbl,
-            this.TransactionCountsLbl});
-            this.transactionsGrigViewStatus.Location = new System.Drawing.Point(0, 380);
-            this.transactionsGrigViewStatus.Name = "transactionsGrigViewStatus";
-            this.transactionsGrigViewStatus.Size = new System.Drawing.Size(926, 22);
-            this.transactionsGrigViewStatus.SizingGrip = false;
-            this.transactionsGrigViewStatus.TabIndex = 0;
-            this.transactionsGrigViewStatus.Text = "TransactionCounts";
-            // 
-            // PageCountsLbl
-            // 
-            this.PageCountsLbl.Name = "PageCountsLbl";
-            this.PageCountsLbl.Size = new System.Drawing.Size(742, 17);
-            this.PageCountsLbl.Spring = true;
-            this.PageCountsLbl.Text = "Page Counts Here";
-            this.PageCountsLbl.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // TransactionCountsLbl
-            // 
-            this.TransactionCountsLbl.Name = "TransactionCountsLbl";
-            this.TransactionCountsLbl.Size = new System.Drawing.Size(138, 17);
-            this.TransactionCountsLbl.Text = "Transaction Counts Here";
-            // 
-            // ChartsPanel
-            // 
-            this.ChartsPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.MainLayout.SetColumnSpan(this.ChartsPanel, 2);
-            this.ChartsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ChartsPanel.Location = new System.Drawing.Point(3, 437);
-            this.ChartsPanel.Name = "ChartsPanel";
-            this.ChartsPanel.Size = new System.Drawing.Size(1178, 300);
-            this.ChartsPanel.TabIndex = 13;
-            // 
-            // headerLbl
-            // 
-            this.headerLbl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.headerLbl.Location = new System.Drawing.Point(3, 0);
-            this.headerLbl.Name = "headerLbl";
-            this.headerLbl.Size = new System.Drawing.Size(387, 23);
-            this.headerLbl.TabIndex = 15;
-            this.headerLbl.Text = "Header";
-            this.headerLbl.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // tableLayoutPanel1
             // 
@@ -400,19 +317,66 @@
             this.tableLayoutPanel1.Controls.Add(label7, 3, 0);
             this.tableLayoutPanel1.Controls.Add(this.ToDatePicker, 4, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(923, 23);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(926, 29);
             this.tableLayoutPanel1.TabIndex = 15;
             // 
-            // summaryPanel
+            // headerLbl
             // 
-            this.summaryPanel.Location = new System.Drawing.Point(3, 162);
-            this.summaryPanel.Name = "summaryPanel";
-            this.summaryPanel.Size = new System.Drawing.Size(244, 269);
-            this.summaryPanel.TabIndex = 9;
+            this.headerLbl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.headerLbl.Location = new System.Drawing.Point(3, 0);
+            this.headerLbl.Name = "headerLbl";
+            this.headerLbl.Size = new System.Drawing.Size(390, 29);
+            this.headerLbl.TabIndex = 15;
+            this.headerLbl.Text = "Header";
+            this.headerLbl.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // MoreBtn
+            // 
+            this.MoreBtn.AutoSize = true;
+            this.MoreBtn.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.MoreBtn.Location = new System.Drawing.Point(829, 3);
+            this.MoreBtn.Name = "MoreBtn";
+            this.MoreBtn.Size = new System.Drawing.Size(94, 23);
+            this.MoreBtn.TabIndex = 0;
+            this.MoreBtn.Text = "More";
+            this.MoreBtn.UseVisualStyleBackColor = true;
+            this.MoreBtn.Click += new System.EventHandler(this.MoreBtn_Click);
+            // 
+            // txnSearch
+            // 
+            this.txnSearch.AutoSize = true;
+            this.txnSearch.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txnSearch.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.txnSearch.Location = new System.Drawing.Point(729, 3);
+            this.txnSearch.Name = "txnSearch";
+            this.txnSearch.Size = new System.Drawing.Size(94, 23);
+            this.txnSearch.TabIndex = 11;
+            this.txnSearch.Text = "Search";
+            this.txnSearch.UseVisualStyleBackColor = true;
+            this.txnSearch.Click += new System.EventHandler(this.txnSearch_Click);
+            // 
+            // FromDatePicker
+            // 
+            this.FromDatePicker.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.FromDatePicker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.FromDatePicker.Location = new System.Drawing.Point(469, 3);
+            this.FromDatePicker.Name = "FromDatePicker";
+            this.FromDatePicker.Size = new System.Drawing.Size(94, 20);
+            this.FromDatePicker.TabIndex = 5;
+            this.FromDatePicker.Value = new System.DateTime(2013, 1, 1, 0, 0, 0, 0);
+            // 
+            // ToDatePicker
+            // 
+            this.ToDatePicker.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ToDatePicker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.ToDatePicker.Location = new System.Drawing.Point(629, 3);
+            this.ToDatePicker.Name = "ToDatePicker";
+            this.ToDatePicker.Size = new System.Drawing.Size(94, 20);
+            this.ToDatePicker.TabIndex = 13;
             // 
             // transactionsGridView
             // 
@@ -436,6 +400,42 @@
             this.transactionsGridView.Size = new System.Drawing.Size(926, 348);
             this.transactionsGridView.TabIndex = 14;
             // 
+            // transactionsGrigViewStatus
+            // 
+            this.transactionsGrigViewStatus.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.PageCountsLbl,
+            this.TransactionCountsLbl});
+            this.transactionsGrigViewStatus.Location = new System.Drawing.Point(0, 380);
+            this.transactionsGrigViewStatus.Name = "transactionsGrigViewStatus";
+            this.transactionsGrigViewStatus.Size = new System.Drawing.Size(926, 22);
+            this.transactionsGrigViewStatus.SizingGrip = false;
+            this.transactionsGrigViewStatus.TabIndex = 0;
+            this.transactionsGrigViewStatus.Text = "TransactionCounts";
+            // 
+            // PageCountsLbl
+            // 
+            this.PageCountsLbl.Name = "PageCountsLbl";
+            this.PageCountsLbl.Size = new System.Drawing.Size(773, 17);
+            this.PageCountsLbl.Spring = true;
+            this.PageCountsLbl.Text = "Page Counts Here";
+            this.PageCountsLbl.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // TransactionCountsLbl
+            // 
+            this.TransactionCountsLbl.Name = "TransactionCountsLbl";
+            this.TransactionCountsLbl.Size = new System.Drawing.Size(138, 17);
+            this.TransactionCountsLbl.Text = "Transaction Counts Here";
+            // 
+            // ChartsPanel
+            // 
+            this.ChartsPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.MainLayout.SetColumnSpan(this.ChartsPanel, 2);
+            this.ChartsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ChartsPanel.Location = new System.Drawing.Point(3, 437);
+            this.ChartsPanel.Name = "ChartsPanel";
+            this.ChartsPanel.Size = new System.Drawing.Size(1178, 300);
+            this.ChartsPanel.TabIndex = 13;
+            // 
             // MPFinanceMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -457,11 +457,11 @@
             this.MainLayout.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.transactionsGrigViewStatus.ResumeLayout(false);
-            this.transactionsGrigViewStatus.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.transactionsGridView)).EndInit();
+            this.transactionsGrigViewStatus.ResumeLayout(false);
+            this.transactionsGrigViewStatus.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 

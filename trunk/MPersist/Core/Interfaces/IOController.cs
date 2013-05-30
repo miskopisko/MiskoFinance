@@ -5,9 +5,9 @@ namespace MPersist.Core.Interfaces
 {
     public interface IOController
     {
-        Int32 RowsPerPage { get; set;}
+        Int32 RowsPerPage { get; }
 
-        ConnectionSettings ConnectionSettings { get; set; }
+        ConnectionSettings ConnectionSettings { get; }
 
         void MessageReceived(String message);
 
