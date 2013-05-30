@@ -18,15 +18,15 @@ namespace MPFinance.Forms
 
         protected override void OnLoad(EventArgs e)
         {
+            base.OnLoad(e);
+
             existingExpense.FillColumns();
             existingIncome.FillColumns();
             existingTransfer.FillColumns();
 
-            GetCategoriesRQ getCategories = new GetCategoriesRQ();
-            getCategories.Operator = Program.GetOperator();
-            MessageProcessor.SendRequest(getCategories, GetCategoriesSuccess);
-
-            base.OnLoad(e);
+            GetCategoriesRQ request = new GetCategoriesRQ();
+            request.Operator = Program.GetOperator();
+            MessageProcessor.SendRequest(request, GetCategoriesSuccess);
         }
 
         private void GetCategoriesSuccess(AbstractResponse Response)

@@ -115,7 +115,6 @@
     <Compile Include="Core\OFX\OfxDocument.cs" />
     <Compile Include="Core\Data\Stored\Txn.cs" />
     <Compile Include="Core\Settings\PropertyBag.cs" />
-    <Compile Include="Core\Tools\Utils.cs" />
     <Compile Include="Forms\AboutDialog.cs">
       <SubType>Form</SubType>
     </Compile>

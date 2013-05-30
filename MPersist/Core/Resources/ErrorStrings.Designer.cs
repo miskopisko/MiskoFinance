@@ -79,6 +79,15 @@ namespace MPersist.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to process the change to table {0} because another request for the same table has been submitted. If you still wish to process your change, you must refresh and then reprocess..
+        /// </summary>
+        internal static string errLockKeyFailed {
+            get {
+                return ResourceManager.GetString("errLockKeyFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Object does not exist. Cannot delete..
         /// </summary>
         internal static string errObjectDoesNotExist {

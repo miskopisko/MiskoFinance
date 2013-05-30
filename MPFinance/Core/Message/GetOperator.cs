@@ -7,8 +7,8 @@ using MPFinance.Core.Data.Stored;
 using MPFinance.Core.Enums;
 using MPFinance.Core.Message.Requests;
 using MPFinance.Core.Message.Responses;
-using MPFinance.Core.Tools;
 using MPFinance.Resources;
+using MPersist.Core.Tools;
 
 namespace MPFinance.Core.Message
 {
@@ -42,8 +42,7 @@ namespace MPFinance.Core.Message
 
         public override void Execute(Session session)
         {
-            Operator o = new Operator(); 
-            o.FetchByUsername(session, Request.Username);
+            Operator o = Operator.FetchByUsername(session, Request.Username);
 
             if (!o.IsSet)
             {

@@ -19,7 +19,7 @@ namespace MPFinance.Core.Data.Stored
 
         #endregion
 
-        #region Properties
+        #region Stored Properties
 
         [Stored]
         public Operator Operator { get; set; }
@@ -32,6 +32,12 @@ namespace MPFinance.Core.Data.Stored
 
         #endregion
 
+        #region Other Properties
+
+        
+
+        #endregion
+
         #region Constructors
 
         public Category()
@@ -39,6 +45,18 @@ namespace MPFinance.Core.Data.Stored
         }
 
         public Category(Session session, Persistence persistence) : base(session, persistence)
+        {
+        }
+
+        #endregion
+
+        #region Override Methods
+
+        public override void PreSave(Session session, UpdateMode mode)
+        {
+        }
+
+        public override void PostSave(Session session, UpdateMode mode)
         {
         }
 

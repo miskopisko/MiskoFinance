@@ -1,9 +1,10 @@
+using System;
 using MPersist.Core;
 using MPersist.Core.Attributes;
 using MPersist.Core.Data;
-using MPFinance.Core.Enums;
-using System;
+using MPersist.Core.Enums;
 using MPersist.Core.MoneyType;
+using MPFinance.Core.Enums;
 
 namespace MPFinance.Core.Data.Stored
 {
@@ -17,7 +18,7 @@ namespace MPFinance.Core.Data.Stored
 
         #endregion
 
-        #region Properties
+        #region Stored Properties
 
         [Stored]
         public Account Account { get; set; }
@@ -36,6 +37,12 @@ namespace MPFinance.Core.Data.Stored
 
         #endregion
 
+        #region Other Properties
+
+        
+
+        #endregion        
+
         #region Constructors
 
         public Txn()
@@ -46,6 +53,17 @@ namespace MPFinance.Core.Data.Stored
         {
         }
 
+        #endregion
+
+        #region Override Methods
+
+        public override void PreSave(Session session, UpdateMode mode)
+        {
+        }
+
+        public override void PostSave(Session session, UpdateMode mode)
+        {
+        }
 
         #endregion
 

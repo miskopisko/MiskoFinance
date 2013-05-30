@@ -1,12 +1,12 @@
-using MPersist.Core.Attributes;
-using MPersist.Core.Data;
-using MPersist.Core.Enums;
-using Oracle.DataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using MPersist.Core.Attributes;
+using MPersist.Core.Data;
+using MPersist.Core.Enums;
 using MPersist.Core.MoneyType;
+using Oracle.DataAccess.Client;
 
 namespace MPersist.Core.Persistences
 {
@@ -126,7 +126,7 @@ namespace MPersist.Core.Persistences
 
                 for (int i = 0; i < properties.Count; i++)
                 {
-                    if (!properties[i].Name.Equals("ID", StringComparison.OrdinalIgnoreCase))
+                    if (!properties[i].Name.Equals("ID", StringComparison.OrdinalIgnoreCase) && !properties[i].Name.Equals("ROWVER", StringComparison.OrdinalIgnoreCase))
                     {
                         result += properties[i].Name.ToUpper() + " = ?, " + Environment.NewLine + "       ";
                         values.Add(properties[i].GetValue(clazz));
@@ -135,9 +135,11 @@ namespace MPersist.Core.Persistences
                 
                 result += "DTMODIFIED = SYSDATE," + Environment.NewLine;
                 result += "       ROWVER = ROWVER + 1" + Environment.NewLine;
-                result += "WHERE  ID = ?";
+                result += "WHERE  ID = ?" + Environment.NewLine;
+                result += "AND    ROWVER = ?";
 
                 values.Add(clazz.Id);
+                values.Add(clazz.RowVer);
 
                 command_.CommandText = result;
                 SetParameters(values.ToArray());
@@ -153,9 +155,11 @@ namespace MPersist.Core.Persistences
             {
                 result += "DELETE" + Environment.NewLine;
                 result += "FROM   " + clazz.GetType().Name.ToUpper() + Environment.NewLine;
-                result += "WHERE  ID = ?";
+                result += "WHERE  ID = ?" + Environment.NewLine;
+                result += "AND    ROWVER = ?;";
 
-                values.Add(clazz.Id);
+                values.Add(-clazz.Id);
+                values.Add(clazz.RowVer);
 
                 command_.CommandText = result;
                 SetParameters(values.ToArray());
@@ -174,8 +178,8 @@ namespace MPersist.Core.Persistences
                 PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(clazz.GetType(), new Attribute[] { new StoredAttribute() });
 
                 for (int i = 0; i < properties.Count; i++)
-                {                    
-                    if(!properties[i].Name.Equals("ID", StringComparison.OrdinalIgnoreCase))
+                {
+                    if (!properties[i].Name.Equals("ID", StringComparison.OrdinalIgnoreCase) && !properties[i].Name.Equals("ROWVER", StringComparison.OrdinalIgnoreCase))
                     {
                         result += ", " + properties[i].Name.ToUpper();
                     }
@@ -185,7 +189,7 @@ namespace MPersist.Core.Persistences
 
                 for (int i = 0; i < properties.Count; i++)
                 {
-                    if(!properties[i].Name.Equals("ID", StringComparison.OrdinalIgnoreCase))
+                    if (!properties[i].Name.Equals("ID", StringComparison.OrdinalIgnoreCase) && !properties[i].Name.Equals("ROWVER", StringComparison.OrdinalIgnoreCase))
                     {
                         result += "?, ";
                         values.Add(properties[i].GetValue(clazz));

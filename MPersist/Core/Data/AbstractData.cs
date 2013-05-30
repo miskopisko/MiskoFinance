@@ -7,7 +7,7 @@ using MPersist.Core.MoneyType;
 
 namespace MPersist.Core.Data
 {
-    public class AbstractData
+    public abstract class AbstractData
     {
         private static Logger Log = Logger.GetInstance(typeof(AbstractData));
 
@@ -27,6 +27,11 @@ namespace MPersist.Core.Data
 
         public AbstractData()
         {
+        }
+
+        public AbstractData(Session session, Persistence persistence)
+        {
+            Set(session, persistence);
         }
 
         #endregion

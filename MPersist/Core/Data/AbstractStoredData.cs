@@ -6,7 +6,7 @@ using MPersist.Core.Resources;
 
 namespace MPersist.Core.Data
 {
-    public class AbstractStoredData : AbstractData
+    public abstract class AbstractStoredData : AbstractData
     {
         private static Logger Log = Logger.GetInstance(typeof(AbstractStoredData));
 
@@ -16,10 +16,17 @@ namespace MPersist.Core.Data
 
         #endregion
 
-        #region Properties
+        #region Stored Properties
 
         [Stored]
-        public Int64 Id { get; set; }        
+        public Int64 Id { get; set; }
+        [Stored]
+        public Int64 RowVer { get; set; }
+
+        #endregion
+
+        #region Other Properties
+
         public bool IsSet { get; set; }
 
         #endregion
@@ -45,7 +52,12 @@ namespace MPersist.Core.Data
 
         #region Public Methods
 
-        public static AbstractStoredData FetchById(Session session, Type type, Int64 id, Boolean deep)
+        public static AbstractStoredData GetInstanceById(Session session, Type type, Int64 id)
+        {
+            return GetInstanceById(session, type, id, false);
+        }
+
+        public static AbstractStoredData GetInstanceById(Session session, Type type, Int64 id, Boolean deep)
         {
             AbstractStoredData result = (AbstractStoredData)type.Assembly.CreateInstance(type.FullName);
 
@@ -76,46 +88,34 @@ namespace MPersist.Core.Data
             {
                 PreSave(session, UpdateMode.Insert);
                 Id = p.ExecuteInsert(this);
-                if(session.MessageMode.Equals(MessageMode.Trial))
-                {
-                    Id = 0;
-                }
                 PostSave(session, UpdateMode.Insert);
             }
             else if (Id > 0)
             {
                 PreSave(session, UpdateMode.Update);
-                p.ExecuteUpdate(this);
+                RowVer = p.ExecuteUpdate(this);
                 PostSave(session, UpdateMode.Update);
+            }
+            else if(Id < 0)
+            {
+                PreSave(session, UpdateMode.Delete);
+                p.ExecuteDelete(this);
+                PostSave(session, UpdateMode.Delete);
             }
 
             p.Close();
             p = null;
         }
 
-        public void Delete(Session session)
-        {
-            if (Id > 0)
-            {
-                Persistence p = Persistence.GetInstance(session);
-                p.ExecuteDelete(this);
-                p.Close();
-                p = null;
-                Id = -1;
-            }
-            else
-            {
-                session.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, ErrorStrings.errObjectDoesNotExist);
-            }
-        }
+        #endregion
 
-        public void PreSave(Session session, UpdateMode mode)
-        {
-        }
+        #region Abstract Methods
 
-        public void PostSave(Session session, UpdateMode mode)
-        {
-        }
+        public abstract void PreSave(Session session, UpdateMode mode);
+
+        public abstract void PostSave(Session session, UpdateMode mode);
+
+        #endregion
 
         public override string ToString()
         {
@@ -128,7 +128,5 @@ namespace MPersist.Core.Data
 
             return result;
         }
-
-        #endregion
     }
 }

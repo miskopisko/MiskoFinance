@@ -36,9 +36,9 @@ namespace MPFinance.Core.Message
 
         public override void Execute(Session session)
         {
-            Response.ExpenseCategories.FetchByOperatorAndType(session, Request.Operator, CategoryType.Expense, Status.Active);
-            Response.IncomeCategories.FetchByOperatorAndType(session, Request.Operator, CategoryType.Income, Status.Active);
-            Response.TransferCategories.FetchByOperatorAndType(session, Request.Operator, CategoryType.Transfer, Status.Active);
+            Response.ExpenseCategories.FetchByOperatorAndType(session, Request.Operator, CategoryType.Expense, Request.Status);
+            Response.IncomeCategories.FetchByOperatorAndType(session, Request.Operator, CategoryType.Income, Request.Status);
+            Response.TransferCategories.FetchByOperatorAndType(session, Request.Operator, CategoryType.Transfer, Request.Status);
         }
     }
 }

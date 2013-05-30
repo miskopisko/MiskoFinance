@@ -1,3 +1,5 @@
+using System;
+using System.Reflection;
 using MPersist.Core;
 using MPersist.Core.Attributes;
 using MPersist.Core.Data;
@@ -5,8 +7,6 @@ using MPersist.Core.Enums;
 using MPersist.Core.MoneyType;
 using MPFinance.Core.Enums;
 using MPFinance.Resources;
-using System;
-using System.Reflection;
 
 namespace MPFinance.Core.Data.Stored
 {
@@ -20,7 +20,7 @@ namespace MPFinance.Core.Data.Stored
 
         #endregion
 
-        #region Properties
+        #region Stored Properties
 
         [Stored]
         public Operator Operator { get; set; }
@@ -37,6 +37,12 @@ namespace MPFinance.Core.Data.Stored
 
         #endregion
 
+        #region Other Properties
+
+        
+
+        #endregion
+
         #region Constructors
 
         public Account()
@@ -49,6 +55,23 @@ namespace MPFinance.Core.Data.Stored
 
         #endregion
 
+        #region Override Methods
+
+        public override string ToString()
+        {
+            return AccountType.ToString() + " " + AccountNumber;
+        }
+
+        public override void PreSave(Session session, UpdateMode mode)
+        {            
+        }
+
+        public override void PostSave(Session session, UpdateMode mode)
+        {
+        }
+
+        #endregion
+
         #region Private Methods
 
 
@@ -56,11 +79,6 @@ namespace MPFinance.Core.Data.Stored
         #endregion
 
         #region Public Methods
-
-        public override string ToString()
-        {
-            return AccountType.ToString() + " " + AccountNumber;
-        }
 
         public static Account GetInstanceByComposite(Session session, Operator op, AccountType type, String bankNo, String accountNo)
         {

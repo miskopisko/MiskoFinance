@@ -1,7 +1,7 @@
-﻿using MPersist.Core.Enums;
-using System;
+﻿using System;
 using System.Reflection;
-using System.Text.RegularExpressions;
+using MPersist.Core.Enums;
+using MPersist.Core.Tools;
 
 namespace MPersist.Core
 {
@@ -99,40 +99,7 @@ namespace MPersist.Core
 
         public override String ToString()
         {
-            if (Message != null)
-            {
-                String param = (String)Message.Clone();
-
-                Regex reg = new Regex("[{]([0-9]+|D-[LS]{1}:[0-9]+|N-[0-9]+,[0-9]+:[0-9]+)[}]");
-                int[] groups = reg.GetGroupNumbers();
-
-                Match match = reg.Match(param);
-                int counter = 0;
-
-                while (match.Success)
-                {
-                    if (groups.Length == 2)
-                    {
-                        CaptureCollection collect = match.Groups[groups[1]].Captures;
-                        foreach (object t in collect)
-                        {
-                            if (Regex.IsMatch(param, "[{]" + counter + "[}]")) // Text
-                            {
-                                String paramVal = mParameters_ != null && mParameters_[counter] != null ? mParameters_[counter].ToString() : "";
-                                param = Regex.Replace(param, "[{]" + counter + "[}]", paramVal);
-                            }
-
-                            counter++;
-                        }
-                    }
-
-                    match = match.NextMatch();
-                }
-
-                return param;
-            }
-
-            return "";
+            return Utils.ResolveTextParameters(mErrorMessage_, mParameters_);
         }
 
         public override Boolean Equals(Object obj)

@@ -16,9 +16,9 @@ namespace MPFinance
 
         private static MPFinanceMain mMAIN_;
 
-        //private static ConnectionSettings mConnectionSettings_ = ConnectionSettings.SqliteConnection(@"..\..\DBA\MPersist_DB.sqlite3");
+        private static ConnectionSettings mConnectionSettings_ = ConnectionSettings.SqliteConnection(@"..\..\DBA\MPersist_DB.sqlite3");
         //private static ConnectionSettings mConnectionSettings_ = ConnectionSettings.MySqlConnection("rpm-cvl", "test", "cvl", "cvl");
-        private static ConnectionSettings mConnectionSettings_ = ConnectionSettings.MySqlConnection("piskuric.ca", "miskop_MPersistenceTest", "miskop_michael", "sarpatt06");
+        //private static ConnectionSettings mConnectionSettings_ = ConnectionSettings.MySqlConnection("piskuric.ca", "miskop_MPersistenceTest", "miskop_michael", "sarpatt06");
         //private static ConnectionSettings mConnectionSettings_ = ConnectionSettings.OracleConnection("192.168.0.111", 1521, "xe", "MPersist", "MPersist");
 
         #endregion
@@ -29,8 +29,7 @@ namespace MPFinance
             Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
             Application.ThreadException += Application_ThreadException;
 
-            mMAIN_ = new MPFinanceMain(mConnectionSettings_);
-            MessageProcessor.IOController = mMAIN_;
+            mMAIN_ = new MPFinanceMain(mConnectionSettings_);            
             Application.Run(mMAIN_);
         }
 

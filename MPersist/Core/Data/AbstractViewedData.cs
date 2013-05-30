@@ -2,7 +2,7 @@ using System.Data;
 
 namespace MPersist.Core.Data
 {
-    public class AbstractViewedData : AbstractData
+    public abstract class AbstractViewedData : AbstractData
     {
         private static Logger Log = Logger.GetInstance(typeof(AbstractViewedData));
 

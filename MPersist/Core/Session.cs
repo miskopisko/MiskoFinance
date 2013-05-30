@@ -1,10 +1,9 @@
-﻿using MPersist.Core.Enums;
-using MPersist.Core.Resources;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data.Common;
 using System.Reflection;
+using MPersist.Core.Enums;
+using MPersist.Core.Resources;
 
 namespace MPersist.Core
 {
@@ -27,25 +26,21 @@ namespace MPersist.Core
 
         #region Properties
 
-        [Browsable(false)]
         public DbConnection Connection
         {
             get { return conn_; }
         }
 
-        [Browsable(false)]
         public Boolean TransactionInProgress
         {
             get { return transactionInProgress_; }
         }
 
-        [Browsable(false)]
         public List<Persistence> PersistencePool
         {
             get { return persistencePool_; }
         }
 
-        [Browsable(false)]
         public DbTransaction Transaction
         {
             get { return transaction_; }
@@ -69,7 +64,6 @@ namespace MPersist.Core
             set { rowsPerPage_ = value; }
         }
 
-        [Browsable(false)]
         public ErrorMessages ErrorMessages
         {
             get { return errorMessages_; }
