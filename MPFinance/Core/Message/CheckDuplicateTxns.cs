@@ -42,9 +42,11 @@ namespace MPFinance.Core.Message
                 vwTxn.GenerateHashCode(Request.Account);
 
                 Txn txn = Txn.FetchByHashCode(session, vwTxn.HashCode);
-                vwTxn.IsDuplicate = txn != null && txn.IsSet;
 
-                Response.Txns.Add(vwTxn);
+                if (txn == null || !txn.IsSet)
+                {
+                    Response.Txns.Add(vwTxn);
+                }
             }
         }
     }

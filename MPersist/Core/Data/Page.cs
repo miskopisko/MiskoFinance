@@ -48,6 +48,16 @@ namespace MPersist.Core.Data
             set { mRowsFetchedSoFar_ = value; }
         }
 
+        public Page NextPage
+        {
+            get { return HasNext ? new Page(PageNo + 1) : null; }
+        }
+
+        public Boolean HasNext
+        {
+            get { return PageNo != TotalPageCount; }
+        }
+
         #endregion
 
         #region Constructors

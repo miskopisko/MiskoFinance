@@ -27,8 +27,8 @@ namespace MPFinance.Forms
 
         #region Properties
 
-        public Int32 RowsPerPage { get { return Settings.Default.RowsPerPage; } set { return; } }
-        public ConnectionSettings ConnectionSettings { get { return mConnectionSettings_; } set { return; } }
+        public Int32 RowsPerPage { get { return Settings.Default.RowsPerPage; } }
+        public ConnectionSettings ConnectionSettings { get { return mConnectionSettings_; } }
         public Operator Operator { get; set; }
         public Categories ExpenseCategories { get; set; }
         public Categories IncomeCategories { get; set; }
@@ -84,7 +84,7 @@ namespace MPFinance.Forms
 
             transactionsGridView.CurrentPage = Response.Page;
 
-            MoreBtn.Enabled = transactionsGridView.CurrentPage.PageNo != transactionsGridView.CurrentPage.TotalPageCount;
+            MoreBtn.Enabled = transactionsGridView.CurrentPage.HasNext;
         }
 
         // Fetch the summary as per the selection criteris
@@ -236,7 +236,13 @@ namespace MPFinance.Forms
         private void MoreBtn_Click(object sender, EventArgs e)
         {
             // Fetch next page of txns
-            GetTxns(new Page(transactionsGridView.CurrentPage.PageNo + 1));
+            if (transactionsGridView.CurrentPage.HasNext)
+            {
+                transactionsGridView.CurrentPage = transactionsGridView.CurrentPage.NextPage;
+                GetTxns(transactionsGridView.CurrentPage);
+            }
+
+            
         }
 
         private void catagoriesToolStripMenuItem_Click(object sender, EventArgs e)
