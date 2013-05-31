@@ -42,29 +42,33 @@ namespace MPFinance.Core.Message
 
         public override void Execute(Session session)
         {
-            Operator o = Operator.FetchByUsername(session, Request.Username);
+            Response.Operator = Operator.FetchByUsername(session, Request.Username);
 
-            if (!o.IsSet)
+            if (Response.Operator == null || Response.Operator.IsNotSet)
             {
                 session.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Confirmation, ConfirmStrings.conConfirmNewUser, new object[]{ Request.Username });
 
-                o.Username = Request.Username;
-                o.Password = Utils.GenerateHash("secret");
-                o.Birthday = new DateTime(1982, 05, 15);
-                o.Email = "michael@piskuric.ca";
-                o.Gender = Gender.Male;
-                o.FirstName = "Michael";
-                o.LastName = "Piskuric";
-                o.IsSet = true;
-                o.Save(session);
+                Response.Operator = new Operator();
+                Response.Operator.Username = Request.Username;
+                Response.Operator.Password = Utils.GenerateHash("secret");
+                Response.Operator.Birthday = new DateTime(1982, 05, 15);
+                Response.Operator.Email = "michael@piskuric.ca";
+                Response.Operator.Gender = Gender.Male;
+                Response.Operator.FirstName = "Michael";
+                Response.Operator.LastName = "Piskuric";
+                Response.Operator.IsSet = true;
+                Response.Operator.Save(session);
             }
 
-            Response.Operator = o;
-            Response.Accounts.FetchByOperator(session, o);
-            Response.ExpenseCategories.FetchByOperatorAndType(session, o, CategoryType.Expense, Status.Active);
-            Response.IncomeCategories.FetchByOperatorAndType(session, o, CategoryType.Income, Status.Active);
-            Response.TransferCategories.FetchByOperatorAndType(session, o, CategoryType.Transfer, Status.Active);
+            Response.Accounts.FetchByOperator(session, Response.Operator);
+            Response.ExpenseCategories.FetchByComposite(session, Response.Operator, CategoryType.Expense, Status.Active);
+            Response.IncomeCategories.FetchByComposite(session, Response.Operator, CategoryType.Income, Status.Active);
+            Response.TransferCategories.FetchByComposite(session, Response.Operator, CategoryType.Transfer, Status.Active);
 
+            Response.AllCategories.Add(new Category(Response.Operator, "ALL", CategoryType.NULL, Status.Active));
+            Response.AllCategories.AddRange(Response.ExpenseCategories);
+            Response.AllCategories.AddRange(Response.IncomeCategories);
+            Response.AllCategories.AddRange(Response.TransferCategories);
         }
     }
 }

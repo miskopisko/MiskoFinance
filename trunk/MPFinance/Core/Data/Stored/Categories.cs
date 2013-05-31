@@ -1,7 +1,7 @@
+using System;
 using MPersist.Core;
 using MPersist.Core.Data;
 using MPFinance.Core.Enums;
-using System;
 
 namespace MPFinance.Core.Data.Stored
 {
@@ -25,7 +25,6 @@ namespace MPFinance.Core.Data.Stored
 
         public Categories()
         {
-            BaseType = typeof(Category);
         }
 
         #endregion
@@ -38,17 +37,7 @@ namespace MPFinance.Core.Data.Stored
 
         #region Public Methods
 
-        public override AbstractStoredDataList<Category> Save(Session session)
-        {
-            foreach (AbstractStoredData item in this)
-            {
-                item.Save(session);
-            }
-
-            return this;
-        }
-
-        public void FetchByOperatorAndType(Session session, Operator o, CategoryType type, Status status)
+        public void FetchByComposite(Session session, Operator o, CategoryType type, Status status)
         {
             Persistence p = Persistence.GetInstance(session);
             p.SetSql("SELECT * FROM Category");

@@ -39,8 +39,6 @@ namespace MPFinance.Core.Message
 
         public override void Execute(Session session)
         {
-            Request.Account.Validate(session);
-
             session.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Confirmation, ConfirmStrings.conCreateNewAccount, new Object[] { Request.Account.AccountNumber });
 
             Request.Account.Save(session);

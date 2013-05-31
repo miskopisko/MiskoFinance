@@ -12,6 +12,7 @@ namespace MPersist.Core.Enums
         public String Description { get; set; }
 
         public bool IsSet { get { return Value != -1; } }
+        public bool IsNotSet { get { return !IsSet; } }
 
         #endregion
 

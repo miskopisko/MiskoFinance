@@ -40,16 +40,13 @@ namespace MPFinance.Forms
 
         public MPFinanceMain(ConnectionSettings connectionSettings)
         {
-            mConnectionSettings_ = connectionSettings;
-            MessageProcessor.IOController = this;
-
             InitializeComponent();
+            
+            mConnectionSettings_ = connectionSettings;
+            MessageProcessor.IOController = this;            
             transactionsGridView.FillColumns();
 
             transactionsGridView.TxnUpdated += transactionsGridView_TxnUpdated;
-
-            FromDatePicker.Value = new DateTime(DateTime.Now.Year, 1, 1); // Jan 1 of current year
-            ToDatePicker.Value = DateTime.Now;
         }
 
         #region Local Private Methods
@@ -62,6 +59,7 @@ namespace MPFinance.Forms
             request.Account = AccountsList.SelectedNode != null ? (Account)AccountsList.SelectedNode.Tag : null;
             request.FromDate = FromDatePicker.Value;
             request.ToDate = ToDatePicker.Value;
+            request.Category = (Category)AllCategoriesCmb.SelectedItem;
             request.Page = page;
             MessageProcessor.SendRequest(request, GetTxnsSuccess);
         }
@@ -149,6 +147,7 @@ namespace MPFinance.Forms
             ExpenseCategories = ((GetCategoriesRS)response).ExpenseCategories;
             IncomeCategories = ((GetCategoriesRS)response).IncomeCategories;
             TransferCategories = ((GetCategoriesRS)response).TransferCategories;
+            AllCategoriesCmb.DataSource = ((GetCategoriesRS)response).AllCategories;
         }
 
         // Load the operator, categories and accounts
@@ -170,6 +169,8 @@ namespace MPFinance.Forms
             TransferCategories = ((GetOperatorRS)response).TransferCategories;
 
             FillAccountsTree(((GetOperatorRS)response).Accounts);
+
+            AllCategoriesCmb.DataSource = ((GetOperatorRS)response).AllCategories;
         }        
 
         #endregion
@@ -198,7 +199,15 @@ namespace MPFinance.Forms
 
         private void txnSearch_Click(object sender, EventArgs e)
         {
-            GetTxns(new Page(1));
+            if ((ModifierKeys & Keys.Control) == Keys.Control)
+            {
+                // Load all transactions if Ctrl + Click
+                GetTxns(new Page(0));
+            }
+            else
+            {
+                GetTxns(new Page(1));
+            }            
         }
 
         private void oFXFileToolStripMenuItem_Click(object sender, EventArgs e)

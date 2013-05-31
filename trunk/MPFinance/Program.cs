@@ -7,6 +7,7 @@ using MPersist.Core.Enums;
 using MPFinance.Core.Data.Stored;
 using MPFinance.Forms;
 using MPFinance.Resources;
+using MPersist.Core.Tools;
 
 namespace MPFinance
 {
@@ -55,14 +56,15 @@ namespace MPFinance
 
         public static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
         {
-            if (MessageProcessor.IOController != null)
+            if (e.Exception is MPException)
             {
-                MessageProcessor.IOController.Error(new ErrorMessage(sender.GetType(), MethodBase.GetCurrentMethod(), ErrorLevel.Error, ErrorStrings.errUnexpectedApplicationErrorLong, new Object[] { e.Exception.Message.ToString(), e.Exception.StackTrace }));
+                MessageBox.Show(mMAIN_, e.Exception.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
-                MessageBox.Show(mMAIN_, e.Exception.Message.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+                String message = Utils.ResolveTextParameters(ErrorStrings.errUnexpectedApplicationErrorLong, new Object[] { e.Exception.Message.ToString(), e.Exception.StackTrace });
+                MessageBox.Show(mMAIN_, message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }                
         }
     }
 }

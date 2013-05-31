@@ -81,6 +81,7 @@
     <Compile Include="Core\Attributes\ViewedAttribute.cs" />
     <Compile Include="Core\Data\Page.cs" />
     <Compile Include="Core\Enums\ConnectionType.cs" />
+    <Compile Include="Core\Enums\SortDirection.cs" />
     <Compile Include="Core\Interfaces\IOController.cs" />
     <Compile Include="Core\Data\AbstractData.cs" />
     <Compile Include="Core\Data\AbstractStoredData.cs" />

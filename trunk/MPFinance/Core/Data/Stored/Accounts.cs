@@ -1,6 +1,6 @@
+using System;
 using MPersist.Core;
 using MPersist.Core.Data;
-using System;
 
 namespace MPFinance.Core.Data.Stored
 {
@@ -24,7 +24,6 @@ namespace MPFinance.Core.Data.Stored
 
         public Accounts()
         {
-            BaseType = typeof(Account);
         }
 
         #endregion
@@ -47,16 +46,6 @@ namespace MPFinance.Core.Data.Stored
             }
             p.Close();
             p = null;
-        }
-
-        public override AbstractStoredDataList<Account> Save(Session session)
-        {
-            foreach (AbstractStoredData item in this)
-            {
-                item.Save(session);
-            }
-
-            return this;
         }
 
         #endregion        
