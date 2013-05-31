@@ -9,6 +9,7 @@ using MPersist.Core.Enums;
 using MPersist.Core.MoneyType;
 using MPersist.Core.Persistences;
 using MPersist.Core.Resources;
+using MPersist.Resources.Enums;
 using MySql.Data.MySqlClient;
 using Oracle.DataAccess.Client;
 
@@ -32,6 +33,11 @@ namespace MPersist.Core
         #endregion
 
         #region Properties
+
+        public String SQL
+        {
+            get { return sql_; }
+        }
 
         public Boolean HasNext
         {
@@ -141,6 +147,33 @@ namespace MPersist.Core
             return false;
         }
 
+        public void SetSql(String sql)
+        {
+            sql_ = sql;
+        }
+
+        public void SqlWhere(bool condition, String expression, Object[] value)
+        {
+            if (condition)
+            {
+                sql_ = sql_ + Environment.NewLine + (!sql_.Contains("WHERE") ? "WHERE " : "AND ") + expression;
+                foreach (Object item in value)
+                {
+                    parameters_.Add(item);
+                }
+            }
+        }
+
+        public void SqlOrderBy(String columnName)
+        {
+            SqlOrderBy(columnName, SortDirection.Ascending);
+        }
+
+        public void SqlOrderBy(String columnName, SortDirection sortDirection)
+        {
+            sql_ = sql_ + (!sql_.Contains("ORDER BY") ? Environment.NewLine + "ORDER BY " : ", ") + columnName + sortDirection.Code;
+        }
+
         #endregion
 
         #region Execute Methods
@@ -199,24 +232,7 @@ namespace MPersist.Core
             }
 
             return true;
-        }        
-
-        public void SetSql(String sql)
-        {
-            sql_ = sql;
-        }
-
-        public void SqlWhere(bool condition, String expression, Object[] value)
-        {
-            if(condition)
-            {
-                sql_ = sql_ + Environment.NewLine + (!sql_.Contains("WHERE") ? "WHERE " : "AND ") + expression;
-                foreach (Object item in value)
-                {
-                    parameters_.Add(item);
-                }
-            }
-        }
+        }                
 
         public bool ExecuteQuery()
         {
@@ -258,6 +274,21 @@ namespace MPersist.Core
             adapter.Fill(rs_);
 
             return HasNext;
+        }
+
+        public static bool ExecuteUpdate(Session session, String sql)
+        {
+            return ExecuteUpdate(session, sql, null);
+        }
+
+        public static bool ExecuteUpdate(Session session, String sql, Object[] values)
+        {
+            Persistence p = Persistence.GetInstance(session);
+            bool result = p.ExecuteQuery(sql, values);
+            p.Close();
+            p = null;
+
+            return result;
         }
 
         #endregion

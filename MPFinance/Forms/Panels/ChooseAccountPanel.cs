@@ -1,13 +1,12 @@
-﻿using MPersist.Core;
-using MPersist.Core.Interfaces;
+﻿using System;
+using System.Windows.Forms;
+using MPersist.Core;
 using MPersist.Core.Message.Response;
 using MPFinance.Core.Data.Stored;
 using MPFinance.Core.Enums;
 using MPFinance.Core.Message.Requests;
 using MPFinance.Core.Message.Responses;
 using MPFinance.Core.OFX;
-using System;
-using System.Windows.Forms;
 
 namespace MPFinance.Forms.Panels
 {

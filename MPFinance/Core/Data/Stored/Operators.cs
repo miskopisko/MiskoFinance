@@ -23,7 +23,6 @@ namespace MPFinance.Core.Data.Stored
 
         public Operators()
         {
-            BaseType = typeof(Operator);
         }
 
         #endregion
@@ -36,15 +35,7 @@ namespace MPFinance.Core.Data.Stored
 
         #region Public Methods
 
-        public override AbstractStoredDataList<Operator> Save(Session session)
-        {
-            foreach (AbstractStoredData item in this)
-            {
-                item.Save(session);
-            }
-
-            return this;
-        }
+        
 
         #endregion
     }

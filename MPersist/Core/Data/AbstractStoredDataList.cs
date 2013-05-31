@@ -19,7 +19,7 @@ namespace MPersist.Core.Data
 
         #region Properties
 
-        public Type BaseType { get; set; }
+        
 
         #endregion
 
@@ -43,13 +43,21 @@ namespace MPersist.Core.Data
 
         #region Public Methods
 
-        public abstract AbstractStoredDataList<AbstractStoredData> Save(Session session);
+        public AbstractStoredDataList<AbstractStoredData> Save(Session session)
+        {
+            foreach (AbstractStoredData item in Items)
+            {
+                typeof(AbstractStoredData).InvokeMember("Save", BindingFlags.InvokeMethod, null, item, new Object[] { session });
+            }            
+
+            return this;
+        }
         
         public void Set(Session session, Persistence persistence)
         {
             while (persistence.HasNext)
             {
-                ConstructorInfo ctor = BaseType.GetConstructor(new[] { typeof(Session), typeof(Persistence) });
+                ConstructorInfo ctor = typeof(AbstractStoredData).GetConstructor(new[] { typeof(Session), typeof(Persistence) });
                 Add((AbstractStoredData)ctor.Invoke(new object[] { session, persistence }));
             }
         }
@@ -57,10 +65,18 @@ namespace MPersist.Core.Data
         public void FetchAll(Session session)
         {
             Persistence persistence = Persistence.GetInstance(session);
-            persistence.ExecuteQuery("SELECT * FROM " + BaseType.Name);
+            persistence.ExecuteQuery("SELECT * FROM " + typeof(AbstractStoredData).Name);
             Set(session, persistence);
             persistence.Close();
             persistence = null;
+        }
+
+        public void AddRange(AbstractStoredDataList<AbstractStoredData> list)
+        {
+            foreach (AbstractStoredData item in list)
+            {
+                Items.Add(item);
+            }
         }
 
         #endregion

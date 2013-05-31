@@ -38,8 +38,6 @@ namespace MPFinance.Core.Message
 
         public override void Execute(Session session)
         {
-            Request.Account.Validate(session);
-
             Request.Account.Save(session);
 
             session.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Info, WarningStrings.warnAccountUpdateSuccess);

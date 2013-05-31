@@ -1,3 +1,4 @@
+using System;
 using MPersist.Core;
 using MPersist.Core.Data;
 
@@ -23,7 +24,6 @@ namespace MPFinance.Core.Data.Stored
 
         public Txns()
         {
-            BaseType = typeof(Txn);
         }
 
         #endregion
@@ -36,14 +36,9 @@ namespace MPFinance.Core.Data.Stored
 
         #region Public Methods
 
-        public override AbstractStoredDataList<Txn> Save(Session session)
+        public static void RemoveTxnCategory(Session session, Category category)
         {
-            foreach (AbstractStoredData item in this)
-            {
-                item.Save(session);
-            }
-
-            return this;
+            Persistence.ExecuteUpdate(session, "UPDATE Txn SET Category = ? WHERE Category = ?", new Object[] { null, category });
         }
 
         #endregion

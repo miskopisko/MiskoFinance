@@ -126,11 +126,14 @@
   <data name="errBankNameMandatory" xml:space="preserve">
     <value>Bank name is mandatory.</value>
   </data>
-  <data name="errCategoryNameBlank" xml:space="preserve">
+  <data name="errCategoryNameNull" xml:space="preserve">
     <value>Category name cannot be blank</value>
   </data>
-  <data name="errCategoryTypeMissing" xml:space="preserve">
-    <value>Category type must be selected</value>
+  <data name="errCategoryStatusNull" xml:space="preserve">
+    <value>Category status is not set</value>
+  </data>
+  <data name="errCategoryTypeNull" xml:space="preserve">
+    <value>Category type is not set</value>
   </data>
   <data name="errChooseExistingAccount" xml:space="preserve">
     <value>Must choose an existing account.</value>

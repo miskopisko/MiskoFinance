@@ -55,7 +55,7 @@ namespace MPersist.Core.Data
 
         public Boolean HasNext
         {
-            get { return PageNo != TotalPageCount; }
+            get { return PageNo < TotalPageCount; }
         }
 
         #endregion

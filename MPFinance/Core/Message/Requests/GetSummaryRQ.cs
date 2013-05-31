@@ -1,7 +1,7 @@
+using System;
 using MPersist.Core;
 using MPersist.Core.Message.Request;
 using MPFinance.Core.Data.Stored;
-using System;
 
 namespace MPFinance.Core.Message.Requests
 {
@@ -15,12 +15,8 @@ namespace MPFinance.Core.Message.Requests
         public Account Account { get; set; }
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
+        public Category Category { get; set; }
 
         #endregion
-
-        public GetSummaryRQ()
-        {
-
-        }
     }
 }

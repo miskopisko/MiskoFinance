@@ -1,4 +1,6 @@
-﻿using MPersist.Core;
+﻿using System;
+using System.Windows.Forms;
+using MPersist.Core;
 using MPersist.Core.Data;
 using MPersist.Core.Message.Response;
 using MPersist.Core.MoneyType;
@@ -6,8 +8,6 @@ using MPFinance.Core.Data.Stored;
 using MPFinance.Core.Data.Viewed;
 using MPFinance.Core.Enums;
 using MPFinance.Core.Message.Requests;
-using System;
-using System.Windows.Forms;
 
 namespace MPFinance.Forms.Controls
 {

@@ -63,7 +63,31 @@ namespace MPFinance.Core.Data.Stored
         }
 
         public override void PreSave(Session session, UpdateMode mode)
-        {            
+        {
+            if (String.IsNullOrEmpty(BankNumber))
+            {
+                session.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, ErrorStrings.errBankNameMandatory);
+            }
+
+            if (String.IsNullOrEmpty(AccountNumber))
+            {
+                session.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, ErrorStrings.errAccountNumberMandatory);
+            }
+
+            if (AccountType == null || AccountType.Equals(AccountType.NULL))
+            {
+                session.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, ErrorStrings.errAccountTypeMandatory);
+            }
+
+            if (String.IsNullOrEmpty(Nickname))
+            {
+                session.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, ErrorStrings.errNicknameMandatory);
+            }
+
+            if (OpeningBalance == null)
+            {
+                session.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, ErrorStrings.errOpeningBalance);
+            }
         }
 
         public override void PostSave(Session session, UpdateMode mode)
@@ -98,34 +122,6 @@ namespace MPFinance.Core.Data.Stored
             p = null;
 
             return result;
-        }
-
-        public void Validate(Session session)
-        {
-            if (String.IsNullOrEmpty(BankNumber))
-            {
-                session.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, ErrorStrings.errBankNameMandatory);
-            }
-
-            if (String.IsNullOrEmpty(AccountNumber))
-            {
-                session.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, ErrorStrings.errAccountNumberMandatory);
-            }
-
-            if (AccountType == null || AccountType.Equals(AccountType.NULL))
-            {
-                session.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, ErrorStrings.errAccountTypeMandatory);
-            }
-
-            if (String.IsNullOrEmpty(Nickname))
-            {
-                session.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, ErrorStrings.errNicknameMandatory);
-            }
-
-            if (OpeningBalance == null)
-            {
-                session.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, ErrorStrings.errOpeningBalance);
-            }
         }
 
         #endregion

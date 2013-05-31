@@ -19,7 +19,7 @@ namespace MPersist.Core.Data
 
         #region Properties
 
-        public Type BaseType { get; set; }
+        
 
         #endregion
 
@@ -41,7 +41,7 @@ namespace MPersist.Core.Data
         {
             Int32 noRows = page.PageNo != 0 ? session.RowPerPage : 0;
             Int32 pageNo = page.PageNo != 0 ? page.PageNo : 1;
-            page.PageNo = pageNo;
+            
 
             int rowsFetched = 0;
             for (int i = 0; i < (pageNo - 1) * noRows && persistence.HasNext; i++)
@@ -52,7 +52,7 @@ namespace MPersist.Core.Data
 
             for (int i = 0; (noRows == 0 || i < noRows) && persistence.HasNext; i++)
             {
-                ConstructorInfo ctor = BaseType.GetConstructor(new[] { typeof(Session), typeof(Persistence) });
+                ConstructorInfo ctor = typeof(AbstractViewedData).GetConstructor(new[] { typeof(Session), typeof(Persistence) });
                 AbstractViewedData o = (AbstractViewedData)ctor.Invoke(new object[] { session, persistence });
                 Add(o);
                 rowsFetched++;
@@ -61,15 +61,16 @@ namespace MPersist.Core.Data
             if(page.IncludeRecordCount)
             {
                 page.TotalRowCount = persistence.RecordCount;
-                page.TotalPageCount = page.PageCount(session.RowPerPage);
+                page.TotalPageCount = page.PageNo == 0 ? 1 : page.PageCount(session.RowPerPage);
                 page.RowsFetchedSoFar = rowsFetched;
+                page.PageNo = pageNo;
             }
         }
 
         public void FetchAll(Session session)
         {
             Persistence persistence = Persistence.GetInstance(session);
-            persistence.ExecuteQuery("SELECT * FROM " + BaseType.Name);
+            persistence.ExecuteQuery("SELECT * FROM " + typeof(AbstractViewedData).Name);
             Set(session, persistence, new Page());
             persistence.Close();
             persistence = null;

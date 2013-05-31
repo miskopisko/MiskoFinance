@@ -48,16 +48,43 @@ namespace MPFinance.Core.Data.Stored
         {
         }
 
+        public Category(Operator op, String name, CategoryType type, Status status)
+        {
+            Operator = op;
+            Name = name;
+            CategoryType = type;
+            Status = status;
+        }
+
         #endregion
 
         #region Override Methods
 
         public override void PreSave(Session session, UpdateMode mode)
         {
+            if(String.IsNullOrEmpty(Name))
+            {
+                session.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, ErrorStrings.errCategoryNameNull);
+            }
+
+            if(CategoryType == null || CategoryType.IsNotSet)
+            {
+                session.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, ErrorStrings.errCategoryTypeNull);
+            }
+
+            if(Status == null || Status.IsNotSet)
+            {
+                session.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, ErrorStrings.errCategoryStatusNull);
+            }
         }
 
         public override void PostSave(Session session, UpdateMode mode)
         {
+            // If a category is deleted or inactivated reset all txns that were in that category
+            if(mode.Equals(UpdateMode.Delete) || Status.Equals(Status.Inactive))
+            {
+                Txns.RemoveTxnCategory(session, this);
+            }
         }
 
         #endregion
@@ -69,19 +96,6 @@ namespace MPFinance.Core.Data.Stored
         #endregion
 
         #region Public Methods
-
-        public void Validate(Session session)
-        {
-            if(String.IsNullOrEmpty(Name))
-            {
-                session.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, ErrorStrings.errCategoryNameBlank);
-            }
-
-            if(CategoryType == null || !CategoryType.IsSet)
-            {
-                session.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, ErrorStrings.errCategoryTypeMissing);
-            }
-        }
 
         public override string ToString()
         {

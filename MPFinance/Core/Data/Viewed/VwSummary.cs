@@ -54,7 +54,7 @@ namespace MPFinance.Core.Data.Viewed
 
         #region Public Methods
 
-        public void Fetch(Session session, Operator op, Account account, DateTime? from, DateTime? to)
+        public void Fetch(Session session, Operator op, Account account, DateTime? from, DateTime? to, Category category)
         {
             Persistence p = Persistence.GetInstance(session);
             p.SetSql("SELECT SUM(Openingbalance) OpeningBalance FROM Account ");
@@ -82,6 +82,7 @@ namespace MPFinance.Core.Data.Viewed
             p.SqlWhere(account != null && account.IsSet, "AccountId = ?", new Object[] { account });
             p.SqlWhere(from.HasValue, "DatePosted >= ?", new Object[] { from });
             p.SqlWhere(to.HasValue, "DatePosted <= ?", new Object[] { to });
+            p.SqlWhere(category != null && category.IsSet, "Category = ?", new Object[] { category });
             p.ExecuteQuery();
 
             if (p.Next())

@@ -1,6 +1,8 @@
-﻿using MPersist.Core;
+﻿using System.Drawing;
+using System.Reflection;
+using System.Windows.Forms;
+using MPersist.Core;
 using MPersist.Core.Enums;
-using MPersist.Core.Interfaces;
 using MPersist.Core.Message.Response;
 using MPFinance.Core.Data.Stored;
 using MPFinance.Core.Enums;
@@ -9,9 +11,6 @@ using MPFinance.Core.Message.Responses;
 using MPFinance.Core.OFX;
 using MPFinance.Forms.Panels;
 using MPFinance.Resources;
-using System.Drawing;
-using System.Reflection;
-using System.Windows.Forms;
 
 namespace MPFinance.Forms
 {
@@ -75,16 +74,14 @@ namespace MPFinance.Forms
         {
             if (mChooseAccountPanel_.createNewAccount.Checked)
             {
-                Account account = new Account();
-                account.Operator = Program.GetOperator();
-                account.AccountNumber = mChooseAccountPanel_.AccountNumber.Text;
-                account.BankNumber = mChooseAccountPanel_.BankName.Text;
-                account.Nickname = mChooseAccountPanel_.Nickname.Text;
-                account.AccountType = (AccountType)mChooseAccountPanel_.AccountTypeCmb.SelectedItem;
-                account.OpeningBalance = mChooseAccountPanel_.OpeningBalance.Value;
-
                 AddAccountRQ request = new AddAccountRQ();
-                request.Account = account;
+                request.Account = new Account();
+                request.Account.Operator = Program.GetOperator();
+                request.Account.AccountNumber = mChooseAccountPanel_.AccountNumber.Text.Trim();
+                request.Account.BankNumber = mChooseAccountPanel_.BankName.Text.Trim();
+                request.Account.Nickname = mChooseAccountPanel_.Nickname.Text.Trim();
+                request.Account.AccountType = (AccountType)mChooseAccountPanel_.AccountTypeCmb.SelectedItem;
+                request.Account.OpeningBalance = mChooseAccountPanel_.OpeningBalance.Value;
                 request.MessageMode = MessageMode.Trial; // We dont want to save the account just yet
                 MessageProcessor.SendRequest(request, ResponseRecieved);
             }

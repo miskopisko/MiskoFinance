@@ -15,4 +15,4 @@ SELECT  T.Id TxnId,
 FROM    Txn T, Account A, Operator O
 WHERE   T.Account = A.Id
 AND     A.Operator = O.Id
-ORDER BY T.DatePosted;
+ORDER BY T.DatePosted, T.Id;

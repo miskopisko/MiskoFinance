@@ -2,7 +2,6 @@ using System;
 using System.Reflection;
 using MPersist.Core.Attributes;
 using MPersist.Core.Enums;
-using MPersist.Core.Resources;
 
 namespace MPersist.Core.Data
 {
@@ -28,6 +27,7 @@ namespace MPersist.Core.Data
         #region Other Properties
 
         public bool IsSet { get; set; }
+        public bool IsNotSet { get { return !IsSet; } }
 
         #endregion
 
