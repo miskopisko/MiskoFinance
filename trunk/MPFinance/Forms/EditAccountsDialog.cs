@@ -1,12 +1,11 @@
-﻿using MPersist.Core;
-using MPersist.Core.Interfaces;
+﻿using System;
+using System.Windows.Forms;
+using MPersist.Core;
 using MPersist.Core.Message.Response;
 using MPFinance.Core.Data.Stored;
 using MPFinance.Core.Enums;
 using MPFinance.Core.Message.Requests;
 using MPFinance.Core.Message.Responses;
-using System;
-using System.Windows.Forms;
 
 namespace MPFinance.Forms
 {
@@ -33,7 +32,7 @@ namespace MPFinance.Forms
         protected override void OnLoad(EventArgs e)
         {
             GetAccountsRQ request = new GetAccountsRQ();
-            request.Operator = Program.GetOperator();
+            request.Operator = MPFinanceMain.Instance.Operator;
             MessageProcessor.SendRequest(request, ResponseRecieved);
         }
 

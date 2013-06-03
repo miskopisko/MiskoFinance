@@ -1,11 +1,11 @@
+using System;
+using System.Reflection;
 using MPersist.Core;
 using MPersist.Core.Enums;
 using MPersist.Core.Message;
 using MPFinance.Core.Message.Requests;
 using MPFinance.Core.Message.Responses;
 using MPFinance.Resources;
-using System;
-using System.Reflection;
 
 namespace MPFinance.Core.Message
 {

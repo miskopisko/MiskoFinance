@@ -60,6 +60,11 @@ namespace MPFinance.Core.Data.Stored
 
         #region Override Methods
 
+        public override String ToString()
+        {
+            return Name;
+        }
+
         public override void PreSave(Session session, UpdateMode mode)
         {
             if(String.IsNullOrEmpty(Name))
@@ -95,36 +100,20 @@ namespace MPFinance.Core.Data.Stored
 
         #endregion
 
-        #region Public Methods
-
-        public override string ToString()
-        {
-            return Name;
-        }
+        #region Public Methods        
 
         public static Category FetchByComposite(Session session, Operator o, String name, CategoryType categoryType)
         {
             Category result = null;
 
-            String key = o.Id.ToString() + name + categoryType.Value.ToString();
-
-            if (!CACHE.Contains(key))
+            Persistence p = Persistence.GetInstance(session);
+            p.ExecuteQuery("SELECT * FROM Category WHERE Operator = ? AND Name = ? AND CategoryType = ?", new Object[] { o, name, categoryType });
+            if (p.HasNext)
             {
-                Persistence p = Persistence.GetInstance(session);
-                p.ExecuteQuery("SELECT * FROM Category WHERE Operator = ? AND Name = ? AND CategoryType = ?", new Object[] { o, name, categoryType });
-                if (p.HasNext)
-                {
-                    result = new Category(session, p);
-                }
-                p.Close();
-                p = null;
-
-                CACHE.Add(key, result);
+                result = new Category(session, p);
             }
-            else
-            {
-                result = (Category)CACHE[key];
-            }           
+            p.Close();
+            p = null;   
 
             return result;
         }

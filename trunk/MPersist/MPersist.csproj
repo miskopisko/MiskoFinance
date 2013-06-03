@@ -123,6 +123,7 @@
     </Compile>
     <Compile Include="Core\ServiceLocator.cs" />
     <Compile Include="Core\Session.cs" />
+    <Compile Include="Core\Tools\MPCache.cs" />
     <Compile Include="Core\Tools\Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\Enums\AbstractEnum.cs" />

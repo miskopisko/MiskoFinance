@@ -61,15 +61,15 @@ namespace MPFinance.Forms.Controls
 
                 if (txn.TxnType.Equals(TxnType.Credit))
                 {
-                    ((DGVComboBoxCell)row.Cells["Category"]).DataSource = Program.GetIncomeCategories();                    
+                    ((DGVComboBoxCell)row.Cells["Category"]).DataSource = MPFinanceMain.Instance.IncomeCategories;
                 }
                 else if (txn.TxnType.Equals(TxnType.Debit))
                 {
-                    ((DGVComboBoxCell)row.Cells["Category"]).DataSource = Program.GetExpenseCategories();
+                    ((DGVComboBoxCell)row.Cells["Category"]).DataSource = MPFinanceMain.Instance.ExpenseCategories;
                 }
                 else if (txn.TxnType.Equals(TxnType.TransferIn) || txn.TxnType.Equals(TxnType.TransferOut))
                 {
-                    ((DGVComboBoxCell)row.Cells["Category"]).DataSource = Program.GetTransferCategories();
+                    ((DGVComboBoxCell)row.Cells["Category"]).DataSource = MPFinanceMain.Instance.TransferCategories;
                 }
 
                 ((DGVComboBoxCell)row.Cells["Category"]).Value = txn.Category;
@@ -106,17 +106,17 @@ namespace MPFinance.Forms.Controls
 
                 if(vwTxn.Transfer)
                 {
-                    ((DGVComboBoxCell)Rows[e.RowIndex].Cells["Category"]).DataSource = Program.GetTransferCategories();
+                    ((DGVComboBoxCell)Rows[e.RowIndex].Cells["Category"]).DataSource = MPFinanceMain.Instance.TransferCategories;
                 }
                 else
                 {
                     if(vwTxn.TxnType.Equals(TxnType.Credit))
                     {
-                        ((DGVComboBoxCell)Rows[e.RowIndex].Cells["Category"]).DataSource = Program.GetIncomeCategories();
+                        ((DGVComboBoxCell)Rows[e.RowIndex].Cells["Category"]).DataSource = MPFinanceMain.Instance.IncomeCategories;
                     }
                     else if (vwTxn.TxnType.Equals(TxnType.Debit))
                     {
-                        ((DGVComboBoxCell)Rows[e.RowIndex].Cells["Category"]).DataSource = Program.GetExpenseCategories();
+                        ((DGVComboBoxCell)Rows[e.RowIndex].Cells["Category"]).DataSource = MPFinanceMain.Instance.ExpenseCategories;
                     }
                 }
 

@@ -1,8 +1,9 @@
 using System;
+using System.Collections;
 using System.Reflection;
 using MPersist.Core.Attributes;
 using MPersist.Core.Enums;
-using System.Collections;
+using MPersist.Core.Tools;
 
 namespace MPersist.Core.Data
 {
@@ -30,8 +31,6 @@ namespace MPersist.Core.Data
         public bool IsSet { get; set; }
         public bool IsNotSet { get { return !IsSet; } }
 
-        public static Hashtable CACHE { get { return CACHE_; } }
-
         #endregion
 
         #region Constructors
@@ -49,7 +48,21 @@ namespace MPersist.Core.Data
 
         #region Private Methods
 
+        private void CopyFromCache(AbstractStoredData source)
+        {
+            PropertyInfo[] destinationProperties = GetType().GetProperties();
+            foreach (PropertyInfo destinationPi in destinationProperties)
+            {
+                PropertyInfo sourcePi = source.GetType().GetProperty(destinationPi.Name);
 
+                if (destinationPi.GetSetMethod() != null)
+                {
+                    destinationPi.SetValue(this, sourcePi.GetValue(source, null), null);
+                }
+            }
+
+            int i = 0;
+        }
 
         #endregion
 
@@ -76,7 +89,11 @@ namespace MPersist.Core.Data
 
         public void FetchById(Session session, Int64 id, Boolean deep)
         {
-            if (!CACHE.Contains(id))
+            String key = MPCache.GetKey(this, new Object[] { "Id", id });
+
+            AbstractStoredData value = (AbstractStoredData)MPCache.Get(key);
+
+            if (value == null)
             {
                 Persistence p = Persistence.GetInstance(session);
                 p.ExecuteQuery("SELECT * FROM " + GetType().Name + " WHERE ID = ?", new Object[] { id });
@@ -84,14 +101,15 @@ namespace MPersist.Core.Data
                 p.Close();
                 p = null;
 
-                CACHE.Add(id, this);
+                if (IsSet)
+                {
+                    MPCache.Put(key, this);
+                }
             }
             else
             {
-                
+                CopyFromCache(value);
             }
-
-            
         }
 
         public void Save(Session session)
@@ -103,18 +121,24 @@ namespace MPersist.Core.Data
                 PreSave(session, UpdateMode.Insert);
                 Id = p.ExecuteInsert(this);
                 PostSave(session, UpdateMode.Insert);
+
+                MPCache.Put(MPCache.GetKey(this, new Object[] { "Id", this.Id }), this);
             }
             else if (Id > 0)
             {
                 PreSave(session, UpdateMode.Update);
                 RowVer = p.ExecuteUpdate(this);
                 PostSave(session, UpdateMode.Update);
+
+                MPCache.Put(MPCache.GetKey(this, new Object[] { "Id", this.Id }), this);
             }
             else if(Id < 0)
             {
                 PreSave(session, UpdateMode.Delete);
                 p.ExecuteDelete(this);
                 PostSave(session, UpdateMode.Delete);
+
+                MPCache.Remove(MPCache.GetKey(this, new Object[] { "Id", this.Id }));
             }
 
             p.Close();

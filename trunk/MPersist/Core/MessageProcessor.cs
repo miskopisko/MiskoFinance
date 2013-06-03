@@ -2,13 +2,13 @@ using System;
 using System.ComponentModel;
 using System.Reflection;
 using System.Windows.Forms;
+using MPersist.Core.Debug;
 using MPersist.Core.Enums;
 using MPersist.Core.Interfaces;
 using MPersist.Core.Message;
 using MPersist.Core.Message.Request;
 using MPersist.Core.Message.Response;
 using MPersist.Core.Resources;
-using MPersist.Core.Debug;
 
 namespace MPersist.Core
 {
@@ -36,6 +36,8 @@ namespace MPersist.Core
         #region Properties
 
         public static IOController IOController { get; set; }
+        public static Int32? RowsPerPage { get; set; }
+        public static ConnectionSettings ConnectionSettings { get; set; }
 
         #endregion
 
@@ -45,7 +47,17 @@ namespace MPersist.Core
         {
             if(IOController == null)
             {
-                throw new Exception(ErrorStrings.errIOControllerIsNull);
+                throw new MPException(GetType(), MethodInfo.GetCurrentMethod(), ErrorStrings.errIOControllerIsNull);
+            }
+
+            if (String.IsNullOrEmpty(ConnectionSettings.ConnectionString))
+            {
+                throw new MPException(GetType(), MethodInfo.GetCurrentMethod(), ErrorStrings.errConnectionSettingsNotDefined);
+            }
+
+            if (!RowsPerPage.HasValue)
+            {
+                RowsPerPage = 15; // Default
             }
 
             mRequest_ = request;
@@ -134,9 +146,9 @@ namespace MPersist.Core
         {
             AbstractResponse response;
             Boolean ResendMessage = false;
-            Session session = new Session(ServiceLocator.GetConnection(IOController.ConnectionSettings));
+            Session session = new Session(ServiceLocator.GetConnection(ConnectionSettings));
             session.MessageMode = mRequest_.MessageMode;
-            session.RowPerPage = IOController.RowsPerPage;
+            session.RowPerPage = RowsPerPage.Value;
 
             do
             {
@@ -248,23 +260,32 @@ namespace MPersist.Core
                     {
                         MPException ex1 = (MPException)ActualException;
 
-                        if (ex1.ErrorMessage != null)
+                        // Ignore the generic exception thrown from session.Error
+                        if(!(ex1.Class.Name.Equals("Session") && ex1.Method.Name.Equals("Error")))
                         {
-                            errMessage = ex1.ErrorMessage;
-                            Log.Error("Unexpected Error: (" + ex1.Message + ")", ex1);
-                        }
-                        else
-                        {
-                            Log.Error("Unexpected Error: (" + ex1.Message + ")", ex1);
-                            errMessage = new ErrorMessage(ex1.Class, ex1.Method, ErrorLevel.Error, ErrorStrings.errUnexpectedApplicationErrorShort, new Object[] { ex1.Message });
+                            if (ex1.ErrorMessage != null)
+                            {
+                                Log.Error("Unexpected Error: (" + ex1.Message + ")", ex1);
+                                errMessage = ex1.ErrorMessage;                                
+                                session.Status = ErrorLevel.Error;
+                                session.ErrorMessages.Add(errMessage);
+                            }
+                            else
+                            {
+                                Log.Error("Unexpected Error: (" + ex1.Message + ")", ex1);
+                                errMessage = new ErrorMessage(ex1.Class, ex1.Method, ErrorLevel.Error, ErrorStrings.errUnexpectedApplicationErrorShort, new Object[] { ex1.Message });
+                                session.Status = ErrorLevel.Error;
+                                session.ErrorMessages.Add(errMessage);
+                            }
                         }
                     }
                     else
                     {
                         Log.Error("Unexpected Error: (" + ActualException.Message + ")", ActualException);
-                        session.ErrorMessages.Add(new ErrorMessage(typeof(MessageProcessor), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, ErrorStrings.errUnexpectedApplicationErrorLong, new Object[] { ActualException.Message, ActualException.StackTrace }));
+                        errMessage = new ErrorMessage(typeof(MessageProcessor), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, ErrorStrings.errUnexpectedApplicationErrorLong, new Object[] { ActualException.Message, ActualException.StackTrace });
                         session.Status = ErrorLevel.Error;
-                    }
+                        session.ErrorMessages.Add(errMessage);
+                    }                    
                 }
                 finally
                 {

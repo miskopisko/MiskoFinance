@@ -40,10 +40,7 @@ namespace MPFinance.Core.Data.Stored
         {
             Persistence p = Persistence.GetInstance(session);
             p.ExecuteQuery("SELECT * FROM Account WHERE Operator = ?", new Object[] { op });
-            while (p.HasNext)
-            {
-                Add(new Account(session, p));
-            }
+            Set(session, p);
             p.Close();
             p = null;
         }

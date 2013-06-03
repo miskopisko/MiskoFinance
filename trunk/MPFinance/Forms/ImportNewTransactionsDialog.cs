@@ -76,7 +76,7 @@ namespace MPFinance.Forms
             {
                 AddAccountRQ request = new AddAccountRQ();
                 request.Account = new Account();
-                request.Account.Operator = Program.GetOperator();
+                request.Account.Operator = MPFinanceMain.Instance.Operator;
                 request.Account.AccountNumber = mChooseAccountPanel_.AccountNumber.Text.Trim();
                 request.Account.BankNumber = mChooseAccountPanel_.BankName.Text.Trim();
                 request.Account.Nickname = mChooseAccountPanel_.Nickname.Text.Trim();

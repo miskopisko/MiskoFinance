@@ -57,10 +57,6 @@ namespace MPFinance.Forms.Controls
             {
                 return "";
             }
-            //else
-            //{
-            //    return value.ToString();
-            //}
 
             return base.GetFormattedValue(DisplayProp.GetValue(value), rowIndex, ref cellStyle, valueTypeConverter, formattedValueTypeConverter, context);
         }
