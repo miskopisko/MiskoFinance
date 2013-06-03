@@ -8,6 +8,7 @@ using MPersist.Core.Message;
 using MPersist.Core.Message.Request;
 using MPersist.Core.Message.Response;
 using MPersist.Core.Resources;
+using MPersist.Core.Debug;
 
 namespace MPersist.Core
 {
@@ -212,6 +213,8 @@ namespace MPersist.Core
         private AbstractResponse Process(Session session, AbstractRequest Request)
         {
             AbstractResponse Response = null;
+            AbstractMessage Wrapper = null;
+            MessageTiming Timing = null;
 
             if (Request != null)
             {
@@ -224,13 +227,13 @@ namespace MPersist.Core
                     String msgPath = Request.GetType().FullName.Replace("Requests." + msgName + "RQ", "");
 
                     Response = (AbstractResponse)Assembly.GetEntryAssembly().CreateInstance(msgPath + "Responses." + msgName + "RS");                    
+                    Wrapper = (AbstractMessage)Assembly.GetEntryAssembly().CreateInstance(msgPath + msgName, false, BindingFlags.CreateInstance, null, new object[] { Request, Response }, null, null);
 
-                    AbstractMessage wrapper = (AbstractMessage)Assembly.GetEntryAssembly().CreateInstance(msgPath + msgName, false, BindingFlags.CreateInstance, null, new object[] { Request, Response }, null, null);
+                    Timing = new MessageTiming(Wrapper);
 
                     session.BeginTransaction();
 
-                    StartTime = DateTime.Now;
-                    wrapper.GetType().InvokeMember(Request.Command, BindingFlags.Default | BindingFlags.InvokeMethod, null, wrapper, new Object[] { session });
+                    Wrapper.GetType().InvokeMember(Request.Command, BindingFlags.Default | BindingFlags.InvokeMethod, null, Wrapper, new Object[] { session });
                 }
                 catch (Exception ex)
                 {
@@ -267,20 +270,30 @@ namespace MPersist.Core
                 {
                     if (session != null)
                     {
-                        DateTime EndTime = DateTime.Now;
+                        Timing.EndTime = DateTime.Now;
 
                         session.EndTransaction();
                         session.FlushPersistence();
 
                         if (Response != null)
                         {
-                            Response.ExecutionTime = EndTime.Subtract(StartTime);
                             Response.HasErrors = session.HasErrors;
                             Response.HasWarnings = session.HasWarnings;
                             Response.HasConfirmations = session.HasConfirmations;
                             Response.Page = Request.Page;
                         }
+
+                        Timing.SqlTimings = session.SqlTimings;
                     }
+
+                    if (IOController is Control && ((Control)IOController).InvokeRequired)
+                    {
+                        ((Control)IOController).Invoke(new MethodInvoker(delegate { IOController.Debug(Timing); }));
+                    }
+                    else
+                    {
+                        IOController.Debug(Timing);
+                    }                    
                 }
             }
 

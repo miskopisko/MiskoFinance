@@ -1,6 +1,7 @@
 using MPersist.Core;
 using MPersist.Core.Message.Response;
 using MPFinance.Core.Data.Stored;
+using MPFinance.Core.Data.Viewed;
 
 namespace MPFinance.Core.Message.Responses
 {
@@ -16,6 +17,8 @@ namespace MPFinance.Core.Message.Responses
         public Categories ExpenseCategories { get; set; }
         public Categories TransferCategories { get; set; }
         public Categories AllCategories { get; set; }
+        public VwTxns Txns { get; set; }
+        public VwSummary Summary { get; set; }
 
         #endregion
 
@@ -27,6 +30,8 @@ namespace MPFinance.Core.Message.Responses
             ExpenseCategories = new Categories();
             TransferCategories = new Categories();
             AllCategories = new Categories();
+            Txns = new VwTxns();
+            Summary = new VwSummary();
         }
     }
 }

@@ -1,5 +1,10 @@
 ﻿using MPersist.Core.Message.Request;
 using MPersist.Core.Message.Response;
+using System;
+using System.IO;
+using System.Text;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace MPersist.Core.Message
 {
@@ -15,7 +20,7 @@ namespace MPersist.Core.Message
         #endregion
 
         #region Properties
-
+        
         public AbstractRequest Request
         {
             get
@@ -36,6 +41,11 @@ namespace MPersist.Core.Message
 
         #region Constructors
 
+        protected AbstractMessage()
+        {
+
+        }
+
         protected AbstractMessage(AbstractRequest request, AbstractResponse response)
         {
             mRequest_ = request;
@@ -44,6 +54,49 @@ namespace MPersist.Core.Message
 
         #endregion
 
+        public String ToXml()
+        {
+            try
+            {
+                // Rig it so that there are no namespaces in the XML
+                XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
+                ns.Add("", "");
+
+                StringBuilder builder = new StringBuilder();
+                using (XmlWriter writer = new NoNamespaceXmlWriter(new StringWriter(builder)))
+                {
+                    XmlSerializer request = new XmlSerializer(Request.GetType());
+                    request.Serialize(writer, Request, ns);
+
+                    builder.Append(Environment.NewLine);
+
+                    XmlSerializer response = new XmlSerializer(Response.GetType());
+                    response.Serialize(writer, Response, ns);
+
+                    return builder.ToString();
+                }
+            }
+            catch (Exception)
+            {
+            }
+
+            return "Error generating XML";
+        }
+
         public abstract void Execute(Session session);
+    }
+
+    internal class NoNamespaceXmlWriter : XmlTextWriter
+    {
+        //Provide as many contructors as you need
+        public NoNamespaceXmlWriter(TextWriter output)
+            : base(output) { Formatting = Formatting.Indented; }
+
+        public override void WriteStartDocument() { }
+
+        public override void WriteStartElement(string prefix, string localName, string ns)
+        {
+            base.WriteStartElement("", localName, "");
+        }
     }
 }

@@ -31,6 +31,10 @@ namespace MPFinance.Core.Enums
 
         #endregion
 
+        protected TxnType()
+        {
+        }
+
         protected TxnType(Int64 value, String code, String description) : base(value, code, description)
         {
         }

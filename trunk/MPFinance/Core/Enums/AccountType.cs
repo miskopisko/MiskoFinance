@@ -33,6 +33,10 @@ namespace MPFinance.Core.Enums
 
         #endregion
 
+        protected AccountType()
+        {
+        }
+
         protected AccountType(Int64 value, String code, String description) : base(value, code, description)
         {
         }

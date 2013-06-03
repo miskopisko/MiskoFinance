@@ -1,9 +1,10 @@
-﻿using System;
+﻿using MPersist.Core.Debug;
+using MPersist.Core.Enums;
+using MPersist.Core.Resources;
+using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Reflection;
-using MPersist.Core.Enums;
-using MPersist.Core.Resources;
 
 namespace MPersist.Core
 {
@@ -21,6 +22,7 @@ namespace MPersist.Core
         private ErrorLevel status_ = ErrorLevel.Success;
         private MessageMode messageMode_ = MessageMode.Normal;
         private Int32 rowsPerPage_ = 20;
+        private SqlTimings<SqlTiming> SqlTimings_ = null;
 
         #endregion
 
@@ -97,6 +99,18 @@ namespace MPersist.Core
         public ErrorMessages Confirmations
         {
             get { return ListOf(ErrorLevel.Confirmation); }
+        }
+
+        public SqlTimings<SqlTiming> SqlTimings 
+        {
+            get 
+            { 
+                if(SqlTimings_ == null)
+                {
+                    SqlTimings_ = new SqlTimings<SqlTiming>();
+                }
+                return SqlTimings_;
+            } 
         }
 
         #endregion

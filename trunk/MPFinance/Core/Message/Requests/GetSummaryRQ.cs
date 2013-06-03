@@ -18,5 +18,9 @@ namespace MPFinance.Core.Message.Requests
         public Category Category { get; set; }
 
         #endregion
+
+        public GetSummaryRQ()
+        {
+        }
     }
 }

@@ -18,7 +18,6 @@ namespace MPFinance.Core.Message.Requests
 
         public UpdateCategoriesRQ()
         {
-
         }
     }
 }

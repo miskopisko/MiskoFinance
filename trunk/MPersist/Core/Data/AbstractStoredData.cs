@@ -2,6 +2,7 @@ using System;
 using System.Reflection;
 using MPersist.Core.Attributes;
 using MPersist.Core.Enums;
+using System.Collections;
 
 namespace MPersist.Core.Data
 {
@@ -11,7 +12,7 @@ namespace MPersist.Core.Data
 
         #region Variable Declarations
 
-
+        private static Hashtable CACHE_ = new Hashtable();
 
         #endregion
 
@@ -28,6 +29,8 @@ namespace MPersist.Core.Data
 
         public bool IsSet { get; set; }
         public bool IsNotSet { get { return !IsSet; } }
+
+        public static Hashtable CACHE { get { return CACHE_; } }
 
         #endregion
 
@@ -73,11 +76,22 @@ namespace MPersist.Core.Data
 
         public void FetchById(Session session, Int64 id, Boolean deep)
         {
-            Persistence p = Persistence.GetInstance(session);
-            p.ExecuteQuery("SELECT * FROM " + GetType().Name + " WHERE ID = ?", new Object[] { id });
-            Set(session, p, deep);
-            p.Close();
-            p = null;
+            if (!CACHE.Contains(id))
+            {
+                Persistence p = Persistence.GetInstance(session);
+                p.ExecuteQuery("SELECT * FROM " + GetType().Name + " WHERE ID = ?", new Object[] { id });
+                Set(session, p, deep);
+                p.Close();
+                p = null;
+
+                CACHE.Add(id, this);
+            }
+            else
+            {
+                
+            }
+
+            
         }
 
         public void Save(Session session)

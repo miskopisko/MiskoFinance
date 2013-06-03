@@ -27,6 +27,10 @@ namespace MPFinance.Core.Enums
 
         #endregion
 
+        protected Gender()
+        {
+        }
+
         protected Gender(Int64 value, String code, String description) : base(value, code, description)
         {
         }

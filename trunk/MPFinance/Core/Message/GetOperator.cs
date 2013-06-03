@@ -1,14 +1,14 @@
-using System;
-using System.Reflection;
 using MPersist.Core;
 using MPersist.Core.Enums;
 using MPersist.Core.Message;
+using MPersist.Core.Tools;
 using MPFinance.Core.Data.Stored;
 using MPFinance.Core.Enums;
 using MPFinance.Core.Message.Requests;
 using MPFinance.Core.Message.Responses;
 using MPFinance.Resources;
-using MPersist.Core.Tools;
+using System;
+using System.Reflection;
 
 namespace MPFinance.Core.Message
 {
@@ -35,6 +35,10 @@ namespace MPFinance.Core.Message
         }
 
         #endregion
+
+        public GetOperator()
+        {
+        }
 
         public GetOperator(GetOperatorRQ request, GetOperatorRS response) : base(request, response)
         {
@@ -69,6 +73,9 @@ namespace MPFinance.Core.Message
             Response.AllCategories.AddRange(Response.ExpenseCategories);
             Response.AllCategories.AddRange(Response.IncomeCategories);
             Response.AllCategories.AddRange(Response.TransferCategories);
+
+            Response.Txns.Fetch(session, Request.Page, Response.Operator, null, Request.FromDate, Request.ToDate, null);
+            Response.Summary.Fetch(session, Response.Operator, null, Request.FromDate, Request.ToDate, null);
         }
     }
 }

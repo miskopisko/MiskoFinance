@@ -18,7 +18,8 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>3.5</OldToolsVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -80,6 +81,10 @@
     <Compile Include="Core\Attributes\StoredAttribute.cs" />
     <Compile Include="Core\Attributes\ViewedAttribute.cs" />
     <Compile Include="Core\Data\Page.cs" />
+    <Compile Include="Core\Debug\MessageTiming.cs" />
+    <Compile Include="Core\Debug\MessageTimings.cs" />
+    <Compile Include="Core\Debug\SqlTiming.cs" />
+    <Compile Include="Core\Debug\SqlTimings.cs" />
     <Compile Include="Core\Enums\ConnectionType.cs" />
     <Compile Include="Core\Enums\SortDirection.cs" />
     <Compile Include="Core\Interfaces\IOController.cs" />
@@ -163,6 +168,7 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Common;
-using System.Data.SQLite;
-using System.Reflection;
-using MPersist.Core.Data;
+﻿using MPersist.Core.Data;
+using MPersist.Core.Debug;
 using MPersist.Core.Enums;
 using MPersist.Core.MoneyType;
 using MPersist.Core.Persistences;
@@ -12,6 +7,12 @@ using MPersist.Core.Resources;
 using MPersist.Resources.Enums;
 using MySql.Data.MySqlClient;
 using Oracle.DataAccess.Client;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
+using System.Data.SQLite;
+using System.Reflection;
 
 namespace MPersist.Core
 {
@@ -183,8 +184,12 @@ namespace MPersist.Core
             session_.PersistencePool.Add(this);
 
             GenerateUpdateStatement(clazz);
-            
-            if(command_.ExecuteNonQuery() == 0)
+
+            DateTime startTime = DateTime.Now;
+            int result = command_.ExecuteNonQuery();
+            session_.SqlTimings.Add(new SqlTiming(command_.CommandText, command_.Parameters, startTime));
+
+            if(result == 0)
             {
                 session_.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, ErrorStrings.errLockKeyFailed, new Object[] { clazz.GetType().Name });
             }
@@ -202,7 +207,9 @@ namespace MPersist.Core
 
             if (command_ is MySqlCommand || command_ is SQLiteCommand)
             {
+                DateTime startTime = DateTime.Now;
                 newId = Int64.Parse(command_.ExecuteScalar().ToString());
+                session_.SqlTimings.Add(new SqlTiming(command_.CommandText, command_.Parameters, startTime));
             }
             else if (command_ is OracleCommand)
             {
@@ -212,7 +219,9 @@ namespace MPersist.Core
                 lastId.Direction = ParameterDirection.Output;
                 ((OracleCommand)command_).Parameters.Add(lastId);
 
+                DateTime startTime = DateTime.Now;
                 command_.ExecuteNonQuery();
+                session_.SqlTimings.Add(new SqlTiming(command_.CommandText, command_.Parameters, startTime));                
 
                 newId = Convert.ToInt64(lastId.Value);
             }
@@ -226,7 +235,11 @@ namespace MPersist.Core
 
             GenerateDeleteStatement(clazz);
 
-            if (command_.ExecuteNonQuery() == 0)
+            DateTime startTime = DateTime.Now;
+            int result = command_.ExecuteNonQuery();
+            session_.SqlTimings.Add(new SqlTiming(command_.CommandText, command_.Parameters, startTime));
+
+            if (result == 0)
             {
                 session_.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, ErrorStrings.errLockKeyFailed, new Object[] { GetType().Name });
             }
@@ -271,7 +284,9 @@ namespace MPersist.Core
                 adapter = new SQLiteDataAdapter((SQLiteCommand)command_);
             }
 
+            DateTime startTime = DateTime.Now;
             adapter.Fill(rs_);
+            session_.SqlTimings.Add(new SqlTiming(command_.CommandText, command_.Parameters, startTime));
 
             return HasNext;
         }
