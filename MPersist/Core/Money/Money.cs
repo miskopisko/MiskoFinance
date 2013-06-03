@@ -47,6 +47,10 @@ namespace MPersist.Core.MoneyType
         /// </summary>
         private readonly Int32 _decimalFraction;
 
+        public Money()
+        {
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Money"/> struct equal to <paramref name="value"/>.
         /// </summary>

@@ -26,6 +26,10 @@ namespace MPersist.Core.Enums
 
         #endregion
 
+        protected MessageMode()
+        {
+        }
+
         protected MessageMode(Int64 value, String code, String description) : base(value, code, description)
         {
         }

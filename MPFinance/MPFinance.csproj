@@ -139,11 +139,23 @@
     <Compile Include="Forms\Controls\ImportedTransactionsGridView.Designer.cs">
       <DependentUpon>ImportedTransactionsGridView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Controls\MessageTimingGridView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\Controls\MessageTimingGridView.Designer.cs">
+      <DependentUpon>MessageTimingGridView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Controls\MoneyBox.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Forms\Controls\MoneyBox.Designer.cs">
       <DependentUpon>MoneyBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Controls\SqlTimingGridView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\Controls\SqlTimingGridView.Designer.cs">
+      <DependentUpon>SqlTimingGridView.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Controls\TransactionsGridView.cs">
       <SubType>Component</SubType>
@@ -162,6 +174,12 @@
     </Compile>
     <Compile Include="Forms\EditCategoriesDialog.Designer.cs">
       <DependentUpon>EditCategoriesDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\DebugWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DebugWindow.Designer.cs">
+      <DependentUpon>DebugWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\ImportNewTransactionsDialog.cs">
       <SubType>Form</SubType>
@@ -232,6 +250,12 @@
       <DependentUpon>ImportedTransactionsGridView.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Controls\MessageTimingGridView.resx">
+      <DependentUpon>MessageTimingGridView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Controls\SqlTimingGridView.resx">
+      <DependentUpon>SqlTimingGridView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Controls\TransactionsGridView.resx">
       <DependentUpon>TransactionsGridView.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -242,6 +266,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\EditCategoriesDialog.resx">
       <DependentUpon>EditCategoriesDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DebugWindow.resx">
+      <DependentUpon>DebugWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ImportNewTransactionsDialog.resx">
       <DependentUpon>ImportNewTransactionsDialog.cs</DependentUpon>

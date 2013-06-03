@@ -20,7 +20,6 @@ namespace MPFinance.Core.Message.Requests
 
         public CheckDuplicateTxnsRQ()
         {
-
         }
     }
 }

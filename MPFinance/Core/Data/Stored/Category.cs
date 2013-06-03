@@ -106,14 +106,25 @@ namespace MPFinance.Core.Data.Stored
         {
             Category result = null;
 
-            Persistence p = Persistence.GetInstance(session);
-            p.ExecuteQuery("SELECT * FROM Category WHERE Operator = ? AND Name = ? AND CategoryType = ?", new Object[]{o, name, categoryType});
-            if(p.HasNext)
+            String key = o.Id.ToString() + name + categoryType.Value.ToString();
+
+            if (!CACHE.Contains(key))
             {
-                result = new Category(session, p);
+                Persistence p = Persistence.GetInstance(session);
+                p.ExecuteQuery("SELECT * FROM Category WHERE Operator = ? AND Name = ? AND CategoryType = ?", new Object[] { o, name, categoryType });
+                if (p.HasNext)
+                {
+                    result = new Category(session, p);
+                }
+                p.Close();
+                p = null;
+
+                CACHE.Add(key, result);
             }
-            p.Close();
-            p = null;
+            else
+            {
+                result = (Category)CACHE[key];
+            }           
 
             return result;
         }

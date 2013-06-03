@@ -11,12 +11,13 @@ namespace MPFinance.Core.Message.Requests
         #region Parameters
 
         public String Username { get; set; }
+        public DateTime FromDate { get; set; }
+        public DateTime ToDate { get; set; }
 
         #endregion
 
         public GetOperatorRQ()
         {
-
         }
     }
 }

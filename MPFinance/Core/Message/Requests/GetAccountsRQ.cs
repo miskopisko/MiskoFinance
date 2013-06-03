@@ -17,7 +17,6 @@ namespace MPFinance.Core.Message.Requests
 
         public GetAccountsRQ()
         {
-
         }
     }
 }

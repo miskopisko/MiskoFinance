@@ -1,8 +1,6 @@
-﻿using System;
-using System.IO;
-using System.Windows.Forms;
-using MPersist.Core;
+﻿using MPersist.Core;
 using MPersist.Core.Data;
+using MPersist.Core.Debug;
 using MPersist.Core.Interfaces;
 using MPersist.Core.Message.Response;
 using MPersist.Core.Tools;
@@ -14,6 +12,9 @@ using MPFinance.Core.Message.Responses;
 using MPFinance.Core.OFX;
 using MPFinance.Properties;
 using MPFinance.Resources;
+using System;
+using System.IO;
+using System.Windows.Forms;
 
 namespace MPFinance.Forms
 {
@@ -24,6 +25,7 @@ namespace MPFinance.Forms
         #region Variable Declarations
 
         private ConnectionSettings mConnectionSettings_;
+        private DebugWindow DebugWindow_;
         
         #endregion
 
@@ -47,6 +49,11 @@ namespace MPFinance.Forms
             transactionsGridView.FillColumns();
 
             transactionsGridView.TxnUpdated += transactionsGridView_TxnUpdated;
+
+            DebugWindow_ = new DebugWindow();
+            DebugWindow_.Messages.FillColumns();
+            DebugWindow_.SQL.FillColumns();
+            DebugWindow_.Show();
         }
 
         #region Local Private Methods
@@ -155,22 +162,37 @@ namespace MPFinance.Forms
         {
             GetOperatorRQ request = new GetOperatorRQ();
             request.Username = "miskopisko";
+            request.FromDate = FromDatePicker.Value;
+            request.ToDate = ToDatePicker.Value;
+            request.Page = new Page(1);
             MessageProcessor.SendRequest(request, GetOperatorSuccess);
         }
 
         // Callback method for GetOperator
         private void GetOperatorSuccess(AbstractResponse response)
         {
-            Operator = ((GetOperatorRS)response).Operator;
+            GetOperatorRS Response = response as GetOperatorRS;
+
+            Operator = Response.Operator;
             headerLbl.Text = Operator.LastName + ", " + Operator.FirstName;
 
-            ExpenseCategories = ((GetOperatorRS)response).ExpenseCategories;
-            IncomeCategories = ((GetOperatorRS)response).IncomeCategories;
-            TransferCategories = ((GetOperatorRS)response).TransferCategories;
+            ExpenseCategories = Response.ExpenseCategories;
+            IncomeCategories = Response.IncomeCategories;
+            TransferCategories = Response.TransferCategories;
 
-            FillAccountsTree(((GetOperatorRS)response).Accounts);
+            FillAccountsTree(Response.Accounts);
 
-            AllCategoriesCmb.DataSource = ((GetOperatorRS)response).AllCategories;
+            AllCategoriesCmb.DataSource = Response.AllCategories;
+
+            transactionsGridView.DataSource = Response.Txns;
+
+            summaryPanel.Update(Response.Summary);
+            PageCountsLbl.Text = Utils.ResolveTextParameters(Strings.strPageCounts, new Object[] { Response.Page.PageNo, Response.Page.TotalPageCount });
+            TransactionCountsLbl.Text = Utils.ResolveTextParameters(Strings.strTransactionCounts, new Object[] { Response.Page.RowsFetchedSoFar, Response.Page.TotalRowCount });
+
+            transactionsGridView.CurrentPage = Response.Page;
+
+            MoreBtn.Enabled = transactionsGridView.CurrentPage.HasNext;
         }        
 
         #endregion
@@ -199,6 +221,8 @@ namespace MPFinance.Forms
 
         private void txnSearch_Click(object sender, EventArgs e)
         {
+            transactionsGridView.DataSource = null;
+
             if ((ModifierKeys & Keys.Control) == Keys.Control)
             {
                 // Load all transactions if Ctrl + Click
@@ -265,6 +289,19 @@ namespace MPFinance.Forms
             GetCategories();
         }
 
+        private void debugWindowToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (DebugWindow_ == null || DebugWindow_.IsDisposed)
+            {
+                DebugWindow_ = new DebugWindow();
+                DebugWindow_.Messages.FillColumns();
+                DebugWindow_.SQL.FillColumns();
+                DebugWindow_.Show();
+            }
+
+            DebugWindow_.WindowState = FormWindowState.Normal;
+        }
+
         #endregion
 
         #region Overridden Methods
@@ -312,6 +349,14 @@ namespace MPFinance.Forms
             Application.DoEvents();
         }
 
-        #endregion
+        public void Debug(MessageTiming timing)
+        {
+            if(DebugWindow_ != null && !DebugWindow_.IsDisposed && timing != null)
+            {
+                ((MessageTimings<MessageTiming>)DebugWindow_.Messages.DataSource).Insert(0, timing);
+            }
+        }
+
+        #endregion        
     }
 }

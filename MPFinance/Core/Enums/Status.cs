@@ -33,9 +33,19 @@ namespace MPFinance.Core.Enums
 
         #endregion
 
+        #region Constructors
+
+        protected Status()
+        {
+        }
+
         protected Status(Int64 value, String code, String description) : base(value, code, description)
         {
         }
+
+        #endregion
+
+        #region Helpers
 
         public static Status GetElement(long index)
         {
@@ -62,5 +72,7 @@ namespace MPFinance.Core.Enums
 
             return null;
         }
+
+        #endregion
     }
 }
