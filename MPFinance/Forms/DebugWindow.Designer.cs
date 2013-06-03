@@ -31,14 +31,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DebugWindow));
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
-            this.MessageText = new System.Windows.Forms.TextBox();
             this.messageTimingGridView = new MPFinance.Forms.Controls.MessageTimingGridView();
-            this.messageNameDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.startTimeDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.endTimeDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.totalMessageTimeDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.totalSqlTimeDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.sqlTimingGridView = new MPFinance.Forms.Controls.SqlTimingGridView();
+            this.MessageText = new System.Windows.Forms.TextBox();
             this.messageTimingGridViewqqqq = new MPFinance.Forms.Controls.MessageTimingGridView();
             this.messageNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.startTimeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -91,17 +86,6 @@
             this.splitContainer4.SplitterDistance = 165;
             this.splitContainer4.TabIndex = 0;
             // 
-            // MessageText
-            // 
-            this.MessageText.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MessageText.Location = new System.Drawing.Point(0, 0);
-            this.MessageText.Multiline = true;
-            this.MessageText.Name = "MessageText";
-            this.MessageText.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.MessageText.Size = new System.Drawing.Size(452, 321);
-            this.MessageText.TabIndex = 1;
-            this.MessageText.WordWrap = false;
-            // 
             // messageTimingGridView
             // 
             this.messageTimingGridView.AllowUserToAddRows = false;
@@ -110,12 +94,6 @@
             this.messageTimingGridView.AllowUserToResizeRows = false;
             this.messageTimingGridView.AutoGenerateColumns = false;
             this.messageTimingGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.messageTimingGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.messageNameDataGridViewTextBoxColumn1,
-            this.startTimeDataGridViewTextBoxColumn1,
-            this.endTimeDataGridViewTextBoxColumn1,
-            this.totalMessageTimeDataGridViewTextBoxColumn1,
-            this.totalSqlTimeDataGridViewTextBoxColumn1});
             this.messageTimingGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.messageTimingGridView.Location = new System.Drawing.Point(0, 0);
             this.messageTimingGridView.MultiSelect = false;
@@ -126,41 +104,6 @@
             this.messageTimingGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.messageTimingGridView.Size = new System.Drawing.Size(587, 165);
             this.messageTimingGridView.TabIndex = 1;
-            // 
-            // messageNameDataGridViewTextBoxColumn1
-            // 
-            this.messageNameDataGridViewTextBoxColumn1.DataPropertyName = "MessageName";
-            this.messageNameDataGridViewTextBoxColumn1.HeaderText = "MessageName";
-            this.messageNameDataGridViewTextBoxColumn1.Name = "messageNameDataGridViewTextBoxColumn1";
-            this.messageNameDataGridViewTextBoxColumn1.ReadOnly = true;
-            // 
-            // startTimeDataGridViewTextBoxColumn1
-            // 
-            this.startTimeDataGridViewTextBoxColumn1.DataPropertyName = "StartTime";
-            this.startTimeDataGridViewTextBoxColumn1.HeaderText = "StartTime";
-            this.startTimeDataGridViewTextBoxColumn1.Name = "startTimeDataGridViewTextBoxColumn1";
-            this.startTimeDataGridViewTextBoxColumn1.ReadOnly = true;
-            // 
-            // endTimeDataGridViewTextBoxColumn1
-            // 
-            this.endTimeDataGridViewTextBoxColumn1.DataPropertyName = "EndTime";
-            this.endTimeDataGridViewTextBoxColumn1.HeaderText = "EndTime";
-            this.endTimeDataGridViewTextBoxColumn1.Name = "endTimeDataGridViewTextBoxColumn1";
-            this.endTimeDataGridViewTextBoxColumn1.ReadOnly = true;
-            // 
-            // totalMessageTimeDataGridViewTextBoxColumn1
-            // 
-            this.totalMessageTimeDataGridViewTextBoxColumn1.DataPropertyName = "TotalMessageTime";
-            this.totalMessageTimeDataGridViewTextBoxColumn1.HeaderText = "TotalMessageTime";
-            this.totalMessageTimeDataGridViewTextBoxColumn1.Name = "totalMessageTimeDataGridViewTextBoxColumn1";
-            this.totalMessageTimeDataGridViewTextBoxColumn1.ReadOnly = true;
-            // 
-            // totalSqlTimeDataGridViewTextBoxColumn1
-            // 
-            this.totalSqlTimeDataGridViewTextBoxColumn1.DataPropertyName = "TotalSqlTime";
-            this.totalSqlTimeDataGridViewTextBoxColumn1.HeaderText = "TotalSqlTime";
-            this.totalSqlTimeDataGridViewTextBoxColumn1.Name = "totalSqlTimeDataGridViewTextBoxColumn1";
-            this.totalSqlTimeDataGridViewTextBoxColumn1.ReadOnly = true;
             // 
             // sqlTimingGridView
             // 
@@ -177,6 +120,17 @@
             this.sqlTimingGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.sqlTimingGridView.Size = new System.Drawing.Size(587, 152);
             this.sqlTimingGridView.TabIndex = 0;
+            // 
+            // MessageText
+            // 
+            this.MessageText.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.MessageText.Location = new System.Drawing.Point(0, 0);
+            this.MessageText.Multiline = true;
+            this.MessageText.Name = "MessageText";
+            this.MessageText.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.MessageText.Size = new System.Drawing.Size(452, 321);
+            this.MessageText.TabIndex = 1;
+            this.MessageText.WordWrap = false;
             // 
             // messageTimingGridViewqqqq
             // 
@@ -277,11 +231,6 @@
         private System.Windows.Forms.SplitContainer splitContainer3;
         private System.Windows.Forms.SplitContainer splitContainer4;
         private Controls.MessageTimingGridView messageTimingGridView;
-        private System.Windows.Forms.DataGridViewTextBoxColumn messageNameDataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn startTimeDataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn endTimeDataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn totalMessageTimeDataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn totalSqlTimeDataGridViewTextBoxColumn1;
         private System.Windows.Forms.TextBox MessageText;
         private Controls.SqlTimingGridView sqlTimingGridView;
     }

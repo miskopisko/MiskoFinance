@@ -1,4 +1,10 @@
-﻿using MPersist.Core.Data;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
+using System.Data.SQLite;
+using System.Reflection;
+using MPersist.Core.Data;
 using MPersist.Core.Debug;
 using MPersist.Core.Enums;
 using MPersist.Core.MoneyType;
@@ -7,12 +13,6 @@ using MPersist.Core.Resources;
 using MPersist.Resources.Enums;
 using MySql.Data.MySqlClient;
 using Oracle.DataAccess.Client;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Common;
-using System.Data.SQLite;
-using System.Reflection;
 
 namespace MPersist.Core
 {
@@ -194,7 +194,7 @@ namespace MPersist.Core
                 session_.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, ErrorStrings.errLockKeyFailed, new Object[] { clazz.GetType().Name });
             }
 
-            return clazz.RowVer++;
+            return clazz.RowVer + 1;
         }
 
         public Int64 ExecuteInsert(AbstractStoredData clazz)

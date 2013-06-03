@@ -25,7 +25,7 @@ namespace MPFinance.Forms
             existingTransfer.FillColumns();
 
             GetCategoriesRQ request = new GetCategoriesRQ();
-            request.Operator = Program.GetOperator();
+            request.Operator = MPFinanceMain.Instance.Operator;
             MessageProcessor.SendRequest(request, GetCategoriesSuccess);
         }
 
@@ -69,7 +69,7 @@ namespace MPFinance.Forms
                 existingTransfer.Rows[existingTransfer.Rows.Count - 1].Cells["Status"].Value = Status.Active;
             }
 
-            newCategory.Operator = Program.GetOperator();
+            newCategory.Operator = MPFinanceMain.Instance.Operator;
         }
 
         private void DoneBtn_Click(object sender, EventArgs e)

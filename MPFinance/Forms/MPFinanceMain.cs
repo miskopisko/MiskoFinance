@@ -1,4 +1,7 @@
-﻿using MPersist.Core;
+﻿using System;
+using System.IO;
+using System.Windows.Forms;
+using MPersist.Core;
 using MPersist.Core.Data;
 using MPersist.Core.Debug;
 using MPersist.Core.Interfaces;
@@ -12,9 +15,6 @@ using MPFinance.Core.Message.Responses;
 using MPFinance.Core.OFX;
 using MPFinance.Properties;
 using MPFinance.Resources;
-using System;
-using System.IO;
-using System.Windows.Forms;
 
 namespace MPFinance.Forms
 {
@@ -24,15 +24,39 @@ namespace MPFinance.Forms
 
         #region Variable Declarations
 
-        private ConnectionSettings mConnectionSettings_;
-        private DebugWindow DebugWindow_;
+        private static MPFinanceMain mInstance_;
+
+        private DebugWindow mDebugWindow_;
         
         #endregion
 
         #region Properties
 
-        public Int32 RowsPerPage { get { return Settings.Default.RowsPerPage; } }
-        public ConnectionSettings ConnectionSettings { get { return mConnectionSettings_; } }
+        private DebugWindow DebugWindow
+        {
+            get
+            {
+                if (mDebugWindow_ == null || mDebugWindow_.IsDisposed)
+                {
+                    mDebugWindow_ = new DebugWindow();
+                    mDebugWindow_.WindowState = FormWindowState.Normal;           
+                }
+                return mDebugWindow_;
+            }
+        }
+
+        public static MPFinanceMain Instance
+        {
+            get
+            {
+                if (mInstance_ == null)
+                {
+                    mInstance_ = new MPFinanceMain();
+                }
+                return mInstance_;
+            }
+        }
+
         public Operator Operator { get; set; }
         public Categories ExpenseCategories { get; set; }
         public Categories IncomeCategories { get; set; }
@@ -40,29 +64,29 @@ namespace MPFinance.Forms
 
         #endregion
 
-        public MPFinanceMain(ConnectionSettings connectionSettings)
+        public MPFinanceMain()
         {
             InitializeComponent();
             
-            mConnectionSettings_ = connectionSettings;
-            MessageProcessor.IOController = this;            
-            transactionsGridView.FillColumns();
+            MessageProcessor.IOController = this;
+            MessageProcessor.ConnectionSettings = Program.mConnectionSettings_; // Temporary until user settings can be coded
+            MessageProcessor.RowsPerPage = Settings.Default.RowsPerPage;
 
             transactionsGridView.TxnUpdated += transactionsGridView_TxnUpdated;
 
-            DebugWindow_ = new DebugWindow();
-            DebugWindow_.Messages.FillColumns();
-            DebugWindow_.SQL.FillColumns();
-            DebugWindow_.Show();
+            DebugWindow.Show();
         }
 
         #region Local Private Methods
 
         // Feth all txns as per the search criteria
         private void GetTxns(Page page)
-        {            
+        {
+            MoreBtn.Enabled = false;
+            txnSearch.Enabled = false;
+
             GetTxnsRQ request = new GetTxnsRQ();
-            request.Operator = Program.GetOperator();
+            request.Operator = MPFinanceMain.Instance.Operator;
             request.Account = AccountsList.SelectedNode != null ? (Account)AccountsList.SelectedNode.Tag : null;
             request.FromDate = FromDatePicker.Value;
             request.ToDate = ToDatePicker.Value;
@@ -92,6 +116,7 @@ namespace MPFinance.Forms
 
             transactionsGridView.CurrentPage = Response.Page;
 
+            txnSearch.Enabled = true;
             MoreBtn.Enabled = transactionsGridView.CurrentPage.HasNext;
         }
 
@@ -143,7 +168,7 @@ namespace MPFinance.Forms
         private void GetCategories()
         {
             GetCategoriesRQ request = new GetCategoriesRQ();
-            request.Operator = Program.GetOperator();
+            request.Operator = MPFinanceMain.Instance.Operator;
             request.Status = Status.Active;
             MessageProcessor.SendRequest(request, GetCategoriesSuccess);
         }
@@ -211,10 +236,10 @@ namespace MPFinance.Forms
 
         private void AccountsView_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            if (Program.GetOperator() != null)
+            if (Operator != null)
             {
                 String accountName = AccountsList.SelectedNode.Tag != null ? " - " + ((Account)AccountsList.SelectedNode.Tag).Nickname : "";
-                headerLbl.Text = Program.GetOperator().LastName + ", " + Program.GetOperator().FirstName + accountName;
+                headerLbl.Text = Operator.LastName + ", " + Operator.FirstName + accountName;
                 GetTxns(new Page(1));
             }           
         }
@@ -225,11 +250,12 @@ namespace MPFinance.Forms
 
             if ((ModifierKeys & Keys.Control) == Keys.Control)
             {
-                // Load all transactions if Ctrl + Click
+                // Load all txns if Ctrl + Click
                 GetTxns(new Page(0));
             }
             else
             {
+                // Load the first page of txns
                 GetTxns(new Page(1));
             }            
         }
@@ -250,6 +276,8 @@ namespace MPFinance.Forms
         {
             // Show the edit account dialog
             new EditAccountsDialog().ShowDialog(this);
+
+            MPCache.Flush();
 
             // reload the accounts tree
             GetAccounts();
@@ -274,32 +302,24 @@ namespace MPFinance.Forms
         {
             // Fetch next page of txns
             if (transactionsGridView.CurrentPage.HasNext)
-            {
+            {   
                 transactionsGridView.CurrentPage = transactionsGridView.CurrentPage.NextPage;
                 GetTxns(transactionsGridView.CurrentPage);
             }
-
-            
         }
 
         private void catagoriesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             new EditCategoriesDialog().ShowDialog(this);
 
+            MPCache.Flush();
+
             GetCategories();
         }
 
         private void debugWindowToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (DebugWindow_ == null || DebugWindow_.IsDisposed)
-            {
-                DebugWindow_ = new DebugWindow();
-                DebugWindow_.Messages.FillColumns();
-                DebugWindow_.SQL.FillColumns();
-                DebugWindow_.Show();
-            }
-
-            DebugWindow_.WindowState = FormWindowState.Normal;
+            DebugWindow.Show();                
         }
 
         #endregion
@@ -308,6 +328,8 @@ namespace MPFinance.Forms
 
         protected override void OnLoad(EventArgs e)
         {
+            transactionsGridView.FillColumns();
+
             GetOperator();
         }
 
@@ -351,9 +373,9 @@ namespace MPFinance.Forms
 
         public void Debug(MessageTiming timing)
         {
-            if(DebugWindow_ != null && !DebugWindow_.IsDisposed && timing != null)
+            if(timing != null)
             {
-                ((MessageTimings<MessageTiming>)DebugWindow_.Messages.DataSource).Insert(0, timing);
+                ((MessageTimings<MessageTiming>)DebugWindow.Messages.DataSource).Insert(0, timing);
             }
         }
 

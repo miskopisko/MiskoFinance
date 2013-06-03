@@ -21,6 +21,12 @@ namespace MPFinance.Forms
             sqlTimingGridView.SelectionChanged += sqlTimingGridView_SelectionChanged;
         }
 
+        protected override void OnLoad(System.EventArgs e)
+        {
+            messageTimingGridView.FillColumns();
+            sqlTimingGridView.FillColumns();
+        }
+
         void sqlTimingGridView_SelectionChanged(object sender, System.EventArgs e)
         {
             MessageText.Text = ((SqlTiming)SQL.CurrentRow.DataBoundItem).FormattedSql;

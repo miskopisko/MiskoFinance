@@ -11,9 +11,9 @@ namespace MPersist.Core.Data
 
         #region Variable declarations
 
-        private bool _isSorted;
-        private ListSortDirection _sortDirection = ListSortDirection.Ascending;
-        private PropertyDescriptor _sortProperty;
+        private bool isSorted_;
+        private ListSortDirection sortDirection_ = ListSortDirection.Ascending;
+        private PropertyDescriptor sortProperty_;
 
         #endregion
 
@@ -40,8 +40,7 @@ namespace MPersist.Core.Data
         public void Set(Session session, Persistence persistence, Page page)
         {
             Int32 noRows = page.PageNo != 0 ? session.RowPerPage : 0;
-            Int32 pageNo = page.PageNo != 0 ? page.PageNo : 1;
-            
+            Int32 pageNo = page.PageNo != 0 ? page.PageNo : 1;            
 
             int rowsFetched = 0;
             for (int i = 0; i < (pageNo - 1) * noRows && persistence.HasNext; i++)
@@ -101,36 +100,36 @@ namespace MPersist.Core.Data
 
         protected override bool IsSortedCore
         {
-            get { return _isSorted; }
+            get { return isSorted_; }
         }
 
         protected override ListSortDirection SortDirectionCore
         {
-            get { return _sortDirection; }
+            get { return sortDirection_; }
         }
 
         protected override PropertyDescriptor SortPropertyCore
         {
-            get { return _sortProperty; }
+            get { return sortProperty_; }
         }
 
         protected override void RemoveSortCore()
         {
-            _sortDirection = ListSortDirection.Ascending;
-            _sortProperty = null;
+            sortDirection_ = ListSortDirection.Ascending;
+            sortProperty_ = null;
         }
 
         protected override void ApplySortCore(PropertyDescriptor prop, ListSortDirection direction)
         {
-            _sortProperty = prop;
-            _sortDirection = direction;
+            sortProperty_ = prop;
+            sortDirection_ = direction;
 
             List<AbstractViewedData> list = Items as List<AbstractViewedData>;
             if (list == null) return;
 
             list.Sort(Compare);
 
-            _isSorted = true;
+            isSorted_ = true;
             //fire an event that the list has been changed.
             OnListChanged(new ListChangedEventArgs(ListChangedType.Reset, -1));
         }
@@ -139,15 +138,15 @@ namespace MPersist.Core.Data
         {
             var result = OnComparison(lhs, rhs);
             //invert if descending
-            if (_sortDirection == ListSortDirection.Descending)
+            if (sortDirection_ == ListSortDirection.Descending)
                 result = -result;
             return result;
         }
 
         private int OnComparison(AbstractViewedData lhs, AbstractViewedData rhs)
         {
-            object lhsValue = lhs == null ? null : _sortProperty.GetValue(lhs);
-            object rhsValue = rhs == null ? null : _sortProperty.GetValue(rhs);
+            object lhsValue = lhs == null ? null : sortProperty_.GetValue(lhs);
+            object rhsValue = rhs == null ? null : sortProperty_.GetValue(rhs);
             if (lhsValue == null)
             {
                 return (rhsValue == null) ? 0 : -1; //nulls are equal

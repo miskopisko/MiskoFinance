@@ -133,14 +133,24 @@
     <value>Transaction already in progress.</value>
   </data>
   <data name="errUnexpectedApplicationErrorLong" xml:space="preserve">
-    <value>Unexpected Application Error : {0} 
+    <value>Unexpected Application Error 
+
+{0} 
 
  {1}</value>
   </data>
   <data name="errUnexpectedApplicationErrorShort" xml:space="preserve">
-    <value>Unexpected Application Error : {0}</value>
+    <value>Unexpected Application Error 
+
+{0}</value>
   </data>
   <data name="errLockKeyFailed" xml:space="preserve">
     <value>Unable to process the change to table {0} because another request for the same table has been submitted. If you still wish to process your change, you must refresh and then reprocess.</value>
+  </data>
+  <data name="errCacheKeypairMismatch" xml:space="preserve">
+    <value>Cannot generate cache key due to mismatch in key pairs.</value>
+  </data>
+  <data name="errConnectionSettingsNotDefined" xml:space="preserve">
+    <value>Connection string is not defined</value>
   </data>
 </root>

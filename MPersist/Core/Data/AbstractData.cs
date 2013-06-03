@@ -184,7 +184,7 @@ namespace MPersist.Core.Data
                 if (property.PropertyType.IsSubclassOf(typeof(AbstractStoredData)))
                 {
                     AbstractStoredData item = (AbstractStoredData)property.GetValue(this, null);
-                    if (item != null && item.Id > 0)
+                    if (item != null && item.Id > 0 && item.IsNotSet)
                     {
                         item.FetchById(session, item.Id, true);
                     }

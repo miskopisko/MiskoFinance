@@ -1,10 +1,10 @@
-﻿using MPersist.Core.Debug;
-using MPersist.Core.Enums;
-using MPersist.Core.Resources;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Reflection;
+using MPersist.Core.Debug;
+using MPersist.Core.Enums;
+using MPersist.Core.Resources;
 
 namespace MPersist.Core
 {
@@ -187,7 +187,7 @@ namespace MPersist.Core
 
             if (!errorLevel.Equals(ErrorLevel.Warning) && !errorLevel.Equals(ErrorLevel.Info))
             {
-                throw new MPException(new ErrorMessage(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, ErrorStrings.errUnexpectedApplicationErrorShort));
+                throw new MPException(GetType(), MethodInfo.GetCurrentMethod(), "Arrgh!");
             }
         }
 
