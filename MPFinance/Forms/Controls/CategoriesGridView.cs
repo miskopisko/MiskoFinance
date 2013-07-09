@@ -1,26 +1,30 @@
-﻿using System;
-using System.Drawing;
-using System.Windows.Forms;
+﻿using MPersist.Core;
 using MPFinance.Core.Data.Stored;
 using MPFinance.Core.Enums;
+using System;
+using System.Windows.Forms;
 
 namespace MPFinance.Forms.Controls
 {
     public partial class CategoriesGridView : DataGridView
     {
+        private static readonly Logger Log = Logger.GetInstance(typeof(CategoriesGridView));
+
         #region Variable Declarations
 
-        private DataGridViewTextBoxColumn CategoryName = new DataGridViewTextBoxColumn();
-        private DGVComboBoxColumn Status = new DGVComboBoxColumn();
-        private DataGridViewButtonColumn Delete = new DataGridViewButtonColumn();
+        private DataGridViewTextBoxColumn mCategoryName_ = new DataGridViewTextBoxColumn();
+        private DGVComboBoxColumn mStatus_ = new DGVComboBoxColumn();
+        private DataGridViewButtonColumn mDelete_ = new DataGridViewButtonColumn();
 
         #endregion
 
-        public Categories Categories
-        {
-            get { return ((Categories)DataSource);  }
-            set { DataSource = value; }
-        }
+        #region Properties
+
+        public Categories Categories { get { return ((Categories)DataSource); } set { DataSource = value; }  }
+
+        #endregion
+
+        #region Constructor
 
         public CategoriesGridView()
         {
@@ -28,19 +32,25 @@ namespace MPFinance.Forms.Controls
             InitializeComponent();
         }
 
+        #endregion
+
+        #region Override Methods
+
         protected override void OnCellClick(DataGridViewCellEventArgs e)
         {
             base.OnCellClick(e);
 
-            if(e.RowIndex >= 0 && e.ColumnIndex.Equals(Columns.IndexOf(Delete)))
+            if(e.RowIndex >= 0 && e.ColumnIndex.Equals(Columns.IndexOf(mDelete_)))
             {
-                if (Math.Abs(((Category)Rows[e.RowIndex].DataBoundItem).Id) > 0)
+                Category category = GetItemAt(e.RowIndex);
+
+                if (Math.Abs(category.Id) > 0)
                 {
-                    ((Category)Rows[e.RowIndex].DataBoundItem).Id = -((Category)Rows[e.RowIndex].DataBoundItem).Id;
+                    category.Id = -category.Id;
                 }
                 else
                 {
-                    Categories.Remove((Category)Rows[e.RowIndex].DataBoundItem);
+                    Categories.Remove(category);
                 }
             }
         }
@@ -49,44 +59,59 @@ namespace MPFinance.Forms.Controls
         {
             base.OnCellFormatting(e);
 
-            if (e.RowIndex >= 0 && e.RowIndex < Categories.Count && e.ColumnIndex.Equals(Columns.IndexOf(Delete)))
+            if (e.RowIndex >= 0 && e.RowIndex < Categories.Count && e.ColumnIndex.Equals(Columns.IndexOf(mDelete_)))
             {
-                Rows[e.RowIndex].Cells[e.ColumnIndex].Value = ((Category)Rows[e.RowIndex].DataBoundItem).Id >= 0 ? "Delete" : "Undelete";
+                Rows[e.RowIndex].Cells[e.ColumnIndex].Value = GetItemAt(e.RowIndex).Id >= 0 ? "Delete" : "Undelete";
             }
         }
+
+        #endregion
+
+        #region Private Methods
+
+        private Category GetItemAt(Int32 row)
+        {
+            return (Category)Rows[row].DataBoundItem;
+        }
+
+        #endregion
+
+        #region Public Methods
 
         public void FillColumns()
         {
             if (Columns.Count == 0 && !DesignMode)
             {
-                CategoryName.ValueType = typeof(String);
-                CategoryName.DataPropertyName = "Name";
-                CategoryName.HeaderText = "Category Name";
-                CategoryName.Name = "Name";
-                CategoryName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+                mCategoryName_.ValueType = typeof(String);
+                mCategoryName_.DataPropertyName = "Name";
+                mCategoryName_.HeaderText = "Category Name";
+                mCategoryName_.Name = "Name";
+                mCategoryName_.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
 
-                Status.ValueType = typeof(Status);
-                Status.HeaderText = "Status";
-                Status.Name = "Status";
-                Status.Width = 100;
-                Status.DisplayMember = "Description";
-                Status.DataPropertyName = "Status";                
-                Status.DataSource = MPFinance.Core.Enums.Status.NonNullElements;
-                Status.DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing;
-                Status.SortMode = DataGridViewColumnSortMode.Automatic;
+                mStatus_.ValueType = typeof(Status);
+                mStatus_.HeaderText = "Status";
+                mStatus_.Name = "Status";
+                mStatus_.Width = 100;
+                mStatus_.DisplayMember = "Description";
+                mStatus_.DataPropertyName = "Status";                
+                mStatus_.DataSource = MPFinance.Core.Enums.Status.NonNullElements;
+                mStatus_.DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing;
+                mStatus_.SortMode = DataGridViewColumnSortMode.Automatic;
 
-                Delete.ValueType = typeof(String);
-                Delete.HeaderText = "";
-                Delete.FlatStyle = FlatStyle.Flat;
-                Delete.Width = 75;
-                Delete.SortMode = DataGridViewColumnSortMode.Automatic;
-                Delete.ReadOnly = false;
+                mDelete_.ValueType = typeof(String);
+                mDelete_.HeaderText = "";
+                mDelete_.FlatStyle = FlatStyle.Flat;
+                mDelete_.Width = 75;
+                mDelete_.SortMode = DataGridViewColumnSortMode.Automatic;
+                mDelete_.ReadOnly = false;
 
                 Columns.AddRange(new DataGridViewColumn[] {
-                                CategoryName,
-                                Status,
-                                Delete});                
+                                mCategoryName_,
+                                mStatus_,
+                                mDelete_});                
             }
         }
+
+        #endregion
     }
 }

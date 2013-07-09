@@ -1,9 +1,7 @@
-using MPersist.Core;
 using System;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Reflection;
 
 namespace MPersist.Core.Tools
 {

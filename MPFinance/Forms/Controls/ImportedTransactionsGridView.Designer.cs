@@ -38,6 +38,7 @@
             this.AllowUserToResizeColumns = false;
             this.AllowUserToResizeRows = false;
             this.RowHeadersVisible = false;
+            this.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
             this.ResumeLayout(false);
 

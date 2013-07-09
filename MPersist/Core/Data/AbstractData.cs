@@ -1,9 +1,9 @@
-using System;
-using System.ComponentModel;
-using System.Reflection;
 using MPersist.Core.Attributes;
 using MPersist.Core.Enums;
 using MPersist.Core.MoneyType;
+using System;
+using System.ComponentModel;
+using System.Reflection;
 
 namespace MPersist.Core.Data
 {
@@ -56,7 +56,11 @@ namespace MPersist.Core.Data
                 PropertyDescriptorCollection properties = null;
                 if(this is AbstractStoredData)
                 {
-                     properties = TypeDescriptor.GetProperties(GetType(), new Attribute[] { new StoredAttribute() });
+                    properties = TypeDescriptor.GetProperties(GetType(), new Attribute[] { new StoredAttribute() });
+
+                    ((AbstractStoredData)this).IsSet = true;
+                    ((AbstractStoredData)this).Id = persistence.GetInt("Id").Value;
+                    ((AbstractStoredData)this).RowVer = persistence.GetInt("RowVer").Value;
                 }
                 else if(this is AbstractViewedData)
                 {
@@ -65,106 +69,94 @@ namespace MPersist.Core.Data
 
                 foreach (PropertyDescriptor property in properties)
                 {
-                    if (property.Name.Equals("Id"))
+                    if (property.PropertyType == typeof(String))
+                    {
+                        property.SetValue(this, persistence.GetString(property.Name));
+                    }
+                    else if (property.PropertyType == typeof(Boolean?))
+                    {
+                        property.SetValue(this, persistence.GetBoolean(property.Name));
+                    }
+                    else if (property.PropertyType == typeof(Int32?))
                     {
                         property.SetValue(this, persistence.GetInt(property.Name));
                     }
-                    else
+                    else if (property.PropertyType == typeof(Int64?))
                     {
-                        if (property.PropertyType == typeof(String))
-                        {
-                            property.SetValue(this, persistence.GetString(property.Name));
-                        }
-                        else if (property.PropertyType == typeof(Boolean?))
-                        {
-                            property.SetValue(this, persistence.GetBoolean(property.Name));
-                        }
-                        else if (property.PropertyType == typeof(Int32?))
-                        {
-                            property.SetValue(this, persistence.GetInt(property.Name));
-                        }
-                        else if (property.PropertyType == typeof(Int64?))
-                        {
-                            property.SetValue(this, persistence.GetLong(property.Name));
-                        }
-                        else if (property.PropertyType == typeof(Double?))
-                        {
-                            property.SetValue(this, persistence.GetDouble(property.Name));
-                        }
-                        else if (property.PropertyType == typeof(DateTime?))
-                        {
-                            property.SetValue(this, persistence.GetDate(property.Name));
-                        }
-                        else if (property.PropertyType == typeof(Boolean))
-                        {
-                            Boolean? value = persistence.GetBoolean(property.Name);
-                            property.SetValue(this, value.HasValue ? value.Value : false);
-                        }
-                        else if (property.PropertyType == typeof(Int32))
-                        {
-                            Int32? value = persistence.GetInt(property.Name);
-                            property.SetValue(this, value.HasValue ? value.Value : 0);
-                        }
-                        else if (property.PropertyType == typeof(Int64))
-                        {
-                            Int64? value = persistence.GetLong(property.Name);
-                            property.SetValue(this, value.HasValue ? value.Value : 0);
-                        }
-                        else if (property.PropertyType == typeof(Double))
-                        {
-                            Double? value = persistence.GetDouble(property.Name);
-                            property.SetValue(this, value.HasValue ? value.Value : 0);
-                        }
-                        else if (property.PropertyType == typeof(DateTime))
-                        {
-                            DateTime? value = persistence.GetDate(property.Name);
-                            property.SetValue(this, value.HasValue ? value.Value : DateTime.MinValue);
-                        }
-                        else if (property.PropertyType.IsSubclassOf(typeof(AbstractEnum)))
-                        {
-                            AbstractEnum item = null;
-
-                            if (persistence.GetLong(property.Name).HasValue)
-                            {
-                                item = (AbstractEnum)property.PropertyType.InvokeMember("GetElement", BindingFlags.Default | BindingFlags.InvokeMethod, null, null, new object[] { persistence.GetLong(property.Name) });
-                            }
-                            else
-                            {
-                                item = (AbstractEnum)property.PropertyType.InvokeMember("GetElement", BindingFlags.Default | BindingFlags.InvokeMethod, null, null, new object[] { -1 });
-                            }
-
-                            property.SetValue(this, item);
-                        }
-                        else if (property.PropertyType.IsSubclassOf(typeof(AbstractStoredData)))
-                        {
-                            AbstractStoredData item = null;
-
-                            if (persistence.GetInt(property.Name) > 0)
-                            {
-                                item = (AbstractStoredData)property.PropertyType.Assembly.CreateInstance(property.PropertyType.FullName);
-                                item.Id = persistence.GetInt(property.Name).Value;
-                            }
-
-                            property.SetValue(this, item);
-                        }
-                        else if (property.PropertyType == typeof(Guid))
-                        {
-                            property.SetValue(this, new Guid(persistence.GetString(property.Name)));
-                        }
-                        else if (property.PropertyType == typeof(Money))
-                        {
-                            property.SetValue(this, persistence.GetMoney(property.Name));
-                        }
-                        else if (property.PropertyType.IsGenericType) // Leave this out for now
-                        {
-                            //Object list = Activator.CreateInstance(property.PropertyType.MakeGenericType(property.PropertyType.GetGenericArguments()));
-                            //property.SetValue(this, list, null);
-                        }
+                        property.SetValue(this, persistence.GetLong(property.Name));
                     }
-
-                    if (this is AbstractStoredData)
+                    else if (property.PropertyType == typeof(Double?))
                     {
-                        ((AbstractStoredData)this).IsSet = true;
+                        property.SetValue(this, persistence.GetDouble(property.Name));
+                    }
+                    else if (property.PropertyType == typeof(DateTime?))
+                    {
+                        property.SetValue(this, persistence.GetDate(property.Name));
+                    }
+                    else if (property.PropertyType == typeof(Boolean))
+                    {
+                        Boolean? value = persistence.GetBoolean(property.Name);
+                        property.SetValue(this, value.HasValue ? value.Value : false);
+                    }
+                    else if (property.PropertyType == typeof(Int32))
+                    {
+                        Int32? value = persistence.GetInt(property.Name);
+                        property.SetValue(this, value.HasValue ? value.Value : 0);
+                    }
+                    else if (property.PropertyType == typeof(Int64))
+                    {
+                        Int64? value = persistence.GetLong(property.Name);
+                        property.SetValue(this, value.HasValue ? value.Value : 0);
+                    }
+                    else if (property.PropertyType == typeof(Double))
+                    {
+                        Double? value = persistence.GetDouble(property.Name);
+                        property.SetValue(this, value.HasValue ? value.Value : 0);
+                    }
+                    else if (property.PropertyType == typeof(DateTime))
+                    {
+                        DateTime? value = persistence.GetDate(property.Name);
+                        property.SetValue(this, value.HasValue ? value.Value : DateTime.MinValue);
+                    }
+                    else if (property.PropertyType.IsSubclassOf(typeof(AbstractEnum)))
+                    {
+                        AbstractEnum item = null;
+
+                        if (persistence.GetLong(property.Name).HasValue)
+                        {
+                            item = (AbstractEnum)property.PropertyType.InvokeMember("GetElement", BindingFlags.Default | BindingFlags.InvokeMethod, null, null, new object[] { persistence.GetLong(property.Name) });
+                        }
+                        else
+                        {
+                            item = (AbstractEnum)property.PropertyType.InvokeMember("GetElement", BindingFlags.Default | BindingFlags.InvokeMethod, null, null, new object[] { -1 });
+                        }
+
+                        property.SetValue(this, item);
+                    }
+                    else if (property.PropertyType.IsSubclassOf(typeof(AbstractStoredData)))
+                    {
+                        AbstractStoredData item = null;
+
+                        if (persistence.GetInt(property.Name) > 0)
+                        {
+                            item = (AbstractStoredData)property.PropertyType.Assembly.CreateInstance(property.PropertyType.FullName);
+                            item.Id = persistence.GetInt(property.Name).Value;
+                        }
+
+                        property.SetValue(this, item);
+                    }
+                    else if (property.PropertyType == typeof(Guid))
+                    {
+                        property.SetValue(this, new Guid(persistence.GetString(property.Name)));
+                    }
+                    else if (property.PropertyType == typeof(Money))
+                    {
+                        property.SetValue(this, persistence.GetMoney(property.Name));
+                    }
+                    else if (property.PropertyType.IsGenericType) // Leave this out for now
+                    {
+                        //Object list = Activator.CreateInstance(property.PropertyType.MakeGenericType(property.PropertyType.GetGenericArguments()));
+                        //property.SetValue(this, list, null);
                     }
 
                     if (deep)
@@ -177,7 +169,7 @@ namespace MPersist.Core.Data
             return this;
         }
 
-        public void FetchDeep(Session session)
+        protected void FetchDeep(Session session)
         {
             foreach (PropertyInfo property in GetType().GetProperties())
             {

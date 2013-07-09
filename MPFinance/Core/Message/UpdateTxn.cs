@@ -37,7 +37,8 @@ namespace MPFinance.Core.Message
 
         public override void Execute(Session session)
         {
-            Txn txn = (Txn)Txn.GetInstanceById(session, typeof(Txn), Request.VwTxn.TxnId);
+            Txn txn = (Txn)Txn.GetInstanceById(session, typeof(Txn), Request.VwTxn.TxnId, true);
+
             txn.TxnType = Request.VwTxn.TxnType;
             txn.Category = Request.VwTxn.Category;
             txn.Save(session);

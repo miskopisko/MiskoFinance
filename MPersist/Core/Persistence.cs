@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Common;
-using System.Data.SQLite;
-using System.Reflection;
-using MPersist.Core.Data;
+﻿using MPersist.Core.Data;
 using MPersist.Core.Debug;
 using MPersist.Core.Enums;
 using MPersist.Core.MoneyType;
@@ -13,6 +7,11 @@ using MPersist.Core.Resources;
 using MPersist.Resources.Enums;
 using MySql.Data.MySqlClient;
 using Oracle.DataAccess.Client;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
+using System.Data.SQLite;
 
 namespace MPersist.Core
 {
@@ -22,33 +21,20 @@ namespace MPersist.Core
 
         #region Variable Declarations
 
-        protected Session session_ = null;
-        protected DataTable rs_ = new DataTable();
-        protected DbCommand command_ = null;
-        protected String sql_ = "";
-        protected List<Object> parameters_ = new List<Object>();
-        
-        private DataRow result_;
-        private Int32 currentResult_ = 0;
+        protected Session mSession_ = null;
+        protected DataTable mRs_ = new DataTable();
+        protected DbCommand mCommand_ = null;
+        protected String mSql_ = "";
+        protected List<Object> mParameters_ = new List<Object>();
+        protected DataRow mResult_;
+        protected Int32 mCurrentResult_ = 0;
         
         #endregion
 
         #region Properties
 
-        public String SQL
-        {
-            get { return sql_; }
-        }
-
-        public Boolean HasNext
-        {
-            get { return rs_ != null && currentResult_ < rs_.Rows.Count; }
-        }
-
-        public Int32 RecordCount
-        {
-            get { return rs_ != null ? rs_.Rows.Count : 0; }
-        }
+        public Boolean HasNext { get { return mRs_ != null && mCurrentResult_ < mRs_.Rows.Count; } }
+        public Int32 RecordCount { get { return mRs_ != null ? mRs_.Rows.Count : 0; } }
        
         #endregion
 
@@ -56,9 +42,9 @@ namespace MPersist.Core
 
         public Persistence(Session session)
         {
-            session_ = session;            
-            command_ = session_.Connection.CreateCommand();
-            command_.Transaction = session.Transaction;
+            mSession_ = session;            
+            mCommand_ = mSession_.Connection.CreateCommand();
+            mCommand_.Transaction = session.Transaction;
         }
 
         #endregion
@@ -81,7 +67,7 @@ namespace MPersist.Core
             }
             else
             {
-                session.Error(typeof(Persistence), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, ErrorStrings.errInvalicConnectionType);
+                session.Error(ErrorLevel.Error, ErrorStrings.errInvalicConnectionType);
                 return null;
             }
         }
@@ -93,23 +79,23 @@ namespace MPersist.Core
                 Exception e = null;
                 try
                 {
-                    if (rs_ != null)
+                    if (mRs_ != null)
                     {
-                        rs_ = null;
+                        mRs_ = null;
                     }
                 }
                 catch (Exception ex)
                 {
                     e = ex;
-                    rs_ = null;
+                    mRs_ = null;
                 }
 
                 try
                 {
-                    if (command_ != null)
+                    if (mCommand_ != null)
                     {
-                        command_.Dispose();
-                        command_ = null;
+                        mCommand_.Dispose();
+                        mCommand_ = null;
                     }
                 }
                 catch (Exception ex)
@@ -118,7 +104,7 @@ namespace MPersist.Core
                     {
                         e = ex;
                     }
-                    command_ = null;
+                    mCommand_ = null;
                 }
 
                 if (e != null)
@@ -132,7 +118,7 @@ namespace MPersist.Core
             }
             finally
             {
-                session_.PersistencePool.Remove(this);
+                mSession_.PersistencePool.Remove(this);
             }
         }
 
@@ -140,8 +126,8 @@ namespace MPersist.Core
         {
             if (HasNext)
             {
-                result_ = rs_.Rows[currentResult_];
-                currentResult_++;
+                mResult_ = mRs_.Rows[mCurrentResult_];
+                mCurrentResult_++;
                 return true;
             }
 
@@ -150,17 +136,17 @@ namespace MPersist.Core
 
         public void SetSql(String sql)
         {
-            sql_ = sql;
+            mSql_ = sql;
         }
 
         public void SqlWhere(bool condition, String expression, Object[] value)
         {
             if (condition)
             {
-                sql_ = sql_ + Environment.NewLine + (!sql_.Contains("WHERE") ? "WHERE " : "AND ") + expression;
+                mSql_ = mSql_ + Environment.NewLine + (!mSql_.Contains("WHERE") ? "WHERE " : "AND ") + expression;
                 foreach (Object item in value)
                 {
-                    parameters_.Add(item);
+                    mParameters_.Add(item);
                 }
             }
         }
@@ -172,76 +158,76 @@ namespace MPersist.Core
 
         public void SqlOrderBy(String columnName, SortDirection sortDirection)
         {
-            sql_ = sql_ + (!sql_.Contains("ORDER BY") ? Environment.NewLine + "ORDER BY " : ", ") + columnName + sortDirection.Code;
+            mSql_ = mSql_ + (!mSql_.Contains("ORDER BY") ? Environment.NewLine + "ORDER BY " : ", ") + columnName + sortDirection.Code;
         }
 
         #endregion
 
         #region Execute Methods
 
-        public Int64 ExecuteUpdate(AbstractStoredData clazz)
+        public Int64 ExecuteInsert(AbstractStoredData clazz, Type subType)
         {
-            session_.PersistencePool.Add(this);
+            mSession_.PersistencePool.Add(this);
 
-            GenerateUpdateStatement(clazz);
+            GenerateInsertStatement(clazz, subType);
 
-            DateTime startTime = DateTime.Now;
-            int result = command_.ExecuteNonQuery();
-            session_.SqlTimings.Add(new SqlTiming(command_.CommandText, command_.Parameters, startTime));
+            Int64 newId = clazz.Id;
 
-            if(result == 0)
-            {
-                session_.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, ErrorStrings.errLockKeyFailed, new Object[] { clazz.GetType().Name });
-            }
-
-            return clazz.RowVer + 1;
-        }
-
-        public Int64 ExecuteInsert(AbstractStoredData clazz)
-        {
-            session_.PersistencePool.Add(this);
-
-            GenerateInsertStatement(clazz);
-
-            Int64 newId = 0;
-
-            if (command_ is MySqlCommand || command_ is SQLiteCommand)
+            if (mCommand_ is MySqlCommand || mCommand_ is SQLiteCommand)
             {
                 DateTime startTime = DateTime.Now;
-                newId = Int64.Parse(command_.ExecuteScalar().ToString());
-                session_.SqlTimings.Add(new SqlTiming(command_.CommandText, command_.Parameters, startTime));
+                newId = Int64.Parse(mCommand_.ExecuteScalar().ToString());
+                mSession_.SqlTimings.Add(new SqlTiming(mCommand_.CommandText, mCommand_.Parameters, startTime));
             }
-            else if (command_ is OracleCommand)
+            else if (mCommand_ is OracleCommand)
             {
                 OracleParameter lastId = new OracleParameter();
                 lastId.ParameterName = ":LASTID";
                 lastId.DbType = DbType.Decimal;
                 lastId.Direction = ParameterDirection.Output;
-                ((OracleCommand)command_).Parameters.Add(lastId);
+                ((OracleCommand)mCommand_).Parameters.Add(lastId);
 
                 DateTime startTime = DateTime.Now;
-                command_.ExecuteNonQuery();
-                session_.SqlTimings.Add(new SqlTiming(command_.CommandText, command_.Parameters, startTime));                
+                mCommand_.ExecuteNonQuery();
+                mSession_.SqlTimings.Add(new SqlTiming(mCommand_.CommandText, mCommand_.Parameters, startTime));
 
                 newId = Convert.ToInt64(lastId.Value);
             }
 
-            return session_.MessageMode.Equals(MessageMode.Normal) ? newId : 0;
+            return mSession_.MessageMode.Equals(MessageMode.Normal) ? newId : 0;
         }
 
-        public bool ExecuteDelete(AbstractStoredData clazz)
+        public bool ExecuteUpdate(AbstractStoredData clazz, Type subType)
         {
-            session_.PersistencePool.Add(this);
+            mSession_.PersistencePool.Add(this);
 
-            GenerateDeleteStatement(clazz);
+            GenerateUpdateStatement(clazz, subType);
 
             DateTime startTime = DateTime.Now;
-            int result = command_.ExecuteNonQuery();
-            session_.SqlTimings.Add(new SqlTiming(command_.CommandText, command_.Parameters, startTime));
+            int result = mCommand_.ExecuteNonQuery();
+            mSession_.SqlTimings.Add(new SqlTiming(mCommand_.CommandText, mCommand_.Parameters, startTime));
+
+            if(result == 0)
+            {
+                mSession_.Error(ErrorLevel.Error, ErrorStrings.errLockKeyFailed, new Object[] { clazz.GetType().Name });
+            }
+
+            return true;
+        }
+
+        public bool ExecuteDelete(AbstractStoredData clazz, Type subType)
+        {
+            mSession_.PersistencePool.Add(this);
+
+            GenerateDeleteStatement(clazz, subType);
+
+            DateTime startTime = DateTime.Now;
+            int result = mCommand_.ExecuteNonQuery();
+            mSession_.SqlTimings.Add(new SqlTiming(mCommand_.CommandText, mCommand_.Parameters, startTime));
 
             if (result == 0)
             {
-                session_.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, ErrorStrings.errLockKeyFailed, new Object[] { GetType().Name });
+                mSession_.Error(ErrorLevel.Error, ErrorStrings.errLockKeyFailed, new Object[] { GetType().Name });
             }
 
             return true;
@@ -249,12 +235,12 @@ namespace MPersist.Core
 
         public bool ExecuteQuery()
         {
-            if (String.IsNullOrEmpty(sql_))
+            if (String.IsNullOrEmpty(mSql_))
             {
-                session_.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, ErrorStrings.errSqlNotSet);
+                mSession_.Error(ErrorLevel.Error, ErrorStrings.errSqlNotSet);
             }
 
-            return ExecuteQuery(sql_, parameters_.ToArray());
+            return ExecuteQuery(mSql_, mParameters_.ToArray());
         }
         
         public bool ExecuteQuery(String sql)
@@ -264,29 +250,29 @@ namespace MPersist.Core
 
         public bool ExecuteQuery(String sql, Object[] values)
         {
-            session_.PersistencePool.Add(this);
+            mSession_.PersistencePool.Add(this);
 
-            command_.CommandText = sql;
+            mCommand_.CommandText = sql;
             SetParameters(values);
 
             DbDataAdapter adapter = null;
 
-            if (command_ is OracleCommand)
+            if (mCommand_ is OracleCommand)
             {
-                adapter = new OracleDataAdapter((OracleCommand)command_);
+                adapter = new OracleDataAdapter((OracleCommand)mCommand_);
             }
-            else if (command_ is MySqlCommand)
+            else if (mCommand_ is MySqlCommand)
             {
-                adapter = new MySqlDataAdapter((MySqlCommand)command_);
+                adapter = new MySqlDataAdapter((MySqlCommand)mCommand_);
             }
-            else if (command_ is SQLiteCommand)
+            else if (mCommand_ is SQLiteCommand)
             {
-                adapter = new SQLiteDataAdapter((SQLiteCommand)command_);
+                adapter = new SQLiteDataAdapter((SQLiteCommand)mCommand_);
             }
 
             DateTime startTime = DateTime.Now;
-            adapter.Fill(rs_);
-            session_.SqlTimings.Add(new SqlTiming(command_.CommandText, command_.Parameters, startTime));
+            adapter.Fill(mRs_);
+            mSession_.SqlTimings.Add(new SqlTiming(mCommand_.CommandText, mCommand_.Parameters, startTime));
 
             return HasNext;
         }
@@ -311,9 +297,9 @@ namespace MPersist.Core
         #region Abstract Methods
 
         protected abstract void SetParameters(Object[] value);
-        protected abstract void GenerateUpdateStatement(AbstractStoredData clazz);
-        protected abstract void GenerateDeleteStatement(AbstractStoredData clazz);
-        protected abstract void GenerateInsertStatement(AbstractStoredData clazz);
+        protected abstract void GenerateUpdateStatement(AbstractStoredData clazz, Type type);
+        protected abstract void GenerateDeleteStatement(AbstractStoredData clazz, Type type);
+        protected abstract void GenerateInsertStatement(AbstractStoredData clazz, Type type);
 
         #endregion
 
@@ -321,8 +307,8 @@ namespace MPersist.Core
 
         public Boolean? GetBoolean(String key)
         {
-            Int32 ordinal = rs_.Columns.IndexOf(key);
-            Object o = (Object)result_.ItemArray[ordinal];
+            Int32 ordinal = mRs_.Columns.IndexOf(key);
+            Object o = (Object)mResult_.ItemArray[ordinal];
 
             if (o == null)
             {
@@ -342,8 +328,8 @@ namespace MPersist.Core
 
         public String GetString(String key)
         {
-            Int32 ordinal = rs_.Columns.IndexOf(key);
-            Object o = (Object)result_.ItemArray[ordinal];
+            Int32 ordinal = mRs_.Columns.IndexOf(key);
+            Object o = (Object)mResult_.ItemArray[ordinal];
 
             if (o is String)
             {
@@ -371,8 +357,8 @@ namespace MPersist.Core
 
         public Int32? GetInt(String key)
         {
-            Int32 ordinal = rs_.Columns.IndexOf(key);
-            Object o = (Object)result_.ItemArray[ordinal];
+            Int32 ordinal = mRs_.Columns.IndexOf(key);
+            Object o = (Object)mResult_.ItemArray[ordinal];
 
             if (o == null)
             {
@@ -402,8 +388,8 @@ namespace MPersist.Core
 
         public Int64? GetLong(String key)
         {
-            Int32 ordinal = rs_.Columns.IndexOf(key);
-            Object o = (Object)result_.ItemArray[ordinal];
+            Int32 ordinal = mRs_.Columns.IndexOf(key);
+            Object o = (Object)mResult_.ItemArray[ordinal];
 
             Type t = o.GetType();
 
@@ -487,8 +473,8 @@ namespace MPersist.Core
 
         public Double? GetDouble(String key)
         {
-            Int32 ordinal = rs_.Columns.IndexOf(key);
-            Object o = (Object)result_.ItemArray[ordinal];
+            Int32 ordinal = mRs_.Columns.IndexOf(key);
+            Object o = (Object)mResult_.ItemArray[ordinal];
 
             if (o == null)
             {
@@ -520,8 +506,8 @@ namespace MPersist.Core
         {
             try
             {
-                Int32 ordinal = rs_.Columns.IndexOf(key);
-                Object o = (Object)result_.ItemArray[ordinal];
+                Int32 ordinal = mRs_.Columns.IndexOf(key);
+                Object o = (Object)mResult_.ItemArray[ordinal];
 
                 if (o == null)
                 {

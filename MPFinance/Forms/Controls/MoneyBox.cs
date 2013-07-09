@@ -1,13 +1,16 @@
-﻿using System;
+﻿using MPersist.Core;
+using MPersist.Core.MoneyType;
+using System;
 using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using MPersist.Core.MoneyType;
 
 namespace MPFinance.Forms.Controls
 {
     public partial class MoneyBox : TextBox
     {
+        private static Logger Log = Logger.GetInstance(typeof(TransactionsGridView));
+
         #region Variable Declarations
 
         private Money mValue_ = null;
@@ -41,11 +44,17 @@ namespace MPFinance.Forms.Controls
 
         #endregion
 
+        #region Constructor
+
         public MoneyBox()
         {
             InitializeComponent();
             TextAlign = HorizontalAlignment.Right;
         }
+
+        #endregion
+
+        #region Override Methods
 
         protected override void OnLostFocus(EventArgs e)
         {
@@ -130,5 +139,7 @@ namespace MPFinance.Forms.Controls
 
             base.OnKeyPress(e);
         }
+
+        #endregion
     }
 }

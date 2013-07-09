@@ -1,11 +1,10 @@
-using System;
-using System.Reflection;
 using MPersist.Core;
 using MPersist.Core.Attributes;
 using MPersist.Core.Data;
 using MPersist.Core.Enums;
 using MPFinance.Core.Enums;
 using MPFinance.Resources;
+using System;
 
 namespace MPFinance.Core.Data.Stored
 {
@@ -69,17 +68,17 @@ namespace MPFinance.Core.Data.Stored
         {
             if(String.IsNullOrEmpty(Name))
             {
-                session.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, ErrorStrings.errCategoryNameNull);
+                session.Error(ErrorLevel.Error, ErrorStrings.errCategoryNameNull);
             }
 
             if(CategoryType == null || CategoryType.IsNotSet)
             {
-                session.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, ErrorStrings.errCategoryTypeNull);
+                session.Error(ErrorLevel.Error, ErrorStrings.errCategoryTypeNull);
             }
 
             if(Status == null || Status.IsNotSet)
             {
-                session.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, ErrorStrings.errCategoryStatusNull);
+                session.Error(ErrorLevel.Error, ErrorStrings.errCategoryStatusNull);
             }
         }
 
@@ -100,18 +99,15 @@ namespace MPFinance.Core.Data.Stored
 
         #endregion
 
-        #region Public Methods        
+        #region Public Methods
 
-        public static Category FetchByComposite(Session session, Operator o, String name, CategoryType categoryType)
+        public static Category GetInstanceByComposite(Session session, Operator o, String name, CategoryType categoryType)
         {
-            Category result = null;
+            Category result = new Category();
 
             Persistence p = Persistence.GetInstance(session);
             p.ExecuteQuery("SELECT * FROM Category WHERE Operator = ? AND Name = ? AND CategoryType = ?", new Object[] { o, name, categoryType });
-            if (p.HasNext)
-            {
-                result = new Category(session, p);
-            }
+            result.Set(session, p);
             p.Close();
             p = null;   
 

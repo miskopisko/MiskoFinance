@@ -1,6 +1,6 @@
 ﻿-- Sqlite Table Definitions
 
--- User - A user is an entity that owns accounts
+-- Operator - An uperator is an entity that owns accounts
 DROP TABLE IF EXISTS 'Operator';
 CREATE TABLE 'Operator'
 ( 
@@ -18,13 +18,24 @@ CREATE TABLE 'Operator'
 );
 INSERT INTO SQLITE_SEQUENCE (NAME, SEQ) VALUES ('Operator', 1000000);
 
--- Account - An account belongs to a client and contains transactions
+-- Account - An account belongs to an operator
 DROP TABLE IF EXISTS 'Account';
 CREATE TABLE 'Account'
 ( 
     Id				INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
 	Operator		INTEGER,
 	AccountType		INTEGER,
+    DtCreated		DATETIME NOT NULL,
+    DtModified		DATETIME NOT NULL,
+    RowVer			INTEGER NOT NULL 
+);
+INSERT INTO SQLITE_SEQUENCE (NAME, SEQ) VALUES ('Account', 1000000);
+
+-- BankAccount - A specific account type
+DROP TABLE IF EXISTS 'BankAccount';
+CREATE TABLE 'BankAccount'
+( 
+    Id				INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
 	BankNumber		VARCHAR(128),
 	AccountNumber	VARCHAR(128),
 	Nickname		VARCHAR(128),
@@ -33,7 +44,7 @@ CREATE TABLE 'Account'
     DtModified		DATETIME NOT NULL,
     RowVer			INTEGER NOT NULL 
 );
-INSERT INTO SQLITE_SEQUENCE (NAME, SEQ) VALUES ('Account', 1000000);
+INSERT INTO SQLITE_SEQUENCE (NAME, SEQ) VALUES ('BankAccount', 1000000);
 
 -- Transaction - Used to store transactions
 DROP TABLE IF EXISTS 'Txn';

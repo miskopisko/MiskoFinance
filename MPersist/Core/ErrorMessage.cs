@@ -1,7 +1,8 @@
-﻿using System;
-using System.Reflection;
-using MPersist.Core.Enums;
+﻿using MPersist.Core.Enums;
 using MPersist.Core.Tools;
+using System;
+using System.Diagnostics;
+using System.Reflection;
 
 namespace MPersist.Core
 {
@@ -22,70 +23,36 @@ namespace MPersist.Core
 
         #region Properties
 
-        public String Class
-        {
-            get
-            {
-                return mClass_;
-            }
-        }
-
-        public String Method
-        {
-            get
-            {
-                return mMethod_;
-            }
-        }
-
-        public ErrorLevel Level
-        {
-            get
-            {
-                return mErrorLevel_;
-            }
-        }
-
-        public String Message
-        {
-            get
-            {
-                return mErrorMessage_;
-            }
-        }
-
-        public Boolean Confirmed
-        {
-            get
-            {
-                return mErrorLevel_.Equals(ErrorLevel.Confirmation) ? mConfirmed_ : true;
-            }
-            set
-            {
-                mConfirmed_ = value;
-            }
-        }
+        public String Class { get { return mClass_; } }
+        public String Method { get { return mMethod_; } }
+        public ErrorLevel Level { get { return mErrorLevel_; } }
+        public String Message { get { return mErrorMessage_; } }
+        public Boolean Confirmed { get  { return mErrorLevel_.Equals(ErrorLevel.Confirmation) ? mConfirmed_ : true; } set { mConfirmed_ = value; } }
 
         #endregion
 
         #region Constructors
 
+        public ErrorMessage(Exception e) : this(e.TargetSite.DeclaringType, e.TargetSite, ErrorLevel.Error, e.Message, null)
+        {
+        }
+
         public ErrorMessage(Type clazz, MethodBase method, ErrorLevel level, String message) : this(clazz, method, level, message, null)
         {
         }
 
-        public ErrorMessage(Type clazz, MethodBase method, ErrorLevel level, String message, Object[] param)
+        public ErrorMessage(Type clazz, MethodBase method, ErrorLevel level, String message, Object[] parameters)
         {
             mClass_ = clazz.Name;
             mMethod_ = method.Name;
             mErrorLevel_ = level;
             mErrorMessage_ = message;
-            mParameters_ = param;
+            mParameters_ = parameters;
         }
 
         #endregion
 
-        #region Override Methods
+        #region Public Methods
 
         public Int32 CompareTo(Object obj)
         {
@@ -97,7 +64,11 @@ namespace MPersist.Core
             return -1;
         }
 
-        public override String ToString()
+        #endregion
+
+        #region Override Methods
+
+        public override string ToString()
         {
             return Utils.ResolveTextParameters(mErrorMessage_, mParameters_);
         }

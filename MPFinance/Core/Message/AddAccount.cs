@@ -1,11 +1,10 @@
-using System;
-using System.Reflection;
 using MPersist.Core;
 using MPersist.Core.Enums;
 using MPersist.Core.Message;
 using MPFinance.Core.Message.Requests;
 using MPFinance.Core.Message.Responses;
 using MPFinance.Resources;
+using System;
 
 namespace MPFinance.Core.Message
 {
@@ -39,9 +38,9 @@ namespace MPFinance.Core.Message
 
         public override void Execute(Session session)
         {
-            session.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Confirmation, ConfirmStrings.conCreateNewAccount, new Object[] { Request.Account.AccountNumber });
-
             Request.Account.Save(session);
+
+            session.Error(ErrorLevel.Confirmation, ConfirmStrings.conCreateNewAccount, new Object[] { Request.Account.AccountNumber });
 
             Response.NewAccount = Request.Account;
         }

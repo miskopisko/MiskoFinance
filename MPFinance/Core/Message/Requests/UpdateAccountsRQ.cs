@@ -4,17 +4,17 @@ using MPFinance.Core.Data.Stored;
 
 namespace MPFinance.Core.Message.Requests
 {
-    public class AddAccountRQ : AbstractRequest
+    public class UpdateAccountsRQ : AbstractRequest
     {
-        private static Logger Log = Logger.GetInstance(typeof(AddAccountRQ));
+        private static Logger Log = Logger.GetInstance(typeof(UpdateAccountsRQ));
 
         #region Parameters
 
-        public BankAccount Account { get; set; }
+        public BankAccounts Accounts { get; set; }
 
         #endregion
 
-        public AddAccountRQ()
+        public UpdateAccountsRQ()
         {
         }
     }

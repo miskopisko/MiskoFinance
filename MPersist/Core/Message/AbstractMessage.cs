@@ -21,21 +21,8 @@ namespace MPersist.Core.Message
 
         #region Properties
         
-        public AbstractRequest Request
-        {
-            get
-            {
-                return mRequest_;
-            }
-        }
-
-        public AbstractResponse Response
-        {
-            get
-            {
-                return mResponse_;
-            }
-        }
+        public AbstractRequest Request { get { return mRequest_; } }
+        public AbstractResponse Response { get { return mResponse_; } }
 
         #endregion
 
@@ -43,7 +30,6 @@ namespace MPersist.Core.Message
 
         protected AbstractMessage()
         {
-
         }
 
         protected AbstractMessage(AbstractRequest request, AbstractResponse response)
@@ -86,13 +72,17 @@ namespace MPersist.Core.Message
         public abstract void Execute(Session session);
     }
 
+    // Internal class to override the NameSpaces to be excluded from the XML
     internal class NoNamespaceXmlWriter : XmlTextWriter
     {
-        //Provide as many contructors as you need
-        public NoNamespaceXmlWriter(TextWriter output)
-            : base(output) { Formatting = Formatting.Indented; }
+        public NoNamespaceXmlWriter(TextWriter output) : base(output) 
+        { 
+            Formatting = Formatting.Indented; 
+        }
 
-        public override void WriteStartDocument() { }
+        public override void WriteStartDocument() 
+        {
+        }
 
         public override void WriteStartElement(string prefix, string localName, string ns)
         {

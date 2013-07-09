@@ -1,12 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using MPersist.Core.Attributes;
 using MPersist.Core.Data;
 using MPersist.Core.Enums;
 using MPersist.Core.MoneyType;
 using MySql.Data.MySqlClient;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Reflection;
 
 namespace MPersist.Core.Persistences
 {
@@ -42,166 +42,202 @@ namespace MPersist.Core.Persistences
 
         #region Public Methods
 
-        protected override void SetParameters(Object[] values)
+        protected override void SetParameters(Object[] parameters)
         {
             // Normalize the parameters by replacing typical ? marks with @param values
             Int32 end = 0;
             Int32 position = 0;
-            while ((end = command_.CommandText.IndexOf("?")) > 0)
+            while ((end = mCommand_.CommandText.IndexOf("?")) > 0)
             {
-                command_.CommandText = command_.CommandText.Substring(0, end) + ("@param" + position++) + command_.CommandText.Substring(end + 1);
+                mCommand_.CommandText = mCommand_.CommandText.Substring(0, end) + ("@param" + position++) + mCommand_.CommandText.Substring(end + 1);
                 end = -1;
             }
 
             position = 0;
-            foreach (Object item in values)
+            foreach (Object parameter in parameters)
             {
                 MySqlParameter param = new MySqlParameter();
                 param.ParameterName = "@param" + position;
 
-                if (item == null)
+                if (parameter == null)
                 {
                     param.IsNullable = true;
                     param.Value = DBNull.Value;
-                    command_.Parameters.Add(param);
+                    mCommand_.Parameters.Add(param);
                 }
-                else if (item is AbstractStoredData)
+                else if (parameter is AbstractStoredData)
                 {
                     param.IsNullable = false;
                     param.MySqlDbType = MySqlDbType.Int32;
-                    param.Value = item != null ? (Object)((AbstractStoredData)item).Id : DBNull.Value;
-                    command_.Parameters.Add(param);
+                    param.Value = parameter != null ? (Object)((AbstractStoredData)parameter).Id : DBNull.Value;
+                    mCommand_.Parameters.Add(param);
                 }
-                else if (item is AbstractEnum)
+                else if (parameter is AbstractEnum)
                 {
                     param.IsNullable = true;
                     param.MySqlDbType = MySqlDbType.Int32;
-                    param.Value = ((AbstractEnum)item).IsSet ? (Object)((AbstractEnum)item).Value : DBNull.Value;
-                    command_.Parameters.Add(param);
+                    param.Value = ((AbstractEnum)parameter).IsSet ? (Object)((AbstractEnum)parameter).Value : DBNull.Value;
+                    mCommand_.Parameters.Add(param);
                 }
-                else if (item is Array)
+                else if (parameter is Array)
                 {
-                    String firstHalf = command_.CommandText.Substring(0, command_.CommandText.IndexOf(param.ParameterName));
-                    String secondHalf = command_.CommandText.Substring(command_.CommandText.IndexOf(param.ParameterName)+7);
+                    String firstHalf = mCommand_.CommandText.Substring(0, mCommand_.CommandText.IndexOf(param.ParameterName));
+                    String secondHalf = mCommand_.CommandText.Substring(mCommand_.CommandText.IndexOf(param.ParameterName)+7);
                     String middle = "";
 
-                    foreach (Object o in ((Array)item))
+                    foreach (Object o in ((Array)parameter))
                     {                        
                         MySqlParameter innerParam = new MySqlParameter();
                         innerParam.ParameterName = "@param" + position;
                         innerParam.Value = o;
                         middle += innerParam.ParameterName + ", ";
-                        command_.Parameters.Add(innerParam);
+                        mCommand_.Parameters.Add(innerParam);
                         position++;
                     }
 
-                    command_.CommandText = firstHalf + middle.Substring(0, middle.Length-2) + secondHalf;
+                    mCommand_.CommandText = firstHalf + middle.Substring(0, middle.Length-2) + secondHalf;
                 }
-                else if (item is Money)
+                else if (parameter is Money)
                 {
                     param.DbType = DbType.Decimal;
-                    param.Value = ((Money)item).ToDecimal(null);
-                    command_.Parameters.Add(param);
+                    param.Value = ((Money)parameter).ToDecimal(null);
+                    mCommand_.Parameters.Add(param);
                 }
                 else
                 {
-                    param.Value = item;
-                    command_.Parameters.Add(param);
+                    param.Value = parameter;
+                    mCommand_.Parameters.Add(param);
                 }
                 
                 position++;
             }
         }
-        
-        protected override void GenerateUpdateStatement(AbstractStoredData clazz)
+
+        protected override void GenerateUpdateStatement(AbstractStoredData clazz, Type type)
         {
-            String result = "";
-            List<Object> values = new List<Object>();
+            String sql = "";
+            List<Object> parameters = new List<Object>();
+
+            PropertyInfo[] properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
 
             if (clazz != null)
             {
-                result += "UPDATE " + clazz.GetType().Name + Environment.NewLine + "SET    ";
+                sql += "UPDATE " + type.Name + Environment.NewLine + "SET    ";
 
-                PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(clazz.GetType(), new Attribute[] { new StoredAttribute() });
-
-                for (int i = 0; i < properties.Count; i++)
+                for (int i = 0; i < properties.Length; i++)
                 {
-                    if (!properties[i].Name.Equals("ID", StringComparison.OrdinalIgnoreCase) && !properties[i].Name.Equals("ROWVER", StringComparison.OrdinalIgnoreCase))
+                    foreach (Attribute attribute in properties[i].GetCustomAttributes(false))
                     {
-                        result += properties[i].Name.ToUpper() + " = ?, " + Environment.NewLine + "       ";
-                        values.Add(properties[i].GetValue(clazz));
+                        if (attribute is StoredAttribute)
+                        {
+                            if (((StoredAttribute)attribute).UseInSql)
+                            {
+                                sql += properties[i].Name.ToUpper() + " = ?, " + Environment.NewLine + "       ";
+                                parameters.Add(properties[i].GetValue(clazz, null));
+                            }
+                        }
                     }
                 }
 
-                result += "DTMODIFIED = NOW()," + Environment.NewLine;
-                result += "       ROWVER = ROWVER + 1" + Environment.NewLine;
-                result += "WHERE  ID = ?" + Environment.NewLine;
-                result += "AND    ROWVER = ?;";
+                sql += "DTMODIFIED = NOW()," + Environment.NewLine;
+                sql += "       ROWVER = ROWVER + 1" + Environment.NewLine;
+                sql += "WHERE  ID = ?" + Environment.NewLine;
+                sql += "AND    ROWVER = ?;";
 
-                values.Add(clazz.Id);
-                values.Add(clazz.RowVer);
+                parameters.Add(clazz.Id);
+                parameters.Add(clazz.RowVer);
 
-                command_.CommandText = result;
-                SetParameters(values.ToArray());
+                mCommand_.CommandText = sql;
+                SetParameters(parameters.ToArray());
             }
         }
 
-        protected override void GenerateDeleteStatement(AbstractStoredData clazz)
+        protected override void GenerateDeleteStatement(AbstractStoredData clazz, Type type)
         {
-            String result = "";
-            List<Object> values = new List<Object>();
+            String sql = "";
+            List<Object> parameters = new List<Object>();
 
             if (clazz != null)
             {
-                result += "DELETE" + Environment.NewLine;
-                result += "FROM   " + clazz.GetType().Name + Environment.NewLine;
-                result += "WHERE  ID = ?" + Environment.NewLine;
-                result += "AND    ROWVER = ?;";
+                sql += "DELETE" + Environment.NewLine;
+                sql += "FROM   " + type.Name + Environment.NewLine;
+                sql += "WHERE  ID = ?" + Environment.NewLine;
+                sql += "AND    ROWVER = ?;";
 
-                values.Add(-clazz.Id);
-                values.Add(clazz.RowVer);
+                parameters.Add(-clazz.Id);
+                parameters.Add(clazz.RowVer);
 
-                command_.CommandText = result;
-                SetParameters(values.ToArray());
+                mCommand_.CommandText = sql;
+                SetParameters(parameters.ToArray());
             }
         }
 
-        protected override void GenerateInsertStatement(AbstractStoredData clazz)
+        protected override void GenerateInsertStatement(AbstractStoredData clazz, Type type)
         {
-            String result = "";
-            List<Object> values = new List<Object>();
+            String sql = "";
+            List<Object> parameters = new List<Object>();
+
+            PropertyInfo[] properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
 
             if (clazz != null)
             {
-                result += "INSERT INTO " + clazz.GetType().Name + " (ID";
+                sql += "INSERT INTO " + type.Name + " (ID";
 
-                PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(clazz.GetType(), new Attribute[] { new StoredAttribute() });
-
-                for (int i = 0; i < properties.Count; i++)
+                for (int i = 0; i < properties.Length; i++)
                 {
-                    if (!properties[i].Name.Equals("ID", StringComparison.OrdinalIgnoreCase) && !properties[i].Name.Equals("ROWVER", StringComparison.OrdinalIgnoreCase))
+                    foreach (Attribute attribute in properties[i].GetCustomAttributes(false))
                     {
-                        result += ", " + properties[i].Name.ToUpper();
+                        if (attribute is StoredAttribute)
+                        {
+                            if (((StoredAttribute)attribute).UseInSql)
+                            {
+                                sql += ", " + properties[i].Name.ToUpper();
+                            }
+                        }
                     }
                 }
 
-                result += ", DTCREATED, DTMODIFIED, ROWVER)" + Environment.NewLine + "VALUES (NULL, ";
-                
-                for (int i = 0; i < properties.Count; i++)
+                sql += ", DTCREATED, DTMODIFIED, ROWVER)" + Environment.NewLine + "VALUES (?, ";
+
+                if (clazz.Id > 0)
                 {
-                    if (!properties[i].Name.Equals("ID", StringComparison.OrdinalIgnoreCase) && !properties[i].Name.Equals("ROWVER", StringComparison.OrdinalIgnoreCase))
+                    parameters.Add(clazz.Id);
+                }
+                else
+                {
+                    parameters.Add(DBNull.Value);
+                }
+
+                for (int i = 0; i < properties.Length; i++)
+                {
+                    foreach (Attribute attribute in properties[i].GetCustomAttributes(false))
                     {
-                        result += "?, ";
-                        values.Add(properties[i].GetValue(clazz));
+                        if (attribute is StoredAttribute)
+                        {
+                            if (((StoredAttribute)attribute).UseInSql)
+                            {
+                                sql += "?, ";
+                                parameters.Add(properties[i].GetValue(clazz, null));
+                            }
+                        }
                     }
                 }
 
-                result += "NOW(), NOW(), 0);" + Environment.NewLine;
-                result += "SELECT LAST_INSERT_ID() AS ID;";
+                sql += "NOW(), NOW(), 0);";
+
+                if (type.BaseType.Equals(typeof(AbstractStoredData)))
+                {
+                    sql += Environment.NewLine + "SELECT LAST_INSERT_ID() AS ID;";
+                }
+                else
+                {
+                    sql += Environment.NewLine + "SELECT ? AS ID;";
+                    parameters.Add(clazz.Id);
+                }
             }
 
-            command_.CommandText = result;
-            SetParameters(values.ToArray());
+            mCommand_.CommandText = sql;
+            SetParameters(parameters.ToArray());
         }
 
         #endregion

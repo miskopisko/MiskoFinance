@@ -112,36 +112,9 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="strCheckingForDuplicateTxns" xml:space="preserve">
-    <value>Checking for duplicate transactions. Please wait...</value>
-  </data>
-  <data name="strChooseAnAccount" xml:space="preserve">
-    <value>Choose an account to add the transactions to</value>
-  </data>
-  <data name="strChooseTxnsToAdd" xml:space="preserve">
-    <value>Choose transactions to add</value>
-  </data>
-  <data name="strConfirm" xml:space="preserve">
-    <value>Please confirm?</value>
-  </data>
-  <data name="strError" xml:space="preserve">
-    <value>Error!</value>
-  </data>
-  <data name="strInfo" xml:space="preserve">
-    <value>Information</value>
-  </data>
-  <data name="strPageCounts" xml:space="preserve">
-    <value>Page {0} / {1}</value>
-  </data>
-  <data name="strTransactionCounts" xml:space="preserve">
-    <value>Showing {0} of {1} transactions</value>
-  </data>
-  <data name="strWarning" xml:space="preserve">
-    <value>Warning!</value>
-  </data>
 </root>

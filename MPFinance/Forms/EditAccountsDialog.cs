@@ -1,78 +1,106 @@
-﻿using System;
-using System.Windows.Forms;
-using MPersist.Core;
+﻿using MPersist.Core;
 using MPersist.Core.Message.Response;
 using MPFinance.Core.Data.Stored;
 using MPFinance.Core.Enums;
 using MPFinance.Core.Message.Requests;
 using MPFinance.Core.Message.Responses;
+using System;
+using System.Windows.Forms;
 
 namespace MPFinance.Forms
 {
     public partial class EditAccountsDialog : Form
     {
+        private static Logger Log = Logger.GetInstance(typeof(EditAccountsDialog));
+
+        #region Variable Declarations
+
+
+
+        #endregion
+
+        #region Properties
+
+
+
+        #endregion
+
+        #region Constructor
+
         public EditAccountsDialog()
         {
             InitializeComponent();
             AccountTypeCmb.DataSource = AccountType.Elements;
+
             existingAccounts.SelectedValueChanged += existingAccounts_SelectedValueChanged;
+            BankName.Leave += DataChanged;
+            AccountNumber.Leave += DataChanged;
+            AccountTypeCmb.Leave += DataChanged;
+            Nickname.Leave += DataChanged;
+            OpeningBalance.Leave += DataChanged;
         }
 
-        private void existingAccounts_SelectedValueChanged(object sender, EventArgs e)
-        {
-            Account account = (Account)((ListBox)sender).SelectedItem;
+        #endregion
 
-            BankName.Text = account.BankNumber;
-            AccountNumber.Text = account.AccountNumber;
-            AccountTypeCmb.SelectedItem = account.AccountType;
-            Nickname.Text = account.Nickname;
-            OpeningBalance.Value = account.OpeningBalance;
-        }
+        #region Override Methods
 
         protected override void OnLoad(EventArgs e)
         {
             GetAccountsRQ request = new GetAccountsRQ();
             request.Operator = MPFinanceMain.Instance.Operator;
-            MessageProcessor.SendRequest(request, ResponseRecieved);
+            MessageProcessor.SendRequest(request, GetAccountsSuccess);
+        }
+
+        #endregion
+
+        #region Event Listenners
+
+        private void existingAccounts_SelectedValueChanged(object sender, EventArgs e)
+        {
+            BankName.Text = ((BankAccount)((ListBox)sender).SelectedItem).BankNumber;
+            AccountNumber.Text = ((BankAccount)((ListBox)sender).SelectedItem).AccountNumber;
+            AccountTypeCmb.SelectedItem = ((BankAccount)((ListBox)sender).SelectedItem).AccountType;
+            Nickname.Text = ((BankAccount)((ListBox)sender).SelectedItem).Nickname;
+            OpeningBalance.Value = ((BankAccount)((ListBox)sender).SelectedItem).OpeningBalance;
         }
 
         private void Done_Click(object sender, EventArgs e)
         {
+            UpdateAccountsRQ request = new UpdateAccountsRQ();
+            request.Accounts = ((BankAccounts)existingAccounts.DataSource);
+            MessageProcessor.SendRequest(request, UpdateAccountsSuccess);
+        }
+
+        private void DataChanged(object sender, EventArgs e)
+        {
+            ((BankAccount)existingAccounts.SelectedItem).BankNumber = BankName.Text;
+            ((BankAccount)existingAccounts.SelectedItem).AccountNumber = AccountNumber.Text;
+            ((BankAccount)existingAccounts.SelectedItem).AccountType = (AccountType)AccountTypeCmb.SelectedItem;
+            ((BankAccount)existingAccounts.SelectedItem).Nickname = Nickname.Text;
+            ((BankAccount)existingAccounts.SelectedItem).OpeningBalance = OpeningBalance.Value;
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private void GetAccountsSuccess(AbstractResponse response)
+        {
+            existingAccounts.DataSource = ((GetAccountsRS)response).Accounts;
+
+            if (existingAccounts.Items.Count > 0)
+            {
+                existingAccounts.SelectedIndex = 0;
+            }
+        }
+
+        private void UpdateAccountsSuccess(AbstractResponse response)
+        {
+            MPFinanceMain.Instance.Operator.BankAccounts = ((UpdateAccountsRS)response).Accounts;
+
             Dispose();
         }
 
-        public void ResponseRecieved(AbstractResponse response)
-        {
-            if (!response.HasErrors && response is GetAccountsRS)
-            {
-                Accounts accounts = ((GetAccountsRS)response).Accounts;
-
-                foreach (Account account in accounts)
-                {
-                    existingAccounts.Items.Add(account);
-                }
-
-                if (accounts.Count > 0)
-                {
-                    existingAccounts.SelectedIndex = 0;
-                }
-            }
-            else if (!response.HasErrors && response is UpdateAccountRS)
-            {
-                return;
-            }
-        }
-
-        private void Save_Click(object sender, EventArgs e)
-        {
-            UpdateAccountRQ request = new UpdateAccountRQ();
-            request.Account = (Account)existingAccounts.SelectedItem;
-            request.Account.BankNumber = BankName.Text;
-            request.Account.AccountNumber = AccountNumber.Text;
-            request.Account.AccountType = (AccountType)AccountTypeCmb.SelectedItem;
-            request.Account.Nickname = Nickname.Text;
-            request.Account.OpeningBalance = OpeningBalance.Value;
-            MessageProcessor.SendRequest(request, ResponseRecieved);
-        }
+        #endregion
     }
 }

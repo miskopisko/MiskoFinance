@@ -80,6 +80,7 @@
   <ItemGroup>
     <Compile Include="Core\Attributes\StoredAttribute.cs" />
     <Compile Include="Core\Attributes\ViewedAttribute.cs" />
+    <Compile Include="Core\ConnectionSettings.cs" />
     <Compile Include="Core\Data\Page.cs" />
     <Compile Include="Core\Debug\MessageTiming.cs" />
     <Compile Include="Core\Debug\MessageTimings.cs" />

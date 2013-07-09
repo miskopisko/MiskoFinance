@@ -1,12 +1,11 @@
-using System;
-using System.Security.Cryptography;
-using System.Text;
 using MPersist.Core;
 using MPersist.Core.Attributes;
 using MPersist.Core.Data;
 using MPersist.Core.MoneyType;
+using MPersist.Core.Tools;
 using MPFinance.Core.Data.Stored;
 using MPFinance.Core.Enums;
+using System;
 
 namespace MPFinance.Core.Data.Viewed
 {
@@ -35,7 +34,7 @@ namespace MPFinance.Core.Data.Viewed
         [Viewed]
         public TxnType TxnType { get; set; }
         [Viewed]
-        public Category Category { get; set; }
+        public Int64? Category { get; set; }
         [Viewed]
         public Money Debit { get; set; }
         [Viewed]
@@ -72,6 +71,7 @@ namespace MPFinance.Core.Data.Viewed
         public static VwTxn GetInstanceById(Session session, Int64 Id)
         {
             VwTxn result = new VwTxn();
+
             Persistence p = Persistence.GetInstance(session);
             p.ExecuteQuery("SELECT * FROM VwTxn WHERE TxnId = ?", new Object[] { Id });
             result.Set(session, p);
@@ -81,27 +81,11 @@ namespace MPFinance.Core.Data.Viewed
             return result;
         }
 
-        public void GenerateHashCode(Account account)
+        public String GenerateHashCode(BankAccount account)
         {
-            MD5 md5Hash = MD5.Create();
-            String input = account.BankNumber + account.AccountNumber + DatePosted.ToString() + Amount.ToString() + Description;
+            HashCode = Utils.GenerateHash(account.BankNumber + account.AccountNumber + DatePosted.ToString() + Amount.ToString() + Description);
 
-            // Convert the input string to a byte array and compute the hash. 
-            byte[] data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
-
-            // Create a new Stringbuilder to collect the bytes 
-            // and create a string.
-            StringBuilder sBuilder = new StringBuilder();
-
-            // Loop through each byte of the hashed data  
-            // and format each one as a hexadecimal string. 
-            for (int i = 0; i < data.Length; i++)
-            {
-                sBuilder.Append(data[i].ToString("x2"));
-            }
-
-            // Return the hexadecimal string. 
-            HashCode = sBuilder.ToString();
+            return HashCode;
         }
 
         #endregion

@@ -13,7 +13,7 @@ namespace MPFinance.Core.Message.Requests
         #region Parameters
 
         public Operator Operator { get; set; }
-        public Account Account { get; set; }
+        public BankAccount Account { get; set; }
         public OfxDocument OfxDucument { get; set; }
 
         #endregion

@@ -36,9 +36,7 @@ namespace MPFinance.Core.Message
 
         public override void Execute(Session session)
         {
-            Response.ExpenseCategories = (Categories)Request.ExpenseCategories.Save(session);
-            Response.IncomeCategories = (Categories)Request.IncomeCategories.Save(session);
-            Response.TransferCategories = (Categories)Request.TransferCategories.Save(session);
+            Response.Categories = (Categories)Request.Categories.Save(session);
         }
     }
 }

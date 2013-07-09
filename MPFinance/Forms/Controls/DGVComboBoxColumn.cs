@@ -1,6 +1,7 @@
+using MPersist.Core;
+using System;
 using System.ComponentModel;
 using System.Windows.Forms;
-using MPersist.Core;
 
 /*  Special thanks to Bart Mermuys who posted this solution on the PC review forumns
  * 
@@ -13,17 +14,21 @@ namespace MPFinance.Forms.Controls
     {
         private static Logger Log = Logger.GetInstance(typeof(DGVComboBoxColumn));
 
+        #region Constructor
+
         public DGVComboBoxColumn()
         {
             CellTemplate = new DGVComboBoxCell();
         }
+
+        #endregion
     }
 
     public class DGVComboBoxCell : DataGridViewComboBoxCell
     {
         private static Logger Log = Logger.GetInstance(typeof(DGVComboBoxCell));
 
-        private PropertyDescriptor displayProp;
+        #region Properties
 
         private CurrencyManager ListManager
         {
@@ -43,15 +48,19 @@ namespace MPFinance.Forms.Controls
         {
             get
             {
-                if (displayProp == null && ListManager != null)
+                if (ListManager != null)
                 {
-                    displayProp = ListManager.GetItemProperties().Find(DisplayMember, true);
+                    return ListManager.GetItemProperties().Find(DisplayMember, true);
                 }
-                return displayProp;
+                return null;
             }
         }
 
-        protected override object GetFormattedValue(object value, int rowIndex, ref DataGridViewCellStyle cellStyle, TypeConverter valueTypeConverter,TypeConverter formattedValueTypeConverter, DataGridViewDataErrorContexts context)
+        #endregion
+
+        #region Override Methods
+
+        protected override Object GetFormattedValue(Object value, int rowIndex, ref DataGridViewCellStyle cellStyle, TypeConverter valueTypeConverter, TypeConverter formattedValueTypeConverter, DataGridViewDataErrorContexts context)
         {
             if (value == null || value == cellStyle.DataSourceNullValue)
             {
@@ -61,11 +70,11 @@ namespace MPFinance.Forms.Controls
             return base.GetFormattedValue(DisplayProp.GetValue(value), rowIndex, ref cellStyle, valueTypeConverter, formattedValueTypeConverter, context);
         }
 
-        public override object ParseFormattedValue(object formattedValue, DataGridViewCellStyle cellStyle, TypeConverter formattedValueTypeConverter, TypeConverter valueTypeConverter)
+        public override Object ParseFormattedValue(Object formattedValue, DataGridViewCellStyle cellStyle, TypeConverter formattedValueTypeConverter, TypeConverter valueTypeConverter)
         {
-            foreach (object item in ListManager.List)
+            foreach (Object item in ListManager.List)
             {
-                if ((string)DisplayProp.GetValue(item) == (string)formattedValue)
+                if ((String)DisplayProp.GetValue(item) == (String)formattedValue)
                 {
                     return item;
                 }
@@ -73,5 +82,7 @@ namespace MPFinance.Forms.Controls
 
             return base.ParseFormattedValue(formattedValue, cellStyle,formattedValueTypeConverter, valueTypeConverter);
         }
+
+        #endregion
     }
 }

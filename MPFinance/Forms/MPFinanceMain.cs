@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Windows.Forms;
-using MPersist.Core;
+﻿using MPersist.Core;
 using MPersist.Core.Data;
 using MPersist.Core.Debug;
 using MPersist.Core.Interfaces;
@@ -15,6 +12,10 @@ using MPFinance.Core.Message.Responses;
 using MPFinance.Core.OFX;
 using MPFinance.Properties;
 using MPFinance.Resources;
+using System;
+using System.IO;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace MPFinance.Forms
 {
@@ -58,24 +59,23 @@ namespace MPFinance.Forms
         }
 
         public Operator Operator { get; set; }
-        public Categories ExpenseCategories { get; set; }
-        public Categories IncomeCategories { get; set; }
-        public Categories TransferCategories { get; set; }
 
         #endregion
 
+        #region Constructor
+
         public MPFinanceMain()
         {
-            InitializeComponent();
-            
-            MessageProcessor.IOController = this;
-            MessageProcessor.ConnectionSettings = Program.mConnectionSettings_; // Temporary until user settings can be coded
-            MessageProcessor.RowsPerPage = Settings.Default.RowsPerPage;
+            InitializeComponent();            
 
             transactionsGridView.TxnUpdated += transactionsGridView_TxnUpdated;
+            PageCountsLbl.Text = Utils.ResolveTextParameters(Strings.strPageCounts, new Object[] { 0, 0 });
+            TransactionCountsLbl.Text = Utils.ResolveTextParameters(Strings.strTransactionCounts, new Object[] { 0, 0 });
 
-            DebugWindow.Show();
+            DebugWindow.Show();            
         }
+
+        #endregion
 
         #region Local Private Methods
 
@@ -87,7 +87,7 @@ namespace MPFinance.Forms
 
             GetTxnsRQ request = new GetTxnsRQ();
             request.Operator = MPFinanceMain.Instance.Operator;
-            request.Account = AccountsList.SelectedNode != null ? (Account)AccountsList.SelectedNode.Tag : null;
+//request.Account = AccountsList.SelectedNode != null ? (Account)AccountsList.SelectedNode.Tag : null;
             request.FromDate = FromDatePicker.Value;
             request.ToDate = ToDatePicker.Value;
             request.Category = (Category)AllCategoriesCmb.SelectedItem;
@@ -125,7 +125,7 @@ namespace MPFinance.Forms
         {            
             GetSummaryRQ request = new GetSummaryRQ();
             request.Operator = Operator;
-            request.Account = AccountsList.SelectedNode != null ? (Account)AccountsList.SelectedNode.Tag : null;
+//request.Account = AccountsList.SelectedNode != null ? (Account)AccountsList.SelectedNode.Tag : null;
             request.FromDate = FromDatePicker.Value;
             request.ToDate = ToDatePicker.Value;
             MessageProcessor.SendRequest(request, GetSummarySuccess);   
@@ -148,20 +148,7 @@ namespace MPFinance.Forms
         // Callback method for GetAccounts
         private void GetAccountsSuccess(AbstractResponse response)
         {
-            FillAccountsTree(((GetAccountsRS)response).Accounts);
-        }
-
-        // Refresh the accounts tree
-        private void FillAccountsTree(Accounts accounts)
-        {
-            AccountsList.Nodes["Accounts"].Nodes.Clear();
-
-            foreach (Account a in accounts)
-            {
-                AccountsList.Nodes["Accounts"].Nodes.Add(a.Id.ToString(), a.Nickname).Tag = a;
-            }
-
-            AccountsList.ExpandAll();
+            AccountsList.DataSource = ((GetAccountsRS)response).Accounts;
         }
 
         // Load the Categories
@@ -176,9 +163,6 @@ namespace MPFinance.Forms
         // Callback method for GetCatagories
         private void GetCategoriesSuccess(AbstractResponse response)
         {
-            ExpenseCategories = ((GetCategoriesRS)response).ExpenseCategories;
-            IncomeCategories = ((GetCategoriesRS)response).IncomeCategories;
-            TransferCategories = ((GetCategoriesRS)response).TransferCategories;
             AllCategoriesCmb.DataSource = ((GetCategoriesRS)response).AllCategories;
         }
 
@@ -196,26 +180,18 @@ namespace MPFinance.Forms
         // Callback method for GetOperator
         private void GetOperatorSuccess(AbstractResponse response)
         {
-            GetOperatorRS Response = response as GetOperatorRS;
-
-            Operator = Response.Operator;
+            Operator = ((GetOperatorRS)response).Operator;
             headerLbl.Text = Operator.LastName + ", " + Operator.FirstName;
 
-            ExpenseCategories = Response.ExpenseCategories;
-            IncomeCategories = Response.IncomeCategories;
-            TransferCategories = Response.TransferCategories;
+            AccountsList.DataSource = ((GetOperatorRS)response).Operator.BankAccounts;
+            AllCategoriesCmb.DataSource = ((GetOperatorRS)response).Operator.Categories;
+            transactionsGridView.DataSource = ((GetOperatorRS)response).Txns;
 
-            FillAccountsTree(Response.Accounts);
+            summaryPanel.Update(((GetOperatorRS)response).Summary);
+            PageCountsLbl.Text = Utils.ResolveTextParameters(Strings.strPageCounts, new Object[] { response.Page.PageNo, response.Page.TotalPageCount });
+            TransactionCountsLbl.Text = Utils.ResolveTextParameters(Strings.strTransactionCounts, new Object[] { response.Page.RowsFetchedSoFar, response.Page.TotalRowCount });
 
-            AllCategoriesCmb.DataSource = Response.AllCategories;
-
-            transactionsGridView.DataSource = Response.Txns;
-
-            summaryPanel.Update(Response.Summary);
-            PageCountsLbl.Text = Utils.ResolveTextParameters(Strings.strPageCounts, new Object[] { Response.Page.PageNo, Response.Page.TotalPageCount });
-            TransactionCountsLbl.Text = Utils.ResolveTextParameters(Strings.strTransactionCounts, new Object[] { Response.Page.RowsFetchedSoFar, Response.Page.TotalRowCount });
-
-            transactionsGridView.CurrentPage = Response.Page;
+            transactionsGridView.CurrentPage = response.Page;
 
             MoreBtn.Enabled = transactionsGridView.CurrentPage.HasNext;
         }        
@@ -234,14 +210,11 @@ namespace MPFinance.Forms
             Dispose();
         }
 
-        private void AccountsView_AfterSelect(object sender, TreeViewEventArgs e)
+        private void AccountsList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (Operator != null)
-            {
-                String accountName = AccountsList.SelectedNode.Tag != null ? " - " + ((Account)AccountsList.SelectedNode.Tag).Nickname : "";
-                headerLbl.Text = Operator.LastName + ", " + Operator.FirstName + accountName;
-                GetTxns(new Page(1));
-            }           
+            String accountName = ((BankAccount)AccountsList.SelectedItem).Nickname;
+            headerLbl.Text = Operator.LastName + ", " + Operator.FirstName + " - " + accountName;
+            GetTxns(new Page(1));
         }
 
         private void txnSearch_Click(object sender, EventArgs e)
@@ -276,14 +249,6 @@ namespace MPFinance.Forms
         {
             // Show the edit account dialog
             new EditAccountsDialog().ShowDialog(this);
-
-            MPCache.Flush();
-
-            // reload the accounts tree
-            GetAccounts();
-
-            // Reload the summary section
-            GetSummary();
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -311,10 +276,6 @@ namespace MPFinance.Forms
         private void catagoriesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             new EditCategoriesDialog().ShowDialog(this);
-
-            MPCache.Flush();
-
-            GetCategories();
         }
 
         private void debugWindowToolStripMenuItem_Click(object sender, EventArgs e)
@@ -324,7 +285,7 @@ namespace MPFinance.Forms
 
         #endregion
 
-        #region Overridden Methods
+        #region Override Methods
 
         protected override void OnLoad(EventArgs e)
         {
@@ -335,7 +296,14 @@ namespace MPFinance.Forms
 
         #endregion
 
-        #region IOController Implementation Methods
+        #region IOController Implementation
+
+        public Int32 RowsPerPage { get { return Settings.Default.RowsPerPage; } }
+
+        public void ExceptionHandler(Object sender, ThreadExceptionEventArgs e)
+        {
+            Error(new ErrorMessage(e.Exception));
+        }
 
         public DialogResult Error(ErrorMessage message)
         {
