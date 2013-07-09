@@ -4,9 +4,9 @@ using MPFinance.Core.Data.Stored;
 
 namespace MPFinance.Core.Message.Responses
 {
-    public class GetAccountsRS : AbstractResponse
+    public class UpdateAccountsRS : AbstractResponse
     {
-        private static Logger Log = Logger.GetInstance(typeof(GetAccountsRS));
+        private static Logger Log = Logger.GetInstance(typeof(UpdateAccountsRS));
 
         #region Parameters
 
@@ -14,7 +14,7 @@ namespace MPFinance.Core.Message.Responses
 
         #endregion
 
-        public GetAccountsRS()
+        public UpdateAccountsRS()
         {
             Accounts = new BankAccounts();
         }

@@ -1,8 +1,8 @@
-﻿using System;
+﻿using MPersist.Core;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
-using MPersist.Core;
 
 namespace MPFinance.Forms.Controls
 {
@@ -12,31 +12,24 @@ namespace MPFinance.Forms.Controls
 
         #region Variable declarations
 
-        private String Text_ = "";
-        private CheckBoxState State_ = CheckBoxState.UncheckedNormal;
-        private Point CheckBoxLocation_;
-        private Point CellLocation_ = new Point();
-        private Size CheckBoxSize_;
-        private bool Checked_ = false;
-        private bool Enabled_ = true;
+        private String mText_ = "";
+        private CheckBoxState mState_ = CheckBoxState.UncheckedNormal;
+        private Point mCheckBoxLocation_;
+        private Point mCellLocation_ = new Point();
+        private Size mCheckBoxSize_;
+        private bool mChecked_ = false;
+        private bool mEnabled_ = true;
 
         #endregion
 
         #region Properties
 
-        public bool Enabled
-        {
-            get { return Enabled_; }
-            set { Enabled_ = value; }
-        }
-
-        public bool Checked
-        {
-            get { return Checked_; }
-            set { Checked_ = value; }
-        }
+        public bool Enabled { get { return mEnabled_; } set { mEnabled_ = value; } }
+        public bool Checked { get { return mChecked_; } set { mChecked_ = value; } }
 
         #endregion
+
+        #region Constructors
 
         public CheckBoxHeaderCell()
         {
@@ -44,8 +37,10 @@ namespace MPFinance.Forms.Controls
 
         public CheckBoxHeaderCell(String text)
         {
-            Text_ = text;
+            mText_ = text;
         }
+
+        #endregion
 
         #region Delegate Functions
 
@@ -54,48 +49,52 @@ namespace MPFinance.Forms.Controls
 
         #endregion
 
+        #region Override Methods
+
         protected override void Paint(Graphics graphics, Rectangle clipBounds, Rectangle cellBounds, int rowIndex, DataGridViewElementStates dataGridViewElementState, object value, object formattedValue, String errorText, DataGridViewCellStyle cellStyle, DataGridViewAdvancedBorderStyle advancedBorderStyle, DataGridViewPaintParts paintParts)
         {
-            base.Paint(graphics, clipBounds, cellBounds, rowIndex, dataGridViewElementState, value, "      " + Text_, errorText, cellStyle, advancedBorderStyle, paintParts);
+            base.Paint(graphics, clipBounds, cellBounds, rowIndex, dataGridViewElementState, value, "      " + mText_, errorText, cellStyle, advancedBorderStyle, paintParts);
 
             Point p = new Point();
             Size s = CheckBoxRenderer.GetGlyphSize(graphics, CheckBoxState.UncheckedNormal);
             p.X = cellBounds.Location.X + (cellBounds.Width / 2) - (s.Width / 2) - 25;
             p.Y = cellBounds.Location.Y + (cellBounds.Height / 2) - (s.Height / 2);
-            CellLocation_ = cellBounds.Location;
-            CheckBoxLocation_ = p;
-            CheckBoxSize_ = s;
+            mCellLocation_ = cellBounds.Location;
+            mCheckBoxLocation_ = p;
+            mCheckBoxSize_ = s;
 
-            if (Checked_ && Enabled_)
+            if (mChecked_ && mEnabled_)
             {
-                State_ = CheckBoxState.CheckedNormal;
+                mState_ = CheckBoxState.CheckedNormal;
             }
-            else if (!Checked_ && Enabled_)
+            else if (!mChecked_ && mEnabled_)
             {
-                State_ = CheckBoxState.UncheckedNormal;
+                mState_ = CheckBoxState.UncheckedNormal;
             }
             else
             {
-                State_ = CheckBoxState.UncheckedDisabled;
-                Checked_ = false;
+                mState_ = CheckBoxState.UncheckedDisabled;
+                mChecked_ = false;
             }
 
-            CheckBoxRenderer.DrawCheckBox(graphics, CheckBoxLocation_, State_);
+            CheckBoxRenderer.DrawCheckBox(graphics, mCheckBoxLocation_, mState_);
         }
 
         protected override void OnMouseClick(DataGridViewCellMouseEventArgs e)
         {
-            Point p = new Point(e.X + CellLocation_.X, e.Y + CellLocation_.Y);
-            if (p.X >= CheckBoxLocation_.X && p.X <= CheckBoxLocation_.X + CheckBoxSize_.Width && p.Y >= CheckBoxLocation_.Y && p.Y <= CheckBoxLocation_.Y + CheckBoxSize_.Height)
+            Point p = new Point(e.X + mCellLocation_.X, e.Y + mCellLocation_.Y);
+            if (p.X >= mCheckBoxLocation_.X && p.X <= mCheckBoxLocation_.X + mCheckBoxSize_.Width && p.Y >= mCheckBoxLocation_.Y && p.Y <= mCheckBoxLocation_.Y + mCheckBoxSize_.Height)
             {
-                Checked_ = !Checked_;
+                mChecked_ = !mChecked_;
                 if (OnCheckBoxClicked != null)
                 {
-                    OnCheckBoxClicked(Checked_);
+                    OnCheckBoxClicked(mChecked_);
                     DataGridView.InvalidateCell(this);
                 }
             }
             base.OnMouseClick(e);
         }
+
+        #endregion
     }
 }

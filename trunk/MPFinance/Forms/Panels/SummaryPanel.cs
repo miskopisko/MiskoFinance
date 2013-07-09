@@ -1,14 +1,47 @@
-﻿using MPFinance.Core.Data.Viewed;
+﻿using MPersist.Core;
+using MPFinance.Core.Data.Viewed;
 using System.Windows.Forms;
 
 namespace MPFinance.Forms.Panels
 {
     public partial class SummaryPanel : UserControl
     {
+        private static Logger Log = Logger.GetInstance(typeof(SummaryPanel));
+
+        #region Variable Declarations
+
+
+
+        #endregion
+
+        #region Parameters
+
+
+
+        #endregion
+
+        #region Constructor
+
         public SummaryPanel()
         {
             InitializeComponent();
         }
+
+        #endregion
+
+        #region Event Listenners
+
+
+
+        #endregion
+
+        #region Override Methods
+
+
+
+        #endregion
+
+        #region Public Methods
 
         public void Update(VwSummary summary)
         {
@@ -24,5 +57,13 @@ namespace MPFinance.Forms.Panels
             CurrentBalance.Value = summary.CurrentBalance;
             BalanceDiff.Value = summary.DifferenceBalance;
         }
+
+        #endregion
+
+        #region Private Methods
+
+
+
+        #endregion        
     }
 }

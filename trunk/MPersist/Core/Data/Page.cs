@@ -18,45 +18,13 @@ namespace MPersist.Core.Data
 
         #region Properties
 
-        public Int32 PageNo
-        {
-            get { return mPageNo_; }
-            set { mPageNo_ = value; }
-        }
-
-        public Boolean IncludeRecordCount
-        {
-            get { return mIncludeRecordCount_; }
-            set { mIncludeRecordCount_ = value; }
-        }
-
-        public Int32 TotalPageCount
-        {
-            get { return mTotalPageCount_; }
-            set { mTotalPageCount_ = value; }
-        }
-
-        public Int32 TotalRowCount
-        {
-            get { return mTotalRowCount_; }
-            set { mTotalRowCount_ = value; }
-        }
-
-        public Int32 RowsFetchedSoFar
-        {
-            get { return mRowsFetchedSoFar_; }
-            set { mRowsFetchedSoFar_ = value; }
-        }
-
-        public Page NextPage
-        {
-            get { return HasNext ? new Page(PageNo + 1) : null; }
-        }
-
-        public Boolean HasNext
-        {
-            get { return PageNo < TotalPageCount; }
-        }
+        public Int32 PageNo { get { return mPageNo_; } set { mPageNo_ = value; } }
+        public Boolean IncludeRecordCount { get { return mIncludeRecordCount_; } set { mIncludeRecordCount_ = value; } }
+        public Int32 TotalPageCount { get { return mTotalPageCount_; } set { mTotalPageCount_ = value; } }
+        public Int32 TotalRowCount { get { return mTotalRowCount_; } set { mTotalRowCount_ = value; } }
+        public Int32 RowsFetchedSoFar { get { return mRowsFetchedSoFar_; } set { mRowsFetchedSoFar_ = value; } }
+        public Page NextPage { get { return HasNext ? new Page(PageNo + 1) : null; } }
+        public Boolean HasNext { get { return PageNo < TotalPageCount; } }
 
         #endregion
 

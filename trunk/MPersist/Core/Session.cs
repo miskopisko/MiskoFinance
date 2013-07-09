@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Reflection;
-using MPersist.Core.Debug;
+﻿using MPersist.Core.Debug;
 using MPersist.Core.Enums;
 using MPersist.Core.Resources;
+using System;
+using System.Collections.Generic;
+using System.Data.Common;
+using System.Diagnostics;
+using System.Reflection;
 
 namespace MPersist.Core
 {
@@ -14,122 +15,69 @@ namespace MPersist.Core
 
         #region Variable Declarations
 
-        private readonly DbConnection conn_;
-        private Boolean transactionInProgress_ = false;
-        private List<Persistence> persistencePool_ = new List<Persistence>();
-        private DbTransaction transaction_;
-        private ErrorMessages errorMessages_ = new ErrorMessages();
-        private ErrorLevel status_ = ErrorLevel.Success;
-        private MessageMode messageMode_ = MessageMode.Normal;
-        private Int32 rowsPerPage_ = 20;
-        private SqlTimings<SqlTiming> SqlTimings_ = null;
+        private readonly DbConnection mConn_;
+        private Boolean mTransactionInProgress_ = false;
+        private List<Persistence> mPersistencePool_ = new List<Persistence>();
+        private DbTransaction mTransaction_;
+        private ErrorMessages mErrorMessages_ = new ErrorMessages();
+        private ErrorLevel mStatus_ = ErrorLevel.Success;
+        private MessageMode mMessageMode_ = MessageMode.Normal;
+        private Int32 mRowsPerPage_ = 20;
+        private SqlTimings<SqlTiming> mSqlTimings_ = null;
 
         #endregion
 
         #region Properties
 
-        public DbConnection Connection
-        {
-            get { return conn_; }
-        }
-
-        public Boolean TransactionInProgress
-        {
-            get { return transactionInProgress_; }
-        }
-
-        public List<Persistence> PersistencePool
-        {
-            get { return persistencePool_; }
-        }
-
-        public DbTransaction Transaction
-        {
-            get { return transaction_; }
-        }
-
-        public ErrorLevel Status
-        {
-            get { return status_; }
-            set { status_ = value; }
-        }
-
-        public MessageMode MessageMode
-        {
-            get { return messageMode_; }
-            set { messageMode_ = value; }
-        }
-
-        public Int32 RowPerPage
-        {
-            get { return rowsPerPage_; }
-            set { rowsPerPage_ = value; }
-        }
-
-        public ErrorMessages ErrorMessages
-        {
-            get { return errorMessages_; }
-        }
-
-        public Boolean HasErrors
-        {
-            get { return Contains(ErrorLevel.Error); }
-        }
-
-        public Boolean HasWarnings
-        {
-            get { return Contains(ErrorLevel.Warning); }
-        }
-
-        public Boolean HasConfirmations
-        {
-            get { return Contains(ErrorLevel.Confirmation); }
-        }
-
-        public ErrorMessages Errors
-        {
-            get { return ListOf(ErrorLevel.Error); }
-        }
-
-        public ErrorMessages Warnings
-        {
-            get { return ListOf(ErrorLevel.Warning); }
-        }
-
-        public ErrorMessages Confirmations
-        {
-            get { return ListOf(ErrorLevel.Confirmation); }
-        }
-
+        public DbConnection Connection { get { return mConn_; } }
+        public Boolean TransactionInProgress { get { return mTransactionInProgress_; } }
+        public List<Persistence> PersistencePool { get { return mPersistencePool_; } }
+        public DbTransaction Transaction { get { return mTransaction_; } }
+        public ErrorLevel Status { get { return mStatus_; } set { mStatus_ = value; } }
+        public MessageMode MessageMode { get { return mMessageMode_; } set { mMessageMode_ = value; } }
+        public Int32 RowPerPage { get { return mRowsPerPage_; } set { mRowsPerPage_ = value; } }
+        public ErrorMessages ErrorMessages { get { return mErrorMessages_; } }
+        public Boolean HasErrors  { get { return Contains(ErrorLevel.Error); } }
+        public Boolean HasWarnings { get { return Contains(ErrorLevel.Warning); } }
+        public Boolean HasConfirmations { get { return Contains(ErrorLevel.Confirmation); } }
+        public ErrorMessages Errors { get { return ListOf(ErrorLevel.Error); } }
+        public ErrorMessages Warnings { get { return ListOf(ErrorLevel.Warning); } }
+        public ErrorMessages Confirmations { get { return ListOf(ErrorLevel.Confirmation); } }
         public SqlTimings<SqlTiming> SqlTimings 
         {
             get 
             { 
-                if(SqlTimings_ == null)
+                if(mSqlTimings_ == null)
                 {
-                    SqlTimings_ = new SqlTimings<SqlTiming>();
+                    mSqlTimings_ = new SqlTimings<SqlTiming>();
                 }
-                return SqlTimings_;
+                return mSqlTimings_;
             } 
         }
 
         #endregion
 
+        #region Constructors
+
         public Session(DbConnection connection)
         {
-            conn_ = connection;
+            mConn_ = connection;
         }
+
+        #endregion
+
+        #region Public Methods
 
         public void BeginTransaction()
         {
-            if (transactionInProgress_)
+            if (mTransactionInProgress_)
             {
-                Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, ErrorStrings.errTransactionAlreadyInProgress);
+                Error(ErrorLevel.Error, ErrorStrings.errTransactionAlreadyInProgress);
             }
             else
             {
-                transactionInProgress_ = true;
-                transaction_ = conn_.BeginTransaction();
+                mTransactionInProgress_ = true;
+                mTransaction_ = mConn_.BeginTransaction();
             }            
         }
 
@@ -139,35 +87,39 @@ namespace MPersist.Core
             {
                 if (!Status.IsCommitable() || MessageMode.Equals(MessageMode.Trial))
                 {
-                    Transaction.Rollback();
+                    mTransaction_.Rollback();
                 }
                 else
                 {
-                    Transaction.Commit();
+                    mTransaction_.Commit();
                 }
 
-                transaction_ = null;
-                transactionInProgress_ = false;
+                mTransaction_ = null;
+                mTransactionInProgress_ = false;
             }
         }
 
         public void FlushPersistence()
         {
-            if(persistencePool_.Count > 0)
+            while(mPersistencePool_.Count > 0)
             {
-                while(persistencePool_.Count > 0)
-                {
-                    persistencePool_[persistencePool_.Count - 1].Close();
-                }
+                mPersistencePool_[mPersistencePool_.Count - 1].Close();
             }
         }
 
-        public void Error(Type clazz, MethodBase method, ErrorLevel errorLevel, String message)
+        public void Error(ErrorLevel errorLevel, String message)
         {
-            Error(clazz, method, errorLevel, message, null);
+            StackFrame stackFrame = new StackFrame(1);
+            Error(stackFrame.GetMethod().DeclaringType, stackFrame.GetMethod(),  errorLevel, message, null);
+        }
+
+        public void Error(ErrorLevel errorLevel, String message, Object[] parameters)
+        {
+            StackFrame stackFrame = new StackFrame(1);
+            Error(stackFrame.GetMethod().DeclaringType, stackFrame.GetMethod(), errorLevel, message, parameters);
         }
         
-        public void Error(Type clazz, MethodBase method, ErrorLevel errorLevel, String message, Object[] parameters)
+        private void Error(Type clazz, MethodBase method, ErrorLevel errorLevel, String message, Object[] parameters)
         {
             ErrorMessage errorMessage = new ErrorMessage(clazz, method, errorLevel, message, parameters);
 
@@ -178,18 +130,21 @@ namespace MPersist.Core
 
             if (Status.Value < errorLevel.Value)
             {
-                status_ = errorLevel;
+                mStatus_ = errorLevel;
             }
 
             ErrorMessages.Add(errorMessage);
             Log.Error(errorMessage.Message);
-            errorMessage = null;
 
             if (!errorLevel.Equals(ErrorLevel.Warning) && !errorLevel.Equals(ErrorLevel.Info))
             {
-                throw new MPException(GetType(), MethodInfo.GetCurrentMethod(), "Arrgh!");
+                throw new MPException("Houston we have a problem!");
             }
         }
+
+        #endregion
+
+        #region Private Methods
 
         private Boolean Contains(ErrorLevel level)
         {
@@ -224,5 +179,7 @@ namespace MPersist.Core
 
             return list;
         }
+
+        #endregion
     }
 }

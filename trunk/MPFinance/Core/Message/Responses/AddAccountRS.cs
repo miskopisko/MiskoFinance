@@ -10,13 +10,13 @@ namespace MPFinance.Core.Message.Responses
 
         #region Parameters
 
-        public Account NewAccount { get; set; }
+        public BankAccount NewAccount { get; set; }
 
         #endregion
 
         public AddAccountRS()
         {
-            NewAccount = new Account();
+            NewAccount = new BankAccount();
         }
     }
 }

@@ -1,157 +1,163 @@
-﻿using System.Drawing;
-using System.Reflection;
-using System.Windows.Forms;
-using MPersist.Core;
-using MPersist.Core.Enums;
+﻿using MPersist.Core;
 using MPersist.Core.Message.Response;
-using MPFinance.Core.Data.Stored;
-using MPFinance.Core.Enums;
 using MPFinance.Core.Message.Requests;
 using MPFinance.Core.Message.Responses;
 using MPFinance.Core.OFX;
 using MPFinance.Forms.Panels;
 using MPFinance.Resources;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace MPFinance.Forms
 {
     public partial class ImportNewTransactionsDialog : Form
     {
+        private static Logger Log = Logger.GetInstance(typeof(ImportNewTransactionsDialog));
+
         #region Variable Declarations
 
         private ChooseAccountPanel mChooseAccountPanel_;
         private ChooseTransactionsPanel mChooseTransactionsPanel_;
-
         private OfxDocument mDocument_;
-        private Account mAccount_ = null;
 
         #endregion
 
         #region Properties
 
-
+        public ChooseAccountPanel ChooseAccountPanel { get { return mChooseAccountPanel_; } }
+        public ChooseTransactionsPanel ChooseTransactionsPanel { get { return mChooseTransactionsPanel_; } }
+        public OfxDocument OFXDocument { get { return mDocument_; } }
 
         #endregion
 
+        #region Constructor
+
         public ImportNewTransactionsDialog(OfxDocument document)
         {
-            mDocument_ = document;
-
-            mChooseAccountPanel_ = new ChooseAccountPanel(mDocument_);
-            mChooseTransactionsPanel_ = new ChooseTransactionsPanel();
+            mDocument_ = document;           
 
             AutoSize = true;
             AutoSizeMode = AutoSizeMode.GrowAndShrink;
 
             InitializeComponent();
+        }        
+
+        #endregion
+
+        #region Override Methods
+
+        protected override void OnLoad(System.EventArgs e)
+        {
+            mChooseAccountPanel_ = new ChooseAccountPanel(this);
+            mChooseTransactionsPanel_ = new ChooseTransactionsPanel();
+
+            mChooseAccountPanel_.OnCompletedWork += mChooseAccountPanel__OnCompletedWork;
+
+            tableLayoutPanel.Controls.Add(mChooseAccountPanel_, 0, 0);
+            tableLayoutPanel.Controls.Add(mChooseTransactionsPanel_, 0, 0);
 
             backBtn.Visible = false;
             nextBtn.Visible = true;
             importBtn.Visible = false;
-        }
 
-        protected override void OnLoad(System.EventArgs e)
-        {
-            tableLayoutPanel.Controls.Add(mChooseAccountPanel_, 0, 0);
-            tableLayoutPanel.Controls.Add(mChooseTransactionsPanel_, 0, 0);
-
-            Text = "Choose an account to add the transactions to...";
             mChooseAccountPanel_.Visible = true;
-            mChooseTransactionsPanel_.Visible = false;            
-            repositionWindow();
+            mChooseTransactionsPanel_.Visible = false;
+
+            Text = Strings.strChooseAnAccount;
+
+            RepositionWindow();
         }
 
-        private void repositionWindow()
+        #endregion
+
+        #region Public Methods
+
+        
+
+        #endregion
+
+        #region Private Methods
+
+        private void CheckDuplicateTxnsSuccess(AbstractResponse Response)
+        {
+            Text = Strings.strChooseTxnsToAdd;
+
+            mChooseAccountPanel_.Visible = false;
+            mChooseTransactionsPanel_.Visible = true;
+
+            backBtn.Visible = true;
+            backBtn.Enabled = true;
+            nextBtn.Visible = false;
+            nextBtn.Enabled = false;
+            importBtn.Visible = true;
+            importBtn.Enabled = true;
+
+            RepositionWindow();
+
+            mChooseTransactionsPanel_.importedTransactionsGridView.DataSource = ((CheckDuplicateTxnsRS)Response).Txns;
+        }
+
+        private void ImportTxnsSuccess(AbstractResponse Response)
+        {
+            Dispose();
+        }
+
+        private void RepositionWindow()
         {
             if (Owner != null && StartPosition == FormStartPosition.Manual)
             {
                 int offset = Owner.OwnedForms.Length * 38;  // approx. 10mm
                 Point p = new Point(Owner.Left + Owner.Width / 2 - Width / 2 + offset, Owner.Top + Owner.Height / 2 - Height / 2 + offset);
-                this.Location = p;
+                Location = p;
             }
+        }
+
+        #endregion
+
+        #region Event Listenners
+
+        private void mChooseAccountPanel__OnCompletedWork()
+        {
+            Text = Strings.strCheckingForDuplicateTxns;
+
+            nextBtn.Enabled = false;
+
+            CheckDuplicateTxnsRQ request = new CheckDuplicateTxnsRQ();
+            request.Account = mChooseAccountPanel_.Account;
+            request.OfxDucument = mDocument_;
+            MessageProcessor.SendRequest(request, CheckDuplicateTxnsSuccess);            
         }
 
         private void nextBtn_Click(object sender, System.EventArgs e)
         {
-            if (mChooseAccountPanel_.createNewAccount.Checked)
-            {
-                AddAccountRQ request = new AddAccountRQ();
-                request.Account = new Account();
-                request.Account.Operator = MPFinanceMain.Instance.Operator;
-                request.Account.AccountNumber = mChooseAccountPanel_.AccountNumber.Text.Trim();
-                request.Account.BankNumber = mChooseAccountPanel_.BankName.Text.Trim();
-                request.Account.Nickname = mChooseAccountPanel_.Nickname.Text.Trim();
-                request.Account.AccountType = (AccountType)mChooseAccountPanel_.AccountTypeCmb.SelectedItem;
-                request.Account.OpeningBalance = mChooseAccountPanel_.OpeningBalance.Value;
-                request.MessageMode = MessageMode.Trial; // We dont want to save the account just yet
-                MessageProcessor.SendRequest(request, ResponseRecieved);
-            }
-            else if (mChooseAccountPanel_.existingAccount.Checked)
-            {
-                if (mChooseAccountPanel_.existingAccounts.CheckedItems.Count == 0)
-                {
-                    throw new MPException(GetType(), MethodInfo.GetCurrentMethod(), ErrorStrings.errChooseExistingAccount);
-                }
-                else if (mChooseAccountPanel_.existingAccounts.CheckedItems.Count > 1)
-                {
-                    throw new MPException(GetType(), MethodInfo.GetCurrentMethod(), ErrorStrings.errChooseOnlyOneExistingAccount);
-                }
-                else
-                {
-                    mAccount_ = (Account)mChooseAccountPanel_.existingAccounts.CheckedItems[0];
-
-                    CheckDuplicateTxnsRQ request = new CheckDuplicateTxnsRQ();
-                    request.Account = mAccount_;
-                    request.OfxDucument = mDocument_;
-                    MessageProcessor.SendRequest(request, ResponseRecieved);                    
-                }
-            }
+            mChooseAccountPanel_.GetAccount();
         }
 
         private void importBtn_Click(object sender, System.EventArgs e)
         {
             ImportTxnsRQ request = new ImportTxnsRQ();
-            request.Account = mAccount_;
+            request.Account = ChooseAccountPanel.Account;
             request.VwTxns = mChooseTransactionsPanel_.importedTransactionsGridView.GetSelected();
-            MessageProcessor.SendRequest(request, ResponseRecieved);
+            MessageProcessor.SendRequest(request, ImportTxnsSuccess);
         }
 
         private void backBtn_Click(object sender, System.EventArgs e)
         {
+            Text = Strings.strChooseAnAccount;
+
             mChooseAccountPanel_.Visible = true;
             mChooseTransactionsPanel_.Visible = false;
-            Text = "Choose an account to add the transactions to...";
+
             backBtn.Visible = false;
+            backBtn.Enabled = false;
             nextBtn.Visible = true;
+            nextBtn.Enabled = true;
             importBtn.Visible = false;
-            repositionWindow();
+            importBtn.Enabled = false;
+
+            RepositionWindow();
         }
 
-        public void ResponseRecieved(AbstractResponse response)
-        {
-            if (!response.HasErrors && response is AddAccountRS)
-            {
-                mAccount_ = ((AddAccountRS)response).NewAccount;
-
-                CheckDuplicateTxnsRQ request = new CheckDuplicateTxnsRQ();
-                request.Account = mAccount_;
-                request.OfxDucument = mDocument_;
-                MessageProcessor.SendRequest(request, ResponseRecieved);
-            }
-            else if (!response.HasErrors && response is CheckDuplicateTxnsRS)
-            {
-                Text = "Inspect the transactions to be added...";
-                mChooseAccountPanel_.Visible = false;
-                mChooseTransactionsPanel_.VwTxns = ((CheckDuplicateTxnsRS)response).Txns;
-                mChooseTransactionsPanel_.Visible = true;
-                backBtn.Visible = true;
-                nextBtn.Visible = false;
-                importBtn.Visible = true;
-                repositionWindow();
-            }
-            else if (!response.HasErrors && response is ImportTxnsRS)
-            {
-                Dispose();
-            }
-        }
+        #endregion
     }
 }

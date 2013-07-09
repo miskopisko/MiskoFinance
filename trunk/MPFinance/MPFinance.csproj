@@ -65,8 +65,11 @@
   <ItemGroup>
     <Compile Include="Core\Data\Stored\Account.cs" />
     <Compile Include="Core\Data\Stored\Accounts.cs" />
+    <Compile Include="Core\Data\Stored\BankAccount.cs" />
+    <Compile Include="Core\Data\Stored\BankAccounts.cs" />
     <Compile Include="Core\Data\Stored\Categories.cs" />
     <Compile Include="Core\Data\Stored\Category.cs" />
+    <Compile Include="Core\Data\Stored\Txn.cs" />
     <Compile Include="Core\Data\Stored\Txns.cs" />
     <Compile Include="Core\Data\Viewed\VwSummary.cs" />
     <Compile Include="Core\Data\Viewed\VwTxn.cs" />
@@ -94,7 +97,7 @@
     <Compile Include="Core\Message\Requests\GetTxnsRQ.cs" />
     <Compile Include="Core\Message\Requests\GetOperatorRQ.cs" />
     <Compile Include="Core\Message\Requests\ImportTxnsRQ.cs" />
-    <Compile Include="Core\Message\Requests\UpdateAccountRQ.cs" />
+    <Compile Include="Core\Message\Requests\UpdateAccountsRQ.cs" />
     <Compile Include="Core\Message\Requests\UpdateCategoriesRQ.cs" />
     <Compile Include="Core\Message\Requests\UpdateTxnRQ.cs" />
     <Compile Include="Core\Message\Responses\AddAccountRS.cs" />
@@ -106,15 +109,13 @@
     <Compile Include="Core\Message\Responses\GetTxnsRS.cs" />
     <Compile Include="Core\Message\Responses\GetOperatorRS.cs" />
     <Compile Include="Core\Message\Responses\ImportTxnsRS.cs" />
-    <Compile Include="Core\Message\Responses\UpdateAccountRS.cs" />
+    <Compile Include="Core\Message\Responses\UpdateAccountsRS.cs" />
     <Compile Include="Core\Message\Responses\UpdateCategoriesRS.cs" />
     <Compile Include="Core\Message\Responses\UpdateTxnRS.cs" />
-    <Compile Include="Core\Message\UpdateAccount.cs" />
+    <Compile Include="Core\Message\UpdateAccounts.cs" />
     <Compile Include="Core\Message\UpdateCategories.cs" />
     <Compile Include="Core\Message\UpdateTxn.cs" />
     <Compile Include="Core\OFX\OfxDocument.cs" />
-    <Compile Include="Core\Data\Stored\Txn.cs" />
-    <Compile Include="Core\Settings\PropertyBag.cs" />
     <Compile Include="Forms\AboutDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -219,6 +220,11 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Resources\ConfirmStrings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -299,6 +305,10 @@
       <DependentUpon>SettingsDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\ConfirmStrings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ConfirmStrings.Designer.cs</LastGenOutput>
@@ -368,6 +378,7 @@
   <ItemGroup>
     <Content Include="DBA\Oracle\Views.sql" />
     <Content Include="DBA\Sqlite\Views.sql" />
+    <None Include="Resources\Piggy Bank.jpg" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

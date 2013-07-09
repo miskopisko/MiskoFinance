@@ -24,14 +24,25 @@ CREATE TABLE Account
 ( 
     Id				int(10) NOT NULL AUTO_INCREMENT,
 	Operator		int(10),
-	AccountType		int(3),
-	BankNumber		varchar(128),
-	AccountNumber	varchar(128),
-	Nickname		varchar(128),
-	OpeningBalance	numeric(19,4),
+	AccountType		int(3),	
     DtCreated		datetime NOT NULL,
     DtModified		datetime NOT NULL,
     RowVer			int(10) NOT NULL,
+	PRIMARY KEY (Id)
+) ENGINE=InnoDB AUTO_INCREMENT = 1000001;
+
+-- BankAccount - Default table template
+DROP TABLE IF EXISTS BankAccount;
+CREATE TABLE BankAccount
+( 
+    Id			    int(10) NOT NULL AUTO_INCREMENT,
+    BankNumber		varchar(128),
+	AccountNumber	varchar(128),
+	Nickname		varchar(128),
+	OpeningBalance  numeric(19,4),
+    DtCreated       datetime NOT NULL,
+    DtModified      datetime NOT NULL,
+    RowVer		    int(10) NOT NULL,
 	PRIMARY KEY (Id)
 ) ENGINE=InnoDB AUTO_INCREMENT = 1000001;
 

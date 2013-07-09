@@ -1,9 +1,9 @@
-using System;
 using MPersist.Core;
 using MPersist.Core.Attributes;
 using MPersist.Core.Data;
 using MPersist.Core.Enums;
 using MPFinance.Core.Enums;
+using System;
 
 namespace MPFinance.Core.Data.Stored
 {
@@ -38,7 +38,8 @@ namespace MPFinance.Core.Data.Stored
 
         #region Other Properties
 
-        
+        public BankAccounts BankAccounts { get; set; }
+        public Categories Categories { get; set; }
 
         #endregion
 
@@ -46,17 +47,13 @@ namespace MPFinance.Core.Data.Stored
 
         public Operator()
         {
+            BankAccounts = new BankAccounts();
+            Categories = new Categories();
+            Categories.Add(new Category(this, "---", CategoryType.NULL, Status.Active));
         }
 
         public Operator(Session session, Persistence persistence) : base(session, persistence)
         {
-        }
-
-        public Operator(String username, String password)
-        {
-            IsSet = true;
-            Username = username;
-            Password = password;
         }
 
         #endregion
@@ -81,16 +78,13 @@ namespace MPFinance.Core.Data.Stored
 
         #region Public Methods
 
-        public static Operator FetchByUsername(Session session, String username)
+        public static Operator GetInstanceByUsername(Session session, String username)
         {
-            Operator result = null;
+            Operator result = new Operator();
 
             Persistence p = Persistence.GetInstance(session);
             p.ExecuteQuery("SELECT * FROM Operator WHERE Username = ?", new Object[] { username });
-            if(p.HasNext)
-            {
-                result = new Operator(session, p);
-            }
+            result.Set(session, p);
             p.Close();
             p = null;
 

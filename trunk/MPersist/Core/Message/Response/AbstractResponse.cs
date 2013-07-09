@@ -1,4 +1,5 @@
 ﻿using MPersist.Core.Data;
+using MPersist.Core.Debug;
 using MPersist.Core.Enums;
 using System;
 
@@ -25,6 +26,8 @@ namespace MPersist.Core.Message.Response
         public MessageMode MessageMode { get; set; }
 
         public Page Page { get; set; }
+
+        public MessageTiming MessageTiming { get; set; }
 
         #endregion
 

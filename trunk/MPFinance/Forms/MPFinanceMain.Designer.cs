@@ -32,7 +32,6 @@
             System.Windows.Forms.Label label6;
             System.Windows.Forms.Label label7;
             System.Windows.Forms.Label label1;
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Accounts");
             MPersist.Core.Data.Page page1 = new MPersist.Core.Data.Page();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MPFinanceMain));
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
@@ -54,7 +53,6 @@
             this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.debugWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.AccountsList = new System.Windows.Forms.TreeView();
             this.MainLayout = new System.Windows.Forms.TableLayoutPanel();
             this.summaryPanel = new MPFinance.Forms.Panels.SummaryPanel();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -70,6 +68,7 @@
             this.PageCountsLbl = new System.Windows.Forms.ToolStripStatusLabel();
             this.TransactionCountsLbl = new System.Windows.Forms.ToolStripStatusLabel();
             this.ChartsPanel = new System.Windows.Forms.Panel();
+            this.AccountsList = new System.Windows.Forms.ListBox();
             toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             label6 = new System.Windows.Forms.Label();
             label7 = new System.Windows.Forms.Label();
@@ -123,7 +122,7 @@
             // 
             // openFileDialog
             // 
-            this.openFileDialog.FileName = "OpenFileDialog";
+            this.openFileDialog.Filter = "OFX Files|*.ofx";
             // 
             // StatusStrip
             // 
@@ -264,30 +263,15 @@
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
-            // AccountsList
-            // 
-            this.AccountsList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.AccountsList.Location = new System.Drawing.Point(3, 27);
-            this.AccountsList.Name = "AccountsList";
-            treeNode1.Checked = true;
-            treeNode1.Name = "Accounts";
-            treeNode1.Text = "Accounts";
-            this.AccountsList.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1});
-            this.MainLayout.SetRowSpan(this.AccountsList, 2);
-            this.AccountsList.Size = new System.Drawing.Size(244, 129);
-            this.AccountsList.TabIndex = 5;
-            this.AccountsList.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.AccountsView_AfterSelect);
-            // 
             // MainLayout
             // 
             this.MainLayout.ColumnCount = 2;
             this.MainLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 250F));
             this.MainLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.MainLayout.Controls.Add(this.AccountsList, 0, 0);
             this.MainLayout.Controls.Add(this.summaryPanel, 0, 2);
             this.MainLayout.Controls.Add(this.panel1, 1, 0);
             this.MainLayout.Controls.Add(this.ChartsPanel, 0, 3);
+            this.MainLayout.Controls.Add(this.AccountsList, 0, 0);
             this.MainLayout.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MainLayout.Location = new System.Drawing.Point(0, 0);
             this.MainLayout.Name = "MainLayout";
@@ -474,6 +458,17 @@
             this.ChartsPanel.Size = new System.Drawing.Size(1178, 300);
             this.ChartsPanel.TabIndex = 13;
             // 
+            // AccountsList
+            // 
+            this.AccountsList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.AccountsList.FormattingEnabled = true;
+            this.AccountsList.Location = new System.Drawing.Point(3, 27);
+            this.AccountsList.Name = "AccountsList";
+            this.MainLayout.SetRowSpan(this.AccountsList, 2);
+            this.AccountsList.Size = new System.Drawing.Size(244, 129);
+            this.AccountsList.TabIndex = 14;
+            this.AccountsList.SelectedIndexChanged += new System.EventHandler(this.AccountsList_SelectedIndexChanged);
+            // 
             // MPFinanceMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -526,7 +521,6 @@
         private System.Windows.Forms.ToolStripProgressBar messageStatusBar;
         private System.Windows.Forms.ToolStripStatusLabel messageStatusLbl;
         private System.Windows.Forms.TableLayoutPanel MainLayout;
-        public System.Windows.Forms.TreeView AccountsList;
         private Panels.SummaryPanel summaryPanel;
         private System.Windows.Forms.Button MoreBtn;
         private System.Windows.Forms.Button txnSearch;
@@ -542,5 +536,6 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.ComboBox AllCategoriesCmb;
         private System.Windows.Forms.ToolStripMenuItem debugWindowToolStripMenuItem;
+        private System.Windows.Forms.ListBox AccountsList;
     }
 }

@@ -1,7 +1,3 @@
-using System;
-using System.ComponentModel;
-using System.Reflection;
-using System.Windows.Forms;
 using MPersist.Core.Debug;
 using MPersist.Core.Enums;
 using MPersist.Core.Interfaces;
@@ -9,6 +5,10 @@ using MPersist.Core.Message;
 using MPersist.Core.Message.Request;
 using MPersist.Core.Message.Response;
 using MPersist.Core.Resources;
+using System;
+using System.ComponentModel;
+using System.Reflection;
+using System.Windows.Forms;
 
 namespace MPersist.Core
 {
@@ -18,16 +18,14 @@ namespace MPersist.Core
 
         #region Delegates
 
-        public delegate void SuccessEventHandler(AbstractResponse Response);
-        public delegate void ErrorEventHandler(AbstractResponse Response);
+        public delegate void MessageCompleteHandler(AbstractResponse Response);
 
         #endregion
 
         #region Variable Declarations
 
-        private readonly AbstractRequest mRequest_;
-        private readonly SuccessEventHandler mSuccess_;
-        private readonly ErrorEventHandler mError_;
+        private readonly MessageCompleteHandler mSuccessHandler_;
+        private readonly MessageCompleteHandler mErrorHandler_;
 
         private static int active = 0;
 
@@ -35,221 +33,145 @@ namespace MPersist.Core
 
         #region Properties
 
-        public static IOController IOController { get; set; }
-        public static Int32? RowsPerPage { get; set; }
-        public static ConnectionSettings ConnectionSettings { get; set; }
+        public static IOController IOController { get; set; }        
 
         #endregion
 
         #region Constructors
 
-        private MessageProcessor(AbstractRequest request, SuccessEventHandler successfulHandler, ErrorEventHandler errorHandler)
+        private MessageProcessor(MessageCompleteHandler successHandler, MessageCompleteHandler errorHandler)
         {
-            if(IOController == null)
+            if (IOController == null)
             {
-                throw new MPException(GetType(), MethodInfo.GetCurrentMethod(), ErrorStrings.errIOControllerIsNull);
+                throw new MPException(ErrorStrings.errIOControllerIsNull);
             }
 
-            if (String.IsNullOrEmpty(ConnectionSettings.ConnectionString))
-            {
-                throw new MPException(GetType(), MethodInfo.GetCurrentMethod(), ErrorStrings.errConnectionSettingsNotDefined);
-            }
-
-            if (!RowsPerPage.HasValue)
-            {
-                RowsPerPage = 15; // Default
-            }
-
-            mRequest_ = request;
-            mSuccess_ = successfulHandler;
-            mError_ = errorHandler;
+            mSuccessHandler_ = successHandler;
+            mErrorHandler_ = errorHandler;
         }
 
         #endregion
 
         #region Private Methods
 
-        private void Done(AbstractResponse response)
-        {
-            active--;
-
-            if (IOController is Control && ((Control)IOController).InvokeRequired)
-            {
-                ((Control)IOController).Invoke(new MethodInvoker(delegate { IOController.MessageReceived(Strings.strPorcessing); }));
-            }
-            else
-            {
-                IOController.MessageReceived(Strings.strPorcessing);
-            }
-
-            if (response != null)
-            {
-                if (mSuccess_ != null && !response.HasErrors)
-                {
-                    if (mSuccess_.Target is Control && ((Control)(mSuccess_.Target)).InvokeRequired)
-                    {
-                        try
-                        {
-                            ((Control)(mSuccess_.Target)).Invoke(mSuccess_, new Object[] { response });
-                        }
-                        catch (Exception e)
-                        {
-                            ErrorMessage message = new ErrorMessage(typeof(MessageProcessor), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, ErrorStrings.errUnexpectedApplicationErrorLong, new Object[] { e.Message, e.StackTrace });
-                            ((Control)IOController).Invoke(new MethodInvoker(delegate { IOController.Error(message); }));
-                        }
-                    }
-                    else
-                    {
-                        mSuccess_(response);
-                    }
-                }
-            }
-
-            if (IOController is Control && ((Control)IOController).InvokeRequired)
-            {
-                ((Control)IOController).Invoke(new MethodInvoker(delegate { IOController.MessageReceived(active == 0 ? Strings.strSuccess : Strings.strPorcessing); }));
-            }
-            else
-            {
-                IOController.MessageReceived(active == 0 ? Strings.strSuccess : Strings.strPorcessing);
-            }
-        }
-
-        private void SendRequest()
+        private void SendRequest(AbstractRequest request)
         {
             active++;
 
-            if (IOController is Control && ((Control)IOController).InvokeRequired)
-            {
-                ((Control)IOController).Invoke(new MethodInvoker(delegate { IOController.MessageSent(Strings.strMessageSent); }));
-            }
-            else
-            {
-                IOController.MessageSent(Strings.strMessageSent);
-            }
-
             BackgroundWorker bw = new BackgroundWorker();
-            bw.DoWork += new DoWorkEventHandler(Start);
-            bw.RunWorkerAsync();
+            bw.DoWork += DoWork;
+            bw.RunWorkerCompleted += RunWorkerCompleted;
+            bw.RunWorkerAsync(request);
 
-            if (IOController is Control && ((Control)IOController).InvokeRequired)
-            {
-                ((Control)IOController).Invoke(new MethodInvoker(delegate { IOController.MessageSent(Strings.strPorcessing); }));
-            }
-            else
-            {
-                IOController.MessageSent(Strings.strPorcessing);
-            }
+            HandleEvent(IOController, IOController.GetType().GetMethod("MessageSent"), new Object[] { Strings.strPorcessing });
         }
 
-        private void Start(object sender, DoWorkEventArgs e)
+        private void DoWork(object sender, DoWorkEventArgs e)
         {
             AbstractResponse response;
-            Boolean ResendMessage = false;
-            Session session = new Session(ServiceLocator.GetConnection(ConnectionSettings));
-            session.MessageMode = mRequest_.MessageMode;
-            session.RowPerPage = RowsPerPage.Value;
+            AbstractRequest request = e.Argument as AbstractRequest;
+            Boolean resendMessage = false;
+            Session session = new Session(ServiceLocator.GetConnection());
+            session.MessageMode = request.MessageMode;
+            session.RowPerPage = IOController.RowsPerPage;
 
             do
             {
-                ResendMessage = false;
-                response = Process(session, mRequest_);
-                response.MessageMode = mRequest_.MessageMode;
+                resendMessage = false;
+                response = Process(session, request);
+                response.MessageMode = request.MessageMode;
 
                 if (response != null) // Now display warnings and error messages.
                 {
                     for (int i = 0; i < session.ErrorMessages.Count; i++)
                     {
-                        ErrorMessage Message = session.ErrorMessages[i];
-                        if (Message.Level.Equals(ErrorLevel.Error))
+                        ErrorMessage errorMessage = session.ErrorMessages[i];
+
+                        if (errorMessage.Level.Equals(ErrorLevel.Error))
                         {
                             if (IOController is Control)
                             {
-                                ((Control)IOController).Invoke(new MethodInvoker(delegate { IOController.Error(Message); }));
+                                ((Control)IOController).Invoke(new MethodInvoker(delegate { IOController.Error(errorMessage); }));
                             }
                         }
-                        else if (Message.Level.Equals(ErrorLevel.Warning))
+                        else if (errorMessage.Level.Equals(ErrorLevel.Warning))
                         {
                             if (IOController is Control)
                             {
-                                ((Control)IOController).Invoke(new MethodInvoker(delegate { IOController.Warning(Message); }));
+                                ((Control)IOController).Invoke(new MethodInvoker(delegate { IOController.Warning(errorMessage); }));
                             }
-                            session.Warnings.Add(Message);
+                            session.Warnings.Add(errorMessage);
                         }
-                        else if (Message.Level.Equals(ErrorLevel.Info))
+                        else if (errorMessage.Level.Equals(ErrorLevel.Info))
                         {
                             if (IOController is Control)
                             {
-                                ((Control)IOController).Invoke(new MethodInvoker(delegate { IOController.Info(Message); }));
+                                ((Control)IOController).Invoke(new MethodInvoker(delegate { IOController.Info(errorMessage); }));
                             }
                         }
-                        else if (Message.Level.Equals(ErrorLevel.Confirmation))
+                        else if (errorMessage.Level.Equals(ErrorLevel.Confirmation))
                         {
-                            if (!Message.Confirmed)
+                            if (!errorMessage.Confirmed)
                             {
                                 if (IOController is Control)
                                 {
-                                    Func<DialogResult> showMsg = () => IOController.Confirm(Message);
+                                    Func<DialogResult> showMsg = () => IOController.Confirm(errorMessage);
                                     DialogResult result = (DialogResult)((Control)IOController).Invoke(showMsg);
 
                                     if (result == DialogResult.Yes)
                                     {
                                         session.Status = ErrorLevel.Success;
-                                        Message.Confirmed = true;
-                                        session.Confirmations.Add(Message);
-                                        ResendMessage = true;
+                                        errorMessage.Confirmed = true;
+                                        resendMessage = true;
                                     }
                                     else
                                     {
-                                        response = null;
-                                        session.Connection.Close();
-                                        Done(response);
-                                        return;
+                                        response.HasErrors = true;
+                                        break;
                                     }
                                 }
                             }
                             else // Already confirmed.
                             {
-                                session.Confirmations.Add(Message);
+                                session.Confirmations.Add(errorMessage);
                             }
                         }
                     }
                 }
             }
-            while (response != null && ResendMessage);
+            while (response != null && resendMessage);
 
             session.Connection.Close();
-            Done(response);
+            e.Result = response;
         }
 
-        private AbstractResponse Process(Session session, AbstractRequest Request)
+        private AbstractResponse Process(Session session, AbstractRequest request)
         {
-            AbstractResponse Response = null;
-            AbstractMessage Wrapper = null;
-            MessageTiming Timing = null;
-
-            if (Request != null)
+            if (request != null)
             {
-                ErrorMessage errMessage = null;
-                DateTime StartTime = DateTime.Now;
+                AbstractResponse response = null;
+                AbstractMessage wrapper = null;
+                DateTime startTime = DateTime.Now;
 
                 try
                 {
-                    String msgName = Request.GetType().Name.Substring(0, Request.GetType().Name.Length - 2);
-                    String msgPath = Request.GetType().FullName.Replace("Requests." + msgName + "RQ", "");
+                    String msgName = request.GetType().Name.Substring(0, request.GetType().Name.Length - 2);
+                    String msgPath = request.GetType().FullName.Replace("Requests." + msgName + "RQ", "");
 
-                    Response = (AbstractResponse)Assembly.GetEntryAssembly().CreateInstance(msgPath + "Responses." + msgName + "RS");                    
-                    Wrapper = (AbstractMessage)Assembly.GetEntryAssembly().CreateInstance(msgPath + msgName, false, BindingFlags.CreateInstance, null, new object[] { Request, Response }, null, null);
+                    response = (AbstractResponse)Assembly.GetEntryAssembly().CreateInstance(msgPath + "Responses." + msgName + "RS");
+                    wrapper = (AbstractMessage)Assembly.GetEntryAssembly().CreateInstance(msgPath + msgName, false, BindingFlags.CreateInstance, null, new object[] { request, response }, null, null);
 
-                    Timing = new MessageTiming(Wrapper);
+                    response.MessageTiming = new MessageTiming(wrapper);
 
                     session.BeginTransaction();
 
-                    Wrapper.GetType().InvokeMember(Request.Command, BindingFlags.Default | BindingFlags.InvokeMethod, null, Wrapper, new Object[] { session });
+                    wrapper.GetType().InvokeMember(request.Command, BindingFlags.Default | BindingFlags.InvokeMethod, null, wrapper, new Object[] { session });
                 }
-                catch (Exception ex)
+                catch (Exception e)
                 {
-                    Exception ActualException = ex;
+                    session.Status = ErrorLevel.Error;
+
+                    Exception ActualException = e;
 
                     while (ActualException.InnerException != null)
                     {
@@ -258,76 +180,95 @@ namespace MPersist.Core
 
                     if (ActualException is MPException)
                     {
-                        MPException ex1 = (MPException)ActualException;
+                        MPException ex = (MPException)ActualException;
 
                         // Ignore the generic exception thrown from session.Error
-                        if(!(ex1.Class.Name.Equals("Session") && ex1.Method.Name.Equals("Error")))
+                        if (!(ex.Class.Name.Equals("Session") && ex.Method.Name.Equals("Error")))
                         {
-                            if (ex1.ErrorMessage != null)
-                            {
-                                Log.Error("Unexpected Error: (" + ex1.Message + ")", ex1);
-                                errMessage = ex1.ErrorMessage;                                
-                                session.Status = ErrorLevel.Error;
-                                session.ErrorMessages.Add(errMessage);
-                            }
-                            else
-                            {
-                                Log.Error("Unexpected Error: (" + ex1.Message + ")", ex1);
-                                errMessage = new ErrorMessage(ex1.Class, ex1.Method, ErrorLevel.Error, ErrorStrings.errUnexpectedApplicationErrorShort, new Object[] { ex1.Message });
-                                session.Status = ErrorLevel.Error;
-                                session.ErrorMessages.Add(errMessage);
-                            }
+                            Log.Error("Unexpected Error: (" + ex.Message + ")", ex);
+                            session.ErrorMessages.Add(ex.ErrorMessage);
                         }
                     }
                     else
                     {
                         Log.Error("Unexpected Error: (" + ActualException.Message + ")", ActualException);
-                        errMessage = new ErrorMessage(typeof(MessageProcessor), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, ErrorStrings.errUnexpectedApplicationErrorLong, new Object[] { ActualException.Message, ActualException.StackTrace });
-                        session.Status = ErrorLevel.Error;
-                        session.ErrorMessages.Add(errMessage);
-                    }                    
+                        session.ErrorMessages.Add(new ErrorMessage(ActualException));
+                    }
                 }
                 finally
                 {
                     if (session != null)
                     {
-                        Timing.EndTime = DateTime.Now;
-
                         session.EndTransaction();
                         session.FlushPersistence();
 
-                        if (Response != null)
+                        if (response != null)
                         {
-                            Response.HasErrors = session.HasErrors;
-                            Response.HasWarnings = session.HasWarnings;
-                            Response.HasConfirmations = session.HasConfirmations;
-                            Response.Page = Request.Page;
-                        }
-
-                        Timing.SqlTimings = session.SqlTimings;
+                            response.HasErrors = session.HasErrors;
+                            response.HasWarnings = session.HasWarnings;
+                            response.HasConfirmations = session.HasConfirmations;
+                            response.MessageTiming.EndTime = DateTime.Now;
+                            response.MessageTiming.SqlTimings = session.SqlTimings;
+                            response.Page = request.Page;
+                        }                        
                     }
-
-                    if (IOController is Control && ((Control)IOController).InvokeRequired)
-                    {
-                        ((Control)IOController).Invoke(new MethodInvoker(delegate { IOController.Debug(Timing); }));
-                    }
-                    else
-                    {
-                        IOController.Debug(Timing);
-                    }                    
                 }
+
+                return response;
             }
 
-            return Response;
+            return null;
+        }
+
+        private void RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            AbstractResponse response = e.Result as AbstractResponse;
+            Boolean errorEncountered = e.Error != null || response.HasErrors;
+            active--;
+
+            // No errors in the message; call the successfulHandler
+            if (!errorEncountered && mSuccessHandler_ != null)
+            {
+                errorEncountered = errorEncountered | !HandleEvent(mSuccessHandler_.Target, mSuccessHandler_.Method, new Object[] { response });
+            }
+
+            // If errors in the message OR errors on the successfulHandler then call errorHandler
+            if (errorEncountered && mErrorHandler_ != null)
+            {
+                errorEncountered = errorEncountered | !HandleEvent(mErrorHandler_.Target, mErrorHandler_.Method, new Object[] { response });
+            }
+
+            HandleEvent(IOController, IOController.GetType().GetMethod("Debug"), new Object[] { response.MessageTiming });
+
+            HandleEvent(IOController, IOController.GetType().GetMethod("MessageReceived"), new Object[] { active == 0 ? errorEncountered ? Strings.strError : Strings.strSuccess : Strings.strPorcessing });
+        }
+
+        private Boolean HandleEvent(Object target, MethodInfo method, Object[] args)
+        {
+            try
+            {
+                method.Invoke(target, args);
+                return true;
+            }
+            catch (Exception e)
+            {
+                IOController.Error(new ErrorMessage(target.GetType(), method, ErrorLevel.Error, e.InnerException.Message));
+                return false;
+            }
         }
 
         #endregion
 
         #region Public Methods
 
-        public static void SendRequest(AbstractRequest request, SuccessEventHandler successfulHandler)
+        public static void SendRequest(AbstractRequest request, MessageCompleteHandler successHandler)
         {
-            new MessageProcessor(request, successfulHandler, null).SendRequest();
+            SendRequest(request, successHandler, null);
+        }
+
+        public static void SendRequest(AbstractRequest request, MessageCompleteHandler successHandler, MessageCompleteHandler errorHandler)
+        {
+            new MessageProcessor(successHandler, errorHandler).SendRequest(request);
         }
 
         #endregion

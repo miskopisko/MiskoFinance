@@ -46,13 +46,13 @@ namespace MPFinance.Core.Message
             }
             else
             {
-                session.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Error, ErrorStrings.errInvalidAccount);
+                session.Error(ErrorLevel.Error, ErrorStrings.errInvalidAccount);
             }
 
             foreach (VwTxn vwTxn in Request.VwTxns)
             {
                 Txn txn = new Txn();
-                txn.Account = Request.Account;
+                txn.Account = Request.Account.Id;
                 txn.Amount = vwTxn.Amount;
                 txn.DatePosted = vwTxn.DatePosted;
                 txn.Description = vwTxn.Description;

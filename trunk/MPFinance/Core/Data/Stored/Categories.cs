@@ -1,7 +1,7 @@
-using System;
 using MPersist.Core;
 using MPersist.Core.Data;
 using MPFinance.Core.Enums;
+using System;
 
 namespace MPFinance.Core.Data.Stored
 {
@@ -37,12 +37,26 @@ namespace MPFinance.Core.Data.Stored
 
         #region Public Methods
 
-        public void FetchByComposite(Session session, Operator o, CategoryType type, Status status)
+        public Categories GetByType(CategoryType type)
+        {
+            Categories result = new Categories();
+
+            foreach (Category category in this)
+            {
+                if (category.CategoryType.Equals(type))
+                {
+                    result.Add(category);
+                }
+            }
+
+            return result;
+        }
+
+        public void FetchByComposite(Session session, Operator o, Status status)
         {
             Persistence p = Persistence.GetInstance(session);
             p.SetSql("SELECT * FROM Category");
             p.SqlWhere(true, "Operator = ?", new Object[]{ o }); 
-            p.SqlWhere(type != null && type.IsSet, "CategoryType = ?", new Object[]{ type }); 
             p.SqlWhere(status != null && status.IsSet, "Status = ?", new Object[]{ status });
             p.ExecuteQuery();
             Set(session, p);

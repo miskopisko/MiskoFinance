@@ -1,6 +1,4 @@
 ﻿using MPersist.Core;
-using MPFinance.Core.Data.Viewed;
-using System;
 using System.Windows.Forms;
 
 namespace MPFinance.Forms.Panels
@@ -9,25 +7,46 @@ namespace MPFinance.Forms.Panels
     {
         private static Logger Log = Logger.GetInstance(typeof(ChooseTransactionsPanel));
 
-        #region Properties
+        #region Variable Declarations
 
-        public VwTxns VwTxns { get; set; }
+
 
         #endregion
 
+        #region Properties
+
+
+
+        #endregion
+
+        #region Constructor
+
         public ChooseTransactionsPanel()
         {
-            InitializeComponent();
+            InitializeComponent();            
+        }
+
+        #endregion
+
+        #region Override Methods
+
+        protected override void OnLoad(System.EventArgs e)
+        {
             importedTransactionsGridView.FillColumns();
         }
 
-        protected override void OnVisibleChanged(EventArgs e)
-        {
-            if (Visible)
-            {
-                importedTransactionsGridView.DataSource = VwTxns;
-                Parent.Text = "Choose transactions to add...";
-            }
-        }
+        #endregion
+
+        #region Private Methods
+
+
+
+        #endregion
+
+        #region Public Methods
+
+
+
+        #endregion
     }
 }

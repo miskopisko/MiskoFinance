@@ -46,11 +46,11 @@ namespace MPFinance.Core.Message
 
         public override void Execute(Session session)
         {
-            Response.Operator = Operator.FetchByUsername(session, Request.Username);
+            Response.Operator = Operator.GetInstanceByUsername(session, Request.Username);
 
             if (Response.Operator == null || Response.Operator.IsNotSet)
             {
-                session.Error(GetType(), MethodInfo.GetCurrentMethod(), ErrorLevel.Confirmation, ConfirmStrings.conConfirmNewUser, new object[]{ Request.Username });
+                session.Error(ErrorLevel.Confirmation, ConfirmStrings.conConfirmNewUser, new object[]{ Request.Username });
 
                 Response.Operator = new Operator();
                 Response.Operator.Username = Request.Username;
@@ -64,15 +64,13 @@ namespace MPFinance.Core.Message
                 Response.Operator.Save(session);
             }
 
-            Response.Accounts.FetchByOperator(session, Response.Operator);
-            Response.ExpenseCategories.FetchByComposite(session, Response.Operator, CategoryType.Expense, Status.Active);
-            Response.IncomeCategories.FetchByComposite(session, Response.Operator, CategoryType.Income, Status.Active);
-            Response.TransferCategories.FetchByComposite(session, Response.Operator, CategoryType.Transfer, Status.Active);
+            Response.Operator.BankAccounts.FetchByOperator(session, Response.Operator);
+            Response.Operator.Categories.FetchByComposite(session, Response.Operator, Status.Active);
 
-            Response.AllCategories.Add(new Category(Response.Operator, "ALL", CategoryType.NULL, Status.Active));
-            Response.AllCategories.AddRange(Response.ExpenseCategories);
-            Response.AllCategories.AddRange(Response.IncomeCategories);
-            Response.AllCategories.AddRange(Response.TransferCategories);
+            //Response.AllCategories.Add(new Category(Response.Operator, "---", CategoryType.NULL, Status.Active));
+            //Response.AllCategories.AddRange(Response.Operator.ExpenseCategories);
+            //Response.AllCategories.AddRange(Response.Operator.IncomeCategories);
+            //Response.AllCategories.AddRange(Response.Operator.TransferCategories);
 
             Response.Txns.Fetch(session, Request.Page, Response.Operator, null, Request.FromDate, Request.ToDate, null);
             Response.Summary.Fetch(session, Response.Operator, null, Request.FromDate, Request.ToDate, null);

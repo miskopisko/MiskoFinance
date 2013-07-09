@@ -1,4 +1,5 @@
-﻿using MPersist.Core.Debug;
+﻿using MPersist.Core;
+using MPersist.Core.Debug;
 using MPFinance.Forms.Controls;
 using System.Windows.Forms;
 
@@ -6,12 +7,22 @@ namespace MPFinance.Forms
 {
     public partial class DebugWindow : Form
     {
+        private static Logger Log = Logger.GetInstance(typeof(DebugWindow));
+
+        #region Variable Declarations
+
+
+
+        #endregion
+
         #region Parameters
 
         public MessageTimingGridView Messages { get { return messageTimingGridView; } }
         public SqlTimingGridView SQL { get { return sqlTimingGridView; } }
 
         #endregion
+
+        #region Consstructor
 
         public DebugWindow()
         {
@@ -21,13 +32,21 @@ namespace MPFinance.Forms
             sqlTimingGridView.SelectionChanged += sqlTimingGridView_SelectionChanged;
         }
 
+        #endregion
+
+        #region Override Methods
+
         protected override void OnLoad(System.EventArgs e)
         {
             messageTimingGridView.FillColumns();
             sqlTimingGridView.FillColumns();
         }
 
-        void sqlTimingGridView_SelectionChanged(object sender, System.EventArgs e)
+        #endregion
+
+        #region Event Listenners
+
+        private void sqlTimingGridView_SelectionChanged(object sender, System.EventArgs e)
         {
             MessageText.Text = ((SqlTiming)SQL.CurrentRow.DataBoundItem).FormattedSql;
         }
@@ -37,5 +56,7 @@ namespace MPFinance.Forms
             MessageText.Text = ((MessageTiming)Messages.CurrentRow.DataBoundItem).Message.ToXml();
             SQL.DataSource = ((MessageTiming)Messages.CurrentRow.DataBoundItem).SqlTimings;
         }
+
+        #endregion
     }
 }

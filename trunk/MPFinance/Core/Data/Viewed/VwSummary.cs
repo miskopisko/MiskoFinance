@@ -1,7 +1,7 @@
-using System;
 using MPersist.Core;
 using MPersist.Core.MoneyType;
 using MPFinance.Core.Data.Stored;
+using System;
 
 namespace MPFinance.Core.Data.Viewed
 {
@@ -56,10 +56,14 @@ namespace MPFinance.Core.Data.Viewed
 
         public void Fetch(Session session, Operator op, Account account, DateTime? from, DateTime? to, Category category)
         {
+            String sql1 = "SELECT SUM(B.Openingbalance) OpeningBalance " +
+                          "FROM   Account A, BankAccount B " +
+                          "WHERE  A.Id = B.Id ";
+
             Persistence p = Persistence.GetInstance(session);
-            p.SetSql("SELECT SUM(Openingbalance) OpeningBalance FROM Account ");
-            p.SqlWhere(true, "Operator = ?", new Object[] { op });
-            p.SqlWhere(account != null && account.IsSet, "Id = ?", new Object[] { account });
+            p.SetSql(sql1);
+            p.SqlWhere(true, "A.Operator = ?", new Object[] { op });
+            p.SqlWhere(account != null && account.IsSet, "A.Id = ?", new Object[] { account });
             p.ExecuteQuery();           
 
             if (p.Next())
@@ -70,14 +74,14 @@ namespace MPFinance.Core.Data.Viewed
             p.Close();
             p = null;
 
-            String sql = "SELECT SUM(CASE WHEN TxnType = 0 THEN Credit ELSE 0 END) SumCredit, " +
-                         "       SUM(CASE WHEN TxnType = 1 THEN Debit ELSE 0 END) SumDebit, " +
-                         "       SUM(CASE WHEN TxnType = 2 THEN Credit ELSE 0 END) SumTransferIn, " +
-                         "       SUM(CASE WHEN TxnType = 3 THEN Debit ELSE 0 END)  SumTransferOut " +
-                         "FROM   VwTxn";
+            String sql2 = "SELECT SUM(CASE WHEN TxnType = 0 THEN Credit ELSE 0 END) SumCredit, " +
+                          "       SUM(CASE WHEN TxnType = 1 THEN Debit ELSE 0 END) SumDebit, " +
+                          "       SUM(CASE WHEN TxnType = 2 THEN Credit ELSE 0 END) SumTransferIn, " +
+                          "       SUM(CASE WHEN TxnType = 3 THEN Debit ELSE 0 END)  SumTransferOut " +
+                          "FROM   VwTxn";
 
             p = Persistence.GetInstance(session);
-            p.SetSql(sql);
+            p.SetSql(sql2);
             p.SqlWhere(true, "OperatorId = ?", new Object[] { op });
             p.SqlWhere(account != null && account.IsSet, "AccountId = ?", new Object[] { account });
             p.SqlWhere(from.HasValue, "DatePosted >= ?", new Object[] { from });

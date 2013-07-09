@@ -43,7 +43,6 @@
             this.OpeningBalance = new MPFinance.Forms.Controls.MoneyBox();
             this.existingAccounts = new System.Windows.Forms.ListBox();
             this.Done = new System.Windows.Forms.Button();
-            this.Save = new System.Windows.Forms.Button();
             label5 = new System.Windows.Forms.Label();
             label4 = new System.Windows.Forms.Label();
             label3 = new System.Windows.Forms.Label();
@@ -201,7 +200,7 @@
             // 
             // Done
             // 
-            this.Done.Location = new System.Drawing.Point(265, 215);
+            this.Done.Location = new System.Drawing.Point(217, 215);
             this.Done.Name = "Done";
             this.Done.Size = new System.Drawing.Size(75, 23);
             this.Done.TabIndex = 3;
@@ -209,23 +208,12 @@
             this.Done.UseVisualStyleBackColor = true;
             this.Done.Click += new System.EventHandler(this.Done_Click);
             // 
-            // Save
-            // 
-            this.Save.Location = new System.Drawing.Point(169, 215);
-            this.Save.Name = "Save";
-            this.Save.Size = new System.Drawing.Size(75, 23);
-            this.Save.TabIndex = 4;
-            this.Save.Text = "Save";
-            this.Save.UseVisualStyleBackColor = true;
-            this.Save.Click += new System.EventHandler(this.Save_Click);
-            // 
             // EditAccountsDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(509, 244);
-            this.Controls.Add(this.Save);
             this.Controls.Add(this.Done);
             this.Controls.Add(this.tableLayoutPanel2);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -254,6 +242,5 @@
         public Controls.MoneyBox OpeningBalance;
         private System.Windows.Forms.Button Done;
         private System.Windows.Forms.ListBox existingAccounts;
-        private System.Windows.Forms.Button Save;
     }
 }

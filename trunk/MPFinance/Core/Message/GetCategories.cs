@@ -37,14 +37,14 @@ namespace MPFinance.Core.Message
 
         public override void Execute(Session session)
         {
-            Response.ExpenseCategories.FetchByComposite(session, Request.Operator, CategoryType.Expense, Request.Status);
-            Response.IncomeCategories.FetchByComposite(session, Request.Operator, CategoryType.Income, Request.Status);
-            Response.TransferCategories.FetchByComposite(session, Request.Operator, CategoryType.Transfer, Request.Status);
+            //Response.ExpenseCategories.FetchByComposite(session, Request.Operator, CategoryType.Expense, Request.Status);
+            //Response.IncomeCategories.FetchByComposite(session, Request.Operator, CategoryType.Income, Request.Status);
+            //Response.TransferCategories.FetchByComposite(session, Request.Operator, CategoryType.Transfer, Request.Status);
 
-            Response.AllCategories.Add(new Category(Request.Operator, "ALL", CategoryType.NULL, Request.Status));
-            Response.AllCategories.AddRange(Response.ExpenseCategories);
-            Response.AllCategories.AddRange(Response.IncomeCategories);
-            Response.AllCategories.AddRange(Response.TransferCategories);
+            //Response.AllCategories.Add(new Category(Request.Operator, "---", CategoryType.NULL, Request.Status));
+            //Response.AllCategories.AddRange(Response.ExpenseCategories);
+            //Response.AllCategories.AddRange(Response.IncomeCategories);
+            //Response.AllCategories.AddRange(Response.TransferCategories);
         }
     }
 }

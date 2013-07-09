@@ -1,13 +1,12 @@
-﻿using System;
-using System.Windows.Forms;
-using MPersist.Core;
+﻿using MPersist.Core;
 using MPersist.Core.Data;
 using MPersist.Core.Message.Response;
 using MPersist.Core.MoneyType;
-using MPFinance.Core.Data.Stored;
 using MPFinance.Core.Data.Viewed;
 using MPFinance.Core.Enums;
 using MPFinance.Core.Message.Requests;
+using System;
+using System.Windows.Forms;
 
 namespace MPFinance.Forms.Controls
 {
@@ -24,12 +23,12 @@ namespace MPFinance.Forms.Controls
 
         #region Variable Declarations
 
-        private DataGridViewTextBoxColumn Date = new DataGridViewTextBoxColumn();
-        private DataGridViewTextBoxColumn Description = new DataGridViewTextBoxColumn();
-        private DataGridViewTextBoxColumn Credit = new DataGridViewTextBoxColumn();
-        private DataGridViewTextBoxColumn Debit = new DataGridViewTextBoxColumn();
-        private DataGridViewCheckBoxColumn Transfer = new DataGridViewCheckBoxColumn();
-        private DGVComboBoxColumn Category = new DGVComboBoxColumn();
+        private DataGridViewTextBoxColumn mDate_ = new DataGridViewTextBoxColumn();
+        private DataGridViewTextBoxColumn mDescription_ = new DataGridViewTextBoxColumn();
+        private DataGridViewTextBoxColumn mCredit_ = new DataGridViewTextBoxColumn();
+        private DataGridViewTextBoxColumn mDebit_ = new DataGridViewTextBoxColumn();
+        private DataGridViewCheckBoxColumn mTransfer_ = new DataGridViewCheckBoxColumn();
+        private DataGridViewComboBoxColumn mCategory_ = new DataGridViewComboBoxColumn();
 
         private Page mCurrentPage_ = new Page();
 
@@ -37,19 +36,21 @@ namespace MPFinance.Forms.Controls
 
         #region Properties
 
-        public Page CurrentPage 
-        { 
-            get { return mCurrentPage_; }
-            set { mCurrentPage_ = value; } 
-        }
+        public Page CurrentPage { get { return mCurrentPage_; } set { mCurrentPage_ = value; } }
 
         #endregion
+
+        #region Constructor
 
         public TransactionsGridView()
         {
             AutoGenerateColumns = false;
             InitializeComponent();
         }
+
+        #endregion
+
+        #region Override Methods
 
         protected override void OnDataBindingComplete(DataGridViewBindingCompleteEventArgs e)
         {
@@ -61,18 +62,18 @@ namespace MPFinance.Forms.Controls
 
                 if (txn.TxnType.Equals(TxnType.Credit))
                 {
-                    ((DGVComboBoxCell)row.Cells["Category"]).DataSource = MPFinanceMain.Instance.IncomeCategories;
+                    ((DataGridViewComboBoxCell)row.Cells["Category"]).DataSource = MPFinanceMain.Instance.Operator.Categories.GetByType(CategoryType.Income);
                 }
                 else if (txn.TxnType.Equals(TxnType.Debit))
                 {
-                    ((DGVComboBoxCell)row.Cells["Category"]).DataSource = MPFinanceMain.Instance.ExpenseCategories;
+                    ((DataGridViewComboBoxCell)row.Cells["Category"]).DataSource = MPFinanceMain.Instance.Operator.Categories.GetByType(CategoryType.Expense);
                 }
                 else if (txn.TxnType.Equals(TxnType.TransferIn) || txn.TxnType.Equals(TxnType.TransferOut))
                 {
-                    ((DGVComboBoxCell)row.Cells["Category"]).DataSource = MPFinanceMain.Instance.TransferCategories;
+                    ((DataGridViewComboBoxCell)row.Cells["Category"]).DataSource = MPFinanceMain.Instance.Operator.Categories.GetByType(CategoryType.Transfer);
                 }
 
-                ((DGVComboBoxCell)row.Cells["Category"]).Value = txn.Category;
+                ((DataGridViewComboBoxCell)row.Cells["Category"]).Value = txn.Category;
             }
         }
 
@@ -100,27 +101,27 @@ namespace MPFinance.Forms.Controls
             }
 
             // If the Transfer checkbox was changed then change the category
-            if (e.ColumnIndex.Equals(Columns.IndexOf(Transfer)))
+            if (e.ColumnIndex.Equals(Columns.IndexOf(mTransfer_)))
             {
                 vwTxn.Category = null;               
 
                 if(vwTxn.Transfer)
                 {
-                    ((DGVComboBoxCell)Rows[e.RowIndex].Cells["Category"]).DataSource = MPFinanceMain.Instance.TransferCategories;
+                    ((DataGridViewComboBoxCell)Rows[e.RowIndex].Cells["Category"]).DataSource = MPFinanceMain.Instance.Operator.Categories.GetByType(CategoryType.Transfer);
                 }
                 else
                 {
                     if(vwTxn.TxnType.Equals(TxnType.Credit))
                     {
-                        ((DGVComboBoxCell)Rows[e.RowIndex].Cells["Category"]).DataSource = MPFinanceMain.Instance.IncomeCategories;
+                        ((DataGridViewComboBoxCell)Rows[e.RowIndex].Cells["Category"]).DataSource = MPFinanceMain.Instance.Operator.Categories.GetByType(CategoryType.Income);
                     }
                     else if (vwTxn.TxnType.Equals(TxnType.Debit))
                     {
-                        ((DGVComboBoxCell)Rows[e.RowIndex].Cells["Category"]).DataSource = MPFinanceMain.Instance.ExpenseCategories;
+                        ((DataGridViewComboBoxCell)Rows[e.RowIndex].Cells["Category"]).DataSource = MPFinanceMain.Instance.Operator.Categories.GetByType(CategoryType.Expense);
                     }
                 }
 
-                ((DGVComboBoxCell)Rows[e.RowIndex].Cells["Category"]).Value = null;
+                ((DataGridViewComboBoxCell)Rows[e.RowIndex].Cells["Category"]).Value = null;
             }
 
             UpdateTxnRQ request = new UpdateTxnRQ();
@@ -128,72 +129,83 @@ namespace MPFinance.Forms.Controls
             MessageProcessor.SendRequest(request, UpdateTxnSuccess);             
         }
 
+        #endregion
+
+        #region Public Methods
+
         public void FillColumns()
         {
             if (Columns.Count == 0 && !DesignMode)
             {
-                Date.ValueType = typeof(DateTime);
-                Date.DataPropertyName = "DatePosted";
-                Date.HeaderText = "Txn. Date";
-                Date.Name = "Date";
-                Date.DefaultCellStyle.Format = "MMM dd yyyy";
-                Date.Width = 100;
-                Date.ReadOnly = true;
+                mDate_.ValueType = typeof(DateTime);
+                mDate_.DataPropertyName = "DatePosted";
+                mDate_.HeaderText = "Txn. Date";
+                mDate_.Name = "Date";
+                mDate_.DefaultCellStyle.Format = "MMM dd yyyy";
+                mDate_.Width = 100;
+                mDate_.ReadOnly = true;
 
-                Description.DataPropertyName = "Description";
-                Description.HeaderText = "Description";
-                Description.Name = "Description";
-                Description.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-                Description.ReadOnly = true;
+                mDescription_.DataPropertyName = "Description";
+                mDescription_.HeaderText = "Description";
+                mDescription_.Name = "Description";
+                mDescription_.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+                mDescription_.ReadOnly = true;
 
-                Credit.ValueType = typeof(Money);
-                Credit.DataPropertyName = "Credit";
-                Credit.HeaderText = "Credit";
-                Credit.Name = "Credit";
-                Credit.Width = 100;
-                Credit.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-                Credit.ReadOnly = true;
+                mCredit_.ValueType = typeof(Money);
+                mCredit_.DataPropertyName = "Credit";
+                mCredit_.HeaderText = "Credit";
+                mCredit_.Name = "Credit";
+                mCredit_.Width = 100;
+                mCredit_.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                mCredit_.ReadOnly = true;
 
-                Debit.ValueType = typeof(Money);
-                Debit.DataPropertyName = "Debit";
-                Debit.HeaderText = "Debit";
-                Debit.Name = "Debit";
-                Debit.Width = 100;
-                Debit.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-                Debit.ReadOnly = true;
+                mDebit_.ValueType = typeof(Money);
+                mDebit_.DataPropertyName = "Debit";
+                mDebit_.HeaderText = "Debit";
+                mDebit_.Name = "Debit";
+                mDebit_.Width = 100;
+                mDebit_.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                mDebit_.ReadOnly = true;
 
-                Transfer.ValueType = typeof(bool);
-                Transfer.DataPropertyName = "Transfer";
-                Transfer.HeaderText = "Transfer";
-                Transfer.Name = "Transfer";
-                Transfer.Width = 75;
-                Transfer.SortMode = DataGridViewColumnSortMode.Automatic;
+                mTransfer_.ValueType = typeof(bool);
+                mTransfer_.DataPropertyName = "Transfer";
+                mTransfer_.HeaderText = "Transfer";
+                mTransfer_.Name = "Transfer";
+                mTransfer_.Width = 75;
+                mTransfer_.SortMode = DataGridViewColumnSortMode.Automatic;
 
-                Category.ValueType = typeof(Category);
-                Category.HeaderText = "Category";
-                Category.Name = "Category";
-                Category.Width = 150;
-                Category.DataPropertyName = "Category";
-                Category.DisplayMember = "Name";
-                Category.DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing;
-                Category.SortMode = DataGridViewColumnSortMode.Automatic;
+                mCategory_.ValueType = typeof(Int64);
+                mCategory_.HeaderText = "Category";
+                mCategory_.Name = "Category";
+                mCategory_.Width = 150;
+                mCategory_.DataPropertyName = "Category";
+                mCategory_.ValueMember = "Id";
+                mCategory_.DisplayMember = "Name";
+                mCategory_.DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing;
+                mCategory_.SortMode = DataGridViewColumnSortMode.Automatic;
                 
                 Columns.AddRange(new DataGridViewColumn[] {
-                                Date,
-                                Description,
-                                Credit,
-                                Debit,
-                                Transfer,
-                                Category});
+                                mDate_,
+                                mDescription_,
+                                mCredit_,
+                                mDebit_,
+                                mTransfer_,
+                                mCategory_});
             }
         }
 
-        public void UpdateTxnSuccess(AbstractResponse Response)
+        #endregion
+
+        #region Private Methods
+
+        private void UpdateTxnSuccess(AbstractResponse Response)
         {
             if (TxnUpdated != null)
             {
                 TxnUpdated();
             }
         }
+
+        #endregion
     }
 }

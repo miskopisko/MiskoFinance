@@ -1,16 +1,21 @@
-﻿using System.Windows.Forms;
+﻿using MPersist.Core;
+using System.Windows.Forms;
 
 namespace MPFinance.Forms.Controls
 {
     public partial class SqlTimingGridView : DataGridView
     {
+        private static Logger Log = Logger.GetInstance(typeof(TransactionsGridView));
+
         #region Variable Declarations
 
-        private DataGridViewTextBoxColumn SQL = new DataGridViewTextBoxColumn();
-        private DataGridViewTextBoxColumn Parameters = new DataGridViewTextBoxColumn();
-        private DataGridViewTextBoxColumn ExecutionTime = new DataGridViewTextBoxColumn();
+        private DataGridViewTextBoxColumn mSQL_ = new DataGridViewTextBoxColumn();
+        private DataGridViewTextBoxColumn mParameters_ = new DataGridViewTextBoxColumn();
+        private DataGridViewTextBoxColumn mExecutionTime_ = new DataGridViewTextBoxColumn();
 
         #endregion
+
+        #region Constructor
 
         public SqlTimingGridView()
         {
@@ -18,12 +23,19 @@ namespace MPFinance.Forms.Controls
             InitializeComponent();
         }
 
+        #endregion
+
+        #region Override Methods
+
         protected override void OnDataBindingComplete(DataGridViewBindingCompleteEventArgs e)
         {
-            ClearSelection();
-
             base.OnDataBindingComplete(e);
+            ClearSelection();
         }
+
+        #endregion
+
+        #region Public Methods
 
         public void FillColumns()
         {
@@ -31,29 +43,31 @@ namespace MPFinance.Forms.Controls
 
             if (Columns.Count == 0 && !DesignMode)
             {
-                SQL.DataPropertyName = "SQL";
-                SQL.HeaderText = "SQL";
-                SQL.Name = "SQL";
-                SQL.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-                SQL.ReadOnly = true;
+                mSQL_.DataPropertyName = "SQL";
+                mSQL_.HeaderText = "SQL";
+                mSQL_.Name = "SQL";
+                mSQL_.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+                mSQL_.ReadOnly = true;
 
-                Parameters.DataPropertyName = "ParametersString";
-                Parameters.HeaderText = "Parameters";
-                Parameters.Name = "Parameters";
-                Parameters.ReadOnly = true;
-                Parameters.Width = 125;
+                mParameters_.DataPropertyName = "ParametersString";
+                mParameters_.HeaderText = "Parameters";
+                mParameters_.Name = "Parameters";
+                mParameters_.ReadOnly = true;
+                mParameters_.Width = 125;
 
-                ExecutionTime.DataPropertyName = "TotalExecutionTime";
-                ExecutionTime.HeaderText = "Exec. Time (sec)";
-                ExecutionTime.Name = "TotalExecutionTime";
-                ExecutionTime.ReadOnly = true;
-                ExecutionTime.Width = 125;
+                mExecutionTime_.DataPropertyName = "TotalExecutionTime";
+                mExecutionTime_.HeaderText = "Exec. Time (sec)";
+                mExecutionTime_.Name = "TotalExecutionTime";
+                mExecutionTime_.ReadOnly = true;
+                mExecutionTime_.Width = 125;
 
                 Columns.AddRange(new DataGridViewColumn[] {
-                                SQL,
-                                Parameters,
-                                ExecutionTime});
+                                mSQL_,
+                                mParameters_,
+                                mExecutionTime_});
             }
         }
+
+        #endregion
     }
 }

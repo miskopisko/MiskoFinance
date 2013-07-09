@@ -1,7 +1,7 @@
-using System;
 using MPersist.Core;
 using MPersist.Core.Data;
 using MPFinance.Core.Data.Stored;
+using System;
 
 namespace MPFinance.Core.Data.Viewed
 {

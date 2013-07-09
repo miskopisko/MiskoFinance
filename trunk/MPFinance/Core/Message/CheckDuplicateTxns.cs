@@ -4,6 +4,8 @@ using MPFinance.Core.Data.Stored;
 using MPFinance.Core.Data.Viewed;
 using MPFinance.Core.Message.Requests;
 using MPFinance.Core.Message.Responses;
+using System;
+using System.Collections.Generic;
 
 namespace MPFinance.Core.Message
 {
@@ -13,21 +15,9 @@ namespace MPFinance.Core.Message
 
         #region Properties
 
-        public new CheckDuplicateTxnsRQ Request
-        {
-            get
-            {
-                return (CheckDuplicateTxnsRQ)base.Request;
-            }
-        }
+        public new CheckDuplicateTxnsRQ Request { get { return (CheckDuplicateTxnsRQ)base.Request; } }
 
-        public new CheckDuplicateTxnsRS Response
-        {
-            get
-            {
-                return (CheckDuplicateTxnsRS)base.Response;
-            }
-        }
+        public new CheckDuplicateTxnsRS Response { get { return (CheckDuplicateTxnsRS)base.Response; } }
 
         #endregion
 
@@ -37,13 +27,21 @@ namespace MPFinance.Core.Message
 
         public override void Execute(Session session)
         {
+            // Get all existing txns with the same timeframe
+            Txns txnsToChackAgainst = new Txns();
+            txnsToChackAgainst.FetchByAccountAndDate(session, Request.Account, Request.OfxDucument.StartDate, Request.OfxDucument.EndDate);
+            
+            // Build a dictionary hashtable to check against
+            Dictionary<String, Txn> existingTxnHashes = new Dictionary<String, Txn>();            
+            foreach (Txn txn in txnsToChackAgainst)
+	        {
+		        existingTxnHashes.Add(txn.HashCode, txn);
+	        }
+
+            // Generate a hash for each imported txn and compare to the hash table; add if non existant
             foreach (VwTxn vwTxn in Request.OfxDucument.Transactions)
             {
-                vwTxn.GenerateHashCode(Request.Account);
-
-                Txn txn = Txn.FetchByHashCode(session, vwTxn.HashCode);
-
-                if (txn == null || !txn.IsSet)
+                if (!existingTxnHashes.ContainsKey(vwTxn.GenerateHashCode(Request.Account)))
                 {
                     Response.Txns.Add(vwTxn);
                 }

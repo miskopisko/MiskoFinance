@@ -1,8 +1,6 @@
+using MPersist.Core.Resources;
 using System;
 using System.Collections;
-using System.Reflection;
-using MPersist.Core.Data;
-using MPersist.Core.Resources;
 
 namespace MPersist.Core.Tools
 {
@@ -11,31 +9,25 @@ namespace MPersist.Core.Tools
         private static Logger Log = Logger.GetInstance(typeof(MPCache));
 
         #region Variable Declarations
-
-        private static Boolean Enabled_ = true;
-        private static MPCache INSTANCE_;
-
-        private Hashtable CACHE_;
+                
+        private static Hashtable mCache_;
+        private static Boolean mEnabled_ = true;
 
         #endregion
 
         #region Properties
 
-        public static Boolean Enabled 
-        { 
-            get { return Enabled_; }
-            set { Enabled_ = value; }
-        }
+        public static Boolean Enabled { get { return mEnabled_; } set { mEnabled_ = value; } }
 
-        private static MPCache INSTANCE
+        private static Hashtable Cache
         {
             get
             {
-                if (INSTANCE_ == null)
+                if (mCache_ == null)
                 {
-                    INSTANCE_ = new MPCache();
+                    mCache_ = new Hashtable();
                 }
-                return INSTANCE_;
+                return mCache_;
             }
         }
 
@@ -45,7 +37,7 @@ namespace MPersist.Core.Tools
 
         public MPCache()
         {
-            CACHE_ = new Hashtable();
+            mCache_ = new Hashtable();
         }
 
         #endregion
@@ -58,15 +50,15 @@ namespace MPersist.Core.Tools
 
         #region Public Methods
 
-        public static String GetKey(AbstractStoredData storedObject, Object[] keyParts)
+        public static String GetKey(Type storedObject, Object[] keyParts)
         {
             String key = "";
 
-            key += storedObject.GetType().Name + "=>";
+            key += storedObject.Name + "=>";
 
             if((keyParts.Length % 2) != 0)
             {
-                throw new MPException(typeof(MPCache), MethodInfo.GetCurrentMethod(), ErrorStrings.errCacheKeypairMismatch);
+                throw new MPException(ErrorStrings.errCacheKeypairMismatch);
             }
 
             for (int i = 0; i < keyParts.Length; i=i+2)
@@ -79,35 +71,35 @@ namespace MPersist.Core.Tools
 
         public static void Remove(String key)
         {
-            if (Enabled_)
+            if (mEnabled_)
             {
-                if (INSTANCE.CACHE_.Contains(key))
+                if (Cache.Contains(key))
                 {
-                    INSTANCE.CACHE_.Remove(key);
+                    Cache.Remove(key);
                 }
             }
         }
 
         public static void Put(String key, Object value)
         {
-            if(Enabled_)
+            if(Enabled)
             {
-                if (!INSTANCE.CACHE_.Contains(key))
+                if (!Cache.Contains(key))
                 {
-                    INSTANCE.CACHE_.Add(key, value);
+                    Cache.Add(key, value);
                 }
                 else
                 {
-                    INSTANCE.CACHE_[key] = value;
+                    Cache[key] = value;
                 }
             }
         }
 
         public static Object Get(String key)
         {
-            if(Enabled_)
+            if (Enabled)
             {
-                return INSTANCE.CACHE_[key];
+                return Cache[key];
             }
             else
             {
@@ -117,9 +109,9 @@ namespace MPersist.Core.Tools
 
         public static void Flush()
         {
-            if(Enabled_)
+            if (Enabled)
             {
-                INSTANCE.CACHE_.Clear();
+                Cache.Clear();
             }
         }
 

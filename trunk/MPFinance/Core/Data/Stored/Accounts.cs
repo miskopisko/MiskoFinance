@@ -1,4 +1,3 @@
-using System;
 using MPersist.Core;
 using MPersist.Core.Data;
 
@@ -36,14 +35,7 @@ namespace MPFinance.Core.Data.Stored
 
         #region Public Methods
 
-        public void FetchByOperator(Session session, Operator op)
-        {
-            Persistence p = Persistence.GetInstance(session);
-            p.ExecuteQuery("SELECT * FROM Account WHERE Operator = ?", new Object[] { op });
-            Set(session, p);
-            p.Close();
-            p = null;
-        }
+        
 
         #endregion        
     }

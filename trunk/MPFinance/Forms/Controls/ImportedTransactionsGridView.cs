@@ -1,10 +1,9 @@
-﻿using System;
-using System.Drawing;
-using System.Windows.Forms;
-using MPersist.Core;
+﻿using MPersist.Core;
+using MPersist.Core.MoneyType;
 using MPFinance.Core.Data.Viewed;
 using MPFinance.Core.Enums;
-using MPersist.Core.MoneyType;
+using System;
+using System.Windows.Forms;
 
 namespace MPFinance.Forms.Controls
 {
@@ -14,15 +13,15 @@ namespace MPFinance.Forms.Controls
 
         #region Variable Declarations
 
-        private DataGridViewCheckBoxColumn Import = new DataGridViewCheckBoxColumn();
-        private DataGridViewTextBoxColumn Date = new DataGridViewTextBoxColumn();
-        private DataGridViewTextBoxColumn Description = new DataGridViewTextBoxColumn();
-        private DataGridViewTextBoxColumn Credit = new DataGridViewTextBoxColumn();
-        private DataGridViewTextBoxColumn Debit = new DataGridViewTextBoxColumn();
-        private DataGridViewCheckBoxColumn Transfer = new DataGridViewCheckBoxColumn();
+        private DataGridViewCheckBoxColumn mImport_ = new DataGridViewCheckBoxColumn();
+        private DataGridViewTextBoxColumn mDate_ = new DataGridViewTextBoxColumn();
+        private DataGridViewTextBoxColumn mDescription_ = new DataGridViewTextBoxColumn();
+        private DataGridViewTextBoxColumn mCredit_ = new DataGridViewTextBoxColumn();
+        private DataGridViewTextBoxColumn mDebit_ = new DataGridViewTextBoxColumn();
+        private DataGridViewCheckBoxColumn mTransfer_ = new DataGridViewCheckBoxColumn();
 
-        private Int32 SelectableRecords = 0;
-        private Int32 SelectedRecords = 0;
+        private Int32 mSelectableRecords_ = 0;
+        private Int32 mSelectedRecords_ = 0;
 
         #endregion
 
@@ -40,39 +39,31 @@ namespace MPFinance.Forms.Controls
 
         protected override void OnDataBindingComplete(DataGridViewBindingCompleteEventArgs e)
         {
-            SelectableRecords = Rows.Count;
+            mSelectableRecords_ = Rows.Count;
 
-            foreach (DataGridViewRow row in Rows)
-            {
-                if (((VwTxn)row.DataBoundItem).IsDuplicate)
-                {
-                    row.DefaultCellStyle.BackColor = Color.Salmon;
-                    row.ReadOnly = true;
-                    SelectableRecords--;
-                }
-            }
+            ((CheckBoxHeaderCell)mImport_.HeaderCell).Enabled = true;
 
             base.OnDataBindingComplete(e);
         }
 
         protected override void OnCellValueChanged(DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex.Equals(Columns.IndexOf(Import)) && e.RowIndex >= 0)
+            if (e.ColumnIndex.Equals(Columns.IndexOf(mImport_)) && e.RowIndex >= 0)
             {
-                SelectedRecords += ((Boolean)Rows[e.RowIndex].Cells[e.ColumnIndex].Value) ? 1 : -1;
+                mSelectedRecords_ += ((Boolean)Rows[e.RowIndex].Cells[e.ColumnIndex].Value) ? 1 : -1;
 
                 //Change state of the header CheckBox.
-                if (SelectableRecords == 0 || SelectedRecords < SelectableRecords)
+                if (mSelectableRecords_ == 0 || mSelectedRecords_ < mSelectableRecords_)
                 {
-                    ((CheckBoxHeaderCell)Import.HeaderCell).Checked = false;
+                    ((CheckBoxHeaderCell)mImport_.HeaderCell).Checked = false;
                 }
-                else if (SelectedRecords == SelectableRecords)
+                else if (mSelectedRecords_ == mSelectableRecords_)
                 {
-                    ((CheckBoxHeaderCell)Import.HeaderCell).Checked = true;
+                    ((CheckBoxHeaderCell)mImport_.HeaderCell).Checked = true;
                 }
 
                 // Repaint the checkboxes
-                InvalidateColumn(Columns.IndexOf(Import));
+                InvalidateColumn(Columns.IndexOf(mImport_));
             }
 
             base.OnCellValueChanged(e);
@@ -120,58 +111,59 @@ namespace MPFinance.Forms.Controls
         {
             if (Columns.Count == 0 && !DesignMode)
             {
-                Import.ValueType = typeof(bool);
-                Import.DataPropertyName = "Import";
-                Import.HeaderText = "Import";
-                Import.Name = "Import";
-                Import.Width = 75;
+                mImport_.ValueType = typeof(bool);
+                mImport_.DataPropertyName = "Import";
+                mImport_.HeaderText = "Import";
+                mImport_.Name = "Import";
+                mImport_.Width = 75;
 
-                Date.ValueType = typeof(DateTime);
-                Date.DataPropertyName = "DatePosted";
-                Date.HeaderText = "Txn. Date";
-                Date.Name = "Date";
-                Date.DefaultCellStyle.Format = "MMM dd yyyy";
-                Date.Width = 100;
-                Date.ReadOnly = true;
+                mDate_.ValueType = typeof(DateTime);
+                mDate_.DataPropertyName = "DatePosted";
+                mDate_.HeaderText = "Txn. Date";
+                mDate_.Name = "Date";
+                mDate_.DefaultCellStyle.Format = "MMM dd yyyy";
+                mDate_.Width = 100;
+                mDate_.ReadOnly = true;
 
-                Description.DataPropertyName = "Description";
-                Description.HeaderText = "Description";
-                Description.Name = "Description";
-                Description.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-                Description.ReadOnly = true;
+                mDescription_.DataPropertyName = "Description";
+                mDescription_.HeaderText = "Description";
+                mDescription_.Name = "Description";
+                mDescription_.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+                mDescription_.ReadOnly = true;
 
-                Credit.ValueType = typeof(Money);
-                Credit.DataPropertyName = "Credit";
-                Credit.HeaderText = "Credit";
-                Credit.Name = "Credit";
-                Credit.Width = 100;
-                Credit.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-                Credit.ReadOnly = true;
+                mCredit_.ValueType = typeof(Money);
+                mCredit_.DataPropertyName = "Credit";
+                mCredit_.HeaderText = "Credit";
+                mCredit_.Name = "Credit";
+                mCredit_.Width = 100;
+                mCredit_.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                mCredit_.ReadOnly = true;
 
-                Debit.ValueType = typeof(Money);
-                Debit.DataPropertyName = "Debit";
-                Debit.HeaderText = "Debit";
-                Debit.Name = "Debit";
-                Debit.Width = 100;
-                Debit.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-                Debit.ReadOnly = true;
+                mDebit_.ValueType = typeof(Money);
+                mDebit_.DataPropertyName = "Debit";
+                mDebit_.HeaderText = "Debit";
+                mDebit_.Name = "Debit";
+                mDebit_.Width = 100;
+                mDebit_.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                mDebit_.ReadOnly = true;
 
-                Transfer.ValueType = typeof(bool);
-                Transfer.DataPropertyName = "Transfer";
-                Transfer.HeaderText = "Transfer";
-                Transfer.Name = "Transfer";
-                Transfer.Width = 75;
+                mTransfer_.ValueType = typeof(bool);
+                mTransfer_.DataPropertyName = "Transfer";
+                mTransfer_.HeaderText = "Transfer";
+                mTransfer_.Name = "Transfer";
+                mTransfer_.Width = 75;
                 
                 Columns.AddRange(new DataGridViewColumn[] {
-                                Import,
-                                Date,
-                                Description,
-                                Credit,
-                                Debit,
-                                Transfer});
+                                mImport_,
+                                mDate_,
+                                mDescription_,
+                                mCredit_,
+                                mDebit_,
+                                mTransfer_});
 
                 Columns["Import"].HeaderCell = new CheckBoxHeaderCell("Import");
                 ((CheckBoxHeaderCell)Columns["Import"].HeaderCell).OnCheckBoxClicked += new CheckBoxHeaderCell.CheckBoxClickedHandler(cbHeader_OnCheckBoxClicked);
+                ((CheckBoxHeaderCell)mImport_.HeaderCell).Enabled = false;
             }
         }
 
@@ -192,7 +184,7 @@ namespace MPFinance.Forms.Controls
                 }
             }
 
-            SelectedRecords = state ? SelectableRecords : 0;
+            mSelectedRecords_ = state ? mSelectableRecords_ : 0;
         }
 
         #endregion

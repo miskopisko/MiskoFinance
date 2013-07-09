@@ -14,7 +14,12 @@ namespace MPersist.Core.Attributes
 
         #region Properties
 
+        public Boolean PrimaryKey { get; set; }
+        public Boolean DtCreated { get; set; }
+        public Boolean DTModified { get; set; }
+        public Boolean RowVer { get; set; }
 
+        public Boolean UseInSql { get { return !PrimaryKey && !DtCreated && !DTModified && !RowVer; } }
 
         #endregion
 

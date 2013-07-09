@@ -1,10 +1,10 @@
-using System;
 using MPersist.Core;
 using MPersist.Core.Attributes;
 using MPersist.Core.Data;
 using MPersist.Core.Enums;
 using MPersist.Core.MoneyType;
 using MPFinance.Core.Enums;
+using System;
 
 namespace MPFinance.Core.Data.Stored
 {
@@ -21,7 +21,7 @@ namespace MPFinance.Core.Data.Stored
         #region Stored Properties
 
         [Stored]
-        public Account Account { get; set; }
+        public Int64 Account { get; set; }
         [Stored]
         public TxnType TxnType { get; set;}
         [Stored]
@@ -31,7 +31,7 @@ namespace MPFinance.Core.Data.Stored
         [Stored]
         public String Description { get; set; }
         [Stored]
-        public Category Category { get; set; }
+        public Int64? Category { get; set; }
         [Stored]
         public String HashCode { get; set; }
 
@@ -75,20 +75,7 @@ namespace MPFinance.Core.Data.Stored
 
         #region Public Methods
 
-        public static Txn FetchByHashCode(Session session, String hash)
-        {
-            Txn result = null;
-            Persistence p = Persistence.GetInstance(session);
-            p.ExecuteQuery("SELECT * FROM Txn WHERE HashCode = ?", new Object[] { hash });
-            if (p.HasNext)
-            {
-                result = new Txn(session, p);
-            }
-            p.Close();
-            p = null;
-
-            return result;
-        }
+        
 
         #endregion
     }

@@ -53,7 +53,7 @@
             this.tableLayoutPanel.RowCount = 2;
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tableLayoutPanel.Size = new System.Drawing.Size(322, 92);
+            this.tableLayoutPanel.Size = new System.Drawing.Size(423, 92);
             this.tableLayoutPanel.TabIndex = 0;
             // 
             // tableLayoutPanel1
@@ -68,7 +68,7 @@
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(316, 34);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(417, 34);
             this.tableLayoutPanel1.TabIndex = 4;
             // 
             // flowLayoutPanel1
@@ -78,15 +78,15 @@
             this.flowLayoutPanel1.Controls.Add(this.backBtn);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(129, 3);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(169, 3);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(184, 28);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(245, 28);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
             // importBtn
             // 
             this.importBtn.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.importBtn.Location = new System.Drawing.Point(106, 3);
+            this.importBtn.Location = new System.Drawing.Point(167, 3);
             this.importBtn.Name = "importBtn";
             this.importBtn.Size = new System.Drawing.Size(75, 23);
             this.importBtn.TabIndex = 2;
@@ -96,7 +96,7 @@
             // 
             // nextBtn
             // 
-            this.nextBtn.Location = new System.Drawing.Point(25, 3);
+            this.nextBtn.Location = new System.Drawing.Point(86, 3);
             this.nextBtn.Name = "nextBtn";
             this.nextBtn.Size = new System.Drawing.Size(75, 23);
             this.nextBtn.TabIndex = 1;
@@ -106,7 +106,7 @@
             // 
             // backBtn
             // 
-            this.backBtn.Location = new System.Drawing.Point(106, 32);
+            this.backBtn.Location = new System.Drawing.Point(5, 3);
             this.backBtn.Name = "backBtn";
             this.backBtn.Size = new System.Drawing.Size(75, 23);
             this.backBtn.TabIndex = 0;
@@ -118,7 +118,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(322, 92);
+            this.ClientSize = new System.Drawing.Size(423, 92);
             this.Controls.Add(this.tableLayoutPanel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -141,10 +141,10 @@
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private System.Windows.Forms.Button importBtn;
-        private System.Windows.Forms.Button nextBtn;
-        private System.Windows.Forms.Button backBtn;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        public System.Windows.Forms.Button importBtn;
+        public System.Windows.Forms.Button nextBtn;
+        public System.Windows.Forms.Button backBtn;
 
     }
 }

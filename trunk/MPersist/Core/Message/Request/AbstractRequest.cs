@@ -1,6 +1,6 @@
-﻿using MPersist.Core.Enums;
+﻿using MPersist.Core.Data;
+using MPersist.Core.Enums;
 using System;
-using MPersist.Core.Data;
 
 namespace MPersist.Core.Message.Request
 {

@@ -1,4 +1,5 @@
-﻿using MPersist.Core.Debug;
+﻿using MPersist.Core;
+using MPersist.Core.Debug;
 using System;
 using System.Windows.Forms;
 
@@ -6,15 +7,19 @@ namespace MPFinance.Forms.Controls
 {
     public partial class MessageTimingGridView : DataGridView
     {
+        private static Logger Log = Logger.GetInstance(typeof(TransactionsGridView));
+
         #region Variable Declarations
 
-        private DataGridViewTextBoxColumn MessageName = new DataGridViewTextBoxColumn();
-        private DataGridViewTextBoxColumn MessageExecutionTime = new DataGridViewTextBoxColumn();
-        private DataGridViewTextBoxColumn SqlExecutionTime = new DataGridViewTextBoxColumn();
-        private DataGridViewTextBoxColumn PercentSql = new DataGridViewTextBoxColumn();
-        private DataGridViewTextBoxColumn TotalSqlCalls = new DataGridViewTextBoxColumn();
+        private DataGridViewTextBoxColumn mMessageName_ = new DataGridViewTextBoxColumn();
+        private DataGridViewTextBoxColumn mMessageExecutionTime_ = new DataGridViewTextBoxColumn();
+        private DataGridViewTextBoxColumn mSqlExecutionTime_ = new DataGridViewTextBoxColumn();
+        private DataGridViewTextBoxColumn mPercentSql_ = new DataGridViewTextBoxColumn();
+        private DataGridViewTextBoxColumn mTotalSqlCalls_ = new DataGridViewTextBoxColumn();
 
         #endregion
+
+        #region Constructors
 
         public MessageTimingGridView()
         {
@@ -23,6 +28,10 @@ namespace MPFinance.Forms.Controls
 
             DataSource = new MessageTimings<MessageTiming>();
         }
+
+        #endregion
+
+        #region Override Methods
 
         protected override void OnDataBindingComplete(DataGridViewBindingCompleteEventArgs e)
         {
@@ -34,53 +43,59 @@ namespace MPFinance.Forms.Controls
             }            
         }
 
+        #endregion
+
+        #region Public Methods
+
         public void FillColumns()
         {
             Columns.Clear();
 
             if (Columns.Count == 0 && !DesignMode)
             {
-                MessageName.DataPropertyName = "MessageName";
-                MessageName.HeaderText = "Message Name";
-                MessageName.Name = "MessageName";
-                MessageName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-                MessageName.ReadOnly = true;
+                mMessageName_.DataPropertyName = "MessageName";
+                mMessageName_.HeaderText = "Message Name";
+                mMessageName_.Name = "MessageName";
+                mMessageName_.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+                mMessageName_.ReadOnly = true;
 
-                MessageExecutionTime.ValueType = typeof(Double);
-                MessageExecutionTime.DataPropertyName = "TotalMessageTime";
-                MessageExecutionTime.HeaderText = "Msg Time (sec)";
-                MessageExecutionTime.Name = "TotalMessageTime";
-                MessageExecutionTime.ReadOnly = true;
-                MessageExecutionTime.Width = 125;
+                mMessageExecutionTime_.ValueType = typeof(Double);
+                mMessageExecutionTime_.DataPropertyName = "TotalMessageTime";
+                mMessageExecutionTime_.HeaderText = "Msg Time (sec)";
+                mMessageExecutionTime_.Name = "TotalMessageTime";
+                mMessageExecutionTime_.ReadOnly = true;
+                mMessageExecutionTime_.Width = 125;
 
-                SqlExecutionTime.ValueType = typeof(Double);
-                SqlExecutionTime.DataPropertyName = "TotalSqlTime";
-                SqlExecutionTime.HeaderText = "Sql Time (sec)";
-                SqlExecutionTime.Name = "TotalSqlTime";
-                SqlExecutionTime.ReadOnly = true;
-                SqlExecutionTime.Width = 125;
+                mSqlExecutionTime_.ValueType = typeof(Double);
+                mSqlExecutionTime_.DataPropertyName = "TotalSqlTime";
+                mSqlExecutionTime_.HeaderText = "Sql Time (sec)";
+                mSqlExecutionTime_.Name = "TotalSqlTime";
+                mSqlExecutionTime_.ReadOnly = true;
+                mSqlExecutionTime_.Width = 125;
 
-                PercentSql.ValueType = typeof(Double);
-                PercentSql.DataPropertyName = "PercentSql";
-                PercentSql.HeaderText = "Percent Sql";
-                PercentSql.Name = "PercentSql";
-                PercentSql.ReadOnly = true;
-                PercentSql.Width = 125;
+                mPercentSql_.ValueType = typeof(Double);
+                mPercentSql_.DataPropertyName = "PercentSql";
+                mPercentSql_.HeaderText = "Percent Sql";
+                mPercentSql_.Name = "PercentSql";
+                mPercentSql_.ReadOnly = true;
+                mPercentSql_.Width = 125;
 
-                TotalSqlCalls.ValueType = typeof(Int32);
-                TotalSqlCalls.DataPropertyName = "TotalSqlCalls";
-                TotalSqlCalls.HeaderText = "# Sql Calls";
-                TotalSqlCalls.Name = "TotalSqlCalls";
-                TotalSqlCalls.ReadOnly = true;
-                TotalSqlCalls.Width = 100;                
+                mTotalSqlCalls_.ValueType = typeof(Int32);
+                mTotalSqlCalls_.DataPropertyName = "TotalSqlCalls";
+                mTotalSqlCalls_.HeaderText = "# Sql Calls";
+                mTotalSqlCalls_.Name = "TotalSqlCalls";
+                mTotalSqlCalls_.ReadOnly = true;
+                mTotalSqlCalls_.Width = 100;                
 
                 Columns.AddRange(new DataGridViewColumn[] {
-                                MessageName,
-                                MessageExecutionTime,
-                                SqlExecutionTime,
-                                PercentSql,
-                                TotalSqlCalls});
+                                mMessageName_,
+                                mMessageExecutionTime_,
+                                mSqlExecutionTime_,
+                                mPercentSql_,
+                                mTotalSqlCalls_});
             }
         }
+
+        #endregion
     }
 }
