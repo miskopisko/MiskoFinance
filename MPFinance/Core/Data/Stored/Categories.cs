@@ -52,6 +52,21 @@ namespace MPFinance.Core.Data.Stored
             return result;
         }
 
+        public Categories GetByStatus(Status status)
+        {
+            Categories result = new Categories();
+
+            foreach (Category category in this)
+            {
+                if (category.Id > 0 && category.Status.Equals(status))
+                {
+                    result.Add(category);
+                }
+            }
+
+            return result;
+        }
+
         public void FetchByComposite(Session session, Operator o, Status status)
         {
             Persistence p = Persistence.GetInstance(session);

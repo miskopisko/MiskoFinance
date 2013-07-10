@@ -11,12 +11,14 @@ namespace MPFinance.Core.Message.Responses
         #region Parameters
 
         public VwTxn VwTxn { get; set; }
+        public VwSummary Summary { get; set; }
 
         #endregion
 
         public UpdateTxnRS()
         {
             VwTxn = new VwTxn();
+            Summary = new VwSummary();
         }
     }
 }

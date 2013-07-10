@@ -2,6 +2,7 @@ using MPersist.Core;
 using MPersist.Core.Message;
 using MPFinance.Core.Message.Requests;
 using MPFinance.Core.Message.Responses;
+using System;
 
 namespace MPFinance.Core.Message
 {

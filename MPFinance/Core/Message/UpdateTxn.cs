@@ -38,12 +38,19 @@ namespace MPFinance.Core.Message
         public override void Execute(Session session)
         {
             Txn txn = (Txn)Txn.GetInstanceById(session, typeof(Txn), Request.VwTxn.TxnId, true);
-
             txn.TxnType = Request.VwTxn.TxnType;
             txn.Category = Request.VwTxn.Category;
             txn.Save(session);
 
+            Account account = (Account)Account.GetInstanceById(session, typeof(Account), txn.Account);
+            Category category = null;
+            if (txn.Category.HasValue)
+            {
+                category = (Category)Category.GetInstanceById(session, typeof(Category), txn.Category.Value);
+            }
+
             Response.VwTxn = VwTxn.GetInstanceById(session, Request.VwTxn.TxnId);
+            Response.Summary.Fetch(session, account.Operator, account, Request.FromDate, Request.ToDate, category);
         }
     }
 }

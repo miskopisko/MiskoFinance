@@ -53,7 +53,7 @@ namespace MPFinance.Core.Data.Stored
 
         public override string ToString()
         {
-            return AccountType.ToString() + " - " + Nickname;
+            return Nickname;
         }
 
         public override void PreSave(Session session, UpdateMode mode)

@@ -206,7 +206,7 @@ namespace MPersist.Core.Data
                 PreSave(session, UpdateMode.Delete);
 
                 // Update objects bottom -> up
-                for (int i = 0; i <= types.Count; i++)
+                for (int i = 0; i < types.Count; i++)
                 {
                     Delete(session, types[i]);
                 }
