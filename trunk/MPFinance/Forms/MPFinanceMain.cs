@@ -1,12 +1,12 @@
 ﻿using MPersist.Core;
 using MPersist.Core.Data;
 using MPersist.Core.Debug;
+using MPersist.Core.Enums;
 using MPersist.Core.Interfaces;
 using MPersist.Core.Message.Response;
 using MPersist.Core.Tools;
 using MPFinance.Core.Data.Stored;
 using MPFinance.Core.Data.Viewed;
-using MPFinance.Core.Enums;
 using MPFinance.Core.Message.Requests;
 using MPFinance.Core.Message.Responses;
 using MPFinance.Core.OFX;
@@ -66,14 +66,14 @@ namespace MPFinance.Forms
 
         public MPFinanceMain()
         {
-            InitializeComponent();            
+            InitializeComponent();
 
             transactionsGridView.TxnUpdated += transactionsGridView_TxnUpdated;
             PageCountsLbl.Text = Utils.ResolveTextParameters(Strings.strPageCounts, new Object[] { 0, 0 });
             TransactionCountsLbl.Text = Utils.ResolveTextParameters(Strings.strTransactionCounts, new Object[] { 0, 0 });
 
-            DebugWindow.Show();            
-        }
+            DebugWindow.Show();
+        }        
 
         #endregion
 
@@ -87,7 +87,7 @@ namespace MPFinance.Forms
 
             GetTxnsRQ request = new GetTxnsRQ();
             request.Operator = MPFinanceMain.Instance.Operator;
-//request.Account = AccountsList.SelectedNode != null ? (Account)AccountsList.SelectedNode.Tag : null;
+            request.Account = (Account)AccountsList.SelectedItem;
             request.FromDate = FromDatePicker.Value;
             request.ToDate = ToDatePicker.Value;
             request.Category = (Category)AllCategoriesCmb.SelectedItem;
@@ -120,52 +120,6 @@ namespace MPFinance.Forms
             MoreBtn.Enabled = transactionsGridView.CurrentPage.HasNext;
         }
 
-        // Fetch the summary as per the selection criteris
-        private void GetSummary()
-        {            
-            GetSummaryRQ request = new GetSummaryRQ();
-            request.Operator = Operator;
-//request.Account = AccountsList.SelectedNode != null ? (Account)AccountsList.SelectedNode.Tag : null;
-            request.FromDate = FromDatePicker.Value;
-            request.ToDate = ToDatePicker.Value;
-            MessageProcessor.SendRequest(request, GetSummarySuccess);   
-        }
-
-        // Callback method for GetSummary
-        private void GetSummarySuccess(AbstractResponse response)
-        {
-            summaryPanel.Update(((GetSummaryRS)response).Summary);
-        }
-
-        // Load the Accounts tree
-        private void GetAccounts()
-        {
-            GetAccountsRQ request = new GetAccountsRQ();
-            request.Operator = Operator;
-            MessageProcessor.SendRequest(request, GetAccountsSuccess);
-        }
-
-        // Callback method for GetAccounts
-        private void GetAccountsSuccess(AbstractResponse response)
-        {
-            AccountsList.DataSource = ((GetAccountsRS)response).Accounts;
-        }
-
-        // Load the Categories
-        private void GetCategories()
-        {
-            GetCategoriesRQ request = new GetCategoriesRQ();
-            request.Operator = MPFinanceMain.Instance.Operator;
-            request.Status = Status.Active;
-            MessageProcessor.SendRequest(request, GetCategoriesSuccess);
-        }
-
-        // Callback method for GetCatagories
-        private void GetCategoriesSuccess(AbstractResponse response)
-        {
-            AllCategoriesCmb.DataSource = ((GetCategoriesRS)response).AllCategories;
-        }
-
         // Load the operator, categories and accounts
         private void GetOperator()
         {
@@ -181,18 +135,20 @@ namespace MPFinance.Forms
         private void GetOperatorSuccess(AbstractResponse response)
         {
             Operator = ((GetOperatorRS)response).Operator;
+            Operator.BankAccountsChanged += Operator_BankAccountsChanged;
+            Operator.CategoriesChanged += Operator_CategoriesChanged;
+
+            Operator_BankAccountsChanged();
+            Operator_CategoriesChanged();
+
             headerLbl.Text = Operator.LastName + ", " + Operator.FirstName;
 
-            AccountsList.DataSource = ((GetOperatorRS)response).Operator.BankAccounts;
-            AllCategoriesCmb.DataSource = ((GetOperatorRS)response).Operator.Categories;
-            transactionsGridView.DataSource = ((GetOperatorRS)response).Txns;
-
             summaryPanel.Update(((GetOperatorRS)response).Summary);
-            PageCountsLbl.Text = Utils.ResolveTextParameters(Strings.strPageCounts, new Object[] { response.Page.PageNo, response.Page.TotalPageCount });
-            TransactionCountsLbl.Text = Utils.ResolveTextParameters(Strings.strTransactionCounts, new Object[] { response.Page.RowsFetchedSoFar, response.Page.TotalRowCount });
-
+            transactionsGridView.DataSource = ((GetOperatorRS)response).Txns;
             transactionsGridView.CurrentPage = response.Page;
 
+            PageCountsLbl.Text = Utils.ResolveTextParameters(Strings.strPageCounts, new Object[] { response.Page.PageNo, response.Page.TotalPageCount });
+            TransactionCountsLbl.Text = Utils.ResolveTextParameters(Strings.strTransactionCounts, new Object[] { response.Page.RowsFetchedSoFar, response.Page.TotalRowCount });
             MoreBtn.Enabled = transactionsGridView.CurrentPage.HasNext;
         }        
 
@@ -200,9 +156,25 @@ namespace MPFinance.Forms
 
         #region Event Listenners
 
-        private void transactionsGridView_TxnUpdated()
+        private void Operator_CategoriesChanged()
         {
-            GetSummary();
+            Categories categories = new Categories();
+            categories.Add(new Category { Name = "" });
+            categories.AddRange(Operator.Categories);
+            AllCategoriesCmb.DataSource = categories;
+        }
+
+        private void Operator_BankAccountsChanged()
+        {
+            BankAccounts bankAccounts = new BankAccounts();
+            bankAccounts.Add(new BankAccount { Nickname = "All" });
+            bankAccounts.AddRange(Operator.BankAccounts);
+            AccountsList.DataSource = bankAccounts;
+        }
+
+        private void transactionsGridView_TxnUpdated(VwSummary summary)
+        {
+            summaryPanel.Update(summary);
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -214,6 +186,7 @@ namespace MPFinance.Forms
         {
             String accountName = ((BankAccount)AccountsList.SelectedItem).Nickname;
             headerLbl.Text = Operator.LastName + ", " + Operator.FirstName + " - " + accountName;
+            transactionsGridView.DataSource = null;
             GetTxns(new Page(1));
         }
 
@@ -240,8 +213,6 @@ namespace MPFinance.Forms
             {
                 // Show the new txns dialog
                 new ImportNewTransactionsDialog(new OfxDocument(new FileStream(openFileDialog.FileName, FileMode.Open))).ShowDialog(this);
-
-                GetAccounts();
             }
         }
 
@@ -302,12 +273,12 @@ namespace MPFinance.Forms
 
         public void ExceptionHandler(Object sender, ThreadExceptionEventArgs e)
         {
-            Error(new ErrorMessage(e.Exception));
+            Error(new ErrorMessage(e.Exception.TargetSite.DeclaringType, e.Exception.TargetSite, ErrorLevel.Error, ErrorStrings.errUnexpectedApplicationErrorLong, new Object[] { e.Exception.Message, e.Exception.TargetSite.DeclaringType, e.Exception.TargetSite }));
         }
 
         public DialogResult Error(ErrorMessage message)
         {
-            return MessageBox.Show(this, message.ToString(), Strings.strError, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            return MessageBox.Show(this, message.Message, Strings.strError, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         public DialogResult Confirm(ErrorMessage message)

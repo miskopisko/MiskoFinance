@@ -66,12 +66,6 @@ namespace MPFinance.Core.Message
 
             Response.Operator.BankAccounts.FetchByOperator(session, Response.Operator);
             Response.Operator.Categories.FetchByComposite(session, Response.Operator, Status.Active);
-
-            //Response.AllCategories.Add(new Category(Response.Operator, "---", CategoryType.NULL, Status.Active));
-            //Response.AllCategories.AddRange(Response.Operator.ExpenseCategories);
-            //Response.AllCategories.AddRange(Response.Operator.IncomeCategories);
-            //Response.AllCategories.AddRange(Response.Operator.TransferCategories);
-
             Response.Txns.Fetch(session, Request.Page, Response.Operator, null, Request.FromDate, Request.ToDate, null);
             Response.Summary.Fetch(session, Response.Operator, null, Request.FromDate, Request.ToDate, null);
         }

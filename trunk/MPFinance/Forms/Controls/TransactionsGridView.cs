@@ -5,6 +5,7 @@ using MPersist.Core.MoneyType;
 using MPFinance.Core.Data.Viewed;
 using MPFinance.Core.Enums;
 using MPFinance.Core.Message.Requests;
+using MPFinance.Core.Message.Responses;
 using System;
 using System.Windows.Forms;
 
@@ -16,7 +17,7 @@ namespace MPFinance.Forms.Controls
 
         #region Delegates
 
-        public delegate void TxnUpdatedEventHandler();
+        public delegate void TxnUpdatedEventHandler(VwSummary summary);
         public event TxnUpdatedEventHandler TxnUpdated;
 
         #endregion
@@ -126,6 +127,8 @@ namespace MPFinance.Forms.Controls
 
             UpdateTxnRQ request = new UpdateTxnRQ();
             request.VwTxn = vwTxn;
+            request.FromDate = MPFinanceMain.Instance.FromDatePicker.Value;
+            request.ToDate = MPFinanceMain.Instance.ToDatePicker.Value;
             MessageProcessor.SendRequest(request, UpdateTxnSuccess);             
         }
 
@@ -202,7 +205,7 @@ namespace MPFinance.Forms.Controls
         {
             if (TxnUpdated != null)
             {
-                TxnUpdated();
+                TxnUpdated(((UpdateTxnRS)Response).Summary);
             }
         }
 

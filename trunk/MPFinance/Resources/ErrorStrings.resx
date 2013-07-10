@@ -154,9 +154,12 @@
     <value>Opening balance cannot be blank and must be a numerical value.</value>
   </data>
   <data name="errUnexpectedApplicationErrorLong" xml:space="preserve">
-    <value>Unexpected Application Error : {0} 
+    <value>Unexpected Application Error
 
- {1}</value>
+{0}
+
+Class: {1}
+Method :{2}</value>
   </data>
   <data name="errUnexpectedApplicationErrorShort" xml:space="preserve">
     <value>Unexpected Application Error : {0}</value>

@@ -11,9 +11,20 @@ namespace MPFinance.Core.Data.Stored
     {
         private static Logger Log = Logger.GetInstance(typeof(Operator));
 
+        #region Event Delegates
+
+        public delegate void BankAccountsChangedHandler();
+        public event BankAccountsChangedHandler BankAccountsChanged;
+
+        public delegate void CategoriesChangedHandler();
+        public event CategoriesChangedHandler CategoriesChanged;
+
+        #endregion
+
         #region Variable Declarations
 
-
+        private BankAccounts mBankAccounts_ = new BankAccounts();
+        private Categories mCategories_ = new Categories();
 
         #endregion
 
@@ -38,8 +49,31 @@ namespace MPFinance.Core.Data.Stored
 
         #region Other Properties
 
-        public BankAccounts BankAccounts { get; set; }
-        public Categories Categories { get; set; }
+        public BankAccounts BankAccounts 
+        { 
+            get { return mBankAccounts_; } 
+            set 
+            { 
+                mBankAccounts_ = value;
+                if (BankAccountsChanged != null)
+                {
+                    BankAccountsChanged();
+                }
+            } 
+        }
+
+        public Categories Categories 
+        { 
+            get { return mCategories_; } 
+            set 
+            {
+                mCategories_ = value;
+                if (CategoriesChanged != null)
+                {
+                    CategoriesChanged();
+                }
+            } 
+        }
 
         #endregion
 
@@ -47,9 +81,6 @@ namespace MPFinance.Core.Data.Stored
 
         public Operator()
         {
-            BankAccounts = new BankAccounts();
-            Categories = new Categories();
-            Categories.Add(new Category(this, "---", CategoryType.NULL, Status.Active));
         }
 
         public Operator(Session session, Persistence persistence) : base(session, persistence)

@@ -53,8 +53,10 @@ namespace MPFinance.Forms
 
         #region Private Methods
 
-        private void UpdateCategorySuccess(AbstractResponse response)
+        private void UpdateCategoriesSuccess(AbstractResponse response)
         {
+            MPFinanceMain.Instance.Operator.Categories = ((UpdateCategoriesRS)response).Categories.GetByStatus(Status.Active);
+            
             Dispose();
         }
 
@@ -64,13 +66,12 @@ namespace MPFinance.Forms
 
         private void AddBtn_Click(object sender, EventArgs e)
         {
-            Category newCategory = MPFinanceMain.Instance.Operator.Categories.AddNew();
-            newCategory.Operator = MPFinanceMain.Instance.Operator;
+            Category newCategory = null;            
 
             if(tabControl.SelectedTab.Equals(ExpenseTab))
             {
+                newCategory = (Category)((Categories)existingExpense.DataSource).AddNew();
                 newCategory.CategoryType = CategoryType.Expense;
-                ((Categories)existingExpense.DataSource).Add(newCategory);
                 existingExpense.Rows[existingExpense.Rows.Count - 1].Selected = true;
                 existingExpense.Rows[existingExpense.Rows.Count - 1].Cells["Status"].Value = Status.Active;
             }
@@ -89,14 +90,19 @@ namespace MPFinance.Forms
                 existingTransfer.Rows[existingTransfer.Rows.Count - 1].Cells["Status"].Value = Status.Active;
             }
 
-            
+            newCategory.Operator = MPFinanceMain.Instance.Operator;
         }
 
         private void DoneBtn_Click(object sender, EventArgs e)
         {
+            Categories categories = new Categories();
+            categories.AddRange((Categories)existingIncome.DataSource);
+            categories.AddRange((Categories)existingExpense.DataSource);
+            categories.AddRange((Categories)existingTransfer.DataSource);
+
             UpdateCategoriesRQ request = new UpdateCategoriesRQ();
-            request.Categories = MPFinanceMain.Instance.Operator.Categories;            
-            MessageProcessor.SendRequest(request, UpdateCategorySuccess);
+            request.Categories = categories;
+            MessageProcessor.SendRequest(request, UpdateCategoriesSuccess);
         }
 
         #endregion
