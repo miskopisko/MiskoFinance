@@ -1,3 +1,4 @@
+using System;
 using MPersist.Core;
 using MPersist.Core.Attributes;
 using MPersist.Core.Data;
@@ -5,7 +6,6 @@ using MPersist.Core.MoneyType;
 using MPersist.Core.Tools;
 using MPFinance.Core.Data.Stored;
 using MPFinance.Core.Enums;
-using System;
 
 namespace MPFinance.Core.Data.Viewed
 {
@@ -19,14 +19,14 @@ namespace MPFinance.Core.Data.Viewed
 
         #endregion
 
-        #region Properties
+        #region Viewed Properties
 
         [Viewed]
-        public Int64 TxnId { get; set; }
+        public PrimaryKey TxnId { get; set; }
         [Viewed]
-        public Int64 OperatorId { get; set; }
+        public PrimaryKey OperatorId { get; set; }
         [Viewed]
-        public Int64 AccountId { get; set; }
+        public PrimaryKey AccountId { get; set; }
         [Viewed]
         public DateTime DatePosted { get ; set; }
         [Viewed]
@@ -34,17 +34,20 @@ namespace MPFinance.Core.Data.Viewed
         [Viewed]
         public TxnType TxnType { get; set; }
         [Viewed]
-        public Int64? Category { get; set; }
+        public PrimaryKey Category { get; set; }
         [Viewed]
         public Money Debit { get; set; }
         [Viewed]
         public Money Credit { get; set; }
         [Viewed]
         public Boolean Transfer { get; set; }        
-        
+
+        #endregion
+
+        #region Other Properties
+
+        public Money Amount { get; set; }
         public String HashCode { get; set; }
-        public Money Amount { get; set; }        
-        public Boolean IsDuplicate { get; set; }
 
         #endregion
 
@@ -60,6 +63,12 @@ namespace MPFinance.Core.Data.Viewed
 
         #endregion
 
+        #region Override Methods
+
+        
+
+        #endregion
+
         #region Private Methods
 
 
@@ -68,7 +77,7 @@ namespace MPFinance.Core.Data.Viewed
 
         #region Public Methods
 
-        public static VwTxn GetInstanceById(Session session, Int64 Id)
+        public static VwTxn GetInstanceById(Session session, PrimaryKey Id)
         {
             VwTxn result = new VwTxn();
 

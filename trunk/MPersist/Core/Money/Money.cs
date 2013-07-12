@@ -51,6 +51,25 @@ namespace MPersist.Core.MoneyType
         {
         }
 
+        public Money(String s)
+        {
+            Decimal value;
+            Decimal.TryParse(s, out value);
+
+            checkValue(value);
+
+            _units = (Int64)value;
+            _decimalFraction = (Int32)Decimal.Round((value - _units) * FractionScale);
+
+            if (_decimalFraction >= FractionScale)
+            {
+                _units += 1;
+                _decimalFraction = _decimalFraction - (Int32)FractionScale;
+            }
+
+            _currency = Currency.FromCurrentCulture();
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Money"/> struct equal to <paramref name="value"/>.
         /// </summary>
@@ -786,7 +805,7 @@ namespace MPersist.Core.MoneyType
 
         public Object ToType(Type conversionType, IFormatProvider provider)
         {
-            throw new NotSupportedException();
+            return null;
         }
 
         #endregion

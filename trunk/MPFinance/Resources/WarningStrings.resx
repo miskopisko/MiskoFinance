@@ -120,10 +120,7 @@
   <data name="warnAccountUpdateSuccess" xml:space="preserve">
     <value>Bank accounts updated successfully</value>
   </data>
-  <data name="warnCategoryAdded" xml:space="preserve">
-    <value>Category added successfully</value>
-  </data>
-  <data name="warnCategoryUpdated" xml:space="preserve">
-    <value>Category updated successfully</value>
+  <data name="warnCategoriesAddedUpdated" xml:space="preserve">
+    <value>Categories added/updated successfully</value>
   </data>
 </root>

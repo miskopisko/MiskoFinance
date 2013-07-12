@@ -63,7 +63,7 @@ namespace MPersist.Core.Tools
 
             for (int i = 0; i < keyParts.Length; i=i+2)
             {
-                key += keyParts[i].ToString() + ":" + keyParts[i+1].ToString() + ";";
+                key += keyParts[i].ToString() + ":" + keyParts[i+1] != null ? keyParts[i+1].ToString() : "" + ";";
             }
 
             return key;

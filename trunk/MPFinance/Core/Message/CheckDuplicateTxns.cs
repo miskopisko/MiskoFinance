@@ -1,11 +1,11 @@
+using System;
+using System.Collections.Generic;
 using MPersist.Core;
 using MPersist.Core.Message;
 using MPFinance.Core.Data.Stored;
 using MPFinance.Core.Data.Viewed;
 using MPFinance.Core.Message.Requests;
 using MPFinance.Core.Message.Responses;
-using System;
-using System.Collections.Generic;
 
 namespace MPFinance.Core.Message
 {
@@ -16,7 +16,6 @@ namespace MPFinance.Core.Message
         #region Properties
 
         public new CheckDuplicateTxnsRQ Request { get { return (CheckDuplicateTxnsRQ)base.Request; } }
-
         public new CheckDuplicateTxnsRS Response { get { return (CheckDuplicateTxnsRS)base.Response; } }
 
         #endregion
@@ -29,7 +28,7 @@ namespace MPFinance.Core.Message
         {
             // Get all existing txns with the same timeframe
             Txns txnsToChackAgainst = new Txns();
-            txnsToChackAgainst.FetchByAccountAndDate(session, Request.Account, Request.OfxDucument.StartDate, Request.OfxDucument.EndDate);
+            txnsToChackAgainst.FetchByAccountAndDate(session, Request.Account.Id, Request.FromDate, Request.ToDate);
             
             // Build a dictionary hashtable to check against
             Dictionary<String, Txn> existingTxnHashes = new Dictionary<String, Txn>();            
@@ -39,7 +38,7 @@ namespace MPFinance.Core.Message
 	        }
 
             // Generate a hash for each imported txn and compare to the hash table; add if non existant
-            foreach (VwTxn vwTxn in Request.OfxDucument.Transactions)
+            foreach (VwTxn vwTxn in Request.Transactions)
             {
                 if (!existingTxnHashes.ContainsKey(vwTxn.GenerateHashCode(Request.Account)))
                 {

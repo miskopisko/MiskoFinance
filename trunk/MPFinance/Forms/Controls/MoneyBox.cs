@@ -1,9 +1,10 @@
-﻿using MPersist.Core;
-using MPersist.Core.MoneyType;
-using System;
+﻿using System;
 using System.Drawing;
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using MPersist.Core;
+using MPersist.Core.MoneyType;
 
 namespace MPFinance.Forms.Controls
 {
@@ -11,9 +12,13 @@ namespace MPFinance.Forms.Controls
     {
         private static Logger Log = Logger.GetInstance(typeof(TransactionsGridView));
 
+        [DllImport("user32.dll")]
+        static extern bool HideCaret(IntPtr hWnd);
+
         #region Variable Declarations
 
-        private Money mValue_ = null;
+        private Money mValue_ = new Money(0);
+        private Boolean mFocused_ = false;        
 
         #endregion
 
@@ -23,14 +28,8 @@ namespace MPFinance.Forms.Controls
         {
             get 
             {
-                if (String.IsNullOrEmpty(Text))
-                {
-                    return null;
-                }
-                else
-                {
-                    return new Money(Convert.ToDecimal(Text.Replace("$", "")));
-                }
+                mValue_ = new Money(Text.Replace("$", ""));
+                return mValue_;
             }
             set 
             {
@@ -50,84 +49,80 @@ namespace MPFinance.Forms.Controls
         {
             InitializeComponent();
             TextAlign = HorizontalAlignment.Right;
+            Text = mValue_.ToString();
         }
 
         #endregion
 
         #region Override Methods
 
-        protected override void OnLostFocus(EventArgs e)
+        protected override void OnLeave(EventArgs e)
         {
             if (!ReadOnly)
             {
-                mValue_ = null;
-                if(!String.IsNullOrEmpty(Text))
-                {
-                    mValue_ = new Money(Convert.ToDecimal(Text));
-                }
-
-                if (Text.Length > 0)
-                {
-                    Text = mValue_.ToString();
-                }
+                mFocused_ = false;
+                Value = new Money(Text);
             }
 
-            base.OnLostFocus(e);
+            base.OnLeave(e);
         }
 
         protected override void OnGotFocus(EventArgs e)
         {
             if (!ReadOnly)
             {
-                Text = Text.Replace("$", "");
-                Select(0, Text.Length);                
+                if (MouseButtons == MouseButtons.None)
+                {
+                    Text = Text.Replace("$", "");                    
+                    mFocused_ = true;
+                    SelectAll();
+                }
             }
+            else
+            {
+                HideCaret(Handle);
+            }
+        }
 
-            base.OnGotFocus(e);
+        protected override void OnMouseUp(MouseEventArgs mevent)
+        {
+            if (!ReadOnly && !mFocused_ && SelectionLength == 0)
+            {
+                Text = Text.Replace("$", "");
+                mFocused_ = true;
+                SelectAll();
+            }
         }
 
         protected override void OnTextChanged(EventArgs e)
         {
             if (mValue_ != null && mValue_.lessThen(Money.Zero))
             {
-                if (ReadOnly)
-                {
-                    ReadOnly = false;
-                    ForeColor = Color.Red;
-                    ReadOnly = true;
-                }
-                else
-                {
-                    ForeColor = Color.Red;
-                }
+                ForeColor = Color.Red;
             }
             else
             {
-                if (ReadOnly)
-                {
-                    ReadOnly = false;
-                    ForeColor = Color.Black;
-                    ReadOnly = true;
-                }
-                else
-                {
-                    ForeColor = Color.Black;
-                }
+                ForeColor = Color.Black;
             }
-
-            base.OnTextChanged(e);
         }
 
         protected override void OnKeyPress(KeyPressEventArgs e)
         {
-            if (Char.IsDigit(e.KeyChar) || e.KeyChar.Equals('-') || e.KeyChar.Equals('.') || e.KeyChar.Equals('\b'))
+            if (!ReadOnly)
             {
-                if (e.KeyChar.Equals('-') && SelectionStart != 0)
+                if (Char.IsDigit(e.KeyChar) || e.KeyChar.Equals('-') || e.KeyChar.Equals('.') || e.KeyChar.Equals('\b'))
                 {
-                    e.Handled = true;
-                }
+                    if (e.KeyChar.Equals('-') && SelectionStart != 0)
+                    {
+                        e.Handled = true;
+                    }
 
-                if (Regex.IsMatch(Text, @"\.\d\d") && SelectionStart > Text.LastIndexOf('.'))
+                    if (Regex.IsMatch(Text, @"\.\d\d") && SelectionStart > Text.LastIndexOf('.') && !e.KeyChar.Equals('\b'))
+                    {
+                        e.Handled = true;
+                    }
+                }
+                else
                 {
                     e.Handled = true;
                 }
@@ -136,8 +131,6 @@ namespace MPFinance.Forms.Controls
             {
                 e.Handled = true;
             }
-
-            base.OnKeyPress(e);
         }
 
         #endregion

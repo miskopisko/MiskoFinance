@@ -1,7 +1,6 @@
 using MPersist.Core;
+using MPersist.Core.Data;
 using MPersist.Core.Message.Request;
-using MPFinance.Core.Data.Stored;
-using System;
 using MPFinance.Core.Enums;
 
 namespace MPFinance.Core.Message.Requests
@@ -12,7 +11,7 @@ namespace MPFinance.Core.Message.Requests
 
         #region Parameters
 
-        public Operator Operator { get; set; }
+        public PrimaryKey Operator { get; set; }
         public Status Status { get; set; }
 
         #endregion

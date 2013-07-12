@@ -2,7 +2,6 @@ using MPersist.Core;
 using MPersist.Core.Message;
 using MPFinance.Core.Message.Requests;
 using MPFinance.Core.Message.Responses;
-using System;
 
 namespace MPFinance.Core.Message
 {
@@ -12,21 +11,8 @@ namespace MPFinance.Core.Message
 
         #region Properties
 
-        public new GetTxnsRQ Request
-        {
-            get
-            {
-                return (GetTxnsRQ)base.Request;
-            }
-        }
-
-        public new GetTxnsRS Response
-        {
-            get
-            {
-                return (GetTxnsRS)base.Response;
-            }
-        }
+        public new GetTxnsRQ Request { get { return (GetTxnsRQ)base.Request; } }
+        public new GetTxnsRS Response { get { return (GetTxnsRS)base.Response; } }
 
         #endregion
 

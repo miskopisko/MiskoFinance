@@ -1,10 +1,10 @@
+using System;
 using MPersist.Core;
 using MPersist.Core.Attributes;
 using MPersist.Core.Data;
 using MPersist.Core.Enums;
 using MPersist.Core.MoneyType;
 using MPFinance.Core.Enums;
-using System;
 
 namespace MPFinance.Core.Data.Stored
 {
@@ -21,7 +21,7 @@ namespace MPFinance.Core.Data.Stored
         #region Stored Properties
 
         [Stored]
-        public Int64 Account { get; set; }
+        public PrimaryKey Account { get; set; }
         [Stored]
         public TxnType TxnType { get; set;}
         [Stored]
@@ -31,7 +31,7 @@ namespace MPFinance.Core.Data.Stored
         [Stored]
         public String Description { get; set; }
         [Stored]
-        public Int64? Category { get; set; }
+        public PrimaryKey Category { get; set; }
         [Stored]
         public String HashCode { get; set; }
 

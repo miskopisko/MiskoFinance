@@ -2,7 +2,6 @@ using MPersist.Core;
 using MPersist.Core.Message.Request;
 using MPFinance.Core.Data.Stored;
 using MPFinance.Core.Data.Viewed;
-using System;
 
 namespace MPFinance.Core.Message.Requests
 {

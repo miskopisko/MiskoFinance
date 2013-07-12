@@ -144,4 +144,85 @@
   <metadata name="label9.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </metadata>
+  <data name="CurrentBalance.Value" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAD9NUGVyc2lzdCwgVmVyc2lvbj0xLjAuMC4wLCBDdWx0dXJlPW5l
+        dXRyYWwsIFB1YmxpY0tleVRva2VuPW51bGwFAQAAAB1NUGVyc2lzdC5Db3JlLk1vbmV5VHlwZS5Nb25l
+        eQMAAAAJX2N1cnJlbmN5Bl91bml0cxBfZGVjaW1hbEZyYWN0aW9uBAAAIE1QZXJzaXN0LkNvcmUuTW9u
+        ZXlUeXBlLkN1cnJlbmN5AgAAAAkIAgAAAAX9////IE1QZXJzaXN0LkNvcmUuTW9uZXlUeXBlLkN1cnJl
+        bmN5AQAAAANfaWQACAIAAAB8AAAAAAAAAAAAAAAAAAAACw==
+</value>
+  </data>
+  <data name="CreditsDebitsDiff.Value" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAD9NUGVyc2lzdCwgVmVyc2lvbj0xLjAuMC4wLCBDdWx0dXJlPW5l
+        dXRyYWwsIFB1YmxpY0tleVRva2VuPW51bGwFAQAAAB1NUGVyc2lzdC5Db3JlLk1vbmV5VHlwZS5Nb25l
+        eQMAAAAJX2N1cnJlbmN5Bl91bml0cxBfZGVjaW1hbEZyYWN0aW9uBAAAIE1QZXJzaXN0LkNvcmUuTW9u
+        ZXlUeXBlLkN1cnJlbmN5AgAAAAkIAgAAAAX9////IE1QZXJzaXN0LkNvcmUuTW9uZXlUeXBlLkN1cnJl
+        bmN5AQAAAANfaWQACAIAAAB8AAAAAAAAAAAAAAAAAAAACw==
+</value>
+  </data>
+  <data name="OpeningBalance.Value" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAD9NUGVyc2lzdCwgVmVyc2lvbj0xLjAuMC4wLCBDdWx0dXJlPW5l
+        dXRyYWwsIFB1YmxpY0tleVRva2VuPW51bGwFAQAAAB1NUGVyc2lzdC5Db3JlLk1vbmV5VHlwZS5Nb25l
+        eQMAAAAJX2N1cnJlbmN5Bl91bml0cxBfZGVjaW1hbEZyYWN0aW9uBAAAIE1QZXJzaXN0LkNvcmUuTW9u
+        ZXlUeXBlLkN1cnJlbmN5AgAAAAkIAgAAAAX9////IE1QZXJzaXN0LkNvcmUuTW9uZXlUeXBlLkN1cnJl
+        bmN5AQAAAANfaWQACAIAAAB8AAAAAAAAAAAAAAAAAAAACw==
+</value>
+  </data>
+  <data name="TotalCredits.Value" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAD9NUGVyc2lzdCwgVmVyc2lvbj0xLjAuMC4wLCBDdWx0dXJlPW5l
+        dXRyYWwsIFB1YmxpY0tleVRva2VuPW51bGwFAQAAAB1NUGVyc2lzdC5Db3JlLk1vbmV5VHlwZS5Nb25l
+        eQMAAAAJX2N1cnJlbmN5Bl91bml0cxBfZGVjaW1hbEZyYWN0aW9uBAAAIE1QZXJzaXN0LkNvcmUuTW9u
+        ZXlUeXBlLkN1cnJlbmN5AgAAAAkIAgAAAAX9////IE1QZXJzaXN0LkNvcmUuTW9uZXlUeXBlLkN1cnJl
+        bmN5AQAAAANfaWQACAIAAAB8AAAAAAAAAAAAAAAAAAAACw==
+</value>
+  </data>
+  <data name="TotalTransferOut.Value" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAD9NUGVyc2lzdCwgVmVyc2lvbj0xLjAuMC4wLCBDdWx0dXJlPW5l
+        dXRyYWwsIFB1YmxpY0tleVRva2VuPW51bGwFAQAAAB1NUGVyc2lzdC5Db3JlLk1vbmV5VHlwZS5Nb25l
+        eQMAAAAJX2N1cnJlbmN5Bl91bml0cxBfZGVjaW1hbEZyYWN0aW9uBAAAIE1QZXJzaXN0LkNvcmUuTW9u
+        ZXlUeXBlLkN1cnJlbmN5AgAAAAkIAgAAAAX9////IE1QZXJzaXN0LkNvcmUuTW9uZXlUeXBlLkN1cnJl
+        bmN5AQAAAANfaWQACAIAAAB8AAAAAAAAAAAAAAAAAAAACw==
+</value>
+  </data>
+  <data name="TotalDebits.Value" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAD9NUGVyc2lzdCwgVmVyc2lvbj0xLjAuMC4wLCBDdWx0dXJlPW5l
+        dXRyYWwsIFB1YmxpY0tleVRva2VuPW51bGwFAQAAAB1NUGVyc2lzdC5Db3JlLk1vbmV5VHlwZS5Nb25l
+        eQMAAAAJX2N1cnJlbmN5Bl91bml0cxBfZGVjaW1hbEZyYWN0aW9uBAAAIE1QZXJzaXN0LkNvcmUuTW9u
+        ZXlUeXBlLkN1cnJlbmN5AgAAAAkIAgAAAAX9////IE1QZXJzaXN0LkNvcmUuTW9uZXlUeXBlLkN1cnJl
+        bmN5AQAAAANfaWQACAIAAAB8AAAAAAAAAAAAAAAAAAAACw==
+</value>
+  </data>
+  <data name="TotalTransferIn.Value" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAD9NUGVyc2lzdCwgVmVyc2lvbj0xLjAuMC4wLCBDdWx0dXJlPW5l
+        dXRyYWwsIFB1YmxpY0tleVRva2VuPW51bGwFAQAAAB1NUGVyc2lzdC5Db3JlLk1vbmV5VHlwZS5Nb25l
+        eQMAAAAJX2N1cnJlbmN5Bl91bml0cxBfZGVjaW1hbEZyYWN0aW9uBAAAIE1QZXJzaXN0LkNvcmUuTW9u
+        ZXlUeXBlLkN1cnJlbmN5AgAAAAkIAgAAAAX9////IE1QZXJzaXN0LkNvcmUuTW9uZXlUeXBlLkN1cnJl
+        bmN5AQAAAANfaWQACAIAAAB8AAAAAAAAAAAAAAAAAAAACw==
+</value>
+  </data>
+  <data name="TransfersDiff.Value" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAD9NUGVyc2lzdCwgVmVyc2lvbj0xLjAuMC4wLCBDdWx0dXJlPW5l
+        dXRyYWwsIFB1YmxpY0tleVRva2VuPW51bGwFAQAAAB1NUGVyc2lzdC5Db3JlLk1vbmV5VHlwZS5Nb25l
+        eQMAAAAJX2N1cnJlbmN5Bl91bml0cxBfZGVjaW1hbEZyYWN0aW9uBAAAIE1QZXJzaXN0LkNvcmUuTW9u
+        ZXlUeXBlLkN1cnJlbmN5AgAAAAkIAgAAAAX9////IE1QZXJzaXN0LkNvcmUuTW9uZXlUeXBlLkN1cnJl
+        bmN5AQAAAANfaWQACAIAAAB8AAAAAAAAAAAAAAAAAAAACw==
+</value>
+  </data>
+  <data name="BalanceDiff.Value" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAD9NUGVyc2lzdCwgVmVyc2lvbj0xLjAuMC4wLCBDdWx0dXJlPW5l
+        dXRyYWwsIFB1YmxpY0tleVRva2VuPW51bGwFAQAAAB1NUGVyc2lzdC5Db3JlLk1vbmV5VHlwZS5Nb25l
+        eQMAAAAJX2N1cnJlbmN5Bl91bml0cxBfZGVjaW1hbEZyYWN0aW9uBAAAIE1QZXJzaXN0LkNvcmUuTW9u
+        ZXlUeXBlLkN1cnJlbmN5AgAAAAkIAgAAAAX9////IE1QZXJzaXN0LkNvcmUuTW9uZXlUeXBlLkN1cnJl
+        bmN5AQAAAANfaWQACAIAAAB8AAAAAAAAAAAAAAAAAAAACw==
+</value>
+  </data>
 </root>

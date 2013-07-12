@@ -1,5 +1,5 @@
-using MPersist.Resources.Enums;
 using System;
+using MPersist.Resources.Enums;
 
 namespace MPersist.Core
 {

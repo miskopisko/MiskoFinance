@@ -153,6 +153,9 @@
   <data name="errOpeningBalance" xml:space="preserve">
     <value>Opening balance cannot be blank and must be a numerical value.</value>
   </data>
+  <data name="errOperatorNotFound" xml:space="preserve">
+    <value>Operator {0} not found</value>
+  </data>
   <data name="errUnexpectedApplicationErrorLong" xml:space="preserve">
     <value>Unexpected Application Error
 

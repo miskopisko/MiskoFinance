@@ -1,9 +1,9 @@
-using MPersist.Core.Attributes;
-using MPersist.Core.Enums;
-using MPersist.Core.Tools;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using MPersist.Core.Attributes;
+using MPersist.Core.Enums;
+using MPersist.Core.Tools;
 
 namespace MPersist.Core.Data
 {
@@ -20,7 +20,7 @@ namespace MPersist.Core.Data
         #region Stored Properties
 
         [Stored(PrimaryKey=true)]
-        public Int64 Id { get; set; }
+        public PrimaryKey Id { get; set; }
         [Stored(RowVer=true)]
         public Int64 RowVer { get; set; }
 
@@ -37,6 +37,7 @@ namespace MPersist.Core.Data
 
         public AbstractStoredData()
         {
+            Id = new PrimaryKey();
         }
 
         public AbstractStoredData(Session session, Persistence persistence)
@@ -106,26 +107,26 @@ namespace MPersist.Core.Data
 
         #region Public Methods
 
-        public static AbstractStoredData GetInstanceById(Session session, Type type, Int64 id)
+        public static AbstractStoredData GetInstanceById(Session session, Type type, PrimaryKey id)
         {
             return GetInstanceById(session, type, id, false);
         }
 
-        public static AbstractStoredData GetInstanceById(Session session, Type type, Int64 id, Boolean deep)
+        public static AbstractStoredData GetInstanceById(Session session, Type type, PrimaryKey id, Boolean deep)
         {
             AbstractStoredData result = (AbstractStoredData)type.Assembly.CreateInstance(type.FullName);
 
             result.FetchById(session, id, deep);
 
             return result;
-        }        
+        }
 
-        public void FetchById(Session session, Int64 id)
+        public void FetchById(Session session, PrimaryKey id)
         {
             FetchById(session, id, false);
         }
 
-        public void FetchById(Session session, Int64 id, Boolean deep)
+        public void FetchById(Session session, PrimaryKey id, Boolean deep)
         {
             String key = MPCache.GetKey(GetType(), new Object[] { "Id", id });
 
@@ -155,7 +156,7 @@ namespace MPersist.Core.Data
             }
         }
 
-        public void Save(Session session)
+        public AbstractStoredData Save(Session session)
         {
             SaveChildren(session);
 
@@ -167,7 +168,7 @@ namespace MPersist.Core.Data
                 currentType = currentType.BaseType;                
             }            
             
-            if (Id == 0)
+            if (Id == 0)    // Insert mode
             {
                 PreSave(session, UpdateMode.Insert);
 
@@ -181,7 +182,7 @@ namespace MPersist.Core.Data
 
                 MPCache.Put(MPCache.GetKey(GetType(), new Object[] { "Id", this.Id }), this);
             }
-            else if (Id > 0)
+            else if (Id > 0)    // Update mode
             {
                 PreSave(session, UpdateMode.Update);
 
@@ -201,7 +202,7 @@ namespace MPersist.Core.Data
 
                 MPCache.Put(MPCache.GetKey(GetType(), new Object[] { "Id", this.Id }), this);
             }
-            else if(Id < 0)
+            else if(Id < 0) // Delete mode
             {
                 PreSave(session, UpdateMode.Delete);
 
@@ -215,6 +216,8 @@ namespace MPersist.Core.Data
 
                 MPCache.Remove(MPCache.GetKey(GetType(), new Object[] { "Id", this.Id }));
             }
+
+            return this;
         }
 
         #endregion

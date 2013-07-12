@@ -1,11 +1,11 @@
-﻿using MPersist.Core.Debug;
-using MPersist.Core.Enums;
-using MPersist.Core.Resources;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Diagnostics;
 using System.Reflection;
+using MPersist.Core.Debug;
+using MPersist.Core.Enums;
+using MPersist.Core.Resources;
 
 namespace MPersist.Core
 {
@@ -37,12 +37,6 @@ namespace MPersist.Core
         public MessageMode MessageMode { get { return mMessageMode_; } set { mMessageMode_ = value; } }
         public Int32 RowPerPage { get { return mRowsPerPage_; } set { mRowsPerPage_ = value; } }
         public ErrorMessages ErrorMessages { get { return mErrorMessages_; } }
-        public Boolean HasErrors  { get { return Contains(ErrorLevel.Error); } }
-        public Boolean HasWarnings { get { return Contains(ErrorLevel.Warning); } }
-        public Boolean HasConfirmations { get { return Contains(ErrorLevel.Confirmation); } }
-        public ErrorMessages Errors { get { return ListOf(ErrorLevel.Error); } }
-        public ErrorMessages Warnings { get { return ListOf(ErrorLevel.Warning); } }
-        public ErrorMessages Confirmations { get { return ListOf(ErrorLevel.Confirmation); } }
         public SqlTimings<SqlTiming> SqlTimings 
         {
             get 
@@ -140,44 +134,6 @@ namespace MPersist.Core
             {
                 throw new MPException("Houston we have a problem!");
             }
-        }
-
-        #endregion
-
-        #region Private Methods
-
-        private Boolean Contains(ErrorLevel level)
-        {
-            if (level != null && ErrorMessages != null && ErrorMessages.Count > 0)
-            {
-                foreach (ErrorMessage message in ErrorMessages)
-                {
-                    if (message.Level.Equals(level))
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
-        }
-
-        private ErrorMessages ListOf(ErrorLevel level)
-        {
-            ErrorMessages list = new ErrorMessages();
-
-            if (level != null && ErrorMessages != null && ErrorMessages.Count > 0)
-            {
-                foreach (ErrorMessage message in ErrorMessages)
-                {
-                    if (message.Level.Equals(level))
-                    {
-                        list.Add(message);
-                    }
-                }
-            }
-
-            return list;
         }
 
         #endregion

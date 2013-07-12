@@ -1,6 +1,6 @@
+using System;
 using MPersist.Core;
 using MPersist.Core.Message.Request;
-using System;
 
 namespace MPFinance.Core.Message.Requests
 {

@@ -1,10 +1,10 @@
-﻿using MPersist.Core.Message.Request;
-using MPersist.Core.Message.Response;
-using System;
+﻿using System;
 using System.IO;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
+using MPersist.Core.Message.Request;
+using MPersist.Core.Message.Response;
 
 namespace MPersist.Core.Message
 {
@@ -28,11 +28,11 @@ namespace MPersist.Core.Message
 
         #region Constructors
 
-        protected AbstractMessage()
+        public AbstractMessage()
         {
         }
 
-        protected AbstractMessage(AbstractRequest request, AbstractResponse response)
+        public AbstractMessage(AbstractRequest request, AbstractResponse response)
         {
             mRequest_ = request;
             mResponse_ = response;

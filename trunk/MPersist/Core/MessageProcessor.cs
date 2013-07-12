@@ -1,3 +1,7 @@
+using System;
+using System.ComponentModel;
+using System.Reflection;
+using System.Windows.Forms;
 using MPersist.Core.Debug;
 using MPersist.Core.Enums;
 using MPersist.Core.Interfaces;
@@ -5,10 +9,6 @@ using MPersist.Core.Message;
 using MPersist.Core.Message.Request;
 using MPersist.Core.Message.Response;
 using MPersist.Core.Resources;
-using System;
-using System.ComponentModel;
-using System.Reflection;
-using System.Windows.Forms;
 
 namespace MPersist.Core
 {
@@ -91,22 +91,21 @@ namespace MPersist.Core
                         {
                             if (IOController is Control)
                             {
-                                ((Control)IOController).Invoke(new MethodInvoker(delegate { IOController.Error(errorMessage); }));
+                                ((Control)IOController).Invoke(new MethodInvoker(delegate { IOController.Error(errorMessage.Message); }));
                             }
                         }
                         else if (errorMessage.Level.Equals(ErrorLevel.Warning))
                         {
                             if (IOController is Control)
                             {
-                                ((Control)IOController).Invoke(new MethodInvoker(delegate { IOController.Warning(errorMessage); }));
+                                ((Control)IOController).Invoke(new MethodInvoker(delegate { IOController.Warning(errorMessage.Message); }));
                             }
-                            session.Warnings.Add(errorMessage);
                         }
                         else if (errorMessage.Level.Equals(ErrorLevel.Info))
                         {
                             if (IOController is Control)
                             {
-                                ((Control)IOController).Invoke(new MethodInvoker(delegate { IOController.Info(errorMessage); }));
+                                ((Control)IOController).Invoke(new MethodInvoker(delegate { IOController.Info(errorMessage.Message); }));
                             }
                         }
                         else if (errorMessage.Level.Equals(ErrorLevel.Confirmation))
@@ -115,7 +114,7 @@ namespace MPersist.Core
                             {
                                 if (IOController is Control)
                                 {
-                                    Func<DialogResult> showMsg = () => IOController.Confirm(errorMessage);
+                                    Func<DialogResult> showMsg = () => IOController.Confirm(errorMessage.Message);
                                     DialogResult result = (DialogResult)((Control)IOController).Invoke(showMsg);
 
                                     if (result == DialogResult.Yes)
@@ -126,14 +125,10 @@ namespace MPersist.Core
                                     }
                                     else
                                     {
-                                        response.HasErrors = true;
+                                        response.Errors.Add(new MPException(ErrorStrings.errUserDeclinedConfirmation).ErrorMessage);
                                         break;
                                     }
                                 }
-                            }
-                            else // Already confirmed.
-                            {
-                                session.Confirmations.Add(errorMessage);
                             }
                         }
                     }
@@ -204,9 +199,9 @@ namespace MPersist.Core
 
                         if (response != null)
                         {
-                            response.HasErrors = session.HasErrors;
-                            response.HasWarnings = session.HasWarnings;
-                            response.HasConfirmations = session.HasConfirmations;
+                            response.Errors = session.ErrorMessages.ListOf(ErrorLevel.Error);
+                            response.Warnings = session.ErrorMessages.ListOf(ErrorLevel.Warning);
+                            response.Confirmations = session.ErrorMessages.ListOf(ErrorLevel.Confirmation);
                             response.MessageTiming.EndTime = DateTime.Now;
                             response.MessageTiming.SqlTimings = session.SqlTimings;
                             response.Page = request.Page;
@@ -252,7 +247,7 @@ namespace MPersist.Core
             }
             catch (Exception e)
             {
-                IOController.Error(new ErrorMessage(target.GetType(), method, ErrorLevel.Error, e.InnerException.Message));
+                IOController.Error(new ErrorMessage(target.GetType(), method, ErrorLevel.Error, e.InnerException.Message).Message);
                 return false;
             }
         }

@@ -1,4 +1,6 @@
-﻿using MPersist.Core;
+﻿using System;
+using System.Windows.Forms;
+using MPersist.Core;
 using MPersist.Core.Data;
 using MPersist.Core.Message.Response;
 using MPersist.Core.MoneyType;
@@ -6,8 +8,6 @@ using MPFinance.Core.Data.Viewed;
 using MPFinance.Core.Enums;
 using MPFinance.Core.Message.Requests;
 using MPFinance.Core.Message.Responses;
-using System;
-using System.Windows.Forms;
 
 namespace MPFinance.Forms.Controls
 {
@@ -127,8 +127,9 @@ namespace MPFinance.Forms.Controls
 
             UpdateTxnRQ request = new UpdateTxnRQ();
             request.VwTxn = vwTxn;
-            request.FromDate = MPFinanceMain.Instance.FromDatePicker.Value;
-            request.ToDate = MPFinanceMain.Instance.ToDatePicker.Value;
+            request.FromDate = MPFinanceMain.Instance.FromDate;
+            request.ToDate = MPFinanceMain.Instance.ToDate;
+            request.Operator = MPFinanceMain.Instance.Operator.Id;
             MessageProcessor.SendRequest(request, UpdateTxnSuccess);             
         }
 

@@ -67,7 +67,7 @@ namespace MPFinance.Core.Data.Stored
             return result;
         }
 
-        public void FetchByComposite(Session session, Operator o, Status status)
+        public void FetchByComposite(Session session, PrimaryKey o, Status status)
         {
             Persistence p = Persistence.GetInstance(session);
             p.SetSql("SELECT * FROM Category");

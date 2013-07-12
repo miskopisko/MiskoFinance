@@ -1,5 +1,5 @@
-﻿using MPersist.Core;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
+using MPersist.Core;
 
 namespace MPFinance.Forms.Controls
 {

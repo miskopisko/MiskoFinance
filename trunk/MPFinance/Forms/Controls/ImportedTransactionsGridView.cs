@@ -1,9 +1,9 @@
-﻿using MPersist.Core;
+﻿using System;
+using System.Windows.Forms;
+using MPersist.Core;
 using MPersist.Core.MoneyType;
 using MPFinance.Core.Data.Viewed;
 using MPFinance.Core.Enums;
-using System;
-using System.Windows.Forms;
 
 namespace MPFinance.Forms.Controls
 {
@@ -41,7 +41,7 @@ namespace MPFinance.Forms.Controls
         {
             mSelectableRecords_ = Rows.Count;
 
-            ((CheckBoxHeaderCell)mImport_.HeaderCell).Enabled = true;
+            ((CheckBoxHeaderCell)mImport_.HeaderCell).Enabled = mSelectableRecords_ > 0;
 
             base.OnDataBindingComplete(e);
         }

@@ -1,4 +1,9 @@
-﻿using MPersist.Core.Data;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
+using System.Data.SQLite;
+using MPersist.Core.Data;
 using MPersist.Core.Debug;
 using MPersist.Core.Enums;
 using MPersist.Core.MoneyType;
@@ -7,11 +12,6 @@ using MPersist.Core.Resources;
 using MPersist.Resources.Enums;
 using MySql.Data.MySqlClient;
 using Oracle.DataAccess.Client;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Common;
-using System.Data.SQLite;
 
 namespace MPersist.Core
 {
@@ -165,18 +165,18 @@ namespace MPersist.Core
 
         #region Execute Methods
 
-        public Int64 ExecuteInsert(AbstractStoredData clazz, Type subType)
+        public PrimaryKey ExecuteInsert(AbstractStoredData clazz, Type subType)
         {
             mSession_.PersistencePool.Add(this);
 
             GenerateInsertStatement(clazz, subType);
 
-            Int64 newId = clazz.Id;
+            PrimaryKey newId = new PrimaryKey();
 
             if (mCommand_ is MySqlCommand || mCommand_ is SQLiteCommand)
             {
                 DateTime startTime = DateTime.Now;
-                newId = Int64.Parse(mCommand_.ExecuteScalar().ToString());
+                newId = new PrimaryKey(mCommand_.ExecuteScalar().ToString());
                 mSession_.SqlTimings.Add(new SqlTiming(mCommand_.CommandText, mCommand_.Parameters, startTime));
             }
             else if (mCommand_ is OracleCommand)
@@ -191,10 +191,10 @@ namespace MPersist.Core
                 mCommand_.ExecuteNonQuery();
                 mSession_.SqlTimings.Add(new SqlTiming(mCommand_.CommandText, mCommand_.Parameters, startTime));
 
-                newId = Convert.ToInt64(lastId.Value);
+                newId = new PrimaryKey(Convert.ToInt64(lastId.Value));
             }
 
-            return mSession_.MessageMode.Equals(MessageMode.Normal) ? newId : 0;
+            return mSession_.MessageMode.Equals(MessageMode.Normal) ? newId : clazz.Id;
         }
 
         public bool ExecuteUpdate(AbstractStoredData clazz, Type subType)
@@ -353,6 +353,19 @@ namespace MPersist.Core
             }
 
             return null;
+        }
+
+        public PrimaryKey GetPrimaryKey(String key)
+        {
+            Int64? value = GetLong(key);
+            if(value != null && value.HasValue)
+            {
+                return new PrimaryKey(value.Value);
+            }
+            else
+            {
+                return null;
+            }            
         }
 
         public Int32? GetInt(String key)

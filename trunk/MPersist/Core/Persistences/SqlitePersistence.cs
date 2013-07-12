@@ -1,12 +1,12 @@
-using MPersist.Core.Attributes;
-using MPersist.Core.Data;
-using MPersist.Core.Enums;
-using MPersist.Core.MoneyType;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
 using System.Reflection;
+using MPersist.Core.Attributes;
+using MPersist.Core.Data;
+using MPersist.Core.Enums;
+using MPersist.Core.MoneyType;
 
 namespace MPersist.Core.Persistences
 {
@@ -68,8 +68,8 @@ namespace MPersist.Core.Persistences
                 else if (parameter is AbstractStoredData)
                 {
                     param.IsNullable = false;
-                    param.DbType = DbType.Int32;
-                    param.Value = parameter != null ? (Object)((AbstractStoredData)parameter).Id : DBNull.Value;
+                    param.DbType = DbType.Int64;
+                    param.Value = parameter != null ? (Object)((AbstractStoredData)parameter).Id.Value : DBNull.Value;
                     mCommand_.Parameters.Add(param);
                 }
                 else if (parameter is AbstractEnum)
@@ -101,6 +101,12 @@ namespace MPersist.Core.Persistences
                 {
                     param.DbType = DbType.Decimal;
                     param.Value = ((Money)parameter).ToDecimal(null);
+                    mCommand_.Parameters.Add(param);
+                }
+                else if (parameter is PrimaryKey)
+                {
+                    param.DbType = DbType.Int64;
+                    param.Value = ((PrimaryKey)parameter).Value;
                     mCommand_.Parameters.Add(param);
                 }
                 else

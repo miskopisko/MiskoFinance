@@ -29,32 +29,32 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ImportNewTransactionsDialog));
-            this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.mTableLayoutPanel_ = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.importBtn = new System.Windows.Forms.Button();
-            this.nextBtn = new System.Windows.Forms.Button();
-            this.backBtn = new System.Windows.Forms.Button();
-            this.tableLayoutPanel.SuspendLayout();
+            this.mImportBtn_ = new System.Windows.Forms.Button();
+            this.mNextBtn_ = new System.Windows.Forms.Button();
+            this.mBackBtn_ = new System.Windows.Forms.Button();
+            this.mTableLayoutPanel_.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // tableLayoutPanel
+            // mTableLayoutPanel_
             // 
-            this.tableLayoutPanel.AutoSize = true;
-            this.tableLayoutPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.tableLayoutPanel.ColumnCount = 1;
-            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel.Controls.Add(this.tableLayoutPanel1, 0, 1);
-            this.tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel.Name = "tableLayoutPanel";
-            this.tableLayoutPanel.RowCount = 2;
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tableLayoutPanel.Size = new System.Drawing.Size(423, 92);
-            this.tableLayoutPanel.TabIndex = 0;
+            this.mTableLayoutPanel_.AutoSize = true;
+            this.mTableLayoutPanel_.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.mTableLayoutPanel_.ColumnCount = 1;
+            this.mTableLayoutPanel_.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.mTableLayoutPanel_.Controls.Add(this.tableLayoutPanel1, 0, 1);
+            this.mTableLayoutPanel_.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mTableLayoutPanel_.Location = new System.Drawing.Point(0, 0);
+            this.mTableLayoutPanel_.Name = "mTableLayoutPanel_";
+            this.mTableLayoutPanel_.RowCount = 2;
+            this.mTableLayoutPanel_.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.mTableLayoutPanel_.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.mTableLayoutPanel_.Size = new System.Drawing.Size(423, 92);
+            this.mTableLayoutPanel_.TabIndex = 0;
             // 
             // tableLayoutPanel1
             // 
@@ -73,9 +73,9 @@
             // 
             // flowLayoutPanel1
             // 
-            this.flowLayoutPanel1.Controls.Add(this.importBtn);
-            this.flowLayoutPanel1.Controls.Add(this.nextBtn);
-            this.flowLayoutPanel1.Controls.Add(this.backBtn);
+            this.flowLayoutPanel1.Controls.Add(this.mImportBtn_);
+            this.flowLayoutPanel1.Controls.Add(this.mNextBtn_);
+            this.flowLayoutPanel1.Controls.Add(this.mBackBtn_);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(169, 3);
@@ -83,43 +83,43 @@
             this.flowLayoutPanel1.Size = new System.Drawing.Size(245, 28);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
-            // importBtn
+            // mImportBtn_
             // 
-            this.importBtn.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.importBtn.Location = new System.Drawing.Point(167, 3);
-            this.importBtn.Name = "importBtn";
-            this.importBtn.Size = new System.Drawing.Size(75, 23);
-            this.importBtn.TabIndex = 2;
-            this.importBtn.Text = "Import";
-            this.importBtn.UseVisualStyleBackColor = true;
-            this.importBtn.Click += new System.EventHandler(this.importBtn_Click);
+            this.mImportBtn_.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.mImportBtn_.Location = new System.Drawing.Point(167, 3);
+            this.mImportBtn_.Name = "mImportBtn_";
+            this.mImportBtn_.Size = new System.Drawing.Size(75, 23);
+            this.mImportBtn_.TabIndex = 2;
+            this.mImportBtn_.Text = "Import";
+            this.mImportBtn_.UseVisualStyleBackColor = true;
+            this.mImportBtn_.Click += new System.EventHandler(this.ImportBtn_Click);
             // 
-            // nextBtn
+            // mNextBtn_
             // 
-            this.nextBtn.Location = new System.Drawing.Point(86, 3);
-            this.nextBtn.Name = "nextBtn";
-            this.nextBtn.Size = new System.Drawing.Size(75, 23);
-            this.nextBtn.TabIndex = 1;
-            this.nextBtn.Text = "Next";
-            this.nextBtn.UseVisualStyleBackColor = true;
-            this.nextBtn.Click += new System.EventHandler(this.nextBtn_Click);
+            this.mNextBtn_.Location = new System.Drawing.Point(86, 3);
+            this.mNextBtn_.Name = "mNextBtn_";
+            this.mNextBtn_.Size = new System.Drawing.Size(75, 23);
+            this.mNextBtn_.TabIndex = 1;
+            this.mNextBtn_.Text = "Next";
+            this.mNextBtn_.UseVisualStyleBackColor = true;
+            this.mNextBtn_.Click += new System.EventHandler(this.nextBtn_Click);
             // 
-            // backBtn
+            // mBackBtn_
             // 
-            this.backBtn.Location = new System.Drawing.Point(5, 3);
-            this.backBtn.Name = "backBtn";
-            this.backBtn.Size = new System.Drawing.Size(75, 23);
-            this.backBtn.TabIndex = 0;
-            this.backBtn.Text = "Back";
-            this.backBtn.UseVisualStyleBackColor = true;
-            this.backBtn.Click += new System.EventHandler(this.backBtn_Click);
+            this.mBackBtn_.Location = new System.Drawing.Point(5, 3);
+            this.mBackBtn_.Name = "mBackBtn_";
+            this.mBackBtn_.Size = new System.Drawing.Size(75, 23);
+            this.mBackBtn_.TabIndex = 0;
+            this.mBackBtn_.Text = "Back";
+            this.mBackBtn_.UseVisualStyleBackColor = true;
+            this.mBackBtn_.Click += new System.EventHandler(this.BackBtn_Click);
             // 
             // ImportNewTransactionsDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(423, 92);
-            this.Controls.Add(this.tableLayoutPanel);
+            this.Controls.Add(this.mTableLayoutPanel_);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -129,7 +129,7 @@
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "MPFinanceDialog";
-            this.tableLayoutPanel.ResumeLayout(false);
+            this.mTableLayoutPanel_.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -139,12 +139,12 @@
 
         #endregion
 
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
+        private System.Windows.Forms.TableLayoutPanel mTableLayoutPanel_;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        public System.Windows.Forms.Button importBtn;
-        public System.Windows.Forms.Button nextBtn;
-        public System.Windows.Forms.Button backBtn;
+        public System.Windows.Forms.Button mImportBtn_;
+        public System.Windows.Forms.Button mNextBtn_;
+        public System.Windows.Forms.Button mBackBtn_;
 
     }
 }

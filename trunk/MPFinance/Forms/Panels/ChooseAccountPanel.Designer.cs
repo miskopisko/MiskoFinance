@@ -34,23 +34,23 @@
             System.Windows.Forms.Label label3;
             System.Windows.Forms.Label label4;
             System.Windows.Forms.Label label5;
-            this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.existingAccounts = new System.Windows.Forms.CheckedListBox();
-            this.existingAccount = new System.Windows.Forms.RadioButton();
-            this.createNewAccount = new System.Windows.Forms.RadioButton();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.Nickname = new System.Windows.Forms.TextBox();
-            this.AccountNumber = new System.Windows.Forms.TextBox();
-            this.BankName = new System.Windows.Forms.TextBox();
-            this.AccountTypeCmb = new System.Windows.Forms.ComboBox();
-            this.OpeningBalance = new MPFinance.Forms.Controls.MoneyBox();
+            this.mMainTable_ = new System.Windows.Forms.TableLayoutPanel();
+            this.mExistingAccounts_ = new System.Windows.Forms.CheckedListBox();
+            this.mExistingAccount_ = new System.Windows.Forms.RadioButton();
+            this.mCreateNewAccount_ = new System.Windows.Forms.RadioButton();
+            this.mFieldsTable_ = new System.Windows.Forms.TableLayoutPanel();
+            this.mNickname_ = new System.Windows.Forms.TextBox();
+            this.mAccountNumber_ = new System.Windows.Forms.TextBox();
+            this.mBankName_ = new System.Windows.Forms.TextBox();
+            this.mAccountType_ = new System.Windows.Forms.ComboBox();
+            this.mOpeningBalance_ = new MPFinance.Forms.Controls.MoneyBox();
             label1 = new System.Windows.Forms.Label();
             label2 = new System.Windows.Forms.Label();
             label3 = new System.Windows.Forms.Label();
             label4 = new System.Windows.Forms.Label();
             label5 = new System.Windows.Forms.Label();
-            this.tableLayoutPanel.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
+            this.mMainTable_.SuspendLayout();
+            this.mFieldsTable_.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -78,109 +78,109 @@
             resources.ApplyResources(label5, "label5");
             label5.Name = "label5";
             // 
-            // tableLayoutPanel
+            // mMainTable_
             // 
-            resources.ApplyResources(this.tableLayoutPanel, "tableLayoutPanel");
-            this.tableLayoutPanel.Controls.Add(this.existingAccounts, 0, 1);
-            this.tableLayoutPanel.Controls.Add(this.existingAccount, 0, 0);
-            this.tableLayoutPanel.Controls.Add(this.createNewAccount, 1, 0);
-            this.tableLayoutPanel.Controls.Add(this.tableLayoutPanel1, 1, 1);
-            this.tableLayoutPanel.Name = "tableLayoutPanel";
+            resources.ApplyResources(this.mMainTable_, "mMainTable_");
+            this.mMainTable_.Controls.Add(this.mExistingAccounts_, 0, 1);
+            this.mMainTable_.Controls.Add(this.mExistingAccount_, 0, 0);
+            this.mMainTable_.Controls.Add(this.mCreateNewAccount_, 1, 0);
+            this.mMainTable_.Controls.Add(this.mFieldsTable_, 1, 1);
+            this.mMainTable_.Name = "mMainTable_";
             // 
-            // existingAccounts
+            // mExistingAccounts_
             // 
-            this.existingAccounts.CheckOnClick = true;
-            resources.ApplyResources(this.existingAccounts, "existingAccounts");
-            this.existingAccounts.FormattingEnabled = true;
-            this.existingAccounts.Name = "existingAccounts";
-            this.existingAccounts.Sorted = true;
-            this.existingAccounts.ThreeDCheckBoxes = true;
+            this.mExistingAccounts_.CheckOnClick = true;
+            resources.ApplyResources(this.mExistingAccounts_, "mExistingAccounts_");
+            this.mExistingAccounts_.FormattingEnabled = true;
+            this.mExistingAccounts_.Name = "mExistingAccounts_";
+            this.mExistingAccounts_.Sorted = true;
+            this.mExistingAccounts_.ThreeDCheckBoxes = true;
             // 
-            // existingAccount
+            // mExistingAccount_
             // 
-            resources.ApplyResources(this.existingAccount, "existingAccount");
-            this.existingAccount.Name = "existingAccount";
-            this.existingAccount.TabStop = true;
-            this.existingAccount.UseVisualStyleBackColor = true;
-            this.existingAccount.CheckedChanged += new System.EventHandler(this.existingAccount_CheckedChanged);
+            resources.ApplyResources(this.mExistingAccount_, "mExistingAccount_");
+            this.mExistingAccount_.Name = "mExistingAccount_";
+            this.mExistingAccount_.TabStop = true;
+            this.mExistingAccount_.UseVisualStyleBackColor = true;
+            this.mExistingAccount_.CheckedChanged += new System.EventHandler(this.existingAccount_CheckedChanged);
             // 
-            // createNewAccount
+            // mCreateNewAccount_
             // 
-            resources.ApplyResources(this.createNewAccount, "createNewAccount");
-            this.createNewAccount.Name = "createNewAccount";
-            this.createNewAccount.TabStop = true;
-            this.createNewAccount.UseVisualStyleBackColor = true;
-            this.createNewAccount.CheckedChanged += new System.EventHandler(this.createNewAccount_CheckedChanged);
+            resources.ApplyResources(this.mCreateNewAccount_, "mCreateNewAccount_");
+            this.mCreateNewAccount_.Name = "mCreateNewAccount_";
+            this.mCreateNewAccount_.TabStop = true;
+            this.mCreateNewAccount_.UseVisualStyleBackColor = true;
+            this.mCreateNewAccount_.CheckedChanged += new System.EventHandler(this.createNewAccount_CheckedChanged);
             // 
-            // tableLayoutPanel1
+            // mFieldsTable_
             // 
-            resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
-            this.tableLayoutPanel1.Controls.Add(label5, 0, 4);
-            this.tableLayoutPanel1.Controls.Add(label4, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(this.Nickname, 1, 3);
-            this.tableLayoutPanel1.Controls.Add(label3, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(label2, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.AccountNumber, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(label1, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.BankName, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.AccountTypeCmb, 1, 2);
-            this.tableLayoutPanel1.Controls.Add(this.OpeningBalance, 1, 4);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            resources.ApplyResources(this.mFieldsTable_, "mFieldsTable_");
+            this.mFieldsTable_.Controls.Add(label5, 0, 4);
+            this.mFieldsTable_.Controls.Add(label4, 0, 3);
+            this.mFieldsTable_.Controls.Add(this.mNickname_, 1, 3);
+            this.mFieldsTable_.Controls.Add(label3, 0, 2);
+            this.mFieldsTable_.Controls.Add(label2, 0, 1);
+            this.mFieldsTable_.Controls.Add(this.mAccountNumber_, 1, 1);
+            this.mFieldsTable_.Controls.Add(label1, 0, 0);
+            this.mFieldsTable_.Controls.Add(this.mBankName_, 1, 0);
+            this.mFieldsTable_.Controls.Add(this.mAccountType_, 1, 2);
+            this.mFieldsTable_.Controls.Add(this.mOpeningBalance_, 1, 4);
+            this.mFieldsTable_.Name = "mFieldsTable_";
             // 
-            // Nickname
+            // mNickname_
             // 
-            resources.ApplyResources(this.Nickname, "Nickname");
-            this.Nickname.Name = "Nickname";
+            resources.ApplyResources(this.mNickname_, "mNickname_");
+            this.mNickname_.Name = "mNickname_";
             // 
-            // AccountNumber
+            // mAccountNumber_
             // 
-            resources.ApplyResources(this.AccountNumber, "AccountNumber");
-            this.AccountNumber.Name = "AccountNumber";
+            resources.ApplyResources(this.mAccountNumber_, "mAccountNumber_");
+            this.mAccountNumber_.Name = "mAccountNumber_";
             // 
-            // BankName
+            // mBankName_
             // 
-            resources.ApplyResources(this.BankName, "BankName");
-            this.BankName.Name = "BankName";
+            resources.ApplyResources(this.mBankName_, "mBankName_");
+            this.mBankName_.Name = "mBankName_";
             // 
-            // AccountTypeCmb
+            // mAccountType_
             // 
-            resources.ApplyResources(this.AccountTypeCmb, "AccountTypeCmb");
-            this.AccountTypeCmb.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.AccountTypeCmb.FormattingEnabled = true;
-            this.AccountTypeCmb.Name = "AccountTypeCmb";
+            resources.ApplyResources(this.mAccountType_, "mAccountType_");
+            this.mAccountType_.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.mAccountType_.FormattingEnabled = true;
+            this.mAccountType_.Name = "mAccountType_";
             // 
-            // OpeningBalance
+            // mOpeningBalance_
             // 
-            resources.ApplyResources(this.OpeningBalance, "OpeningBalance");
-            this.OpeningBalance.ForeColor = System.Drawing.Color.Black;
-            this.OpeningBalance.Name = "OpeningBalance";
+            resources.ApplyResources(this.mOpeningBalance_, "mOpeningBalance_");
+            this.mOpeningBalance_.ForeColor = System.Drawing.Color.Black;
+            this.mOpeningBalance_.Name = "mOpeningBalance_";
+            this.mOpeningBalance_.Value = ((MPersist.Core.MoneyType.Money)(resources.GetObject("mOpeningBalance_.Value")));
             // 
             // ChooseAccountPanel
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.tableLayoutPanel);
+            this.Controls.Add(this.mMainTable_);
             this.Name = "ChooseAccountPanel";
-            this.tableLayoutPanel.ResumeLayout(false);
-            this.tableLayoutPanel.PerformLayout();
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
+            this.mMainTable_.ResumeLayout(false);
+            this.mMainTable_.PerformLayout();
+            this.mFieldsTable_.ResumeLayout(false);
+            this.mFieldsTable_.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
-        public System.Windows.Forms.CheckedListBox existingAccounts;
-        public System.Windows.Forms.RadioButton existingAccount;
-        public System.Windows.Forms.RadioButton createNewAccount;
-        public System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        public System.Windows.Forms.TextBox Nickname;
-        public System.Windows.Forms.TextBox AccountNumber;
-        public System.Windows.Forms.TextBox BankName;
-        public System.Windows.Forms.ComboBox AccountTypeCmb;
-        public Controls.MoneyBox OpeningBalance;
-
+        private System.Windows.Forms.TableLayoutPanel mMainTable_;
+        public System.Windows.Forms.CheckedListBox mExistingAccounts_;
+        public System.Windows.Forms.RadioButton mExistingAccount_;
+        public System.Windows.Forms.RadioButton mCreateNewAccount_;
+        public System.Windows.Forms.TableLayoutPanel mFieldsTable_;
+        public System.Windows.Forms.TextBox mNickname_;
+        public System.Windows.Forms.TextBox mAccountNumber_;
+        public System.Windows.Forms.TextBox mBankName_;
+        public System.Windows.Forms.ComboBox mAccountType_;
+        public Controls.MoneyBox mOpeningBalance_;
     }
 }

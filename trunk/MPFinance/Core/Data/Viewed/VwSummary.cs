@@ -2,6 +2,7 @@ using MPersist.Core;
 using MPersist.Core.MoneyType;
 using MPFinance.Core.Data.Stored;
 using System;
+using MPersist.Core.Data;
 
 namespace MPFinance.Core.Data.Viewed
 {
@@ -54,7 +55,7 @@ namespace MPFinance.Core.Data.Viewed
 
         #region Public Methods
 
-        public void Fetch(Session session, Operator op, Account account, DateTime? from, DateTime? to, Category category)
+        public void Fetch(Session session, PrimaryKey op, PrimaryKey account, DateTime? from, DateTime? to, PrimaryKey category)
         {
             String sql1 = "SELECT SUM(B.Openingbalance) OpeningBalance " +
                           "FROM   Account A, BankAccount B " +
@@ -63,7 +64,7 @@ namespace MPFinance.Core.Data.Viewed
             Persistence p = Persistence.GetInstance(session);
             p.SetSql(sql1);
             p.SqlWhere(true, "A.Operator = ?", new Object[] { op });
-            p.SqlWhere(account != null && account.IsSet, "A.Id = ?", new Object[] { account });
+            p.SqlWhere(account != null && account > 0, "A.Id = ?", new Object[] { account });
             p.ExecuteQuery();           
 
             if (p.Next())
@@ -83,10 +84,10 @@ namespace MPFinance.Core.Data.Viewed
             p = Persistence.GetInstance(session);
             p.SetSql(sql2);
             p.SqlWhere(true, "OperatorId = ?", new Object[] { op });
-            p.SqlWhere(account != null && account.IsSet, "AccountId = ?", new Object[] { account });
+            p.SqlWhere(account != null && account > 0, "AccountId = ?", new Object[] { account });
             p.SqlWhere(from.HasValue, "DatePosted >= ?", new Object[] { from });
             p.SqlWhere(to.HasValue, "DatePosted <= ?", new Object[] { to });
-            p.SqlWhere(category != null && category.IsSet, "Category = ?", new Object[] { category });
+            p.SqlWhere(category != null && category > 0, "Category = ?", new Object[] { category });
             p.ExecuteQuery();
 
             if (p.Next())

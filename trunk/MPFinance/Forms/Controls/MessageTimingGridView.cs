@@ -1,7 +1,7 @@
-﻿using MPersist.Core;
-using MPersist.Core.Debug;
-using System;
+﻿using System;
 using System.Windows.Forms;
+using MPersist.Core;
+using MPersist.Core.Debug;
 
 namespace MPFinance.Forms.Controls
 {

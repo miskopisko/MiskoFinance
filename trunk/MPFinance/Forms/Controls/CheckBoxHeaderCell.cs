@@ -1,14 +1,21 @@
-﻿using MPersist.Core;
-using System;
+﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
+using MPersist.Core;
 
 namespace MPFinance.Forms.Controls
 {
     public partial class CheckBoxHeaderCell : DataGridViewColumnHeaderCell
     {
         private static readonly Logger Log = Logger.GetInstance(typeof(CheckBoxHeaderCell));
+
+        #region Delegate Functions
+
+        public delegate void CheckBoxClickedHandler(bool state);
+        public event CheckBoxClickedHandler OnCheckBoxClicked;
+
+        #endregion
 
         #region Variable declarations
 
@@ -40,14 +47,7 @@ namespace MPFinance.Forms.Controls
             mText_ = text;
         }
 
-        #endregion
-
-        #region Delegate Functions
-
-        public delegate void CheckBoxClickedHandler(bool state);
-        public event CheckBoxClickedHandler OnCheckBoxClicked;
-
-        #endregion
+        #endregion        
 
         #region Override Methods
 

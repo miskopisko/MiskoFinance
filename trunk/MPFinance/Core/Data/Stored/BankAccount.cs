@@ -1,10 +1,11 @@
+using System;
 using MPersist.Core;
 using MPersist.Core.Attributes;
+using MPersist.Core.Data;
 using MPersist.Core.Enums;
 using MPersist.Core.MoneyType;
 using MPFinance.Core.Enums;
 using MPFinance.Resources;
-using System;
 
 namespace MPFinance.Core.Data.Stored
 {
@@ -100,7 +101,7 @@ namespace MPFinance.Core.Data.Stored
 
         #region Public Methods
 
-        public static Account GetInstanceByComposite(Session session, Operator op, AccountType type, String bankNo, String accountNo)
+        public static Account GetInstanceByComposite(Session session, PrimaryKey op, AccountType type, String bankNo, String accountNo)
         {
             Account result = new Account();
 
