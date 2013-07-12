@@ -1,3 +1,4 @@
+using System;
 using MPersist.Core;
 using MPersist.Core.Enums;
 using MPersist.Core.Message;
@@ -7,8 +8,6 @@ using MPFinance.Core.Enums;
 using MPFinance.Core.Message.Requests;
 using MPFinance.Core.Message.Responses;
 using MPFinance.Resources;
-using System;
-using System.Reflection;
 
 namespace MPFinance.Core.Message
 {
@@ -18,27 +17,10 @@ namespace MPFinance.Core.Message
 
         #region Properties
 
-        public new GetOperatorRQ Request
-        {
-            get
-            {
-                return (GetOperatorRQ)base.Request;
-            }
-        }
-
-        public new GetOperatorRS Response
-        {
-            get
-            {
-                return (GetOperatorRS)base.Response;
-            }
-        }
+        public new GetOperatorRQ Request { get { return (GetOperatorRQ)base.Request; } }
+        public new GetOperatorRS Response  { get { return (GetOperatorRS)base.Response; } }
 
         #endregion
-
-        public GetOperator()
-        {
-        }
 
         public GetOperator(GetOperatorRQ request, GetOperatorRS response) : base(request, response)
         {
@@ -64,10 +46,17 @@ namespace MPFinance.Core.Message
                 Response.Operator.Save(session);
             }
 
-            Response.Operator.BankAccounts.FetchByOperator(session, Response.Operator);
-            Response.Operator.Categories.FetchByComposite(session, Response.Operator, Status.Active);
-            Response.Txns.Fetch(session, Request.Page, Response.Operator, null, Request.FromDate, Request.ToDate, null);
-            Response.Summary.Fetch(session, Response.Operator, null, Request.FromDate, Request.ToDate, null);
+            if (Response.Operator != null && Response.Operator.IsSet)
+            {
+                Response.Operator.BankAccounts.FetchByOperator(session, Response.Operator);
+                Response.Operator.Categories.FetchByComposite(session, Response.Operator.Id, Status.Active);
+                Response.Txns.Fetch(session, Request.Page, Response.Operator.Id, null, Request.FromDate, Request.ToDate, null);
+                Response.Summary.Fetch(session, Response.Operator.Id, null, Request.FromDate, Request.ToDate, null);
+            }
+            else
+            {
+                session.Error(ErrorLevel.Error, ErrorStrings.errOperatorNotFound, new Object[] { Request.Username });
+            }
         }
     }
 }

@@ -81,19 +81,17 @@
     <Compile Include="Core\Enums\TxnType.cs" />
     <Compile Include="Core\Message\AddAccount.cs" />
     <Compile Include="Core\Message\CheckDuplicateTxns.cs" />
-    <Compile Include="Core\Message\GetAccount.cs" />
-    <Compile Include="Core\Message\GetAccounts.cs" />
+    <Compile Include="Core\Message\GetAccount.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Core\Message\GetCategories.cs" />
-    <Compile Include="Core\Message\GetSummary.cs" />
     <Compile Include="Core\Message\GetTxns.cs" />
     <Compile Include="Core\Message\GetOperator.cs" />
     <Compile Include="Core\Message\ImportTxns.cs" />
     <Compile Include="Core\Message\Requests\AddAccountRQ.cs" />
     <Compile Include="Core\Message\Requests\CheckDuplicateTxnsRQ.cs" />
     <Compile Include="Core\Message\Requests\GetAccountRQ.cs" />
-    <Compile Include="Core\Message\Requests\GetAccountsRQ.cs" />
     <Compile Include="Core\Message\Requests\GetCategoriesRQ.cs" />
-    <Compile Include="Core\Message\Requests\GetSummaryRQ.cs" />
     <Compile Include="Core\Message\Requests\GetTxnsRQ.cs" />
     <Compile Include="Core\Message\Requests\GetOperatorRQ.cs" />
     <Compile Include="Core\Message\Requests\ImportTxnsRQ.cs" />
@@ -103,9 +101,7 @@
     <Compile Include="Core\Message\Responses\AddAccountRS.cs" />
     <Compile Include="Core\Message\Responses\CheckDuplicateTxnsRS.cs" />
     <Compile Include="Core\Message\Responses\GetAccountRS.cs" />
-    <Compile Include="Core\Message\Responses\GetAccountsRS.cs" />
     <Compile Include="Core\Message\Responses\GetCategoriesRS.cs" />
-    <Compile Include="Core\Message\Responses\GetSummaryRS.cs" />
     <Compile Include="Core\Message\Responses\GetTxnsRS.cs" />
     <Compile Include="Core\Message\Responses\GetOperatorRS.cs" />
     <Compile Include="Core\Message\Responses\ImportTxnsRS.cs" />

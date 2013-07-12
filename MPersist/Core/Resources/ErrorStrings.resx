@@ -154,4 +154,7 @@ Error: {2}</value>
   <data name="errInvalidConnectionString" xml:space="preserve">
     <value>Invalid database connection string</value>
   </data>
+  <data name="errUserDeclinedConfirmation" xml:space="preserve">
+    <value>User declined confirmation. Cannot continue.</value>
+  </data>
 </root>

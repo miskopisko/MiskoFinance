@@ -1,11 +1,11 @@
-﻿using MPersist.Core;
+﻿using System;
+using System.Windows.Forms;
+using MPersist.Core;
 using MPersist.Core.Message.Response;
 using MPFinance.Core.Data.Stored;
 using MPFinance.Core.Enums;
 using MPFinance.Core.Message.Requests;
 using MPFinance.Core.Message.Responses;
-using System;
-using System.Windows.Forms;
 
 namespace MPFinance.Forms
 {
@@ -44,14 +44,22 @@ namespace MPFinance.Forms
             existingIncome.FillColumns();
             existingTransfer.FillColumns();
 
-            existingIncome.DataSource = MPFinanceMain.Instance.Operator.Categories.GetByType(CategoryType.Income);
-            existingExpense.DataSource = MPFinanceMain.Instance.Operator.Categories.GetByType(CategoryType.Expense);
-            existingTransfer.DataSource = MPFinanceMain.Instance.Operator.Categories.GetByType(CategoryType.Transfer);
+            GetCategoriesRQ request = new GetCategoriesRQ();
+            request.Operator = MPFinanceMain.Instance.Operator.Id;
+            request.Status = Status.NULL;
+            MessageProcessor.SendRequest(request, GetCategoriesSuccess);
         }
 
         #endregion
 
         #region Private Methods
+
+        private void GetCategoriesSuccess(AbstractResponse response)
+        {
+            existingIncome.DataSource = ((GetCategoriesRS)response).Categories.GetByType(CategoryType.Income);
+            existingExpense.DataSource = ((GetCategoriesRS)response).Categories.GetByType(CategoryType.Expense);
+            existingTransfer.DataSource = ((GetCategoriesRS)response).Categories.GetByType(CategoryType.Transfer);
+        }
 
         private void UpdateCategoriesSuccess(AbstractResponse response)
         {
@@ -72,25 +80,26 @@ namespace MPFinance.Forms
             {
                 newCategory = (Category)((Categories)existingExpense.DataSource).AddNew();
                 newCategory.CategoryType = CategoryType.Expense;
-                existingExpense.Rows[existingExpense.Rows.Count - 1].Selected = true;
-                existingExpense.Rows[existingExpense.Rows.Count - 1].Cells["Status"].Value = Status.Active;
+                existingExpense.CurrentCell = existingExpense.Rows[existingExpense.Rows.Count - 1].Cells["Name"];
+                existingExpense.BeginEdit(true);
             }
             else if (tabControl.SelectedTab.Equals(IncomeTab))
             {
                 newCategory = (Category)((Categories)existingIncome.DataSource).AddNew();
-                newCategory.CategoryType = CategoryType.Income;
-                existingIncome.Rows[existingIncome.Rows.Count - 1].Selected = true;
-                existingIncome.Rows[existingIncome.Rows.Count - 1].Cells["Status"].Value = Status.Active;
+                newCategory.CategoryType = CategoryType.Income;                
+                existingIncome.CurrentCell = existingIncome.Rows[existingIncome.Rows.Count - 1].Cells["Name"];
+                existingIncome.BeginEdit(true);
             }
             else if (tabControl.SelectedTab.Equals(TransferTab))
             {
                 newCategory = (Category)((Categories)existingTransfer.DataSource).AddNew();
                 newCategory.CategoryType = CategoryType.Transfer;
-                existingTransfer.Rows[existingTransfer.Rows.Count - 1].Selected = true;
-                existingTransfer.Rows[existingTransfer.Rows.Count - 1].Cells["Status"].Value = Status.Active;
+                existingTransfer.CurrentCell = existingTransfer.Rows[existingTransfer.Rows.Count - 1].Cells["Name"];
+                existingTransfer.BeginEdit(true);
             }
 
-            newCategory.Operator = MPFinanceMain.Instance.Operator;
+            newCategory.Status = Status.Active;
+            newCategory.Operator = MPFinanceMain.Instance.Operator.Id;
         }
 
         private void DoneBtn_Click(object sender, EventArgs e)
@@ -100,9 +109,16 @@ namespace MPFinance.Forms
             categories.AddRange((Categories)existingExpense.DataSource);
             categories.AddRange((Categories)existingTransfer.DataSource);
 
-            UpdateCategoriesRQ request = new UpdateCategoriesRQ();
-            request.Categories = categories;
-            MessageProcessor.SendRequest(request, UpdateCategoriesSuccess);
+            if (categories.Count > 0)
+            {
+                UpdateCategoriesRQ request = new UpdateCategoriesRQ();
+                request.Categories = categories;
+                MessageProcessor.SendRequest(request, UpdateCategoriesSuccess);
+            }
+            else
+            {
+                Dispose();
+            }
         }
 
         #endregion

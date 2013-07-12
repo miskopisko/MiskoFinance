@@ -1,7 +1,6 @@
 using MPersist.Core;
 using MPersist.Core.Message;
 using MPFinance.Core.Data.Stored;
-using MPFinance.Core.Data.Viewed;
 using MPFinance.Core.Message.Requests;
 using MPFinance.Core.Message.Responses;
 
@@ -13,21 +12,8 @@ namespace MPFinance.Core.Message
 
         #region Properties
 
-        public new UpdateTxnRQ Request
-        {
-            get
-            {
-                return (UpdateTxnRQ)base.Request;
-            }
-        }
-
-        public new UpdateTxnRS Response
-        {
-            get
-            {
-                return (UpdateTxnRS)base.Response;
-            }
-        }
+        public new UpdateTxnRQ Request { get { return (UpdateTxnRQ)base.Request; } }
+        public new UpdateTxnRS Response { get { return (UpdateTxnRS)base.Response; }}
 
         #endregion
 
@@ -42,15 +28,7 @@ namespace MPFinance.Core.Message
             txn.Category = Request.VwTxn.Category;
             txn.Save(session);
 
-            Account account = (Account)Account.GetInstanceById(session, typeof(Account), txn.Account);
-            Category category = null;
-            if (txn.Category.HasValue)
-            {
-                category = (Category)Category.GetInstanceById(session, typeof(Category), txn.Category.Value);
-            }
-
-            Response.VwTxn = VwTxn.GetInstanceById(session, Request.VwTxn.TxnId);
-            Response.Summary.Fetch(session, account.Operator, account, Request.FromDate, Request.ToDate, category);
+            Response.Summary.Fetch(session, Request.Operator, txn.Account, Request.FromDate, Request.ToDate, txn.Category);
         }
     }
 }

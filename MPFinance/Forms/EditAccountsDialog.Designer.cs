@@ -147,6 +147,7 @@
             // Nickname
             // 
             this.Nickname.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.Nickname.Enabled = false;
             this.Nickname.Location = new System.Drawing.Point(98, 130);
             this.Nickname.Name = "Nickname";
             this.Nickname.Size = new System.Drawing.Size(173, 20);
@@ -155,6 +156,7 @@
             // AccountNumber
             // 
             this.AccountNumber.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.AccountNumber.Enabled = false;
             this.AccountNumber.Location = new System.Drawing.Point(98, 50);
             this.AccountNumber.Name = "AccountNumber";
             this.AccountNumber.Size = new System.Drawing.Size(173, 20);
@@ -163,6 +165,7 @@
             // BankName
             // 
             this.BankName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.BankName.Enabled = false;
             this.BankName.Location = new System.Drawing.Point(98, 10);
             this.BankName.Name = "BankName";
             this.BankName.Size = new System.Drawing.Size(173, 20);
@@ -172,6 +175,7 @@
             // 
             this.AccountTypeCmb.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.AccountTypeCmb.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.AccountTypeCmb.Enabled = false;
             this.AccountTypeCmb.FormattingEnabled = true;
             this.AccountTypeCmb.Location = new System.Drawing.Point(98, 89);
             this.AccountTypeCmb.Name = "AccountTypeCmb";
@@ -181,6 +185,7 @@
             // OpeningBalance
             // 
             this.OpeningBalance.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.OpeningBalance.Enabled = false;
             this.OpeningBalance.ForeColor = System.Drawing.Color.Black;
             this.OpeningBalance.Location = new System.Drawing.Point(98, 171);
             this.OpeningBalance.Name = "OpeningBalance";
@@ -195,7 +200,7 @@
             this.existingAccounts.FormattingEnabled = true;
             this.existingAccounts.Location = new System.Drawing.Point(3, 3);
             this.existingAccounts.Name = "existingAccounts";
-            this.existingAccounts.Size = new System.Drawing.Size(223, 203);
+            this.existingAccounts.Size = new System.Drawing.Size(223, 199);
             this.existingAccounts.TabIndex = 5;
             // 
             // Done

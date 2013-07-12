@@ -16,7 +16,7 @@ namespace MPFinance.Core.Message.Responses
 
         public UpdateCategoriesRS()
         {
-
+            Categories = new Categories();
         }
     }
 }

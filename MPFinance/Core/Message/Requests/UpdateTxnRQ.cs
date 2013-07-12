@@ -1,7 +1,8 @@
+using System;
 using MPersist.Core;
+using MPersist.Core.Data;
 using MPersist.Core.Message.Request;
 using MPFinance.Core.Data.Viewed;
-using System;
 
 namespace MPFinance.Core.Message.Requests
 {
@@ -14,6 +15,7 @@ namespace MPFinance.Core.Message.Requests
         public VwTxn VwTxn { get; set; }
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
+        public PrimaryKey Operator { get; set; }
 
         #endregion
 

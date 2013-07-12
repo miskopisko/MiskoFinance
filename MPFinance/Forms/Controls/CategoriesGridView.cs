@@ -1,8 +1,8 @@
-﻿using MPersist.Core;
+﻿using System;
+using System.Windows.Forms;
+using MPersist.Core;
 using MPFinance.Core.Data.Stored;
 using MPFinance.Core.Enums;
-using System;
-using System.Windows.Forms;
 
 namespace MPFinance.Forms.Controls
 {
@@ -44,7 +44,7 @@ namespace MPFinance.Forms.Controls
             {
                 Category category = GetItemAt(e.RowIndex);
 
-                if (Math.Abs(category.Id) > 0)
+                if (Math.Abs(category.Id.Value) >= 0)
                 {
                     category.Id = -category.Id;
                 }

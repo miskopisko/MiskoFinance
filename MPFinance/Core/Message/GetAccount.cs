@@ -12,21 +12,8 @@ namespace MPFinance.Core.Message
 
         #region Properties
 
-        public new GetAccountRQ Request
-        {
-            get
-            {
-                return (GetAccountRQ)base.Request;
-            }
-        }
-
-        public new GetAccountRS Response
-        {
-            get
-            {
-                return (GetAccountRS)base.Response;
-            }
-        }
+        public new GetAccountRQ Request { get { return (GetAccountRQ)base.Request; } }
+        public new GetAccountRS Response { get { return (GetAccountRS)base.Response; } }
 
         #endregion
 

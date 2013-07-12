@@ -1,10 +1,10 @@
+using System;
+using System.Data.Common;
+using System.Data.SQLite;
 using MPersist.Core.Resources;
 using MPersist.Resources.Enums;
 using MySql.Data.MySqlClient;
 using Oracle.DataAccess.Client;
-using System;
-using System.Data.Common;
-using System.Data.SQLite;
 
 namespace MPersist.Core
 {
@@ -28,6 +28,14 @@ namespace MPersist.Core
             {
                 return GetOracleConnection(ConnectionSettings.Instance.ConnectionString);
             }
+            else if (ConnectionSettings.Instance.ConnectionType.Equals(ConnectionType.Postgres))
+            {
+                return GetPostgresConnection(ConnectionSettings.Instance.ConnectionString);
+            }
+            else if (ConnectionSettings.Instance.ConnectionType.Equals(ConnectionType.FoxPro))
+            {
+                return GetFoxProConnection(ConnectionSettings.Instance.ConnectionString);
+            }
             else
             {
                 throw new MPException(ErrorStrings.errInvalidConnectionString);
@@ -40,53 +48,36 @@ namespace MPersist.Core
 
         private static DbConnection GetMysqlConnection(String connectionString)
         {
-            MySqlConnection connection = null;
-            
-            try
-            {
-                connection = new MySqlConnection(connectionString);
-                connection.Open();
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
+            MySqlConnection connection = new MySqlConnection(connectionString);
+            connection.Open();
 
             return connection;
         }
 
         private static DbConnection GetOracleConnection(String connectionString)
         {
-            OracleConnection connection = null;
-
-            try
-            {
-                connection = new OracleConnection(connectionString);
-                connection.Open();
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
+            OracleConnection connection = new OracleConnection(connectionString);
+            connection.Open();
 
             return connection;
         }
 
         private static DbConnection GetSqliteConnection(String connectionString)
         {
-            SQLiteConnection connection = null;
-
-            try
-            {
-                connection = new SQLiteConnection(connectionString);
-                connection.Open();
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
+            SQLiteConnection connection = new SQLiteConnection(connectionString);
+            connection.Open();
 
             return connection;
+        }
+
+        private static DbConnection GetPostgresConnection(String connectionString)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static DbConnection GetFoxProConnection(String connectionString)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

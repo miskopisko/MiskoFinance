@@ -1,11 +1,11 @@
-﻿using MPersist.Core;
+﻿using System;
+using System.Windows.Forms;
+using MPersist.Core;
 using MPersist.Core.Message.Response;
 using MPFinance.Core.Data.Stored;
 using MPFinance.Core.Enums;
 using MPFinance.Core.Message.Requests;
 using MPFinance.Core.Message.Responses;
-using System;
-using System.Windows.Forms;
 
 namespace MPFinance.Forms
 {
@@ -46,9 +46,18 @@ namespace MPFinance.Forms
 
         protected override void OnLoad(EventArgs e)
         {
-            GetAccountsRQ request = new GetAccountsRQ();
-            request.Operator = MPFinanceMain.Instance.Operator;
-            MessageProcessor.SendRequest(request, GetAccountsSuccess);
+            existingAccounts.DataSource = MPFinanceMain.Instance.Operator.BankAccounts;
+
+            if (existingAccounts.Items.Count > 0)
+            {
+                BankName.Enabled = true;
+                AccountNumber.Enabled = true;
+                AccountTypeCmb.Enabled = true;
+                Nickname.Enabled = true;
+                OpeningBalance.Enabled = true;
+
+                existingAccounts.SelectedIndex = 0;
+            }
         }
 
         #endregion
@@ -66,9 +75,16 @@ namespace MPFinance.Forms
 
         private void Done_Click(object sender, EventArgs e)
         {
-            UpdateAccountsRQ request = new UpdateAccountsRQ();
-            request.Accounts = ((BankAccounts)existingAccounts.DataSource);
-            MessageProcessor.SendRequest(request, UpdateAccountsSuccess);
+            if (((BankAccounts)existingAccounts.DataSource).Count > 0)
+            {
+                UpdateAccountsRQ request = new UpdateAccountsRQ();
+                request.Accounts = ((BankAccounts)existingAccounts.DataSource);
+                MessageProcessor.SendRequest(request, UpdateAccountsSuccess);
+            }
+            else
+            {
+                Dispose();
+            }
         }
 
         private void DataChanged(object sender, EventArgs e)
@@ -83,16 +99,6 @@ namespace MPFinance.Forms
         #endregion
 
         #region Private Methods
-
-        private void GetAccountsSuccess(AbstractResponse response)
-        {
-            existingAccounts.DataSource = ((GetAccountsRS)response).Accounts;
-
-            if (existingAccounts.Items.Count > 0)
-            {
-                existingAccounts.SelectedIndex = 0;
-            }
-        }
 
         private void UpdateAccountsSuccess(AbstractResponse response)
         {

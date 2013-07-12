@@ -41,7 +41,7 @@ namespace MPFinance.Core.Data.Stored
             Persistence.ExecuteUpdate(session, "UPDATE Txn SET Category = ? WHERE Category = ?", new Object[] { null, category });
         }
 
-        public void FetchByAccountAndDate(Session sessiom, BankAccount account, DateTime fromDate, DateTime toDate)
+        public void FetchByAccountAndDate(Session sessiom, PrimaryKey account, DateTime fromDate, DateTime toDate)
         {
             Persistence persistence = Persistence.GetInstance(sessiom);
             persistence.ExecuteQuery("SELECT * FROM Txn WHERE Account = ? AND DatePosted BETWEEN ? AND ?", new Object[] { account, fromDate, toDate });

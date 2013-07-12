@@ -17,12 +17,12 @@ namespace MPersist.Core.Interfaces
 
         void ExceptionHandler(Object sender, ThreadExceptionEventArgs e);
 
-        DialogResult Error(ErrorMessage message);
+        DialogResult Error(String message);
 
-        DialogResult Confirm(ErrorMessage message);
+        DialogResult Confirm(String message);
 
-        DialogResult Warning(ErrorMessage message);
+        DialogResult Warning(String message);
 
-        DialogResult Info(ErrorMessage message);
+        DialogResult Info(String message);
     }
 }

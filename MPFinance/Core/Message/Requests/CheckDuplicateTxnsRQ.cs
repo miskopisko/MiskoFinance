@@ -1,8 +1,9 @@
+using System;
 using MPersist.Core;
+using MPersist.Core.Data;
 using MPersist.Core.Message.Request;
 using MPFinance.Core.Data.Stored;
-using MPFinance.Core.OFX;
-using System;
+using MPFinance.Core.Data.Viewed;
 
 namespace MPFinance.Core.Message.Requests
 {
@@ -12,9 +13,11 @@ namespace MPFinance.Core.Message.Requests
 
         #region Parameters
 
-        public Operator Operator { get; set; }
+        public PrimaryKey Operator { get; set; }
         public BankAccount Account { get; set; }
-        public OfxDocument OfxDucument { get; set; }
+        public DateTime FromDate { get; set; }
+        public DateTime ToDate { get; set; }
+        public VwTxns Transactions { get; set; }
 
         #endregion
 

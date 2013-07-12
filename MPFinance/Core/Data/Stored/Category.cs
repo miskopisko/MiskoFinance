@@ -1,10 +1,10 @@
+using System;
 using MPersist.Core;
 using MPersist.Core.Attributes;
 using MPersist.Core.Data;
 using MPersist.Core.Enums;
 using MPFinance.Core.Enums;
 using MPFinance.Resources;
-using System;
 
 namespace MPFinance.Core.Data.Stored
 {
@@ -21,7 +21,7 @@ namespace MPFinance.Core.Data.Stored
         #region Stored Properties
 
         [Stored]
-        public Operator Operator { get; set; }
+        public PrimaryKey Operator { get; set; }
         [Stored]
         public String Name { get; set; }
         [Stored]
@@ -45,14 +45,6 @@ namespace MPFinance.Core.Data.Stored
 
         public Category(Session session, Persistence persistence) : base(session, persistence)
         {
-        }
-
-        public Category(Operator op, String name, CategoryType type, Status status)
-        {
-            Operator = op;
-            Name = name;
-            CategoryType = type;
-            Status = status;
         }
 
         #endregion
@@ -101,18 +93,7 @@ namespace MPFinance.Core.Data.Stored
 
         #region Public Methods
 
-        public static Category GetInstanceByComposite(Session session, Operator o, String name, CategoryType categoryType)
-        {
-            Category result = new Category();
-
-            Persistence p = Persistence.GetInstance(session);
-            p.ExecuteQuery("SELECT * FROM Category WHERE Operator = ? AND Name = ? AND CategoryType = ?", new Object[] { o, name, categoryType });
-            result.Set(session, p);
-            p.Close();
-            p = null;   
-
-            return result;
-        }
+        
 
         #endregion
     }

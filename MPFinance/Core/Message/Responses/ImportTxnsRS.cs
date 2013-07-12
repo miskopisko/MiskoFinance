@@ -1,6 +1,5 @@
 using MPersist.Core;
 using MPersist.Core.Message.Response;
-using MPFinance.Core.Data.Stored;
 
 namespace MPFinance.Core.Message.Responses
 {
@@ -16,7 +15,6 @@ namespace MPFinance.Core.Message.Responses
 
         public ImportTxnsRS()
         {
-
         }
     }
 }

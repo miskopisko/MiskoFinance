@@ -1,5 +1,6 @@
-﻿using MPersist.Core;
+﻿using System;
 using System.Windows.Forms;
+using MPersist.Core;
 
 namespace MPFinance.Forms.Panels
 {
@@ -30,9 +31,9 @@ namespace MPFinance.Forms.Panels
 
         #region Override Methods
 
-        protected override void OnLoad(System.EventArgs e)
+        protected override void OnLoad(EventArgs e)
         {
-            importedTransactionsGridView.FillColumns();
+            mImportedTransactionsGridView_.FillColumns();
         }
 
         #endregion

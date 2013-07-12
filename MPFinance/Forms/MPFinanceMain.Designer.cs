@@ -28,473 +28,518 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-            System.Windows.Forms.Label label6;
-            System.Windows.Forms.Label label7;
-            System.Windows.Forms.Label label1;
+            System.Windows.Forms.ToolStripSeparator mToolStripSeparator1_;
+            System.Windows.Forms.ToolStripSeparator mToolStripSeparator3_;
+            System.Windows.Forms.ToolStripSeparator mToolStripSeparator4_;
+            System.Windows.Forms.ToolStripSeparator mToolStripSeparator2_;
+            System.Windows.Forms.Label mCategoryLbl_;
+            System.Windows.Forms.Label mToDateLbl_;
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             MPersist.Core.Data.Page page1 = new MPersist.Core.Data.Page();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MPFinanceMain));
-            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.StatusStrip = new System.Windows.Forms.StatusStrip();
-            this.messageStatusBar = new System.Windows.Forms.ToolStripProgressBar();
-            this.messageStatusLbl = new System.Windows.Forms.ToolStripStatusLabel();
-            this.MenuStrip = new System.Windows.Forms.MenuStrip();
-            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.oFXFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.accountsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.catagoriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.debugWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.MainLayout = new System.Windows.Forms.TableLayoutPanel();
-            this.summaryPanel = new MPFinance.Forms.Panels.SummaryPanel();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.headerLbl = new System.Windows.Forms.Label();
-            this.MoreBtn = new System.Windows.Forms.Button();
-            this.txnSearch = new System.Windows.Forms.Button();
-            this.FromDatePicker = new System.Windows.Forms.DateTimePicker();
-            this.ToDatePicker = new System.Windows.Forms.DateTimePicker();
-            this.AllCategoriesCmb = new System.Windows.Forms.ComboBox();
-            this.transactionsGridView = new MPFinance.Forms.Controls.TransactionsGridView();
-            this.transactionsGrigViewStatus = new System.Windows.Forms.StatusStrip();
-            this.PageCountsLbl = new System.Windows.Forms.ToolStripStatusLabel();
-            this.TransactionCountsLbl = new System.Windows.Forms.ToolStripStatusLabel();
-            this.ChartsPanel = new System.Windows.Forms.Panel();
-            this.AccountsList = new System.Windows.Forms.ListBox();
-            toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            label6 = new System.Windows.Forms.Label();
-            label7 = new System.Windows.Forms.Label();
-            label1 = new System.Windows.Forms.Label();
-            this.StatusStrip.SuspendLayout();
-            this.MenuStrip.SuspendLayout();
-            this.MainLayout.SuspendLayout();
-            this.panel1.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.transactionsGridView)).BeginInit();
-            this.transactionsGrigViewStatus.SuspendLayout();
+            this.mRootEditToolStripMenuItem_ = new System.Windows.Forms.ToolStripMenuItem();
+            this.mAccountsToolStripMenuItem_ = new System.Windows.Forms.ToolStripMenuItem();
+            this.mCatagoriesToolStripMenuItem_ = new System.Windows.Forms.ToolStripMenuItem();
+            this.mSettingsToolStripMenuItem_ = new System.Windows.Forms.ToolStripMenuItem();
+            this.mOpenFileDialog_ = new System.Windows.Forms.OpenFileDialog();
+            this.mStatusStrip_ = new System.Windows.Forms.StatusStrip();
+            this.mMessageStatusBar_ = new System.Windows.Forms.ToolStripProgressBar();
+            this.mMessageStatusLbl_ = new System.Windows.Forms.ToolStripStatusLabel();
+            this.mMenuStrip_ = new System.Windows.Forms.MenuStrip();
+            this.mRootFileToolStripMenuItem_ = new System.Windows.Forms.ToolStripMenuItem();
+            this.mImportToolStripMenuItem_ = new System.Windows.Forms.ToolStripMenuItem();
+            this.mOFXFileToolStripMenuItem_ = new System.Windows.Forms.ToolStripMenuItem();
+            this.mExitToolStripMenuItem_ = new System.Windows.Forms.ToolStripMenuItem();
+            this.mRootHelpToolStripMenuItem_ = new System.Windows.Forms.ToolStripMenuItem();
+            this.mAboutToolStripMenuItem_ = new System.Windows.Forms.ToolStripMenuItem();
+            this.mHelpToolStripMenuItem_ = new System.Windows.Forms.ToolStripMenuItem();
+            this.mMainLayout_ = new System.Windows.Forms.TableLayoutPanel();
+            this.mAccountsAndSummary_ = new System.Windows.Forms.TableLayoutPanel();
+            this.mAccountsList_ = new System.Windows.Forms.ListBox();
+            this.mTransactionsAndHeaderPanel_ = new System.Windows.Forms.Panel();
+            this.mTransactionsAndHeader_ = new System.Windows.Forms.TableLayoutPanel();
+            this.mTransactionsGridView_ = new MPFinance.Forms.Controls.TransactionsGridView();
+            this.mTransactionsStatusStrip_ = new System.Windows.Forms.StatusStrip();
+            this.mPageCountsLbl_ = new System.Windows.Forms.ToolStripStatusLabel();
+            this.mTransactionCountsLbl_ = new System.Windows.Forms.ToolStripStatusLabel();
+            this.mHeaderTable_ = new System.Windows.Forms.TableLayoutPanel();
+            this.mMoreBtn_ = new System.Windows.Forms.Button();
+            this.mSearchBtn_ = new System.Windows.Forms.Button();
+            this.mCategoriesCmb_ = new System.Windows.Forms.ComboBox();
+            this.mToDate_ = new System.Windows.Forms.DateTimePicker();
+            this.mFromDate_ = new System.Windows.Forms.DateTimePicker();
+            this.mHeaderLbl_ = new System.Windows.Forms.Label();
+            this.mfromDateLbl_ = new System.Windows.Forms.Label();
+            this.mSummaryPanel_ = new MPFinance.Forms.Panels.SummaryPanel();
+            mToolStripSeparator1_ = new System.Windows.Forms.ToolStripSeparator();
+            mToolStripSeparator3_ = new System.Windows.Forms.ToolStripSeparator();
+            mToolStripSeparator4_ = new System.Windows.Forms.ToolStripSeparator();
+            mToolStripSeparator2_ = new System.Windows.Forms.ToolStripSeparator();
+            mCategoryLbl_ = new System.Windows.Forms.Label();
+            mToDateLbl_ = new System.Windows.Forms.Label();
+            this.mStatusStrip_.SuspendLayout();
+            this.mMenuStrip_.SuspendLayout();
+            this.mMainLayout_.SuspendLayout();
+            this.mAccountsAndSummary_.SuspendLayout();
+            this.mTransactionsAndHeaderPanel_.SuspendLayout();
+            this.mTransactionsAndHeader_.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mTransactionsGridView_)).BeginInit();
+            this.mTransactionsStatusStrip_.SuspendLayout();
+            this.mHeaderTable_.SuspendLayout();
             this.SuspendLayout();
             // 
-            // toolStripSeparator1
-            // 
-            toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new System.Drawing.Size(153, 6);
-            // 
-            // label6
-            // 
-            label6.Dock = System.Windows.Forms.DockStyle.Fill;
-            label6.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            label6.Location = new System.Drawing.Point(239, 0);
-            label6.Name = "label6";
-            label6.Size = new System.Drawing.Size(64, 29);
-            label6.TabIndex = 4;
-            label6.Text = "From Date:";
-            label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // mToolStripSeparator1_
             // 
-            // label7
-            // 
-            label7.Dock = System.Windows.Forms.DockStyle.Fill;
-            label7.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            label7.Location = new System.Drawing.Point(409, 0);
-            label7.Name = "label7";
-            label7.Size = new System.Drawing.Size(54, 29);
-            label7.TabIndex = 6;
-            label7.Text = "To Date:";
-            label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label1
-            // 
-            label1.Dock = System.Windows.Forms.DockStyle.Fill;
-            label1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            label1.Location = new System.Drawing.Point(569, 0);
-            label1.Name = "label1";
-            label1.Size = new System.Drawing.Size(54, 29);
-            label1.TabIndex = 16;
-            label1.Text = "Category:";
-            label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // openFileDialog
-            // 
-            this.openFileDialog.Filter = "OFX Files|*.ofx";
-            // 
-            // StatusStrip
+            mToolStripSeparator1_.Name = "mToolStripSeparator1_";
+            mToolStripSeparator1_.Size = new System.Drawing.Size(153, 6);
             // 
-            this.StatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.messageStatusBar,
-            this.messageStatusLbl});
-            this.StatusStrip.Location = new System.Drawing.Point(0, 740);
-            this.StatusStrip.Name = "StatusStrip";
-            this.StatusStrip.Size = new System.Drawing.Size(1184, 22);
-            this.StatusStrip.TabIndex = 2;
-            this.StatusStrip.Text = "statusStrip1";
+            // mToolStripSeparator3_
             // 
-            // messageStatusBar
+            mToolStripSeparator3_.Name = "mToolStripSeparator3_";
+            mToolStripSeparator3_.Size = new System.Drawing.Size(107, 6);
             // 
-            this.messageStatusBar.Maximum = 200;
-            this.messageStatusBar.Name = "messageStatusBar";
-            this.messageStatusBar.Size = new System.Drawing.Size(200, 16);
-            // 
-            // messageStatusLbl
-            // 
-            this.messageStatusLbl.Name = "messageStatusLbl";
-            this.messageStatusLbl.Size = new System.Drawing.Size(0, 17);
+            // mToolStripSeparator4_
             // 
-            // MenuStrip
-            // 
-            this.MenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem,
-            this.editToolStripMenuItem,
-            this.helpToolStripMenuItem});
-            this.MenuStrip.Location = new System.Drawing.Point(0, 0);
-            this.MenuStrip.Name = "MenuStrip";
-            this.MenuStrip.Size = new System.Drawing.Size(1184, 24);
-            this.MenuStrip.TabIndex = 3;
-            this.MenuStrip.Text = "menuStrip";
+            mToolStripSeparator4_.Name = "mToolStripSeparator4_";
+            mToolStripSeparator4_.Size = new System.Drawing.Size(127, 6);
             // 
-            // fileToolStripMenuItem
+            // mToolStripSeparator2_
             // 
-            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem1,
-            this.toolStripSeparator3,
-            this.exitToolStripMenuItem});
-            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
-            this.fileToolStripMenuItem.Text = "File";
+            mToolStripSeparator2_.Name = "mToolStripSeparator2_";
+            mToolStripSeparator2_.Size = new System.Drawing.Size(104, 6);
             // 
-            // toolStripMenuItem1
+            // mCategoryLbl_
             // 
-            this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.oFXFileToolStripMenuItem});
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(110, 22);
-            this.toolStripMenuItem1.Text = "Import";
-            // 
-            // oFXFileToolStripMenuItem
-            // 
-            this.oFXFileToolStripMenuItem.Name = "oFXFileToolStripMenuItem";
-            this.oFXFileToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
-            this.oFXFileToolStripMenuItem.Text = "OFX File";
-            this.oFXFileToolStripMenuItem.Click += new System.EventHandler(this.oFXFileToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(107, 6);
-            // 
-            // exitToolStripMenuItem
-            // 
-            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
-            this.exitToolStripMenuItem.Text = "Exit";
-            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            mCategoryLbl_.AutoSize = true;
+            mCategoryLbl_.Dock = System.Windows.Forms.DockStyle.Fill;
+            mCategoryLbl_.Location = new System.Drawing.Point(593, 0);
+            mCategoryLbl_.Name = "mCategoryLbl_";
+            mCategoryLbl_.Size = new System.Drawing.Size(49, 29);
+            mCategoryLbl_.TabIndex = 5;
+            mCategoryLbl_.Text = "Category";
+            mCategoryLbl_.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // editToolStripMenuItem
-            // 
-            this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.accountsToolStripMenuItem,
-            this.catagoriesToolStripMenuItem,
-            this.toolStripSeparator4,
-            this.settingsToolStripMenuItem});
-            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
-            this.editToolStripMenuItem.Text = "Edit";
-            // 
-            // accountsToolStripMenuItem
-            // 
-            this.accountsToolStripMenuItem.Name = "accountsToolStripMenuItem";
-            this.accountsToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
-            this.accountsToolStripMenuItem.Text = "Accounts";
-            this.accountsToolStripMenuItem.Click += new System.EventHandler(this.accountsToolStripMenuItem_Click);
-            // 
-            // catagoriesToolStripMenuItem
-            // 
-            this.catagoriesToolStripMenuItem.Name = "catagoriesToolStripMenuItem";
-            this.catagoriesToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
-            this.catagoriesToolStripMenuItem.Text = "Categories";
-            this.catagoriesToolStripMenuItem.Click += new System.EventHandler(this.catagoriesToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator4
-            // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(127, 6);
-            // 
-            // settingsToolStripMenuItem
-            // 
-            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
-            this.settingsToolStripMenuItem.Text = "Settings";
-            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
-            // 
-            // helpToolStripMenuItem
-            // 
-            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.helpToolStripMenuItem1,
-            this.debugWindowToolStripMenuItem,
-            toolStripSeparator1,
-            this.aboutToolStripMenuItem});
-            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-            this.helpToolStripMenuItem.Text = "Help";
-            // 
-            // helpToolStripMenuItem1
-            // 
-            this.helpToolStripMenuItem1.Name = "helpToolStripMenuItem1";
-            this.helpToolStripMenuItem1.Size = new System.Drawing.Size(156, 22);
-            this.helpToolStripMenuItem1.Text = "Help";
-            // 
-            // debugWindowToolStripMenuItem
-            // 
-            this.debugWindowToolStripMenuItem.Name = "debugWindowToolStripMenuItem";
-            this.debugWindowToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
-            this.debugWindowToolStripMenuItem.Text = "Debug Window";
-            this.debugWindowToolStripMenuItem.Click += new System.EventHandler(this.debugWindowToolStripMenuItem_Click);
-            // 
-            // aboutToolStripMenuItem
-            // 
-            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
-            this.aboutToolStripMenuItem.Text = "About";
-            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
-            // 
-            // MainLayout
-            // 
-            this.MainLayout.ColumnCount = 2;
-            this.MainLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 250F));
-            this.MainLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.MainLayout.Controls.Add(this.summaryPanel, 0, 2);
-            this.MainLayout.Controls.Add(this.panel1, 1, 0);
-            this.MainLayout.Controls.Add(this.ChartsPanel, 0, 3);
-            this.MainLayout.Controls.Add(this.AccountsList, 0, 0);
-            this.MainLayout.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MainLayout.Location = new System.Drawing.Point(0, 0);
-            this.MainLayout.Name = "MainLayout";
-            this.MainLayout.Padding = new System.Windows.Forms.Padding(0, 24, 0, 22);
-            this.MainLayout.RowCount = 4;
-            this.MainLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.MainLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.MainLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 275F));
-            this.MainLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.MainLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.MainLayout.Size = new System.Drawing.Size(1184, 762);
-            this.MainLayout.TabIndex = 1;
-            // 
-            // summaryPanel
-            // 
-            this.summaryPanel.Location = new System.Drawing.Point(3, 162);
-            this.summaryPanel.Name = "summaryPanel";
-            this.summaryPanel.Size = new System.Drawing.Size(244, 269);
-            this.summaryPanel.TabIndex = 9;
-            // 
-            // panel1
-            // 
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.tableLayoutPanel1);
-            this.panel1.Controls.Add(this.transactionsGridView);
-            this.panel1.Controls.Add(this.transactionsGrigViewStatus);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(253, 27);
-            this.panel1.Name = "panel1";
-            this.MainLayout.SetRowSpan(this.panel1, 3);
-            this.panel1.Size = new System.Drawing.Size(928, 404);
-            this.panel1.TabIndex = 12;
-            // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.AutoSize = true;
-            this.tableLayoutPanel1.ColumnCount = 9;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 75F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 75F));
-            this.tableLayoutPanel1.Controls.Add(label1, 5, 0);
-            this.tableLayoutPanel1.Controls.Add(this.headerLbl, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.MoreBtn, 8, 0);
-            this.tableLayoutPanel1.Controls.Add(label6, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.txnSearch, 7, 0);
-            this.tableLayoutPanel1.Controls.Add(this.FromDatePicker, 2, 0);
-            this.tableLayoutPanel1.Controls.Add(label7, 3, 0);
-            this.tableLayoutPanel1.Controls.Add(this.ToDatePicker, 4, 0);
-            this.tableLayoutPanel1.Controls.Add(this.AllCategoriesCmb, 6, 0);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 1;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(926, 29);
-            this.tableLayoutPanel1.TabIndex = 15;
-            // 
-            // headerLbl
-            // 
-            this.headerLbl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.headerLbl.Location = new System.Drawing.Point(3, 0);
-            this.headerLbl.Name = "headerLbl";
-            this.headerLbl.Size = new System.Drawing.Size(230, 29);
-            this.headerLbl.TabIndex = 15;
-            this.headerLbl.Text = "Header";
-            this.headerLbl.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // MoreBtn
-            // 
-            this.MoreBtn.AutoSize = true;
-            this.MoreBtn.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MoreBtn.Location = new System.Drawing.Point(854, 3);
-            this.MoreBtn.Name = "MoreBtn";
-            this.MoreBtn.Size = new System.Drawing.Size(69, 23);
-            this.MoreBtn.TabIndex = 0;
-            this.MoreBtn.Text = "More";
-            this.MoreBtn.UseVisualStyleBackColor = true;
-            this.MoreBtn.Click += new System.EventHandler(this.MoreBtn_Click);
-            // 
-            // txnSearch
-            // 
-            this.txnSearch.AutoSize = true;
-            this.txnSearch.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txnSearch.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.txnSearch.Location = new System.Drawing.Point(779, 3);
-            this.txnSearch.Name = "txnSearch";
-            this.txnSearch.Size = new System.Drawing.Size(69, 23);
-            this.txnSearch.TabIndex = 11;
-            this.txnSearch.Text = "Search";
-            this.txnSearch.UseVisualStyleBackColor = true;
-            this.txnSearch.Click += new System.EventHandler(this.txnSearch_Click);
-            // 
-            // FromDatePicker
-            // 
-            this.FromDatePicker.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.FromDatePicker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.FromDatePicker.Location = new System.Drawing.Point(309, 3);
-            this.FromDatePicker.Name = "FromDatePicker";
-            this.FromDatePicker.Size = new System.Drawing.Size(94, 20);
-            this.FromDatePicker.TabIndex = 5;
-            this.FromDatePicker.Value = new System.DateTime(2013, 1, 1, 0, 0, 0, 0);
-            // 
-            // ToDatePicker
-            // 
-            this.ToDatePicker.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ToDatePicker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.ToDatePicker.Location = new System.Drawing.Point(469, 3);
-            this.ToDatePicker.Name = "ToDatePicker";
-            this.ToDatePicker.Size = new System.Drawing.Size(94, 20);
-            this.ToDatePicker.TabIndex = 13;
-            // 
-            // AllCategoriesCmb
-            // 
-            this.AllCategoriesCmb.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.AllCategoriesCmb.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.AllCategoriesCmb.FormattingEnabled = true;
-            this.AllCategoriesCmb.Location = new System.Drawing.Point(629, 3);
-            this.AllCategoriesCmb.Name = "AllCategoriesCmb";
-            this.AllCategoriesCmb.Size = new System.Drawing.Size(144, 21);
-            this.AllCategoriesCmb.TabIndex = 17;
-            // 
-            // transactionsGridView
-            // 
-            this.transactionsGridView.AllowUserToAddRows = false;
-            this.transactionsGridView.AllowUserToDeleteRows = false;
-            this.transactionsGridView.AllowUserToResizeColumns = false;
-            this.transactionsGridView.AllowUserToResizeRows = false;
-            this.transactionsGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.transactionsGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            // mToDateLbl_
+            // 
+            mToDateLbl_.AutoSize = true;
+            mToDateLbl_.Dock = System.Windows.Forms.DockStyle.Fill;
+            mToDateLbl_.Location = new System.Drawing.Point(435, 0);
+            mToDateLbl_.Name = "mToDateLbl_";
+            mToDateLbl_.Size = new System.Drawing.Size(46, 29);
+            mToDateLbl_.TabIndex = 10;
+            mToDateLbl_.Text = "To Date";
+            mToDateLbl_.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // mRootEditToolStripMenuItem_
+            // 
+            this.mRootEditToolStripMenuItem_.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mAccountsToolStripMenuItem_,
+            this.mCatagoriesToolStripMenuItem_,
+            mToolStripSeparator4_,
+            this.mSettingsToolStripMenuItem_});
+            this.mRootEditToolStripMenuItem_.Name = "mRootEditToolStripMenuItem_";
+            this.mRootEditToolStripMenuItem_.Size = new System.Drawing.Size(39, 20);
+            this.mRootEditToolStripMenuItem_.Text = "Edit";
+            // 
+            // mAccountsToolStripMenuItem_
+            // 
+            this.mAccountsToolStripMenuItem_.Name = "mAccountsToolStripMenuItem_";
+            this.mAccountsToolStripMenuItem_.Size = new System.Drawing.Size(130, 22);
+            this.mAccountsToolStripMenuItem_.Text = "Accounts";
+            this.mAccountsToolStripMenuItem_.Click += new System.EventHandler(this.accountsToolStripMenuItem_Click);
+            // 
+            // mCatagoriesToolStripMenuItem_
+            // 
+            this.mCatagoriesToolStripMenuItem_.Name = "mCatagoriesToolStripMenuItem_";
+            this.mCatagoriesToolStripMenuItem_.Size = new System.Drawing.Size(130, 22);
+            this.mCatagoriesToolStripMenuItem_.Text = "Categories";
+            this.mCatagoriesToolStripMenuItem_.Click += new System.EventHandler(this.catagoriesToolStripMenuItem_Click);
+            // 
+            // mSettingsToolStripMenuItem_
+            // 
+            this.mSettingsToolStripMenuItem_.Name = "mSettingsToolStripMenuItem_";
+            this.mSettingsToolStripMenuItem_.Size = new System.Drawing.Size(130, 22);
+            this.mSettingsToolStripMenuItem_.Text = "Settings";
+            this.mSettingsToolStripMenuItem_.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
+            // 
+            // mOpenFileDialog_
+            // 
+            this.mOpenFileDialog_.Filter = "OFX Files|*.ofx";
+            // 
+            // mStatusStrip_
+            // 
+            this.mStatusStrip_.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mMessageStatusBar_,
+            this.mMessageStatusLbl_});
+            this.mStatusStrip_.Location = new System.Drawing.Point(0, 751);
+            this.mStatusStrip_.Name = "mStatusStrip_";
+            this.mStatusStrip_.Size = new System.Drawing.Size(1192, 22);
+            this.mStatusStrip_.TabIndex = 2;
+            this.mStatusStrip_.Text = "statusStrip1";
+            // 
+            // mMessageStatusBar_
+            // 
+            this.mMessageStatusBar_.Maximum = 200;
+            this.mMessageStatusBar_.Name = "mMessageStatusBar_";
+            this.mMessageStatusBar_.Size = new System.Drawing.Size(200, 16);
+            // 
+            // mMessageStatusLbl_
+            // 
+            this.mMessageStatusLbl_.Name = "mMessageStatusLbl_";
+            this.mMessageStatusLbl_.Size = new System.Drawing.Size(0, 17);
+            // 
+            // mMenuStrip_
+            // 
+            this.mMenuStrip_.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mRootFileToolStripMenuItem_,
+            this.mRootEditToolStripMenuItem_,
+            this.mRootHelpToolStripMenuItem_});
+            this.mMenuStrip_.Location = new System.Drawing.Point(0, 0);
+            this.mMenuStrip_.Name = "mMenuStrip_";
+            this.mMenuStrip_.Size = new System.Drawing.Size(1192, 24);
+            this.mMenuStrip_.TabIndex = 3;
+            this.mMenuStrip_.Text = "menuStrip";
+            // 
+            // mRootFileToolStripMenuItem_
+            // 
+            this.mRootFileToolStripMenuItem_.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mImportToolStripMenuItem_,
+            mToolStripSeparator3_,
+            this.mExitToolStripMenuItem_});
+            this.mRootFileToolStripMenuItem_.Name = "mRootFileToolStripMenuItem_";
+            this.mRootFileToolStripMenuItem_.Size = new System.Drawing.Size(37, 20);
+            this.mRootFileToolStripMenuItem_.Text = "File";
+            // 
+            // mImportToolStripMenuItem_
+            // 
+            this.mImportToolStripMenuItem_.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mOFXFileToolStripMenuItem_});
+            this.mImportToolStripMenuItem_.Name = "mImportToolStripMenuItem_";
+            this.mImportToolStripMenuItem_.Size = new System.Drawing.Size(110, 22);
+            this.mImportToolStripMenuItem_.Text = "Import";
+            // 
+            // mOFXFileToolStripMenuItem_
+            // 
+            this.mOFXFileToolStripMenuItem_.Name = "mOFXFileToolStripMenuItem_";
+            this.mOFXFileToolStripMenuItem_.Size = new System.Drawing.Size(117, 22);
+            this.mOFXFileToolStripMenuItem_.Text = "OFX File";
+            this.mOFXFileToolStripMenuItem_.Click += new System.EventHandler(this.OFXFileToolStripMenuItem_Click);
+            // 
+            // mExitToolStripMenuItem_
+            // 
+            this.mExitToolStripMenuItem_.Name = "mExitToolStripMenuItem_";
+            this.mExitToolStripMenuItem_.Size = new System.Drawing.Size(110, 22);
+            this.mExitToolStripMenuItem_.Text = "Exit";
+            this.mExitToolStripMenuItem_.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            // 
+            // mRootHelpToolStripMenuItem_
+            // 
+            this.mRootHelpToolStripMenuItem_.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mAboutToolStripMenuItem_,
+            mToolStripSeparator2_,
+            this.mHelpToolStripMenuItem_});
+            this.mRootHelpToolStripMenuItem_.Name = "mRootHelpToolStripMenuItem_";
+            this.mRootHelpToolStripMenuItem_.Size = new System.Drawing.Size(44, 20);
+            this.mRootHelpToolStripMenuItem_.Text = "Help";
+            // 
+            // mAboutToolStripMenuItem_
+            // 
+            this.mAboutToolStripMenuItem_.Name = "mAboutToolStripMenuItem_";
+            this.mAboutToolStripMenuItem_.Size = new System.Drawing.Size(107, 22);
+            this.mAboutToolStripMenuItem_.Text = "About";
+            this.mAboutToolStripMenuItem_.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            // 
+            // mHelpToolStripMenuItem_
+            // 
+            this.mHelpToolStripMenuItem_.Name = "mHelpToolStripMenuItem_";
+            this.mHelpToolStripMenuItem_.Size = new System.Drawing.Size(107, 22);
+            this.mHelpToolStripMenuItem_.Text = "Help";
+            // 
+            // mMainLayout_
+            // 
+            this.mMainLayout_.ColumnCount = 2;
+            this.mMainLayout_.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 250F));
+            this.mMainLayout_.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.mMainLayout_.Controls.Add(this.mAccountsAndSummary_, 0, 0);
+            this.mMainLayout_.Controls.Add(this.mTransactionsAndHeaderPanel_, 1, 0);
+            this.mMainLayout_.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mMainLayout_.Location = new System.Drawing.Point(0, 24);
+            this.mMainLayout_.Name = "mMainLayout_";
+            this.mMainLayout_.RowCount = 2;
+            this.mMainLayout_.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 60F));
+            this.mMainLayout_.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40F));
+            this.mMainLayout_.Size = new System.Drawing.Size(1192, 727);
+            this.mMainLayout_.TabIndex = 4;
+            // 
+            // mAccountsAndSummary_
+            // 
+            this.mAccountsAndSummary_.ColumnCount = 1;
+            this.mAccountsAndSummary_.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.mAccountsAndSummary_.Controls.Add(this.mAccountsList_, 0, 0);
+            this.mAccountsAndSummary_.Controls.Add(this.mSummaryPanel_, 0, 1);
+            this.mAccountsAndSummary_.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mAccountsAndSummary_.Location = new System.Drawing.Point(3, 3);
+            this.mAccountsAndSummary_.Name = "mAccountsAndSummary_";
+            this.mAccountsAndSummary_.RowCount = 2;
+            this.mAccountsAndSummary_.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40F));
+            this.mAccountsAndSummary_.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 60F));
+            this.mAccountsAndSummary_.Size = new System.Drawing.Size(244, 430);
+            this.mAccountsAndSummary_.TabIndex = 0;
+            // 
+            // mAccountsList_
+            // 
+            this.mAccountsList_.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mAccountsList_.FormattingEnabled = true;
+            this.mAccountsList_.Location = new System.Drawing.Point(3, 3);
+            this.mAccountsList_.Name = "mAccountsList_";
+            this.mAccountsList_.Size = new System.Drawing.Size(238, 160);
+            this.mAccountsList_.TabIndex = 1;
+            this.mAccountsList_.SelectedIndexChanged += new System.EventHandler(this.AccountsList_SelectedIndexChanged);
+            // 
+            // mTransactionsAndHeaderPanel_
+            // 
+            this.mTransactionsAndHeaderPanel_.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.mTransactionsAndHeaderPanel_.Controls.Add(this.mTransactionsAndHeader_);
+            this.mTransactionsAndHeaderPanel_.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mTransactionsAndHeaderPanel_.Location = new System.Drawing.Point(250, 3);
+            this.mTransactionsAndHeaderPanel_.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
+            this.mTransactionsAndHeaderPanel_.Name = "mTransactionsAndHeaderPanel_";
+            this.mTransactionsAndHeaderPanel_.Size = new System.Drawing.Size(942, 430);
+            this.mTransactionsAndHeaderPanel_.TabIndex = 2;
+            // 
+            // mTransactionsAndHeader_
+            // 
+            this.mTransactionsAndHeader_.ColumnCount = 1;
+            this.mTransactionsAndHeader_.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.mTransactionsAndHeader_.Controls.Add(this.mTransactionsGridView_, 0, 1);
+            this.mTransactionsAndHeader_.Controls.Add(this.mTransactionsStatusStrip_, 0, 2);
+            this.mTransactionsAndHeader_.Controls.Add(this.mHeaderTable_, 0, 0);
+            this.mTransactionsAndHeader_.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mTransactionsAndHeader_.Location = new System.Drawing.Point(0, 0);
+            this.mTransactionsAndHeader_.Name = "mTransactionsAndHeader_";
+            this.mTransactionsAndHeader_.RowCount = 3;
+            this.mTransactionsAndHeader_.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.mTransactionsAndHeader_.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.mTransactionsAndHeader_.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.mTransactionsAndHeader_.Size = new System.Drawing.Size(940, 428);
+            this.mTransactionsAndHeader_.TabIndex = 1;
+            // 
+            // mTransactionsGridView_
+            // 
+            this.mTransactionsGridView_.AllowUserToAddRows = false;
+            this.mTransactionsGridView_.AllowUserToDeleteRows = false;
+            this.mTransactionsGridView_.AllowUserToResizeColumns = false;
+            this.mTransactionsGridView_.AllowUserToResizeRows = false;
+            this.mTransactionsGridView_.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.mTransactionsGridView_.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.mTransactionsGridView_.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             page1.IncludeRecordCount = true;
             page1.PageNo = 0;
             page1.RowsFetchedSoFar = 0;
             page1.TotalPageCount = 0;
             page1.TotalRowCount = 0;
-            this.transactionsGridView.CurrentPage = page1;
-            this.transactionsGridView.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.transactionsGridView.Location = new System.Drawing.Point(0, 32);
-            this.transactionsGridView.Name = "transactionsGridView";
-            this.transactionsGridView.RowHeadersVisible = false;
-            this.transactionsGridView.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.transactionsGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.transactionsGridView.Size = new System.Drawing.Size(926, 348);
-            this.transactionsGridView.TabIndex = 14;
+            this.mTransactionsGridView_.CurrentPage = page1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.mTransactionsGridView_.DefaultCellStyle = dataGridViewCellStyle2;
+            this.mTransactionsGridView_.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mTransactionsGridView_.Location = new System.Drawing.Point(3, 38);
+            this.mTransactionsGridView_.Name = "mTransactionsGridView_";
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.mTransactionsGridView_.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            this.mTransactionsGridView_.RowHeadersVisible = false;
+            this.mTransactionsGridView_.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.mTransactionsGridView_.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.mTransactionsGridView_.Size = new System.Drawing.Size(934, 365);
+            this.mTransactionsGridView_.TabIndex = 0;
             // 
-            // transactionsGrigViewStatus
+            // mTransactionsStatusStrip_
             // 
-            this.transactionsGrigViewStatus.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.PageCountsLbl,
-            this.TransactionCountsLbl});
-            this.transactionsGrigViewStatus.Location = new System.Drawing.Point(0, 380);
-            this.transactionsGrigViewStatus.Name = "transactionsGrigViewStatus";
-            this.transactionsGrigViewStatus.Size = new System.Drawing.Size(926, 22);
-            this.transactionsGrigViewStatus.SizingGrip = false;
-            this.transactionsGrigViewStatus.TabIndex = 0;
-            this.transactionsGrigViewStatus.Text = "TransactionCounts";
+            this.mTransactionsStatusStrip_.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mPageCountsLbl_,
+            this.mTransactionCountsLbl_});
+            this.mTransactionsStatusStrip_.Location = new System.Drawing.Point(0, 406);
+            this.mTransactionsStatusStrip_.Name = "mTransactionsStatusStrip_";
+            this.mTransactionsStatusStrip_.Size = new System.Drawing.Size(940, 22);
+            this.mTransactionsStatusStrip_.SizingGrip = false;
+            this.mTransactionsStatusStrip_.TabIndex = 1;
+            this.mTransactionsStatusStrip_.Text = "statusStrip1";
             // 
-            // PageCountsLbl
+            // mPageCountsLbl_
             // 
-            this.PageCountsLbl.Name = "PageCountsLbl";
-            this.PageCountsLbl.Size = new System.Drawing.Size(773, 17);
-            this.PageCountsLbl.Spring = true;
-            this.PageCountsLbl.Text = "Page Counts Here";
-            this.PageCountsLbl.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.mPageCountsLbl_.Name = "mPageCountsLbl_";
+            this.mPageCountsLbl_.Size = new System.Drawing.Size(810, 17);
+            this.mPageCountsLbl_.Spring = true;
+            this.mPageCountsLbl_.Text = "Page Counts";
+            this.mPageCountsLbl_.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // TransactionCountsLbl
+            // mTransactionCountsLbl_
             // 
-            this.TransactionCountsLbl.Name = "TransactionCountsLbl";
-            this.TransactionCountsLbl.Size = new System.Drawing.Size(138, 17);
-            this.TransactionCountsLbl.Text = "Transaction Counts Here";
+            this.mTransactionCountsLbl_.Name = "mTransactionCountsLbl_";
+            this.mTransactionCountsLbl_.Size = new System.Drawing.Size(115, 17);
+            this.mTransactionCountsLbl_.Text = "Transactions Counts";
+            this.mTransactionCountsLbl_.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // ChartsPanel
+            // mHeaderTable_
             // 
-            this.ChartsPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.MainLayout.SetColumnSpan(this.ChartsPanel, 2);
-            this.ChartsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ChartsPanel.Location = new System.Drawing.Point(3, 437);
-            this.ChartsPanel.Name = "ChartsPanel";
-            this.ChartsPanel.Size = new System.Drawing.Size(1178, 300);
-            this.ChartsPanel.TabIndex = 13;
+            this.mHeaderTable_.ColumnCount = 9;
+            this.mHeaderTable_.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.mHeaderTable_.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.mHeaderTable_.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.mHeaderTable_.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.mHeaderTable_.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.mHeaderTable_.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.mHeaderTable_.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.mHeaderTable_.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.mHeaderTable_.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.mHeaderTable_.Controls.Add(this.mMoreBtn_, 8, 0);
+            this.mHeaderTable_.Controls.Add(this.mSearchBtn_, 7, 0);
+            this.mHeaderTable_.Controls.Add(this.mCategoriesCmb_, 6, 0);
+            this.mHeaderTable_.Controls.Add(this.mToDate_, 4, 0);
+            this.mHeaderTable_.Controls.Add(this.mFromDate_, 2, 0);
+            this.mHeaderTable_.Controls.Add(mCategoryLbl_, 5, 0);
+            this.mHeaderTable_.Controls.Add(this.mHeaderLbl_, 0, 0);
+            this.mHeaderTable_.Controls.Add(this.mfromDateLbl_, 1, 0);
+            this.mHeaderTable_.Controls.Add(mToDateLbl_, 3, 0);
+            this.mHeaderTable_.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mHeaderTable_.Location = new System.Drawing.Point(3, 3);
+            this.mHeaderTable_.Name = "mHeaderTable_";
+            this.mHeaderTable_.RowCount = 1;
+            this.mHeaderTable_.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.mHeaderTable_.Size = new System.Drawing.Size(934, 29);
+            this.mHeaderTable_.TabIndex = 2;
             // 
-            // AccountsList
+            // mMoreBtn_
             // 
-            this.AccountsList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.AccountsList.FormattingEnabled = true;
-            this.AccountsList.Location = new System.Drawing.Point(3, 27);
-            this.AccountsList.Name = "AccountsList";
-            this.MainLayout.SetRowSpan(this.AccountsList, 2);
-            this.AccountsList.Size = new System.Drawing.Size(244, 129);
-            this.AccountsList.TabIndex = 14;
-            this.AccountsList.SelectedIndexChanged += new System.EventHandler(this.AccountsList_SelectedIndexChanged);
+            this.mMoreBtn_.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mMoreBtn_.Location = new System.Drawing.Point(856, 3);
+            this.mMoreBtn_.Name = "mMoreBtn_";
+            this.mMoreBtn_.Size = new System.Drawing.Size(75, 23);
+            this.mMoreBtn_.TabIndex = 0;
+            this.mMoreBtn_.Text = "More";
+            this.mMoreBtn_.UseVisualStyleBackColor = true;
+            this.mMoreBtn_.Click += new System.EventHandler(this.MoreBtn_Click);
+            // 
+            // mSearchBtn_
+            // 
+            this.mSearchBtn_.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mSearchBtn_.Location = new System.Drawing.Point(775, 3);
+            this.mSearchBtn_.Name = "mSearchBtn_";
+            this.mSearchBtn_.Size = new System.Drawing.Size(75, 23);
+            this.mSearchBtn_.TabIndex = 1;
+            this.mSearchBtn_.Text = "Search";
+            this.mSearchBtn_.UseVisualStyleBackColor = true;
+            this.mSearchBtn_.Click += new System.EventHandler(this.Search_Click);
+            // 
+            // mCategoriesCmb_
+            // 
+            this.mCategoriesCmb_.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mCategoriesCmb_.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.mCategoriesCmb_.FormattingEnabled = true;
+            this.mCategoriesCmb_.Location = new System.Drawing.Point(648, 3);
+            this.mCategoriesCmb_.Name = "mCategoriesCmb_";
+            this.mCategoriesCmb_.Size = new System.Drawing.Size(121, 21);
+            this.mCategoriesCmb_.TabIndex = 2;
+            // 
+            // mToDate_
+            // 
+            this.mToDate_.CustomFormat = "MMMM d, yyyy";
+            this.mToDate_.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mToDate_.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.mToDate_.Location = new System.Drawing.Point(487, 3);
+            this.mToDate_.MinDate = new System.DateTime(2012, 1, 1, 0, 0, 0, 0);
+            this.mToDate_.Name = "mToDate_";
+            this.mToDate_.Size = new System.Drawing.Size(100, 20);
+            this.mToDate_.TabIndex = 3;
+            // 
+            // mFromDate_
+            // 
+            this.mFromDate_.CustomFormat = "MMMM d, yyyy";
+            this.mFromDate_.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mFromDate_.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.mFromDate_.Location = new System.Drawing.Point(329, 3);
+            this.mFromDate_.MinDate = new System.DateTime(2012, 1, 1, 0, 0, 0, 0);
+            this.mFromDate_.Name = "mFromDate_";
+            this.mFromDate_.Size = new System.Drawing.Size(100, 20);
+            this.mFromDate_.TabIndex = 4;
+            // 
+            // mHeaderLbl_
+            // 
+            this.mHeaderLbl_.AutoSize = true;
+            this.mHeaderLbl_.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mHeaderLbl_.Location = new System.Drawing.Point(3, 0);
+            this.mHeaderLbl_.Name = "mHeaderLbl_";
+            this.mHeaderLbl_.Size = new System.Drawing.Size(258, 29);
+            this.mHeaderLbl_.TabIndex = 8;
+            this.mHeaderLbl_.Text = "Header";
+            this.mHeaderLbl_.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // mfromDateLbl_
+            // 
+            this.mfromDateLbl_.AutoSize = true;
+            this.mfromDateLbl_.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mfromDateLbl_.Location = new System.Drawing.Point(267, 0);
+            this.mfromDateLbl_.Name = "mfromDateLbl_";
+            this.mfromDateLbl_.Size = new System.Drawing.Size(56, 29);
+            this.mfromDateLbl_.TabIndex = 9;
+            this.mfromDateLbl_.Text = "From Date";
+            this.mfromDateLbl_.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // mSummaryPanel_
+            // 
+            this.mSummaryPanel_.Location = new System.Drawing.Point(3, 175);
+            this.mSummaryPanel_.Name = "mSummaryPanel_";
+            this.mSummaryPanel_.Size = new System.Drawing.Size(238, 252);
+            this.mSummaryPanel_.TabIndex = 2;
             // 
             // MPFinanceMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1184, 762);
-            this.Controls.Add(this.StatusStrip);
-            this.Controls.Add(this.MenuStrip);
-            this.Controls.Add(this.MainLayout);
+            this.ClientSize = new System.Drawing.Size(1192, 773);
+            this.Controls.Add(this.mMainLayout_);
+            this.Controls.Add(this.mStatusStrip_);
+            this.Controls.Add(this.mMenuStrip_);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MainMenuStrip = this.MenuStrip;
+            this.MainMenuStrip = this.mMenuStrip_;
             this.MinimumSize = new System.Drawing.Size(1200, 800);
             this.Name = "MPFinanceMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "MP Finance";
-            this.StatusStrip.ResumeLayout(false);
-            this.StatusStrip.PerformLayout();
-            this.MenuStrip.ResumeLayout(false);
-            this.MenuStrip.PerformLayout();
-            this.MainLayout.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.transactionsGridView)).EndInit();
-            this.transactionsGrigViewStatus.ResumeLayout(false);
-            this.transactionsGrigViewStatus.PerformLayout();
+            this.mStatusStrip_.ResumeLayout(false);
+            this.mStatusStrip_.PerformLayout();
+            this.mMenuStrip_.ResumeLayout(false);
+            this.mMenuStrip_.PerformLayout();
+            this.mMainLayout_.ResumeLayout(false);
+            this.mAccountsAndSummary_.ResumeLayout(false);
+            this.mTransactionsAndHeaderPanel_.ResumeLayout(false);
+            this.mTransactionsAndHeader_.ResumeLayout(false);
+            this.mTransactionsAndHeader_.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mTransactionsGridView_)).EndInit();
+            this.mTransactionsStatusStrip_.ResumeLayout(false);
+            this.mTransactionsStatusStrip_.PerformLayout();
+            this.mHeaderTable_.ResumeLayout(false);
+            this.mHeaderTable_.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -502,40 +547,39 @@
 
         #endregion
 
-        private System.Windows.Forms.OpenFileDialog openFileDialog;
-        private System.Windows.Forms.StatusStrip StatusStrip;
-        private System.Windows.Forms.MenuStrip MenuStrip;
-        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem oFXFileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem accountsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem catagoriesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
-        private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripProgressBar messageStatusBar;
-        private System.Windows.Forms.ToolStripStatusLabel messageStatusLbl;
-        private System.Windows.Forms.TableLayoutPanel MainLayout;
-        private Panels.SummaryPanel summaryPanel;
-        private System.Windows.Forms.Button MoreBtn;
-        private System.Windows.Forms.Button txnSearch;
-        public System.Windows.Forms.DateTimePicker FromDatePicker;
-        public System.Windows.Forms.DateTimePicker ToDatePicker;
-        private System.Windows.Forms.Panel panel1;
-        private MPFinance.Forms.Controls.TransactionsGridView transactionsGridView;
-        private System.Windows.Forms.StatusStrip transactionsGrigViewStatus;
-        private System.Windows.Forms.ToolStripStatusLabel PageCountsLbl;
-        private System.Windows.Forms.ToolStripStatusLabel TransactionCountsLbl;
-        private System.Windows.Forms.Panel ChartsPanel;
-        private System.Windows.Forms.Label headerLbl;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.ComboBox AllCategoriesCmb;
-        private System.Windows.Forms.ToolStripMenuItem debugWindowToolStripMenuItem;
-        private System.Windows.Forms.ListBox AccountsList;
+        private System.Windows.Forms.MenuStrip mMenuStrip_;
+        private System.Windows.Forms.ToolStripMenuItem mRootFileToolStripMenuItem_;
+        private System.Windows.Forms.ToolStripMenuItem mImportToolStripMenuItem_;
+        private System.Windows.Forms.ToolStripMenuItem mOFXFileToolStripMenuItem_;
+        private System.Windows.Forms.ToolStripMenuItem mExitToolStripMenuItem_;
+        private System.Windows.Forms.ToolStripMenuItem mRootEditToolStripMenuItem_;
+        private System.Windows.Forms.ToolStripMenuItem mAccountsToolStripMenuItem_;
+        private System.Windows.Forms.ToolStripMenuItem mCatagoriesToolStripMenuItem_;
+        private System.Windows.Forms.ToolStripMenuItem mSettingsToolStripMenuItem_;
+        private System.Windows.Forms.ToolStripMenuItem mRootHelpToolStripMenuItem_;
+        private System.Windows.Forms.ToolStripMenuItem mAboutToolStripMenuItem_;
+        private System.Windows.Forms.ToolStripMenuItem mHelpToolStripMenuItem_;
+        private System.Windows.Forms.OpenFileDialog mOpenFileDialog_;        
+        private System.Windows.Forms.StatusStrip mStatusStrip_;        
+        private System.Windows.Forms.ToolStripProgressBar mMessageStatusBar_;
+        private System.Windows.Forms.ToolStripStatusLabel mMessageStatusLbl_;
+        private System.Windows.Forms.TableLayoutPanel mMainLayout_;
+        private System.Windows.Forms.TableLayoutPanel mAccountsAndSummary_;
+        private System.Windows.Forms.TableLayoutPanel mTransactionsAndHeader_;
+        private System.Windows.Forms.ListBox mAccountsList_;
+        private MPFinance.Forms.Controls.TransactionsGridView mTransactionsGridView_;
+        private System.Windows.Forms.StatusStrip mTransactionsStatusStrip_;
+        private System.Windows.Forms.ToolStripStatusLabel mPageCountsLbl_;
+        private System.Windows.Forms.ToolStripStatusLabel mTransactionCountsLbl_;
+        private System.Windows.Forms.Panel mTransactionsAndHeaderPanel_;
+        private System.Windows.Forms.TableLayoutPanel mHeaderTable_;
+        private System.Windows.Forms.Button mMoreBtn_;
+        private System.Windows.Forms.Button mSearchBtn_;
+        private System.Windows.Forms.ComboBox mCategoriesCmb_;
+        private System.Windows.Forms.DateTimePicker mToDate_;
+        private System.Windows.Forms.DateTimePicker mFromDate_;
+        private System.Windows.Forms.Label mHeaderLbl_;
+        private System.Windows.Forms.Label mfromDateLbl_;
+        private MPFinance.Forms.Panels.SummaryPanel mSummaryPanel_;        
     }
 }

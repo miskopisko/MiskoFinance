@@ -16,7 +16,6 @@ namespace MPFinance.Forms
 
         private void Done_Click(object sender, EventArgs e)
         {
-
             Settings.Default.RowsPerPage = Convert.ToInt32(RowsPerPageTxt.Text);
             Settings.Default.EnableCache = EnableCacheCheck.Checked;
             Settings.Default.Save();

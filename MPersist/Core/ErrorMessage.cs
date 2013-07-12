@@ -1,7 +1,7 @@
-﻿using MPersist.Core.Enums;
-using MPersist.Core.Tools;
-using System;
+﻿using System;
 using System.Reflection;
+using MPersist.Core.Enums;
+using MPersist.Core.Tools;
 
 namespace MPersist.Core
 {
@@ -25,7 +25,7 @@ namespace MPersist.Core
         public String Class { get { return mClass_; } }
         public String Method { get { return mMethod_; } }
         public ErrorLevel Level { get { return mErrorLevel_; } }
-        public String Message { get { return mErrorMessage_; } }
+        public String Message { get { return ToString(); } }
         public Boolean Confirmed { get  { return mErrorLevel_.Equals(ErrorLevel.Confirmation) ? mConfirmed_ : true; } set { mConfirmed_ = value; } }
 
         #endregion

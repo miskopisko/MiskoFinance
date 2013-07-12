@@ -1,9 +1,9 @@
+using System;
 using MPersist.Core;
 using MPersist.Core.Attributes;
 using MPersist.Core.Data;
 using MPersist.Core.Enums;
 using MPFinance.Core.Enums;
-using System;
 
 namespace MPFinance.Core.Data.Stored
 {

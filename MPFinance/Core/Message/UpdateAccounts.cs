@@ -1,10 +1,10 @@
 using MPersist.Core;
 using MPersist.Core.Enums;
 using MPersist.Core.Message;
+using MPFinance.Core.Data.Stored;
 using MPFinance.Core.Message.Requests;
 using MPFinance.Core.Message.Responses;
 using MPFinance.Resources;
-using System.Reflection;
 
 namespace MPFinance.Core.Message
 {
@@ -14,21 +14,8 @@ namespace MPFinance.Core.Message
 
         #region Properties
 
-        public new UpdateAccountsRQ Request
-        {
-            get
-            {
-                return (UpdateAccountsRQ)base.Request;
-            }
-        }
-
-        public new UpdateAccountsRS Response
-        {
-            get
-            {
-                return (UpdateAccountsRS)base.Response;
-            }
-        }
+        public new UpdateAccountsRQ Request { get { return (UpdateAccountsRQ)base.Request; } }
+        public new UpdateAccountsRS Response  { get { return (UpdateAccountsRS)base.Response; } }
 
         #endregion
 
@@ -38,11 +25,9 @@ namespace MPFinance.Core.Message
 
         public override void Execute(Session session)
         {
-            Request.Accounts.Save(session);
+            Response.Accounts = (BankAccounts)Request.Accounts.Save(session);
 
             session.Error(ErrorLevel.Info, WarningStrings.warnAccountUpdateSuccess);
-
-            Response.Accounts = Request.Accounts;
         }
     }
 }

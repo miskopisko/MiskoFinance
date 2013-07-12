@@ -1,6 +1,5 @@
 using MPersist.Core;
 using MPersist.Core.Message.Response;
-using MPFinance.Core.Data.Stored;
 using MPFinance.Core.Data.Viewed;
 
 namespace MPFinance.Core.Message.Responses

@@ -59,7 +59,7 @@ namespace MPersist.Core.Data
                     properties = TypeDescriptor.GetProperties(GetType(), new Attribute[] { new StoredAttribute() });
 
                     ((AbstractStoredData)this).IsSet = true;
-                    ((AbstractStoredData)this).Id = persistence.GetInt("Id").Value;
+                    ((AbstractStoredData)this).Id = persistence.GetPrimaryKey("Id");
                     ((AbstractStoredData)this).RowVer = persistence.GetInt("RowVer").Value;
                 }
                 else if(this is AbstractViewedData)
@@ -140,7 +140,7 @@ namespace MPersist.Core.Data
                         if (persistence.GetInt(property.Name) > 0)
                         {
                             item = (AbstractStoredData)property.PropertyType.Assembly.CreateInstance(property.PropertyType.FullName);
-                            item.Id = persistence.GetInt(property.Name).Value;
+                            item.Id = persistence.GetPrimaryKey("Id");
                         }
 
                         property.SetValue(this, item);
@@ -152,6 +152,10 @@ namespace MPersist.Core.Data
                     else if (property.PropertyType == typeof(Money))
                     {
                         property.SetValue(this, persistence.GetMoney(property.Name));
+                    }
+                    else if (property.PropertyType == typeof(PrimaryKey))
+                    {
+                        property.SetValue(this, persistence.GetPrimaryKey(property.Name));
                     }
                     else if (property.PropertyType.IsGenericType) // Leave this out for now
                     {

@@ -1,13 +1,14 @@
-﻿using MPersist.Core;
+﻿using System;
+using System.Windows.Forms;
+using MPersist.Core;
 using MPersist.Core.Enums;
 using MPersist.Core.Message.Response;
 using MPFinance.Core.Data.Stored;
 using MPFinance.Core.Enums;
 using MPFinance.Core.Message.Requests;
 using MPFinance.Core.Message.Responses;
+using MPFinance.Core.OFX;
 using MPFinance.Resources;
-using System;
-using System.Windows.Forms;
 
 namespace MPFinance.Forms.Panels
 {
@@ -17,41 +18,35 @@ namespace MPFinance.Forms.Panels
 
         #region Events
 
-        public delegate void CompletedWork();
-        public event CompletedWork OnCompletedWork;
+        public delegate void OnSuccess(BankAccount account);
+        public event OnSuccess Success;
+
+        public delegate void OnFail();
+        public event OnFail Fail;
 
         #endregion
 
-        #region Variable declarations
+        #region Variable Declarations
 
-        private ImportNewTransactionsDialog mParentForm_;
-        private BankAccount mAccount_;
+        private OfxDocument mOfxDocument_;
 
         #endregion
 
         #region Properties
 
-        public BankAccount Account { get { return mAccount_; } }
+
 
         #endregion
 
         #region Constructor
 
-        public ChooseAccountPanel(ImportNewTransactionsDialog parentForm)
+        public ChooseAccountPanel(OfxDocument ofxDocument)
         {
-            mParentForm_ = parentForm;
+            mOfxDocument_ = ofxDocument;
 
             InitializeComponent();
 
-            existingAccounts.ItemCheck += existingAccounts_ItemCheck;
-            
-            AccountTypeCmb.DataSource = AccountType.Elements;
-
-            BankName.Text = mParentForm_.OFXDocument.BankID;
-            AccountNumber.Text = mParentForm_.OFXDocument.AccountID;
-            AccountTypeCmb.SelectedItem = mParentForm_.OFXDocument.AccountType;
-            Nickname.Text = "";
-            OpeningBalance.Text = "";
+            mExistingAccounts_.ItemCheck += existingAccounts_ItemCheck;
         }
 
         #endregion
@@ -60,9 +55,27 @@ namespace MPFinance.Forms.Panels
 
         protected override void OnLoad(EventArgs e)
         {
-            GetAccountsRQ request = new GetAccountsRQ();
-            request.Operator = MPFinanceMain.Instance.Operator;
-            MessageProcessor.SendRequest(request, GetAccountsSuccess);
+            mAccountType_.DataSource = AccountType.Elements;
+            mExistingAccounts_.DataSource = MPFinanceMain.Instance.Operator.BankAccounts;
+
+            mBankName_.Text = mOfxDocument_.BankID;
+            mAccountNumber_.Text = mOfxDocument_.AccountID;
+            mAccountType_.SelectedItem = mOfxDocument_.AccountType;
+
+            mExistingAccount_.Checked = mExistingAccounts_.Items.Count > 0;
+            mCreateNewAccount_.Checked = !mExistingAccount_.Checked;
+
+            if (mExistingAccounts_.Items.Count == 0)
+            {
+                mExistingAccount_.Enabled = false;
+            }
+
+            GetAccountRQ request = new GetAccountRQ();
+            request.AccountNo = mOfxDocument_.AccountID;
+            request.BankNo = mOfxDocument_.BankID;
+            request.AccountType = mOfxDocument_.AccountType;
+            request.Operator = MPFinanceMain.Instance.Operator.Id;
+            MessageProcessor.SendRequest(request, GetAccountSuccess);
         }
 
         #endregion
@@ -71,11 +84,11 @@ namespace MPFinance.Forms.Panels
 
         private void existingAccounts_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            for (int ix = 0; ix < existingAccounts.Items.Count; ++ix)
+            for (int ix = 0; ix < mExistingAccounts_.Items.Count; ++ix)
             {
                 if (ix != e.Index)
                 {
-                    existingAccounts.SetItemChecked(ix, false);
+                    mExistingAccounts_.SetItemChecked(ix, false);
                 }
             }                
         }
@@ -96,62 +109,38 @@ namespace MPFinance.Forms.Panels
 
         private void toggleAccountCreation()
         {
-            existingAccounts.Enabled = existingAccount.Checked;
-            BankName.Enabled = !existingAccount.Checked;
-            AccountNumber.Enabled = !existingAccount.Checked;
-            OpeningBalance.Enabled = !existingAccount.Checked;
-            AccountTypeCmb.Enabled = !existingAccount.Checked;
-            Nickname.Enabled = !existingAccount.Checked;
-        }
-        
-        private void GetAccountsSuccess(AbstractResponse response)
-        {
-            BankAccounts accounts = ((GetAccountsRS)response).Accounts;
-
-            foreach (Account account in accounts)
-            {
-                existingAccounts.Items.Add(account);
-            }
-
-            existingAccount.Checked = accounts.Count > 0;
-            createNewAccount.Checked = accounts.Count <= 0;
-
-            if (accounts.Count == 0)
-            {
-                existingAccount.Enabled = false;
-            }
-
-            GetAccountRQ request = new GetAccountRQ();
-            request.AccountNo = mParentForm_.OFXDocument.AccountID;
-            request.BankNo = mParentForm_.OFXDocument.BankID;
-            request.AccountType = mParentForm_.OFXDocument.AccountType;
-            request.Operator = MPFinanceMain.Instance.Operator;
-            MessageProcessor.SendRequest(request, GetAccountSuccess);
+            mExistingAccounts_.Enabled = mExistingAccount_.Checked;
+            mBankName_.Enabled = !mExistingAccount_.Checked;
+            mAccountNumber_.Enabled = !mExistingAccount_.Checked;
+            mOpeningBalance_.Enabled = !mExistingAccount_.Checked;
+            mAccountType_.Enabled = !mExistingAccount_.Checked;
+            mNickname_.Enabled = !mExistingAccount_.Checked;
         }
 
         private void GetAccountSuccess(AbstractResponse response)
         {
             Account foundAccount = ((GetAccountRS)response).Account;
 
-            for (int i = 0; i < existingAccounts.Items.Count; i++)
+            for (int i = 0; i < mExistingAccounts_.Items.Count; i++)
             {
-                existingAccounts.SetItemChecked(i, ((Account)existingAccounts.Items[i]).Id.Equals(foundAccount.Id));
+                mExistingAccounts_.SetItemChecked(i, ((Account)mExistingAccounts_.Items[i]).Id.Equals(foundAccount.Id));
             }
         }
 
         private void AddAccountSuccess(AbstractResponse response)
         {
-            mAccount_ = ((AddAccountRS)response).NewAccount;
-
-            if (OnCompletedWork != null)
+            if (Success != null)
             {
-                OnCompletedWork();
+                Success(((AddAccountRS)response).NewAccount);
             }
         }
 
         private void AddAccountError(AbstractResponse response)
         {
-            mParentForm_.nextBtn.Enabled = true;
+            if(Fail != null)
+            {
+                Fail();
+            }
         }
 
         #endregion
@@ -160,36 +149,35 @@ namespace MPFinance.Forms.Panels
 
         public void GetAccount()
         {
-            if (createNewAccount.Checked)
+            if (mCreateNewAccount_.Checked)
             {
                 AddAccountRQ request = new AddAccountRQ();
                 request.Account = new BankAccount();
-                request.Account.Operator = MPFinanceMain.Instance.Operator;
-                request.Account.AccountNumber = AccountNumber.Text.Trim();
-                request.Account.BankNumber = BankName.Text.Trim();
-                request.Account.Nickname = Nickname.Text.Trim();
-                request.Account.AccountType = (AccountType)AccountTypeCmb.SelectedItem;
-                request.Account.OpeningBalance = OpeningBalance.Value;
+                request.Account.Operator = MPFinanceMain.Instance.Operator.Id;
+                request.Account.AccountNumber = mAccountNumber_.Text.Trim();
+                request.Account.BankNumber = mBankName_.Text.Trim();
+                request.Account.Nickname = mNickname_.Text.Trim();
+                request.Account.AccountType = (AccountType)mAccountType_.SelectedItem;
+                request.Account.OpeningBalance = mOpeningBalance_.Value;
                 request.MessageMode = MessageMode.Trial; // We dont want to save the account just yet
                 MessageProcessor.SendRequest(request, AddAccountSuccess, AddAccountError);
             }
-            else if (existingAccount.Checked)
+            else if (mExistingAccount_.Checked)
             {
-                if (existingAccounts.CheckedItems.Count == 0)
+                if (mExistingAccounts_.CheckedItems.Count == 0)
                 {
-                    throw new MPException(ErrorStrings.errChooseExistingAccount);
-                }
-                else if (existingAccounts.CheckedItems.Count > 1)
-                {
-                    throw new MPException(ErrorStrings.errChooseOnlyOneExistingAccount);
+                    MPFinanceMain.Instance.Error(ErrorStrings.errChooseExistingAccount);
+
+                    if(Fail != null)
+                    {
+                        Fail();
+                    }
                 }
                 else
                 {
-                    mAccount_ = (BankAccount)existingAccounts.CheckedItems[0];
-
-                    if (OnCompletedWork != null)
+                    if (Success != null)
                     {
-                        OnCompletedWork();
+                        Success((BankAccount)mExistingAccounts_.CheckedItems[0]);
                     }
                 }
             }

@@ -5,6 +5,7 @@ using MPFinance.Core.Message.Requests;
 using MPFinance.Core.Message.Responses;
 using MPFinance.Resources;
 using System;
+using MPFinance.Core.Data.Stored;
 
 namespace MPFinance.Core.Message
 {
@@ -14,21 +15,8 @@ namespace MPFinance.Core.Message
 
         #region Properties
 
-        public new AddAccountRQ Request
-        {
-            get
-            {
-                return (AddAccountRQ)base.Request;
-            }
-        }
-
-        public new AddAccountRS Response
-        {
-            get
-            {
-                return (AddAccountRS)base.Response;
-            }
-        }
+        public new AddAccountRQ Request { get { return (AddAccountRQ)base.Request; } }
+        public new AddAccountRS Response { get { return (AddAccountRS)base.Response; } }
 
         #endregion
 
@@ -38,11 +26,9 @@ namespace MPFinance.Core.Message
 
         public override void Execute(Session session)
         {
-            Request.Account.Save(session);
+            Response.NewAccount = (BankAccount)Request.Account.Save(session);
 
-            session.Error(ErrorLevel.Confirmation, ConfirmStrings.conCreateNewAccount, new Object[] { Request.Account.AccountNumber });
-
-            Response.NewAccount = Request.Account;
+            session.Error(ErrorLevel.Confirmation, ConfirmStrings.conCreateNewAccount, new Object[] { Request.Account.AccountNumber });            
         }
     }
 }

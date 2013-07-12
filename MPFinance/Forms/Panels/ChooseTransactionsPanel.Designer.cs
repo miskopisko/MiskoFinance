@@ -28,39 +28,40 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.importedTransactionsGridView = new MPFinance.Forms.Controls.ImportedTransactionsGridView();
-            ((System.ComponentModel.ISupportInitialize)(this.importedTransactionsGridView)).BeginInit();
+            this.mImportedTransactionsGridView_ = new MPFinance.Forms.Controls.ImportedTransactionsGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.mImportedTransactionsGridView_)).BeginInit();
             this.SuspendLayout();
             // 
-            // importedTransactionsGridView
+            // mImportedTransactionsGridView_
             // 
-            this.importedTransactionsGridView.AllowUserToAddRows = false;
-            this.importedTransactionsGridView.AllowUserToDeleteRows = false;
-            this.importedTransactionsGridView.AllowUserToResizeColumns = false;
-            this.importedTransactionsGridView.AllowUserToResizeRows = false;
-            this.importedTransactionsGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.importedTransactionsGridView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.importedTransactionsGridView.Location = new System.Drawing.Point(0, 0);
-            this.importedTransactionsGridView.Name = "importedTransactionsGridView";
-            this.importedTransactionsGridView.RowHeadersVisible = false;
-            this.importedTransactionsGridView.Size = new System.Drawing.Size(1059, 482);
-            this.importedTransactionsGridView.TabIndex = 1;
+            this.mImportedTransactionsGridView_.AllowUserToAddRows = false;
+            this.mImportedTransactionsGridView_.AllowUserToDeleteRows = false;
+            this.mImportedTransactionsGridView_.AllowUserToResizeColumns = false;
+            this.mImportedTransactionsGridView_.AllowUserToResizeRows = false;
+            this.mImportedTransactionsGridView_.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.mImportedTransactionsGridView_.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mImportedTransactionsGridView_.Location = new System.Drawing.Point(0, 0);
+            this.mImportedTransactionsGridView_.Name = "mImportedTransactionsGridView_";
+            this.mImportedTransactionsGridView_.RowHeadersVisible = false;
+            this.mImportedTransactionsGridView_.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.mImportedTransactionsGridView_.Size = new System.Drawing.Size(1059, 482);
+            this.mImportedTransactionsGridView_.TabIndex = 1;
             // 
             // ChooseTransactionsPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.importedTransactionsGridView);
+            this.Controls.Add(this.mImportedTransactionsGridView_);
             this.Name = "ChooseTransactionsPanel";
             this.Size = new System.Drawing.Size(1059, 482);
-            ((System.ComponentModel.ISupportInitialize)(this.importedTransactionsGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mImportedTransactionsGridView_)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        public Controls.ImportedTransactionsGridView importedTransactionsGridView;
+        public Controls.ImportedTransactionsGridView mImportedTransactionsGridView_;
 
 
 

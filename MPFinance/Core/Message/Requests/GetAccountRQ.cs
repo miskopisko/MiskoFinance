@@ -1,8 +1,8 @@
-using MPersist.Core;
-using MPersist.Core.Message.Request;
-using MPFinance.Core.Data.Stored;
-using MPFinance.Core.Enums;
 using System;
+using MPersist.Core;
+using MPersist.Core.Data;
+using MPersist.Core.Message.Request;
+using MPFinance.Core.Enums;
 
 namespace MPFinance.Core.Message.Requests
 {
@@ -12,7 +12,7 @@ namespace MPFinance.Core.Message.Requests
 
         #region Parameters
 
-        public Operator Operator { get; set;}
+        public PrimaryKey Operator { get; set;}
         public AccountType AccountType { get; set;}
         public String BankNo { get; set;}
         public String AccountNo { get; set; }
@@ -21,7 +21,6 @@ namespace MPFinance.Core.Message.Requests
 
         public GetAccountRQ()
         {
-
         }
     }
 }

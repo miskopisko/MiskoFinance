@@ -19,7 +19,7 @@ namespace MPFinance.Core.Data.Stored
         #region Stored Properties
 
         [Stored]
-        public Operator Operator { get; set; }
+        public PrimaryKey Operator { get; set; }
         [Stored]
         public AccountType AccountType { get; set; }        
 
