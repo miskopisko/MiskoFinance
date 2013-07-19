@@ -22,7 +22,7 @@ namespace MPersist.Core
 
         #endregion
 
-        #region Variable Declarations
+        #region Fields
 
         private readonly MessageCompleteHandler mSuccessHandler_;
         private readonly MessageCompleteHandler mErrorHandler_;
@@ -71,7 +71,7 @@ namespace MPersist.Core
             AbstractResponse response;
             AbstractRequest request = e.Argument as AbstractRequest;
             Boolean resendMessage = false;
-            Session session = new Session(ServiceLocator.GetConnection());
+            Session session = new Session(request.Connection, ServiceLocator.GetConnection(request.Connection));
             session.MessageMode = request.MessageMode;
             session.RowPerPage = IOController.RowsPerPage;
 

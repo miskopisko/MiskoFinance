@@ -1,6 +1,6 @@
-using MPersist.Core.Resources;
 using System;
 using System.Collections;
+using MPersist.Core.Resources;
 
 namespace MPersist.Core.Tools
 {
@@ -8,7 +8,7 @@ namespace MPersist.Core.Tools
     {
         private static Logger Log = Logger.GetInstance(typeof(MPCache));
 
-        #region Variable Declarations
+        #region Fields
                 
         private static Hashtable mCache_;
         private static Boolean mEnabled_ = true;
@@ -50,11 +50,11 @@ namespace MPersist.Core.Tools
 
         #region Public Methods
 
-        public static String GetKey(Type storedObject, Object[] keyParts)
+        public static String GetKey(Type storedObject, String connectionName, Object[] keyParts)
         {
             String key = "";
 
-            key += storedObject.Name + "=>";
+            key += connectionName + "." + storedObject.Name + "=>";
 
             if((keyParts.Length % 2) != 0)
             {
@@ -63,7 +63,9 @@ namespace MPersist.Core.Tools
 
             for (int i = 0; i < keyParts.Length; i=i+2)
             {
-                key += keyParts[i].ToString() + ":" + keyParts[i+1] != null ? keyParts[i+1].ToString() : "" + ";";
+                String keyPart = keyParts[i].ToString();
+                String keyPartValue = keyParts[i + 1] != null ? keyParts[i + 1].ToString() : "";
+                key += keyPart + ":" + keyPartValue + ";";
             }
 
             return key;

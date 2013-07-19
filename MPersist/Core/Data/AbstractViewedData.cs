@@ -1,4 +1,7 @@
-using System.Data;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using MPersist.Core.Attributes;
 
 namespace MPersist.Core.Data
 {
@@ -6,7 +9,7 @@ namespace MPersist.Core.Data
     {
         private static Logger Log = Logger.GetInstance(typeof(AbstractViewedData));
 
-        #region Variable Declarations
+        #region Fields
 
 
 
@@ -39,7 +42,24 @@ namespace MPersist.Core.Data
 
         #region Public Methods
 
-        
+        public PropertyInfo[] GetViewedProperties()
+        {
+            List<PropertyInfo> viewedProperties = new List<PropertyInfo>();
+
+            foreach (PropertyInfo property in GetType().GetProperties())
+            {
+                foreach (Attribute attribute in property.GetCustomAttributes(false))
+                {
+                    if (attribute is ViewedAttribute)
+                    {
+                        viewedProperties.Add(property);
+                        break;
+                    }
+                }
+            }
+
+            return viewedProperties.ToArray();
+        }
 
         #endregion
     }

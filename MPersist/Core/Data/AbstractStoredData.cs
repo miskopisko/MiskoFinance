@@ -11,7 +11,7 @@ namespace MPersist.Core.Data
     {
         private static Logger Log = Logger.GetInstance(typeof(AbstractStoredData));
 
-        #region Variable Declarations
+        #region Fields
 
         
 
@@ -107,11 +107,40 @@ namespace MPersist.Core.Data
 
         #region Public Methods
 
+        public PropertyInfo[] GetStoredProperties()
+        {
+            List<PropertyInfo> storedProperties = new List<PropertyInfo>();
+
+            foreach (PropertyInfo property in GetType().GetProperties())
+            {
+                foreach (Attribute attribute in property.GetCustomAttributes(false))
+                {
+                    if(attribute is StoredAttribute && ((StoredAttribute)attribute).UseInSql)
+                    {
+                        storedProperties.Add(property);
+                        break;
+                    }
+                }
+            }
+
+            return storedProperties.ToArray();
+        }
+
+        public static AbstractStoredData GetInstanceById(Session session, Type type, Int64 id)
+        {
+            return GetInstanceById(session, type, new PrimaryKey(id), false);
+        }
+
         public static AbstractStoredData GetInstanceById(Session session, Type type, PrimaryKey id)
         {
             return GetInstanceById(session, type, id, false);
         }
 
+        public static AbstractStoredData GetInstanceById(Session session, Type type, Int64 id, Boolean deep)
+        {
+            return GetInstanceById(session, type, new PrimaryKey(id), deep);
+        }
+        
         public static AbstractStoredData GetInstanceById(Session session, Type type, PrimaryKey id, Boolean deep)
         {
             AbstractStoredData result = (AbstractStoredData)type.Assembly.CreateInstance(type.FullName);
@@ -128,7 +157,7 @@ namespace MPersist.Core.Data
 
         public void FetchById(Session session, PrimaryKey id, Boolean deep)
         {
-            String key = MPCache.GetKey(GetType(), new Object[] { "Id", id });
+            String key = MPCache.GetKey(GetType(), session.ConnectionName, new Object[] { "Id", id });
 
             AbstractStoredData value = (AbstractStoredData)MPCache.Get(key);
 
@@ -178,9 +207,9 @@ namespace MPersist.Core.Data
                     Insert(session, types[i]);
                 }
 
-                PostSave(session, UpdateMode.Insert);              
+                PostSave(session, UpdateMode.Insert);
 
-                MPCache.Put(MPCache.GetKey(GetType(), new Object[] { "Id", this.Id }), this);
+                MPCache.Put(MPCache.GetKey(GetType(), session.ConnectionName, new Object[] { "Id", this.Id }), this);
             }
             else if (Id > 0)    // Update mode
             {
@@ -200,7 +229,7 @@ namespace MPersist.Core.Data
                     RowVer = RowVer + 1;
                 }
 
-                MPCache.Put(MPCache.GetKey(GetType(), new Object[] { "Id", this.Id }), this);
+                MPCache.Put(MPCache.GetKey(GetType(), session.ConnectionName, new Object[] { "Id", this.Id }), this);
             }
             else if(Id < 0) // Delete mode
             {
@@ -214,7 +243,7 @@ namespace MPersist.Core.Data
 
                 PostSave(session, UpdateMode.Delete);
 
-                MPCache.Remove(MPCache.GetKey(GetType(), new Object[] { "Id", this.Id }));
+                MPCache.Remove(MPCache.GetKey(GetType(), session.ConnectionName, new Object[] { "Id", this.Id }));
             }
 
             return this;

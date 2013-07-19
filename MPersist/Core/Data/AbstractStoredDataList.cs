@@ -1,8 +1,8 @@
-using MPersist.Core.Tools;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
+using MPersist.Core.Tools;
 
 namespace MPersist.Core.Data
 {
@@ -10,7 +10,7 @@ namespace MPersist.Core.Data
     {
         private static Logger Log = Logger.GetInstance(typeof(AbstractStoredDataList<AbstractStoredData>));
 
-        #region Variable Declarations
+        #region Fields
 
         private bool mIsSorted_;
         private ListSortDirection mSortDirection_ = ListSortDirection.Ascending;
@@ -61,7 +61,7 @@ namespace MPersist.Core.Data
                 ConstructorInfo ctor = typeof(AbstractStoredData).GetConstructor(new[] { typeof(Session), typeof(Persistence) });
                 AbstractStoredData data = (AbstractStoredData)ctor.Invoke(new object[] { session, persistence });
                 Add(data);
-                MPCache.Put(MPCache.GetKey(typeof(AbstractStoredData), new Object[] { "Id", persistence.GetInt("Id") }), data);
+                MPCache.Put(MPCache.GetKey(typeof(AbstractStoredData), session.ConnectionName, new Object[] { "Id", persistence.GetPrimaryKey("Id") }), data);
             }
         }
 

@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 
 namespace MPersist.Core.Data
 {
@@ -7,7 +6,7 @@ namespace MPersist.Core.Data
     {
         private static Logger Log = Logger.GetInstance(typeof(PrimaryKey));
 
-        #region Variable Declarations
+        #region Fields
 
         private Int64 mValue_;
 
@@ -185,6 +184,11 @@ namespace MPersist.Core.Data
         public override int GetHashCode()
         {
             return mValue_.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return mValue_.ToString();
         }
 
         #endregion

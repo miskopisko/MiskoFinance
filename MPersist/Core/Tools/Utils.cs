@@ -1,7 +1,10 @@
 using System;
+using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace MPersist.Core.Tools
 {
@@ -67,6 +70,19 @@ namespace MPersist.Core.Tools
             }
 
             return "";
+        }
+
+        public static T Deserialize<T>(String xml)
+        {
+            if (String.IsNullOrEmpty(xml))
+            {
+                return default(T);
+            }
+
+            XmlSerializer serializer = new XmlSerializer(typeof(T));
+            XmlReader xmlReader = XmlReader.Create(new StringReader(xml));
+
+            return (T)serializer.Deserialize(xmlReader);
         }
     }
 }

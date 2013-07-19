@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.Data.OleDb;
 using System.Data.SQLite;
 using MPersist.Core.Data;
 using MPersist.Core.Debug;
@@ -19,7 +20,7 @@ namespace MPersist.Core
     {
         private static Logger Log = Logger.GetInstance(typeof(Persistence));
 
-        #region Variable Declarations
+        #region Fields
 
         protected Session mSession_ = null;
         protected DataTable mRs_ = new DataTable();
@@ -64,6 +65,10 @@ namespace MPersist.Core
             else if (session.Connection is SQLiteConnection)
             {
                 return new SqlitePersistence(session);
+            }
+            else if (session.Connection is OleDbConnection)
+            {
+                return new FoxProPersistence(session);
             }
             else
             {
@@ -193,6 +198,10 @@ namespace MPersist.Core
 
                 newId = new PrimaryKey(Convert.ToInt64(lastId.Value));
             }
+            else if(mCommand_ is OleDbCommand)
+            {
+                // Still gotta sort this out. FoxPro is a pain
+            }
 
             return mSession_.MessageMode.Equals(MessageMode.Normal) ? newId : clazz.Id;
         }
@@ -248,12 +257,15 @@ namespace MPersist.Core
             return ExecuteQuery(sql, new Object[]{});
         }
 
-        public bool ExecuteQuery(String sql, Object[] values)
+        public bool ExecuteQuery(String sql, Object[] parameters)
         {
             mSession_.PersistencePool.Add(this);
 
-            mCommand_.CommandText = sql;
-            SetParameters(values);
+            mSql_ = sql;
+            mParameters_ = new List<object>(parameters);
+
+            mCommand_.CommandText = mSql_;
+            SetParameters(parameters);
 
             DbDataAdapter adapter = null;
 
@@ -268,6 +280,10 @@ namespace MPersist.Core
             else if (mCommand_ is SQLiteCommand)
             {
                 adapter = new SQLiteDataAdapter((SQLiteCommand)mCommand_);
+            }
+            else if (mCommand_ is OleDbCommand)
+            {
+                adapter = new OleDbDataAdapter((OleDbCommand)mCommand_);
             }
 
             DateTime startTime = DateTime.Now;
@@ -305,10 +321,22 @@ namespace MPersist.Core
 
         #region Helpers
 
-        public Boolean? GetBoolean(String key)
+        private Object GetObject(String key)
         {
             Int32 ordinal = mRs_.Columns.IndexOf(key);
-            Object o = (Object)mResult_.ItemArray[ordinal];
+            if (ordinal >= 0)
+            {
+                return (Object)mResult_.ItemArray[ordinal];
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public Boolean? GetBoolean(String key)
+        {
+            Object o = GetObject(key);
 
             if (o == null)
             {
@@ -328,12 +356,11 @@ namespace MPersist.Core
 
         public String GetString(String key)
         {
-            Int32 ordinal = mRs_.Columns.IndexOf(key);
-            Object o = (Object)mResult_.ItemArray[ordinal];
+            Object o = GetObject(key);
 
             if (o is String)
             {
-                return (String)o;
+                return ((String)o).Trim();
             }
             else if (o is Byte[])
             {
@@ -370,8 +397,7 @@ namespace MPersist.Core
 
         public Int32? GetInt(String key)
         {
-            Int32 ordinal = mRs_.Columns.IndexOf(key);
-            Object o = (Object)mResult_.ItemArray[ordinal];
+            Object o = GetObject(key);
 
             if (o == null)
             {
@@ -401,10 +427,7 @@ namespace MPersist.Core
 
         public Int64? GetLong(String key)
         {
-            Int32 ordinal = mRs_.Columns.IndexOf(key);
-            Object o = (Object)mResult_.ItemArray[ordinal];
-
-            Type t = o.GetType();
+            Object o = GetObject(key);
 
             if (o == null)
             {
@@ -486,8 +509,7 @@ namespace MPersist.Core
 
         public Double? GetDouble(String key)
         {
-            Int32 ordinal = mRs_.Columns.IndexOf(key);
-            Object o = (Object)mResult_.ItemArray[ordinal];
+            Object o = GetObject(key);
 
             if (o == null)
             {
@@ -517,23 +539,15 @@ namespace MPersist.Core
 
         public DateTime? GetDate(String key)
         {
-            try
-            {
-                Int32 ordinal = mRs_.Columns.IndexOf(key);
-                Object o = (Object)mResult_.ItemArray[ordinal];
+            Object o = GetObject(key);
 
-                if (o == null)
-                {
-                    return null;
-                }
-                else if (o is DateTime)
-                {
-                    return (DateTime)o;
-                }
-            }
-            catch (Exception)
+            if (o == null)
             {
                 return null;
+            }
+            else if (o is DateTime)
+            {
+                return (DateTime)o;
             }            
 
             return null;

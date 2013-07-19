@@ -11,7 +11,7 @@ namespace MPersist.Core.Data
     {
         private static Logger Log = Logger.GetInstance(typeof(AbstractData));
 
-        #region Variable Declarations
+        #region Fields
 
 
 
@@ -53,109 +53,111 @@ namespace MPersist.Core.Data
         {
             if (persistence.Next())
             {
-                PropertyDescriptorCollection properties = null;
+                PropertyInfo[] properties = null;
                 if(this is AbstractStoredData)
                 {
-                    properties = TypeDescriptor.GetProperties(GetType(), new Attribute[] { new StoredAttribute() });
+                    properties = ((AbstractStoredData)this).GetStoredProperties();
 
                     ((AbstractStoredData)this).IsSet = true;
                     ((AbstractStoredData)this).Id = persistence.GetPrimaryKey("Id");
-                    ((AbstractStoredData)this).RowVer = persistence.GetInt("RowVer").Value;
+                    ((AbstractStoredData)this).RowVer = persistence.GetInt("RowVer") != null ? persistence.GetInt("RowVer").Value : 0;
                 }
                 else if(this is AbstractViewedData)
                 {
-                    properties = TypeDescriptor.GetProperties(GetType(), new Attribute[] { new ViewedAttribute() });
+                    properties = ((AbstractViewedData)this).GetViewedProperties();
                 }
 
-                foreach (PropertyDescriptor property in properties)
+                foreach (PropertyInfo property in properties)
                 {
+                    String columnName = GetColumnName(property);
+
                     if (property.PropertyType == typeof(String))
                     {
-                        property.SetValue(this, persistence.GetString(property.Name));
+                        property.SetValue(this, persistence.GetString(columnName), null);
                     }
                     else if (property.PropertyType == typeof(Boolean?))
                     {
-                        property.SetValue(this, persistence.GetBoolean(property.Name));
+                        property.SetValue(this, persistence.GetBoolean(columnName), null);
                     }
                     else if (property.PropertyType == typeof(Int32?))
                     {
-                        property.SetValue(this, persistence.GetInt(property.Name));
+                        property.SetValue(this, persistence.GetInt(columnName), null);
                     }
                     else if (property.PropertyType == typeof(Int64?))
                     {
-                        property.SetValue(this, persistence.GetLong(property.Name));
+                        property.SetValue(this, persistence.GetLong(columnName), null);
                     }
                     else if (property.PropertyType == typeof(Double?))
                     {
-                        property.SetValue(this, persistence.GetDouble(property.Name));
+                        property.SetValue(this, persistence.GetDouble(columnName), null);
                     }
                     else if (property.PropertyType == typeof(DateTime?))
                     {
-                        property.SetValue(this, persistence.GetDate(property.Name));
+                        property.SetValue(this, persistence.GetDate(columnName), null);
                     }
                     else if (property.PropertyType == typeof(Boolean))
                     {
-                        Boolean? value = persistence.GetBoolean(property.Name);
-                        property.SetValue(this, value.HasValue ? value.Value : false);
+                        Boolean? value = persistence.GetBoolean(columnName);
+                        property.SetValue(this, value.HasValue ? value.Value : false, null);
                     }
                     else if (property.PropertyType == typeof(Int32))
                     {
-                        Int32? value = persistence.GetInt(property.Name);
-                        property.SetValue(this, value.HasValue ? value.Value : 0);
+                        Int32? value = persistence.GetInt(columnName);
+                        property.SetValue(this, value.HasValue ? value.Value : 0, null);
                     }
                     else if (property.PropertyType == typeof(Int64))
                     {
-                        Int64? value = persistence.GetLong(property.Name);
-                        property.SetValue(this, value.HasValue ? value.Value : 0);
+                        Int64? value = persistence.GetLong(columnName);
+                        property.SetValue(this, value.HasValue ? value.Value : 0, null);
                     }
                     else if (property.PropertyType == typeof(Double))
                     {
-                        Double? value = persistence.GetDouble(property.Name);
-                        property.SetValue(this, value.HasValue ? value.Value : 0);
+                        Double? value = persistence.GetDouble(columnName);
+                        property.SetValue(this, value.HasValue ? value.Value : 0, null);
                     }
                     else if (property.PropertyType == typeof(DateTime))
                     {
-                        DateTime? value = persistence.GetDate(property.Name);
-                        property.SetValue(this, value.HasValue ? value.Value : DateTime.MinValue);
+                        DateTime? value = persistence.GetDate(columnName);
+                        property.SetValue(this, value.HasValue ? value.Value : DateTime.MinValue, null);
                     }
                     else if (property.PropertyType.IsSubclassOf(typeof(AbstractEnum)))
                     {
                         AbstractEnum item = null;
 
-                        if (persistence.GetLong(property.Name).HasValue)
+                        if (persistence.GetLong(columnName).HasValue)
                         {
-                            item = (AbstractEnum)property.PropertyType.InvokeMember("GetElement", BindingFlags.Default | BindingFlags.InvokeMethod, null, null, new object[] { persistence.GetLong(property.Name) });
+                            item = (AbstractEnum)property.PropertyType.InvokeMember("GetElement", BindingFlags.Default | BindingFlags.InvokeMethod, null, null, new object[] { persistence.GetLong(columnName) });
                         }
                         else
                         {
                             item = (AbstractEnum)property.PropertyType.InvokeMember("GetElement", BindingFlags.Default | BindingFlags.InvokeMethod, null, null, new object[] { -1 });
                         }
 
-                        property.SetValue(this, item);
+                        property.SetValue(this, item, null);
                     }
                     else if (property.PropertyType.IsSubclassOf(typeof(AbstractStoredData)))
                     {
                         AbstractStoredData item = null;
 
-                        if (persistence.GetInt(property.Name) > 0)
+                        if (persistence.GetInt(columnName) > 0)
                         {
                             item = (AbstractStoredData)property.PropertyType.Assembly.CreateInstance(property.PropertyType.FullName);
-                            item.Id = persistence.GetPrimaryKey("Id");
+                            item.Id = persistence.GetPrimaryKey(columnName);
                         }
 
-                        property.SetValue(this, item);
+                        property.SetValue(this, item, null);
                     }
                     else if (property.PropertyType == typeof(Guid))
                     {
-                        property.SetValue(this, new Guid(persistence.GetString(property.Name)));
+                        property.SetValue(this, new Guid(persistence.GetString(columnName)), null);
                     }
                     else if (property.PropertyType == typeof(Money))
                     {
-                        property.SetValue(this, persistence.GetMoney(property.Name));
+                        property.SetValue(this, persistence.GetMoney(columnName), null);
                     }
                     else if (property.PropertyType == typeof(PrimaryKey))
                     {
-                        property.SetValue(this, persistence.GetPrimaryKey(property.Name));
+                        property.SetValue(this, persistence.GetPrimaryKey(columnName), null);
                     }
                     else if (property.PropertyType.IsGenericType) // Leave this out for now
                     {
@@ -173,7 +175,7 @@ namespace MPersist.Core.Data
             return this;
         }
 
-        protected void FetchDeep(Session session)
+        public void FetchDeep(Session session)
         {
             foreach (PropertyInfo property in GetType().GetProperties())
             {
@@ -186,6 +188,19 @@ namespace MPersist.Core.Data
                     }
                 }
             }
+        }
+
+        public String GetColumnName(PropertyInfo property)
+        {
+            foreach (Attribute attribute in property.GetCustomAttributes(false))
+            {
+                if (attribute is StoredAttribute && ((StoredAttribute)attribute).UseInSql && !String.IsNullOrEmpty(((StoredAttribute)attribute).ColumnName))
+                {
+                    return ((StoredAttribute)attribute).ColumnName;
+                }
+            }
+
+            return property.Name;
         }
 
         #endregion

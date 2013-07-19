@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using MPersist.Resources.Enums;
 
 namespace MPersist.Core
@@ -7,69 +8,156 @@ namespace MPersist.Core
     {
         private static Logger Log = Logger.GetInstance(typeof(ConnectionSettings));
 
-        #region Variable Declarations
+        #region Fields
 
-        private static ConnectionSettings mInstance_;
+        private static List<ConnectionSettings> mConnections_ = new List<ConnectionSettings>();
 
         #endregion
 
         #region Properties
 
+        public static List<ConnectionSettings> Connections { get { return mConnections_; } }
+
+        public String Name { get; set; }
         public ConnectionType ConnectionType { get; set; }
         public String Server { get; set; }
         public Int32? Port { get; set; }
         public String Datasource { get; set; }
         public String Username { get; set; }
         public String Password { get; set; }
-        public String ConnectionString { get; set; }
-
-        public static ConnectionSettings Instance 
-        {
-            get
-            {
-                if (mInstance_ == null)
-                {
-                    mInstance_ = new ConnectionSettings();
-                }
-                return mInstance_;
-            }
-        }
+        public String ConnectionString { get; set; }        
 
         #endregion
 
         #region Public Static Methods
 
-        public static void MySqlConnection(String server, String datasource, String username, String password)
+        public static void AddMySqlConnection(String server, String datasource, String username, String password)
         {
-            Instance.ConnectionType = ConnectionType.MySql;
-            Instance.Server = server;
-            Instance.Port = null;
-            Instance.Datasource = datasource;
-            Instance.Username = username;
-            Instance.Password = password;
-            Instance.ConnectionString = "SERVER=" + server + ";DATABASE=" + datasource + ";UID=" + username + ";PASSWORD=" + password + ";Pooling=True;";
+            AddMySqlConnection("Default", server, datasource, username, password);
         }
 
-        public static void OracleConnection(String host, Int32 port, String datasource, String username, String password)
+        public static void AddMySqlConnection(String name, String server, String datasource, String username, String password)
         {
-            Instance.ConnectionType = ConnectionType.Oracle;
-            Instance.Server = host;
-            Instance.Port = port;
-            Instance.Datasource = datasource;
-            Instance.Username = username;
-            Instance.Password = password;
-            Instance.ConnectionString = "Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=" + host + ")(PORT=" + port + ")))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=" + datasource + ")));User Id=" + username + ";Password=" + password + ";Pooling=True;";
+            if (AlreadyExists(name))
+            {
+                throw new MPException("A connection with the name {0} already exists", new Object[] { name });
+            }
+
+            ConnectionSettings item = new ConnectionSettings();
+            item.Name = name;
+            item.ConnectionType = ConnectionType.MySql;
+            item.Server = server;
+            item.Port = null;
+            item.Datasource = datasource;
+            item.Username = username;
+            item.Password = password;
+            item.ConnectionString = "SERVER=" + server + ";DATABASE=" + datasource + ";UID=" + username + ";PASSWORD=" + password + ";Pooling=True;";
+
+            mConnections_.Add(item);
         }
 
-        public static void SqliteConnection(String datasource)
+        public static void AddOracleConnection(String host, Int32 port, String datasource, String username, String password)
         {
-            Instance.ConnectionType = ConnectionType.SQLite;
-            Instance.Server = null;
-            Instance.Port = null;
-            Instance.Datasource = datasource;
-            Instance.Username = null;
-            Instance.Password = null;
-            Instance.ConnectionString = "Data Source=" + datasource + ";Version=3;Pooling=True;";
+            AddOracleConnection("Default", host, port, datasource, username, password);
+        }
+
+        public static void AddOracleConnection(String name, String host, Int32 port, String datasource, String username, String password)
+        {
+            if (AlreadyExists(name))
+            {
+                throw new MPException("A connection with the name {0} already exists", new Object[] { name });
+            }
+
+            ConnectionSettings item = new ConnectionSettings();
+            item.Name = name;
+            item.ConnectionType = ConnectionType.Oracle;
+            item.Server = host;
+            item.Port = port;
+            item.Datasource = datasource;
+            item.Username = username;
+            item.Password = password;
+            item.ConnectionString = "Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=" + host + ")(PORT=" + port + ")))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=" + datasource + ")));User Id=" + username + ";Password=" + password + ";Pooling=True;";
+
+            mConnections_.Add(item);
+        }
+
+        public static void AddSqliteConnection(String datasource)
+        {
+            AddSqliteConnection("Default", datasource);
+        }
+
+        public static void AddSqliteConnection(String name, String datasource)
+        {
+            if (AlreadyExists(name))
+            {
+                throw new MPException("A connection with the name {0} already exists", new Object[] { name });
+            }
+
+            ConnectionSettings item = new ConnectionSettings();
+            item.Name = name;
+            item.ConnectionType = ConnectionType.SQLite;
+            item.Server = null;
+            item.Port = null;
+            item.Datasource = datasource;
+            item.Username = null;
+            item.Password = null;
+            item.ConnectionString = "Data Source=" + datasource + ";Version=3;Pooling=True;";
+
+            mConnections_.Add(item);
+        }
+
+        public static void AddFoxProConnection(String datasource)
+        {
+            AddFoxProConnection("Default", datasource);
+        }
+
+        public static void AddFoxProConnection(String name, String datasource)
+        {
+            if (AlreadyExists(name))
+            {
+                throw new MPException("A connection with the name {0} already exists", new Object[] { name });
+            }
+
+            ConnectionSettings item = new ConnectionSettings();
+            item.Name = name;
+            item.ConnectionType = ConnectionType.FoxPro;
+            item.Server = null;
+            item.Port = null;
+            item.Datasource = datasource;
+            item.Username = null;
+            item.Password = null;
+            item.ConnectionString = "Provider=vfpoledb;Data Source=" + datasource + ";Collating Sequence=general;Exclusive=No;";            
+
+            mConnections_.Add(item);            
+        }
+
+        public static ConnectionSettings GetConnectionSettings(String name)
+        {
+            foreach (ConnectionSettings item in mConnections_)
+            {
+                if (item.Name.Equals(name, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    return item;
+                }
+            }
+
+            throw new MPException("Connection with name {0} not found", new Object[]{ name });
+        }
+
+        #endregion
+
+        #region Private Static Methods
+
+        private static Boolean AlreadyExists(String name)
+        {
+            foreach (ConnectionSettings item in mConnections_)
+            {
+                if(item.Name.Equals(name, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         #endregion

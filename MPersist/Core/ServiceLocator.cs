@@ -1,5 +1,6 @@
 using System;
 using System.Data.Common;
+using System.Data.OleDb;
 using System.Data.SQLite;
 using MPersist.Core.Resources;
 using MPersist.Resources.Enums;
@@ -16,25 +17,32 @@ namespace MPersist.Core
 
         public static DbConnection GetConnection()
         {
-            if (ConnectionSettings.Instance.ConnectionType.Equals(ConnectionType.SQLite))
+            return GetConnection("Default");
+        }
+
+        public static DbConnection GetConnection(String name)
+        {
+            ConnectionSettings connectionSettings = ConnectionSettings.GetConnectionSettings(name);
+
+            if (connectionSettings.ConnectionType.Equals(ConnectionType.SQLite))
             {
-                return GetSqliteConnection(ConnectionSettings.Instance.ConnectionString);
+                return GetSqliteConnection(connectionSettings.ConnectionString);
             }
-            else if (ConnectionSettings.Instance.ConnectionType.Equals(ConnectionType.MySql))
+            else if (connectionSettings.ConnectionType.Equals(ConnectionType.MySql))
             {
-                return GetMysqlConnection(ConnectionSettings.Instance.ConnectionString);
+                return GetMysqlConnection(connectionSettings.ConnectionString);
             }
-            else if (ConnectionSettings.Instance.ConnectionType.Equals(ConnectionType.Oracle))
+            else if (connectionSettings.ConnectionType.Equals(ConnectionType.Oracle))
             {
-                return GetOracleConnection(ConnectionSettings.Instance.ConnectionString);
+                return GetOracleConnection(connectionSettings.ConnectionString);
             }
-            else if (ConnectionSettings.Instance.ConnectionType.Equals(ConnectionType.Postgres))
+            else if (connectionSettings.ConnectionType.Equals(ConnectionType.Postgres))
             {
-                return GetPostgresConnection(ConnectionSettings.Instance.ConnectionString);
+                return GetPostgresConnection(connectionSettings.ConnectionString);
             }
-            else if (ConnectionSettings.Instance.ConnectionType.Equals(ConnectionType.FoxPro))
+            else if (connectionSettings.ConnectionType.Equals(ConnectionType.FoxPro))
             {
-                return GetFoxProConnection(ConnectionSettings.Instance.ConnectionString);
+                return GetFoxProConnection(connectionSettings.ConnectionString);
             }
             else
             {
@@ -77,7 +85,10 @@ namespace MPersist.Core
 
         private static DbConnection GetFoxProConnection(String connectionString)
         {
-            throw new NotImplementedException();
+            DbConnection connection = new OleDbConnection(connectionString);
+            connection.Open();
+
+            return connection;
         }
 
         #endregion

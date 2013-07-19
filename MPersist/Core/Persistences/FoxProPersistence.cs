@@ -1,19 +1,21 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
-using System.Reflection;
+using System.Data.OleDb;
+using MPersist.Core.Attributes;
 using MPersist.Core.Data;
 using MPersist.Core.Enums;
 using MPersist.Core.MoneyType;
-using MySql.Data.MySqlClient;
+using System.Reflection;
 
 namespace MPersist.Core.Persistences
 {
-    class MySqlPersistence : Persistence
+    class FoxProPersistence : Persistence
     {
-        private static Logger Log = Logger.GetInstance(typeof(MySqlPersistence));
+        private static Logger Log = Logger.GetInstance(typeof(FoxProPersistence));
 
-        #region Fields
+        #region Variable Declarations
 
 
 
@@ -27,7 +29,7 @@ namespace MPersist.Core.Persistences
 
         #region Constructors
 
-        public MySqlPersistence(Session session) : base(session)
+        public FoxProPersistence(Session session) : base(session)
         {
         }
 
@@ -39,24 +41,15 @@ namespace MPersist.Core.Persistences
 
         #endregion
 
-        #region Public Methods
+        #region Override Methods
 
         protected override void SetParameters(Object[] parameters)
         {
-            // Normalize the parameters by replacing typical ? marks with @param values
-            Int32 end = 0;
             Int32 position = 0;
-            while ((end = mCommand_.CommandText.IndexOf("?")) > 0)
-            {
-                mCommand_.CommandText = mCommand_.CommandText.Substring(0, end) + ("@param" + position++) + mCommand_.CommandText.Substring(end + 1);
-                end = -1;
-            }
-
-            position = 0;
             foreach (Object parameter in parameters)
             {
-                MySqlParameter param = new MySqlParameter();
-                param.ParameterName = "@param" + position;
+                OleDbParameter param = new OleDbParameter();
+                param.ParameterName = position.ToString();
 
                 if (parameter == null)
                 {
@@ -67,26 +60,26 @@ namespace MPersist.Core.Persistences
                 else if (parameter is AbstractStoredData)
                 {
                     param.IsNullable = false;
-                    param.MySqlDbType = MySqlDbType.Int64;
-                    param.Value = parameter != null ? (Object)((AbstractStoredData)parameter).Id.Value : DBNull.Value;
+                    param.OleDbType = OleDbType.Integer;
+                    param.Value = parameter != null ? (Object)((AbstractStoredData)parameter).Id : DBNull.Value;
                     mCommand_.Parameters.Add(param);
                 }
                 else if (parameter is AbstractEnum)
                 {
                     param.IsNullable = true;
-                    param.MySqlDbType = MySqlDbType.Int32;
+                    param.OleDbType = OleDbType.Integer;
                     param.Value = ((AbstractEnum)parameter).IsSet ? (Object)((AbstractEnum)parameter).Value : DBNull.Value;
                     mCommand_.Parameters.Add(param);
                 }
                 else if (parameter is Array)
                 {
                     String firstHalf = mCommand_.CommandText.Substring(0, mCommand_.CommandText.IndexOf(param.ParameterName));
-                    String secondHalf = mCommand_.CommandText.Substring(mCommand_.CommandText.IndexOf(param.ParameterName)+7);
+                    String secondHalf = mCommand_.CommandText.Substring(mCommand_.CommandText.IndexOf(param.ParameterName) + 7);
                     String middle = "";
 
                     foreach (Object o in ((Array)parameter))
-                    {                        
-                        MySqlParameter innerParam = new MySqlParameter();
+                    {
+                        OleDbParameter innerParam = new OleDbParameter();
                         innerParam.ParameterName = "@param" + position;
                         innerParam.Value = o;
                         middle += innerParam.ParameterName + ", ";
@@ -94,7 +87,7 @@ namespace MPersist.Core.Persistences
                         position++;
                     }
 
-                    mCommand_.CommandText = firstHalf + middle.Substring(0, middle.Length-2) + secondHalf;
+                    mCommand_.CommandText = firstHalf + middle.Substring(0, middle.Length - 2) + secondHalf;
                 }
                 else if (parameter is Money)
                 {
@@ -104,8 +97,14 @@ namespace MPersist.Core.Persistences
                 }
                 else if (parameter is PrimaryKey)
                 {
-                    param.DbType = DbType.Int64;
+                    param.DbType = DbType.Int32;
                     param.Value = ((PrimaryKey)parameter).Value;
+                    mCommand_.Parameters.Add(param);
+                }
+                else if (parameter is Int64)
+                {
+                    param.DbType = DbType.Int32;
+                    param.Value = parameter;
                     mCommand_.Parameters.Add(param);
                 }
                 else
@@ -113,7 +112,7 @@ namespace MPersist.Core.Persistences
                     param.Value = parameter;
                     mCommand_.Parameters.Add(param);
                 }
-                
+
                 position++;
             }
         }
@@ -125,7 +124,7 @@ namespace MPersist.Core.Persistences
 
             if (clazz != null)
             {
-                sql += "UPDATE " + type.Name + Environment.NewLine + "SET    ";
+                sql += "UPDATE " + clazz.GetType().Name + Environment.NewLine + "SET    ";
 
                 foreach (PropertyInfo property in clazz.GetStoredProperties())
                 {
@@ -133,7 +132,7 @@ namespace MPersist.Core.Persistences
                     parameters.Add(property.GetValue(clazz, null));
                 }
 
-                sql += "DTMODIFIED = NOW()," + Environment.NewLine;
+                sql += "DTMODIFIED = DATETIME()," + Environment.NewLine;
                 sql += "       ROWVER = ROWVER + 1" + Environment.NewLine;
                 sql += "WHERE  ID = ?" + Environment.NewLine;
                 sql += "AND    ROWVER = ?;";
@@ -168,51 +167,7 @@ namespace MPersist.Core.Persistences
 
         protected override void GenerateInsertStatement(AbstractStoredData clazz, Type type)
         {
-            String sql = "";
-            List<Object> parameters = new List<Object>();
-            PropertyInfo[] properties = clazz.GetStoredProperties();
-
-            if (clazz != null)
-            {
-                sql += "INSERT INTO " + type.Name + " (ID";
-
-                foreach (PropertyInfo property in properties)
-                {
-                    sql += ", " + clazz.GetColumnName(property);
-                }
-
-                sql += ", DTCREATED, DTMODIFIED, ROWVER)" + Environment.NewLine + "VALUES (?, ";
-
-                if (clazz.Id > 0)
-                {
-                    parameters.Add(clazz.Id);
-                }
-                else
-                {
-                    parameters.Add(DBNull.Value);
-                }
-
-                foreach (PropertyInfo property in properties)
-                {
-                    sql += "?, ";
-                    parameters.Add(property.GetValue(clazz, null));
-                }
-
-                sql += "NOW(), NOW(), 0);";
-
-                if (type.BaseType.Equals(typeof(AbstractStoredData)))
-                {
-                    sql += Environment.NewLine + "SELECT LAST_INSERT_ID() AS ID;";
-                }
-                else
-                {
-                    sql += Environment.NewLine + "SELECT ? AS ID;";
-                    parameters.Add(clazz.Id);
-                }
-            }
-
-            mCommand_.CommandText = sql;
-            SetParameters(parameters.ToArray());
+            throw new NotImplementedException("Cannot insert into FoxPro tables yet. Hopefully soon!");
         }
 
         #endregion
