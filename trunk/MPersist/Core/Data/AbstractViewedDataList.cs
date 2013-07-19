@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
+using MPersist.Core.Tools;
 
 namespace MPersist.Core.Data
 {
@@ -9,7 +10,7 @@ namespace MPersist.Core.Data
     {
         private static Logger Log = Logger.GetInstance(typeof(AbstractViewedDataList<AbstractViewedData>));
 
-        #region Variable Declarations
+        #region Fields
 
         private bool mIsSorted_;
         private ListSortDirection mSortDirection_ = ListSortDirection.Ascending;

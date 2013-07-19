@@ -46,6 +46,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <Prefer32Bit>false</Prefer32Bit>
+    <FileAlignment>4096</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -78,6 +79,8 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Persistences\FoxProPersistence.cs" />
+    <Compile Include="Core\Tools\CommandLineProcess.cs" />
     <Compile Include="Core\Attributes\StoredAttribute.cs" />
     <Compile Include="Core\Attributes\ViewedAttribute.cs" />
     <Compile Include="Core\ConnectionSettings.cs" />
@@ -89,6 +92,10 @@
     <Compile Include="Core\Debug\SqlTimings.cs" />
     <Compile Include="Core\Enums\ConnectionType.cs" />
     <Compile Include="Core\Enums\SortDirection.cs" />
+    <Compile Include="Core\Enums\SvnLogEntryPathAction.cs" />
+    <Compile Include="Core\Enums\SvnPropsStatus.cs" />
+    <Compile Include="Core\Enums\SvnStatusType.cs" />
+    <Compile Include="Core\Enums\SvnTargetType.cs" />
     <Compile Include="Core\Interfaces\IOController.cs" />
     <Compile Include="Core\Data\AbstractData.cs" />
     <Compile Include="Core\Data\AbstractStoredData.cs" />
@@ -125,6 +132,11 @@
     </Compile>
     <Compile Include="Core\ServiceLocator.cs" />
     <Compile Include="Core\Session.cs" />
+    <Compile Include="Core\SVN\Subversion.cs" />
+    <Compile Include="Core\SVN\SvnLog.cs" />
+    <Compile Include="Core\SVN\SvnRevision.cs" />
+    <Compile Include="Core\SVN\SvnStatus.cs" />
+    <Compile Include="Core\SVN\SvnTarget.cs" />
     <Compile Include="Core\Tools\MPCache.cs" />
     <Compile Include="Core\Tools\Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

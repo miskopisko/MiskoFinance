@@ -13,9 +13,10 @@ namespace MPersist.Core
     {
         private static Logger Log = Logger.GetInstance(typeof(Session));
 
-        #region Variable Declarations
+        #region Fields
 
         private readonly DbConnection mConn_;
+        private readonly String mConnectionName_;
         private Boolean mTransactionInProgress_ = false;
         private List<Persistence> mPersistencePool_ = new List<Persistence>();
         private DbTransaction mTransaction_;
@@ -30,6 +31,7 @@ namespace MPersist.Core
         #region Properties
 
         public DbConnection Connection { get { return mConn_; } }
+        public String ConnectionName { get { return mConnectionName_; } }
         public Boolean TransactionInProgress { get { return mTransactionInProgress_; } }
         public List<Persistence> PersistencePool { get { return mPersistencePool_; } }
         public DbTransaction Transaction { get { return mTransaction_; } }
@@ -53,8 +55,9 @@ namespace MPersist.Core
 
         #region Constructors
 
-        public Session(DbConnection connection)
+        public Session(String connectionName, DbConnection connection)
         {
+            mConnectionName_ = connectionName;
             mConn_ = connection;
         }
 

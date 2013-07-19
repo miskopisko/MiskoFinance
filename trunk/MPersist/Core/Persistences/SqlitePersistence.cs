@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
 using System.Reflection;
-using MPersist.Core.Attributes;
 using MPersist.Core.Data;
 using MPersist.Core.Enums;
 using MPersist.Core.MoneyType;
@@ -14,7 +13,7 @@ namespace MPersist.Core.Persistences
     {
         private static Logger Log = Logger.GetInstance(typeof(SqlitePersistence));
 
-        #region Variable Declarations
+        #region Fields
 
 
 
@@ -124,25 +123,14 @@ namespace MPersist.Core.Persistences
             String sql = "";
             List<Object> parameters = new List<Object>();
 
-            PropertyInfo[] properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
-
             if (clazz != null)
             {
                 sql += "UPDATE " + type.Name.ToUpper() + Environment.NewLine + "SET    ";
 
-                for (int i = 0; i < properties.Length; i++)
+                foreach (PropertyInfo property in clazz.GetStoredProperties())
                 {
-                    foreach (Attribute attribute in properties[i].GetCustomAttributes(false))
-                    {
-                        if (attribute is StoredAttribute)
-                        {
-                            if (((StoredAttribute)attribute).UseInSql)
-                            {
-                                sql += properties[i].Name.ToUpper() + " = ?, " + Environment.NewLine + "       ";
-                                parameters.Add(properties[i].GetValue(clazz, null));
-                            }
-                        }
-                    }
+                    sql += clazz.GetColumnName(property) + " = ?, " + Environment.NewLine + "       ";
+                    parameters.Add(property.GetValue(clazz, null));
                 }
 
                 sql += "DTMODIFIED = DATETIME('NOW')," + Environment.NewLine;
@@ -182,25 +170,15 @@ namespace MPersist.Core.Persistences
         {
             String sql = "";
             List<Object> parameters = new List<Object>();
-
-            PropertyInfo[] properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+            PropertyInfo[] properties = clazz.GetStoredProperties();
 
             if (clazz != null)
             {
                 sql += "INSERT INTO " + type.Name.ToUpper() + " (ID";
 
-                for (int i = 0; i < properties.Length; i++)
+                foreach (PropertyInfo property in properties)
                 {
-                    foreach (Attribute attribute in properties[i].GetCustomAttributes(false))
-                    {
-                        if(attribute is StoredAttribute)
-                        {
-                            if (((StoredAttribute)attribute).UseInSql)
-                            {
-                                sql += ", " + properties[i].Name.ToUpper();
-                            }
-                        }
-                    }
+                    sql += ", " + clazz.GetColumnName(property);
                 }
 
                 sql += ", DTCREATED, DTMODIFIED, ROWVER)" + Environment.NewLine + "VALUES (?, ";
@@ -214,19 +192,10 @@ namespace MPersist.Core.Persistences
                     parameters.Add(DBNull.Value);
                 }
 
-                for (int i = 0; i < properties.Length; i++)
+                foreach (PropertyInfo property in properties)
                 {
-                    foreach (Attribute attribute in properties[i].GetCustomAttributes(false))
-                    {
-                        if (attribute is StoredAttribute)
-                        {
-                            if (((StoredAttribute)attribute).UseInSql)
-                            {
-                                sql += "?, ";
-                                parameters.Add(properties[i].GetValue(clazz, null));
-                            }
-                        }
-                    }                   
+                    sql += "?, ";
+                    parameters.Add(property.GetValue(clazz, null));
                 }
 
                 sql += "DATETIME('NOW'), DATETIME('NOW'), 0);";

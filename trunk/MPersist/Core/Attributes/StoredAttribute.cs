@@ -6,7 +6,7 @@ namespace MPersist.Core.Attributes
     {
         private static Logger Log = Logger.GetInstance(typeof(StoredAttribute));
 
-        #region Variable Declarations
+        #region Fields
 
 
 
@@ -14,6 +14,7 @@ namespace MPersist.Core.Attributes
 
         #region Properties
 
+        public String ColumnName { get; set; }
         public Boolean PrimaryKey { get; set; }
         public Boolean DtCreated { get; set; }
         public Boolean DTModified { get; set; }
