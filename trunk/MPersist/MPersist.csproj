@@ -97,11 +97,11 @@
     <Compile Include="Core\Enums\SvnStatusType.cs" />
     <Compile Include="Core\Enums\SvnTargetType.cs" />
     <Compile Include="Core\Interfaces\IOController.cs" />
-    <Compile Include="Core\Data\AbstractData.cs" />
-    <Compile Include="Core\Data\AbstractStoredData.cs" />
-    <Compile Include="Core\Data\AbstractStoredDataList.cs" />
-    <Compile Include="Core\Data\AbstractViewedData.cs" />
-    <Compile Include="Core\Data\AbstractViewedDataList.cs">
+    <Compile Include="Core\Data\Data.cs" />
+    <Compile Include="Core\Data\StoredData.cs" />
+    <Compile Include="Core\Data\StoredDataList.cs" />
+    <Compile Include="Core\Data\ViewedData.cs" />
+    <Compile Include="Core\Data\ViewedDataList.cs">
     </Compile>
     <Compile Include="Core\Enums\MessageMode.cs" />
     <Compile Include="Core\ErrorMessage.cs" />

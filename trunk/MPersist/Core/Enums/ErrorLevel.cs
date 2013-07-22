@@ -4,7 +4,7 @@ namespace MPersist.Core.Enums
 {
     public class ErrorLevel : AbstractEnum
     {
-        #region Variable Declarations
+        #region Fields
 
         private static readonly ErrorLevel mNULL_ = new ErrorLevel(-1, "", "");
         private static readonly ErrorLevel mSuccess_ = new ErrorLevel(0, "", "Success");

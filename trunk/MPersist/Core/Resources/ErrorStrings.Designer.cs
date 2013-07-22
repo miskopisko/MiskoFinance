@@ -133,6 +133,15 @@ namespace MPersist.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Table update failed.
+        /// </summary>
+        internal static string errTableUpdateFailed {
+            get {
+                return ResourceManager.GetString("errTableUpdateFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Transaction already in progress..
         /// </summary>
         internal static string errTransactionAlreadyInProgress {

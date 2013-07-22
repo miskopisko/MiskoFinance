@@ -1,5 +1,5 @@
-using MPersist.Core.Message;
 using System;
+using MPersist.Core.Message;
 
 namespace MPersist.Core.Debug
 {
@@ -7,9 +7,9 @@ namespace MPersist.Core.Debug
     {
         private static Logger Log = Logger.GetInstance(typeof(MessageTiming));
 
-        #region Variable Declarations
+        #region Fields
 
-        private DateTime StartTime_ = DateTime.Now;
+        private DateTime mStartTime_ = DateTime.Now;
 
         #endregion
 
@@ -17,7 +17,7 @@ namespace MPersist.Core.Debug
 
         public AbstractMessage Message { get; set; }
         public String MessageName { get { return Message.GetType().Name; } }
-        public DateTime StartTime { get { return StartTime_; } }
+        public DateTime StartTime { get { return mStartTime_; } }
         public DateTime EndTime { get; set; }
         public SqlTimings<SqlTiming> SqlTimings { get; set; }
         public Double TotalMessageTime { get { return Math.Round(EndTime.Subtract(StartTime).TotalSeconds, 4); } }
@@ -35,7 +35,7 @@ namespace MPersist.Core.Debug
 
         public MessageTiming(AbstractMessage message)
         {
-            StartTime_ = DateTime.Now;
+            mStartTime_ = DateTime.Now;
             Message = message;
         }
 

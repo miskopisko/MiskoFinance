@@ -1,7 +1,7 @@
-﻿using MPersist.Core.Data;
+﻿using System;
+using MPersist.Core.Data;
 using MPersist.Core.Debug;
 using MPersist.Core.Enums;
-using System;
 
 namespace MPersist.Core.Message.Response
 {
@@ -9,7 +9,7 @@ namespace MPersist.Core.Message.Response
     {
         private static Logger Log = Logger.GetInstance(typeof(AbstractResponse));
 
-        #region Variable Declarations
+        #region Fields
 
 
 

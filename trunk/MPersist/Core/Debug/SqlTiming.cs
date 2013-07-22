@@ -7,20 +7,20 @@ namespace MPersist.Core.Debug
     {
         private static Logger Log = Logger.GetInstance(typeof(SqlTiming));
 
-        #region Variable Declarations
+        #region Fields
 
-        private String SQL_;
-        private DbParameterCollection Parameters_;
-        private TimeSpan ExecutionTime_;
+        private String mSQL_;
+        private DbParameterCollection mParameters_;
+        private TimeSpan mExecutionTime_;
 
         #endregion
 
         #region Properties
 
-        public String SQL { get { return SQL_;} }
-        public DbParameterCollection Parameters { get { return Parameters_; } }
-        public TimeSpan ExecutionTime { get { return ExecutionTime_; } }
-        public Double TotalExecutionTime { get { return Math.Round(ExecutionTime_.TotalSeconds, 4); } }
+        public String SQL { get { return mSQL_;} }
+        public DbParameterCollection Parameters { get { return mParameters_; } }
+        public TimeSpan ExecutionTime { get { return mExecutionTime_; } }
+        public Double TotalExecutionTime { get { return Math.Round(mExecutionTime_.TotalSeconds, 4); } }
 
         public String ParametersString
         {
@@ -63,9 +63,9 @@ namespace MPersist.Core.Debug
 
         public SqlTiming(String sql, DbParameterCollection parameters, DateTime start)
         {
-            SQL_ = sql;
-            Parameters_ = parameters;
-            ExecutionTime_ = DateTime.Now.Subtract(start);
+            mSQL_ = sql;
+            mParameters_ = parameters;
+            mExecutionTime_ = DateTime.Now.Subtract(start);
         }
 
         #endregion

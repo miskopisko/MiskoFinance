@@ -47,6 +47,12 @@ namespace MPersist.Core.Data
 
         #region Operators
 
+        public static PrimaryKey operator +(PrimaryKey left, Int64 right)
+        {
+            if(object.ReferenceEquals(left, null)) return new PrimaryKey() + right;
+            return new PrimaryKey(left.Value + right);
+        }
+
         public static PrimaryKey operator -(PrimaryKey value)
         {
             return new PrimaryKey(-value.Value);

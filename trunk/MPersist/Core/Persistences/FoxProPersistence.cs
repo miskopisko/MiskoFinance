@@ -1,13 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.OleDb;
-using MPersist.Core.Attributes;
 using MPersist.Core.Data;
 using MPersist.Core.Enums;
 using MPersist.Core.MoneyType;
-using System.Reflection;
 
 namespace MPersist.Core.Persistences
 {
@@ -57,11 +53,11 @@ namespace MPersist.Core.Persistences
                     param.Value = DBNull.Value;
                     mCommand_.Parameters.Add(param);
                 }
-                else if (parameter is AbstractStoredData)
+                else if (parameter is StoredData)
                 {
                     param.IsNullable = false;
                     param.OleDbType = OleDbType.Integer;
-                    param.Value = parameter != null ? (Object)((AbstractStoredData)parameter).Id : DBNull.Value;
+                    param.Value = parameter != null ? (Object)((StoredData)parameter).Id : DBNull.Value;
                     mCommand_.Parameters.Add(param);
                 }
                 else if (parameter is AbstractEnum)
@@ -117,57 +113,19 @@ namespace MPersist.Core.Persistences
             }
         }
 
-        protected override void GenerateUpdateStatement(AbstractStoredData clazz)
+        protected override void GenerateUpdateStatement(StoredData clazz, Type type)
         {
-            /*String sql = "";
-            List<Object> parameters = new List<Object>();
-
-            if (clazz != null)
-            {
-                sql += "UPDATE " + clazz.GetType().Name + Environment.NewLine + "SET    ";
-
-                foreach (PropertyInfo property in AbstractStoredData.GetStoredProperties(type))
-                {
-                    sql += clazz.GetColumnName(property) + " = ?, " + Environment.NewLine + "       ";
-                    parameters.Add(property.GetValue(clazz, null));
-                }
-
-                sql += "DTMODIFIED = DATETIME()," + Environment.NewLine;
-                sql += "       ROWVER = ROWVER + 1" + Environment.NewLine;
-                sql += "WHERE  ID = ?" + Environment.NewLine;
-                sql += "AND    ROWVER = ?;";
-
-                parameters.Add(clazz.Id);
-                parameters.Add(clazz.RowVer);
-
-                mCommand_.CommandText = sql;
-                SetParameters(parameters.ToArray());
-            }*/
+            throw new MPException("FoxPro UPDATEs are implemented on a class by class basis by overriding the Store(session) method");
         }
 
-        protected override void GenerateDeleteStatement(AbstractStoredData clazz)
+        protected override void GenerateDeleteStatement(StoredData clazz, Type type)
         {
-            /*String sql = "";
-            List<Object> parameters = new List<Object>();
-
-            if (clazz != null)
-            {
-                sql += "DELETE" + Environment.NewLine;
-                sql += "FROM   " + type.Name + Environment.NewLine;
-                sql += "WHERE  ID = ?" + Environment.NewLine;
-                sql += "AND    ROWVER = ?;";
-
-                parameters.Add(-clazz.Id);
-                parameters.Add(clazz.RowVer);
-
-                mCommand_.CommandText = sql;
-                SetParameters(parameters.ToArray());
-            }*/
+            throw new MPException("FoxPro DELETEs are implemented on a class by class basis by overriding the Remove(session) method");
         }
 
-        protected override void GenerateInsertStatement(AbstractStoredData clazz)
+        protected override void GenerateInsertStatement(StoredData clazz, Type type)
         {
-            throw new NotImplementedException("Cannot insert into FoxPro tables yet. Hopefully soon!");
+            throw new MPException("FoxPro INSERTSs are implemented on a class by class basis by overriding the Create(session) method");
         }
 
         #endregion

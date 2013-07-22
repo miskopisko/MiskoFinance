@@ -7,9 +7,9 @@ using MPersist.Core.MoneyType;
 
 namespace MPersist.Core.Data
 {
-    public abstract class AbstractData
+    public class Data
     {
-        private static Logger Log = Logger.GetInstance(typeof(AbstractData));
+        private static Logger Log = Logger.GetInstance(typeof(Data));
 
         #region Fields
 
@@ -25,11 +25,11 @@ namespace MPersist.Core.Data
 
         #region Constructors
 
-        public AbstractData()
+        public Data()
         {
         }
 
-        public AbstractData(Session session, Persistence persistence)
+        public Data(Session session, Persistence persistence)
         {
             Set(session, persistence);
         }
@@ -44,32 +44,37 @@ namespace MPersist.Core.Data
 
         #region Public Methods
 
-        public AbstractData Set(Session session, Persistence persistence)
+        public Data Set(Session session, Persistence persistence)
         {
             return Set(session, persistence, false);
         }
 
-        public AbstractData Set(Session session, Persistence persistence, bool deep)
+        public Data Set(Session session, Persistence persistence, bool deep)
         {
             if (persistence.Next())
             {
                 List<PropertyInfo> properties = new List<PropertyInfo>();
-                if(this is AbstractStoredData)
+                if(this is StoredData)
                 {
                     Type currentType = GetType();
-                    while (!currentType.Equals(typeof(AbstractStoredData)))
+                    while (!currentType.Equals(typeof(StoredData)))
                     {
-                        properties.AddRange(AbstractStoredData.GetStoredProperties(currentType));
+                        properties.AddRange(GetStoredProperties(currentType));
                         currentType = currentType.BaseType;
                     }
 
-                    ((AbstractStoredData)this).IsSet = true;
-                    ((AbstractStoredData)this).Id = persistence.GetPrimaryKey("Id");
-                    ((AbstractStoredData)this).RowVer = persistence.GetInt("RowVer") != null ? persistence.GetInt("RowVer").Value : 0;
+                    ((StoredData)this).IsSet = true;
+                    ((StoredData)this).Id = persistence.GetPrimaryKey("Id");
+                    ((StoredData)this).RowVer = persistence.GetInt("RowVer") != null ? persistence.GetInt("RowVer").Value : 0;
                 }
-                else if(this is AbstractViewedData)
+                else if(this is ViewedData)
                 {
-                    properties.AddRange(((AbstractViewedData)this).GetViewedProperties());
+                    Type currentType = GetType();
+                    while (!currentType.Equals(typeof(ViewedData)))
+                    {
+                        properties.AddRange(GetViewedProperties(currentType));
+                        currentType = currentType.BaseType;
+                    }
                 }
 
                 foreach (PropertyInfo property in properties)
@@ -140,13 +145,13 @@ namespace MPersist.Core.Data
 
                         property.SetValue(this, item, null);
                     }
-                    else if (property.PropertyType.IsSubclassOf(typeof(AbstractStoredData)))
+                    else if (property.PropertyType.IsSubclassOf(typeof(StoredData)))
                     {
-                        AbstractStoredData item = null;
+                        StoredData item = null;
 
                         if (persistence.GetInt(columnName) > 0)
                         {
-                            item = (AbstractStoredData)property.PropertyType.Assembly.CreateInstance(property.PropertyType.FullName);
+                            item = (StoredData)property.PropertyType.Assembly.CreateInstance(property.PropertyType.FullName);
                             item.Id = persistence.GetPrimaryKey(columnName);
                         }
 
@@ -184,9 +189,9 @@ namespace MPersist.Core.Data
         {
             foreach (PropertyInfo property in GetType().GetProperties())
             {
-                if (property.PropertyType.IsSubclassOf(typeof(AbstractStoredData)))
+                if (property.PropertyType.IsSubclassOf(typeof(StoredData)))
                 {
-                    AbstractStoredData item = (AbstractStoredData)property.GetValue(this, null);
+                    StoredData item = (StoredData)property.GetValue(this, null);
                     if (item != null && item.Id > 0 && item.IsNotSet)
                     {
                         item.FetchById(session, item.Id, true);
@@ -206,6 +211,44 @@ namespace MPersist.Core.Data
             }
 
             return property.Name;
+        }
+
+        public PropertyInfo[] GetStoredProperties(Type type)
+        {
+            List<PropertyInfo> storedProperties = new List<PropertyInfo>();
+
+            foreach (PropertyInfo property in type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly))
+            {
+                foreach (Attribute attribute in property.GetCustomAttributes(false))
+                {
+                    if (attribute is StoredAttribute && ((StoredAttribute)attribute).UseInSql)
+                    {
+                        storedProperties.Add(property);
+                        break;
+                    }
+                }
+            }
+
+            return storedProperties.ToArray();
+        }
+
+        public PropertyInfo[] GetViewedProperties(Type type)
+        {
+            List<PropertyInfo> viewedProperties = new List<PropertyInfo>();
+
+            foreach (PropertyInfo property in type.GetProperties())
+            {
+                foreach (Attribute attribute in property.GetCustomAttributes(false))
+                {
+                    if (attribute is ViewedAttribute)
+                    {
+                        viewedProperties.Add(property);
+                        break;
+                    }
+                }
+            }
+
+            return viewedProperties.ToArray();
         }
 
         #endregion
