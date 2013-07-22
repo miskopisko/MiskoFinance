@@ -57,7 +57,7 @@ CREATE TABLE 'Txn'
 	Amount			DOUBLE NOT NULL,
 	Description		VARCHAR(128) NULL,
 	Category		INTEGER NULL,
-	HashCode		VARCHAR(32) NOT NULL,
+	HashCode		VARCHAR(512) NOT NULL,
     DtCreated		DATETIME NOT NULL,
     DtModified		DATETIME NOT NULL,
     RowVer			INTEGER NOT NULL 

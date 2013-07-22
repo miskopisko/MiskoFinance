@@ -23,9 +23,11 @@ namespace MPFinance.Forms
     {   
         private static Logger Log = Logger.GetInstance(typeof(MPFinanceMain));
 
-        #region Variable Declarations
+        #region Fields
 
         private static MPFinanceMain mInstance_;
+
+        private Operator mOperator_;
         
         #endregion
 
@@ -43,10 +45,12 @@ namespace MPFinance.Forms
             }
         }
 
-        public Operator Operator { get; set; }
+        public Operator Operator { get { return mOperator_; } }
+        public BankAccount Account { get { return (BankAccount)mAccountsList_.SelectedItem; } }
         public DateTime FromDate { get { return mFromDate_.Value; } }
         public DateTime ToDate { get { return mToDate_.Value; } }
         public Category Category { get { return (Category)mCategoriesCmb_.SelectedItem; } }
+        public OpenFileDialog OpenFileDialog { get { return mOpenFileDialog_; } }
 
         #endregion
 
@@ -54,6 +58,8 @@ namespace MPFinance.Forms
 
         public MPFinanceMain()
         {
+            MessageProcessor.IOController = this;
+
             InitializeComponent();
 
             mFromDate_.Value = new DateTime(DateTime.Now.Year, 1, 1);
@@ -70,6 +76,7 @@ namespace MPFinance.Forms
         // Fetch all txns as per the search criteria
         private void GetTxns(Page page)
         {
+            mTransactionsGridView_.Focus();
             mMoreBtn_.Enabled = false;
             mSearchBtn_.Enabled = false;
 
@@ -80,8 +87,8 @@ namespace MPFinance.Forms
             }
 
             GetTxnsRQ request = new GetTxnsRQ();
-            request.Operator = MPFinanceMain.Instance.Operator.Id;
-            request.Account = ((Account)mAccountsList_.SelectedItem).Id;
+            request.Operator = Operator.Id;
+            request.Account = Account.Id;
             request.FromDate = FromDate;
             request.ToDate = ToDate;
             request.Category = Category.Id;
@@ -108,12 +115,11 @@ namespace MPFinance.Forms
         // Callback method for GetOperator if successful
         private void GetOperatorSuccess(AbstractResponse response)
         {
-            Operator = ((GetOperatorRS)response).Operator;
+            mOperator_ = ((GetOperatorRS)response).Operator;
             Operator.BankAccountsChanged += Operator_BankAccountsChanged;
             Operator.CategoriesChanged += Operator_CategoriesChanged;
 
-            Operator_BankAccountsChanged();
-            Operator_CategoriesChanged();
+            Operator.Refresh();
 
             mHeaderLbl_.Text = Operator.LastName + ", " + Operator.FirstName;
 
@@ -125,12 +131,15 @@ namespace MPFinance.Forms
             mTransactionCountsLbl_.Text = Utils.ResolveTextParameters(Strings.strTransactionCounts, new Object[] { response.Page.RowsFetchedSoFar, response.Page.TotalRowCount });
             mMoreBtn_.Enabled = mTransactionsGridView_.CurrentPage.HasNext;
             mSearchBtn_.Enabled = true;
-        }
+
+            // Enable the settings menu now
+            mSettingsToolStripMenuItem_.Enabled = true;
+        }        
 
         // Callback method for GetOperator if error
         private void GetOperatorError(AbstractResponse response)
         {
-            Error(new MPException("Operator not found cannot continue. Application exiting.").ErrorMessage.Message);
+            Error(new MPException(ErrorStrings.errOperatorNotFoundMustExit).ErrorMessage.Message);
 
             Application.Exit();
         }
@@ -172,7 +181,7 @@ namespace MPFinance.Forms
         // User picked new account from list; refresh txns
         private void AccountsList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            String accountName = ((BankAccount)mAccountsList_.SelectedItem).Nickname;
+            String accountName = Account.Nickname;
             mHeaderLbl_.Text = Operator.LastName + ", " + Operator.FirstName + " - " + accountName;
             GetTxns(new Page(1));
         }

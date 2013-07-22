@@ -24,7 +24,7 @@ namespace MPFinance.Forms.Panels
 
         public ChooseTransactionsPanel()
         {
-            InitializeComponent();            
+            InitializeComponent();
         }
 
         #endregion
@@ -40,7 +40,7 @@ namespace MPFinance.Forms.Panels
 
         #region Private Methods
 
-
+        
 
         #endregion
 

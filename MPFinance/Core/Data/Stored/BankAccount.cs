@@ -57,6 +57,21 @@ namespace MPFinance.Core.Data.Stored
             return Nickname;
         }
 
+        public override AbstractStoredData Create(Session session)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override AbstractStoredData Store(Session session)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override AbstractStoredData Remove(Session session)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public override void PreSave(Session session, UpdateMode mode)
         {
             base.PreSave(session, mode);
@@ -101,20 +116,18 @@ namespace MPFinance.Core.Data.Stored
 
         #region Public Methods
 
-        public static Account GetInstanceByComposite(Session session, PrimaryKey op, AccountType type, String bankNo, String accountNo)
+        public static Account GetInstanceByComposite(Session session, PrimaryKey op, String accountNo)
         {
-            Account result = new Account();
+            BankAccount result = new BankAccount();
 
             String sql = "SELECT * " +
                          "FROM   Account A, BankAccount B " +
                          "WHERE  A.Id = B.Id " +
                          "AND    A.Operator = ? " +
-                         "AND    A.AccountType = ? " +
-                         "AND    B.BankNumber = ? " +
                          "AND    B.AccountNumber = ?";
 
             Persistence p = Persistence.GetInstance(session);
-            p.ExecuteQuery(sql, new Object[] { op, type, bankNo, accountNo });
+            p.ExecuteQuery(sql, new Object[] { op, accountNo });
             result.Set(session, p);
             p.Close();
             p = null;

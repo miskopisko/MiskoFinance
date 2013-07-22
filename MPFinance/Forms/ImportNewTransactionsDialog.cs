@@ -1,13 +1,14 @@
 ﻿using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 using MPersist.Core;
 using MPersist.Core.Message.Response;
+using MPFinance.Core.Data.Stored;
 using MPFinance.Core.Message.Requests;
 using MPFinance.Core.Message.Responses;
 using MPFinance.Core.OFX;
 using MPFinance.Forms.Panels;
 using MPFinance.Resources;
-using MPFinance.Core.Data.Stored;
 
 namespace MPFinance.Forms
 {
@@ -54,10 +55,9 @@ namespace MPFinance.Forms
             mTableLayoutPanel_.Controls.Add(mChooseAccountPanel_, 0, 0);
             mTableLayoutPanel_.Controls.Add(mChooseTransactionsPanel_, 0, 0);
 
-            mChooseAccountPanel_.Success += new ChooseAccountPanel.OnSuccess(mChooseAccountPanel_Success);
-            mChooseAccountPanel_.Fail += new ChooseAccountPanel.OnFail(mChooseAccountPanel_Fail);            
+            mChooseAccountPanel_.Success += mChooseAccountPanel_Success;
+            mChooseAccountPanel_.Fail += mChooseAccountPanel_Fail;            
 
-            mBackBtn_.Visible = false;
             mNextBtn_.Visible = true;
             mImportBtn_.Visible = false;
 
@@ -86,7 +86,6 @@ namespace MPFinance.Forms
             mChooseAccountPanel_.Visible = false;
             mChooseTransactionsPanel_.Visible = true;
 
-            mBackBtn_.Visible = true;
             mBackBtn_.Enabled = true;
             mNextBtn_.Visible = false;
             mNextBtn_.Enabled = false;
@@ -100,6 +99,12 @@ namespace MPFinance.Forms
 
         private void ImportTxnsSuccess(AbstractResponse Response)
         {
+            if (!MPFinanceMain.Instance.Operator.BankAccounts.Contains(mAccount_))
+            {
+                MPFinanceMain.Instance.Operator.BankAccounts.Add(mAccount_);
+                MPFinanceMain.Instance.Operator.Refresh();
+            }
+
             Dispose();
         }
 
@@ -120,6 +125,7 @@ namespace MPFinance.Forms
         private void mChooseAccountPanel_Fail()
         {
             mNextBtn_.Enabled = true;
+            mBackBtn_.Enabled = true;
         }
 
         private void mChooseAccountPanel_Success(BankAccount account)
@@ -127,8 +133,6 @@ namespace MPFinance.Forms
             mAccount_ = account;
 
             Text = Strings.strCheckingForDuplicateTxns;
-
-            mNextBtn_.Enabled = false;
 
             CheckDuplicateTxnsRQ request = new CheckDuplicateTxnsRQ();
             request.Account = mAccount_;
@@ -141,6 +145,7 @@ namespace MPFinance.Forms
         private void nextBtn_Click(object sender, System.EventArgs e)
         {
             mNextBtn_.Enabled = false;
+            mBackBtn_.Enabled = false;
             mChooseAccountPanel_.GetAccount();
         }
 
@@ -154,19 +159,31 @@ namespace MPFinance.Forms
 
         private void BackBtn_Click(object sender, System.EventArgs e)
         {
-            Text = Strings.strChooseAnAccount;
+            if (mChooseAccountPanel_.Visible)
+            {
+                if (MPFinanceMain.Instance.OpenFileDialog.ShowDialog(this).Equals(DialogResult.OK))
+                {
+                    mOfxDocument_ = new OfxDocument(new FileStream(MPFinanceMain.Instance.OpenFileDialog.FileName, FileMode.Open));
+                    mChooseAccountPanel_.Refresh(mOfxDocument_);
+                }
+                else
+                {
+                    Dispose();
+                }
+            }
+            else if (mChooseTransactionsPanel_.Visible)
+            {
+                Text = Strings.strChooseAnAccount;
 
-            mChooseAccountPanel_.Visible = true;
-            mChooseTransactionsPanel_.Visible = false;
+                mChooseAccountPanel_.Visible = true;
+                mChooseTransactionsPanel_.Visible = false;
 
-            mBackBtn_.Visible = false;
-            mBackBtn_.Enabled = false;
-            mNextBtn_.Visible = true;
-            mNextBtn_.Enabled = true;
-            mImportBtn_.Visible = false;
-            mImportBtn_.Enabled = false;
-
-            RepositionWindow();
+                mNextBtn_.Visible = true;
+                mNextBtn_.Enabled = true;
+                mImportBtn_.Visible = false;
+                mImportBtn_.Enabled = false;
+                RepositionWindow();
+            }
         }
 
         #endregion

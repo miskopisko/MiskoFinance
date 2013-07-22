@@ -42,6 +42,8 @@ namespace MPFinance.Forms.Controls
             mSelectableRecords_ = Rows.Count;
 
             ((CheckBoxHeaderCell)mImport_.HeaderCell).Enabled = mSelectableRecords_ > 0;
+            ((CheckBoxHeaderCell)mImport_.HeaderCell).Checked = true;
+            cbHeader_OnCheckBoxClicked(true);
 
             base.OnDataBindingComplete(e);
         }
@@ -177,11 +179,8 @@ namespace MPFinance.Forms.Controls
 
             for (int i = 0; i < RowCount; i++)
             {
-                if (!Rows[i].ReadOnly)
-                {
-                    EndEdit();
-                    Rows[i].Cells["Import"].Value = state;
-                }
+                EndEdit();
+                Rows[i].Cells["Import"].Value = state;
             }
 
             mSelectedRecords_ = state ? mSelectableRecords_ : 0;

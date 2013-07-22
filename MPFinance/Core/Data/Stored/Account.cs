@@ -45,6 +45,21 @@ namespace MPFinance.Core.Data.Stored
 
         #region Override Methods
 
+        public override AbstractStoredData Create(Session session)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override AbstractStoredData Store(Session session)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override AbstractStoredData Remove(Session session)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public override void PreSave(Session session, UpdateMode mode)
         {
         }

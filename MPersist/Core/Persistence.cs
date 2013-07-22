@@ -170,11 +170,11 @@ namespace MPersist.Core
 
         #region Execute Methods
 
-        public PrimaryKey ExecuteInsert(AbstractStoredData clazz, Type subType)
+        public PrimaryKey ExecuteInsert(AbstractStoredData clazz)
         {
             mSession_.PersistencePool.Add(this);
 
-            GenerateInsertStatement(clazz, subType);
+            GenerateInsertStatement(clazz);
 
             PrimaryKey newId = new PrimaryKey();
 
@@ -206,11 +206,11 @@ namespace MPersist.Core
             return mSession_.MessageMode.Equals(MessageMode.Normal) ? newId : clazz.Id;
         }
 
-        public bool ExecuteUpdate(AbstractStoredData clazz, Type subType)
+        public Int64 ExecuteUpdate(AbstractStoredData clazz)
         {
             mSession_.PersistencePool.Add(this);
 
-            GenerateUpdateStatement(clazz, subType);
+            GenerateUpdateStatement(clazz);
 
             DateTime startTime = DateTime.Now;
             int result = mCommand_.ExecuteNonQuery();
@@ -221,14 +221,24 @@ namespace MPersist.Core
                 mSession_.Error(ErrorLevel.Error, ErrorStrings.errLockKeyFailed, new Object[] { clazz.GetType().Name });
             }
 
-            return true;
+            Int64 newRowVer = clazz.RowVer;
+            Persistence persistence = Persistence.GetInstance(mSession_);
+            persistence.ExecuteQuery("SELECT ROWVER FROM " + clazz.GetType().Name.ToUpper() + " WHERE ID = ?;", new Object[] { clazz.Id });
+            if (persistence.Next())
+            {
+                newRowVer = persistence.GetLong("ROWVER").Value;
+            }
+            persistence.Close();
+            persistence = null;
+
+            return newRowVer;
         }
 
-        public bool ExecuteDelete(AbstractStoredData clazz, Type subType)
+        public bool ExecuteDelete(AbstractStoredData clazz)
         {
             mSession_.PersistencePool.Add(this);
 
-            GenerateDeleteStatement(clazz, subType);
+            GenerateDeleteStatement(clazz);
 
             DateTime startTime = DateTime.Now;
             int result = mCommand_.ExecuteNonQuery();
@@ -313,9 +323,9 @@ namespace MPersist.Core
         #region Abstract Methods
 
         protected abstract void SetParameters(Object[] value);
-        protected abstract void GenerateUpdateStatement(AbstractStoredData clazz, Type type);
-        protected abstract void GenerateDeleteStatement(AbstractStoredData clazz, Type type);
-        protected abstract void GenerateInsertStatement(AbstractStoredData clazz, Type type);
+        protected abstract void GenerateUpdateStatement(AbstractStoredData clazz);
+        protected abstract void GenerateDeleteStatement(AbstractStoredData clazz);
+        protected abstract void GenerateInsertStatement(AbstractStoredData clazz);
 
         #endregion
 

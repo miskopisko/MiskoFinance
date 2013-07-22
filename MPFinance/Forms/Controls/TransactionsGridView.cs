@@ -127,9 +127,11 @@ namespace MPFinance.Forms.Controls
 
             UpdateTxnRQ request = new UpdateTxnRQ();
             request.VwTxn = vwTxn;
+            request.Operator = MPFinanceMain.Instance.Operator.Id;
+            request.Account = MPFinanceMain.Instance.Account.Id;
             request.FromDate = MPFinanceMain.Instance.FromDate;
             request.ToDate = MPFinanceMain.Instance.ToDate;
-            request.Operator = MPFinanceMain.Instance.Operator.Id;
+            request.Category = MPFinanceMain.Instance.Category.Id;            
             MessageProcessor.SendRequest(request, UpdateTxnSuccess);             
         }
 

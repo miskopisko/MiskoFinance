@@ -63,7 +63,7 @@ namespace MPersist.Core.Data
             }
         }
 
-        private void SaveChildren(Session session)
+        /*private void SaveChildren(Session session)
         {
             // Save any StoredData objects before storing this object
             foreach (PropertyInfo property in GetType().GetProperties())
@@ -79,39 +79,39 @@ namespace MPersist.Core.Data
             }
         }
 
-        private void Insert(Session session, Type subType)
+        private void Insert(Session session)
         {
             Persistence p = Persistence.GetInstance(session);
-            Id = p.ExecuteInsert(this, subType);
+            Id = p.ExecuteInsert(this);
             p.Close();
             p = null;
         }
 
-        private void Update(Session session, Type subType)
+        private void Update(Session session)
         {
             Persistence p = Persistence.GetInstance(session);
-            p.ExecuteUpdate(this, subType);
+            RowVer = p.ExecuteUpdate(this);
             p.Close();
             p = null;
         }
 
-        private void Delete(Session session, Type subType)
+        private void Delete(Session session)
         {
             Persistence p = Persistence.GetInstance(session);
-            p.ExecuteDelete(this, subType);
+            p.ExecuteDelete(this);
             p.Close();
             p = null;
-        }
+        }*/
 
         #endregion
 
         #region Public Methods
 
-        public PropertyInfo[] GetStoredProperties()
+        public static PropertyInfo[] GetStoredProperties(Type type)
         {
             List<PropertyInfo> storedProperties = new List<PropertyInfo>();
 
-            foreach (PropertyInfo property in GetType().GetProperties())
+            foreach (PropertyInfo property in type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly))
             {
                 foreach (Attribute attribute in property.GetCustomAttributes(false))
                 {
@@ -187,61 +187,23 @@ namespace MPersist.Core.Data
 
         public AbstractStoredData Save(Session session)
         {
-            SaveChildren(session);
-
-            List<Type> types = new List<Type>();
-            Type currentType = GetType();
-            while(!currentType.Equals(typeof(AbstractStoredData)))
-            {
-                types.Add(currentType);
-                currentType = currentType.BaseType;                
-            }            
+            //SaveChildren(session);
             
             if (Id == 0)    // Insert mode
             {
-                PreSave(session, UpdateMode.Insert);
-
-                // Insert objects top -> down
-                for (int i = types.Count - 1; i >= 0; i--)
-                {
-                    Insert(session, types[i]);
-                }
-
-                PostSave(session, UpdateMode.Insert);
+                Create(session);
 
                 MPCache.Put(MPCache.GetKey(GetType(), session.ConnectionName, new Object[] { "Id", this.Id }), this);
             }
             else if (Id > 0)    // Update mode
             {
-                PreSave(session, UpdateMode.Update);
-
-                // Update objects top -> down
-                for (int i = types.Count - 1; i >= 0; i--)
-                {
-                    Update(session, types[i]);                    
-                }
-
-                PostSave(session, UpdateMode.Update);
-
-                // By this point all was successful so increment the RowVer
-                if(session.MessageMode.Equals(MessageMode.Normal))
-                {
-                    RowVer = RowVer + 1;
-                }
+                Store(session);
 
                 MPCache.Put(MPCache.GetKey(GetType(), session.ConnectionName, new Object[] { "Id", this.Id }), this);
             }
             else if(Id < 0) // Delete mode
             {
-                PreSave(session, UpdateMode.Delete);
-
-                // Update objects bottom -> up
-                for (int i = 0; i < types.Count; i++)
-                {
-                    Delete(session, types[i]);
-                }
-
-                PostSave(session, UpdateMode.Delete);
+                Remove(session);
 
                 MPCache.Remove(MPCache.GetKey(GetType(), session.ConnectionName, new Object[] { "Id", this.Id }));
             }
@@ -252,6 +214,12 @@ namespace MPersist.Core.Data
         #endregion
 
         #region Abstract Methods
+
+        public abstract AbstractStoredData Create(Session session);
+
+        public abstract AbstractStoredData Store(Session session);
+
+        public abstract AbstractStoredData Remove(Session session);
 
         public abstract void PreSave(Session session, UpdateMode mode);
 

@@ -118,16 +118,16 @@ namespace MPersist.Core.Persistences
             }
         }
 
-        protected override void GenerateUpdateStatement(AbstractStoredData clazz, Type type)
+        protected override void GenerateUpdateStatement(AbstractStoredData clazz)
         {
-            String sql = "";
+            /*String sql = "";
             List<Object> parameters = new List<Object>();
 
             if (clazz != null)
             {
                 sql += "UPDATE " + type.Name + Environment.NewLine + "SET    ";
 
-                foreach (PropertyInfo property in clazz.GetStoredProperties())
+                foreach (PropertyInfo property in AbstractStoredData.GetStoredProperties(type))
                 {
                     sql += clazz.GetColumnName(property) + " = ?, " + Environment.NewLine + "       ";
                     parameters.Add(property.GetValue(clazz, null));
@@ -143,12 +143,12 @@ namespace MPersist.Core.Persistences
 
                 mCommand_.CommandText = sql;
                 SetParameters(parameters.ToArray());
-            }
+            }*/
         }
 
-        protected override void GenerateDeleteStatement(AbstractStoredData clazz, Type type)
+        protected override void GenerateDeleteStatement(AbstractStoredData clazz)
         {
-            String sql = "";
+            /*String sql = "";
             List<Object> parameters = new List<Object>();
 
             if (clazz != null)
@@ -163,14 +163,14 @@ namespace MPersist.Core.Persistences
 
                 mCommand_.CommandText = sql;
                 SetParameters(parameters.ToArray());
-            }
+            }*/
         }
 
-        protected override void GenerateInsertStatement(AbstractStoredData clazz, Type type)
+        protected override void GenerateInsertStatement(AbstractStoredData clazz)
         {
-            String sql = "";
+            /*String sql = "";
             List<Object> parameters = new List<Object>();
-            PropertyInfo[] properties = clazz.GetStoredProperties();
+            PropertyInfo[] properties = AbstractStoredData.GetStoredProperties(type);
 
             if (clazz != null)
             {
@@ -212,7 +212,7 @@ namespace MPersist.Core.Persistences
             }
 
             mCommand_.CommandText = sql;
-            SetParameters(parameters.ToArray());
+            SetParameters(parameters.ToArray());*/
         }
 
         #endregion

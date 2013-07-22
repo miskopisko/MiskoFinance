@@ -156,6 +156,9 @@
   <data name="errOperatorNotFound" xml:space="preserve">
     <value>Operator {0} not found</value>
   </data>
+  <data name="errOperatorNotFoundMustExit" xml:space="preserve">
+    <value>Operator not found. Cannot continue</value>
+  </data>
   <data name="errUnexpectedApplicationErrorLong" xml:space="preserve">
     <value>Unexpected Application Error
 

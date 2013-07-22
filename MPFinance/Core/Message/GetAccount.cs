@@ -23,7 +23,7 @@ namespace MPFinance.Core.Message
 
         public override void Execute(Session session)
         {
-            Response.Account = BankAccount.GetInstanceByComposite(session, Request.Operator, Request.AccountType, Request.BankNo, Request.AccountNo);
+            Response.Account = BankAccount.GetInstanceByComposite(session, Request.Operator, Request.AccountNo);
         }
     }
 }
