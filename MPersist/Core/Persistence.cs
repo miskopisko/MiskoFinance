@@ -127,7 +127,7 @@ namespace MPersist.Core
             }
         }
 
-        public bool Next()
+        public Boolean Next()
         {
             if (HasNext)
             {
@@ -170,89 +170,7 @@ namespace MPersist.Core
 
         #region Execute Methods
 
-        public PrimaryKey ExecuteInsert(AbstractStoredData clazz)
-        {
-            mSession_.PersistencePool.Add(this);
-
-            GenerateInsertStatement(clazz);
-
-            PrimaryKey newId = new PrimaryKey();
-
-            if (mCommand_ is MySqlCommand || mCommand_ is SQLiteCommand)
-            {
-                DateTime startTime = DateTime.Now;
-                newId = new PrimaryKey(mCommand_.ExecuteScalar().ToString());
-                mSession_.SqlTimings.Add(new SqlTiming(mCommand_.CommandText, mCommand_.Parameters, startTime));
-            }
-            else if (mCommand_ is OracleCommand)
-            {
-                OracleParameter lastId = new OracleParameter();
-                lastId.ParameterName = ":LASTID";
-                lastId.DbType = DbType.Decimal;
-                lastId.Direction = ParameterDirection.Output;
-                ((OracleCommand)mCommand_).Parameters.Add(lastId);
-
-                DateTime startTime = DateTime.Now;
-                mCommand_.ExecuteNonQuery();
-                mSession_.SqlTimings.Add(new SqlTiming(mCommand_.CommandText, mCommand_.Parameters, startTime));
-
-                newId = new PrimaryKey(Convert.ToInt64(lastId.Value));
-            }
-            else if(mCommand_ is OleDbCommand)
-            {
-                // Still gotta sort this out. FoxPro is a pain
-            }
-
-            return mSession_.MessageMode.Equals(MessageMode.Normal) ? newId : clazz.Id;
-        }
-
-        public Int64 ExecuteUpdate(AbstractStoredData clazz)
-        {
-            mSession_.PersistencePool.Add(this);
-
-            GenerateUpdateStatement(clazz);
-
-            DateTime startTime = DateTime.Now;
-            int result = mCommand_.ExecuteNonQuery();
-            mSession_.SqlTimings.Add(new SqlTiming(mCommand_.CommandText, mCommand_.Parameters, startTime));
-
-            if(result == 0)
-            {
-                mSession_.Error(ErrorLevel.Error, ErrorStrings.errLockKeyFailed, new Object[] { clazz.GetType().Name });
-            }
-
-            Int64 newRowVer = clazz.RowVer;
-            Persistence persistence = Persistence.GetInstance(mSession_);
-            persistence.ExecuteQuery("SELECT ROWVER FROM " + clazz.GetType().Name.ToUpper() + " WHERE ID = ?;", new Object[] { clazz.Id });
-            if (persistence.Next())
-            {
-                newRowVer = persistence.GetLong("ROWVER").Value;
-            }
-            persistence.Close();
-            persistence = null;
-
-            return newRowVer;
-        }
-
-        public bool ExecuteDelete(AbstractStoredData clazz)
-        {
-            mSession_.PersistencePool.Add(this);
-
-            GenerateDeleteStatement(clazz);
-
-            DateTime startTime = DateTime.Now;
-            int result = mCommand_.ExecuteNonQuery();
-            mSession_.SqlTimings.Add(new SqlTiming(mCommand_.CommandText, mCommand_.Parameters, startTime));
-
-            if (result == 0)
-            {
-                mSession_.Error(ErrorLevel.Error, ErrorStrings.errLockKeyFailed, new Object[] { GetType().Name });
-            }
-
-            return true;
-        }                
-
-        public bool ExecuteQuery()
+        public Boolean ExecuteQuery()
         {
             if (String.IsNullOrEmpty(mSql_))
             {
@@ -261,13 +179,13 @@ namespace MPersist.Core
 
             return ExecuteQuery(mSql_, mParameters_.ToArray());
         }
-        
-        public bool ExecuteQuery(String sql)
+
+        public Boolean ExecuteQuery(String sql)
         {
             return ExecuteQuery(sql, new Object[]{});
         }
 
-        public bool ExecuteQuery(String sql, Object[] parameters)
+        public Boolean ExecuteQuery(String sql, Object[] parameters)
         {
             mSession_.PersistencePool.Add(this);
 
@@ -303,19 +221,153 @@ namespace MPersist.Core
             return HasNext;
         }
 
-        public static bool ExecuteUpdate(Session session, String sql)
+        public static Boolean ExecuteUpdate(Session session, String sql)
         {
             return ExecuteUpdate(session, sql, null);
         }
 
-        public static bool ExecuteUpdate(Session session, String sql, Object[] values)
+        public static Boolean ExecuteUpdate(Session session, String sql, Object[] parameters)
         {
-            Persistence p = Persistence.GetInstance(session);
-            bool result = p.ExecuteQuery(sql, values);
-            p.Close();
-            p = null;
-
+            Persistence persistence = Persistence.GetInstance(session);
+            Boolean result = persistence.ExecuteUpdate(sql, parameters);
+            persistence.Close();
+            persistence = null;
             return result;
+        }
+
+        public static PrimaryKey ExecuteInsert(Session session, StoredData clazz, Type type)
+        {
+            Persistence persistence = Persistence.GetInstance(session);
+            PrimaryKey result = persistence.ExecuteInsert(clazz, type);
+            persistence.Close();
+            persistence = null;
+            return result;
+        }
+
+        public static Int64 ExecuteUpdate(Session session, StoredData clazz, Type type)
+        {
+            Persistence persistence = Persistence.GetInstance(session);
+            Int64 result = persistence.ExecuteUpdate(clazz, type);
+            persistence.Close();
+            persistence = null;
+            return result; 
+        }
+
+        public static Boolean ExecuteDelete(Session session, StoredData clazz, Type type)
+        {
+            Persistence persistence = Persistence.GetInstance(session);
+            bool result = persistence.ExecuteDelete(clazz, type);
+            persistence.Close();
+            persistence = null;
+            return result;
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private PrimaryKey ExecuteInsert(StoredData clazz, Type type)
+        {
+            mSession_.PersistencePool.Add(this);
+
+            GenerateInsertStatement(clazz, type);
+
+            PrimaryKey newId = new PrimaryKey();
+
+            if (mCommand_ is MySqlCommand || mCommand_ is SQLiteCommand)
+            {
+                DateTime startTime = DateTime.Now;
+                newId = new PrimaryKey(mCommand_.ExecuteScalar().ToString());
+                mSession_.SqlTimings.Add(new SqlTiming(mCommand_.CommandText, mCommand_.Parameters, startTime));
+            }
+            else if (mCommand_ is OracleCommand)
+            {
+                OracleParameter lastId = new OracleParameter();
+                lastId.ParameterName = ":LASTID";
+                lastId.DbType = DbType.Decimal;
+                lastId.Direction = ParameterDirection.Output;
+                ((OracleCommand)mCommand_).Parameters.Add(lastId);
+
+                DateTime startTime = DateTime.Now;
+                mCommand_.ExecuteNonQuery();
+                mSession_.SqlTimings.Add(new SqlTiming(mCommand_.CommandText, mCommand_.Parameters, startTime));
+
+                newId = new PrimaryKey(Convert.ToInt64(lastId.Value));
+            }
+            else if (mCommand_ is OleDbCommand)
+            {
+                // FoxPro INSERT is done on a class by class basis by overriding the Create method
+            }
+
+            return mSession_.MessageMode.Equals(MessageMode.Normal) ? newId : clazz.Id;
+        }
+
+        private Int64 ExecuteUpdate(StoredData clazz, Type type)
+        {
+            mSession_.PersistencePool.Add(this);
+
+            GenerateUpdateStatement(clazz, type);
+
+            DateTime startTime = DateTime.Now;
+            int result = mCommand_.ExecuteNonQuery();
+            mSession_.SqlTimings.Add(new SqlTiming(mCommand_.CommandText, mCommand_.Parameters, startTime));
+
+            if (result == 0)
+            {
+                mSession_.Error(ErrorLevel.Error, ErrorStrings.errLockKeyFailed, new Object[] { clazz.GetType().Name });
+            }
+
+            Int64 newRowVer = clazz.RowVer;
+            Persistence persistence = Persistence.GetInstance(mSession_);
+            persistence.ExecuteQuery("SELECT ROWVER FROM " + clazz.GetType().Name + " WHERE ID = ?", new Object[] { clazz.Id });
+            if (persistence.Next())
+            {
+                newRowVer = persistence.GetLong("ROWVER").Value;
+            }
+            persistence.Close();
+            persistence = null;
+
+            return newRowVer;
+        }
+
+        private Boolean ExecuteDelete(StoredData clazz, Type type)
+        {
+            mSession_.PersistencePool.Add(this);
+
+            GenerateDeleteStatement(clazz, type);
+
+            DateTime startTime = DateTime.Now;
+            int result = mCommand_.ExecuteNonQuery();
+            mSession_.SqlTimings.Add(new SqlTiming(mCommand_.CommandText, mCommand_.Parameters, startTime));
+
+            if (result == 0)
+            {
+                mSession_.Error(ErrorLevel.Error, ErrorStrings.errLockKeyFailed, new Object[] { GetType().Name });
+            }
+
+            return true;
+        }
+
+        private Boolean ExecuteUpdate(String sql, Object[] parameters)
+        {
+            mSession_.PersistencePool.Add(this);
+
+            mSql_ = sql;
+            mParameters_ = new List<object>(parameters);
+
+            mCommand_.CommandText = mSql_;
+            SetParameters(parameters);
+
+            DateTime startTime = DateTime.Now;
+            int result = mCommand_.ExecuteNonQuery();
+            mSession_.SqlTimings.Add(new SqlTiming(mCommand_.CommandText, mCommand_.Parameters, startTime));
+
+            if (result == 0)
+            {
+                mSession_.Error(ErrorLevel.Error, ErrorStrings.errTableUpdateFailed);
+            }
+
+            return true;
         }
 
         #endregion
@@ -323,13 +375,13 @@ namespace MPersist.Core
         #region Abstract Methods
 
         protected abstract void SetParameters(Object[] value);
-        protected abstract void GenerateUpdateStatement(AbstractStoredData clazz);
-        protected abstract void GenerateDeleteStatement(AbstractStoredData clazz);
-        protected abstract void GenerateInsertStatement(AbstractStoredData clazz);
+        protected abstract void GenerateUpdateStatement(StoredData clazz, Type type);
+        protected abstract void GenerateDeleteStatement(StoredData clazz, Type type);
+        protected abstract void GenerateInsertStatement(StoredData clazz, Type type);
 
         #endregion
 
-        #region Helpers
+        #region Private Helpers
 
         private Object GetObject(String key)
         {
@@ -343,6 +395,10 @@ namespace MPersist.Core
                 return null;
             }
         }
+
+        #endregion
+
+        #region Public Helpers
 
         public Boolean? GetBoolean(String key)
         {

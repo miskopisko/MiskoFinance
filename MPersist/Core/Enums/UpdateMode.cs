@@ -4,7 +4,7 @@ namespace MPersist.Core.Enums
 {
     public class UpdateMode : AbstractEnum
     {
-        #region Variable Declarations
+        #region Fields
 
         private static readonly UpdateMode mNULL_ = new UpdateMode(-1, "", "");
         private static readonly UpdateMode mInsert_ = new UpdateMode(0, "I", "Insert");

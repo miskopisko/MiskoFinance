@@ -1,7 +1,7 @@
-using MPersist.Core.Data;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using MPersist.Core.Data;
 
 namespace MPersist.Core.Debug
 {
@@ -9,11 +9,11 @@ namespace MPersist.Core.Debug
     {
         private static Logger Log = Logger.GetInstance(typeof(MessageTimings<MessageTiming>));
 
-        #region Variable Declarations
+        #region Fields
 
-        private bool _isSorted;
-        private ListSortDirection _sortDirection = ListSortDirection.Ascending;
-        private PropertyDescriptor _sortProperty;
+        private bool mIsSorted_;
+        private ListSortDirection mSortDirection_ = ListSortDirection.Ascending;
+        private PropertyDescriptor mSortProperty_;
 
         #endregion
 
@@ -56,53 +56,53 @@ namespace MPersist.Core.Debug
 
         protected override bool IsSortedCore
         {
-            get { return _isSorted; }
+            get { return mIsSorted_; }
         }
 
         protected override ListSortDirection SortDirectionCore
         {
-            get { return _sortDirection; }
+            get { return mSortDirection_; }
         }
 
         protected override PropertyDescriptor SortPropertyCore
         {
-            get { return _sortProperty; }
+            get { return mSortProperty_; }
         }
 
         protected override void RemoveSortCore()
         {
-            _sortDirection = ListSortDirection.Ascending;
-            _sortProperty = null;
+            mSortDirection_ = ListSortDirection.Ascending;
+            mSortProperty_ = null;
         }
 
         protected override void ApplySortCore(PropertyDescriptor prop, ListSortDirection direction)
         {
-            _sortProperty = prop;
-            _sortDirection = direction;
+            mSortProperty_ = prop;
+            mSortDirection_ = direction;
 
-            List<AbstractStoredData> list = Items as List<AbstractStoredData>;
+            List<StoredData> list = Items as List<StoredData>;
             if (list == null) return;
 
             list.Sort(Compare);
 
-            _isSorted = true;
+            mIsSorted_ = true;
             //fire an event that the list has been changed.
             OnListChanged(new ListChangedEventArgs(ListChangedType.Reset, -1));
         }
 
-        private int Compare(AbstractStoredData lhs, AbstractStoredData rhs)
+        private int Compare(StoredData lhs, StoredData rhs)
         {
             var result = OnComparison(lhs, rhs);
             //invert if descending
-            if (_sortDirection == ListSortDirection.Descending)
+            if (mSortDirection_ == ListSortDirection.Descending)
                 result = -result;
             return result;
         }
 
-        private int OnComparison(AbstractStoredData lhs, AbstractStoredData rhs)
+        private int OnComparison(StoredData lhs, StoredData rhs)
         {
-            object lhsValue = lhs == null ? null : _sortProperty.GetValue(lhs);
-            object rhsValue = rhs == null ? null : _sortProperty.GetValue(rhs);
+            object lhsValue = lhs == null ? null : mSortProperty_.GetValue(lhs);
+            object rhsValue = rhs == null ? null : mSortProperty_.GetValue(rhs);
             if (lhsValue == null)
             {
                 return (rhsValue == null) ? 0 : -1; //nulls are equal

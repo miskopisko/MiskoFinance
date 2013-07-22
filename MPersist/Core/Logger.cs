@@ -7,7 +7,7 @@ namespace MPersist.Core
 {
     public class Logger
     {
-        #region Variable Declarations
+        #region Fields
 
         private const String LOGLEVEL = "Log.Level";
         private const String LOGLISTENER = "Log.Listener";

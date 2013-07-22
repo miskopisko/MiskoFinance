@@ -1,8 +1,8 @@
-using MPersist.Core.Data;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
+using MPersist.Core.Data;
 
 namespace MPersist.Core.Debug
 {
@@ -10,18 +10,18 @@ namespace MPersist.Core.Debug
     {
         private static Logger Log = Logger.GetInstance(typeof(SqlTimings<SqlTiming>));
 
-        #region Variable Declarations
+        #region Fields
 
-        private bool isSorted_;
-        private ListSortDirection sortDirection_ = ListSortDirection.Ascending;
-        private PropertyDescriptor sortProperty_;
-        private TimeSpan TotalExecutionTime_ = new TimeSpan();
+        private bool mIsSorted_;
+        private ListSortDirection mSortDirection_ = ListSortDirection.Ascending;
+        private PropertyDescriptor mSortProperty_;
+        private TimeSpan mTotalExecutionTime_ = new TimeSpan();
 
         #endregion
 
         #region Properties
 
-        public TimeSpan TotalExecutionTime { get { return TotalExecutionTime_; } }
+        public TimeSpan TotalExecutionTime { get { return mTotalExecutionTime_; } }
 
         #endregion
 
@@ -51,7 +51,7 @@ namespace MPersist.Core.Debug
 
             TimeSpan time = (TimeSpan)typeof(SqlTiming).InvokeMember("ExecutionTime", BindingFlags.GetProperty, null, sqlTiming, new Object[] { });
 
-            TotalExecutionTime_ = TotalExecutionTime_.Add(time);
+            mTotalExecutionTime_ = mTotalExecutionTime_.Add(time);
         }
 
         #endregion
@@ -65,53 +65,53 @@ namespace MPersist.Core.Debug
 
         protected override bool IsSortedCore
         {
-            get { return isSorted_; }
+            get { return mIsSorted_; }
         }
 
         protected override ListSortDirection SortDirectionCore
         {
-            get { return sortDirection_; }
+            get { return mSortDirection_; }
         }
 
         protected override PropertyDescriptor SortPropertyCore
         {
-            get { return sortProperty_; }
+            get { return mSortProperty_; }
         }
 
         protected override void RemoveSortCore()
         {
-            sortDirection_ = ListSortDirection.Ascending;
-            sortProperty_ = null;
+            mSortDirection_ = ListSortDirection.Ascending;
+            mSortProperty_ = null;
         }
 
         protected override void ApplySortCore(PropertyDescriptor prop, ListSortDirection direction)
         {
-            sortProperty_ = prop;
-            sortDirection_ = direction;
+            mSortProperty_ = prop;
+            mSortDirection_ = direction;
 
-            List<AbstractStoredData> list = Items as List<AbstractStoredData>;
+            List<StoredData> list = Items as List<StoredData>;
             if (list == null) return;
 
             list.Sort(Compare);
 
-            isSorted_ = true;
+            mIsSorted_ = true;
             //fire an event that the list has been changed.
             OnListChanged(new ListChangedEventArgs(ListChangedType.Reset, -1));
         }
 
-        private int Compare(AbstractStoredData lhs, AbstractStoredData rhs)
+        private int Compare(StoredData lhs, StoredData rhs)
         {
             var result = OnComparison(lhs, rhs);
             //invert if descending
-            if (sortDirection_ == ListSortDirection.Descending)
+            if (mSortDirection_ == ListSortDirection.Descending)
                 result = -result;
             return result;
         }
 
-        private int OnComparison(AbstractStoredData lhs, AbstractStoredData rhs)
+        private int OnComparison(StoredData lhs, StoredData rhs)
         {
-            object lhsValue = lhs == null ? null : sortProperty_.GetValue(lhs);
-            object rhsValue = rhs == null ? null : sortProperty_.GetValue(rhs);
+            object lhsValue = lhs == null ? null : mSortProperty_.GetValue(lhs);
+            object rhsValue = rhs == null ? null : mSortProperty_.GetValue(rhs);
             if (lhsValue == null)
             {
                 return (rhsValue == null) ? 0 : -1; //nulls are equal

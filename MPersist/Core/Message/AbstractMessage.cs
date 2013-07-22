@@ -12,7 +12,7 @@ namespace MPersist.Core.Message
     {
         private static Logger Log = Logger.GetInstance(typeof(AbstractMessage));
 
-        #region Variable Declarations
+        #region Fields
 
         private readonly AbstractRequest mRequest_;
         private readonly AbstractResponse mResponse_;

@@ -5,7 +5,7 @@ namespace MPersist.Resources.Enums
 {
     public class ConnectionType : AbstractEnum
     {
-        #region Variable Declarations
+        #region Fields
 
         private static readonly ConnectionType mNULL_ = new ConnectionType(-1, "", "");
         private static readonly ConnectionType mSQLite_ = new ConnectionType(0, "", "SQLite");

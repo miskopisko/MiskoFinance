@@ -4,7 +4,7 @@ namespace MPersist.Core.Enums
 {
     public class MessageMode : AbstractEnum
     {
-        #region Variable Declarations
+        #region Fields
 
         private static readonly MessageMode mNULL_ = new MessageMode(-1, "", "");
         private static readonly MessageMode mNormal_ = new MessageMode(0, "", "Normal");

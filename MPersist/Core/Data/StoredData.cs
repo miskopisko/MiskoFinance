@@ -7,9 +7,9 @@ using MPersist.Core.Tools;
 
 namespace MPersist.Core.Data
 {
-    public abstract class AbstractStoredData : AbstractData
+    public class StoredData : Data
     {
-        private static Logger Log = Logger.GetInstance(typeof(AbstractStoredData));
+        private static Logger Log = Logger.GetInstance(typeof(StoredData));
 
         #region Fields
 
@@ -35,12 +35,12 @@ namespace MPersist.Core.Data
 
         #region Constructors
 
-        public AbstractStoredData()
+        public StoredData()
         {
             Id = new PrimaryKey();
         }
 
-        public AbstractStoredData(Session session, Persistence persistence)
+        public StoredData(Session session, Persistence persistence)
         {
             Set(session, persistence);
         }
@@ -49,7 +49,7 @@ namespace MPersist.Core.Data
 
         #region Private Methods
 
-        private void CopyFromCache(AbstractStoredData source)
+        private void CopyFromCache(StoredData source)
         {
             PropertyInfo[] destinationProperties = GetType().GetProperties();
             foreach (PropertyInfo destinationPi in destinationProperties)
@@ -63,103 +63,88 @@ namespace MPersist.Core.Data
             }
         }
 
-        /*private void SaveChildren(Session session)
+        private StoredData Create(Session session, Type[] types)
         {
-            // Save any StoredData objects before storing this object
-            foreach (PropertyInfo property in GetType().GetProperties())
+            PreSave(session, UpdateMode.Insert);
+            foreach (Type type in types)
             {
-                if (property.PropertyType.IsSubclassOf(typeof(AbstractStoredData)))
-                {
-                    AbstractStoredData item = (AbstractStoredData)property.GetValue(this, null);
-                    if (item != null && item.IsSet)
-                    {
-                        item.Save(session);
-                    }
-                }
+                Id = Persistence.ExecuteInsert(session, this, type);
             }
+            IsSet = true;
+            PostSave(session, UpdateMode.Insert);
+            return this;
         }
 
-        private void Insert(Session session)
+        private StoredData Store(Session session, Type[] types)
         {
-            Persistence p = Persistence.GetInstance(session);
-            Id = p.ExecuteInsert(this);
-            p.Close();
-            p = null;
+            PreSave(session, UpdateMode.Update);
+            foreach (Type type in types)
+            {
+                RowVer = Persistence.ExecuteUpdate(session, this, type);
+            }
+            PostSave(session, UpdateMode.Update);
+            return this;
         }
 
-        private void Update(Session session)
+        private StoredData Remove(Session session, Type[] types)
         {
-            Persistence p = Persistence.GetInstance(session);
-            RowVer = p.ExecuteUpdate(this);
-            p.Close();
-            p = null;
+            PreSave(session, UpdateMode.Delete);
+            foreach (Type type in types)
+            {
+                Persistence.ExecuteDelete(session, this, type);
+            }
+            PostSave(session, UpdateMode.Delete);
+            return this;
         }
-
-        private void Delete(Session session)
-        {
-            Persistence p = Persistence.GetInstance(session);
-            p.ExecuteDelete(this);
-            p.Close();
-            p = null;
-        }*/
 
         #endregion
 
         #region Public Methods
 
-        public static PropertyInfo[] GetStoredProperties(Type type)
-        {
-            List<PropertyInfo> storedProperties = new List<PropertyInfo>();
-
-            foreach (PropertyInfo property in type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly))
-            {
-                foreach (Attribute attribute in property.GetCustomAttributes(false))
-                {
-                    if(attribute is StoredAttribute && ((StoredAttribute)attribute).UseInSql)
-                    {
-                        storedProperties.Add(property);
-                        break;
-                    }
-                }
-            }
-
-            return storedProperties.ToArray();
-        }
-
-        public static AbstractStoredData GetInstanceById(Session session, Type type, Int64 id)
+        public static StoredData GetInstanceById(Session session, Type type, Int64 id)
         {
             return GetInstanceById(session, type, new PrimaryKey(id), false);
         }
 
-        public static AbstractStoredData GetInstanceById(Session session, Type type, PrimaryKey id)
+        public static StoredData GetInstanceById(Session session, Type type, PrimaryKey id)
         {
             return GetInstanceById(session, type, id, false);
         }
 
-        public static AbstractStoredData GetInstanceById(Session session, Type type, Int64 id, Boolean deep)
+        public static StoredData GetInstanceById(Session session, Type type, Int64 id, Boolean deep)
         {
             return GetInstanceById(session, type, new PrimaryKey(id), deep);
         }
         
-        public static AbstractStoredData GetInstanceById(Session session, Type type, PrimaryKey id, Boolean deep)
+        public static StoredData GetInstanceById(Session session, Type type, PrimaryKey id, Boolean deep)
         {
-            AbstractStoredData result = (AbstractStoredData)type.Assembly.CreateInstance(type.FullName);
+            StoredData result = (StoredData)type.Assembly.CreateInstance(type.FullName);
 
             result.FetchById(session, id, deep);
 
             return result;
         }
 
+        public void FetchById(Session session, Int64 id)
+        {
+            FetchById(session, new PrimaryKey(id), false);
+        }
+        
         public void FetchById(Session session, PrimaryKey id)
         {
             FetchById(session, id, false);
+        }
+
+        public void FetchById(Session session, Int64 id, Boolean deep)
+        {
+            FetchById(session, new PrimaryKey(id), deep);
         }
 
         public void FetchById(Session session, PrimaryKey id, Boolean deep)
         {
             String key = MPCache.GetKey(GetType(), session.ConnectionName, new Object[] { "Id", id });
 
-            AbstractStoredData value = (AbstractStoredData)MPCache.Get(key);
+            StoredData value = (StoredData)MPCache.Get(key);
 
             if (value == null)
             {
@@ -185,45 +170,76 @@ namespace MPersist.Core.Data
             }
         }
 
-        public AbstractStoredData Save(Session session)
+        public StoredData Save(Session session)
         {
-            //SaveChildren(session);
-            
             if (Id == 0)    // Insert mode
             {
                 Create(session);
-
                 MPCache.Put(MPCache.GetKey(GetType(), session.ConnectionName, new Object[] { "Id", this.Id }), this);
             }
             else if (Id > 0)    // Update mode
             {
                 Store(session);
-
                 MPCache.Put(MPCache.GetKey(GetType(), session.ConnectionName, new Object[] { "Id", this.Id }), this);
             }
-            else if(Id < 0) // Delete mode
+            else if (Id < 0) // Delete mode
             {
                 Remove(session);
-
                 MPCache.Remove(MPCache.GetKey(GetType(), session.ConnectionName, new Object[] { "Id", this.Id }));
-            }
+            }            
 
             return this;
         }
 
         #endregion
 
-        #region Abstract Methods
+        #region Virtual Methods
 
-        public abstract AbstractStoredData Create(Session session);
+        public virtual StoredData Create(Session session)
+        {
+            List<Type> types = new List<Type>();
+            Type currentType = GetType();
+            while (!currentType.Equals(typeof(StoredData)))
+            {
+                types.Add(currentType);
+                currentType = currentType.BaseType;
+            }
+            types.Reverse();
+            return Create(session, types.ToArray());
+        }        
 
-        public abstract AbstractStoredData Store(Session session);
+        public virtual StoredData Store(Session session)
+        {
+            List<Type> types = new List<Type>();
+            Type currentType = GetType();
+            while (!currentType.Equals(typeof(StoredData)))
+            {
+                types.Add(currentType);
+                currentType = currentType.BaseType;
+            }
+            types.Reverse();
+            return Store(session, types.ToArray());
+        }        
 
-        public abstract AbstractStoredData Remove(Session session);
+        public virtual StoredData Remove(Session session)
+        {
+            List<Type> types = new List<Type>();
+            Type currentType = GetType();
+            while (!currentType.Equals(typeof(StoredData)))
+            {
+                types.Add(currentType);
+                currentType = currentType.BaseType;
+            }
+            return Remove(session, types.ToArray());
+        }        
 
-        public abstract void PreSave(Session session, UpdateMode mode);
+        public virtual void PreSave(Session session, UpdateMode mode)
+        {
+        }
 
-        public abstract void PostSave(Session session, UpdateMode mode);
+        public virtual void PostSave(Session session, UpdateMode mode)
+        {
+        }
 
         #endregion
 

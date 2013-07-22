@@ -157,4 +157,7 @@ Error: {2}</value>
   <data name="errUserDeclinedConfirmation" xml:space="preserve">
     <value>User declined confirmation. Cannot continue.</value>
   </data>
+  <data name="errTableUpdateFailed" xml:space="preserve">
+    <value>Table update failed</value>
+  </data>
 </root>

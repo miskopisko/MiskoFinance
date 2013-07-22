@@ -64,11 +64,11 @@ namespace MPersist.Core.Persistences
                     param.Value = DBNull.Value;
                     mCommand_.Parameters.Add(param);
                 }
-                else if (parameter is AbstractStoredData)
+                else if (parameter is StoredData)
                 {
                     param.IsNullable = false;
                     param.MySqlDbType = MySqlDbType.Int64;
-                    param.Value = parameter != null ? (Object)((AbstractStoredData)parameter).Id.Value : DBNull.Value;
+                    param.Value = parameter != null ? (Object)((StoredData)parameter).Id.Value : DBNull.Value;
                     mCommand_.Parameters.Add(param);
                 }
                 else if (parameter is AbstractEnum)
@@ -118,16 +118,16 @@ namespace MPersist.Core.Persistences
             }
         }
 
-        protected override void GenerateUpdateStatement(AbstractStoredData clazz)
+        protected override void GenerateUpdateStatement(StoredData clazz, Type type)
         {
-            /*String sql = "";
-            List<Object> parameters = new List<Object>();
-
             if (clazz != null)
             {
+                String sql = "";
+                List<Object> parameters = new List<Object>();
+
                 sql += "UPDATE " + type.Name + Environment.NewLine + "SET    ";
 
-                foreach (PropertyInfo property in AbstractStoredData.GetStoredProperties(type))
+                foreach (PropertyInfo property in clazz.GetStoredProperties(type))
                 {
                     sql += clazz.GetColumnName(property) + " = ?, " + Environment.NewLine + "       ";
                     parameters.Add(property.GetValue(clazz, null));
@@ -143,16 +143,16 @@ namespace MPersist.Core.Persistences
 
                 mCommand_.CommandText = sql;
                 SetParameters(parameters.ToArray());
-            }*/
+            }
         }
 
-        protected override void GenerateDeleteStatement(AbstractStoredData clazz)
+        protected override void GenerateDeleteStatement(StoredData clazz, Type type)
         {
-            /*String sql = "";
-            List<Object> parameters = new List<Object>();
-
             if (clazz != null)
             {
+                String sql = "";
+                List<Object> parameters = new List<Object>();
+
                 sql += "DELETE" + Environment.NewLine;
                 sql += "FROM   " + type.Name + Environment.NewLine;
                 sql += "WHERE  ID = ?" + Environment.NewLine;
@@ -163,17 +163,17 @@ namespace MPersist.Core.Persistences
 
                 mCommand_.CommandText = sql;
                 SetParameters(parameters.ToArray());
-            }*/
+            }
         }
 
-        protected override void GenerateInsertStatement(AbstractStoredData clazz)
+        protected override void GenerateInsertStatement(StoredData clazz, Type type)
         {
-            /*String sql = "";
-            List<Object> parameters = new List<Object>();
-            PropertyInfo[] properties = AbstractStoredData.GetStoredProperties(type);
-
             if (clazz != null)
             {
+                String sql = "";
+                List<Object> parameters = new List<Object>();
+                PropertyInfo[] properties = clazz.GetStoredProperties(type);
+
                 sql += "INSERT INTO " + type.Name + " (ID";
 
                 foreach (PropertyInfo property in properties)
@@ -200,7 +200,7 @@ namespace MPersist.Core.Persistences
 
                 sql += "NOW(), NOW(), 0);";
 
-                if (type.BaseType.Equals(typeof(AbstractStoredData)))
+                if (type.BaseType.Equals(typeof(StoredData)))
                 {
                     sql += Environment.NewLine + "SELECT LAST_INSERT_ID() AS ID;";
                 }
@@ -209,10 +209,10 @@ namespace MPersist.Core.Persistences
                     sql += Environment.NewLine + "SELECT ? AS ID;";
                     parameters.Add(clazz.Id);
                 }
-            }
 
-            mCommand_.CommandText = sql;
-            SetParameters(parameters.ToArray());*/
+                mCommand_.CommandText = sql;
+                SetParameters(parameters.ToArray());
+            }
         }
 
         #endregion

@@ -8,7 +8,7 @@ namespace MPersist.Core
     {
         private static Logger Log = Logger.GetInstance(typeof(ErrorMessages));
 
-        #region Variable Declarations
+        #region Fields
 
 
 

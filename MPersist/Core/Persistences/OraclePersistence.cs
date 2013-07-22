@@ -64,11 +64,11 @@ namespace MPersist.Core.Persistences
                     param.Value = DBNull.Value;
                     mCommand_.Parameters.Add(param);
                 }
-                else if (parameter is AbstractStoredData)
+                else if (parameter is StoredData)
                 {
                     param.IsNullable = false;
                     param.DbType = DbType.Int64;
-                    param.Value = parameter != null ? (Object)((AbstractStoredData)parameter).Id.Value : DBNull.Value;
+                    param.Value = parameter != null ? (Object)((StoredData)parameter).Id.Value : DBNull.Value;
                     mCommand_.Parameters.Add(param);
                 }
                 else if (parameter is AbstractEnum)
@@ -118,18 +118,18 @@ namespace MPersist.Core.Persistences
             }
         }
 
-        protected override void GenerateUpdateStatement(AbstractStoredData clazz)
+        protected override void GenerateUpdateStatement(StoredData clazz, Type type)
         {
-            /*String sql = "";
-            List<Object> parameters = new List<Object>();
-            
             if (clazz != null)
             {
+                String sql = "";
+                List<Object> parameters = new List<Object>();
+
                 sql += "UPDATE " + type.Name.ToUpper() + Environment.NewLine + "SET    ";
 
-                foreach (PropertyInfo property in AbstractStoredData.GetStoredProperties(type))
+                foreach (PropertyInfo property in clazz.GetStoredProperties(type))
                 {
-                    sql += clazz.GetColumnName(property) + " = ?, " + Environment.NewLine + "       ";
+                    sql += clazz.GetColumnName(property).ToUpper() + " = ?," + Environment.NewLine + "       ";
                     parameters.Add(property.GetValue(clazz, null));
                 }
                 
@@ -143,82 +143,72 @@ namespace MPersist.Core.Persistences
 
                 mCommand_.CommandText = sql;
                 SetParameters(parameters.ToArray());
-            }*/
+            }
         }
 
-        protected override void GenerateDeleteStatement(AbstractStoredData clazz)
-        {
-            /*String sql = "";
-            List<Object> parameters = new List<Object>();
-
-            if (clazz != null)
-            {
-                sql += "DELETE" + Environment.NewLine;
-                sql += "FROM   " + type.Name.ToUpper() + Environment.NewLine;
-                sql += "WHERE  ID = ?" + Environment.NewLine;
-                sql += "AND    ROWVER = ?;";
-
-                parameters.Add(-clazz.Id);
-                parameters.Add(clazz.RowVer);
-
-                mCommand_.CommandText = sql;
-                SetParameters(parameters.ToArray());
-            }*/
-        }
-
-        protected override void GenerateInsertStatement(AbstractStoredData clazz)
+        protected override void GenerateDeleteStatement(StoredData clazz, Type type)
         {
             if (clazz != null)
             {
                 String sql = "";
                 List<Object> parameters = new List<Object>();
 
-                List<Type> types = new List<Type>();
-                Type currentType = clazz.GetType();
-                while (!currentType.Equals(typeof(AbstractStoredData)))
+                sql += "DELETE" + Environment.NewLine;
+                sql += "FROM   " + type.Name.ToUpper() + Environment.NewLine;
+                sql += "WHERE  ID = ?" + Environment.NewLine;
+                sql += "AND    ROWVER = ?";
+
+                parameters.Add(-clazz.Id);
+                parameters.Add(clazz.RowVer);
+
+                mCommand_.CommandText = sql;
+                SetParameters(parameters.ToArray());
+            }
+        }
+
+        protected override void GenerateInsertStatement(StoredData clazz, Type type)
+        {
+            if (clazz != null)
+            {
+                String sql = "";
+                List<Object> parameters = new List<Object>();
+                PropertyInfo[] properties = clazz.GetStoredProperties(type);
+
+                sql += "INSERT INTO " + type.Name.ToUpper() + " (ID";
+
+                foreach (PropertyInfo property in properties)
                 {
-                    types.Add(currentType);
-                    currentType = currentType.BaseType;
+                    sql += ", " + clazz.GetColumnName(property).ToUpper();
                 }
 
-                for (int i = types.Count - 1; i >= 0; i--)
+                sql += ", DTCREATED, DTMODIFIED, ROWVER)" + Environment.NewLine + "VALUES (";
+
+                if (type.BaseType.Equals(typeof(StoredData)))
                 {
-                    PropertyInfo[] properties = AbstractStoredData.GetStoredProperties(types[i]);
+                    sql += "SQ_" + type.Name.ToUpper() + ".NEXTVAL, ";
+                }
+                else
+                {
+                    sql += "?, ";
+                    parameters.Add(clazz.Id);
+                }
 
-                    sql += "INSERT INTO " + types[i].Name.ToUpper() + " (ID";
+                foreach (PropertyInfo property in properties)
+                {
+                    sql += "?, ";
+                    parameters.Add(property.GetValue(clazz, null));
+                }
 
-                    foreach (PropertyInfo property in properties)
-                    {
-                        sql += ", " + clazz.GetColumnName(property);
-                    }
+                sql += "SYSDATE, SYSDATE, 0)";
 
-                    sql += ", DTCREATED, DTMODIFIED, ROWVER)" + Environment.NewLine + "VALUES (";
-
-                    if (types[i].BaseType.Equals(typeof(AbstractStoredData)))
-                    {
-                        sql += "SQ_" + clazz.GetType().Name.ToUpper() + ".NEXTVAL, ";
-                    }
-                    else
-                    {
-                        sql += "SQ_" + clazz.GetType().Name.ToUpper() + ".CURRVAL, ";
-                    }
-
-                    foreach (PropertyInfo property in properties)
-                    {
-                        sql += "?, ";
-                        parameters.Add(property.GetValue(clazz, null));
-                    }
-
-                    sql += "SYSDATE, SYSDATE, 0)";
-
-                    if (types[i].BaseType.Equals(typeof(AbstractStoredData)))
-                    {
-                        sql += Environment.NewLine + "RETURNING ID INTO :LASTID;" + Environment.NewLine;
-                    }
-                    else
-                    {
-                        sql += ";";
-                    }
+                if (type.BaseType.Equals(typeof(StoredData)))
+                {
+                    sql += Environment.NewLine + "RETURNING ID INTO :LASTID";
+                }
+                else
+                {
+                    sql += Environment.NewLine + "RETURNING ? INTO :LASTID";
+                    parameters.Add(clazz.Id);
                 }
 
                 mCommand_.CommandText = sql;

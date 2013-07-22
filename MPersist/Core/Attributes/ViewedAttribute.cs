@@ -6,7 +6,7 @@ namespace MPersist.Core.Attributes
     {
         private static Logger Log = Logger.GetInstance(typeof(ViewedAttribute));
 
-        #region Variable Declarations
+        #region Fields
 
 
 

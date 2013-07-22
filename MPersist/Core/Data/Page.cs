@@ -6,7 +6,7 @@ namespace MPersist.Core.Data
     {
         private static Logger Log = Logger.GetInstance(typeof(Page));
 
-        #region Variable Declarations
+        #region Fields
 
         private Int32 mPageNo_ = 0;
         private Boolean mIncludeRecordCount_ = true;

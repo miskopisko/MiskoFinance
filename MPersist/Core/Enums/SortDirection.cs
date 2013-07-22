@@ -5,7 +5,7 @@ namespace MPersist.Resources.Enums
 {
     public class SortDirection : AbstractEnum
     {
-        #region Variable Declarations
+        #region Fields
 
         private static readonly SortDirection mNULL_ = new SortDirection(-1, "", "");
         private static readonly SortDirection mAscending_ = new SortDirection(0, "", "Ascending");

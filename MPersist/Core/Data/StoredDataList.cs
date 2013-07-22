@@ -6,7 +6,7 @@ using MPersist.Core.Tools;
 
 namespace MPersist.Core.Data
 {
-    public abstract class AbstractStoredDataList<AbstractStoredData> : BindingList<AbstractStoredData>
+    public class AbstractStoredDataList<AbstractStoredData> : BindingList<AbstractStoredData>
     {
         private static Logger Log = Logger.GetInstance(typeof(AbstractStoredDataList<AbstractStoredData>));
 
