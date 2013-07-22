@@ -97,6 +97,7 @@
     <Compile Include="Core\Message\Requests\ImportTxnsRQ.cs" />
     <Compile Include="Core\Message\Requests\UpdateAccountsRQ.cs" />
     <Compile Include="Core\Message\Requests\UpdateCategoriesRQ.cs" />
+    <Compile Include="Core\Message\Requests\UpdateOperatorRQ.cs" />
     <Compile Include="Core\Message\Requests\UpdateTxnRQ.cs" />
     <Compile Include="Core\Message\Responses\AddAccountRS.cs" />
     <Compile Include="Core\Message\Responses\CheckDuplicateTxnsRS.cs" />
@@ -107,9 +108,11 @@
     <Compile Include="Core\Message\Responses\ImportTxnsRS.cs" />
     <Compile Include="Core\Message\Responses\UpdateAccountsRS.cs" />
     <Compile Include="Core\Message\Responses\UpdateCategoriesRS.cs" />
+    <Compile Include="Core\Message\Responses\UpdateOperatorRS.cs" />
     <Compile Include="Core\Message\Responses\UpdateTxnRS.cs" />
     <Compile Include="Core\Message\UpdateAccounts.cs" />
     <Compile Include="Core\Message\UpdateCategories.cs" />
+    <Compile Include="Core\Message\UpdateOperator.cs" />
     <Compile Include="Core\Message\UpdateTxn.cs" />
     <Compile Include="Core\OFX\OfxDocument.cs" />
     <Compile Include="Forms\AboutDialog.cs">

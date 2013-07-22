@@ -1,11 +1,10 @@
-using MPersist.Core;
-using MPFinance.Core.Data.Stored;
-using MPFinance.Core.Data.Viewed;
-using MPFinance.Core.Enums;
 using System;
 using System.IO;
 using System.Text.RegularExpressions;
+using MPersist.Core;
 using MPersist.Core.MoneyType;
+using MPFinance.Core.Data.Viewed;
+using MPFinance.Core.Enums;
 
 namespace MPFinance.Core.OFX
 {
@@ -136,6 +135,7 @@ namespace MPFinance.Core.OFX
                     txn.Amount = new Money(Math.Abs(Decimal.Parse(amt)));
                     txn.Description = (name + " " + memo).Trim();
                     txn.DatePosted = DateTime.ParseExact(dt.Substring(0, 8), "yyyyMMdd", null);
+                    txn.HashCode = AccountID + "-" + Regex.Match(capture.Value, @"(?<=<fitid>).+?(?=<)", RegexOptions.Multiline | RegexOptions.IgnoreCase).Value;
 
                     if (Regex.Match(capture.Value, @"(?<=<trntype>).+?(?=<)", RegexOptions.Multiline | RegexOptions.IgnoreCase).Value.ToLower().Equals("credit"))
                     {

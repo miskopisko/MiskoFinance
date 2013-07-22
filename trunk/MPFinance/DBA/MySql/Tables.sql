@@ -57,7 +57,7 @@ CREATE TABLE Txn
 	Amount		  numeric(19,4) NOT NULL,
 	Description	  varchar(128) NULL,
 	Category	  int(10) NULL,
-	HashCode	  varchar(32) NOT NULL,
+	HashCode	  varchar(512) NOT NULL,
     DtCreated     datetime NOT NULL,
     DtModified    datetime NOT NULL,
     RowVer		  int(10) NOT NULL,

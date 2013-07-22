@@ -91,8 +91,43 @@ namespace MPFinance.Core.Data.Stored
 
         #region Override Methods
 
+        public override AbstractStoredData Create(Session session)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override AbstractStoredData Store(Session session)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override AbstractStoredData Remove(Session session)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public override void PreSave(Session session, UpdateMode mode)
         {
+            if (String.IsNullOrEmpty(FirstName))
+            {
+                session.Error(ErrorLevel.Error, "First name cannot be blank");
+            }
+
+            if (String.IsNullOrEmpty(LastName))
+            {
+                session.Error(ErrorLevel.Error, "Last name cannot be blank");
+            }
+
+            if(String.IsNullOrEmpty(Email))
+            {
+                session.Error(ErrorLevel.Error, "Email cannot be blank");
+            }
+
+            if (Gender == null || Gender.IsNotSet)
+            {
+                session.Error(ErrorLevel.Error, "Gender must be set");
+            }
+
         }
 
         public override void PostSave(Session session, UpdateMode mode)
@@ -108,6 +143,19 @@ namespace MPFinance.Core.Data.Stored
         #endregion
 
         #region Public Methods
+
+        public void Refresh()
+        {
+            if (BankAccountsChanged != null)
+            {
+                BankAccountsChanged();
+            }
+
+            if (CategoriesChanged != null)
+            {
+                CategoriesChanged();
+            }
+        }
 
         public static Operator GetInstanceByUsername(Session session, String username)
         {

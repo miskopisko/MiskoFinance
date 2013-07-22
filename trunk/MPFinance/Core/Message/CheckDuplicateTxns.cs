@@ -34,13 +34,13 @@ namespace MPFinance.Core.Message
             Dictionary<String, Txn> existingTxnHashes = new Dictionary<String, Txn>();            
             foreach (Txn txn in txnsToChackAgainst)
 	        {
-		        existingTxnHashes.Add(txn.HashCode, txn);
+                existingTxnHashes.Add(txn.HashCode, txn);
 	        }
 
             // Generate a hash for each imported txn and compare to the hash table; add if non existant
             foreach (VwTxn vwTxn in Request.Transactions)
             {
-                if (!existingTxnHashes.ContainsKey(vwTxn.GenerateHashCode(Request.Account)))
+                if (!existingTxnHashes.ContainsKey(vwTxn.HashCode))
                 {
                     Response.Txns.Add(vwTxn);
                 }

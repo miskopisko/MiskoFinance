@@ -1,9 +1,9 @@
+using System;
+using System.Collections.Generic;
+using System.Reflection;
 using MPersist.Core.Attributes;
 using MPersist.Core.Enums;
 using MPersist.Core.MoneyType;
-using System;
-using System.ComponentModel;
-using System.Reflection;
 
 namespace MPersist.Core.Data
 {
@@ -53,10 +53,15 @@ namespace MPersist.Core.Data
         {
             if (persistence.Next())
             {
-                PropertyInfo[] properties = null;
+                List<PropertyInfo> properties = new List<PropertyInfo>();
                 if(this is AbstractStoredData)
                 {
-                    properties = ((AbstractStoredData)this).GetStoredProperties();
+                    Type currentType = GetType();
+                    while (!currentType.Equals(typeof(AbstractStoredData)))
+                    {
+                        properties.AddRange(AbstractStoredData.GetStoredProperties(currentType));
+                        currentType = currentType.BaseType;
+                    }
 
                     ((AbstractStoredData)this).IsSet = true;
                     ((AbstractStoredData)this).Id = persistence.GetPrimaryKey("Id");
@@ -64,7 +69,7 @@ namespace MPersist.Core.Data
                 }
                 else if(this is AbstractViewedData)
                 {
-                    properties = ((AbstractViewedData)this).GetViewedProperties();
+                    properties.AddRange(((AbstractViewedData)this).GetViewedProperties());
                 }
 
                 foreach (PropertyInfo property in properties)

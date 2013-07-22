@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using MPersist.Core;
 using MPersist.Core.Enums;
 using MPersist.Core.Message.Response;
+using MPersist.Core.MoneyType;
 using MPFinance.Core.Data.Stored;
 using MPFinance.Core.Enums;
 using MPFinance.Core.Message.Requests;
@@ -56,24 +57,21 @@ namespace MPFinance.Forms.Panels
         protected override void OnLoad(EventArgs e)
         {
             mAccountType_.DataSource = AccountType.Elements;
-            mExistingAccounts_.DataSource = MPFinanceMain.Instance.Operator.BankAccounts;
+            mExistingAccounts_.DataSource = MPFinanceMain.Instance.Operator.BankAccounts;            
 
+            Refresh();
+        }
+
+        public override void Refresh()
+        {
             mBankName_.Text = mOfxDocument_.BankID;
             mAccountNumber_.Text = mOfxDocument_.AccountID;
             mAccountType_.SelectedItem = mOfxDocument_.AccountType;
-
-            mExistingAccount_.Checked = mExistingAccounts_.Items.Count > 0;
-            mCreateNewAccount_.Checked = !mExistingAccount_.Checked;
-
-            if (mExistingAccounts_.Items.Count == 0)
-            {
-                mExistingAccount_.Enabled = false;
-            }
+            mNickname_.Text = null;
+            mOpeningBalance_.Value = Money.Zero;
 
             GetAccountRQ request = new GetAccountRQ();
             request.AccountNo = mOfxDocument_.AccountID;
-            request.BankNo = mOfxDocument_.BankID;
-            request.AccountType = mOfxDocument_.AccountType;
             request.Operator = MPFinanceMain.Instance.Operator.Id;
             MessageProcessor.SendRequest(request, GetAccountSuccess);
         }
@@ -119,11 +117,23 @@ namespace MPFinance.Forms.Panels
 
         private void GetAccountSuccess(AbstractResponse response)
         {
-            Account foundAccount = ((GetAccountRS)response).Account;
-
-            for (int i = 0; i < mExistingAccounts_.Items.Count; i++)
+            if (((GetAccountRS)response).Account.IsSet)
             {
-                mExistingAccounts_.SetItemChecked(i, ((Account)mExistingAccounts_.Items[i]).Id.Equals(foundAccount.Id));
+                mExistingAccount_.Checked = true;
+
+                for (int i = 0; i < mExistingAccounts_.Items.Count; i++)
+                {
+                    mExistingAccounts_.SetItemChecked(i, ((Account)mExistingAccounts_.Items[i]).Id.Equals(((GetAccountRS)response).Account.Id));
+                }
+            }
+            else
+            {
+                mCreateNewAccount_.Checked = true;
+
+                for (int i = 0; i < mExistingAccounts_.Items.Count; i++)
+                {
+                    mExistingAccounts_.SetItemChecked(i, false);
+                }                
             }
         }
 
@@ -146,6 +156,13 @@ namespace MPFinance.Forms.Panels
         #endregion
 
         #region Public Methods
+
+        public void Refresh(OfxDocument document)
+        {
+            mOfxDocument_ = document;
+
+            Refresh();
+        }
 
         public void GetAccount()
         {

@@ -3,8 +3,6 @@ using MPersist.Core;
 using MPersist.Core.Attributes;
 using MPersist.Core.Data;
 using MPersist.Core.MoneyType;
-using MPersist.Core.Tools;
-using MPFinance.Core.Data.Stored;
 using MPFinance.Core.Enums;
 
 namespace MPFinance.Core.Data.Viewed
@@ -88,13 +86,6 @@ namespace MPFinance.Core.Data.Viewed
             p = null;
 
             return result;
-        }
-
-        public String GenerateHashCode(BankAccount account)
-        {
-            HashCode = Utils.GenerateHash(account.BankNumber + account.AccountNumber + DatePosted.ToString() + Amount.ToString() + Description);
-
-            return HashCode;
         }
 
         #endregion
