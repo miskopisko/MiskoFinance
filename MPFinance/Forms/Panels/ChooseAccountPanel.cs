@@ -115,7 +115,7 @@ namespace MPFinance.Forms.Panels
             mNickname_.Enabled = !mExistingAccount_.Checked;
         }
 
-        private void GetAccountSuccess(AbstractResponse response)
+        private void GetAccountSuccess(ResponseMessage response)
         {
             if (((GetAccountRS)response).Account.IsSet)
             {
@@ -137,7 +137,7 @@ namespace MPFinance.Forms.Panels
             }
         }
 
-        private void AddAccountSuccess(AbstractResponse response)
+        private void AddAccountSuccess(ResponseMessage response)
         {
             if (Success != null)
             {
@@ -145,7 +145,7 @@ namespace MPFinance.Forms.Panels
             }
         }
 
-        private void AddAccountError(AbstractResponse response)
+        private void AddAccountError(ResponseMessage response)
         {
             if(Fail != null)
             {

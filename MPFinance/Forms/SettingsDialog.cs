@@ -57,12 +57,12 @@ namespace MPFinance.Forms
 
         #region Private Methods
 
-        private void UpdateOperatorError(AbstractResponse Response)
+        private void UpdateOperatorError(ResponseMessage Response)
         {
             
         }
 
-        private void UpdateOperatorSuccess(AbstractResponse Response)
+        private void UpdateOperatorSuccess(ResponseMessage Response)
         {
             Settings.Default.RowsPerPage = Convert.ToInt32(RowsPerPageTxt.Text);
             Settings.Default.EnableCache = EnableCacheCheck.Checked;

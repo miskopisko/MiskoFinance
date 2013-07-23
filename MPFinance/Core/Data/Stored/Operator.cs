@@ -7,7 +7,7 @@ using MPFinance.Core.Enums;
 
 namespace MPFinance.Core.Data.Stored
 {
-    public class Operator : AbstractStoredData
+    public class Operator : StoredData
     {
         private static Logger Log = Logger.GetInstance(typeof(Operator));
 
@@ -91,21 +91,6 @@ namespace MPFinance.Core.Data.Stored
 
         #region Override Methods
 
-        public override AbstractStoredData Create(Session session)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override AbstractStoredData Store(Session session)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override AbstractStoredData Remove(Session session)
-        {
-            throw new System.NotImplementedException();
-        }
-
         public override void PreSave(Session session, UpdateMode mode)
         {
             if (String.IsNullOrEmpty(FirstName))
@@ -128,10 +113,6 @@ namespace MPFinance.Core.Data.Stored
                 session.Error(ErrorLevel.Error, "Gender must be set");
             }
 
-        }
-
-        public override void PostSave(Session session, UpdateMode mode)
-        {
         }
 
         #endregion

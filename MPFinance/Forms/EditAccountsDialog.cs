@@ -100,7 +100,7 @@ namespace MPFinance.Forms
 
         #region Private Methods
 
-        private void UpdateAccountsSuccess(AbstractResponse response)
+        private void UpdateAccountsSuccess(ResponseMessage response)
         {
             MPFinanceMain.Instance.Operator.BankAccounts = ((UpdateAccountsRS)response).Accounts;
 

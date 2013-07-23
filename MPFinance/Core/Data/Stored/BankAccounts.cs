@@ -5,7 +5,7 @@ using MPersist.Core;
 
 namespace MPFinance.Core.Data.Stored
 {
-    public class BankAccounts : AbstractStoredDataList<BankAccount>
+    public class BankAccounts : StoredDataList<BankAccount>
     {
         private static Logger Log = Logger.GetInstance(typeof(BankAccounts));
 

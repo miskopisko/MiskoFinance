@@ -3,7 +3,7 @@ using MPersist.Core.Data;
 
 namespace MPFinance.Core.Data.Stored
 {
-    public class Operators : AbstractStoredDataList<Operator>
+    public class Operators : StoredDataList<Operator>
     {
         private static Logger Log = Logger.GetInstance(typeof(Operators));
 

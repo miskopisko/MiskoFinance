@@ -4,7 +4,7 @@ using MPFinance.Core.Data.Viewed;
 
 namespace MPFinance.Core.Message.Responses
 {
-    public class CheckDuplicateTxnsRS : AbstractResponse
+    public class CheckDuplicateTxnsRS : ResponseMessage
     {
         private static Logger Log = Logger.GetInstance(typeof(CheckDuplicateTxnsRS));
 

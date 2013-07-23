@@ -4,7 +4,7 @@ using MPFinance.Core.Data.Viewed;
 
 namespace MPFinance.Core.Message.Responses
 {
-    public class GetTxnsRS : AbstractResponse
+    public class GetTxnsRS : ResponseMessage
     {
         private static Logger Log = Logger.GetInstance(typeof(GetTxnsRS));
 

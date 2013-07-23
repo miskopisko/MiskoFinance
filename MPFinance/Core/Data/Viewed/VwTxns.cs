@@ -4,7 +4,7 @@ using MPersist.Core.Data;
 
 namespace MPFinance.Core.Data.Viewed
 {
-    public class VwTxns : AbstractViewedDataList<VwTxn>
+    public class VwTxns : ViewedDataList<VwTxn>
     {
         private static Logger Log = Logger.GetInstance(typeof(VwTxns));
 

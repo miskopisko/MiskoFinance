@@ -5,7 +5,7 @@ using MPFinance.Core.Enums;
 
 namespace MPFinance.Core.Message.Requests
 {
-    public class GetCategoriesRQ : AbstractRequest
+    public class GetCategoriesRQ : RequestMessage
     {
         private static Logger Log = Logger.GetInstance(typeof(GetCategoriesRQ));
 

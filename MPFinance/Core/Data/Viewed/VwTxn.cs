@@ -7,7 +7,7 @@ using MPFinance.Core.Enums;
 
 namespace MPFinance.Core.Data.Viewed
 {
-    public class VwTxn : AbstractViewedData
+    public class VwTxn : ViewedData
     {
         private static Logger Log = Logger.GetInstance(typeof(VwTxn));
 

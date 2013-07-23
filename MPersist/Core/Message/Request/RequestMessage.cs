@@ -4,9 +4,9 @@ using MPersist.Core.Enums;
 
 namespace MPersist.Core.Message.Request
 {
-    public abstract class AbstractRequest
+    public class RequestMessage
     {
-        private static Logger Log = Logger.GetInstance(typeof(AbstractRequest));
+        private static Logger Log = Logger.GetInstance(typeof(RequestMessage));
 
         #region Fields
 
@@ -28,7 +28,7 @@ namespace MPersist.Core.Message.Request
 
         #region Constructors
 
-        public AbstractRequest()
+        public RequestMessage()
         {
         }
 

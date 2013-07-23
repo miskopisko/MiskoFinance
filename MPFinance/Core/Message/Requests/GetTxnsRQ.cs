@@ -5,7 +5,7 @@ using MPersist.Core.Message.Request;
 
 namespace MPFinance.Core.Message.Requests
 {
-    public class GetTxnsRQ : AbstractRequest
+    public class GetTxnsRQ : RequestMessage
     {
         private static Logger Log = Logger.GetInstance(typeof(GetTxnsRQ));
 

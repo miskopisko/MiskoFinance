@@ -5,7 +5,7 @@ using MPFinance.Core.Data.Viewed;
 
 namespace MPFinance.Core.Message.Requests
 {
-    public class ImportTxnsRQ : AbstractRequest
+    public class ImportTxnsRQ : RequestMessage
     {
         private static Logger Log = Logger.GetInstance(typeof(ImportTxnsRQ));
 

@@ -6,9 +6,9 @@ using MPersist.Core.Tools;
 
 namespace MPersist.Core.Data
 {
-    public class AbstractViewedDataList<AbstractViewedData> : BindingList<AbstractViewedData>
+    public class ViewedDataList<ViewedData> : BindingList<ViewedData>
     {
-        private static Logger Log = Logger.GetInstance(typeof(AbstractViewedDataList<AbstractViewedData>));
+        private static Logger Log = Logger.GetInstance(typeof(ViewedDataList<ViewedData>));
 
         #region Fields
 
@@ -26,11 +26,11 @@ namespace MPersist.Core.Data
 
         #region Constructors
 
-        public AbstractViewedDataList()
+        public ViewedDataList()
         {
         }
 
-        public AbstractViewedDataList(IList<AbstractViewedData> list) : base(list)
+        public ViewedDataList(IList<ViewedData> list) : base(list)
         {
         }
 
@@ -52,8 +52,8 @@ namespace MPersist.Core.Data
 
             for (int i = 0; (noRows == 0 || i < noRows) && persistence.HasNext; i++)
             {
-                ConstructorInfo ctor = typeof(AbstractViewedData).GetConstructor(new[] { typeof(Session), typeof(Persistence) });
-                Add((AbstractViewedData)ctor.Invoke(new object[] { session, persistence }));
+                ConstructorInfo ctor = typeof(ViewedData).GetConstructor(new[] { typeof(Session), typeof(Persistence) });
+                Add((ViewedData)ctor.Invoke(new object[] { session, persistence }));
                 rowsFetched++;
             }
 
@@ -69,15 +69,15 @@ namespace MPersist.Core.Data
         public void FetchAll(Session session)
         {
             Persistence persistence = Persistence.GetInstance(session);
-            persistence.ExecuteQuery("SELECT * FROM " + typeof(AbstractViewedData).Name);
+            persistence.ExecuteQuery("SELECT * FROM " + typeof(ViewedData).Name);
             Set(session, persistence, new Page());
             persistence.Close();
             persistence = null;
         }
 
-        public void AddRange(AbstractViewedDataList<AbstractViewedData> list)
+        public void AddRange(ViewedDataList<ViewedData> list)
         {
-            foreach (AbstractViewedData item in list)
+            foreach (ViewedData item in list)
             {
                 Items.Add(item);
             }
@@ -124,7 +124,7 @@ namespace MPersist.Core.Data
             mSortProperty_ = prop;
             mSortDirection_ = direction;
 
-            List<AbstractViewedData> list = Items as List<AbstractViewedData>;
+            List<ViewedData> list = Items as List<ViewedData>;
             if (list == null) return;
 
             list.Sort(Compare);
@@ -134,7 +134,7 @@ namespace MPersist.Core.Data
             OnListChanged(new ListChangedEventArgs(ListChangedType.Reset, -1));
         }
 
-        private int Compare(AbstractViewedData lhs, AbstractViewedData rhs)
+        private int Compare(ViewedData lhs, ViewedData rhs)
         {
             var result = OnComparison(lhs, rhs);
             //invert if descending
@@ -146,7 +146,7 @@ namespace MPersist.Core.Data
             return result;
         }
 
-        private int OnComparison(AbstractViewedData lhs, AbstractViewedData rhs)
+        private int OnComparison(ViewedData lhs, ViewedData rhs)
         {
             object lhsValue = lhs == null ? null : mSortProperty_.GetValue(lhs);
             object rhsValue = rhs == null ? null : mSortProperty_.GetValue(rhs);

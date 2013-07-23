@@ -18,7 +18,7 @@ namespace MPersist.Core
 
         #region Delegates
 
-        public delegate void MessageCompleteHandler(AbstractResponse Response);
+        public delegate void MessageCompleteHandler(ResponseMessage Response);
 
         #endregion
 
@@ -54,7 +54,7 @@ namespace MPersist.Core
 
         #region Private Methods
 
-        private void SendRequest(AbstractRequest request)
+        private void SendRequest(RequestMessage request)
         {
             active++;
 
@@ -68,8 +68,8 @@ namespace MPersist.Core
 
         private void DoWork(object sender, DoWorkEventArgs e)
         {
-            AbstractResponse response;
-            AbstractRequest request = e.Argument as AbstractRequest;
+            ResponseMessage response;
+            RequestMessage request = e.Argument as RequestMessage;
             Boolean resendMessage = false;
             Session session = new Session(request.Connection, ServiceLocator.GetConnection(request.Connection));
             session.MessageMode = request.MessageMode;
@@ -140,11 +140,11 @@ namespace MPersist.Core
             e.Result = response;
         }
 
-        private AbstractResponse Process(Session session, AbstractRequest request)
+        private ResponseMessage Process(Session session, RequestMessage request)
         {
             if (request != null)
             {
-                AbstractResponse response = null;
+                ResponseMessage response = null;
                 AbstractMessage wrapper = null;
                 DateTime startTime = DateTime.Now;
 
@@ -153,7 +153,7 @@ namespace MPersist.Core
                     String msgName = request.GetType().Name.Substring(0, request.GetType().Name.Length - 2);
                     String msgPath = request.GetType().FullName.Replace("Requests." + msgName + "RQ", "");
 
-                    response = (AbstractResponse)Assembly.GetEntryAssembly().CreateInstance(msgPath + "Responses." + msgName + "RS");
+                    response = (ResponseMessage)Assembly.GetEntryAssembly().CreateInstance(msgPath + "Responses." + msgName + "RS");
                     wrapper = (AbstractMessage)Assembly.GetEntryAssembly().CreateInstance(msgPath + msgName, false, BindingFlags.CreateInstance, null, new object[] { request, response }, null, null);
 
                     response.MessageTiming = new MessageTiming(wrapper);
@@ -217,7 +217,7 @@ namespace MPersist.Core
 
         private void RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            AbstractResponse response = e.Result as AbstractResponse;
+            ResponseMessage response = e.Result as ResponseMessage;
             Boolean errorEncountered = e.Error != null || response.HasErrors;
             active--;
 
@@ -256,12 +256,12 @@ namespace MPersist.Core
 
         #region Public Methods
 
-        public static void SendRequest(AbstractRequest request, MessageCompleteHandler successHandler)
+        public static void SendRequest(RequestMessage request, MessageCompleteHandler successHandler)
         {
             SendRequest(request, successHandler, null);
         }
 
-        public static void SendRequest(AbstractRequest request, MessageCompleteHandler successHandler, MessageCompleteHandler errorHandler)
+        public static void SendRequest(RequestMessage request, MessageCompleteHandler successHandler, MessageCompleteHandler errorHandler)
         {
             new MessageProcessor(successHandler, errorHandler).SendRequest(request);
         }

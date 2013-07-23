@@ -3,7 +3,7 @@ using MPersist.Core.Data;
 
 namespace MPFinance.Core.Data.Stored
 {
-    public class Accounts : AbstractStoredDataList<Account>
+    public class Accounts : StoredDataList<Account>
     {
         private static Logger Log = Logger.GetInstance(typeof(Accounts));
 

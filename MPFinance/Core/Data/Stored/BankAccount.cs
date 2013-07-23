@@ -4,7 +4,6 @@ using MPersist.Core.Attributes;
 using MPersist.Core.Data;
 using MPersist.Core.Enums;
 using MPersist.Core.MoneyType;
-using MPFinance.Core.Enums;
 using MPFinance.Resources;
 
 namespace MPFinance.Core.Data.Stored
@@ -57,21 +56,6 @@ namespace MPFinance.Core.Data.Stored
             return Nickname;
         }
 
-        public override AbstractStoredData Create(Session session)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override AbstractStoredData Store(Session session)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override AbstractStoredData Remove(Session session)
-        {
-            throw new System.NotImplementedException();
-        }
-
         public override void PreSave(Session session, UpdateMode mode)
         {
             base.PreSave(session, mode);
@@ -84,12 +68,7 @@ namespace MPFinance.Core.Data.Stored
             if (String.IsNullOrEmpty(AccountNumber))
             {
                 session.Error(ErrorLevel.Error, ErrorStrings.errAccountNumberMandatory);
-            }
-
-            if (AccountType == null || AccountType.Equals(AccountType.NULL))
-            {
-                session.Error(ErrorLevel.Error, ErrorStrings.errAccountTypeMandatory);
-            }
+            }            
 
             if (String.IsNullOrEmpty(Nickname))
             {
@@ -100,10 +79,6 @@ namespace MPFinance.Core.Data.Stored
             {
                 session.Error(ErrorLevel.Error, ErrorStrings.errOpeningBalance);
             }
-        }
-
-        public override void PostSave(Session session, UpdateMode mode)
-        {
         }
 
         #endregion

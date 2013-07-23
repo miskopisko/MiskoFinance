@@ -4,7 +4,7 @@ using MPersist.Core.Message.Request;
 
 namespace MPFinance.Core.Message.Requests
 {
-    public class GetOperatorRQ : AbstractRequest
+    public class GetOperatorRQ : RequestMessage
     {
         private static Logger Log = Logger.GetInstance(typeof(GetOperatorRQ));
 

@@ -204,7 +204,7 @@ namespace MPFinance.Forms.Controls
 
         #region Private Methods
 
-        private void UpdateTxnSuccess(AbstractResponse Response)
+        private void UpdateTxnSuccess(ResponseMessage Response)
         {
             if (TxnUpdated != null)
             {
