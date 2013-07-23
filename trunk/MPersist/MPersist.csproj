@@ -109,8 +109,8 @@
     <Compile Include="Core\Logger.cs" />
     <Compile Include="Core\MessageProcessor.cs" />
     <Compile Include="Core\Message\AbstractMessage.cs" />
-    <Compile Include="Core\Message\Request\AbstractRequest.cs" />
-    <Compile Include="Core\Message\Response\AbstractResponse.cs" />
+    <Compile Include="Core\Message\Request\RequestMessage.cs" />
+    <Compile Include="Core\Message\Response\ResponseMessage.cs" />
     <Compile Include="Core\Money\Currency.cs" />
     <Compile Include="Core\Money\FractionReceivers.cs" />
     <Compile Include="Core\Money\MersenneTwister.cs" />

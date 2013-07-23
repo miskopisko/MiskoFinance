@@ -40,6 +40,7 @@ namespace MPFinance.Forms
                 if (mInstance_ == null)
                 {
                     mInstance_ = new MPFinanceMain();
+                    Application.ThreadException += mInstance_.ExceptionHandler;
                 }
                 return mInstance_;
             }
@@ -97,7 +98,7 @@ namespace MPFinance.Forms
         }
 
         // Callback method for GetTxns
-        private void GetTxnsSuccess(AbstractResponse response)
+        private void GetTxnsSuccess(ResponseMessage response)
         {
             ((VwTxns)mTransactionsGridView_.DataSource).AddRange(((GetTxnsRS)response).Txns);
             ((VwTxns)mTransactionsGridView_.DataSource).ResetBindings();
@@ -113,7 +114,7 @@ namespace MPFinance.Forms
         }
 
         // Callback method for GetOperator if successful
-        private void GetOperatorSuccess(AbstractResponse response)
+        private void GetOperatorSuccess(ResponseMessage response)
         {
             mOperator_ = ((GetOperatorRS)response).Operator;
             Operator.BankAccountsChanged += Operator_BankAccountsChanged;
@@ -137,7 +138,7 @@ namespace MPFinance.Forms
         }        
 
         // Callback method for GetOperator if error
-        private void GetOperatorError(AbstractResponse response)
+        private void GetOperatorError(ResponseMessage response)
         {
             Error(new MPException(ErrorStrings.errOperatorNotFoundMustExit).ErrorMessage.Message);
 

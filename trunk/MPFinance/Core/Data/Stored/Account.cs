@@ -3,10 +3,11 @@ using MPersist.Core.Attributes;
 using MPersist.Core.Data;
 using MPersist.Core.Enums;
 using MPFinance.Core.Enums;
+using MPFinance.Resources;
 
 namespace MPFinance.Core.Data.Stored
 {
-    public class Account : AbstractStoredData
+    public class Account : StoredData
     {
         private static Logger Log = Logger.GetInstance(typeof(Account));
 
@@ -45,27 +46,12 @@ namespace MPFinance.Core.Data.Stored
 
         #region Override Methods
 
-        public override AbstractStoredData Create(Session session)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override AbstractStoredData Store(Session session)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override AbstractStoredData Remove(Session session)
-        {
-            throw new System.NotImplementedException();
-        }
-
         public override void PreSave(Session session, UpdateMode mode)
         {
-        }
-
-        public override void PostSave(Session session, UpdateMode mode)
-        {
+            if (AccountType == null || AccountType.Equals(AccountType.NULL))
+            {
+                session.Error(ErrorLevel.Error, ErrorStrings.errAccountTypeMandatory);
+            }
         }
 
         #endregion

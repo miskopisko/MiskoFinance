@@ -14,15 +14,15 @@ namespace MPersist.Core.Message
 
         #region Fields
 
-        private readonly AbstractRequest mRequest_;
-        private readonly AbstractResponse mResponse_;
+        private readonly RequestMessage mRequest_;
+        private readonly ResponseMessage mResponse_;
 
         #endregion
 
         #region Properties
         
-        public AbstractRequest Request { get { return mRequest_; } }
-        public AbstractResponse Response { get { return mResponse_; } }
+        public RequestMessage Request { get { return mRequest_; } }
+        public ResponseMessage Response { get { return mResponse_; } }
 
         #endregion
 
@@ -32,7 +32,7 @@ namespace MPersist.Core.Message
         {
         }
 
-        public AbstractMessage(AbstractRequest request, AbstractResponse response)
+        public AbstractMessage(RequestMessage request, ResponseMessage response)
         {
             mRequest_ = request;
             mResponse_ = response;

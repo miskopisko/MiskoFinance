@@ -4,7 +4,7 @@ using MPFinance.Core.Data.Stored;
 
 namespace MPFinance.Core.Message.Requests
 {
-    public class AddAccountRQ : AbstractRequest
+    public class AddAccountRQ : RequestMessage
     {
         private static Logger Log = Logger.GetInstance(typeof(AddAccountRQ));
 

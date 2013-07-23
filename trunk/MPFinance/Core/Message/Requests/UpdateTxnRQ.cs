@@ -6,7 +6,7 @@ using MPFinance.Core.Data.Viewed;
 
 namespace MPFinance.Core.Message.Requests
 {
-    public class UpdateTxnRQ : AbstractRequest
+    public class UpdateTxnRQ : RequestMessage
     {
         private static Logger Log = Logger.GetInstance(typeof(UpdateTxnRQ));
 

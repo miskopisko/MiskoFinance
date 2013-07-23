@@ -7,7 +7,7 @@ using MPFinance.Core.Data.Viewed;
 
 namespace MPFinance.Core.Message.Requests
 {
-    public class CheckDuplicateTxnsRQ : AbstractRequest
+    public class CheckDuplicateTxnsRQ : RequestMessage
     {
         private static Logger Log = Logger.GetInstance(typeof(CheckDuplicateTxnsRQ));
 

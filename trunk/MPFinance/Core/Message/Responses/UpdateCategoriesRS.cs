@@ -4,7 +4,7 @@ using MPFinance.Core.Data.Stored;
 
 namespace MPFinance.Core.Message.Responses
 {
-    public class UpdateCategoriesRS : AbstractResponse
+    public class UpdateCategoriesRS : ResponseMessage
     {
         private static Logger Log = Logger.GetInstance(typeof(UpdateCategoriesRS));
 

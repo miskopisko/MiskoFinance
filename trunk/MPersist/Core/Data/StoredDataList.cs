@@ -6,9 +6,9 @@ using MPersist.Core.Tools;
 
 namespace MPersist.Core.Data
 {
-    public class AbstractStoredDataList<AbstractStoredData> : BindingList<AbstractStoredData>
+    public class StoredDataList<StoredData> : BindingList<StoredData>
     {
-        private static Logger Log = Logger.GetInstance(typeof(AbstractStoredDataList<AbstractStoredData>));
+        private static Logger Log = Logger.GetInstance(typeof(StoredDataList<StoredData>));
 
         #region Fields
 
@@ -26,11 +26,11 @@ namespace MPersist.Core.Data
 
         #region Constructors
 
-        public AbstractStoredDataList()
+        public StoredDataList()
         {
         }
 
-        public AbstractStoredDataList(IList<AbstractStoredData> list) : base(list)
+        public StoredDataList(IList<StoredData> list) : base(list)
         {
         }
 
@@ -44,11 +44,11 @@ namespace MPersist.Core.Data
 
         #region Public Methods
 
-        public AbstractStoredDataList<AbstractStoredData> Save(Session session)
+        public StoredDataList<StoredData> Save(Session session)
         {
-            foreach (AbstractStoredData item in Items)
+            foreach (StoredData item in Items)
             {
-                typeof(AbstractStoredData).InvokeMember("Save", BindingFlags.InvokeMethod, null, item, new Object[] { session });
+                typeof(StoredData).InvokeMember("Save", BindingFlags.InvokeMethod, null, item, new Object[] { session });
             }            
 
             return this;
@@ -58,33 +58,33 @@ namespace MPersist.Core.Data
         {
             while (persistence.HasNext)
             {
-                ConstructorInfo ctor = typeof(AbstractStoredData).GetConstructor(new[] { typeof(Session), typeof(Persistence) });
-                AbstractStoredData data = (AbstractStoredData)ctor.Invoke(new object[] { session, persistence });
+                ConstructorInfo ctor = typeof(StoredData).GetConstructor(new[] { typeof(Session), typeof(Persistence) });
+                StoredData data = (StoredData)ctor.Invoke(new object[] { session, persistence });
                 Add(data);
-                MPCache.Put(MPCache.GetKey(typeof(AbstractStoredData), session.ConnectionName, new Object[] { "Id", persistence.GetPrimaryKey("Id") }), data);
+                MPCache.Put(MPCache.GetKey(typeof(StoredData), session.ConnectionName, new Object[] { "Id", persistence.GetPrimaryKey("Id") }), data);
             }
         }
 
         public void FetchAll(Session session)
         {
             Persistence persistence = Persistence.GetInstance(session);
-            persistence.ExecuteQuery("SELECT * FROM " + typeof(AbstractStoredData).Name);
+            persistence.ExecuteQuery("SELECT * FROM " + typeof(StoredData).Name);
             Set(session, persistence);
             persistence.Close();
             persistence = null;
         }
 
-        public void AddRange(AbstractStoredDataList<AbstractStoredData> list)
+        public void AddRange(StoredDataList<StoredData> list)
         {
-            foreach (AbstractStoredData item in list)
+            foreach (StoredData item in list)
             {
                 Items.Add(item);
             }
         }
 
-        public AbstractStoredData[] ToArray()
+        public StoredData[] ToArray()
         {
-            List<AbstractStoredData> list = Items as List<AbstractStoredData>;
+            List<StoredData> list = Items as List<StoredData>;
             return list.ToArray();
         }
 
@@ -123,7 +123,7 @@ namespace MPersist.Core.Data
             mSortProperty_ = prop;
             mSortDirection_ = direction;
 
-            List<AbstractStoredData> list = Items as List<AbstractStoredData>;
+            List<StoredData> list = Items as List<StoredData>;
             if (list == null) return;
 
             list.Sort(Compare);
@@ -133,7 +133,7 @@ namespace MPersist.Core.Data
             OnListChanged(new ListChangedEventArgs(ListChangedType.Reset, -1));
         }
 
-        private int Compare(AbstractStoredData lhs, AbstractStoredData rhs)
+        private int Compare(StoredData lhs, StoredData rhs)
         {
             var result = OnComparison(lhs, rhs);
             //invert if descending
@@ -144,7 +144,7 @@ namespace MPersist.Core.Data
             return result;
         }
 
-        private int OnComparison(AbstractStoredData lhs, AbstractStoredData rhs)
+        private int OnComparison(StoredData lhs, StoredData rhs)
         {
             object lhsValue = lhs == null ? null : mSortProperty_.GetValue(lhs);
             object rhsValue = rhs == null ? null : mSortProperty_.GetValue(rhs);

@@ -221,24 +221,15 @@ namespace MPersist.Core
             return HasNext;
         }
 
-        public static Boolean ExecuteUpdate(Session session, String sql)
+        public static Int32 ExecuteUpdate(Session session, String sql)
         {
             return ExecuteUpdate(session, sql, null);
         }
 
-        public static Boolean ExecuteUpdate(Session session, String sql, Object[] parameters)
+        public static Int32 ExecuteUpdate(Session session, String sql, Object[] parameters)
         {
             Persistence persistence = Persistence.GetInstance(session);
-            Boolean result = persistence.ExecuteUpdate(sql, parameters);
-            persistence.Close();
-            persistence = null;
-            return result;
-        }
-
-        public static PrimaryKey ExecuteInsert(Session session, StoredData clazz, Type type)
-        {
-            Persistence persistence = Persistence.GetInstance(session);
-            PrimaryKey result = persistence.ExecuteInsert(clazz, type);
+            Int32 result = persistence.ExecuteUpdate(sql, parameters);
             persistence.Close();
             persistence = null;
             return result;
@@ -250,8 +241,17 @@ namespace MPersist.Core
             Int64 result = persistence.ExecuteUpdate(clazz, type);
             persistence.Close();
             persistence = null;
-            return result; 
+            return result;
         }
+        
+        public static PrimaryKey ExecuteInsert(Session session, StoredData clazz, Type type)
+        {
+            Persistence persistence = Persistence.GetInstance(session);
+            PrimaryKey result = persistence.ExecuteInsert(clazz, type);
+            persistence.Close();
+            persistence = null;
+            return result;
+        }        
 
         public static Boolean ExecuteDelete(Session session, StoredData clazz, Type type)
         {
@@ -348,7 +348,7 @@ namespace MPersist.Core
             return true;
         }
 
-        private Boolean ExecuteUpdate(String sql, Object[] parameters)
+        private Int32 ExecuteUpdate(String sql, Object[] parameters)
         {
             mSession_.PersistencePool.Add(this);
 
@@ -362,12 +362,7 @@ namespace MPersist.Core
             int result = mCommand_.ExecuteNonQuery();
             mSession_.SqlTimings.Add(new SqlTiming(mCommand_.CommandText, mCommand_.Parameters, startTime));
 
-            if (result == 0)
-            {
-                mSession_.Error(ErrorLevel.Error, ErrorStrings.errTableUpdateFailed);
-            }
-
-            return true;
+            return result;
         }
 
         #endregion

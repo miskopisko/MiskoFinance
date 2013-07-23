@@ -5,7 +5,7 @@ using System;
 
 namespace MPFinance.Core.Data.Stored
 {
-    public class Categories : AbstractStoredDataList<Category>
+    public class Categories : StoredDataList<Category>
     {
         private static Logger Log = Logger.GetInstance(typeof(Categories));
 

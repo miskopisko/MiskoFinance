@@ -54,14 +54,14 @@ namespace MPFinance.Forms
 
         #region Private Methods
 
-        private void GetCategoriesSuccess(AbstractResponse response)
+        private void GetCategoriesSuccess(ResponseMessage response)
         {
             existingIncome.DataSource = ((GetCategoriesRS)response).Categories.GetByType(CategoryType.Income);
             existingExpense.DataSource = ((GetCategoriesRS)response).Categories.GetByType(CategoryType.Expense);
             existingTransfer.DataSource = ((GetCategoriesRS)response).Categories.GetByType(CategoryType.Transfer);
         }
 
-        private void UpdateCategoriesSuccess(AbstractResponse response)
+        private void UpdateCategoriesSuccess(ResponseMessage response)
         {
             MPFinanceMain.Instance.Operator.Categories = ((UpdateCategoriesRS)response).Categories.GetByStatus(Status.Active);
             

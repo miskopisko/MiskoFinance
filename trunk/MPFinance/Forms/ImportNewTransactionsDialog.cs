@@ -79,7 +79,7 @@ namespace MPFinance.Forms
 
         #region Private Methods
 
-        private void CheckDuplicateTxnsSuccess(AbstractResponse Response)
+        private void CheckDuplicateTxnsSuccess(ResponseMessage Response)
         {
             Text = Strings.strChooseTxnsToAdd;
 
@@ -97,7 +97,7 @@ namespace MPFinance.Forms
             mChooseTransactionsPanel_.mImportedTransactionsGridView_.DataSource = ((CheckDuplicateTxnsRS)Response).Txns;
         }
 
-        private void ImportTxnsSuccess(AbstractResponse Response)
+        private void ImportTxnsSuccess(ResponseMessage Response)
         {
             if (!MPFinanceMain.Instance.Operator.BankAccounts.Contains(mAccount_))
             {

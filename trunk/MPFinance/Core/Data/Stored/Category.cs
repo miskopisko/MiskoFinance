@@ -8,7 +8,7 @@ using MPFinance.Resources;
 
 namespace MPFinance.Core.Data.Stored
 {
-    public class Category : AbstractStoredData
+    public class Category : StoredData
     {
         private static Logger Log = Logger.GetInstance(typeof(Category));
 
@@ -50,21 +50,6 @@ namespace MPFinance.Core.Data.Stored
         #endregion
 
         #region Override Methods
-
-        public override AbstractStoredData Create(Session session)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override AbstractStoredData Store(Session session)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override AbstractStoredData Remove(Session session)
-        {
-            throw new System.NotImplementedException();
-        }
 
         public override String ToString()
         {
