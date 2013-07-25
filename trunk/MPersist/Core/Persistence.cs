@@ -395,21 +395,26 @@ namespace MPersist.Core
 
         #region Public Helpers
 
-        public Boolean? GetBoolean(String key)
+        public PrimaryKey GetPrimaryKey(String key)
         {
-            Object o = GetObject(key);
-
-            if (o == null)
+            Int64? value = GetLong(key);
+            if (value != null && value.HasValue)
+            {
+                return new PrimaryKey(value.Value);
+            }
+            else
             {
                 return null;
             }
-            else if (o is Boolean)
+        }
+
+        public Money GetMoney(String key)
+        {
+            Decimal? value = GetDecimal(key);
+
+            if (value.HasValue)
             {
-                return (Boolean)o;
-            }
-            else if (o is Decimal || o is Int32 || o is Int64 || o is Byte || o is uint)
-            {
-                return Convert.ToInt16(o) == 1;
+                return new Money(value.Value);
             }
 
             return null;
@@ -441,20 +446,7 @@ namespace MPersist.Core
             }
 
             return null;
-        }
-
-        public PrimaryKey GetPrimaryKey(String key)
-        {
-            Int64? value = GetLong(key);
-            if(value != null && value.HasValue)
-            {
-                return new PrimaryKey(value.Value);
-            }
-            else
-            {
-                return null;
-            }            
-        }
+        }        
 
         public Int32? GetInt(String key)
         {
@@ -532,30 +524,6 @@ namespace MPersist.Core
             return null;
         }
 
-        public Money GetMoney(String key)
-        {
-            Decimal? value = GetDecimal(key);
-
-            if (value.HasValue)
-            {
-                return new Money(value.Value);
-            }
-
-            return null;
-        }
-
-        public Money GetMoney(String key, Money defaultValue)
-        {
-            Decimal? value = GetDecimal(key);
-
-            if (value.HasValue)
-            {
-                return new Money(value.Value);
-            }
-
-            return defaultValue;
-        }
-
         public Decimal? GetDecimal(String key)
         {
             Double? value = GetDouble(key);
@@ -610,6 +578,26 @@ namespace MPersist.Core
             {
                 return (DateTime)o;
             }            
+
+            return null;
+        }
+
+        public Boolean? GetBoolean(String key)
+        {
+            Object o = GetObject(key);
+
+            if (o == null)
+            {
+                return null;
+            }
+            else if (o is Boolean)
+            {
+                return (Boolean)o;
+            }
+            else if (o is Decimal || o is Int32 || o is Int64 || o is Byte || o is uint)
+            {
+                return Convert.ToInt16(o) == 1;
+            }
 
             return null;
         }

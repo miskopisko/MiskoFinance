@@ -8,7 +8,7 @@ using MPFinance.Resources;
 
 namespace MPFinance.Core.Message
 {
-    public class UpdateAccounts : AbstractMessage
+    public class UpdateAccounts : MessageWrapper
     {
         private static Logger Log = Logger.GetInstance(typeof(UpdateAccounts));
 

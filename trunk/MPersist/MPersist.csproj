@@ -80,6 +80,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\Persistences\FoxProPersistence.cs" />
+    <Compile Include="Core\SVN\SvnConnection.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Core\Tools\CommandLineProcess.cs" />
     <Compile Include="Core\Attributes\StoredAttribute.cs" />
     <Compile Include="Core\Attributes\ViewedAttribute.cs" />
@@ -108,7 +111,7 @@
     <Compile Include="Core\ErrorMessages.cs" />
     <Compile Include="Core\Logger.cs" />
     <Compile Include="Core\MessageProcessor.cs" />
-    <Compile Include="Core\Message\AbstractMessage.cs" />
+    <Compile Include="Core\Message\MessageWrapper.cs" />
     <Compile Include="Core\Message\Request\RequestMessage.cs" />
     <Compile Include="Core\Message\Response\ResponseMessage.cs" />
     <Compile Include="Core\Money\Currency.cs" />
@@ -184,6 +187,13 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <Compile Include="Core\SVN\SvnDbCommand.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Core\SVN\SvnDbTransaction.cs">
+    </Compile>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

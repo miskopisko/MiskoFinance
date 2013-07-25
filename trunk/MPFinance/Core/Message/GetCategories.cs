@@ -7,27 +7,14 @@ using MPFinance.Core.Data.Stored;
 
 namespace MPFinance.Core.Message
 {
-    public class GetCategories : AbstractMessage
+    public class GetCategories : MessageWrapper
     {
         private static Logger Log = Logger.GetInstance(typeof(GetCategories));
 
         #region Properties
 
-        public new GetCategoriesRQ Request
-        {
-            get
-            {
-                return (GetCategoriesRQ)base.Request;
-            }
-        }
-
-        public new GetCategoriesRS Response
-        {
-            get
-            {
-                return (GetCategoriesRS)base.Response;
-            }
-        }
+        public new GetCategoriesRQ Request { get { return (GetCategoriesRQ)base.Request; } }
+        public new GetCategoriesRS Response { get { return (GetCategoriesRS)base.Response; } }
 
         #endregion
 

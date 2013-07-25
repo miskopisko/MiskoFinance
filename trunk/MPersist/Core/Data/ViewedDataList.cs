@@ -38,6 +38,11 @@ namespace MPersist.Core.Data
 
         #region Public Methods
 
+        public void Set(Session session, Persistence persistence)
+        {
+            Set(session, persistence, new Page());
+        }
+
         public void Set(Session session, Persistence persistence, Page page)
         {
             Int32 noRows = page.PageNo != 0 ? session.RowPerPage : 0;

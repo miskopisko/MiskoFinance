@@ -69,7 +69,7 @@ namespace MPFinance.Core.Data.Viewed
 
             if (p.Next())
             {
-                OpeningBalance = p.GetMoney("OpeningBalance", Money.Zero);
+                OpeningBalance = p.GetMoney("OpeningBalance");
             }
 
             p.Close();
@@ -92,10 +92,10 @@ namespace MPFinance.Core.Data.Viewed
 
             if (p.Next())
             {
-                TotalCredits = p.GetMoney("SumCredit", Money.Zero);
-                TotalDebits = p.GetMoney("SumDebit", Money.Zero);
-                TotalTransfersIn = p.GetMoney("SumTransferIn", Money.Zero);
-                TotalTransfersOut = p.GetMoney("SumTransferOut", Money.Zero);
+                TotalCredits = p.GetMoney("SumCredit");
+                TotalDebits = p.GetMoney("SumDebit");
+                TotalTransfersIn = p.GetMoney("SumTransferIn");
+                TotalTransfersOut = p.GetMoney("SumTransferOut");
             }
 
             p.Close();

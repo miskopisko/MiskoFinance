@@ -348,6 +348,9 @@ namespace MPersist.Core.MoneyType
         /// </exception>
         public static Money operator +(Money left, Money right)
         {
+            if (object.ReferenceEquals(left, null)) left = new Money(0);
+            if (object.ReferenceEquals(right, null)) right = new Money(0);
+
             if (left.Currency != right.Currency)
             {
                 throw differentCurrencies();
@@ -396,6 +399,9 @@ namespace MPersist.Core.MoneyType
         /// </exception>
         public static Money operator -(Money left, Money right)
         {
+            if (object.ReferenceEquals(left, null)) left = new Money(0);
+            if (object.ReferenceEquals(right, null)) right = new Money(0);
+
             if (left.Currency != right.Currency)
             {
                 throw differentCurrencies();

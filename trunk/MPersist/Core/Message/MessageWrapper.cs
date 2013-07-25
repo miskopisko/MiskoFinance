@@ -8,9 +8,9 @@ using MPersist.Core.Message.Response;
 
 namespace MPersist.Core.Message
 {
-    public abstract class AbstractMessage
+    public abstract class MessageWrapper
     {
-        private static Logger Log = Logger.GetInstance(typeof(AbstractMessage));
+        private static Logger Log = Logger.GetInstance(typeof(MessageWrapper));
 
         #region Fields
 
@@ -28,11 +28,11 @@ namespace MPersist.Core.Message
 
         #region Constructors
 
-        public AbstractMessage()
+        public MessageWrapper()
         {
         }
 
-        public AbstractMessage(RequestMessage request, ResponseMessage response)
+        public MessageWrapper(RequestMessage request, ResponseMessage response)
         {
             mRequest_ = request;
             mResponse_ = response;

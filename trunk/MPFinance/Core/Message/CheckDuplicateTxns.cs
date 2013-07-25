@@ -9,7 +9,7 @@ using MPFinance.Core.Message.Responses;
 
 namespace MPFinance.Core.Message
 {
-    public class CheckDuplicateTxns : AbstractMessage
+    public class CheckDuplicateTxns : MessageWrapper
     {
         private static Logger Log = Logger.GetInstance(typeof(CheckDuplicateTxns));
 

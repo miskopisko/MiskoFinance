@@ -146,10 +146,15 @@ namespace MPersist.Core.SVN
 
             args += " \"" + target.Entry.URL + "\"";
 
-            SvnLog log = Utils.Deserialize<SvnLog>(CommandLineProcess.Execute("svn", args).StandardOutput);
-            if(log != null)
+            SvnLog log = null;
+            CommandLineProcess result = CommandLineProcess.Execute("svn", args);
+            if(result.Success)
             {
-                LogEntries = log.LogEntries;
+                log = Utils.Deserialize<SvnLog>(result.StandardOutput);
+                if(log != null)
+                {
+                    LogEntries = log.LogEntries;
+                }
             }
         }
 
