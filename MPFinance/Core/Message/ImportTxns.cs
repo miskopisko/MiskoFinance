@@ -10,27 +10,14 @@ using System.Reflection;
 
 namespace MPFinance.Core.Message
 {
-    public class ImportTxns : AbstractMessage
+    public class ImportTxns : MessageWrapper
     {
         private static Logger Log = Logger.GetInstance(typeof(ImportTxns));
 
         #region Properties
 
-        public new ImportTxnsRQ Request
-        {
-            get
-            {
-                return (ImportTxnsRQ)base.Request;
-            }
-        }
-
-        public new ImportTxnsRS Response
-        {
-            get
-            {
-                return (ImportTxnsRS)base.Response;
-            }
-        }
+        public new ImportTxnsRQ Request { get { return (ImportTxnsRQ)base.Request; } }
+        public new ImportTxnsRS Response { get { return (ImportTxnsRS)base.Response; } }
 
         #endregion
 

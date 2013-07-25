@@ -3,6 +3,7 @@ using System.Data.Common;
 using System.Data.OleDb;
 using System.Data.SQLite;
 using MPersist.Core.Resources;
+using MPersist.Core.SVN;
 using MPersist.Resources.Enums;
 using MySql.Data.MySqlClient;
 using Oracle.DataAccess.Client;
@@ -43,6 +44,10 @@ namespace MPersist.Core
             else if (connectionSettings.ConnectionType.Equals(ConnectionType.FoxPro))
             {
                 return GetFoxProConnection(connectionSettings.ConnectionString);
+            }
+            else if (connectionSettings.ConnectionType.Equals(ConnectionType.SVN))
+            {
+                return GetSvnConnection(connectionSettings.ConnectionString);
             }
             else
             {
@@ -86,6 +91,14 @@ namespace MPersist.Core
         private static DbConnection GetFoxProConnection(String connectionString)
         {
             DbConnection connection = new OleDbConnection(connectionString);
+            connection.Open();
+
+            return connection;
+        }
+
+        private static DbConnection GetSvnConnection(String connectionString)
+        {
+            DbConnection connection = new SvnConnection(connectionString);
             connection.Open();
 
             return connection;

@@ -7,30 +7,20 @@ using MPFinance.Core.Message.Responses;
 
 namespace MPFinance.Core.Message
 {
-    public class UpdateOperator : AbstractMessage
+    public class UpdateOperator : MessageWrapper
     {
         private static Logger Log = Logger.GetInstance(typeof(UpdateOperator));
 
         #region Properties
 
         public new UpdateOperatorRQ Request { get { return (UpdateOperatorRQ)base.Request; } }
-
         public new UpdateOperatorRS Response { get { return (UpdateOperatorRS)base.Response; } }
 
         #endregion
 
-        #region Constructors
-
-        public UpdateOperator()
+        public UpdateOperator(UpdateOperatorRQ request, UpdateOperatorRS response) : base(request, response)
         {
         }
-
-        public UpdateOperator(UpdateOperatorRQ request, UpdateOperatorRS response)
-            : base(request, response)
-        {
-        }
-
-        #endregion
 
         public override void Execute(Session session)
         {

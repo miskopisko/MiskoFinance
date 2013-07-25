@@ -76,7 +76,7 @@ namespace MPersist.Core.Persistences
                     foreach (Object o in ((Array)parameter))
                     {
                         OleDbParameter innerParam = new OleDbParameter();
-                        innerParam.ParameterName = "@param" + position;
+                        innerParam.ParameterName = position.ToString();
                         innerParam.Value = o;
                         middle += innerParam.ParameterName + ", ";
                         mCommand_.Parameters.Add(innerParam);

@@ -18,10 +18,10 @@ namespace MPersist.Core.Message.Response
         #region Properties
 
         public ErrorMessages Errors { get; set; }
-        public Boolean HasErrors { get { return Errors != null && Errors.Count > 0; } }
         public ErrorMessages Warnings { get; set; }
-        public Boolean HasWarnings { get { return Warnings != null && Warnings.Count > 0; } }
         public ErrorMessages Confirmations { get; set; }
+        public Boolean HasErrors { get { return Errors != null && Errors.Count > 0; } }        
+        public Boolean HasWarnings { get { return Warnings != null && Warnings.Count > 0; } }        
         public Boolean HasConfirmations { get { return Confirmations != null && Confirmations.Count > 0; } }
         public MessageMode MessageMode { get; set; }
         public Page Page { get; set; }

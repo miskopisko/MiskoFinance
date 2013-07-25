@@ -11,7 +11,7 @@ using MPFinance.Resources;
 
 namespace MPFinance.Core.Message
 {
-    public class GetOperator : AbstractMessage
+    public class GetOperator : MessageWrapper
     {
         private static Logger Log = Logger.GetInstance(typeof(GetOperator));
 

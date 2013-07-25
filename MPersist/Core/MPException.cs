@@ -9,7 +9,7 @@ namespace MPersist.Core
     {
         private static Logger Log = Logger.GetInstance(typeof(MPException));
 
-        #region fields
+        #region Fields
 
         private readonly Type mClass_;
         private readonly MethodBase mMethod_;

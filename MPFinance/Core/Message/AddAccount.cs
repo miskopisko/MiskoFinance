@@ -9,7 +9,7 @@ using MPFinance.Core.Data.Stored;
 
 namespace MPFinance.Core.Message
 {
-    public class AddAccount : AbstractMessage
+    public class AddAccount : MessageWrapper
     {
         private static Logger Log = Logger.GetInstance(typeof(AddAccount));
 

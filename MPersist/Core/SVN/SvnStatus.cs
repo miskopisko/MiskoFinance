@@ -51,7 +51,12 @@ namespace MPersist.Core.SVN
             if (target != null && target.IsSet)
             {
                 String args = "status --xml \"" + target.Entry.Path + "\"";
-                Target = Utils.Deserialize<SvnStatus>(CommandLineProcess.Execute("svn", args).StandardOutput).Target;
+
+                CommandLineProcess result = CommandLineProcess.Execute("svn", args);
+                if (result.Success)
+                {
+                    Target = Utils.Deserialize<SvnStatus>(result.StandardOutput).Target;
+                }                
 
                 // Conflicted files also bring up their working files (mine, theirs and merged) 
                 // We dont want these to show up in the listing so remove them from the list

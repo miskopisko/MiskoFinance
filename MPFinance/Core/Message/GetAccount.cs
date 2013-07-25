@@ -6,7 +6,7 @@ using MPFinance.Core.Message.Responses;
 
 namespace MPFinance.Core.Message
 {
-    public class GetAccount : AbstractMessage
+    public class GetAccount : MessageWrapper
     {
         private static Logger Log = Logger.GetInstance(typeof(GetAccount));
 

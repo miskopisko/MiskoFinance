@@ -53,15 +53,10 @@ namespace MPersist.Core.Data
         {
             if (persistence.Next())
             {
-                List<PropertyInfo> properties = new List<PropertyInfo>();
+                PropertyInfo[] properties = null;
                 if(this is StoredData)
                 {
-                    Type currentType = GetType();
-                    while (!currentType.Equals(typeof(StoredData)))
-                    {
-                        properties.AddRange(GetStoredProperties(currentType));
-                        currentType = currentType.BaseType;
-                    }
+                    properties = GetStoredProperties(GetType(), false);
 
                     ((StoredData)this).IsSet = true;
                     ((StoredData)this).Id = persistence.GetPrimaryKey("Id");
@@ -69,12 +64,7 @@ namespace MPersist.Core.Data
                 }
                 else if(this is ViewedData)
                 {
-                    Type currentType = GetType();
-                    while (!currentType.Equals(typeof(ViewedData)))
-                    {
-                        properties.AddRange(GetViewedProperties(currentType));
-                        currentType = currentType.BaseType;
-                    }
+                    properties = GetViewedProperties(GetType(), false);
                 }
 
                 foreach (PropertyInfo property in properties)
@@ -85,50 +75,50 @@ namespace MPersist.Core.Data
                     {
                         property.SetValue(this, persistence.GetString(columnName), null);
                     }
-                    else if (property.PropertyType == typeof(Boolean?))
-                    {
-                        property.SetValue(this, persistence.GetBoolean(columnName), null);
-                    }
-                    else if (property.PropertyType == typeof(Int32?))
-                    {
-                        property.SetValue(this, persistence.GetInt(columnName), null);
-                    }
-                    else if (property.PropertyType == typeof(Int64?))
-                    {
-                        property.SetValue(this, persistence.GetLong(columnName), null);
-                    }
-                    else if (property.PropertyType == typeof(Double?))
-                    {
-                        property.SetValue(this, persistence.GetDouble(columnName), null);
-                    }
-                    else if (property.PropertyType == typeof(DateTime?))
-                    {
-                        property.SetValue(this, persistence.GetDate(columnName), null);
-                    }
                     else if (property.PropertyType == typeof(Boolean))
                     {
                         Boolean? value = persistence.GetBoolean(columnName);
                         property.SetValue(this, value.HasValue ? value.Value : false, null);
+                    }
+                    else if (property.PropertyType == typeof(Boolean?))
+                    {
+                        property.SetValue(this, persistence.GetBoolean(columnName), null);
                     }
                     else if (property.PropertyType == typeof(Int32))
                     {
                         Int32? value = persistence.GetInt(columnName);
                         property.SetValue(this, value.HasValue ? value.Value : 0, null);
                     }
+                    else if (property.PropertyType == typeof(Int32?))
+                    {
+                        property.SetValue(this, persistence.GetInt(columnName), null);
+                    }
                     else if (property.PropertyType == typeof(Int64))
                     {
                         Int64? value = persistence.GetLong(columnName);
                         property.SetValue(this, value.HasValue ? value.Value : 0, null);
+                    }
+                    else if (property.PropertyType == typeof(Int64?))
+                    {
+                        property.SetValue(this, persistence.GetLong(columnName), null);
                     }
                     else if (property.PropertyType == typeof(Double))
                     {
                         Double? value = persistence.GetDouble(columnName);
                         property.SetValue(this, value.HasValue ? value.Value : 0, null);
                     }
+                    else if (property.PropertyType == typeof(Double?))
+                    {
+                        property.SetValue(this, persistence.GetDouble(columnName), null);
+                    }
                     else if (property.PropertyType == typeof(DateTime))
                     {
                         DateTime? value = persistence.GetDate(columnName);
                         property.SetValue(this, value.HasValue ? value.Value : DateTime.MinValue, null);
+                    }
+                    else if (property.PropertyType == typeof(DateTime?))
+                    {
+                        property.SetValue(this, persistence.GetDate(columnName), null);
                     }
                     else if (property.PropertyType.IsSubclassOf(typeof(AbstractEnum)))
                     {
@@ -169,11 +159,6 @@ namespace MPersist.Core.Data
                     {
                         property.SetValue(this, persistence.GetPrimaryKey(columnName), null);
                     }
-                    else if (property.PropertyType.IsGenericType) // Leave this out for now
-                    {
-                        //Object list = Activator.CreateInstance(property.PropertyType.MakeGenericType(property.PropertyType.GetGenericArguments()));
-                        //property.SetValue(this, list, null);
-                    }
 
                     if (deep)
                     {
@@ -187,7 +172,7 @@ namespace MPersist.Core.Data
 
         public void FetchDeep(Session session)
         {
-            foreach (PropertyInfo property in GetType().GetProperties())
+            foreach (PropertyInfo property in GetStoredProperties(GetType(), false))
             {
                 if (property.PropertyType.IsSubclassOf(typeof(StoredData)))
                 {
@@ -208,6 +193,11 @@ namespace MPersist.Core.Data
                 {
                     return ((StoredAttribute)attribute).ColumnName;
                 }
+
+                if (attribute is ViewedAttribute && !String.IsNullOrEmpty(((ViewedAttribute)attribute).ColumnName))
+                {
+                    return ((ViewedAttribute)attribute).ColumnName;
+                }
             }
 
             return property.Name;
@@ -215,16 +205,21 @@ namespace MPersist.Core.Data
 
         public PropertyInfo[] GetStoredProperties(Type type)
         {
-            List<PropertyInfo> storedProperties = new List<PropertyInfo>();
+            return GetStoredProperties(type, true);
+        }
 
-            foreach (PropertyInfo property in type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly))
+        public PropertyInfo[] GetStoredProperties(Type type, Boolean InstanceOnly)
+        {
+            PropertyInfo[] properties = InstanceOnly ? type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly) : type.GetProperties();
+
+            List<PropertyInfo> storedProperties = new List<PropertyInfo>();
+            foreach (PropertyInfo property in properties)
             {
                 foreach (Attribute attribute in property.GetCustomAttributes(false))
                 {
                     if (attribute is StoredAttribute && ((StoredAttribute)attribute).UseInSql)
                     {
                         storedProperties.Add(property);
-                        break;
                     }
                 }
             }
@@ -234,8 +229,14 @@ namespace MPersist.Core.Data
 
         public PropertyInfo[] GetViewedProperties(Type type)
         {
-            List<PropertyInfo> viewedProperties = new List<PropertyInfo>();
+            return GetViewedProperties(type, true);
+        }
 
+        public PropertyInfo[] GetViewedProperties(Type type, Boolean InstanceOnly)
+        {
+            PropertyInfo[] properties = InstanceOnly ? type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly) : type.GetProperties();
+
+            List<PropertyInfo> viewedProperties = new List<PropertyInfo>();
             foreach (PropertyInfo property in type.GetProperties())
             {
                 foreach (Attribute attribute in property.GetCustomAttributes(false))
@@ -243,7 +244,6 @@ namespace MPersist.Core.Data
                     if (attribute is ViewedAttribute)
                     {
                         viewedProperties.Add(property);
-                        break;
                     }
                 }
             }

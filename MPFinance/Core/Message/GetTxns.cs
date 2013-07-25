@@ -5,7 +5,7 @@ using MPFinance.Core.Message.Responses;
 
 namespace MPFinance.Core.Message
 {
-    public class GetTxns : AbstractMessage
+    public class GetTxns : MessageWrapper
     {
         private static Logger Log = Logger.GetInstance(typeof(GetTxns));
 

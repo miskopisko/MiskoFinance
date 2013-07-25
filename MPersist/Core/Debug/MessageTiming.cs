@@ -15,7 +15,7 @@ namespace MPersist.Core.Debug
 
         #region Properties
 
-        public AbstractMessage Message { get; set; }
+        public MessageWrapper Message { get; set; }
         public String MessageName { get { return Message.GetType().Name; } }
         public DateTime StartTime { get { return mStartTime_; } }
         public DateTime EndTime { get; set; }
@@ -33,7 +33,7 @@ namespace MPersist.Core.Debug
         {
         }
 
-        public MessageTiming(AbstractMessage message)
+        public MessageTiming(MessageWrapper message)
         {
             mStartTime_ = DateTime.Now;
             Message = message;

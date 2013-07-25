@@ -14,7 +14,7 @@ namespace MPersist.Core.Attributes
 
         #region Properties
 
-
+        public String ColumnName { get; set; }
 
         #endregion
 

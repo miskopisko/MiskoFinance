@@ -12,7 +12,7 @@ namespace MPersist.Core.SVN
         // Get the currently installed version of SVN
 		public static String InstalledVersion()
 		{
-            return CommandLineProcess.Execute("svn", "--non-interactive --version --quiet").StandardOutput;
+            return CommandLineProcess.Execute("svn", "--non-interactive --version --quiet").StandardOutput.Trim();
 		}
 				
 		// Call SVN cat command to get a file into a stream reader

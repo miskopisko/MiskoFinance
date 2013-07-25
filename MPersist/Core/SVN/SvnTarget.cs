@@ -71,12 +71,17 @@ namespace MPersist.Core.SVN
                 args += " --revision PREV";
             }
 
-            SvnTarget target = Utils.Deserialize<SvnTarget>(CommandLineProcess.Execute("svn", args).StandardOutput);
-            if (target != null)
+            SvnTarget target = null;
+            CommandLineProcess result = CommandLineProcess.Execute("svn", args);
+            if (result.Success)
             {
-                mEntry_ = target.Entry;
-                mSet_ = true;
-            }
+                target = Utils.Deserialize<SvnTarget>(result.StandardOutput);
+                if (target != null)
+                {
+                    mEntry_ = target.Entry;
+                    mSet_ = true;
+                }
+            }            
         }
 
         #endregion        

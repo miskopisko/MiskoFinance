@@ -13,10 +13,11 @@ namespace MPersist.Resources.Enums
         private static readonly ConnectionType mOracle_ = new ConnectionType(2, "", "Oracle");
         private static readonly ConnectionType mPostgres_ = new ConnectionType(3, "", "Postgres");
         private static readonly ConnectionType mFoxPro_ = new ConnectionType(4, "", "FoxPro");
+        private static readonly ConnectionType mSVN_ = new ConnectionType(5, "", "SVN");
 
         private static readonly ConnectionType[] mElements_ = new[]
 		{
-		    mNULL_, mSQLite_, mMySql_, mOracle_, mPostgres_, mFoxPro_
+		    mNULL_, mSQLite_, mMySql_, mOracle_, mPostgres_, mFoxPro_, mSVN_
 		};
 
         #endregion
@@ -29,6 +30,7 @@ namespace MPersist.Resources.Enums
         public static ConnectionType Oracle { get { return mOracle_; } }
         public static ConnectionType Postgres { get { return mPostgres_; } }
         public static ConnectionType FoxPro { get { return mFoxPro_; } }
+        public static ConnectionType SVN { get { return mSVN_; } }
 
         #endregion
 

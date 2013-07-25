@@ -145,7 +145,7 @@ namespace MPersist.Core
             if (request != null)
             {
                 ResponseMessage response = null;
-                AbstractMessage wrapper = null;
+                MessageWrapper wrapper = null;
                 DateTime startTime = DateTime.Now;
 
                 try
@@ -154,7 +154,7 @@ namespace MPersist.Core
                     String msgPath = request.GetType().FullName.Replace("Requests." + msgName + "RQ", "");
 
                     response = (ResponseMessage)Assembly.GetEntryAssembly().CreateInstance(msgPath + "Responses." + msgName + "RS");
-                    wrapper = (AbstractMessage)Assembly.GetEntryAssembly().CreateInstance(msgPath + msgName, false, BindingFlags.CreateInstance, null, new object[] { request, response }, null, null);
+                    wrapper = (MessageWrapper)Assembly.GetEntryAssembly().CreateInstance(msgPath + msgName, false, BindingFlags.CreateInstance, null, new object[] { request, response }, null, null);
 
                     response.MessageTiming = new MessageTiming(wrapper);
 
