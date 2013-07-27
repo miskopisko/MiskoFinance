@@ -58,7 +58,7 @@ namespace MPersist.Core.Persistences
                 MySqlParameter param = new MySqlParameter();
                 param.ParameterName = "@param" + position;
 
-                if (parameter == null)
+                if (parameter == null || (parameter is String && String.IsNullOrEmpty((String)parameter)))
                 {
                     param.IsNullable = true;
                     param.Value = DBNull.Value;

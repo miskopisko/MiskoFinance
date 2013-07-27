@@ -103,10 +103,6 @@ namespace MPersist.Core.SVN
             {
                 mConnectionState_ = ConnectionState.Open;
             }
-            else
-            {
-                throw new MPException("{0} is not a valid SVN working copy", new Object[] { mWorkingCopy_ });
-            }
         }
 
         #endregion        
