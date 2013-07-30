@@ -33,7 +33,7 @@ namespace MPFinance.Forms.Panels
 
 
 
-        #endregion
+        #endregion""
 
         #region Override Methods
 
@@ -45,6 +45,8 @@ namespace MPFinance.Forms.Panels
 
         public void Update(VwSummary summary)
         {
+            mAllTimeGroupBox_.Text = "All Time - " + summary.BankAccountName;
+
             TotalCredits.Value = summary.TotalCredits;
             TotalDebits.Value = summary.TotalDebits;
             CreditsDebitsDiff.Value = summary.DifferenceCreditsDebits;

@@ -65,35 +65,29 @@ namespace MPersist.Core.Data
 
         private StoredData Create(Session session, Type[] types)
         {
-            PreSave(session, UpdateMode.Insert);
             foreach (Type type in types)
             {
                 Id = Persistence.ExecuteInsert(session, this, type);
             }
             IsSet = true;
-            PostSave(session, UpdateMode.Insert);
             return this;
         }
 
         private StoredData Store(Session session, Type[] types)
         {
-            PreSave(session, UpdateMode.Update);
             foreach (Type type in types)
             {
                 RowVer = Persistence.ExecuteUpdate(session, this, type);
             }
-            PostSave(session, UpdateMode.Update);
             return this;
         }
 
         private StoredData Remove(Session session, Type[] types)
         {
-            PreSave(session, UpdateMode.Delete);
             foreach (Type type in types)
             {
                 Persistence.ExecuteDelete(session, this, type);
             }
-            PostSave(session, UpdateMode.Delete);
             return this;
         }
 
@@ -174,17 +168,23 @@ namespace MPersist.Core.Data
         {
             if (Id == 0)    // Insert mode
             {
+                PreSave(session, UpdateMode.Insert);
                 Create(session);
+                PostSave(session, UpdateMode.Insert);
                 MPCache.Put(MPCache.GetKey(GetType(), session.ConnectionName, new Object[] { "Id", this.Id }), this);
             }
             else if (Id > 0)    // Update mode
             {
+                PreSave(session, UpdateMode.Update);
                 Store(session);
+                PostSave(session, UpdateMode.Update);
                 MPCache.Put(MPCache.GetKey(GetType(), session.ConnectionName, new Object[] { "Id", this.Id }), this);
             }
             else if (Id < 0) // Delete mode
             {
+                PreSave(session, UpdateMode.Delete);
                 Remove(session);
+                PostSave(session, UpdateMode.Delete);
                 MPCache.Remove(MPCache.GetKey(GetType(), session.ConnectionName, new Object[] { "Id", this.Id }));
             }            
 

@@ -36,7 +36,7 @@ namespace MPFinance.Core.Data.Viewed
 
         #region Public Methods
 
-        public void Fetch(Session session, Page page, PrimaryKey op, PrimaryKey account, DateTime? from, DateTime? to, PrimaryKey category)
+        public void Fetch(Session session, Page page, PrimaryKey op, PrimaryKey account, DateTime? from, DateTime? to, PrimaryKey category, String description)
         {
             Persistence p = Persistence.GetInstance(session);
             p.SetSql("SELECT * FROM VwTxn");
@@ -45,6 +45,7 @@ namespace MPFinance.Core.Data.Viewed
             p.SqlWhere(from.HasValue, "DatePosted >= ?", new Object[] { from });
             p.SqlWhere(to.HasValue, "DatePosted <= ?", new Object[] { to });
             p.SqlWhere(category != null && category > 0, "Category = ?", new Object[] { category });
+            p.SqlWhere(!String.IsNullOrEmpty(description), "Description LIKE ?", new Object[] { "%" + description + "%" });
             p.ExecuteQuery();
             Set(session, p, page);
             p.Close();

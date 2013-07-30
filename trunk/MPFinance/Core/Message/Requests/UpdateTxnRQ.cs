@@ -18,7 +18,7 @@ namespace MPFinance.Core.Message.Requests
         public PrimaryKey Category { get; set; }
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
-        
+        public String Description { get; set; }
 
         #endregion
 

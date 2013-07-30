@@ -51,6 +51,7 @@ namespace MPFinance.Forms
         public DateTime FromDate { get { return mFromDate_.Value; } }
         public DateTime ToDate { get { return mToDate_.Value; } }
         public Category Category { get { return (Category)mCategoriesCmb_.SelectedItem; } }
+        public String Description { get { return mDescriptionSearch_.Text.Trim(); } }
         public OpenFileDialog OpenFileDialog { get { return mOpenFileDialog_; } }
 
         #endregion
@@ -93,6 +94,7 @@ namespace MPFinance.Forms
             request.FromDate = FromDate;
             request.ToDate = ToDate;
             request.Category = Category.Id;
+            request.Description = mDescriptionSearch_.Text.Trim();
             request.Page = page;
             MessageProcessor.SendRequest(request, GetTxnsSuccess);
         }
@@ -121,8 +123,6 @@ namespace MPFinance.Forms
             Operator.CategoriesChanged += Operator_CategoriesChanged;
 
             Operator.Refresh();
-
-            mHeaderLbl_.Text = Operator.LastName + ", " + Operator.FirstName;
 
             mSummaryPanel_.Update(((GetOperatorRS)response).Summary);
             mTransactionsGridView_.DataSource = ((GetOperatorRS)response).Txns;
@@ -182,8 +182,6 @@ namespace MPFinance.Forms
         // User picked new account from list; refresh txns
         private void AccountsList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            String accountName = Account.Nickname;
-            mHeaderLbl_.Text = Operator.LastName + ", " + Operator.FirstName + " - " + accountName;
             GetTxns(new Page(1));
         }
 
@@ -309,6 +307,6 @@ namespace MPFinance.Forms
         {
         }
 
-        #endregion        
+        #endregion
     }
 }
