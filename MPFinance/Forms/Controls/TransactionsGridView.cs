@@ -131,7 +131,8 @@ namespace MPFinance.Forms.Controls
             request.Account = MPFinanceMain.Instance.Account.Id;
             request.FromDate = MPFinanceMain.Instance.FromDate;
             request.ToDate = MPFinanceMain.Instance.ToDate;
-            request.Category = MPFinanceMain.Instance.Category.Id;            
+            request.Category = MPFinanceMain.Instance.Category.Id;
+            request.Description = MPFinanceMain.Instance.Description;
             MessageProcessor.SendRequest(request, UpdateTxnSuccess);             
         }
 

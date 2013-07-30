@@ -18,6 +18,7 @@ namespace MPFinance.Core.Data.Viewed
 
         #region Properties
 
+        public String BankAccountName { get; set; }
         public Money TotalCredits { get; set; }
         public Money TotalDebits { get; set; }
         public Money DifferenceCreditsDebits { get; set; }
@@ -55,39 +56,61 @@ namespace MPFinance.Core.Data.Viewed
 
         #region Public Methods
 
-        public void Fetch(Session session, PrimaryKey op, PrimaryKey account, DateTime? from, DateTime? to, PrimaryKey category)
+        public void Fetch(Session session, PrimaryKey op, PrimaryKey account, DateTime? from, DateTime? to, PrimaryKey category, String description)
         {
-            String sql1 = "SELECT SUM(B.Openingbalance) OpeningBalance " +
+            String sql1 = "SELECT SUM(B.OpeningBalance) OpeningBalance, MAX(B.Nickname) Nickname " +
                           "FROM   Account A, BankAccount B " +
                           "WHERE  A.Id = B.Id ";
 
             Persistence p = Persistence.GetInstance(session);
             p.SetSql(sql1);
             p.SqlWhere(true, "A.Operator = ?", new Object[] { op });
-            p.SqlWhere(account != null && account > 0, "A.Id = ?", new Object[] { account });
+            p.SqlWhere(account != null && account.IsSet, "A.Id = ?", new Object[] { account });
             p.ExecuteQuery();           
 
             if (p.Next())
             {
                 OpeningBalance = p.GetMoney("OpeningBalance");
+                BankAccountName = account != null && account.IsSet ? p.GetString("Nickname") : "All";
             }
 
             p.Close();
             p = null;
 
-            String sql2 = "SELECT SUM(CASE WHEN TxnType = 0 THEN Credit ELSE 0 END) SumCredit, " +
+
+            String sql2 = "SELECT SUM(CASE WHEN C.TxnType IN (0,2) THEN C.Amount ELSE -C.Amount END) ClosingBalance " +
+                          "FROM   Account A, BankAccount B, Txn C " +
+                          "WHERE  A.Id = B.Id " +
+                          "AND    B.Id = C.Account";
+
+            p = Persistence.GetInstance(session);
+            p.SetSql(sql2);
+            p.SqlWhere(true, "A.Operator = ?", new Object[] { op });
+            p.SqlWhere(account != null && account.IsSet, "A.Id = ?", new Object[] { account });
+            p.ExecuteQuery();
+
+            if (p.Next())
+            {
+                CurrentBalance = OpeningBalance + p.GetMoney("ClosingBalance");
+            }
+
+            p.Close();
+            p = null;
+
+            String sql3 = "SELECT SUM(CASE WHEN TxnType = 0 THEN Credit ELSE 0 END) SumCredit, " +
                           "       SUM(CASE WHEN TxnType = 1 THEN Debit ELSE 0 END) SumDebit, " +
                           "       SUM(CASE WHEN TxnType = 2 THEN Credit ELSE 0 END) SumTransferIn, " +
                           "       SUM(CASE WHEN TxnType = 3 THEN Debit ELSE 0 END)  SumTransferOut " +
                           "FROM   VwTxn";
 
             p = Persistence.GetInstance(session);
-            p.SetSql(sql2);
+            p.SetSql(sql3);
             p.SqlWhere(true, "OperatorId = ?", new Object[] { op });
-            p.SqlWhere(account != null && account > 0, "AccountId = ?", new Object[] { account });
+            p.SqlWhere(account != null && account.IsSet, "AccountId = ?", new Object[] { account });
             p.SqlWhere(from.HasValue, "DatePosted >= ?", new Object[] { from });
             p.SqlWhere(to.HasValue, "DatePosted <= ?", new Object[] { to });
-            p.SqlWhere(category != null && category > 0, "Category = ?", new Object[] { category });
+            p.SqlWhere(category != null && category.IsSet, "Category = ?", new Object[] { category });
+            p.SqlWhere(!String.IsNullOrEmpty(description), "Description LIKE ?", new Object[] { "%" + description + "%" });
             p.ExecuteQuery();
 
             if (p.Next())
@@ -100,8 +123,6 @@ namespace MPFinance.Core.Data.Viewed
 
             p.Close();
             p = null;
-
-            CurrentBalance = OpeningBalance + TotalCredits + TotalTransfersIn - TotalDebits - TotalTransfersOut;
 
             DifferenceCreditsDebits = TotalCredits - TotalDebits;
             DifferenceTransfers = TotalTransfersIn - TotalTransfersOut;

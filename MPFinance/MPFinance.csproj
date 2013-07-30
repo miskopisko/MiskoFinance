@@ -71,6 +71,12 @@
     <Compile Include="Core\Data\Stored\Category.cs" />
     <Compile Include="Core\Data\Stored\Txn.cs" />
     <Compile Include="Core\Data\Stored\Txns.cs" />
+    <Compile Include="Core\Data\Viewed\VwBankAccount.cs" />
+    <Compile Include="Core\Data\Viewed\VwBankAccounts.cs" />
+    <Compile Include="Core\Data\Viewed\VwCategory.cs" />
+    <Compile Include="Core\Data\Viewed\VwCategories.cs" />
+    <Compile Include="Core\Data\Viewed\VwOperator.cs" />
+    <Compile Include="Core\Data\Viewed\VwOperators.cs" />
     <Compile Include="Core\Data\Viewed\VwSummary.cs" />
     <Compile Include="Core\Data\Viewed\VwTxn.cs" />
     <Compile Include="Core\Data\Viewed\VwTxns.cs" />

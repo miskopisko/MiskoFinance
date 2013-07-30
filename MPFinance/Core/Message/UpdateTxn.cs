@@ -28,7 +28,7 @@ namespace MPFinance.Core.Message
             txn.Category = Request.VwTxn.Category;
             txn.Save(session);
 
-            Response.Summary.Fetch(session, Request.Operator, Request.Account, Request.FromDate, Request.ToDate, Request.Category);
+            Response.Summary.Fetch(session, Request.Operator, Request.Account, Request.FromDate, Request.ToDate, Request.Category, Request.Description);
         }
     }
 }

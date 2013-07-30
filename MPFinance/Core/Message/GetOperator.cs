@@ -50,8 +50,8 @@ namespace MPFinance.Core.Message
             {
                 Response.Operator.BankAccounts.FetchByOperator(session, Response.Operator);
                 Response.Operator.Categories.FetchByComposite(session, Response.Operator.Id, Status.Active);
-                Response.Txns.Fetch(session, Request.Page, Response.Operator.Id, null, Request.FromDate, Request.ToDate, null);
-                Response.Summary.Fetch(session, Response.Operator.Id, null, Request.FromDate, Request.ToDate, null);
+                Response.Txns.Fetch(session, Request.Page, Response.Operator.Id, null, Request.FromDate, Request.ToDate, null, null);
+                Response.Summary.Fetch(session, Response.Operator.Id, null, Request.FromDate, Request.ToDate, null, null);
             }
             else
             {

@@ -82,6 +82,7 @@ namespace MPFinance.Forms
                 newCategory.CategoryType = CategoryType.Expense;
                 existingExpense.CurrentCell = existingExpense.Rows[existingExpense.Rows.Count - 1].Cells["Name"];
                 existingExpense.BeginEdit(true);
+                ((Categories)existingExpense.DataSource).EndNew(((Categories)existingExpense.DataSource).Count);
             }
             else if (tabControl.SelectedTab.Equals(IncomeTab))
             {
@@ -105,7 +106,7 @@ namespace MPFinance.Forms
         private void DoneBtn_Click(object sender, EventArgs e)
         {
             Categories categories = new Categories();
-            categories.AddRange((Categories)existingIncome.DataSource);
+            categories.AddRange(((Categories)existingIncome.DataSource));
             categories.AddRange((Categories)existingExpense.DataSource);
             categories.AddRange((Categories)existingTransfer.DataSource);
 
