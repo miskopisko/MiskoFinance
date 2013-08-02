@@ -9,7 +9,7 @@ namespace MPFinance.Forms.Controls
     {
         private static Logger Log = Logger.GetInstance(typeof(TransactionsGridView));
 
-        #region Variable Declarations
+        #region Fields
 
         private DataGridViewTextBoxColumn mMessageName_ = new DataGridViewTextBoxColumn();
         private DataGridViewTextBoxColumn mMessageExecutionTime_ = new DataGridViewTextBoxColumn();

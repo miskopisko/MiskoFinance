@@ -1,6 +1,5 @@
 using MPersist.Core;
 using MPersist.Core.Message;
-using MPFinance.Core.Data.Stored;
 using MPFinance.Core.Message.Requests;
 using MPFinance.Core.Message.Responses;
 
@@ -23,12 +22,9 @@ namespace MPFinance.Core.Message
 
         public override void Execute(Session session)
         {
-            Txn txn = (Txn)Txn.GetInstanceById(session, typeof(Txn), Request.VwTxn.TxnId, true);
-            txn.TxnType = Request.VwTxn.TxnType;
-            txn.Category = Request.VwTxn.Category;
-            txn.Save(session);
+            Request.Txn.Update(session);
 
-            Response.Summary.Fetch(session, Request.Operator, Request.Account, Request.FromDate, Request.ToDate, Request.Category, Request.Description);
+            Response.Summary.Fetch(session, Request.Operator, Request.BankAccount, Request.FromDate, Request.ToDate, Request.Category, Request.Description);
         }
     }
 }

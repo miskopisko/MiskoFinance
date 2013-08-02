@@ -1,6 +1,6 @@
 using MPersist.Core;
 using MPersist.Core.Message.Response;
-using MPFinance.Core.Data.Stored;
+using MPFinance.Core.Data.Viewed;
 
 namespace MPFinance.Core.Message.Responses
 {
@@ -10,17 +10,13 @@ namespace MPFinance.Core.Message.Responses
 
         #region Parameters
 
-        public Operator Operator { get; set; }
+        public VwOperator Operator { get; set; }
 
         #endregion
-
-        #region Constructor
 
         public UpdateOperatorRS()
         {
-
+            Operator = new VwOperator();
         }
-
-        #endregion
     }
 }

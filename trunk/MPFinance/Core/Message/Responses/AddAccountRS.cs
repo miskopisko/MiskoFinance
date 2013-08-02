@@ -1,6 +1,6 @@
 using MPersist.Core;
 using MPersist.Core.Message.Response;
-using MPFinance.Core.Data.Stored;
+using MPFinance.Core.Data.Viewed;
 
 namespace MPFinance.Core.Message.Responses
 {
@@ -10,13 +10,13 @@ namespace MPFinance.Core.Message.Responses
 
         #region Parameters
 
-        public BankAccount NewAccount { get; set; }
+        public VwBankAccount NewAccount { get; set; }
 
         #endregion
 
         public AddAccountRS()
         {
-            NewAccount = new BankAccount();
+            NewAccount = new VwBankAccount();
         }
     }
 }

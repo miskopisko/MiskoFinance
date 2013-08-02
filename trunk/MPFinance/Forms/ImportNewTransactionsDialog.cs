@@ -3,7 +3,7 @@ using System.IO;
 using System.Windows.Forms;
 using MPersist.Core;
 using MPersist.Core.Message.Response;
-using MPFinance.Core.Data.Stored;
+using MPFinance.Core.Data.Viewed;
 using MPFinance.Core.Message.Requests;
 using MPFinance.Core.Message.Responses;
 using MPFinance.Core.OFX;
@@ -16,12 +16,12 @@ namespace MPFinance.Forms
     {
         private static Logger Log = Logger.GetInstance(typeof(ImportNewTransactionsDialog));
 
-        #region Variable Declarations
+        #region Fields
 
         private ChooseAccountPanel mChooseAccountPanel_;
         private ChooseTransactionsPanel mChooseTransactionsPanel_;
         private OfxDocument mOfxDocument_;
-        private BankAccount mAccount_;
+        private VwBankAccount mAccount_;
 
         #endregion
 
@@ -99,6 +99,8 @@ namespace MPFinance.Forms
 
         private void ImportTxnsSuccess(ResponseMessage Response)
         {
+            mAccount_ = ((ImportTxnsRS)Response).BankAccount;
+
             if (!MPFinanceMain.Instance.Operator.BankAccounts.Contains(mAccount_))
             {
                 MPFinanceMain.Instance.Operator.BankAccounts.Add(mAccount_);
@@ -128,14 +130,14 @@ namespace MPFinance.Forms
             mBackBtn_.Enabled = true;
         }
 
-        private void mChooseAccountPanel_Success(BankAccount account)
+        private void mChooseAccountPanel_Success(VwBankAccount account)
         {
             mAccount_ = account;
 
             Text = Strings.strCheckingForDuplicateTxns;
 
             CheckDuplicateTxnsRQ request = new CheckDuplicateTxnsRQ();
-            request.Account = mAccount_;
+            request.BankAccount = mAccount_;
             request.FromDate = mOfxDocument_.StartDate;
             request.ToDate = mOfxDocument_.EndDate;
             request.Transactions = mOfxDocument_.Transactions;
@@ -152,7 +154,8 @@ namespace MPFinance.Forms
         private void ImportBtn_Click(object sender, System.EventArgs e)
         {
             ImportTxnsRQ request = new ImportTxnsRQ();
-            request.Account = mAccount_;
+            request.Operator = MPFinanceMain.Instance.Operator;
+            request.BankAccount = mAccount_;
             request.VwTxns = mChooseTransactionsPanel_.mImportedTransactionsGridView_.GetSelected();
             MessageProcessor.SendRequest(request, ImportTxnsSuccess);
         }

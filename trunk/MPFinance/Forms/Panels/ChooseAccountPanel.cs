@@ -4,7 +4,7 @@ using MPersist.Core;
 using MPersist.Core.Enums;
 using MPersist.Core.Message.Response;
 using MPersist.Core.MoneyType;
-using MPFinance.Core.Data.Stored;
+using MPFinance.Core.Data.Viewed;
 using MPFinance.Core.Enums;
 using MPFinance.Core.Message.Requests;
 using MPFinance.Core.Message.Responses;
@@ -19,7 +19,7 @@ namespace MPFinance.Forms.Panels
 
         #region Events
 
-        public delegate void OnSuccess(BankAccount account);
+        public delegate void OnSuccess(VwBankAccount account);
         public event OnSuccess Success;
 
         public delegate void OnFail();
@@ -27,7 +27,7 @@ namespace MPFinance.Forms.Panels
 
         #endregion
 
-        #region Variable Declarations
+        #region Fields
 
         private OfxDocument mOfxDocument_;
 
@@ -72,7 +72,7 @@ namespace MPFinance.Forms.Panels
 
             GetAccountRQ request = new GetAccountRQ();
             request.AccountNo = mOfxDocument_.AccountID;
-            request.Operator = MPFinanceMain.Instance.Operator.Id;
+            request.Operator = MPFinanceMain.Instance.Operator.OperatorId;
             MessageProcessor.SendRequest(request, GetAccountSuccess);
         }
 
@@ -117,13 +117,13 @@ namespace MPFinance.Forms.Panels
 
         private void GetAccountSuccess(ResponseMessage response)
         {
-            if (((GetAccountRS)response).Account.IsSet)
+            if (((GetAccountRS)response).BankAccount.BankAccountId != null && ((GetAccountRS)response).BankAccount.BankAccountId.IsSet)
             {
                 mExistingAccount_.Checked = true;
 
                 for (int i = 0; i < mExistingAccounts_.Items.Count; i++)
                 {
-                    mExistingAccounts_.SetItemChecked(i, ((Account)mExistingAccounts_.Items[i]).Id.Equals(((GetAccountRS)response).Account.Id));
+                    mExistingAccounts_.SetItemChecked(i, ((VwBankAccount)mExistingAccounts_.Items[i]).BankAccountId.Equals(((GetAccountRS)response).BankAccount.BankAccountId));
                 }
             }
             else
@@ -169,13 +169,13 @@ namespace MPFinance.Forms.Panels
             if (mCreateNewAccount_.Checked)
             {
                 AddAccountRQ request = new AddAccountRQ();
-                request.Account = new BankAccount();
-                request.Account.Operator = MPFinanceMain.Instance.Operator.Id;
-                request.Account.AccountNumber = mAccountNumber_.Text.Trim();
-                request.Account.BankNumber = mBankName_.Text.Trim();
-                request.Account.Nickname = mNickname_.Text.Trim();
-                request.Account.AccountType = (AccountType)mAccountType_.SelectedItem;
-                request.Account.OpeningBalance = mOpeningBalance_.Value;
+                request.Operator = MPFinanceMain.Instance.Operator;
+                request.BankAccount = new VwBankAccount();
+                request.BankAccount.AccountNumber = mAccountNumber_.Text.Trim();
+                request.BankAccount.BankNumber = mBankName_.Text.Trim();
+                request.BankAccount.Nickname = mNickname_.Text.Trim();
+                request.BankAccount.AccountType = (AccountType)mAccountType_.SelectedItem;
+                request.BankAccount.OpeningBalance = mOpeningBalance_.Value;
                 request.MessageMode = MessageMode.Trial; // We dont want to save the account just yet
                 MessageProcessor.SendRequest(request, AddAccountSuccess, AddAccountError);
             }
@@ -194,7 +194,7 @@ namespace MPFinance.Forms.Panels
                 {
                     if (Success != null)
                     {
-                        Success((BankAccount)mExistingAccounts_.CheckedItems[0]);
+                        Success((VwBankAccount)mExistingAccounts_.CheckedItems[0]);
                     }
                 }
             }

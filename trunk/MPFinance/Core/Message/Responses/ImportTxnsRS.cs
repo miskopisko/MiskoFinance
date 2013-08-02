@@ -1,5 +1,6 @@
 using MPersist.Core;
 using MPersist.Core.Message.Response;
+using MPFinance.Core.Data.Viewed;
 
 namespace MPFinance.Core.Message.Responses
 {
@@ -9,7 +10,7 @@ namespace MPFinance.Core.Message.Responses
 
         #region Parameters
 
-
+        public VwBankAccount BankAccount { get; set; }
 
         #endregion
 

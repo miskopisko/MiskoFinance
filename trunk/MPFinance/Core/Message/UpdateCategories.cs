@@ -1,7 +1,7 @@
 using MPersist.Core;
 using MPersist.Core.Enums;
 using MPersist.Core.Message;
-using MPFinance.Core.Data.Stored;
+using MPFinance.Core.Data.Viewed;
 using MPFinance.Core.Message.Requests;
 using MPFinance.Core.Message.Responses;
 using MPFinance.Resources;
@@ -25,7 +25,12 @@ namespace MPFinance.Core.Message
 
         public override void Execute(Session session)
         {
-            Response.Categories = (Categories)Request.Categories.Save(session);
+            foreach (VwCategory category in Request.Categories)
+            {
+                category.Update(session);
+            }
+
+            Response.Categories = Request.Categories;
 
             session.Error(ErrorLevel.Info, WarningStrings.warnCategoriesAddedUpdated);
         }

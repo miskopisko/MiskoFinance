@@ -7,7 +7,7 @@ namespace MPFinance.Forms.Controls
     {
         private static Logger Log = Logger.GetInstance(typeof(TransactionsGridView));
 
-        #region Variable Declarations
+        #region Fileds
 
         private DataGridViewTextBoxColumn mSQL_ = new DataGridViewTextBoxColumn();
         private DataGridViewTextBoxColumn mParameters_ = new DataGridViewTextBoxColumn();

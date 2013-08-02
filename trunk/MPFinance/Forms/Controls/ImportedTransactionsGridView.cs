@@ -11,7 +11,7 @@ namespace MPFinance.Forms.Controls
     {
         private static Logger Log = Logger.GetInstance(typeof(ImportedTransactionsGridView));
 
-        #region Variable Declarations
+        #region Fields
 
         private DataGridViewCheckBoxColumn mImport_ = new DataGridViewCheckBoxColumn();
         private DataGridViewTextBoxColumn mDate_ = new DataGridViewTextBoxColumn();

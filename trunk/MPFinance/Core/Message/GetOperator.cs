@@ -3,7 +3,7 @@ using MPersist.Core;
 using MPersist.Core.Enums;
 using MPersist.Core.Message;
 using MPersist.Core.Tools;
-using MPFinance.Core.Data.Stored;
+using MPFinance.Core.Data.Viewed;
 using MPFinance.Core.Enums;
 using MPFinance.Core.Message.Requests;
 using MPFinance.Core.Message.Responses;
@@ -28,13 +28,12 @@ namespace MPFinance.Core.Message
 
         public override void Execute(Session session)
         {
-            Response.Operator = Operator.GetInstanceByUsername(session, Request.Username);
+            Response.Operator = VwOperator.GetInstanceByUsername(session, Request.Username);
 
-            if (Response.Operator == null || Response.Operator.IsNotSet)
+            if (Response.Operator.OperatorId == null || Response.Operator.OperatorId.IsNotSet)
             {
-                session.Error(ErrorLevel.Confirmation, ConfirmStrings.conConfirmNewUser, new object[]{ Request.Username });
+                session.Error(ErrorLevel.Confirmation, ConfirmStrings.conConfirmNewUser, new Object[]{ Request.Username });
 
-                Response.Operator = new Operator();
                 Response.Operator.Username = Request.Username;
                 Response.Operator.Password = Utils.GenerateHash("secret");
                 Response.Operator.Birthday = new DateTime(1982, 05, 15);
@@ -42,16 +41,17 @@ namespace MPFinance.Core.Message
                 Response.Operator.Gender = Gender.Male;
                 Response.Operator.FirstName = "Michael";
                 Response.Operator.LastName = "Piskuric";
-                Response.Operator.IsSet = true;
-                Response.Operator.Save(session);
+
+                Response.Operator.Update(session);
+                Response.Operator = VwOperator.GetInstanceByUsername(session, Request.Username);
             }
 
-            if (Response.Operator != null && Response.Operator.IsSet)
+            if (Response.Operator != null && Response.Operator.OperatorId.IsSet)
             {
-                Response.Operator.BankAccounts.FetchByOperator(session, Response.Operator);
-                Response.Operator.Categories.FetchByComposite(session, Response.Operator.Id, Status.Active);
-                Response.Txns.Fetch(session, Request.Page, Response.Operator.Id, null, Request.FromDate, Request.ToDate, null, null);
-                Response.Summary.Fetch(session, Response.Operator.Id, null, Request.FromDate, Request.ToDate, null, null);
+                Response.Operator.BankAccounts.FetchByOperator(session, Response.Operator.OperatorId);
+                Response.Operator.Categories.FetchByComposite(session, Response.Operator.OperatorId, Status.Active);
+                Response.Txns.Fetch(session, Request.Page, Response.Operator.OperatorId, null, Request.FromDate, Request.ToDate, null, null);
+                Response.Summary.Fetch(session, Response.Operator.OperatorId, null, Request.FromDate, Request.ToDate, null, null);
             }
             else
             {

@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using MPersist.Core;
 using MPFinance.Core.Data.Stored;
+using MPFinance.Core.Data.Viewed;
 using MPFinance.Core.Enums;
 
 namespace MPFinance.Forms.Controls
@@ -10,7 +11,7 @@ namespace MPFinance.Forms.Controls
     {
         private static readonly Logger Log = Logger.GetInstance(typeof(CategoriesGridView));
 
-        #region Variable Declarations
+        #region Fields
 
         private DataGridViewTextBoxColumn mCategoryName_ = new DataGridViewTextBoxColumn();
         private DGVComboBoxColumn mStatus_ = new DGVComboBoxColumn();
@@ -20,7 +21,7 @@ namespace MPFinance.Forms.Controls
 
         #region Properties
 
-        public Categories Categories { get { return ((Categories)DataSource); } set { DataSource = value; }  }
+        public VwCategories Categories { get { return ((VwCategories)DataSource); } set { DataSource = value; } }
 
         #endregion
 
@@ -42,11 +43,11 @@ namespace MPFinance.Forms.Controls
 
             if(e.RowIndex >= 0 && e.ColumnIndex.Equals(Columns.IndexOf(mDelete_)))
             {
-                Category category = GetItemAt(e.RowIndex);
+                VwCategory category = GetItemAt(e.RowIndex);
 
-                if (Math.Abs(category.Id.Value) >= 0)
+                if (Math.Abs(category.CategoryId.Value) >= 0)
                 {
-                    category.Id = -category.Id;
+                    category.CategoryId = -category.CategoryId;
                 }
                 else
                 {
@@ -61,7 +62,7 @@ namespace MPFinance.Forms.Controls
 
             if (e.RowIndex >= 0 && e.RowIndex < Categories.Count && e.ColumnIndex.Equals(Columns.IndexOf(mDelete_)))
             {
-                Rows[e.RowIndex].Cells[e.ColumnIndex].Value = GetItemAt(e.RowIndex).Id >= 0 ? "Delete" : "Undelete";
+                Rows[e.RowIndex].Cells[e.ColumnIndex].Value = GetItemAt(e.RowIndex).CategoryId >= 0 ? "Delete" : "Undelete";
             }
         }
 
@@ -69,9 +70,9 @@ namespace MPFinance.Forms.Controls
 
         #region Private Methods
 
-        private Category GetItemAt(Int32 row)
+        private VwCategory GetItemAt(Int32 row)
         {
-            return (Category)Rows[row].DataBoundItem;
+            return (VwCategory)Rows[row].DataBoundItem;
         }
 
         #endregion

@@ -15,7 +15,7 @@ namespace MPFinance.Forms.Controls
         [DllImport("user32.dll")]
         static extern bool HideCaret(IntPtr hWnd);
 
-        #region Variable Declarations
+        #region Fields
 
         private Money mValue_ = new Money(0);
         private Boolean mFocused_ = false;        
@@ -34,10 +34,11 @@ namespace MPFinance.Forms.Controls
             set 
             {
                 mValue_ = value;
-                if (mValue_ != null)
+                if (mValue_ == null)
                 {
-                    Text = mValue_.ToString();
+                    mValue_ = new Money(0);
                 }
+                Text = mValue_.ToString();
             }
         }
 

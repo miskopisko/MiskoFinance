@@ -1,7 +1,7 @@
 using System;
 using MPersist.Core;
 using MPersist.Core.Message.Request;
-using MPFinance.Core.Data.Stored;
+using MPFinance.Core.Data.Viewed;
 
 namespace MPFinance.Core.Message.Requests
 {
@@ -11,18 +11,14 @@ namespace MPFinance.Core.Message.Requests
 
         #region Parameters
 
-        public Operator Operator { get; set; }
+        public VwOperator Operator { get; set; }
         public String Password1 { get; set; }
         public String Password2 { get; set; }
 
         #endregion
 
-        #region Constructor
-
         public UpdateOperatorRQ()
         {
         }
-
-        #endregion
     }
 }

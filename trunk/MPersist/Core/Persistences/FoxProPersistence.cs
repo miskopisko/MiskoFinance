@@ -53,11 +53,11 @@ namespace MPersist.Core.Persistences
                     param.Value = DBNull.Value;
                     mCommand_.Parameters.Add(param);
                 }
-                else if (parameter is StoredData)
+                else if (parameter is AbstractStoredData)
                 {
                     param.IsNullable = false;
                     param.OleDbType = OleDbType.Integer;
-                    param.Value = parameter != null ? (Object)((StoredData)parameter).Id : DBNull.Value;
+                    param.Value = parameter != null ? (Object)((AbstractStoredData)parameter).Id : DBNull.Value;
                     mCommand_.Parameters.Add(param);
                 }
                 else if (parameter is AbstractEnum)
@@ -113,17 +113,17 @@ namespace MPersist.Core.Persistences
             }
         }
 
-        protected override void GenerateUpdateStatement(StoredData clazz, Type type)
+        protected override void GenerateUpdateStatement(AbstractStoredData clazz, Type type)
         {
             throw new MPException("FoxPro UPDATEs are implemented on a class by class basis by overriding the Store(session) method");
         }
 
-        protected override void GenerateDeleteStatement(StoredData clazz, Type type)
+        protected override void GenerateDeleteStatement(AbstractStoredData clazz, Type type)
         {
             throw new MPException("FoxPro DELETEs are implemented on a class by class basis by overriding the Remove(session) method");
         }
 
-        protected override void GenerateInsertStatement(StoredData clazz, Type type)
+        protected override void GenerateInsertStatement(AbstractStoredData clazz, Type type)
         {
             throw new MPException("FoxPro INSERTSs are implemented on a class by class basis by overriding the Create(session) method");
         }

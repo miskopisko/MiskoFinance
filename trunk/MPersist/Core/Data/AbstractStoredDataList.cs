@@ -2,13 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
-using MPersist.Core.Tools;
 
 namespace MPersist.Core.Data
 {
-    public class ViewedDataList<ViewedData> : BindingList<ViewedData>
+    public class AbstractStoredDataList<AbstractStoredData> : BindingList<AbstractStoredData>
     {
-        private static Logger Log = Logger.GetInstance(typeof(ViewedDataList<ViewedData>));
+        private static Logger Log = Logger.GetInstance(typeof(AbstractStoredDataList<AbstractStoredData>));
 
         #region Fields
 
@@ -26,66 +25,12 @@ namespace MPersist.Core.Data
 
         #region Constructors
 
-        public ViewedDataList()
+        public AbstractStoredDataList()
         {
         }
 
-        public ViewedDataList(IList<ViewedData> list) : base(list)
+        public AbstractStoredDataList(IList<AbstractStoredData> list) : base(list)
         {
-        }
-
-        #endregion
-
-        #region Public Methods
-
-        public void Set(Session session, Persistence persistence)
-        {
-            Set(session, persistence, new Page());
-        }
-
-        public void Set(Session session, Persistence persistence, Page page)
-        {
-            Int32 noRows = page.PageNo != 0 ? session.RowPerPage : 0;
-            Int32 pageNo = page.PageNo != 0 ? page.PageNo : 1;            
-
-            int rowsFetched = 0;
-            for (int i = 0; i < (pageNo - 1) * noRows && persistence.HasNext; i++)
-            {
-                persistence.Next();
-                rowsFetched++;
-            }
-
-            for (int i = 0; (noRows == 0 || i < noRows) && persistence.HasNext; i++)
-            {
-                ConstructorInfo ctor = typeof(ViewedData).GetConstructor(new[] { typeof(Session), typeof(Persistence) });
-                Add((ViewedData)ctor.Invoke(new object[] { session, persistence }));
-                rowsFetched++;
-            }
-
-            if(page.IncludeRecordCount)
-            {
-                page.TotalRowCount = persistence.RecordCount;
-                page.TotalPageCount = page.PageNo == 0 ? 1 : page.PageCount(session.RowPerPage);
-                page.RowsFetchedSoFar = rowsFetched;
-                page.PageNo = pageNo;
-            }
-        }
-
-        public void FetchAll(Session session)
-        {
-            Persistence persistence = Persistence.GetInstance(session);
-            persistence.ExecuteQuery("SELECT * FROM " + typeof(ViewedData).Name);
-            Set(session, persistence, new Page());
-            persistence.Close();
-            persistence = null;
-        }
-
-        public void AddRange(ViewedDataList<ViewedData> list)
-        {
-            foreach (ViewedData item in list)
-            {
-                Items.Add(item);
-            }
         }
 
         #endregion
@@ -93,6 +38,53 @@ namespace MPersist.Core.Data
         #region Private Methods
 
 
+
+        #endregion
+
+        #region Public Methods
+
+        public AbstractStoredDataList<AbstractStoredData> Save(Session session)
+        {
+            foreach (AbstractStoredData item in Items)
+            {
+                typeof(AbstractStoredData).InvokeMember("Save", BindingFlags.InvokeMethod, null, item, new Object[] { session });
+            }            
+
+            return this;
+        }
+        
+        public void Set(Session session, Persistence persistence)
+        {
+            while (persistence.HasNext)
+            {
+                ConstructorInfo ctor = typeof(AbstractStoredData).GetConstructor(new[] { typeof(Session), typeof(Persistence) });
+                AbstractStoredData data = (AbstractStoredData)ctor.Invoke(new object[] { session, persistence });
+                Add(data);
+            }
+        }
+
+        public void FetchAll(Session session)
+        {
+            Persistence persistence = Persistence.GetInstance(session);
+            persistence.ExecuteQuery("SELECT * FROM " + typeof(AbstractStoredData).Name);
+            Set(session, persistence);
+            persistence.Close();
+            persistence = null;
+        }
+
+        public void AddRange(AbstractStoredDataList<AbstractStoredData> list)
+        {
+            foreach (AbstractStoredData item in list)
+            {
+                Items.Add(item);
+            }
+        }
+
+        public AbstractStoredData[] ToArray()
+        {
+            List<AbstractStoredData> list = Items as List<AbstractStoredData>;
+            return list.ToArray();
+        }
 
         #endregion
 
@@ -129,7 +121,7 @@ namespace MPersist.Core.Data
             mSortProperty_ = prop;
             mSortDirection_ = direction;
 
-            List<ViewedData> list = Items as List<ViewedData>;
+            List<AbstractStoredData> list = Items as List<AbstractStoredData>;
             if (list == null) return;
 
             list.Sort(Compare);
@@ -139,7 +131,7 @@ namespace MPersist.Core.Data
             OnListChanged(new ListChangedEventArgs(ListChangedType.Reset, -1));
         }
 
-        private int Compare(ViewedData lhs, ViewedData rhs)
+        private int Compare(AbstractStoredData lhs, AbstractStoredData rhs)
         {
             var result = OnComparison(lhs, rhs);
             //invert if descending
@@ -147,11 +139,10 @@ namespace MPersist.Core.Data
             {
                 result = -result;
             }
-                
             return result;
         }
 
-        private int OnComparison(ViewedData lhs, ViewedData rhs)
+        private int OnComparison(AbstractStoredData lhs, AbstractStoredData rhs)
         {
             object lhsValue = lhs == null ? null : mSortProperty_.GetValue(lhs);
             object rhsValue = rhs == null ? null : mSortProperty_.GetValue(rhs);
