@@ -2,16 +2,17 @@ using System;
 using MPersist.Core;
 using MPersist.Core.Attributes;
 using MPersist.Core.Data;
+using MPersist.Core.Enums;
 using MPersist.Core.MoneyType;
 using MPFinance.Core.Enums;
 
 namespace MPFinance.Core.Data.Stored
 {
-    public class Txn : StoredData
+    public class Txn : AbstractStoredData
     {
         private static Logger Log = Logger.GetInstance(typeof(Txn));
 
-        #region Variable Declarations
+        #region Fields
 
        
 
@@ -56,7 +57,36 @@ namespace MPFinance.Core.Data.Stored
 
         #region Override Methods
 
-        
+        public override AbstractStoredData Create(Session session)
+        {
+            PreSave(session, UpdateMode.Insert);
+            Persistence.ExecuteInsert(session, this, typeof(Txn));
+            PostSave(session, UpdateMode.Insert);
+            return this;
+        }
+
+        public override AbstractStoredData Store(Session session)
+        {
+            PreSave(session, UpdateMode.Update);
+            Persistence.ExecuteUpdate(session, this, typeof(Txn));
+            PostSave(session, UpdateMode.Update);
+            return this;
+        }
+
+        public override AbstractStoredData Remove(Session session)
+        {
+            Persistence.ExecuteDelete(session, this, typeof(Txn));
+            PostSave(session, UpdateMode.Delete);
+            return this;
+        }
+
+        public void PreSave(Session session, UpdateMode mode)
+        {
+        }
+
+        public void PostSave(Session session, UpdateMode mode)
+        {
+        }
 
         #endregion
 

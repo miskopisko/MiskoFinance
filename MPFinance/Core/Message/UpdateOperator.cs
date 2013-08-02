@@ -31,7 +31,9 @@ namespace MPFinance.Core.Message
 
             Request.Operator.Password = Utils.GenerateHash(Request.Password1);
 
-            Request.Operator.Save(session);
+            Request.Operator.Update(session);
+
+            Response.Operator = Request.Operator;
         }
     }
 }

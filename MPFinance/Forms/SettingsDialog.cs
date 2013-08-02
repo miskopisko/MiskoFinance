@@ -7,6 +7,7 @@ using MPFinance.Core.Message.Requests;
 using MPersist.Core.Message.Response;
 using MPFinance.Core.Data.Stored;
 using MPFinance.Core.Message.Responses;
+using MPFinance.Core.Data.Viewed;
 
 namespace MPFinance.Forms
 {
@@ -48,9 +49,8 @@ namespace MPFinance.Forms
             LastNameTxt.Text = MPFinanceMain.Instance.Operator.LastName;
             EmailTxt.Text = MPFinanceMain.Instance.Operator.Email;
             GenderCmb.SelectedItem = MPFinanceMain.Instance.Operator.Gender;
-            BirthdayPicker.Value = MPFinanceMain.Instance.Operator.Birthday.Value;
-            RowsPerPageTxt.Text = Settings.Default.RowsPerPage.ToString(); ;
-            EnableCacheCheck.Checked = Settings.Default.EnableCache;
+            BirthdayPicker.Value = MPFinanceMain.Instance.Operator.Birthday;
+            RowsPerPageTxt.Text = Settings.Default.RowsPerPage.ToString();
         }
 
         #endregion
@@ -65,7 +65,6 @@ namespace MPFinance.Forms
         private void UpdateOperatorSuccess(ResponseMessage Response)
         {
             Settings.Default.RowsPerPage = Convert.ToInt32(RowsPerPageTxt.Text);
-            Settings.Default.EnableCache = EnableCacheCheck.Checked;
             Settings.Default.Save();
 
             MPFinanceMain.Instance.Operator.FirstName = ((UpdateOperatorRS)Response).Operator.FirstName;
@@ -90,7 +89,7 @@ namespace MPFinance.Forms
 
         private void Done_Click(object sender, EventArgs e)
         {
-            Operator operatorToUpdate = MPFinanceMain.Instance.Operator;
+            VwOperator operatorToUpdate = MPFinanceMain.Instance.Operator;
             operatorToUpdate.FirstName = FirstNameTxt.Text.Trim();
             operatorToUpdate.LastName = LastNameTxt.Text.Trim();
             operatorToUpdate.Email = EmailTxt.Text.Trim();

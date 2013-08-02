@@ -7,24 +7,13 @@ using MPFinance.Core.Enums;
 
 namespace MPFinance.Core.Data.Stored
 {
-    public class Operator : StoredData
+    public class Operator : AbstractStoredData
     {
         private static Logger Log = Logger.GetInstance(typeof(Operator));
 
-        #region Event Delegates
+        #region Fields
 
-        public delegate void BankAccountsChangedHandler();
-        public event BankAccountsChangedHandler BankAccountsChanged;
-
-        public delegate void CategoriesChangedHandler();
-        public event CategoriesChangedHandler CategoriesChanged;
-
-        #endregion
-
-        #region Variable Declarations
-
-        private BankAccounts mBankAccounts_ = new BankAccounts();
-        private Categories mCategories_ = new Categories();
+        
 
         #endregion
 
@@ -41,7 +30,7 @@ namespace MPFinance.Core.Data.Stored
         [Stored]
         public String Email { get; set; }
         [Stored]
-        public DateTime? Birthday { get; set; }
+        public DateTime Birthday { get; set; }
         [Stored]
         public Gender Gender { get; set; }
 
@@ -49,31 +38,7 @@ namespace MPFinance.Core.Data.Stored
 
         #region Other Properties
 
-        public BankAccounts BankAccounts 
-        { 
-            get { return mBankAccounts_; } 
-            set 
-            { 
-                mBankAccounts_ = value;
-                if (BankAccountsChanged != null)
-                {
-                    BankAccountsChanged();
-                }
-            } 
-        }
-
-        public Categories Categories 
-        { 
-            get { return mCategories_; } 
-            set 
-            {
-                mCategories_ = value;
-                if (CategoriesChanged != null)
-                {
-                    CategoriesChanged();
-                }
-            } 
-        }
+        
 
         #endregion
 
@@ -91,7 +56,30 @@ namespace MPFinance.Core.Data.Stored
 
         #region Override Methods
 
-        public override void PreSave(Session session, UpdateMode mode)
+        public override AbstractStoredData Create(Session session)
+        {
+            PreSave(session, UpdateMode.Insert);
+            Persistence.ExecuteInsert(session, this, typeof(Operator));
+            PostSave(session, UpdateMode.Insert);
+            return this;
+        }
+
+        public override AbstractStoredData Store(Session session)
+        {
+            PreSave(session, UpdateMode.Update);
+            Persistence.ExecuteUpdate(session, this, typeof(Operator));
+            PostSave(session, UpdateMode.Update);
+            return this;
+        }
+
+        public override AbstractStoredData Remove(Session session)
+        {
+            Persistence.ExecuteDelete(session, this, typeof(Operator));
+            PostSave(session, UpdateMode.Delete);
+            return this;
+        }
+
+        public void PreSave(Session session, UpdateMode mode)
         {
             if (String.IsNullOrEmpty(FirstName))
             {
@@ -103,7 +91,7 @@ namespace MPFinance.Core.Data.Stored
                 session.Error(ErrorLevel.Error, "Last name cannot be blank");
             }
 
-            if(String.IsNullOrEmpty(Email))
+            if (String.IsNullOrEmpty(Email))
             {
                 session.Error(ErrorLevel.Error, "Email cannot be blank");
             }
@@ -113,6 +101,10 @@ namespace MPFinance.Core.Data.Stored
                 session.Error(ErrorLevel.Error, "Gender must be set");
             }
 
+        }
+
+        public void PostSave(Session session, UpdateMode mode)
+        {
         }
 
         #endregion
@@ -125,31 +117,7 @@ namespace MPFinance.Core.Data.Stored
 
         #region Public Methods
 
-        public void Refresh()
-        {
-            if (BankAccountsChanged != null)
-            {
-                BankAccountsChanged();
-            }
-
-            if (CategoriesChanged != null)
-            {
-                CategoriesChanged();
-            }
-        }
-
-        public static Operator GetInstanceByUsername(Session session, String username)
-        {
-            Operator result = new Operator();
-
-            Persistence p = Persistence.GetInstance(session);
-            p.ExecuteQuery("SELECT * FROM Operator WHERE Username = ?", new Object[] { username });
-            result.Set(session, p);
-            p.Close();
-            p = null;
-
-            return result;
-        }
+                
 
         #endregion
     }

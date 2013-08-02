@@ -28,7 +28,7 @@ namespace MPFinance.Core.Message
         {
             // Get all existing txns with the same timeframe
             Txns txnsToChackAgainst = new Txns();
-            txnsToChackAgainst.FetchByAccountAndDate(session, Request.Account.Id, Request.FromDate, Request.ToDate);
+            txnsToChackAgainst.FetchByAccountAndDate(session, Request.BankAccount.BankAccountId, Request.FromDate, Request.ToDate);
             
             // Build a dictionary hashtable to check against
             Dictionary<String, Txn> existingTxnHashes = new Dictionary<String, Txn>();            

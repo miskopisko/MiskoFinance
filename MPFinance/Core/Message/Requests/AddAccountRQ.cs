@@ -1,6 +1,7 @@
 using MPersist.Core;
 using MPersist.Core.Message.Request;
-using MPFinance.Core.Data.Stored;
+using MPFinance.Core.Data.Viewed;
+using MPersist.Core.Data;
 
 namespace MPFinance.Core.Message.Requests
 {
@@ -10,7 +11,8 @@ namespace MPFinance.Core.Message.Requests
 
         #region Parameters
 
-        public BankAccount Account { get; set; }
+        public VwOperator Operator { get; set; }
+        public VwBankAccount BankAccount { get; set; }
 
         #endregion
 

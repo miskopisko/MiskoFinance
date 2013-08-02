@@ -4,11 +4,11 @@ using MPersist.Core.Data;
 
 namespace MPFinance.Core.Data.Viewed
 {
-    public class VwTxns : ViewedDataList<VwTxn>
+    public class VwTxns : AbstractViewedDataList<VwTxn>
     {
         private static Logger Log = Logger.GetInstance(typeof(VwTxns));
 
-        #region Variable Declarations
+        #region Fields
 
 
 

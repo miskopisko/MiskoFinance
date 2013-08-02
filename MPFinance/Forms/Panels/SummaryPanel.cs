@@ -1,6 +1,6 @@
-﻿using MPersist.Core;
+﻿using System.Windows.Forms;
+using MPersist.Core;
 using MPFinance.Core.Data.Viewed;
-using System.Windows.Forms;
 
 namespace MPFinance.Forms.Panels
 {
@@ -8,7 +8,7 @@ namespace MPFinance.Forms.Panels
     {
         private static Logger Log = Logger.GetInstance(typeof(SummaryPanel));
 
-        #region Variable Declarations
+        #region Fields
 
 
 

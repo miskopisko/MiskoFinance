@@ -3,11 +3,11 @@ using MPersist.Core.Data;
 
 namespace MPFinance.Core.Data.Stored
 {
-    public class Accounts : StoredDataList<Account>
+    public class Accounts : AbstractStoredDataList<Account>
     {
         private static Logger Log = Logger.GetInstance(typeof(Accounts));
 
-        #region Variable Declarations
+        #region Fields
 
 
 

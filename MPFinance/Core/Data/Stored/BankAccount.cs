@@ -12,7 +12,7 @@ namespace MPFinance.Core.Data.Stored
     {
         private static Logger Log = Logger.GetInstance(typeof(BankAccount));
 
-        #region Variable Declarations
+        #region Fields
 
 
 
@@ -51,15 +51,34 @@ namespace MPFinance.Core.Data.Stored
 
         #region Override Methods
 
-        public override string ToString()
+        public override AbstractStoredData Create(Session session)
         {
-            return Nickname;
+            PreSave(session, UpdateMode.Insert);
+            base.Create(session);
+            Persistence.ExecuteInsert(session, this, typeof(BankAccount));
+            PostSave(session, UpdateMode.Insert);
+            return this;
         }
 
-        public override void PreSave(Session session, UpdateMode mode)
+        public override AbstractStoredData Store(Session session)
         {
-            base.PreSave(session, mode);
+            PreSave(session, UpdateMode.Update);
+            base.Store(session);
+            Persistence.ExecuteUpdate(session, this, typeof(BankAccount));
+            PostSave(session, UpdateMode.Update);
+            return this;
+        }
 
+        public override AbstractStoredData Remove(Session session)
+        {
+            base.Remove(session);
+            Persistence.ExecuteDelete(session, this, typeof(BankAccount));
+            PostSave(session, UpdateMode.Delete);
+            return this;
+        }
+
+        public new void PreSave(Session session, UpdateMode mode)
+        {
             if (String.IsNullOrEmpty(BankNumber))
             {
                 session.Error(ErrorLevel.Error, ErrorStrings.errBankNameMandatory);
@@ -81,6 +100,10 @@ namespace MPFinance.Core.Data.Stored
             }
         }
 
+        public new void PostSave(Session session, UpdateMode mode)
+        {
+        }
+
         #endregion
 
         #region Private Methods
@@ -91,7 +114,7 @@ namespace MPFinance.Core.Data.Stored
 
         #region Public Methods
 
-        public static Account GetInstanceByComposite(Session session, PrimaryKey op, String accountNo)
+        public static BankAccount GetInstanceByComposite(Session session, PrimaryKey op, String accountNo)
         {
             BankAccount result = new BankAccount();
 

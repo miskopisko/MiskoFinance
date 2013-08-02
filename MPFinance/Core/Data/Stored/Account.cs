@@ -7,11 +7,11 @@ using MPFinance.Resources;
 
 namespace MPFinance.Core.Data.Stored
 {
-    public class Account : StoredData
+    public class Account : AbstractStoredData
     {
         private static Logger Log = Logger.GetInstance(typeof(Account));
 
-        #region Variable Declarations
+        #region Fields
 
 
 
@@ -46,12 +46,44 @@ namespace MPFinance.Core.Data.Stored
 
         #region Override Methods
 
-        public override void PreSave(Session session, UpdateMode mode)
+        public override AbstractStoredData Create(Session session)
         {
+            PreSave(session, UpdateMode.Insert);
+            Persistence.ExecuteInsert(session, this, typeof(Account));
+            PostSave(session, UpdateMode.Insert);
+            return this;
+        }
+
+        public override AbstractStoredData Store(Session session)
+        {
+            PreSave(session, UpdateMode.Update);
+            Persistence.ExecuteUpdate(session, this, typeof(Account));
+            PostSave(session, UpdateMode.Update);
+            return this;
+        }
+
+        public override AbstractStoredData Remove(Session session)
+        {
+            Persistence.ExecuteDelete(session, this, typeof(Account));
+            PostSave(session, UpdateMode.Delete);
+            return this;
+        }
+
+        public void PreSave(Session session, UpdateMode mode)
+        {
+            if (Operator == null || Operator.IsNotSet)
+            {
+                session.Error(ErrorLevel.Error, "Operator is not set");
+            }
+
             if (AccountType == null || AccountType.Equals(AccountType.NULL))
             {
                 session.Error(ErrorLevel.Error, ErrorStrings.errAccountTypeMandatory);
             }
+        }
+
+        public void PostSave(Session session, UpdateMode mode)
+        {
         }
 
         #endregion

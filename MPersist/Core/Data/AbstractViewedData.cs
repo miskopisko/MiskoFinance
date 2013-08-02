@@ -1,9 +1,9 @@
 
 namespace MPersist.Core.Data
 {
-    public class ViewedData : Data
+    public class AbstractViewedData : AbstractData
     {
-        private static Logger Log = Logger.GetInstance(typeof(ViewedData));
+        private static Logger Log = Logger.GetInstance(typeof(AbstractViewedData));
 
         #region Fields
 
@@ -19,11 +19,11 @@ namespace MPersist.Core.Data
 
         #region Constructors
 
-        public ViewedData()
+        public AbstractViewedData()
         {
         }
 
-        public ViewedData(Session session, Persistence persistence)
+        public AbstractViewedData(Session session, Persistence persistence)
         {
             Set(session, persistence, true);
         }

@@ -1,9 +1,7 @@
 using MPersist.Core;
 using MPersist.Core.Message;
-using MPFinance.Core.Enums;
 using MPFinance.Core.Message.Requests;
 using MPFinance.Core.Message.Responses;
-using MPFinance.Core.Data.Stored;
 
 namespace MPFinance.Core.Message
 {

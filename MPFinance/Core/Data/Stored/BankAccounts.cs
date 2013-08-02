@@ -1,27 +1,19 @@
-using System;
-using MPersist.Core.Data;
-using MPersist.Core.Enums;
 using MPersist.Core;
+using MPersist.Core.Data;
 
 namespace MPFinance.Core.Data.Stored
 {
-    public class BankAccounts : StoredDataList<BankAccount>
+    public class BankAccounts : AbstractStoredDataList<BankAccount>
     {
         private static Logger Log = Logger.GetInstance(typeof(BankAccounts));
 
-        #region Variable Declarations
+        #region Fields
 
 
 
         #endregion
 
-        #region Stored Properties
-
-
-
-        #endregion
-
-        #region Other Properties
+        #region Properties
 
 
 
@@ -43,14 +35,7 @@ namespace MPFinance.Core.Data.Stored
 
         #region Public Methods
 
-        public void FetchByOperator(Session session, Operator op)
-        {
-            Persistence p = Persistence.GetInstance(session);
-            p.ExecuteQuery("SELECT * FROM Account A, BankAccount B WHERE A.Id = B.Id AND A.Operator = ?", new Object[] { op });
-            Set(session, p);
-            p.Close();
-            p = null;
-        }
+        
 
         #endregion
     }

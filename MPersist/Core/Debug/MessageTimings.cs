@@ -80,7 +80,7 @@ namespace MPersist.Core.Debug
             mSortProperty_ = prop;
             mSortDirection_ = direction;
 
-            List<StoredData> list = Items as List<StoredData>;
+            List<AbstractStoredData> list = Items as List<AbstractStoredData>;
             if (list == null) return;
 
             list.Sort(Compare);
@@ -90,7 +90,7 @@ namespace MPersist.Core.Debug
             OnListChanged(new ListChangedEventArgs(ListChangedType.Reset, -1));
         }
 
-        private int Compare(StoredData lhs, StoredData rhs)
+        private int Compare(AbstractStoredData lhs, AbstractStoredData rhs)
         {
             var result = OnComparison(lhs, rhs);
             //invert if descending
@@ -99,7 +99,7 @@ namespace MPersist.Core.Debug
             return result;
         }
 
-        private int OnComparison(StoredData lhs, StoredData rhs)
+        private int OnComparison(AbstractStoredData lhs, AbstractStoredData rhs)
         {
             object lhsValue = lhs == null ? null : mSortProperty_.GetValue(lhs);
             object rhsValue = rhs == null ? null : mSortProperty_.GetValue(rhs);

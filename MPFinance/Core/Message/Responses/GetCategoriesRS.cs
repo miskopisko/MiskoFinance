@@ -1,6 +1,6 @@
 using MPersist.Core;
 using MPersist.Core.Message.Response;
-using MPFinance.Core.Data.Stored;
+using MPFinance.Core.Data.Viewed;
 
 namespace MPFinance.Core.Message.Responses
 {
@@ -10,13 +10,13 @@ namespace MPFinance.Core.Message.Responses
 
         #region Parameters
 
-        public Categories Categories { get; set; }
+        public VwCategories Categories { get; set; }
 
         #endregion
 
         public GetCategoriesRS()
         {
-            Categories = new Categories();
+            Categories = new VwCategories();
         }
     }
 }

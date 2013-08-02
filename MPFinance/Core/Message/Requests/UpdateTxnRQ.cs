@@ -12,9 +12,9 @@ namespace MPFinance.Core.Message.Requests
 
         #region Parameters
 
-        public VwTxn VwTxn { get; set; }
+        public VwTxn Txn { get; set; }
         public PrimaryKey Operator { get; set; }
-        public PrimaryKey Account { get; set; }
+        public PrimaryKey BankAccount { get; set; }
         public PrimaryKey Category { get; set; }
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }

@@ -2,10 +2,12 @@ using System;
 using MPersist.Core;
 using MPersist.Core.Attributes;
 using MPersist.Core.Data;
+using MPFinance.Core.Data.Stored;
+using MPFinance.Core.Enums;
 
 namespace MPFinance.Core.Data.Viewed
 {
-    public class VwCategory : ViewedData
+    public class VwCategory : AbstractViewedData
     {
         private static Logger Log = Logger.GetInstance(typeof(VwCategory));
 
@@ -17,7 +19,16 @@ namespace MPFinance.Core.Data.Viewed
 
         #region Viewed Properties
 
-
+        [Viewed]
+        public PrimaryKey CategoryId { get; set; }
+        [Viewed]
+        public PrimaryKey OperatorId { get; set; }        
+        [Viewed]
+        public String Name { get; set; }
+        [Viewed]
+        public CategoryType CategoryType { get; set; }
+        [Viewed]
+        public Status Status { get; set; }
 
         #endregion
 
@@ -40,6 +51,15 @@ namespace MPFinance.Core.Data.Viewed
 
         #endregion
 
+        #region Override Methods
+
+        public override String ToString()
+        {
+            return Name;
+        }
+
+        #endregion
+
         #region Private Methods
 
 
@@ -48,7 +68,19 @@ namespace MPFinance.Core.Data.Viewed
 
         #region Public Methods
 
+        public Category Update(Session session)
+        {
+            Category category = new Category();
+            category.FetchById(session, CategoryId);
 
+            category.Operator = OperatorId;
+            category.Name = Name;
+            category.CategoryType = CategoryType;            
+            category.Status = Status;
+            category.Save(session);
+
+            return category;
+        }
 
         #endregion
     }

@@ -8,7 +8,7 @@ namespace MPFinance.Forms.Panels
     {
         private static Logger Log = Logger.GetInstance(typeof(ChooseTransactionsPanel));
 
-        #region Variable Declarations
+        #region Fields
 
 
 

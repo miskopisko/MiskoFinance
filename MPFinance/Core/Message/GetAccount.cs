@@ -1,6 +1,5 @@
 using MPersist.Core;
 using MPersist.Core.Message;
-using MPFinance.Core.Data.Stored;
 using MPFinance.Core.Message.Requests;
 using MPFinance.Core.Message.Responses;
 
@@ -23,7 +22,7 @@ namespace MPFinance.Core.Message
 
         public override void Execute(Session session)
         {
-            Response.Account = BankAccount.GetInstanceByComposite(session, Request.Operator, Request.AccountNo);
+            Response.BankAccount.FetchByAccountNo(session, Request.AccountNo);
         }
     }
 }

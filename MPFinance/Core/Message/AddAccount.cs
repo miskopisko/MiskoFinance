@@ -1,11 +1,11 @@
+using System;
 using MPersist.Core;
 using MPersist.Core.Enums;
 using MPersist.Core.Message;
+using MPFinance.Core.Data.Stored;
 using MPFinance.Core.Message.Requests;
 using MPFinance.Core.Message.Responses;
 using MPFinance.Resources;
-using System;
-using MPFinance.Core.Data.Stored;
 
 namespace MPFinance.Core.Message
 {
@@ -26,9 +26,20 @@ namespace MPFinance.Core.Message
 
         public override void Execute(Session session)
         {
-            Response.NewAccount = (BankAccount)Request.Account.Save(session);
+            // Confirm with the user first
+            session.Error(ErrorLevel.Confirmation, ConfirmStrings.conCreateNewAccount, new Object[] { Request.BankAccount.AccountNumber });
 
-            session.Error(ErrorLevel.Confirmation, ConfirmStrings.conCreateNewAccount, new Object[] { Request.Account.AccountNumber });            
+            // Make sure a bank account with that account number does not already exist
+            BankAccount alreadyExists = BankAccount.GetInstanceByComposite(session, Request.Operator.OperatorId, Request.BankAccount.AccountNumber);
+            if(alreadyExists != null && alreadyExists.IsSet)
+            {
+                session.Error(ErrorLevel.Error, "A bank account with the number {0} already exists", new Object []{ Request.BankAccount.AccountNumber });
+            }
+
+            Request.BankAccount.OperatorId = Request.Operator.OperatorId;
+            Request.BankAccount.Update(session);
+
+            Response.NewAccount = Request.BankAccount;
         }
     }
 }

@@ -1,14 +1,14 @@
+using System;
 using MPersist.Core;
 using MPersist.Core.Data;
-using System;
 
 namespace MPFinance.Core.Data.Stored
 {
-    public class Txns : StoredDataList<Txn>
+    public class Txns : AbstractStoredDataList<Txn>
     {
         private static Logger Log = Logger.GetInstance(typeof(Txns));
 
-        #region Variable Declarations
+        #region Fields
 
 
 

@@ -22,7 +22,7 @@ namespace MPFinance.Forms.Controls
 
         #endregion
 
-        #region Variable Declarations
+        #region Fields
 
         private DataGridViewTextBoxColumn mDate_ = new DataGridViewTextBoxColumn();
         private DataGridViewTextBoxColumn mDescription_ = new DataGridViewTextBoxColumn();
@@ -126,12 +126,12 @@ namespace MPFinance.Forms.Controls
             }
 
             UpdateTxnRQ request = new UpdateTxnRQ();
-            request.VwTxn = vwTxn;
-            request.Operator = MPFinanceMain.Instance.Operator.Id;
-            request.Account = MPFinanceMain.Instance.Account.Id;
+            request.Txn = vwTxn;
+            request.Operator = MPFinanceMain.Instance.Operator.OperatorId;
+            request.BankAccount = MPFinanceMain.Instance.BankAccount.BankAccountId;
             request.FromDate = MPFinanceMain.Instance.FromDate;
             request.ToDate = MPFinanceMain.Instance.ToDate;
-            request.Category = MPFinanceMain.Instance.Category.Id;
+            request.Category = MPFinanceMain.Instance.Category.CategoryId;
             request.Description = MPFinanceMain.Instance.Description;
             MessageProcessor.SendRequest(request, UpdateTxnSuccess);             
         }

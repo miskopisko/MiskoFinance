@@ -1,8 +1,7 @@
-using MPersist.Core;
-using MPersist.Core.MoneyType;
-using MPFinance.Core.Data.Stored;
 using System;
+using MPersist.Core;
 using MPersist.Core.Data;
+using MPersist.Core.MoneyType;
 
 namespace MPFinance.Core.Data.Viewed
 {
@@ -10,7 +9,7 @@ namespace MPFinance.Core.Data.Viewed
     {
         private static Logger Log = Logger.GetInstance(typeof(VwSummary));
 
-        #region Variable Declarations
+        #region Fields
 
 
 

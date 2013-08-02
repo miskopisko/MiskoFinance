@@ -1,12 +1,9 @@
 using MPersist.Core;
-using MPersist.Core.Enums;
 using MPersist.Core.Message;
 using MPFinance.Core.Data.Stored;
 using MPFinance.Core.Data.Viewed;
 using MPFinance.Core.Message.Requests;
 using MPFinance.Core.Message.Responses;
-using MPFinance.Resources;
-using System.Reflection;
 
 namespace MPFinance.Core.Message
 {
@@ -27,28 +24,21 @@ namespace MPFinance.Core.Message
 
         public override void Execute(Session session)
         {
-            if (Request.Account != null)
-            {
-                Request.Account.Save(session);
-            }
-            else
-            {
-                session.Error(ErrorLevel.Error, ErrorStrings.errInvalidAccount);
-            }
+            // Save the bank account first
+            Response.BankAccount = Request.BankAccount;
+            Response.BankAccount.BankAccountId = Request.BankAccount.Update(session).Id;
 
             foreach (VwTxn vwTxn in Request.VwTxns)
             {
                 Txn txn = new Txn();
-                txn.Account = Request.Account.Id;
+                txn.Account = Response.BankAccount.BankAccountId;
                 txn.Amount = vwTxn.Amount;
                 txn.DatePosted = vwTxn.DatePosted;
                 txn.Description = vwTxn.Description;
                 txn.HashCode = vwTxn.HashCode;
                 txn.TxnType = vwTxn.TxnType;
-                txn.IsSet = true;
                 txn.Save(session);
             }
-
         }
     }
 }

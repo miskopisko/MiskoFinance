@@ -235,38 +235,35 @@ namespace MPersist.Core
             return result;
         }
 
-        public static Int64 ExecuteUpdate(Session session, StoredData clazz, Type type)
+        public static void ExecuteUpdate(Session session, AbstractStoredData clazz, Type type)
         {
             Persistence persistence = Persistence.GetInstance(session);
-            Int64 result = persistence.ExecuteUpdate(clazz, type);
+            persistence.ExecuteUpdate(clazz, type);
             persistence.Close();
             persistence = null;
-            return result;
         }
-        
-        public static PrimaryKey ExecuteInsert(Session session, StoredData clazz, Type type)
-        {
-            Persistence persistence = Persistence.GetInstance(session);
-            PrimaryKey result = persistence.ExecuteInsert(clazz, type);
-            persistence.Close();
-            persistence = null;
-            return result;
-        }        
 
-        public static Boolean ExecuteDelete(Session session, StoredData clazz, Type type)
+        public static void ExecuteInsert(Session session, AbstractStoredData clazz, Type type)
         {
             Persistence persistence = Persistence.GetInstance(session);
-            bool result = persistence.ExecuteDelete(clazz, type);
+            persistence.ExecuteInsert(clazz, type);
             persistence.Close();
             persistence = null;
-            return result;
+        }
+
+        public static void ExecuteDelete(Session session, AbstractStoredData clazz, Type type)
+        {
+            Persistence persistence = Persistence.GetInstance(session);
+            persistence.ExecuteDelete(clazz, type);
+            persistence.Close();
+            persistence = null;
         }
 
         #endregion
 
         #region Private Methods
 
-        private PrimaryKey ExecuteInsert(StoredData clazz, Type type)
+        private void ExecuteInsert(AbstractStoredData clazz, Type type)
         {
             mSession_.PersistencePool.Add(this);
 
@@ -299,38 +296,34 @@ namespace MPersist.Core
                 // FoxPro INSERT is done on a class by class basis by overriding the Create method
             }
 
-            return mSession_.MessageMode.Equals(MessageMode.Normal) ? newId : clazz.Id;
+            if (mSession_.MessageMode.Equals(MessageMode.Normal))
+            {
+                clazz.Id = newId;
+            }
         }
 
-        private Int64 ExecuteUpdate(StoredData clazz, Type type)
+        private void ExecuteUpdate(AbstractStoredData clazz, Type type)
         {
             mSession_.PersistencePool.Add(this);
+            
+            if (type.BaseType.Equals(typeof(AbstractStoredData)))
+            {
+                clazz.RowVer++;
+            }
 
             GenerateUpdateStatement(clazz, type);
 
             DateTime startTime = DateTime.Now;
-            int result = mCommand_.ExecuteNonQuery();
+            Int32 result = mCommand_.ExecuteNonQuery();
             mSession_.SqlTimings.Add(new SqlTiming(mCommand_.CommandText, mCommand_.Parameters, startTime));
 
             if (result == 0)
             {
                 mSession_.Error(ErrorLevel.Error, ErrorStrings.errLockKeyFailed, new Object[] { clazz.GetType().Name });
             }
-
-            Int64 newRowVer = clazz.RowVer;
-            Persistence persistence = Persistence.GetInstance(mSession_);
-            persistence.ExecuteQuery("SELECT ROWVER FROM " + clazz.GetType().Name + " WHERE ID = ?", new Object[] { clazz.Id });
-            if (persistence.Next())
-            {
-                newRowVer = persistence.GetLong("ROWVER").Value;
-            }
-            persistence.Close();
-            persistence = null;
-
-            return newRowVer;
         }
 
-        private Boolean ExecuteDelete(StoredData clazz, Type type)
+        private void ExecuteDelete(AbstractStoredData clazz, Type type)
         {
             mSession_.PersistencePool.Add(this);
 
@@ -344,8 +337,6 @@ namespace MPersist.Core
             {
                 mSession_.Error(ErrorLevel.Error, ErrorStrings.errLockKeyFailed, new Object[] { GetType().Name });
             }
-
-            return true;
         }
 
         private Int32 ExecuteUpdate(String sql, Object[] parameters)
@@ -370,9 +361,9 @@ namespace MPersist.Core
         #region Abstract Methods
 
         protected abstract void SetParameters(Object[] value);
-        protected abstract void GenerateUpdateStatement(StoredData clazz, Type type);
-        protected abstract void GenerateDeleteStatement(StoredData clazz, Type type);
-        protected abstract void GenerateInsertStatement(StoredData clazz, Type type);
+        protected abstract void GenerateUpdateStatement(AbstractStoredData clazz, Type type);
+        protected abstract void GenerateDeleteStatement(AbstractStoredData clazz, Type type);
+        protected abstract void GenerateInsertStatement(AbstractStoredData clazz, Type type);
 
         #endregion
 

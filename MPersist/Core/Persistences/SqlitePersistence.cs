@@ -64,11 +64,11 @@ namespace MPersist.Core.Persistences
                     param.Value = DBNull.Value;
                     mCommand_.Parameters.Add(param);
                 }
-                else if (parameter is StoredData)
+                else if (parameter is AbstractStoredData)
                 {
                     param.IsNullable = false;
                     param.DbType = DbType.Int64;
-                    param.Value = parameter != null ? (Object)((StoredData)parameter).Id.Value : DBNull.Value;
+                    param.Value = parameter != null ? (Object)((AbstractStoredData)parameter).Id.Value : DBNull.Value;
                     mCommand_.Parameters.Add(param);
                 }
                 else if (parameter is AbstractEnum)
@@ -118,7 +118,7 @@ namespace MPersist.Core.Persistences
             }
         }
 
-        protected override void GenerateUpdateStatement(StoredData clazz, Type type)
+        protected override void GenerateUpdateStatement(AbstractStoredData clazz, Type type)
         {
             if (clazz != null)
             {
@@ -134,19 +134,20 @@ namespace MPersist.Core.Persistences
                 }
 
                 sql += "DTMODIFIED = DATETIME('NOW')," + Environment.NewLine;
-                sql += "       ROWVER = ROWVER + 1" + Environment.NewLine;
+                sql += "       ROWVER = ?" + Environment.NewLine;
                 sql += "WHERE  ID = ?" + Environment.NewLine;
                 sql += "AND    ROWVER = ?;";
 
-                parameters.Add(clazz.Id);
                 parameters.Add(clazz.RowVer);
+                parameters.Add(clazz.Id);
+                parameters.Add(clazz.RowVer-1);
 
                 mCommand_.CommandText = sql;
                 SetParameters(parameters.ToArray());
             }
         }
 
-        protected override void GenerateDeleteStatement(StoredData clazz, Type type)
+        protected override void GenerateDeleteStatement(AbstractStoredData clazz, Type type)
         {
             if (clazz != null)
             {
@@ -166,7 +167,7 @@ namespace MPersist.Core.Persistences
             }
         }
 
-        protected override void GenerateInsertStatement(StoredData clazz, Type type)
+        protected override void GenerateInsertStatement(AbstractStoredData clazz, Type type)
         {
             if (clazz != null)
             {
@@ -200,7 +201,7 @@ namespace MPersist.Core.Persistences
 
                 sql += "DATETIME('NOW'), DATETIME('NOW'), 0);";
 
-                if (type.BaseType.Equals(typeof(StoredData)))
+                if (type.BaseType.Equals(typeof(AbstractStoredData)))
                 {
                     sql += Environment.NewLine + "SELECT LAST_INSERT_ROWID() AS ID;";
                 }

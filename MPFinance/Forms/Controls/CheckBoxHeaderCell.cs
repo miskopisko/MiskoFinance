@@ -17,7 +17,7 @@ namespace MPFinance.Forms.Controls
 
         #endregion
 
-        #region Variable declarations
+        #region Fields
 
         private String mText_ = "";
         private CheckBoxState mState_ = CheckBoxState.UncheckedNormal;

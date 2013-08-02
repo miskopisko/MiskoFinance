@@ -8,11 +8,11 @@ using MPFinance.Resources;
 
 namespace MPFinance.Core.Data.Stored
 {
-    public class Category : StoredData
+    public class Category : AbstractStoredData
     {
         private static Logger Log = Logger.GetInstance(typeof(Category));
 
-        #region Variable Declarations
+        #region Fields
 
 
 
@@ -51,12 +51,30 @@ namespace MPFinance.Core.Data.Stored
 
         #region Override Methods
 
-        public override String ToString()
+        public override AbstractStoredData Create(Session session)
         {
-            return Name;
+            PreSave(session, UpdateMode.Insert);
+            Persistence.ExecuteInsert(session, this, typeof(Category));
+            PostSave(session, UpdateMode.Insert);
+            return this;
         }
 
-        public override void PreSave(Session session, UpdateMode mode)
+        public override AbstractStoredData Store(Session session)
+        {
+            PreSave(session, UpdateMode.Update);
+            Persistence.ExecuteUpdate(session, this, typeof(Category));
+            PostSave(session, UpdateMode.Update);
+            return this;
+        }
+
+        public override AbstractStoredData Remove(Session session)
+        {
+            Persistence.ExecuteDelete(session, this, typeof(Category));
+            PostSave(session, UpdateMode.Delete);
+            return this;
+        }
+
+        public void PreSave(Session session, UpdateMode mode)
         {
             if(String.IsNullOrEmpty(Name))
             {
@@ -74,7 +92,7 @@ namespace MPFinance.Core.Data.Stored
             }
         }
 
-        public override void PostSave(Session session, UpdateMode mode)
+        public void PostSave(Session session, UpdateMode mode)
         {
             // If a category is deleted or inactivated reset all txns that were in that category
             if(mode.Equals(UpdateMode.Delete) || Status.Equals(Status.Inactive))

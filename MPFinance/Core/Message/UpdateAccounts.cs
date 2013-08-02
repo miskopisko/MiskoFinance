@@ -1,7 +1,7 @@
 using MPersist.Core;
 using MPersist.Core.Enums;
 using MPersist.Core.Message;
-using MPFinance.Core.Data.Stored;
+using MPFinance.Core.Data.Viewed;
 using MPFinance.Core.Message.Requests;
 using MPFinance.Core.Message.Responses;
 using MPFinance.Resources;
@@ -25,7 +25,12 @@ namespace MPFinance.Core.Message
 
         public override void Execute(Session session)
         {
-            Response.Accounts = (BankAccounts)Request.Accounts.Save(session);
+            foreach (VwBankAccount bankAccount in Request.BankAccounts)
+            {
+                bankAccount.Update(session);
+            }
+
+            Response.BankAccounts = Request.BankAccounts;
 
             session.Error(ErrorLevel.Info, WarningStrings.warnAccountUpdateSuccess);
         }

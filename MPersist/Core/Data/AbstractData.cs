@@ -7,9 +7,9 @@ using MPersist.Core.MoneyType;
 
 namespace MPersist.Core.Data
 {
-    public class Data
+    public class AbstractData
     {
-        private static Logger Log = Logger.GetInstance(typeof(Data));
+        private static Logger Log = Logger.GetInstance(typeof(AbstractData));
 
         #region Fields
 
@@ -25,11 +25,11 @@ namespace MPersist.Core.Data
 
         #region Constructors
 
-        public Data()
+        public AbstractData()
         {
         }
 
-        public Data(Session session, Persistence persistence)
+        public AbstractData(Session session, Persistence persistence)
         {
             Set(session, persistence);
         }
@@ -44,27 +44,27 @@ namespace MPersist.Core.Data
 
         #region Public Methods
 
-        public Data Set(Session session, Persistence persistence)
+        public AbstractData Set(Session session, Persistence persistence)
         {
             return Set(session, persistence, false);
         }
 
-        public Data Set(Session session, Persistence persistence, bool deep)
+        public AbstractData Set(Session session, Persistence persistence, bool deep)
         {
             if (persistence.Next())
             {
                 PropertyInfo[] properties = null;
-                if(this is StoredData)
+                if(this is AbstractStoredData)
                 {
-                    properties = GetStoredProperties(GetType(), false);
+                    properties = GetStoredProperties();
 
-                    ((StoredData)this).IsSet = true;
-                    ((StoredData)this).Id = persistence.GetPrimaryKey("Id");
-                    ((StoredData)this).RowVer = persistence.GetInt("RowVer") != null ? persistence.GetInt("RowVer").Value : 0;
+                    ((AbstractStoredData)this).IsSet = true;
+                    ((AbstractStoredData)this).Id = persistence.GetPrimaryKey("Id");
+                    ((AbstractStoredData)this).RowVer = persistence.GetLong("RowVer").HasValue ? persistence.GetLong("RowVer").Value : 0;
                 }
-                else if(this is ViewedData)
+                else if(this is AbstractViewedData)
                 {
-                    properties = GetViewedProperties(GetType(), false);
+                    properties = GetViewedProperties();
                 }
 
                 foreach (PropertyInfo property in properties)
@@ -135,13 +135,13 @@ namespace MPersist.Core.Data
 
                         property.SetValue(this, item, null);
                     }
-                    else if (property.PropertyType.IsSubclassOf(typeof(StoredData)))
+                    else if (property.PropertyType.IsSubclassOf(typeof(AbstractStoredData)))
                     {
-                        StoredData item = null;
+                        AbstractStoredData item = null;
 
                         if (persistence.GetInt(columnName) > 0)
                         {
-                            item = (StoredData)property.PropertyType.Assembly.CreateInstance(property.PropertyType.FullName);
+                            item = (AbstractStoredData)property.PropertyType.Assembly.CreateInstance(property.PropertyType.FullName);
                             item.Id = persistence.GetPrimaryKey(columnName);
                         }
 
@@ -172,11 +172,11 @@ namespace MPersist.Core.Data
 
         public void FetchDeep(Session session)
         {
-            foreach (PropertyInfo property in GetStoredProperties(GetType(), false))
+            foreach (PropertyInfo property in GetStoredProperties(GetType()))
             {
-                if (property.PropertyType.IsSubclassOf(typeof(StoredData)))
+                if (property.PropertyType.IsSubclassOf(typeof(AbstractStoredData)))
                 {
-                    StoredData item = (StoredData)property.GetValue(this, null);
+                    AbstractStoredData item = (AbstractStoredData)property.GetValue(this, null);
                     if (item != null && item.Id > 0 && item.IsNotSet)
                     {
                         item.FetchById(session, item.Id, true);
@@ -185,7 +185,7 @@ namespace MPersist.Core.Data
             }
         }
 
-        public String GetColumnName(PropertyInfo property)
+        protected internal String GetColumnName(PropertyInfo property)
         {
             foreach (Attribute attribute in property.GetCustomAttributes(false))
             {
@@ -203,14 +203,9 @@ namespace MPersist.Core.Data
             return property.Name;
         }
 
-        public PropertyInfo[] GetStoredProperties(Type type)
+        protected internal PropertyInfo[] GetStoredProperties()
         {
-            return GetStoredProperties(type, true);
-        }
-
-        public PropertyInfo[] GetStoredProperties(Type type, Boolean InstanceOnly)
-        {
-            PropertyInfo[] properties = InstanceOnly ? type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly) : type.GetProperties();
+            PropertyInfo[] properties = GetType().GetProperties();
 
             List<PropertyInfo> storedProperties = new List<PropertyInfo>();
             foreach (PropertyInfo property in properties)
@@ -227,17 +222,31 @@ namespace MPersist.Core.Data
             return storedProperties.ToArray();
         }
 
-        public PropertyInfo[] GetViewedProperties(Type type)
+        protected internal PropertyInfo[] GetStoredProperties(Type type)
         {
-            return GetViewedProperties(type, true);
+            PropertyInfo[] properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+
+            List<PropertyInfo> storedProperties = new List<PropertyInfo>();
+            foreach (PropertyInfo property in properties)
+            {
+                foreach (Attribute attribute in property.GetCustomAttributes(false))
+                {
+                    if (attribute is StoredAttribute && ((StoredAttribute)attribute).UseInSql)
+                    {
+                        storedProperties.Add(property);
+                    }
+                }
+            }
+
+            return storedProperties.ToArray();
         }
 
-        public PropertyInfo[] GetViewedProperties(Type type, Boolean InstanceOnly)
+        protected internal PropertyInfo[] GetViewedProperties()
         {
-            PropertyInfo[] properties = InstanceOnly ? type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly) : type.GetProperties();
+            PropertyInfo[] properties = GetType().GetProperties();
 
             List<PropertyInfo> viewedProperties = new List<PropertyInfo>();
-            foreach (PropertyInfo property in type.GetProperties())
+            foreach (PropertyInfo property in properties)
             {
                 foreach (Attribute attribute in property.GetCustomAttributes(false))
                 {

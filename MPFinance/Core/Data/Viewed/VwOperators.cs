@@ -1,10 +1,9 @@
-using System;
 using MPersist.Core;
 using MPersist.Core.Data;
 
 namespace MPFinance.Core.Data.Viewed
 {
-    public class VwOperators : ViewedDataList<VwOperator>
+    public class VwOperators : AbstractViewedDataList<VwOperator>
     {
         private static Logger Log = Logger.GetInstance(typeof(VwOperators));
 

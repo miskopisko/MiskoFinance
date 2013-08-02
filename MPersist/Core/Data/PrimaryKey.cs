@@ -16,6 +16,7 @@ namespace MPersist.Core.Data
 
         public Int64 Value { get { return mValue_; } set { mValue_ = value; } }
         public Boolean IsSet { get { return mValue_ != 0; } }
+        public Boolean IsNotSet { get { return !IsSet; } }
 
         #endregion
 
@@ -83,7 +84,7 @@ namespace MPersist.Core.Data
         {
             if (object.ReferenceEquals(left, null))
             {
-                return false;
+                left = new PrimaryKey(0);
             }
 
             return !(left == right);
@@ -93,7 +94,7 @@ namespace MPersist.Core.Data
         {
             if (object.ReferenceEquals(left, null))
             {
-                return false;
+                left = new PrimaryKey(0);
             }
 
             return left.CompareTo(right.Value) > 0;
@@ -103,7 +104,7 @@ namespace MPersist.Core.Data
         {
             if (object.ReferenceEquals(left, null))
             {
-                return false;
+                left = new PrimaryKey(0);
             }
 
             return left.CompareTo(right) > 0;
@@ -113,7 +114,7 @@ namespace MPersist.Core.Data
         {
             if (object.ReferenceEquals(left, null))
             {
-                return false;
+                left = new PrimaryKey(0);
             }
 
             return left.CompareTo(right.Value) < 0;
@@ -123,7 +124,7 @@ namespace MPersist.Core.Data
         {
             if (object.ReferenceEquals(left, null))
             {
-                return false;
+                left = new PrimaryKey(0);
             }
 
             return left.CompareTo(right) < 0;
@@ -133,7 +134,7 @@ namespace MPersist.Core.Data
         {
             if (object.ReferenceEquals(left, null))
             {
-                return false;
+                left = new PrimaryKey(0);
             }
 
             return left.CompareTo(right.Value) >= 0;
@@ -143,7 +144,7 @@ namespace MPersist.Core.Data
         {
             if (object.ReferenceEquals(left, null))
             {
-                return false;
+                left = new PrimaryKey(0);
             }
 
             return left.CompareTo(right) >= 0;
@@ -153,7 +154,7 @@ namespace MPersist.Core.Data
         {
             if (object.ReferenceEquals(left, null))
             {
-                return false;
+                left = new PrimaryKey(0);
             }
 
             return left.CompareTo(right.Value) <= 0;
@@ -163,7 +164,7 @@ namespace MPersist.Core.Data
         {
             if (object.ReferenceEquals(left, null))
             {
-                return false;
+                left = new PrimaryKey(0);
             }
 
             return left.CompareTo(right) <= 0;

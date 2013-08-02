@@ -3,15 +3,16 @@ using MPersist.Core;
 using MPersist.Core.Attributes;
 using MPersist.Core.Data;
 using MPersist.Core.MoneyType;
+using MPFinance.Core.Data.Stored;
 using MPFinance.Core.Enums;
 
 namespace MPFinance.Core.Data.Viewed
 {
-    public class VwTxn : ViewedData
+    public class VwTxn : AbstractViewedData
     {
         private static Logger Log = Logger.GetInstance(typeof(VwTxn));
 
-        #region Variable Declarations
+        #region Fields
 
         
 
@@ -75,17 +76,16 @@ namespace MPFinance.Core.Data.Viewed
 
         #region Public Methods
 
-        public static VwTxn GetInstanceById(Session session, PrimaryKey Id)
+        public Txn Update(Session session)
         {
-            VwTxn result = new VwTxn();
+            Txn txn = new Txn();
+            txn.FetchById(session, TxnId);
+                
+            txn.TxnType = TxnType;
+            txn.Category = Category;
+            txn.Save(session);
 
-            Persistence p = Persistence.GetInstance(session);
-            p.ExecuteQuery("SELECT * FROM VwTxn WHERE TxnId = ?", new Object[] { Id });
-            result.Set(session, p);
-            p.Close();
-            p = null;
-
-            return result;
+            return txn;
         }
 
         #endregion

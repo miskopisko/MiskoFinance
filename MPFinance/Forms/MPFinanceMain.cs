@@ -27,7 +27,7 @@ namespace MPFinance.Forms
 
         private static MPFinanceMain mInstance_;
 
-        private Operator mOperator_;
+        private VwOperator mOperator_;
         
         #endregion
 
@@ -46,11 +46,11 @@ namespace MPFinance.Forms
             }
         }
 
-        public Operator Operator { get { return mOperator_; } }
-        public BankAccount Account { get { return (BankAccount)mAccountsList_.SelectedItem; } }
+        public VwOperator Operator { get { return mOperator_; } }
+        public VwBankAccount BankAccount { get { return (VwBankAccount)mAccountsList_.SelectedItem; } }
         public DateTime FromDate { get { return mFromDate_.Value; } }
         public DateTime ToDate { get { return mToDate_.Value; } }
-        public Category Category { get { return (Category)mCategoriesCmb_.SelectedItem; } }
+        public VwCategory Category { get { return (VwCategory)mCategoriesCmb_.SelectedItem; } }
         public String Description { get { return mDescriptionSearch_.Text.Trim(); } }
         public OpenFileDialog OpenFileDialog { get { return mOpenFileDialog_; } }
 
@@ -89,12 +89,12 @@ namespace MPFinance.Forms
             }
 
             GetTxnsRQ request = new GetTxnsRQ();
-            request.Operator = Operator.Id;
-            request.Account = Account.Id;
+            request.Operator = Operator.OperatorId;
+            request.Account = BankAccount.BankAccountId;
             request.FromDate = FromDate;
             request.ToDate = ToDate;
-            request.Category = Category.Id;
-            request.Description = mDescriptionSearch_.Text.Trim();
+            request.Category = Category.CategoryId;
+            request.Description = Description;
             request.Page = page;
             MessageProcessor.SendRequest(request, GetTxnsSuccess);
         }
@@ -152,8 +152,8 @@ namespace MPFinance.Forms
         // The operators categories have changed; refresh the list
         private void Operator_CategoriesChanged()
         {
-            Categories categories = new Categories();
-            categories.Add(new Category { Name = "" });
+            VwCategories categories = new VwCategories();
+            categories.Add(new VwCategory { Name = "" });
             categories.AddRange(Operator.Categories);
             mCategoriesCmb_.DataSource = categories;
         }
@@ -161,8 +161,8 @@ namespace MPFinance.Forms
         // the operators bank accounts have changed; refresh the list
         private void Operator_BankAccountsChanged()
         {
-            BankAccounts bankAccounts = new BankAccounts();
-            bankAccounts.Add(new BankAccount { Nickname = "All" });
+            VwBankAccounts bankAccounts = new VwBankAccounts();
+            bankAccounts.Add(new VwBankAccount { Nickname = "All" });
             bankAccounts.AddRange(Operator.BankAccounts);
             mAccountsList_.DataSource = bankAccounts;
         }
