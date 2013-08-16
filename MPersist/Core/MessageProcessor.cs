@@ -217,9 +217,24 @@ namespace MPersist.Core
 
         private void RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            ResponseMessage response = e.Result as ResponseMessage;
-            Boolean errorEncountered = e.Error != null || response.HasErrors;
             active--;
+            Boolean errorEncountered = false;
+            ResponseMessage response = null;
+
+            if (e.Error != null)
+            {
+                errorEncountered = true;
+
+                if (IOController is Control)
+                {
+                    ((Control)IOController).Invoke(new MethodInvoker(delegate { IOController.Error(e.Error.Message); }));
+                }
+            }
+            else
+            {
+                response = e.Result as ResponseMessage;
+                errorEncountered = response.HasErrors;
+            }
 
             // No errors in the message; call the successfulHandler
             if (!errorEncountered && mSuccessHandler_ != null)
@@ -233,7 +248,10 @@ namespace MPersist.Core
                 errorEncountered = errorEncountered | !HandleEvent(mErrorHandler_.Target, mErrorHandler_.Method, new Object[] { response });
             }
 
-            HandleEvent(IOController, IOController.GetType().GetMethod("Debug"), new Object[] { response.MessageTiming });
+            if(response != null)
+            {
+                HandleEvent(IOController, IOController.GetType().GetMethod("Debug"), new Object[] { response.MessageTiming });
+            }
 
             HandleEvent(IOController, IOController.GetType().GetMethod("MessageReceived"), new Object[] { active == 0 ? errorEncountered ? Strings.strError : Strings.strSuccess : Strings.strPorcessing });
         }

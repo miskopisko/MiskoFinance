@@ -82,7 +82,7 @@ namespace MPersist.Core.SVN
             SvnStatus status = new SvnStatus(mWorkingCopy_.FullName);
             if (status.Count.Equals(1) && status.Target.Entries[0].Path.Equals(mWorkingCopy_) && status.Target.Entries[0].WorkingCopyStatus.Status.Equals(SvnStatusType.NotVersioned))
             {
-                revert = Subversion.Add(mWorkingCopy_.FullName).Success;
+                revert = Subversion.Add(mWorkingCopy_);
             }
 
             SvnTarget target = new SvnTarget(mWorkingCopy_.FullName.TrimEnd(new char[] { '\\' }));
@@ -96,7 +96,7 @@ namespace MPersist.Core.SVN
 
             if (revert)
             {
-                Subversion.Revert(mWorkingCopy_.FullName);
+                Subversion.Revert(mWorkingCopy_);
             }
 
             if (mWorkingCopyRoot_ != null)

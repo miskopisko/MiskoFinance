@@ -82,11 +82,6 @@ namespace MPersist.Core.Data
 
         public static Boolean operator !=(PrimaryKey left, PrimaryKey right)
         {
-            if (object.ReferenceEquals(left, null))
-            {
-                left = new PrimaryKey(0);
-            }
-
             return !(left == right);
         }
 

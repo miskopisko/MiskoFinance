@@ -108,6 +108,12 @@ namespace MPersist.Core.Persistences
                     param.Value = ((PrimaryKey)parameter).Value;
                     mCommand_.Parameters.Add(param);
                 }
+                else if (parameter is Guid)
+                {
+                    param.DbType = DbType.String;
+                    param.Value = ((Guid)parameter).ToString();
+                    mCommand_.Parameters.Add(param);
+                }
                 else
                 {
                     param.Value = parameter;

@@ -63,7 +63,7 @@ namespace MPersist.Core.Tools
                 procStartInfo.RedirectStandardInput = true;
                 procStartInfo.UseShellExecute = false;
                 procStartInfo.CreateNoWindow = true;
-                
+
                 Process mProcess_ = new Process();
                 mProcess_.StartInfo = procStartInfo;
                 mProcess_.Start();
@@ -74,7 +74,7 @@ namespace MPersist.Core.Tools
 
                 // Wait for the process to complete
                 mProcess_.WaitForExit();
-                                
+
                 mReturnCode_ = mProcess_.ExitCode;
                 mProcess_.Close();
             }
@@ -84,6 +84,13 @@ namespace MPersist.Core.Tools
                 mStandardOutput_ = null;
                 mReturnCode_ = -1;
                 mReturnedObject_ = null;
+            }
+            finally
+            {
+                if (!Success)
+                {
+                    throw new MPException(StandardError);
+                }
             }
         }
 
