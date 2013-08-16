@@ -98,8 +98,14 @@ namespace MPersist.Core
 
         private static DbConnection GetSvnConnection(String connectionString)
         {
-            DbConnection connection = new SvnConnection(connectionString);
-            connection.Open();
+            DbConnection connection = SvnConnectionPool.GetByConnectionString(connectionString);
+
+            if(connection == null)
+            {
+                connection = new SvnConnection(connectionString);
+                connection.Open();
+                SvnConnectionPool.AddConnection((SvnConnection)connection);
+            }
 
             return connection;
         }
