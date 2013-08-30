@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("MPersistence")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("MPersist")]
+[assembly: AssemblyDescription("A generic persistence engine and tool set")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("RPM")]
-[assembly: AssemblyProduct("MPersistence")]
-[assembly: AssemblyCopyright("Copyright © RPM 2013")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("MPersist")]
+[assembly: AssemblyCopyright("Copyright Michael Piskuric")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

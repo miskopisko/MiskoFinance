@@ -14,7 +14,6 @@ namespace MPersist.Core.Tools
         private Int32 mReturnCode_;
         private String mStandardOutput_;
         private String mStandardError_;
-        private Object mReturnedObject_;
 
         #endregion
 
@@ -25,7 +24,6 @@ namespace MPersist.Core.Tools
         public Int32 ReturnCode { get { return mReturnCode_; } set { mReturnCode_ = value; } }
         public String StandardOutput { get { return mStandardOutput_; } set { mStandardOutput_ = value; } }
         public String StandardError { get { return mStandardError_; } set { mStandardError_ = value; } }
-        public Object ReturnedObject { get { return mReturnedObject_; } set { mReturnedObject_ = value; } }
         public Boolean Success { get { return String.IsNullOrEmpty(mStandardError_); } }
 
         #endregion
@@ -83,7 +81,6 @@ namespace MPersist.Core.Tools
                 mStandardError_ = e.Message;
                 mStandardOutput_ = null;
                 mReturnCode_ = -1;
-                mReturnedObject_ = null;
             }
             finally
             {

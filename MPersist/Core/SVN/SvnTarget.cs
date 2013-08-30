@@ -293,6 +293,7 @@ namespace MPersist.Core.SVN
 
         private String mAuthor_;
         private DateTime mTimestamp_;
+        private SvnRevision mRevision_;
 
         #endregion
 
@@ -310,6 +311,19 @@ namespace MPersist.Core.SVN
         {
             get { return mTimestamp_; }
             set { mTimestamp_ = value; }
+        }
+
+        [XmlAttribute("revision")]
+        public Int32 Revision_Agg
+        {
+            get { return mRevision_.Revision; }
+            set { mRevision_ = new SvnRevision(value); }
+        }
+
+        [XmlIgnore]
+        public SvnRevision Revision
+        {
+            get { return mRevision_; }
         }
 
         #endregion

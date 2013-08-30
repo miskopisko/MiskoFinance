@@ -131,10 +131,13 @@ namespace MPersist.Core
             }
 
             ErrorMessages.Add(errorMessage);
-            Log.Error(errorMessage.Message);
 
             if (!errorLevel.Equals(ErrorLevel.Warning) && !errorLevel.Equals(ErrorLevel.Info))
             {
+                if (errorLevel.Equals(ErrorLevel.Error))
+                {
+                    Log.Error(errorMessage.Message);
+                }
                 throw new MPException("Houston we have a problem!");
             }
         }

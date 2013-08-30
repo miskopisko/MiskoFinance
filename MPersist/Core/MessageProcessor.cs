@@ -152,9 +152,9 @@ namespace MPersist.Core
                 {
                     String msgName = request.GetType().Name.Substring(0, request.GetType().Name.Length - 2);
                     String msgPath = request.GetType().FullName.Replace("Requests." + msgName + "RQ", "");
-
-                    response = (ResponseMessage)Assembly.GetEntryAssembly().CreateInstance(msgPath + "Responses." + msgName + "RS");
-                    wrapper = (MessageWrapper)Assembly.GetEntryAssembly().CreateInstance(msgPath + msgName, false, BindingFlags.CreateInstance, null, new object[] { request, response }, null, null);
+                    
+                    response = (ResponseMessage)request.GetType().Assembly.CreateInstance(msgPath + "Responses." + msgName + "RS");
+                    wrapper = (MessageWrapper)request.GetType().Assembly.CreateInstance(msgPath + msgName, false, BindingFlags.CreateInstance, null, new object[] { request, response }, null, null);
 
                     response.MessageTiming = new MessageTiming(wrapper);
 

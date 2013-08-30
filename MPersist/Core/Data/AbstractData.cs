@@ -133,6 +133,11 @@ namespace MPersist.Core.Data
                             item = (AbstractEnum)property.PropertyType.InvokeMember("GetElement", BindingFlags.Default | BindingFlags.InvokeMethod, null, null, new object[] { -1 });
                         }
 
+                        if (item.IsNotSet)
+                        {
+                            item = (AbstractEnum)property.PropertyType.InvokeMember("GetElement", BindingFlags.Default | BindingFlags.InvokeMethod, null, null, new object[] { persistence.GetString(columnName) });
+                        }
+
                         property.SetValue(this, item, null);
                     }
                     else if (property.PropertyType.IsSubclassOf(typeof(AbstractStoredData)))

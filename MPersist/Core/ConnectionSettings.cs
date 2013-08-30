@@ -165,8 +165,7 @@ namespace MPersist.Core
                     return item;
                 }
             }
-
-            throw new MPException("Connection with name {0} not found", new Object[]{ name });
+            return null;            
         }
 
         #endregion
