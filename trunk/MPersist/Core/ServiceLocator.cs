@@ -25,33 +25,33 @@ namespace MPersist.Core
         {
             ConnectionSettings connectionSettings = ConnectionSettings.GetConnectionSettings(name);
 
-            if (connectionSettings.ConnectionType.Equals(ConnectionType.SQLite))
+            if (connectionSettings != null && connectionSettings.ConnectionType.Equals(ConnectionType.SQLite))
             {
                 return GetSqliteConnection(connectionSettings.ConnectionString);
             }
-            else if (connectionSettings.ConnectionType.Equals(ConnectionType.MySql))
+            else if (connectionSettings != null && connectionSettings.ConnectionType.Equals(ConnectionType.MySql))
             {
                 return GetMysqlConnection(connectionSettings.ConnectionString);
             }
-            else if (connectionSettings.ConnectionType.Equals(ConnectionType.Oracle))
+            else if (connectionSettings != null && connectionSettings.ConnectionType.Equals(ConnectionType.Oracle))
             {
                 return GetOracleConnection(connectionSettings.ConnectionString);
             }
-            else if (connectionSettings.ConnectionType.Equals(ConnectionType.Postgres))
+            else if (connectionSettings != null && connectionSettings.ConnectionType.Equals(ConnectionType.Postgres))
             {
                 return GetPostgresConnection(connectionSettings.ConnectionString);
             }
-            else if (connectionSettings.ConnectionType.Equals(ConnectionType.FoxPro))
+            else if (connectionSettings != null && connectionSettings.ConnectionType.Equals(ConnectionType.FoxPro))
             {
                 return GetFoxProConnection(connectionSettings.ConnectionString);
             }
-            else if (connectionSettings.ConnectionType.Equals(ConnectionType.SVN))
+            else if (connectionSettings != null && connectionSettings.ConnectionType.Equals(ConnectionType.SVN))
             {
                 return GetSvnConnection(connectionSettings.ConnectionString);
             }
             else
             {
-                throw new MPException(ErrorStrings.errInvalidConnectionString);
+                throw new MPException(ErrorStrings.errInvalidConnectionString, new Object[] { name });
             }
         }
 

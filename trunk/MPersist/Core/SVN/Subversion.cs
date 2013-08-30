@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text.RegularExpressions;
 using MPersist.Core.Tools;
 
 namespace MPersist.Core.SVN
@@ -12,6 +13,14 @@ namespace MPersist.Core.SVN
 		public static String InstalledVersion()
 		{
 			return CommandLineProcess.Execute("svn", "--non-interactive --version --quiet").StandardOutput.Trim();
+		}
+
+		// Get the latest revision of the working copy
+		public static SvnRevision WorkingCopyRevision(FileInfo file)
+		{
+			String result = CommandLineProcess.Execute("svnversion", "-c -q -n \"" + file.FullName + "\"").StandardOutput;
+
+			return new SvnRevision(Regex.Replace(result.Substring(result.IndexOf(':') + 1), "[^0-9]", ""));
 		}
 				
 		// Call SVN cat command to get a local file
@@ -41,8 +50,7 @@ namespace MPersist.Core.SVN
 		
 		// Call SVN add command to add a file to the repo
 		public static Boolean Add(FileInfo file)
-		{
-			//return CommandLineProcess.Execute("svn", "--non-interactive add -q --parents \"" + file.FullName + "\"").Success;
+		{			
 			return CommandLineProcess.Execute("svn", "--non-interactive add -q \"" + file.FullName + "\"").Success;
 		}
 
@@ -60,9 +68,9 @@ namespace MPersist.Core.SVN
 		}
 
 		// Call SVN cleanup command to delete a file from the repo
-        public static Boolean Cleanup(String workingCopy)
+		public static Boolean Cleanup(String workingCopy)
 		{
-            return CommandLineProcess.Execute("svn", "--non-interactive cleanup \"" + workingCopy + "\"").Success;
+			return CommandLineProcess.Execute("svn", "--non-interactive cleanup \"" + workingCopy + "\"").Success;
 		}
 		
 		// Call SVN commit to commit the changelist
@@ -89,12 +97,12 @@ namespace MPersist.Core.SVN
 				{
 					if (line.StartsWith("Committed revision "))
 					{
-						result.ReturnedObject = Convert.ToInt32(line.Replace("Committed revision ", "").Replace(".", ""));
+						return Convert.ToInt32(line.Replace("Committed revision ", "").Replace(".", ""));
 					}
 				}
 			}
 
-			return (Int32)result.ReturnedObject;
+			return 0;
 		}
 	}
 }

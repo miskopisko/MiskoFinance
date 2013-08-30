@@ -11,9 +11,9 @@ namespace MPersist.Core.Data
 
         #region Fields
 
-        private bool mIsSorted_;
-        private ListSortDirection mSortDirection_ = ListSortDirection.Ascending;
-        private PropertyDescriptor mSortProperty_;
+        protected bool mIsSorted_;
+        protected ListSortDirection mSortDirection_ = ListSortDirection.Ascending;
+        protected PropertyDescriptor mSortProperty_;
 
         #endregion
 

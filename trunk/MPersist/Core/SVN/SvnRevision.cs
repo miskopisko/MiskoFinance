@@ -23,10 +23,8 @@ namespace MPersist.Core.SVN
 
         #region Properties
 
-        public Int32 Revision
-        {
-            get { return mRevision_; }
-        }
+        public Int32 Revision { get { return mRevision_; } }
+        public SvnRevision Previous { get { return new SvnRevision(mRevision_ - 1); } }
 
         #endregion
 
@@ -37,14 +35,16 @@ namespace MPersist.Core.SVN
             mRevision_ = revision;
         }
 
+        public SvnRevision(String revision)
+        {
+            mRevision_ = Convert.ToInt32(revision);
+        }
+
         #endregion
 
         #region Public Methods
 
-        public SvnRevision Previous()
-        {
-            return new SvnRevision(mRevision_ - 1);
-        }
+        
 
         #endregion
 

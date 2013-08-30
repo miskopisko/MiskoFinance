@@ -88,7 +88,7 @@ namespace MPersist.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid database connection string.
+        ///   Looks up a localized string similar to Connection with name {0} not found.
         /// </summary>
         internal static string errInvalidConnectionString {
             get {

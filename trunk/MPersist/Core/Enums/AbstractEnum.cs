@@ -41,7 +41,7 @@ namespace MPersist.Core.Enums
             return codeOrDesc != null ? Description.Equals(codeOrDesc) || Code.Equals(codeOrDesc) : false;
         }
 
-        public int CompareTo(object e)
+        public virtual int CompareTo(object e)
         {
             if(e is AbstractEnum)
             {

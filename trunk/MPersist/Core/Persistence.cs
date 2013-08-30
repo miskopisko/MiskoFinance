@@ -417,7 +417,7 @@ namespace MPersist.Core
 
             if (o is String)
             {
-                return ((String)o).Trim();
+                return ((String)o).Trim().Replace("\r\n", "\n").Replace("\r", "\n").Replace("\n", "\r\n");
             }
             else if (o is Byte[])
             {
@@ -429,11 +429,11 @@ namespace MPersist.Core
                     asValue += (Char)asBytes[i];
                 }
 
-                return asValue;
+                return asValue.Replace("\r\n", "\n").Replace("\r", "\n").Replace("\n", "\r\n");
             }
             else if (o != null)
             {
-                return o.ToString().Trim().Length != 0 ? o.ToString().Trim() : null;
+                return o.ToString().Trim().Length != 0 ? o.ToString().Trim().Replace("\r\n", "\n").Replace("\r", "\n").Replace("\n", "\r\n") : null;
             }
 
             return null;

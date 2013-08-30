@@ -152,7 +152,7 @@ Method: {1}
 Error: {2}</value>
   </data>
   <data name="errInvalidConnectionString" xml:space="preserve">
-    <value>Invalid database connection string</value>
+    <value>Connection with name {0} not found</value>
   </data>
   <data name="errUserDeclinedConfirmation" xml:space="preserve">
     <value>User declined confirmation. Cannot continue.</value>
