@@ -2,13 +2,13 @@ using System;
 using System.ComponentModel;
 using System.Reflection;
 using System.Windows.Forms;
-using MPersist.Core.Debug;
-using MPersist.Core.Enums;
-using MPersist.Core.Interfaces;
-using MPersist.Core.Message;
-using MPersist.Core.Message.Request;
-using MPersist.Core.Message.Response;
-using MPersist.Core.Resources;
+using MPersist.Debug;
+using MPersist.Enums;
+using MPersist.Interfaces;
+using MPersist.Message;
+using MPersist.Message.Request;
+using MPersist.Message.Response;
+using MPersist.Resources;
 
 namespace MPersist.Core
 {

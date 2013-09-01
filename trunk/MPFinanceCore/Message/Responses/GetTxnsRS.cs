@@ -1,0 +1,24 @@
+using MPersist.Core;
+using MPersist.Message.Response;
+using MPFinanceCore.Data.Viewed;
+
+namespace MPFinanceCore.Message.Responses
+{
+    public class GetTxnsRS : ResponseMessage
+    {
+        private static Logger Log = Logger.GetInstance(typeof(GetTxnsRS));
+
+        #region Parameters
+
+        public VwTxns Txns { get; set; }
+        public VwSummary Summary { get; set; }
+
+        #endregion
+
+        public GetTxnsRS()
+        {
+            Txns = new VwTxns();
+            Summary = new VwSummary();
+        }
+    }
+}

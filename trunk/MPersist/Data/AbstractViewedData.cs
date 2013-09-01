@@ -1,0 +1,46 @@
+using MPersist.Core;
+
+namespace MPersist.Data
+{
+    public class AbstractViewedData : AbstractData
+    {
+        private static Logger Log = Logger.GetInstance(typeof(AbstractViewedData));
+
+        #region Fields
+
+
+
+        #endregion
+
+        #region Properties
+
+
+
+        #endregion
+
+        #region Constructors
+
+        public AbstractViewedData()
+        {
+        }
+
+        public AbstractViewedData(Session session, Persistence persistence)
+        {
+            Set(session, persistence, true);
+        }
+
+        #endregion
+
+        #region Private Methods
+
+
+
+        #endregion
+
+        #region Public Methods
+
+        
+
+        #endregion
+    }
+}

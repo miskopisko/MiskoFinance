@@ -4,13 +4,12 @@ using System.Data;
 using System.Data.Common;
 using System.Data.OleDb;
 using System.Data.SQLite;
-using MPersist.Core.Data;
-using MPersist.Core.Debug;
-using MPersist.Core.Enums;
-using MPersist.Core.MoneyType;
-using MPersist.Core.Persistences;
-using MPersist.Core.Resources;
-using MPersist.Resources.Enums;
+using MPersist.Data;
+using MPersist.Debug;
+using MPersist.Enums;
+using MPersist.MoneyType;
+using MPersist.Persistences;
+using MPersist.Resources;
 using MySql.Data.MySqlClient;
 using Oracle.DataAccess.Client;
 
@@ -142,6 +141,12 @@ namespace MPersist.Core
         public void SetSql(String sql)
         {
             mSql_ = sql;
+        }
+
+        public void SetSql(String sql, Object[] values)
+        {
+            mSql_ = sql;
+            mParameters_.AddRange(values);
         }
 
         public void SqlWhere(bool condition, String expression, Object[] value)
@@ -364,6 +369,7 @@ namespace MPersist.Core
         protected abstract void GenerateUpdateStatement(AbstractStoredData clazz, Type type);
         protected abstract void GenerateDeleteStatement(AbstractStoredData clazz, Type type);
         protected abstract void GenerateInsertStatement(AbstractStoredData clazz, Type type);
+        protected abstract String GenerateCreateTableStatement(Type type);
 
         #endregion
 

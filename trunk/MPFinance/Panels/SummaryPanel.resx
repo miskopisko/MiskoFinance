@@ -1,0 +1,1155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="label0.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="label0.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="label0.Location" type="System.Drawing.Point, System.Drawing">
+    <value>291, 11</value>
+  </data>
+  <data name="label0.Size" type="System.Drawing.Size, System.Drawing">
+    <value>66, 13</value>
+  </data>
+  <data name="label0.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="label0.Text" xml:space="preserve">
+    <value>Total Credits</value>
+  </data>
+  <data name="label0.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>BottomRight</value>
+  </data>
+  <data name="&gt;&gt;label0.Name" xml:space="preserve">
+    <value>label0</value>
+  </data>
+  <data name="&gt;&gt;label0.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label0.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;label0.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="label4.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="label4.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>293, 47</value>
+  </data>
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>64, 13</value>
+  </data>
+  <data name="label4.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Total Debits</value>
+  </data>
+  <data name="label4.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>BottomRight</value>
+  </data>
+  <data name="&gt;&gt;label4.Name" xml:space="preserve">
+    <value>label4</value>
+  </data>
+  <data name="&gt;&gt;label4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label4.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="label1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="label1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>301, 83</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>56, 13</value>
+  </data>
+  <data name="label1.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Difference</value>
+  </data>
+  <data name="label1.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>BottomRight</value>
+  </data>
+  <data name="&gt;&gt;label1.Name" xml:space="preserve">
+    <value>label1</value>
+  </data>
+  <data name="&gt;&gt;label1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="label2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="label2.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>267, 119</value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>90, 13</value>
+  </data>
+  <data name="label2.TabIndex" type="System.Int32, mscorlib">
+    <value>19</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Total Transfers In</value>
+  </data>
+  <data name="label2.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>BottomRight</value>
+  </data>
+  <data name="&gt;&gt;label2.Name" xml:space="preserve">
+    <value>label2</value>
+  </data>
+  <data name="&gt;&gt;label2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="label5.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="label5.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>259, 155</value>
+  </data>
+  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>98, 13</value>
+  </data>
+  <data name="label5.TabIndex" type="System.Int32, mscorlib">
+    <value>20</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>Total Transfers Out</value>
+  </data>
+  <data name="label5.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>BottomRight</value>
+  </data>
+  <data name="&gt;&gt;label5.Name" xml:space="preserve">
+    <value>label5</value>
+  </data>
+  <data name="&gt;&gt;label5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label5.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="label3.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="label3.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>301, 191</value>
+  </data>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>56, 13</value>
+  </data>
+  <data name="label3.TabIndex" type="System.Int32, mscorlib">
+    <value>21</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Difference</value>
+  </data>
+  <data name="label3.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>BottomRight</value>
+  </data>
+  <data name="&gt;&gt;label3.Name" xml:space="preserve">
+    <value>label3</value>
+  </data>
+  <data name="&gt;&gt;label3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="label8.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="label8.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label8.Location" type="System.Drawing.Point, System.Drawing">
+    <value>268, 14</value>
+  </data>
+  <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
+    <value>89, 13</value>
+  </data>
+  <data name="label8.TabIndex" type="System.Int32, mscorlib">
+    <value>31</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>Opening Balance</value>
+  </data>
+  <data name="label8.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>BottomRight</value>
+  </data>
+  <data name="&gt;&gt;label8.Name" xml:space="preserve">
+    <value>label8</value>
+  </data>
+  <data name="&gt;&gt;label8.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label8.Parent" xml:space="preserve">
+    <value>mAllTimeTableLayout_</value>
+  </data>
+  <data name="&gt;&gt;label8.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="label9.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="label9.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label9.Location" type="System.Drawing.Point, System.Drawing">
+    <value>274, 56</value>
+  </data>
+  <data name="label9.Size" type="System.Drawing.Size, System.Drawing">
+    <value>83, 13</value>
+  </data>
+  <data name="label9.TabIndex" type="System.Int32, mscorlib">
+    <value>32</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>Current Balance</value>
+  </data>
+  <data name="label9.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>BottomRight</value>
+  </data>
+  <data name="&gt;&gt;label9.Name" xml:space="preserve">
+    <value>label9</value>
+  </data>
+  <data name="&gt;&gt;label9.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label9.Parent" xml:space="preserve">
+    <value>mAllTimeTableLayout_</value>
+  </data>
+  <data name="&gt;&gt;label9.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="label10.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="label10.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label10.Location" type="System.Drawing.Point, System.Drawing">
+    <value>301, 98</value>
+  </data>
+  <data name="label10.Size" type="System.Drawing.Size, System.Drawing">
+    <value>56, 13</value>
+  </data>
+  <data name="label10.TabIndex" type="System.Int32, mscorlib">
+    <value>33</value>
+  </data>
+  <data name="label10.Text" xml:space="preserve">
+    <value>Difference</value>
+  </data>
+  <data name="label10.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>BottomRight</value>
+  </data>
+  <data name="&gt;&gt;label10.Name" xml:space="preserve">
+    <value>label10</value>
+  </data>
+  <data name="&gt;&gt;label10.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label10.Parent" xml:space="preserve">
+    <value>mAllTimeTableLayout_</value>
+  </data>
+  <data name="&gt;&gt;label10.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label6.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="label6.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
+    <value>268, 227</value>
+  </data>
+  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>89, 13</value>
+  </data>
+  <data name="label6.TabIndex" type="System.Int32, mscorlib">
+    <value>28</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>Opening Balance</value>
+  </data>
+  <data name="label6.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>BottomRight</value>
+  </data>
+  <data name="&gt;&gt;label6.Name" xml:space="preserve">
+    <value>label6</value>
+  </data>
+  <data name="&gt;&gt;label6.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label6.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
+    <value>13</value>
+  </data>
+  <data name="label7.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="label7.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label7.Location" type="System.Drawing.Point, System.Drawing">
+    <value>274, 263</value>
+  </data>
+  <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>83, 13</value>
+  </data>
+  <data name="label7.TabIndex" type="System.Int32, mscorlib">
+    <value>29</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>Closing Balance</value>
+  </data>
+  <data name="label7.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>BottomRight</value>
+  </data>
+  <data name="&gt;&gt;label7.Name" xml:space="preserve">
+    <value>label7</value>
+  </data>
+  <data name="&gt;&gt;label7.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label7.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;label7.ZOrder" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="label11.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="label11.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label11.Location" type="System.Drawing.Point, System.Drawing">
+    <value>301, 301</value>
+  </data>
+  <data name="label11.Size" type="System.Drawing.Size, System.Drawing">
+    <value>56, 13</value>
+  </data>
+  <data name="label11.TabIndex" type="System.Int32, mscorlib">
+    <value>30</value>
+  </data>
+  <data name="label11.Text" xml:space="preserve">
+    <value>Difference</value>
+  </data>
+  <data name="label11.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>BottomRight</value>
+  </data>
+  <data name="&gt;&gt;label11.Name" xml:space="preserve">
+    <value>label11</value>
+  </data>
+  <data name="&gt;&gt;label11.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label11.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;label11.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="mSummaryLayoutTable_.ColumnCount" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="mAllTimeTableLayout_.ColumnCount" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="mBalanceDiff_.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="mBalanceDiff_.Location" type="System.Drawing.Point, System.Drawing">
+    <value>363, 95</value>
+  </data>
+  <data name="mBalanceDiff_.Size" type="System.Drawing.Size, System.Drawing">
+    <value>354, 20</value>
+  </data>
+  <data name="mBalanceDiff_.TabIndex" type="System.Int32, mscorlib">
+    <value>36</value>
+  </data>
+  <data name="mBalanceDiff_.Text" xml:space="preserve">
+    <value>$0.00</value>
+  </data>
+  <data name="mBalanceDiff_.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="mBalanceDiff_.Value" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAD9NUGVyc2lzdCwgVmVyc2lvbj0xLjAuMC4wLCBDdWx0dXJlPW5l
+        dXRyYWwsIFB1YmxpY0tleVRva2VuPW51bGwFAQAAABhNUGVyc2lzdC5Nb25leVR5cGUuTW9uZXkDAAAA
+        CV9jdXJyZW5jeQZfdW5pdHMQX2RlY2ltYWxGcmFjdGlvbgQAABtNUGVyc2lzdC5Nb25leVR5cGUuQ3Vy
+        cmVuY3kCAAAACQgCAAAABf3///8bTVBlcnNpc3QuTW9uZXlUeXBlLkN1cnJlbmN5AQAAAANfaWQACAIA
+        AAB8AAAAAAAAAAAAAAAAAAAACw==
+</value>
+  </data>
+  <data name="&gt;&gt;mBalanceDiff_.Name" xml:space="preserve">
+    <value>mBalanceDiff_</value>
+  </data>
+  <data name="&gt;&gt;mBalanceDiff_.Type" xml:space="preserve">
+    <value>MPFinance.Controls.MoneyBox, MPFinance, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mBalanceDiff_.Parent" xml:space="preserve">
+    <value>mAllTimeTableLayout_</value>
+  </data>
+  <data name="&gt;&gt;mBalanceDiff_.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="mOpeningBalance_.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="mOpeningBalance_.Location" type="System.Drawing.Point, System.Drawing">
+    <value>363, 11</value>
+  </data>
+  <data name="mOpeningBalance_.Size" type="System.Drawing.Size, System.Drawing">
+    <value>354, 20</value>
+  </data>
+  <data name="mOpeningBalance_.TabIndex" type="System.Int32, mscorlib">
+    <value>34</value>
+  </data>
+  <data name="mOpeningBalance_.Text" xml:space="preserve">
+    <value>$0.00</value>
+  </data>
+  <data name="mOpeningBalance_.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="mOpeningBalance_.Value" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAD9NUGVyc2lzdCwgVmVyc2lvbj0xLjAuMC4wLCBDdWx0dXJlPW5l
+        dXRyYWwsIFB1YmxpY0tleVRva2VuPW51bGwFAQAAABhNUGVyc2lzdC5Nb25leVR5cGUuTW9uZXkDAAAA
+        CV9jdXJyZW5jeQZfdW5pdHMQX2RlY2ltYWxGcmFjdGlvbgQAABtNUGVyc2lzdC5Nb25leVR5cGUuQ3Vy
+        cmVuY3kCAAAACQgCAAAABf3///8bTVBlcnNpc3QuTW9uZXlUeXBlLkN1cnJlbmN5AQAAAANfaWQACAIA
+        AAB8AAAAAAAAAAAAAAAAAAAACw==
+</value>
+  </data>
+  <data name="&gt;&gt;mOpeningBalance_.Name" xml:space="preserve">
+    <value>mOpeningBalance_</value>
+  </data>
+  <data name="&gt;&gt;mOpeningBalance_.Type" xml:space="preserve">
+    <value>MPFinance.Controls.MoneyBox, MPFinance, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mOpeningBalance_.Parent" xml:space="preserve">
+    <value>mAllTimeTableLayout_</value>
+  </data>
+  <data name="&gt;&gt;mOpeningBalance_.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="mCurrentBalance_.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="mCurrentBalance_.Location" type="System.Drawing.Point, System.Drawing">
+    <value>363, 53</value>
+  </data>
+  <data name="mCurrentBalance_.Size" type="System.Drawing.Size, System.Drawing">
+    <value>354, 20</value>
+  </data>
+  <data name="mCurrentBalance_.TabIndex" type="System.Int32, mscorlib">
+    <value>35</value>
+  </data>
+  <data name="mCurrentBalance_.Text" xml:space="preserve">
+    <value>$0.00</value>
+  </data>
+  <data name="mCurrentBalance_.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="mCurrentBalance_.Value" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAD9NUGVyc2lzdCwgVmVyc2lvbj0xLjAuMC4wLCBDdWx0dXJlPW5l
+        dXRyYWwsIFB1YmxpY0tleVRva2VuPW51bGwFAQAAABhNUGVyc2lzdC5Nb25leVR5cGUuTW9uZXkDAAAA
+        CV9jdXJyZW5jeQZfdW5pdHMQX2RlY2ltYWxGcmFjdGlvbgQAABtNUGVyc2lzdC5Nb25leVR5cGUuQ3Vy
+        cmVuY3kCAAAACQgCAAAABf3///8bTVBlcnNpc3QuTW9uZXlUeXBlLkN1cnJlbmN5AQAAAANfaWQACAIA
+        AAB8AAAAAAAAAAAAAAAAAAAACw==
+</value>
+  </data>
+  <data name="&gt;&gt;mCurrentBalance_.Name" xml:space="preserve">
+    <value>mCurrentBalance_</value>
+  </data>
+  <data name="&gt;&gt;mCurrentBalance_.Type" xml:space="preserve">
+    <value>MPFinance.Controls.MoneyBox, MPFinance, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mCurrentBalance_.Parent" xml:space="preserve">
+    <value>mAllTimeTableLayout_</value>
+  </data>
+  <data name="&gt;&gt;mCurrentBalance_.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="mAllTimeTableLayout_.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="mAllTimeTableLayout_.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 16</value>
+  </data>
+  <data name="mAllTimeTableLayout_.RowCount" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="mAllTimeTableLayout_.Size" type="System.Drawing.Size, System.Drawing">
+    <value>720, 126</value>
+  </data>
+  <data name="mAllTimeTableLayout_.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;mAllTimeTableLayout_.Name" xml:space="preserve">
+    <value>mAllTimeTableLayout_</value>
+  </data>
+  <data name="&gt;&gt;mAllTimeTableLayout_.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;mAllTimeTableLayout_.Parent" xml:space="preserve">
+    <value>mAllTimeGroupBox_</value>
+  </data>
+  <data name="&gt;&gt;mAllTimeTableLayout_.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="mAllTimeTableLayout_.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="mBalanceDiff_" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label10" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="label8" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="label9" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="mOpeningBalance_" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="mCurrentBalance_" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,50,Percent,50" /&gt;&lt;Rows Styles="Percent,33.33333,Percent,33.33333,Percent,33.33333" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="mAllTimeGroupBox_.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="mAllTimeGroupBox_.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 355</value>
+  </data>
+  <data name="mAllTimeGroupBox_.Size" type="System.Drawing.Size, System.Drawing">
+    <value>726, 145</value>
+  </data>
+  <data name="mAllTimeGroupBox_.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="mAllTimeGroupBox_.Text" xml:space="preserve">
+    <value>All Time Summary</value>
+  </data>
+  <data name="&gt;&gt;mAllTimeGroupBox_.Name" xml:space="preserve">
+    <value>mAllTimeGroupBox_</value>
+  </data>
+  <data name="&gt;&gt;mAllTimeGroupBox_.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;mAllTimeGroupBox_.Parent" xml:space="preserve">
+    <value>mSummaryLayoutTable_</value>
+  </data>
+  <data name="&gt;&gt;mAllTimeGroupBox_.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tableLayoutPanel1.ColumnCount" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="mTransfersDiff_.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="mTransfersDiff_.Location" type="System.Drawing.Point, System.Drawing">
+    <value>363, 188</value>
+  </data>
+  <data name="mTransfersDiff_.Size" type="System.Drawing.Size, System.Drawing">
+    <value>354, 20</value>
+  </data>
+  <data name="mTransfersDiff_.TabIndex" type="System.Int32, mscorlib">
+    <value>27</value>
+  </data>
+  <data name="mTransfersDiff_.Text" xml:space="preserve">
+    <value>$0.00</value>
+  </data>
+  <data name="mTransfersDiff_.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="mTransfersDiff_.Value" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAD9NUGVyc2lzdCwgVmVyc2lvbj0xLjAuMC4wLCBDdWx0dXJlPW5l
+        dXRyYWwsIFB1YmxpY0tleVRva2VuPW51bGwFAQAAABhNUGVyc2lzdC5Nb25leVR5cGUuTW9uZXkDAAAA
+        CV9jdXJyZW5jeQZfdW5pdHMQX2RlY2ltYWxGcmFjdGlvbgQAABtNUGVyc2lzdC5Nb25leVR5cGUuQ3Vy
+        cmVuY3kCAAAACQgCAAAABf3///8bTVBlcnNpc3QuTW9uZXlUeXBlLkN1cnJlbmN5AQAAAANfaWQACAIA
+        AAB8AAAAAAAAAAAAAAAAAAAACw==
+</value>
+  </data>
+  <data name="&gt;&gt;mTransfersDiff_.Name" xml:space="preserve">
+    <value>mTransfersDiff_</value>
+  </data>
+  <data name="&gt;&gt;mTransfersDiff_.Type" xml:space="preserve">
+    <value>MPFinance.Controls.MoneyBox, MPFinance, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mTransfersDiff_.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;mTransfersDiff_.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="mTotalTransferOut_.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="mTotalTransferOut_.Location" type="System.Drawing.Point, System.Drawing">
+    <value>363, 152</value>
+  </data>
+  <data name="mTotalTransferOut_.Size" type="System.Drawing.Size, System.Drawing">
+    <value>354, 20</value>
+  </data>
+  <data name="mTotalTransferOut_.TabIndex" type="System.Int32, mscorlib">
+    <value>26</value>
+  </data>
+  <data name="mTotalTransferOut_.Text" xml:space="preserve">
+    <value>$0.00</value>
+  </data>
+  <data name="mTotalTransferOut_.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="mTotalTransferOut_.Value" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAD9NUGVyc2lzdCwgVmVyc2lvbj0xLjAuMC4wLCBDdWx0dXJlPW5l
+        dXRyYWwsIFB1YmxpY0tleVRva2VuPW51bGwFAQAAABhNUGVyc2lzdC5Nb25leVR5cGUuTW9uZXkDAAAA
+        CV9jdXJyZW5jeQZfdW5pdHMQX2RlY2ltYWxGcmFjdGlvbgQAABtNUGVyc2lzdC5Nb25leVR5cGUuQ3Vy
+        cmVuY3kCAAAACQgCAAAABf3///8bTVBlcnNpc3QuTW9uZXlUeXBlLkN1cnJlbmN5AQAAAANfaWQACAIA
+        AAB8AAAAAAAAAAAAAAAAAAAACw==
+</value>
+  </data>
+  <data name="&gt;&gt;mTotalTransferOut_.Name" xml:space="preserve">
+    <value>mTotalTransferOut_</value>
+  </data>
+  <data name="&gt;&gt;mTotalTransferOut_.Type" xml:space="preserve">
+    <value>MPFinance.Controls.MoneyBox, MPFinance, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mTotalTransferOut_.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;mTotalTransferOut_.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="mTotalTransferIn_.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="mTotalTransferIn_.Location" type="System.Drawing.Point, System.Drawing">
+    <value>363, 116</value>
+  </data>
+  <data name="mTotalTransferIn_.Size" type="System.Drawing.Size, System.Drawing">
+    <value>354, 20</value>
+  </data>
+  <data name="mTotalTransferIn_.TabIndex" type="System.Int32, mscorlib">
+    <value>25</value>
+  </data>
+  <data name="mTotalTransferIn_.Text" xml:space="preserve">
+    <value>$0.00</value>
+  </data>
+  <data name="mTotalTransferIn_.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="mTotalTransferIn_.Value" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAD9NUGVyc2lzdCwgVmVyc2lvbj0xLjAuMC4wLCBDdWx0dXJlPW5l
+        dXRyYWwsIFB1YmxpY0tleVRva2VuPW51bGwFAQAAABhNUGVyc2lzdC5Nb25leVR5cGUuTW9uZXkDAAAA
+        CV9jdXJyZW5jeQZfdW5pdHMQX2RlY2ltYWxGcmFjdGlvbgQAABtNUGVyc2lzdC5Nb25leVR5cGUuQ3Vy
+        cmVuY3kCAAAACQgCAAAABf3///8bTVBlcnNpc3QuTW9uZXlUeXBlLkN1cnJlbmN5AQAAAANfaWQACAIA
+        AAB8AAAAAAAAAAAAAAAAAAAACw==
+</value>
+  </data>
+  <data name="&gt;&gt;mTotalTransferIn_.Name" xml:space="preserve">
+    <value>mTotalTransferIn_</value>
+  </data>
+  <data name="&gt;&gt;mTotalTransferIn_.Type" xml:space="preserve">
+    <value>MPFinance.Controls.MoneyBox, MPFinance, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mTotalTransferIn_.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;mTotalTransferIn_.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="mCreditsDebitsDiff_.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="mCreditsDebitsDiff_.Location" type="System.Drawing.Point, System.Drawing">
+    <value>363, 80</value>
+  </data>
+  <data name="mCreditsDebitsDiff_.Size" type="System.Drawing.Size, System.Drawing">
+    <value>354, 20</value>
+  </data>
+  <data name="mCreditsDebitsDiff_.TabIndex" type="System.Int32, mscorlib">
+    <value>24</value>
+  </data>
+  <data name="mCreditsDebitsDiff_.Text" xml:space="preserve">
+    <value>$0.00</value>
+  </data>
+  <data name="mCreditsDebitsDiff_.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="mCreditsDebitsDiff_.Value" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAD9NUGVyc2lzdCwgVmVyc2lvbj0xLjAuMC4wLCBDdWx0dXJlPW5l
+        dXRyYWwsIFB1YmxpY0tleVRva2VuPW51bGwFAQAAABhNUGVyc2lzdC5Nb25leVR5cGUuTW9uZXkDAAAA
+        CV9jdXJyZW5jeQZfdW5pdHMQX2RlY2ltYWxGcmFjdGlvbgQAABtNUGVyc2lzdC5Nb25leVR5cGUuQ3Vy
+        cmVuY3kCAAAACQgCAAAABf3///8bTVBlcnNpc3QuTW9uZXlUeXBlLkN1cnJlbmN5AQAAAANfaWQACAIA
+        AAB8AAAAAAAAAAAAAAAAAAAACw==
+</value>
+  </data>
+  <data name="&gt;&gt;mCreditsDebitsDiff_.Name" xml:space="preserve">
+    <value>mCreditsDebitsDiff_</value>
+  </data>
+  <data name="&gt;&gt;mCreditsDebitsDiff_.Type" xml:space="preserve">
+    <value>MPFinance.Controls.MoneyBox, MPFinance, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mCreditsDebitsDiff_.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;mCreditsDebitsDiff_.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="mTotalDebits_.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="mTotalDebits_.Location" type="System.Drawing.Point, System.Drawing">
+    <value>363, 44</value>
+  </data>
+  <data name="mTotalDebits_.Size" type="System.Drawing.Size, System.Drawing">
+    <value>354, 20</value>
+  </data>
+  <data name="mTotalDebits_.TabIndex" type="System.Int32, mscorlib">
+    <value>23</value>
+  </data>
+  <data name="mTotalDebits_.Text" xml:space="preserve">
+    <value>$0.00</value>
+  </data>
+  <data name="mTotalDebits_.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="mTotalDebits_.Value" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAD9NUGVyc2lzdCwgVmVyc2lvbj0xLjAuMC4wLCBDdWx0dXJlPW5l
+        dXRyYWwsIFB1YmxpY0tleVRva2VuPW51bGwFAQAAABhNUGVyc2lzdC5Nb25leVR5cGUuTW9uZXkDAAAA
+        CV9jdXJyZW5jeQZfdW5pdHMQX2RlY2ltYWxGcmFjdGlvbgQAABtNUGVyc2lzdC5Nb25leVR5cGUuQ3Vy
+        cmVuY3kCAAAACQgCAAAABf3///8bTVBlcnNpc3QuTW9uZXlUeXBlLkN1cnJlbmN5AQAAAANfaWQACAIA
+        AAB8AAAAAAAAAAAAAAAAAAAACw==
+</value>
+  </data>
+  <data name="&gt;&gt;mTotalDebits_.Name" xml:space="preserve">
+    <value>mTotalDebits_</value>
+  </data>
+  <data name="&gt;&gt;mTotalDebits_.Type" xml:space="preserve">
+    <value>MPFinance.Controls.MoneyBox, MPFinance, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mTotalDebits_.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;mTotalDebits_.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="mTotalCredits_.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="mTotalCredits_.Location" type="System.Drawing.Point, System.Drawing">
+    <value>363, 8</value>
+  </data>
+  <data name="mTotalCredits_.Size" type="System.Drawing.Size, System.Drawing">
+    <value>354, 20</value>
+  </data>
+  <data name="mTotalCredits_.TabIndex" type="System.Int32, mscorlib">
+    <value>22</value>
+  </data>
+  <data name="mTotalCredits_.Text" xml:space="preserve">
+    <value>$0.00</value>
+  </data>
+  <data name="mTotalCredits_.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="mTotalCredits_.Value" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAD9NUGVyc2lzdCwgVmVyc2lvbj0xLjAuMC4wLCBDdWx0dXJlPW5l
+        dXRyYWwsIFB1YmxpY0tleVRva2VuPW51bGwFAQAAABhNUGVyc2lzdC5Nb25leVR5cGUuTW9uZXkDAAAA
+        CV9jdXJyZW5jeQZfdW5pdHMQX2RlY2ltYWxGcmFjdGlvbgQAABtNUGVyc2lzdC5Nb25leVR5cGUuQ3Vy
+        cmVuY3kCAAAACQgCAAAABf3///8bTVBlcnNpc3QuTW9uZXlUeXBlLkN1cnJlbmN5AQAAAANfaWQACAIA
+        AAB8AAAAAAAAAAAAAAAAAAAACw==
+</value>
+  </data>
+  <data name="&gt;&gt;mTotalCredits_.Name" xml:space="preserve">
+    <value>mTotalCredits_</value>
+  </data>
+  <data name="&gt;&gt;mTotalCredits_.Type" xml:space="preserve">
+    <value>MPFinance.Controls.MoneyBox, MPFinance, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mTotalCredits_.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;mTotalCredits_.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="mSelectionOpeningBalance_.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="mSelectionOpeningBalance_.Location" type="System.Drawing.Point, System.Drawing">
+    <value>363, 224</value>
+  </data>
+  <data name="mSelectionOpeningBalance_.Size" type="System.Drawing.Size, System.Drawing">
+    <value>354, 20</value>
+  </data>
+  <data name="mSelectionOpeningBalance_.TabIndex" type="System.Int32, mscorlib">
+    <value>32</value>
+  </data>
+  <data name="mSelectionOpeningBalance_.Text" xml:space="preserve">
+    <value>$0.00</value>
+  </data>
+  <data name="mSelectionOpeningBalance_.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="mSelectionOpeningBalance_.Value" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAD9NUGVyc2lzdCwgVmVyc2lvbj0xLjAuMC4wLCBDdWx0dXJlPW5l
+        dXRyYWwsIFB1YmxpY0tleVRva2VuPW51bGwFAQAAABhNUGVyc2lzdC5Nb25leVR5cGUuTW9uZXkDAAAA
+        CV9jdXJyZW5jeQZfdW5pdHMQX2RlY2ltYWxGcmFjdGlvbgQAABtNUGVyc2lzdC5Nb25leVR5cGUuQ3Vy
+        cmVuY3kCAAAACQgCAAAABf3///8bTVBlcnNpc3QuTW9uZXlUeXBlLkN1cnJlbmN5AQAAAANfaWQACAIA
+        AAB8AAAAAAAAAAAAAAAAAAAACw==
+</value>
+  </data>
+  <data name="&gt;&gt;mSelectionOpeningBalance_.Name" xml:space="preserve">
+    <value>mSelectionOpeningBalance_</value>
+  </data>
+  <data name="&gt;&gt;mSelectionOpeningBalance_.Type" xml:space="preserve">
+    <value>MPFinance.Controls.MoneyBox, MPFinance, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mSelectionOpeningBalance_.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;mSelectionOpeningBalance_.ZOrder" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="mSelectionClosingBalance_.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="mSelectionClosingBalance_.Location" type="System.Drawing.Point, System.Drawing">
+    <value>363, 260</value>
+  </data>
+  <data name="mSelectionClosingBalance_.Size" type="System.Drawing.Size, System.Drawing">
+    <value>354, 20</value>
+  </data>
+  <data name="mSelectionClosingBalance_.TabIndex" type="System.Int32, mscorlib">
+    <value>33</value>
+  </data>
+  <data name="mSelectionClosingBalance_.Text" xml:space="preserve">
+    <value>$0.00</value>
+  </data>
+  <data name="mSelectionClosingBalance_.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="mSelectionClosingBalance_.Value" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAD9NUGVyc2lzdCwgVmVyc2lvbj0xLjAuMC4wLCBDdWx0dXJlPW5l
+        dXRyYWwsIFB1YmxpY0tleVRva2VuPW51bGwFAQAAABhNUGVyc2lzdC5Nb25leVR5cGUuTW9uZXkDAAAA
+        CV9jdXJyZW5jeQZfdW5pdHMQX2RlY2ltYWxGcmFjdGlvbgQAABtNUGVyc2lzdC5Nb25leVR5cGUuQ3Vy
+        cmVuY3kCAAAACQgCAAAABf3///8bTVBlcnNpc3QuTW9uZXlUeXBlLkN1cnJlbmN5AQAAAANfaWQACAIA
+        AAB8AAAAAAAAAAAAAAAAAAAACw==
+</value>
+  </data>
+  <data name="&gt;&gt;mSelectionClosingBalance_.Name" xml:space="preserve">
+    <value>mSelectionClosingBalance_</value>
+  </data>
+  <data name="&gt;&gt;mSelectionClosingBalance_.Type" xml:space="preserve">
+    <value>MPFinance.Controls.MoneyBox, MPFinance, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mSelectionClosingBalance_.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;mSelectionClosingBalance_.ZOrder" xml:space="preserve">
+    <value>16</value>
+  </data>
+  <data name="mselectionBalanceDifference_.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="mselectionBalanceDifference_.Location" type="System.Drawing.Point, System.Drawing">
+    <value>363, 297</value>
+  </data>
+  <data name="mselectionBalanceDifference_.Size" type="System.Drawing.Size, System.Drawing">
+    <value>354, 20</value>
+  </data>
+  <data name="mselectionBalanceDifference_.TabIndex" type="System.Int32, mscorlib">
+    <value>34</value>
+  </data>
+  <data name="mselectionBalanceDifference_.Text" xml:space="preserve">
+    <value>$0.00</value>
+  </data>
+  <data name="mselectionBalanceDifference_.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="mselectionBalanceDifference_.Value" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAD9NUGVyc2lzdCwgVmVyc2lvbj0xLjAuMC4wLCBDdWx0dXJlPW5l
+        dXRyYWwsIFB1YmxpY0tleVRva2VuPW51bGwFAQAAABhNUGVyc2lzdC5Nb25leVR5cGUuTW9uZXkDAAAA
+        CV9jdXJyZW5jeQZfdW5pdHMQX2RlY2ltYWxGcmFjdGlvbgQAABtNUGVyc2lzdC5Nb25leVR5cGUuQ3Vy
+        cmVuY3kCAAAACQgCAAAABf3///8bTVBlcnNpc3QuTW9uZXlUeXBlLkN1cnJlbmN5AQAAAANfaWQACAIA
+        AAB8AAAAAAAAAAAAAAAAAAAACw==
+</value>
+  </data>
+  <data name="&gt;&gt;mselectionBalanceDifference_.Name" xml:space="preserve">
+    <value>mselectionBalanceDifference_</value>
+  </data>
+  <data name="&gt;&gt;mselectionBalanceDifference_.Type" xml:space="preserve">
+    <value>MPFinance.Controls.MoneyBox, MPFinance, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mselectionBalanceDifference_.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;mselectionBalanceDifference_.ZOrder" xml:space="preserve">
+    <value>17</value>
+  </data>
+  <data name="tableLayoutPanel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="tableLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 16</value>
+  </data>
+  <data name="tableLayoutPanel1.RowCount" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="tableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>720, 327</value>
+  </data>
+  <data name="tableLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel1.Name" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel1.Parent" xml:space="preserve">
+    <value>mSummaryBox_</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="label11" Row="8" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="mTransfersDiff_" Row="5" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="mTotalTransferOut_" Row="4" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="mTotalTransferIn_" Row="3" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="mCreditsDebitsDiff_" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="mTotalDebits_" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="mTotalCredits_" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label3" Row="5" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="label0" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="label5" Row="4" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="label2" Row="3" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="label1" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="label4" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="label6" Row="6" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="label7" Row="7" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="mSelectionOpeningBalance_" Row="6" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="mSelectionClosingBalance_" Row="7" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="mselectionBalanceDifference_" Row="8" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,50,Percent,50" /&gt;&lt;Rows Styles="Percent,11.11111,Percent,11.11111,Percent,11.11111,Percent,11.11111,Percent,11.11111,Percent,11.11111,Percent,11.11111,Percent,11.11111,Percent,11.11111,Absolute,20" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="mSummaryBox_.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="mSummaryBox_.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="mSummaryBox_.Size" type="System.Drawing.Size, System.Drawing">
+    <value>726, 346</value>
+  </data>
+  <data name="mSummaryBox_.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="mSummaryBox_.Text" xml:space="preserve">
+    <value>Selection Summary</value>
+  </data>
+  <data name="&gt;&gt;mSummaryBox_.Name" xml:space="preserve">
+    <value>mSummaryBox_</value>
+  </data>
+  <data name="&gt;&gt;mSummaryBox_.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;mSummaryBox_.Parent" xml:space="preserve">
+    <value>mSummaryLayoutTable_</value>
+  </data>
+  <data name="&gt;&gt;mSummaryBox_.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="mSummaryLayoutTable_.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="mSummaryLayoutTable_.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="mSummaryLayoutTable_.RowCount" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="mSummaryLayoutTable_.Size" type="System.Drawing.Size, System.Drawing">
+    <value>732, 503</value>
+  </data>
+  <data name="mSummaryLayoutTable_.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="&gt;&gt;mSummaryLayoutTable_.Name" xml:space="preserve">
+    <value>mSummaryLayoutTable_</value>
+  </data>
+  <data name="&gt;&gt;mSummaryLayoutTable_.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;mSummaryLayoutTable_.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;mSummaryLayoutTable_.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="mSummaryLayoutTable_.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="mAllTimeGroupBox_" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="mSummaryBox_" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="Percent,70,Percent,30" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>6, 13</value>
+  </data>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>732, 503</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>SummaryPanel</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+</root>

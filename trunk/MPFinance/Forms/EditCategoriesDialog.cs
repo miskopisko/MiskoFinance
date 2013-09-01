@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Windows.Forms;
 using MPersist.Core;
-using MPersist.Core.Message.Response;
-using MPFinance.Core.Data.Viewed;
-using MPFinance.Core.Enums;
-using MPFinance.Core.Message.Requests;
-using MPFinance.Core.Message.Responses;
+using MPersist.Message.Response;
+using MPFinanceCore.Data.Viewed;
+using MPFinanceCore.Enums;
+using MPFinanceCore.Message.Requests;
+using MPFinanceCore.Message.Responses;
 
 namespace MPFinance.Forms
 {
@@ -71,6 +71,11 @@ namespace MPFinance.Forms
         #endregion
 
         #region Event Listenners
+
+        private void mCancel__Click(object sender, EventArgs e)
+        {
+            Dispose();
+        }
 
         private void AddBtn_Click(object sender, EventArgs e)
         {

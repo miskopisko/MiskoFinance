@@ -1,21 +1,17 @@
 ﻿using System;
-using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 using MPersist.Core;
-using MPersist.Core.Data;
-using MPersist.Core.Debug;
-using MPersist.Core.Enums;
-using MPersist.Core.Interfaces;
-using MPersist.Core.Message.Response;
-using MPersist.Core.Tools;
-using MPFinance.Core.Data.Stored;
-using MPFinance.Core.Data.Viewed;
-using MPFinance.Core.Message.Requests;
-using MPFinance.Core.Message.Responses;
-using MPFinance.Core.OFX;
+using MPersist.Data;
+using MPersist.Debug;
+using MPersist.Interfaces;
+using MPersist.Message.Response;
 using MPFinance.Properties;
-using MPFinance.Resources;
+using MPFinanceCore.Data.Viewed;
+using MPFinanceCore.Enums;
+using MPFinanceCore.Message.Requests;
+using MPFinanceCore.Message.Responses;
+using MPFinanceCore.Resources;
 
 namespace MPFinance.Forms
 {
@@ -39,20 +35,15 @@ namespace MPFinance.Forms
             {
                 if (mInstance_ == null)
                 {
-                    mInstance_ = new MPFinanceMain();
-                    Application.ThreadException += mInstance_.ExceptionHandler;
+                    mInstance_ = new MPFinanceMain();                    
                 }
                 return mInstance_;
             }
         }
 
-        public VwOperator Operator { get { return mOperator_; } }
+        public VwOperator Operator { get { return mOperator_; } set { SetOperator(value); } }
         public VwBankAccount BankAccount { get { return (VwBankAccount)mAccountsList_.SelectedItem; } }
-        public DateTime FromDate { get { return mFromDate_.Value; } }
-        public DateTime ToDate { get { return mToDate_.Value; } }
-        public VwCategory Category { get { return (VwCategory)mCategoriesCmb_.SelectedItem; } }
-        public String Description { get { return mDescriptionSearch_.Text.Trim(); } }
-        public OpenFileDialog OpenFileDialog { get { return mOpenFileDialog_; } }
+        public VwSummary Summary { set { mSummaryPanel_.Update(value); } }
 
         #endregion
 
@@ -60,102 +51,28 @@ namespace MPFinance.Forms
 
         public MPFinanceMain()
         {
-            MessageProcessor.IOController = this;
-
             InitializeComponent();
-
-            mFromDate_.Value = new DateTime(DateTime.Now.Year, 1, 1);
-
-            mTransactionsGridView_.TxnUpdated += transactionsGridView_TxnUpdated;
-            mPageCountsLbl_.Text = Utils.ResolveTextParameters(Strings.strPageCounts, new Object[] { 0, 0 });
-            mTransactionCountsLbl_.Text = Utils.ResolveTextParameters(Strings.strTransactionCounts, new Object[] { 0, 0 });
+            MessageProcessor.IOController = this;
+            Application.ThreadException += ExceptionHandler;
         }        
-
-        #endregion
-
-        #region Local Private Methods
-
-        // Fetch all txns as per the search criteria
-        private void GetTxns(Page page)
-        {
-            mTransactionsGridView_.Focus();
-            mMoreBtn_.Enabled = false;
-            mSearchBtn_.Enabled = false;
-
-            // Clear the table if fetching first page
-            if(page.PageNo <= 1)
-            {
-                mTransactionsGridView_.DataSource = new VwTxns();
-            }
-
-            GetTxnsRQ request = new GetTxnsRQ();
-            request.Operator = Operator.OperatorId;
-            request.Account = BankAccount.BankAccountId;
-            request.FromDate = FromDate;
-            request.ToDate = ToDate;
-            request.Category = Category.CategoryId;
-            request.Description = Description;
-            request.Page = page;
-            MessageProcessor.SendRequest(request, GetTxnsSuccess);
-        }
-
-        // Callback method for GetTxns
-        private void GetTxnsSuccess(ResponseMessage response)
-        {
-            ((VwTxns)mTransactionsGridView_.DataSource).AddRange(((GetTxnsRS)response).Txns);
-            ((VwTxns)mTransactionsGridView_.DataSource).ResetBindings();
-
-            mSummaryPanel_.Update(((GetTxnsRS)response).Summary);
-            mPageCountsLbl_.Text = Utils.ResolveTextParameters(Strings.strPageCounts, new Object[] { response.Page.PageNo, response.Page.TotalPageCount });
-            mTransactionCountsLbl_.Text = Utils.ResolveTextParameters(Strings.strTransactionCounts, new Object[] { response.Page.RowsFetchedSoFar, response.Page.TotalRowCount });
-
-            mTransactionsGridView_.CurrentPage = response.Page;
-
-            mSearchBtn_.Enabled = true;
-            mMoreBtn_.Enabled = mTransactionsGridView_.CurrentPage.HasNext;
-        }
-
-        // Callback method for GetOperator if successful
-        private void GetOperatorSuccess(ResponseMessage response)
-        {
-            mOperator_ = ((GetOperatorRS)response).Operator;
-            Operator.BankAccountsChanged += Operator_BankAccountsChanged;
-            Operator.CategoriesChanged += Operator_CategoriesChanged;
-
-            Operator.Refresh();
-
-            mSummaryPanel_.Update(((GetOperatorRS)response).Summary);
-            mTransactionsGridView_.DataSource = ((GetOperatorRS)response).Txns;
-            mTransactionsGridView_.CurrentPage = response.Page;
-
-            mPageCountsLbl_.Text = Utils.ResolveTextParameters(Strings.strPageCounts, new Object[] { response.Page.PageNo, response.Page.TotalPageCount });
-            mTransactionCountsLbl_.Text = Utils.ResolveTextParameters(Strings.strTransactionCounts, new Object[] { response.Page.RowsFetchedSoFar, response.Page.TotalRowCount });
-            mMoreBtn_.Enabled = mTransactionsGridView_.CurrentPage.HasNext;
-            mSearchBtn_.Enabled = true;
-
-            // Enable the settings menu now
-            mSettingsToolStripMenuItem_.Enabled = true;
-        }        
-
-        // Callback method for GetOperator if error
-        private void GetOperatorError(ResponseMessage response)
-        {
-            Error(new MPException(ErrorStrings.errOperatorNotFoundMustExit).ErrorMessage.Message);
-
-            Application.Exit();
-        }
 
         #endregion
 
         #region Event Listenners
 
-        // The operators categories have changed; refresh the list
-        private void Operator_CategoriesChanged()
+        // Change users, show the login dialog
+        private void mLogoutToolStripMenuItem__Click(object sender, EventArgs e)
         {
-            VwCategories categories = new VwCategories();
-            categories.Add(new VwCategory { Name = "" });
-            categories.AddRange(Operator.Categories);
-            mCategoriesCmb_.DataSource = categories;
+            mOperator_ = null;
+            mAccountsList_.DataSource = null;
+            mAccountsList_.Refresh();
+
+            mTransactionsPanel_.Reset();
+
+            if (new LoginDialog().ShowDialog(this) == DialogResult.Cancel)
+            {
+                Application.Exit();
+            }
         }
 
         // the operators bank accounts have changed; refresh the list
@@ -165,12 +82,7 @@ namespace MPFinance.Forms
             bankAccounts.Add(new VwBankAccount { Nickname = "All" });
             bankAccounts.AddRange(Operator.BankAccounts);
             mAccountsList_.DataSource = bankAccounts;
-        }
-
-        // A transaction was updated; refresh the summary panel
-        private void transactionsGridView_TxnUpdated(VwSummary summary)
-        {
-            mSummaryPanel_.Update(summary);
+            mAccountsList_.Refresh();
         }
 
         // Exit the application
@@ -182,24 +94,13 @@ namespace MPFinance.Forms
         // User picked new account from list; refresh txns
         private void AccountsList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            GetTxns(new Page(1));
-        }
-
-        // Search for transactions using search criteria
-        private void Search_Click(object sender, EventArgs e)
-        {
-            // Load all txns if Ctrl + Click
-            GetTxns(new Page((ModifierKeys & Keys.Control) == Keys.Control ? 0 : 1));
+            mTransactionsPanel_.GetTxns(new Page(1));
         }
 
         // Open file chooser and import new OFX file
         private void OFXFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (mOpenFileDialog_.ShowDialog(this).Equals(DialogResult.OK))
-            {
-                OfxDocument document = new OfxDocument(new FileStream(mOpenFileDialog_.FileName, FileMode.Open));
-                new ImportNewTransactionsDialog(document).ShowDialog(this);
-            }
+            new ImportNewTransactionsDialog().ShowDialog(this);
         }
 
         // Show the edit account dialog
@@ -217,15 +118,10 @@ namespace MPFinance.Forms
         // Show settings dialog
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            new SettingsDialog().ShowDialog(this);
-        }
-
-        // Fetch next page of txns
-        private void MoreBtn_Click(object sender, EventArgs e)
-        {
-            if (mTransactionsGridView_.CurrentPage.HasNext)
+            SettingsDialog settings = new SettingsDialog(Operator);
+            if (settings.ShowDialog(this) == DialogResult.OK)
             {
-                GetTxns(mTransactionsGridView_.CurrentPage.NextPage);
+                Operator = settings.Operator;
             }
         }
 
@@ -241,14 +137,62 @@ namespace MPFinance.Forms
 
         protected override void OnLoad(EventArgs e)
         {
-            mTransactionsGridView_.FillColumns();
-
-            GetOperatorRQ request = new GetOperatorRQ();
+            LoginRQ request = new LoginRQ();
             request.Username = "miskopisko";
-            request.FromDate = FromDate;
-            request.ToDate = ToDate;
-            request.Page = new Page(1);
-            MessageProcessor.SendRequest(request, GetOperatorSuccess, GetOperatorError);
+            request.Password = "secret";
+            MessageProcessor.SendRequest(request, LoginSuccess, LoginError);
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private void LoginSuccess(ResponseMessage response)
+        {
+            SetOperator(((LoginRS)response).Operator);
+        }
+
+        private void LoginError(ResponseMessage response)
+        {
+            UpdateOperatorRQ request = new UpdateOperatorRQ();
+            request.Operator = new VwOperator();
+            request.Operator.Username = "miskopisko";
+            request.Password1 = "secret";
+            request.Password2 = "secret";
+            request.Operator.FirstName = "Michael";
+            request.Operator.LastName = "Piskuric";
+            request.Operator.Email = "michael@piskuric.ca";
+            request.Operator.Gender = Gender.Male;
+            request.Operator.Birthday = new DateTime(1982, 05, 15);
+            MessageProcessor.SendRequest(request, UpdateOperatorSuccess, UpdateOperatorError);
+        }
+
+        private void UpdateOperatorSuccess(ResponseMessage response)
+        {
+            SetOperator(((UpdateOperatorRS)response).Operator);
+        }
+
+        private void UpdateOperatorError(ResponseMessage response)
+        {
+            Application.Exit();
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        public void SetOperator(VwOperator o)
+        {
+            mOperator_ = o;
+
+            if (mOperator_ != null && mOperator_.OperatorId.IsSet)
+            {
+                mOperator_.BankAccountsChanged += Operator_BankAccountsChanged;
+                mOperator_.CategoriesChanged += mTransactionsPanel_.Operator_CategoriesChanged;
+
+                mOperator_.Refresh();
+                mSettingsToolStripMenuItem_.Enabled = true;
+            }
         }
 
         #endregion
@@ -259,14 +203,7 @@ namespace MPFinance.Forms
 
         public void ExceptionHandler(Object sender, ThreadExceptionEventArgs e)
         {
-            if (e.Exception is MPException)
-            {
-                Error(e.Exception.Message);
-            }
-            else
-            {
-                Error(new ErrorMessage(e.Exception.TargetSite.DeclaringType, e.Exception.TargetSite, ErrorLevel.Error, ErrorStrings.errUnexpectedApplicationErrorLong, new Object[] { e.Exception.Message, e.Exception.TargetSite.DeclaringType, e.Exception.TargetSite }).Message);
-            }
+            Error(e.Exception.InnerException.Message);
         }
 
         public DialogResult Error(String message)

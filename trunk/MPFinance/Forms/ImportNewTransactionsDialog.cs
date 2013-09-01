@@ -2,13 +2,13 @@
 using System.IO;
 using System.Windows.Forms;
 using MPersist.Core;
-using MPersist.Core.Message.Response;
-using MPFinance.Core.Data.Viewed;
-using MPFinance.Core.Message.Requests;
-using MPFinance.Core.Message.Responses;
-using MPFinance.Core.OFX;
-using MPFinance.Forms.Panels;
-using MPFinance.Resources;
+using MPersist.Message.Response;
+using MPFinance.Panels;
+using MPFinanceCore.Data.Viewed;
+using MPFinanceCore.Message.Requests;
+using MPFinanceCore.Message.Responses;
+using MPFinanceCore.OFX;
+using MPFinanceCore.Resources;
 
 namespace MPFinance.Forms
 {
@@ -33,10 +33,8 @@ namespace MPFinance.Forms
 
         #region Constructor
 
-        public ImportNewTransactionsDialog(OfxDocument document)
+        public ImportNewTransactionsDialog()
         {
-            mOfxDocument_ = document;           
-
             AutoSize = true;
             AutoSizeMode = AutoSizeMode.GrowAndShrink;
 
@@ -49,6 +47,15 @@ namespace MPFinance.Forms
 
         protected override void OnLoad(System.EventArgs e)
         {
+            if (mOpenFileDialog_.ShowDialog(MPFinanceMain.Instance).Equals(DialogResult.OK))
+            {
+                mOfxDocument_ = new OfxDocument(new FileStream(mOpenFileDialog_.FileName, FileMode.Open));
+            }
+            else
+            {
+                Dispose();
+            }
+
             mChooseAccountPanel_ = new ChooseAccountPanel(mOfxDocument_);
             mChooseTransactionsPanel_ = new ChooseTransactionsPanel();
 
@@ -164,9 +171,9 @@ namespace MPFinance.Forms
         {
             if (mChooseAccountPanel_.Visible)
             {
-                if (MPFinanceMain.Instance.OpenFileDialog.ShowDialog(this).Equals(DialogResult.OK))
+                if (mOpenFileDialog_.ShowDialog(MPFinanceMain.Instance).Equals(DialogResult.OK))
                 {
-                    mOfxDocument_ = new OfxDocument(new FileStream(MPFinanceMain.Instance.OpenFileDialog.FileName, FileMode.Open));
+                    mOfxDocument_ = new OfxDocument(new FileStream(mOpenFileDialog_.FileName, FileMode.Open));
                     mChooseAccountPanel_.Refresh(mOfxDocument_);
                 }
                 else

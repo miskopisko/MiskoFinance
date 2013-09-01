@@ -1,13 +1,13 @@
-﻿using MPFinance.Core.Enums;
-using MPFinance.Properties;
-using System;
+﻿using System;
 using System.Windows.Forms;
 using MPersist.Core;
-using MPFinance.Core.Message.Requests;
-using MPersist.Core.Message.Response;
-using MPFinance.Core.Data.Stored;
-using MPFinance.Core.Message.Responses;
-using MPFinance.Core.Data.Viewed;
+using MPersist.Enums;
+using MPersist.Message.Response;
+using MPFinance.Properties;
+using MPFinanceCore.Data.Viewed;
+using MPFinanceCore.Enums;
+using MPFinanceCore.Message.Requests;
+using MPFinanceCore.Message.Responses;
 
 namespace MPFinance.Forms
 {
@@ -17,23 +17,26 @@ namespace MPFinance.Forms
 
         #region Variable Declarations
 
-
+        private VwOperator mOperator_;
 
         #endregion
 
         #region Parameters
 
-
+        public VwOperator Operator { get { return mOperator_; } }
 
         #endregion
 
         #region Constructors
 
-        public SettingsDialog()
+        public SettingsDialog(VwOperator o)
         {
+            mOperator_ = o;
+
             InitializeComponent();
 
-            GenderCmb.DataSource = Gender.Elements;
+            mGender_.DataSource = Gender.Elements;
+            mDefaultDatasource_.DataSource = new ConnectionType[] { ConnectionType.NULL, ConnectionType.SQLite, ConnectionType.MySql, ConnectionType.Oracle };
         }
 
         #endregion
@@ -42,38 +45,57 @@ namespace MPFinance.Forms
 
         protected override void OnLoad(EventArgs e)
         {
-            UsernameTxt.Text = MPFinanceMain.Instance.Operator.Username;
-            mPassword1Txt_.Text = MPFinanceMain.Instance.Operator.Password;
-            mPassword2Txt_.Text = MPFinanceMain.Instance.Operator.Password;
-            FirstNameTxt.Text = MPFinanceMain.Instance.Operator.FirstName;
-            LastNameTxt.Text = MPFinanceMain.Instance.Operator.LastName;
-            EmailTxt.Text = MPFinanceMain.Instance.Operator.Email;
-            GenderCmb.SelectedItem = MPFinanceMain.Instance.Operator.Gender;
-            BirthdayPicker.Value = MPFinanceMain.Instance.Operator.Birthday;
-            RowsPerPageTxt.Text = Settings.Default.RowsPerPage.ToString();
+            if (mOperator_.OperatorId == null || mOperator_.OperatorId.IsNotSet)
+            {
+                Text = "Create new user";
+                mUsername_.Enabled = true;
+                mUsername_.ReadOnly = false;
+            }            
+
+            mUsername_.Text = mOperator_.Username;
+            mPassword1_.Text = mOperator_.Password;
+            mPassword2_.Text = mOperator_.Password;
+            mFirstName_.Text = mOperator_.FirstName;
+            mLastName_.Text = mOperator_.LastName;
+            mEmail_.Text = mOperator_.Email;
+            mGender_.SelectedItem = mOperator_.Gender;
+            mBirthday_.Value = mOperator_.Birthday > mBirthday_.MinDate ? mOperator_.Birthday : mBirthday_.MinDate;
+
+            mRowPerPage_.Value = Settings.Default.RowsPerPage;
+            mDefaultDatasource_.SelectedItem = ConnectionType.GetElement(Settings.Default.DefaultDatasource);
+            mDefaultUsername_.Checked = Settings.Default.DefaultUsername.Equals(mOperator_.Username);
         }
 
         #endregion
 
         #region Private Methods
 
-        private void UpdateOperatorError(ResponseMessage Response)
+        private void TestConnectionSuccess(ResponseMessage response)
         {
-            
+            ConnectionSettings.Connections.Remove(ConnectionSettings.GetConnectionSettings("TEST"));
         }
 
-        private void UpdateOperatorSuccess(ResponseMessage Response)
+        private void TestConnectionError(ResponseMessage response)
         {
-            Settings.Default.RowsPerPage = Convert.ToInt32(RowsPerPageTxt.Text);
+            ConnectionSettings.Connections.Remove(ConnectionSettings.GetConnectionSettings("TEST"));
+
+            throw new MPException("Connection failed");
+        }
+
+        private void UpdateOperatorSuccess(ResponseMessage response)
+        {
+            mOperator_ = ((UpdateOperatorRS)response).Operator;
+
+            if (mDefaultUsername_.Checked)
+            {
+                Settings.Default.DefaultUsername = mUsername_.Text.Trim();
+            }
+
+            Settings.Default.RowsPerPage = (Int32)mRowPerPage_.Value;
+            Settings.Default.DefaultDatasource = (Int64)mDefaultDatasource_.SelectedValue;
             Settings.Default.Save();
 
-            MPFinanceMain.Instance.Operator.FirstName = ((UpdateOperatorRS)Response).Operator.FirstName;
-            MPFinanceMain.Instance.Operator.LastName = ((UpdateOperatorRS)Response).Operator.LastName;
-            MPFinanceMain.Instance.Operator.Email = ((UpdateOperatorRS)Response).Operator.Email;
-            MPFinanceMain.Instance.Operator.Password = ((UpdateOperatorRS)Response).Operator.Password;
-            MPFinanceMain.Instance.Operator.Gender = ((UpdateOperatorRS)Response).Operator.Gender;
-            MPFinanceMain.Instance.Operator.Birthday = ((UpdateOperatorRS)Response).Operator.Birthday;
-
+            DialogResult = DialogResult.OK;
             Dispose();
         }
 
@@ -87,21 +109,62 @@ namespace MPFinance.Forms
 
         #region Event Listenners
 
-        private void Done_Click(object sender, EventArgs e)
+        private void mOKBtn__Click(object sender, EventArgs e)
         {
-            VwOperator operatorToUpdate = MPFinanceMain.Instance.Operator;
-            operatorToUpdate.FirstName = FirstNameTxt.Text.Trim();
-            operatorToUpdate.LastName = LastNameTxt.Text.Trim();
-            operatorToUpdate.Email = EmailTxt.Text.Trim();
-            operatorToUpdate.Birthday = BirthdayPicker.Value;
-            operatorToUpdate.Gender = (Gender)GenderCmb.SelectedItem;
+            mOperator_.Username = mUsername_.Text.Trim();
+            mOperator_.FirstName = mFirstName_.Text.Trim();
+            mOperator_.LastName = mLastName_.Text.Trim();
+            mOperator_.Email = mEmail_.Text.Trim();
+            mOperator_.Birthday = mBirthday_.Value;
+            mOperator_.Gender = (Gender)mGender_.SelectedItem;
 
             UpdateOperatorRQ request = new UpdateOperatorRQ();
-            request.Operator = operatorToUpdate;
-            request.Password1 = mPassword1Txt_.Text;
-            request.Password2 = mPassword2Txt_.Text;
-            MessageProcessor.SendRequest(request, UpdateOperatorSuccess, UpdateOperatorError);
-        }        
+            request.Operator = mOperator_;
+            request.Password1 = mPassword1_.Text;
+            request.Password2 = mPassword2_.Text;
+            MessageProcessor.SendRequest(request, UpdateOperatorSuccess);
+        }
+
+        private void mCancelBtn__Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.Cancel;
+            Dispose();
+        }
+
+        private void mTestOracle__Click(object sender, EventArgs e)
+        {
+            ConnectionSettings.AddOracleConnection("TEST", mOracleHost_.Text.Trim(), Decimal.ToInt32(mOraclePort_.Value), mOracleDatabase_.Text.Trim(), mOracleUsername_.Text.Trim(), mOraclePassword_.Text.Trim());
+
+            TestConnectionRQ request = new TestConnectionRQ();
+            request.Connection = "TEST";
+            MessageProcessor.SendRequest(request, TestConnectionSuccess, TestConnectionError);
+        }
+
+        private void mTestMySql__Click(object sender, EventArgs e)
+        {
+            ConnectionSettings.AddMySqlConnection("TEST", mMySqlHost_.Text.Trim(), mMySqlDatabase_.Text.Trim(), mMySqlUsername_.Text.Trim(), mMySqlPassword_.Text.Trim());
+            
+            TestConnectionRQ request = new TestConnectionRQ();
+            request.Connection = "TEST";
+            MessageProcessor.SendRequest(request, TestConnectionSuccess, TestConnectionError);
+        }
+
+        private void mTestSqlite__Click(object sender, EventArgs e)
+        {
+            ConnectionSettings.AddSqliteConnection("TEST", mSqliteDatasource_.Text.Trim());
+
+            TestConnectionRQ request = new TestConnectionRQ();
+            request.Connection = "TEST";
+            MessageProcessor.SendRequest(request, TestConnectionSuccess, TestConnectionError);
+        }
+
+        private void mFileDialog__Click(object sender, EventArgs e)
+        {
+            if(mOpenFileDialog_.ShowDialog(this) == DialogResult.OK)
+            {
+                mSqliteDatasource_.Text = mOpenFileDialog_.FileName;
+            }
+        }
 
         #endregion
     }

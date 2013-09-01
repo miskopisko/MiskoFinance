@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using MPersist.Core.Enums;
+using MPersist.Enums;
 
 namespace MPersist.Core
 {

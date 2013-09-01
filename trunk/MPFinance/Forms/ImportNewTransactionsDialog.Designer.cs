@@ -35,6 +35,7 @@
             this.mImportBtn_ = new System.Windows.Forms.Button();
             this.mNextBtn_ = new System.Windows.Forms.Button();
             this.mBackBtn_ = new System.Windows.Forms.Button();
+            this.mOpenFileDialog_ = new System.Windows.Forms.OpenFileDialog();
             this.mTableLayoutPanel_.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -114,6 +115,10 @@
             this.mBackBtn_.UseVisualStyleBackColor = true;
             this.mBackBtn_.Click += new System.EventHandler(this.BackBtn_Click);
             // 
+            // mOpenFileDialog_
+            // 
+            this.mOpenFileDialog_.Filter = "OFX Files|*.ofx";
+            // 
             // ImportNewTransactionsDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -145,6 +150,7 @@
         public System.Windows.Forms.Button mImportBtn_;
         public System.Windows.Forms.Button mNextBtn_;
         public System.Windows.Forms.Button mBackBtn_;
+        private System.Windows.Forms.OpenFileDialog mOpenFileDialog_;
 
     }
 }

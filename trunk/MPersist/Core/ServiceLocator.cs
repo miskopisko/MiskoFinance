@@ -2,9 +2,9 @@ using System;
 using System.Data.Common;
 using System.Data.OleDb;
 using System.Data.SQLite;
-using MPersist.Core.Resources;
-using MPersist.Core.SVN;
-using MPersist.Resources.Enums;
+using MPersist.Enums;
+using MPersist.Resources;
+using MPersist.SVN;
 using MySql.Data.MySqlClient;
 using Oracle.DataAccess.Client;
 
