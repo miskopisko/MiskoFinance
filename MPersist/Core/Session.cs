@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Diagnostics;
 using System.Reflection;
-using MPersist.Core.Debug;
-using MPersist.Core.Enums;
-using MPersist.Core.Resources;
+using MPersist.Debug;
+using MPersist.Enums;
+using MPersist.Resources;
 
 namespace MPersist.Core
 {

@@ -40,9 +40,10 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <Prefer32Bit>true</Prefer32Bit>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <FileAlignment>4096</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -51,122 +52,56 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>MPFinance.Program</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Security" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Core\Data\Stored\Account.cs" />
-    <Compile Include="Core\Data\Stored\Accounts.cs" />
-    <Compile Include="Core\Data\Stored\BankAccount.cs" />
-    <Compile Include="Core\Data\Stored\BankAccounts.cs" />
-    <Compile Include="Core\Data\Stored\Categories.cs" />
-    <Compile Include="Core\Data\Stored\Category.cs" />
-    <Compile Include="Core\Data\Stored\Txn.cs" />
-    <Compile Include="Core\Data\Stored\Txns.cs" />
-    <Compile Include="Core\Data\Viewed\VwBankAccount.cs" />
-    <Compile Include="Core\Data\Viewed\VwBankAccounts.cs" />
-    <Compile Include="Core\Data\Viewed\VwCategory.cs" />
-    <Compile Include="Core\Data\Viewed\VwCategories.cs" />
-    <Compile Include="Core\Data\Viewed\VwOperator.cs" />
-    <Compile Include="Core\Data\Viewed\VwOperators.cs" />
-    <Compile Include="Core\Data\Viewed\VwSummary.cs" />
-    <Compile Include="Core\Data\Viewed\VwTxn.cs" />
-    <Compile Include="Core\Data\Viewed\VwTxns.cs" />
-    <Compile Include="Core\Enums\AccountType.cs" />
-    <Compile Include="Core\Enums\CategoryType.cs" />
-    <Compile Include="Core\Enums\Gender.cs" />
-    <Compile Include="Core\Enums\Status.cs" />
-    <Compile Include="Core\Enums\TxnType.cs" />
-    <Compile Include="Core\Message\AddAccount.cs" />
-    <Compile Include="Core\Message\CheckDuplicateTxns.cs" />
-    <Compile Include="Core\Message\GetAccount.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Core\Message\GetCategories.cs" />
-    <Compile Include="Core\Message\GetTxns.cs" />
-    <Compile Include="Core\Message\GetOperator.cs" />
-    <Compile Include="Core\Message\ImportTxns.cs" />
-    <Compile Include="Core\Message\Requests\AddAccountRQ.cs" />
-    <Compile Include="Core\Message\Requests\CheckDuplicateTxnsRQ.cs" />
-    <Compile Include="Core\Message\Requests\GetAccountRQ.cs" />
-    <Compile Include="Core\Message\Requests\GetCategoriesRQ.cs" />
-    <Compile Include="Core\Message\Requests\GetTxnsRQ.cs" />
-    <Compile Include="Core\Message\Requests\GetOperatorRQ.cs" />
-    <Compile Include="Core\Message\Requests\ImportTxnsRQ.cs" />
-    <Compile Include="Core\Message\Requests\UpdateAccountsRQ.cs" />
-    <Compile Include="Core\Message\Requests\UpdateCategoriesRQ.cs" />
-    <Compile Include="Core\Message\Requests\UpdateOperatorRQ.cs" />
-    <Compile Include="Core\Message\Requests\UpdateTxnRQ.cs" />
-    <Compile Include="Core\Message\Responses\AddAccountRS.cs" />
-    <Compile Include="Core\Message\Responses\CheckDuplicateTxnsRS.cs" />
-    <Compile Include="Core\Message\Responses\GetAccountRS.cs" />
-    <Compile Include="Core\Message\Responses\GetCategoriesRS.cs" />
-    <Compile Include="Core\Message\Responses\GetTxnsRS.cs" />
-    <Compile Include="Core\Message\Responses\GetOperatorRS.cs" />
-    <Compile Include="Core\Message\Responses\ImportTxnsRS.cs" />
-    <Compile Include="Core\Message\Responses\UpdateAccountsRS.cs" />
-    <Compile Include="Core\Message\Responses\UpdateCategoriesRS.cs" />
-    <Compile Include="Core\Message\Responses\UpdateOperatorRS.cs" />
-    <Compile Include="Core\Message\Responses\UpdateTxnRS.cs" />
-    <Compile Include="Core\Message\UpdateAccounts.cs" />
-    <Compile Include="Core\Message\UpdateCategories.cs" />
-    <Compile Include="Core\Message\UpdateOperator.cs" />
-    <Compile Include="Core\Message\UpdateTxn.cs" />
-    <Compile Include="Core\OFX\OfxDocument.cs" />
     <Compile Include="Forms\AboutDialog.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\AboutDialog.Designer.cs">
       <DependentUpon>AboutDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Controls\CategoriesGridView.cs">
+    <Compile Include="Controls\CategoriesGridView.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Forms\Controls\CategoriesGridView.Designer.cs">
+    <Compile Include="Controls\CategoriesGridView.Designer.cs">
       <DependentUpon>CategoriesGridView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Controls\CheckBoxHeaderCell.cs">
+    <Compile Include="Controls\CheckBoxHeaderCell.cs">
     </Compile>
-    <Compile Include="Forms\Controls\CheckBoxHeaderCell.Designer.cs">
+    <Compile Include="Controls\CheckBoxHeaderCell.Designer.cs">
       <DependentUpon>CheckBoxHeaderCell.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Controls\DGVComboBoxColumn.cs" />
-    <Compile Include="Forms\Controls\ImportedTransactionsGridView.cs">
+    <Compile Include="Controls\DGVComboBoxColumn.cs" />
+    <Compile Include="Controls\ImportedTransactionsGridView.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Forms\Controls\ImportedTransactionsGridView.Designer.cs">
+    <Compile Include="Controls\ImportedTransactionsGridView.Designer.cs">
       <DependentUpon>ImportedTransactionsGridView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Controls\MessageTimingGridView.cs">
+    <Compile Include="Controls\MessageTimingGridView.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Forms\Controls\MessageTimingGridView.Designer.cs">
+    <Compile Include="Controls\MessageTimingGridView.Designer.cs">
       <DependentUpon>MessageTimingGridView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Controls\MoneyBox.cs">
+    <Compile Include="Controls\MoneyBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Forms\Controls\MoneyBox.Designer.cs">
+    <Compile Include="Controls\MoneyBox.Designer.cs">
       <DependentUpon>MoneyBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Controls\SqlTimingGridView.cs">
+    <Compile Include="Controls\SqlTimingGridView.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Forms\Controls\SqlTimingGridView.Designer.cs">
+    <Compile Include="Controls\SqlTimingGridView.Designer.cs">
       <DependentUpon>SqlTimingGridView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Controls\TransactionsGridView.cs">
+    <Compile Include="Controls\TransactionsGridView.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Forms\Controls\TransactionsGridView.Designer.cs">
+    <Compile Include="Controls\TransactionsGridView.Designer.cs">
       <DependentUpon>TransactionsGridView.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\EditAccountsDialog.cs">
@@ -193,29 +128,41 @@
     <Compile Include="Forms\ImportNewTransactionsDialog.Designer.cs">
       <DependentUpon>ImportNewTransactionsDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\LoginDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\LoginDialog.Designer.cs">
+      <DependentUpon>LoginDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\MPFinanceMain.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\MPFinanceMain.Designer.cs">
       <DependentUpon>MPFinanceMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Panels\ChooseTransactionsPanel.cs">
+    <Compile Include="Panels\ChooseAccountPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Forms\Panels\ChooseTransactionsPanel.Designer.cs">
-      <DependentUpon>ChooseTransactionsPanel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\Panels\ChooseAccountPanel.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Forms\Panels\ChooseAccountPanel.Designer.cs">
+    <Compile Include="Panels\ChooseAccountPanel.Designer.cs">
       <DependentUpon>ChooseAccountPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Panels\SummaryPanel.cs">
+    <Compile Include="Panels\ChooseTransactionsPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Forms\Panels\SummaryPanel.Designer.cs">
+    <Compile Include="Panels\ChooseTransactionsPanel.Designer.cs">
+      <DependentUpon>ChooseTransactionsPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Panels\SummaryPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Panels\SummaryPanel.Designer.cs">
       <DependentUpon>SummaryPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Panels\TransactionsPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Panels\TransactionsPanel.Designer.cs">
+      <DependentUpon>TransactionsPanel.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\SettingsDialog.cs">
       <SubType>Form</SubType>
@@ -225,58 +172,37 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
+    <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\ConfirmStrings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ConfirmStrings.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\ErrorStrings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ErrorStrings.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Strings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Strings.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\WarningStrings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>WarningStrings.resx</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Forms\AboutDialog.resx">
       <DependentUpon>AboutDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Controls\CategoriesGridView.resx">
+    <EmbeddedResource Include="Controls\CategoriesGridView.resx">
       <DependentUpon>CategoriesGridView.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Controls\ImportedTransactionsGridView.resx">
+    <EmbeddedResource Include="Controls\ImportedTransactionsGridView.resx">
       <DependentUpon>ImportedTransactionsGridView.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Controls\MessageTimingGridView.resx">
+    <EmbeddedResource Include="Controls\MessageTimingGridView.resx">
       <DependentUpon>MessageTimingGridView.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Controls\SqlTimingGridView.resx">
+    <EmbeddedResource Include="Controls\SqlTimingGridView.resx">
       <DependentUpon>SqlTimingGridView.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Controls\TransactionsGridView.resx">
+    <EmbeddedResource Include="Controls\TransactionsGridView.resx">
       <DependentUpon>TransactionsGridView.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\EditAccountsDialog.resx">
       <DependentUpon>EditAccountsDialog.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\EditCategoriesDialog.resx">
       <DependentUpon>EditCategoriesDialog.cs</DependentUpon>
@@ -290,69 +216,37 @@
       <DependentUpon>ImportNewTransactionsDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\LoginDialog.resx">
+      <DependentUpon>LoginDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\MPFinanceMain.resx">
       <DependentUpon>MPFinanceMain.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Panels\ChooseTransactionsPanel.resx">
+    <EmbeddedResource Include="Panels\ChooseAccountPanel.resx">
+      <DependentUpon>ChooseAccountPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Panels\ChooseTransactionsPanel.resx">
       <DependentUpon>ChooseTransactionsPanel.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Panels\ChooseAccountPanel.resx">
-      <DependentUpon>ChooseAccountPanel.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Panels\SummaryPanel.resx">
+    <EmbeddedResource Include="Panels\SummaryPanel.resx">
       <DependentUpon>SummaryPanel.cs</DependentUpon>
-      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Panels\TransactionsPanel.resx">
+      <DependentUpon>TransactionsPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\SettingsDialog.resx">
       <DependentUpon>SettingsDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\ConfirmStrings.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>ConfirmStrings.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\ErrorStrings.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>ErrorStrings.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Strings.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\WarningStrings.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>WarningStrings.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <None Include="app.config" />
-    <None Include="DBA\MySql\Tables.sql" />
-    <None Include="DBA\MySql\Views.sql" />
-    <None Include="DBA\Oracle\Tables.sql" />
-    <None Include="DBA\Sqlite\Tables.sql" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Core\Data\Stored\Operator.cs" />
-    <Compile Include="Core\Data\Stored\Operators.cs" />
-    <Compile Include="Settings.cs" />
   </ItemGroup>
   <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
       <Visible>False</Visible>
       <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
@@ -368,6 +262,11 @@
       <ProductName>.NET Framework 3.5</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
       <Visible>False</Visible>
       <ProductName>Windows Installer 3.1</ProductName>
@@ -376,16 +275,27 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPersist\MPersist.csproj">
-      <Project>{F538732A-122B-40BB-86B0-199F99B0386C}</Project>
+      <Project>{f538732a-122b-40bb-86b0-199f99b0386c}</Project>
       <Name>MPersist</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPFinanceCore\MPFinanceCore.csproj">
+      <Project>{b821b2c4-d983-4f40-90e6-f6c3c1702535}</Project>
+      <Name>MPFinanceCore</Name>
+      <Private>True</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DBA\Oracle\Views.sql" />
-    <Content Include="DBA\Sqlite\Views.sql" />
-    <None Include="Resources\Piggy Bank.jpg" />
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

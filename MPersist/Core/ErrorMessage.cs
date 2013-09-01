@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
-using MPersist.Core.Enums;
-using MPersist.Core.Tools;
+using MPersist.Enums;
+using MPersist.Tools;
 
 namespace MPersist.Core
 {

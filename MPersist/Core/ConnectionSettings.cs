@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using MPersist.Resources.Enums;
+using MPersist.Enums;
 
 namespace MPersist.Core
 {
@@ -166,6 +166,18 @@ namespace MPersist.Core
                 }
             }
             return null;            
+        }
+
+        public static void RemoveConnection(String connectionName)
+        {
+            List<ConnectionSettings> connections = mConnections_;
+            foreach (ConnectionSettings item in connections)
+            {
+                if (item.Name.Equals(connectionName, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    mConnections_.Remove(item);
+                }
+            }
         }
 
         #endregion

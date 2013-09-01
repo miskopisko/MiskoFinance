@@ -31,10 +31,10 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DebugWindow));
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
-            this.messageTimingGridView = new MPFinance.Forms.Controls.MessageTimingGridView();
-            this.sqlTimingGridView = new MPFinance.Forms.Controls.SqlTimingGridView();
+            this.messageTimingGridView = new MPFinance.Controls.MessageTimingGridView();
+            this.sqlTimingGridView = new MPFinance.Controls.SqlTimingGridView();
             this.MessageText = new System.Windows.Forms.TextBox();
-            this.messageTimingGridViewqqqq = new MPFinance.Forms.Controls.MessageTimingGridView();
+            this.messageTimingGridViewqqqq = new MPFinance.Controls.MessageTimingGridView();
             this.messageNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.startTimeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.endTimeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();

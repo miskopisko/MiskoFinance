@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPersist", "MPersist\MPersi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPFinance", "MPFinance\MPFinance.csproj", "{B21F4609-E55B-4D30-9D04-CA58B3999C55}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPFinanceCore", "MPFinanceCore\MPFinanceCore.csproj", "{B821B2C4-D983-4F40-90E6-F6C3C1702535}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{B21F4609-E55B-4D30-9D04-CA58B3999C55}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B21F4609-E55B-4D30-9D04-CA58B3999C55}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B21F4609-E55B-4D30-9D04-CA58B3999C55}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B821B2C4-D983-4F40-90E6-F6C3C1702535}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B821B2C4-D983-4F40-90E6-F6C3C1702535}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B821B2C4-D983-4F40-90E6-F6C3C1702535}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B821B2C4-D983-4F40-90E6-F6C3C1702535}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
