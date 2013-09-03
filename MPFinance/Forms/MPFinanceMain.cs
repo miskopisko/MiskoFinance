@@ -206,24 +206,27 @@ namespace MPFinance.Forms
             Error(e.Exception.InnerException.Message);
         }
 
-        public DialogResult Error(String message)
+        public void Error(String message)
         {
-            return MessageBox.Show(this, message.ToString(), Strings.strError, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            Invoke(new MethodInvoker(delegate { MessageBox.Show(this, message.ToString(), Strings.strError, MessageBoxButtons.OK, MessageBoxIcon.Error); }));
         }
 
-        public DialogResult Confirm(String message)
+        public Boolean Confirm(String message)
         {
-            return MessageBox.Show(this, message.ToString(), Strings.strConfirm, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            Func<DialogResult> showMsg = () => MessageBox.Show(this, message.ToString(), Strings.strConfirm, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult result = (DialogResult)Invoke(showMsg);
+
+            return result.Equals(DialogResult.Yes);
         }
 
-        public DialogResult Warning(String message)
+        public void Warning(String message)
         {
-            return MessageBox.Show(this, message.ToString(), Strings.strWarning, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            Invoke(new MethodInvoker(delegate { MessageBox.Show(this, message.ToString(), Strings.strWarning, MessageBoxButtons.OK, MessageBoxIcon.Warning); }));
         }
 
-        public DialogResult Info(String message)
+        public void Info(String message)
         {
-            return MessageBox.Show(this, message.ToString(), Strings.strInfo, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            Invoke(new MethodInvoker(delegate { MessageBox.Show(this, message.ToString(), Strings.strInfo, MessageBoxButtons.OK, MessageBoxIcon.Information); }));
         }
 
         public void MessageReceived(String message)

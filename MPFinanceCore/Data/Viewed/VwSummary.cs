@@ -126,8 +126,8 @@ namespace MPFinanceCore.Data.Viewed
             p.Close();
             p = null;
 
-            String sql4 = "SELECT SUM(DISTINCT B.OpeningBalance) + SUM(CASE WHEN C.DatePosted < DATE ? THEN CASE WHEN C.TxnType IN (0,2) THEN C.Amount ELSE -C.Amount END ELSE 0 END) OpeningBalance, " +
-                          "       SUM(DISTINCT B.OpeningBalance) + SUM(CASE WHEN C.DatePosted <= DATE ? THEN CASE WHEN C.TxnType IN (0,2) THEN C.Amount ELSE -C.Amount END ELSE 0 END) ClosingBalance " +
+            String sql4 = "SELECT SUM(DISTINCT B.OpeningBalance) + SUM(CASE WHEN C.DatePosted < ? THEN CASE WHEN C.TxnType IN (0,2) THEN C.Amount ELSE -C.Amount END ELSE 0 END) OpeningBalance, " +
+                          "       SUM(DISTINCT B.OpeningBalance) + SUM(CASE WHEN C.DatePosted <= ? THEN CASE WHEN C.TxnType IN (0,2) THEN C.Amount ELSE -C.Amount END ELSE 0 END) ClosingBalance " +
                           "FROM   Account A, BankAccount B, Txn C " +
                           "WHERE  A.Id = B.Id " +
                           "AND    B.Id = C.Account " +

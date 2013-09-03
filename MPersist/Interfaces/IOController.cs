@@ -17,12 +17,12 @@ namespace MPersist.Interfaces
 
         void ExceptionHandler(Object sender, ThreadExceptionEventArgs e);
 
-        DialogResult Error(String message);
+        void Error(String message);
 
-        DialogResult Confirm(String message);
+        void Warning(String message);
 
-        DialogResult Warning(String message);
+        void Info(String message);
 
-        DialogResult Info(String message);
+        Boolean Confirm(String message);
     }
 }

@@ -1,7 +1,6 @@
 using System;
 using System.ComponentModel;
 using System.Reflection;
-using System.Windows.Forms;
 using MPersist.Debug;
 using MPersist.Enums;
 using MPersist.Interfaces;
@@ -89,45 +88,30 @@ namespace MPersist.Core
 
                         if (errorMessage.Level.Equals(ErrorLevel.Error))
                         {
-                            if (IOController is Control)
-                            {
-                                ((Control)IOController).Invoke(new MethodInvoker(delegate { IOController.Error(errorMessage.Message); }));
-                            }
+                            IOController.Error(errorMessage.Message);
                         }
                         else if (errorMessage.Level.Equals(ErrorLevel.Warning))
                         {
-                            if (IOController is Control)
-                            {
-                                ((Control)IOController).Invoke(new MethodInvoker(delegate { IOController.Warning(errorMessage.Message); }));
-                            }
+                            IOController.Warning(errorMessage.Message);
                         }
                         else if (errorMessage.Level.Equals(ErrorLevel.Info))
                         {
-                            if (IOController is Control)
-                            {
-                                ((Control)IOController).Invoke(new MethodInvoker(delegate { IOController.Info(errorMessage.Message); }));
-                            }
+                            IOController.Info(errorMessage.Message);
                         }
                         else if (errorMessage.Level.Equals(ErrorLevel.Confirmation))
                         {
                             if (!errorMessage.Confirmed)
                             {
-                                if (IOController is Control)
+                                if (IOController.Confirm(errorMessage.Message))
                                 {
-                                    Func<DialogResult> showMsg = () => IOController.Confirm(errorMessage.Message);
-                                    DialogResult result = (DialogResult)((Control)IOController).Invoke(showMsg);
-
-                                    if (result == DialogResult.Yes)
-                                    {
-                                        session.Status = ErrorLevel.Success;
-                                        errorMessage.Confirmed = true;
-                                        resendMessage = true;
-                                    }
-                                    else
-                                    {
-                                        response.Errors.Add(new MPException(ErrorStrings.errUserDeclinedConfirmation).ErrorMessage);
-                                        break;
-                                    }
+                                    session.Status = ErrorLevel.Success;
+                                    errorMessage.Confirmed = true;
+                                    resendMessage = true;
+                                }
+                                else
+                                {
+                                    response.Errors.Add(new MPException(ErrorStrings.errUserDeclinedConfirmation).ErrorMessage);
+                                    break;
                                 }
                             }
                         }
@@ -225,10 +209,7 @@ namespace MPersist.Core
             {
                 errorEncountered = true;
 
-                if (IOController is Control)
-                {
-                    ((Control)IOController).Invoke(new MethodInvoker(delegate { IOController.Error(e.Error.Message); }));
-                }
+                IOController.Error(e.Error.Message);
             }
             else
             {
