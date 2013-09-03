@@ -46,6 +46,22 @@ namespace MPersist.Data
 
         #endregion
 
+        #region Override Methods
+
+        public override string ToString()
+        {
+            String result = GetType().Name + Environment.NewLine;
+
+            foreach (PropertyInfo property in GetType().GetProperties())
+            {
+                result += property.Name + ": " + property.GetValue(this, null) + Environment.NewLine;
+            }
+
+            return result;
+        }
+
+        #endregion
+
         #region Private Methods
 
         private String BuildSelectStatement()
@@ -179,17 +195,5 @@ namespace MPersist.Data
         public abstract AbstractStoredData Remove(Session session);
 
         #endregion
-
-        public override string ToString()
-        {
-            String result = GetType().Name + Environment.NewLine;
-
-            foreach (PropertyInfo property in GetType().GetProperties())
-            {
-                result += property.Name + ": " + property.GetValue(this, null) + Environment.NewLine;
-            }
-
-            return result;
-        }
     }
 }

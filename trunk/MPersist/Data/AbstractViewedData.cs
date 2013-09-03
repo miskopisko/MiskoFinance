@@ -1,3 +1,5 @@
+using System;
+using System.Reflection;
 using MPersist.Core;
 
 namespace MPersist.Data
@@ -31,6 +33,22 @@ namespace MPersist.Data
 
         #endregion
 
+        #region Override Methods
+
+        public override string ToString()
+        {
+            String result = GetType().Name + Environment.NewLine;
+
+            foreach (PropertyInfo property in GetType().GetProperties())
+            {
+                result += property.Name + ": " + property.GetValue(this, null) + Environment.NewLine;
+            }
+
+            return result;
+        }
+
+        #endregion
+
         #region Private Methods
 
 
@@ -39,7 +57,7 @@ namespace MPersist.Data
 
         #region Public Methods
 
-        
+
 
         #endregion
     }

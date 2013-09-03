@@ -26,9 +26,6 @@ namespace MPFinanceCore.Message
 
         public override void Execute(Session session)
         {
-            // Confirm with the user first
-            session.Error(ErrorLevel.Confirmation, ConfirmStrings.conCreateNewAccount, new Object[] { Request.BankAccount.AccountNumber });
-
             // Make sure a bank account with that account number does not already exist
             BankAccount alreadyExists = BankAccount.GetInstanceByComposite(session, Request.Operator.OperatorId, Request.BankAccount.AccountNumber);
             if(alreadyExists != null && alreadyExists.IsSet)
@@ -38,6 +35,9 @@ namespace MPFinanceCore.Message
 
             Request.BankAccount.OperatorId = Request.Operator.OperatorId;
             Request.BankAccount.Update(session);
+
+            // Confirm with the user first
+            session.Error(ErrorLevel.Confirmation, ConfirmStrings.conCreateNewAccount, new Object[] { Request.BankAccount.AccountNumber });
 
             Response.NewAccount = Request.BankAccount;
         }
