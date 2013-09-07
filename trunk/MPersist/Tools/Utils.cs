@@ -13,8 +13,14 @@ namespace MPersist.Tools
     {
         private static Logger Log = Logger.GetInstance(typeof(Utils));
 
+        #region Fields
+
         private static byte[] mSalt_ = Encoding.ASCII.GetBytes("b780gU&G&*GP&G&*)");
         private static String mSharedSecret_ = "bn89*(HG)*h80I&*(*)Y*Hjkjub";
+
+        #endregion
+
+        #region Public Static Methods
 
         public static String GenerateHash(String input)
         {
@@ -74,6 +80,17 @@ namespace MPersist.Tools
             }
 
             return "";
+        }
+
+        public static String Serialize(Object o)
+        {
+            // Rig it so that there are no namespaces in the XML
+            XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
+            ns.Add("", "");
+
+            StringBuilder builder = new StringBuilder();
+            new XmlSerializer(o.GetType()).Serialize(new NoNamespaceXmlWriter(new StringWriter(builder)), o, ns);
+            return builder.ToString();
         }
 
         public static T Deserialize<T>(String xml)
@@ -141,7 +158,7 @@ namespace MPersist.Tools
             return outStr;
         }
 
-        public static string DecryptStringAES(String cipherText)
+        public static String DecryptStringAES(String cipherText)
         {
             if (string.IsNullOrEmpty(cipherText))
             {
@@ -195,6 +212,10 @@ namespace MPersist.Tools
             return plaintext;
         }
 
+        #endregion
+
+        #region Private Methods
+
         private static byte[] ReadByteArray(Stream s)
         {
             byte[] rawLength = new byte[sizeof(int)];
@@ -210,6 +231,43 @@ namespace MPersist.Tools
             }
 
             return buffer;
+        }
+
+        #endregion
+    }
+
+    // Internal class to override the NameSpaces to be excluded from the XML
+    internal class NoNamespaceXmlWriter : XmlTextWriter
+    {
+        public override XmlWriterSettings Settings
+        {
+            get
+            {
+                return new XmlWriterSettings();
+            }
+        }
+
+        public NoNamespaceXmlWriter(TextWriter output) : base(output)
+        {
+            Formatting = Formatting.Indented;
+            Settings.NewLineHandling = NewLineHandling.Entitize;
+            Settings.CloseOutput = true;
+            Settings.OmitXmlDeclaration = true;
+        }
+
+        public override void WriteStartDocument()
+        {
+        }
+
+        public override void WriteStartElement(string prefix, string localName, string ns)
+        {
+           
+            base.WriteStartElement("", localName, "");
+        }
+
+        public override void WriteString(string text)
+        {
+            base.WriteString(text);
         }
     }
 }

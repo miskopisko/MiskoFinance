@@ -1,51 +1,40 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Globalization;
+using System.Xml;
+using System.Xml.Schema;
+using System.Xml.Serialization;
 
 namespace MPersist.MoneyType
 {
-    /// <summary>
-    /// Represents a decimal amount of a specific <see cref="Currency"/>.
-    /// </summary>
-    [Serializable]
-    [DebuggerDisplay("{getDebugView()}")]
-    public class Money : IEquatable<Money>, IComparable<Money>, IFormattable, IConvertible, IComparable
+    public class Money : IEquatable<Money>, IComparable<Money>, IFormattable, IConvertible, IComparable, IXmlSerializable
     {
-        /// <summary>
-        /// A zero value of money, regardless of currency.
-        /// </summary>
-        public static readonly Money Zero = new Money(0);
+        #region Fields
 
-        /// <summary>
-        /// A 100.00 value of money, regardless of currency.
-        /// </summary>
-        public static readonly Money Hundred = new Money(new Decimal(100.00d));
+        public static readonly Money ZERO = new Money(0);
 
-        /// <summary>
-        /// A source of randomness for stochastic rounding.
-        /// </summary>
+        public static readonly Money HUNDRED = new Money(new Decimal(100.00d));
+
         [ThreadStatic]
         private static Random _rng;
 
-        /// <summary>
-        /// The amount by which <see cref="_decimalFraction"/> has been scaled up to be a whole number.
-        /// </summary>
+        #endregion
+
         private const Decimal FractionScale = 1E9M;
 
         /// <summary>
         /// The <see cref="Core.Money.Currency"/> this amount represents money in.
         /// </summary>
-        private readonly Currency? _currency;
+        private Currency? _currency;
 
         /// <summary>
         /// The whole units of currency.
         /// </summary>
-        private readonly Int64 _units;
+        private Int64 _units;
 
         /// <summary>
         /// The fractional units of currency.
         /// </summary>
-        private readonly Int32 _decimalFraction;
+        private Int32 _decimalFraction;
 
         public Money()
         {
@@ -134,6 +123,13 @@ namespace MPersist.MoneyType
         {
             get { return _currency.GetValueOrDefault(Currency.FromCurrentCulture()); }
         }
+
+        public Decimal Value
+        {
+            get { return _units; }
+        }
+
+
 
         /// <summary>
         /// Implicitly converts a <see cref="Byte"/> value to <see cref="Money"/> with no <see cref="Currency"/> value.
@@ -467,7 +463,7 @@ namespace MPersist.MoneyType
 
         public static Boolean TryParse(String s, out Money money)
         {
-            money = Zero;
+            money = ZERO;
 
             if (s == null)
             {
@@ -856,5 +852,50 @@ namespace MPersist.MoneyType
                                  ToDecimal(CultureInfo.CurrentCulture),
                                  Currency == Currency.None ? "<Unspecified Currency>" : Currency.Name);
         }
+
+        #region IXmlSerializable Members
+
+        public XmlSchema GetSchema()
+        {
+            return null;
+        }
+
+        public void ReadXml(XmlReader reader)
+        {
+            reader.MoveToContent();
+
+            while (!reader.Name.Equals("Value"))
+            {
+                reader.Read();
+            }
+
+            reader.ReadStartElement("Value");
+            Decimal value = Decimal.Parse(reader.Value);
+
+            _units = (Int64)value;
+            _decimalFraction = (Int32)Decimal.Round((value - _units) * FractionScale);
+
+            if (_decimalFraction >= FractionScale)
+            {
+                _units += 1;
+                _decimalFraction = _decimalFraction - (Int32)FractionScale;
+            }
+
+            reader.Read();
+            reader.Read();
+
+            reader.ReadStartElement("Currency");
+            _currency = Currency.FromIso3LetterCode(reader.Value);
+
+            return;
+        }
+
+        public void WriteXml(XmlWriter writer)
+        {
+            writer.WriteElementString("Value", computeValue().ToString());
+            writer.WriteElementString("Currency", Currency.Iso3LetterCode);            
+        }
+
+        #endregion
     }
 }

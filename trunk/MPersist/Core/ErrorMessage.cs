@@ -22,15 +22,19 @@ namespace MPersist.Core
 
         #region Properties
 
-        public String Class { get { return mClass_; } }
-        public String Method { get { return mMethod_; } }
-        public ErrorLevel Level { get { return mErrorLevel_; } }
-        public String Message { get { return ToString(); } }
+        public String Class { get { return mClass_; } set { return; } }
+        public String Method { get { return mMethod_; } set { return; } }
+        public ErrorLevel Level { get { return mErrorLevel_; } set { return; } }
+        public String Message { get { return ToString(); } set { return; } }
         public Boolean Confirmed { get  { return mErrorLevel_.Equals(ErrorLevel.Confirmation) ? mConfirmed_ : true; } set { mConfirmed_ = value; } }
 
         #endregion
 
         #region Constructors
+
+        public ErrorMessage()
+        {
+        }
 
         public ErrorMessage(Exception e) : this(e.TargetSite.DeclaringType, e.TargetSite, ErrorLevel.Error, e.Message, null)
         {

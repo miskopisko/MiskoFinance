@@ -34,9 +34,19 @@ namespace MPersist.Enums
 
         #endregion
 
+        #region Constructors
+
+        protected ConnectionType()
+        {
+        }
+
         protected ConnectionType(Int64 value, String code, String description) : base(value, code, description)
         {
         }
+
+        #endregion
+
+        #region Helpers
 
         public static ConnectionType GetElement(long index)
         {
@@ -63,5 +73,7 @@ namespace MPersist.Enums
 
             return null;
         }
+
+        #endregion
     }
 }

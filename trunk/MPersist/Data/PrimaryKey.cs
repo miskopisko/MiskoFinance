@@ -1,5 +1,7 @@
 using System;
+using System.Xml.Serialization;
 using MPersist.Core;
+using Newtonsoft.Json;
 
 namespace MPersist.Data
 {
@@ -16,7 +18,11 @@ namespace MPersist.Data
         #region Properties
 
         public Int64 Value { get { return mValue_; } set { mValue_ = value; } }
+        [JsonIgnore]
+        [XmlIgnore]
         public Boolean IsSet { get { return mValue_ != 0; } }
+        [JsonIgnore]
+        [XmlIgnore]
         public Boolean IsNotSet { get { return !IsSet; } }
 
         #endregion

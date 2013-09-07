@@ -1,6 +1,9 @@
 using System;
 using System.Reflection;
+using System.Xml.Serialization;
 using MPersist.Core;
+using MPersist.Tools;
+using Newtonsoft.Json;
 
 namespace MPersist.Data
 {
@@ -16,7 +19,12 @@ namespace MPersist.Data
 
         #region Properties
 
-
+        [JsonIgnore]
+        [XmlIgnore]
+        public String JSON { get { return JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented); } }
+        [JsonIgnore]
+        [XmlIgnore]
+        public String XML { get { return Utils.Serialize(this); } }
 
         #endregion
 
