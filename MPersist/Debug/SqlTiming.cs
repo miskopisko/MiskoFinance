@@ -1,6 +1,8 @@
 using System;
 using System.Data.Common;
 using MPersist.Core;
+using System.Xml.Serialization;
+using Newtonsoft.Json;
 
 namespace MPersist.Debug
 {
@@ -19,10 +21,15 @@ namespace MPersist.Debug
         #region Properties
 
         public String SQL { get { return mSQL_;} }
+
+        [JsonIgnore]
+        [XmlIgnore]
         public DbParameterCollection Parameters { get { return mParameters_; } }
         public TimeSpan ExecutionTime { get { return mExecutionTime_; } }
         public Double TotalExecutionTime { get { return Math.Round(mExecutionTime_.TotalSeconds, 4); } }
 
+        [JsonIgnore]
+        [XmlIgnore]
         public String ParametersString
         {
             get
@@ -43,6 +50,8 @@ namespace MPersist.Debug
             }
         }
 
+        [JsonIgnore]
+        [XmlIgnore]
         public String FormattedSql
         {
             get
@@ -61,6 +70,10 @@ namespace MPersist.Debug
         #endregion
 
         #region Constructors
+
+        public SqlTiming()
+        {
+        }
 
         public SqlTiming(String sql, DbParameterCollection parameters, DateTime start)
         {

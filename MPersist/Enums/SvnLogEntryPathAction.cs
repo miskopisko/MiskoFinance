@@ -32,8 +32,11 @@ namespace MPersist.Enums
 
         #region Constructor
 
-        protected SvnLogEntryPathActionType(Int64 id, String Code, String Description)
-            : base(id, Code, Description)
+        protected SvnLogEntryPathActionType()
+        {
+        }
+
+        protected SvnLogEntryPathActionType(Int64 id, String Code, String Description) : base(id, Code, Description)
         {
         }
 

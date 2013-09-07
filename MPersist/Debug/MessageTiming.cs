@@ -16,15 +16,14 @@ namespace MPersist.Debug
 
         #region Properties
 
-        public MessageWrapper Message { get; set; }
-        public String MessageName { get { return Message.GetType().Name; } }
-        public DateTime StartTime { get { return mStartTime_; } }
+        public String MessageName { get; set; }
+        public DateTime StartTime { get { return mStartTime_; } set { mStartTime_ = value; } }
         public DateTime EndTime { get; set; }
         public SqlTimings<SqlTiming> SqlTimings { get; set; }
-        public Double TotalMessageTime { get { return Math.Round(EndTime.Subtract(StartTime).TotalSeconds, 4); } }
-        public Double TotalSqlTime { get { return Math.Round(SqlTimings.TotalExecutionTime.TotalSeconds, 4); } }
-        public Double PercentSql { get { return Math.Round(TotalSqlTime / TotalMessageTime * 100, 4); } }
-        public Int32 TotalSqlCalls { get { return SqlTimings.Count; } }
+        public Double TotalMessageTime { get { return Math.Round(EndTime.Subtract(StartTime).TotalSeconds, 4); } set { return; } }
+        public Double TotalSqlTime { get { return Math.Round(SqlTimings.TotalExecutionTime.TotalSeconds, 4); } set { return; } }
+        public Double PercentSql { get { return Math.Round(TotalSqlTime / TotalMessageTime * 100, 4); } set { return; } }
+        public Int32 TotalSqlCalls { get { return SqlTimings.Count; } set { return; } }
 
         #endregion
 
@@ -37,7 +36,7 @@ namespace MPersist.Debug
         public MessageTiming(MessageWrapper message)
         {
             mStartTime_ = DateTime.Now;
-            Message = message;
+            MessageName = message.GetType().Name;
         }
 
         #endregion

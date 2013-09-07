@@ -1,7 +1,7 @@
 using System;
 using System.Threading;
-using System.Windows.Forms;
-using MPersist.Debug;
+using MPersist.Message.Request;
+using MPersist.Message.Response;
 
 namespace MPersist.Interfaces
 {
@@ -9,11 +9,9 @@ namespace MPersist.Interfaces
     {       
         Int32 RowsPerPage { get; }
 
-        void MessageReceived(String message);
+        void MessageReceived(ResponseMessage response, String message);
 
-        void MessageSent(String message);
-
-        void Debug(MessageTiming timing);
+        void MessageSent(RequestMessage request, String message);
 
         void ExceptionHandler(Object sender, ThreadExceptionEventArgs e);
 

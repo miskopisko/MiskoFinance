@@ -28,6 +28,10 @@ namespace MPersist.Enums
 
         #region Constructor
 
+        protected SvnTargetType()
+        {
+        }
+
         protected SvnTargetType(Int64 id, String Code, String Description) : base(id, Code, Description)
         {
         }

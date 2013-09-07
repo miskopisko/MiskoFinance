@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Xml.Serialization;
+using Newtonsoft.Json;
 
 namespace MPersist.Enums
 {
@@ -11,7 +13,11 @@ namespace MPersist.Enums
         public String Code { get; set; }
         public String Description { get; set; }
 
+        [JsonIgnore]
+        [XmlIgnore]
         public bool IsSet { get { return Value != -1; } }
+        [JsonIgnore]
+        [XmlIgnore]
         public bool IsNotSet { get { return !IsSet; } }
 
         #endregion

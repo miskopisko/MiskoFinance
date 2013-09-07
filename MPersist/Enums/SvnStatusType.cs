@@ -59,6 +59,10 @@ namespace MPersist.Enums
 
         #region Constructor
 
+        protected SvnStatusType()
+        {
+        }
+
         protected SvnStatusType(Int64 id, String Code, String Description) : base(id, Code, Description)
         {
         }

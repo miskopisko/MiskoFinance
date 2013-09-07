@@ -25,6 +25,7 @@ namespace MPersist.Core
 
         private readonly MessageCompleteHandler mSuccessHandler_;
         private readonly MessageCompleteHandler mErrorHandler_;
+        private readonly RequestMessage mRequest_;
 
         private static int active = 0;
 
@@ -38,7 +39,7 @@ namespace MPersist.Core
 
         #region Constructors
 
-        private MessageProcessor(MessageCompleteHandler successHandler, MessageCompleteHandler errorHandler)
+        private MessageProcessor(RequestMessage request, MessageCompleteHandler successHandler, MessageCompleteHandler errorHandler)
         {
             if (IOController == null)
             {
@@ -47,38 +48,38 @@ namespace MPersist.Core
 
             mSuccessHandler_ = successHandler;
             mErrorHandler_ = errorHandler;
+            mRequest_ = request;
         }
 
         #endregion
 
         #region Private Methods
 
-        private void SendRequest(RequestMessage request)
+        private void SendRequest()
         {
             active++;
 
             BackgroundWorker bw = new BackgroundWorker();
             bw.DoWork += DoWork;
             bw.RunWorkerCompleted += RunWorkerCompleted;
-            bw.RunWorkerAsync(request);
+            bw.RunWorkerAsync();
 
-            HandleEvent(IOController, IOController.GetType().GetMethod("MessageSent"), new Object[] { Strings.strPorcessing });
+            HandleEvent(IOController, IOController.GetType().GetMethod("MessageSent"), new Object[] { mRequest_, Strings.strPorcessing });
         }
 
         private void DoWork(object sender, DoWorkEventArgs e)
         {
             ResponseMessage response;
-            RequestMessage request = e.Argument as RequestMessage;
             Boolean resendMessage = false;
-            Session session = new Session(request.Connection, ServiceLocator.GetConnection(request.Connection));
-            session.MessageMode = request.MessageMode;
+            Session session = new Session(mRequest_.Connection, ServiceLocator.GetConnection(mRequest_.Connection));
+            session.MessageMode = mRequest_.MessageMode;
             session.RowPerPage = IOController.RowsPerPage;
 
             do
             {
                 resendMessage = false;
-                response = Process(session, request);
-                response.MessageMode = request.MessageMode;
+                response = Process(session, mRequest_);
+                response.MessageMode = mRequest_.MessageMode;
 
                 if (response != null) // Now display warnings and error messages.
                 {
@@ -229,12 +230,7 @@ namespace MPersist.Core
                 errorEncountered = errorEncountered | !HandleEvent(mErrorHandler_.Target, mErrorHandler_.Method, new Object[] { response });
             }
 
-            if(response != null)
-            {
-                HandleEvent(IOController, IOController.GetType().GetMethod("Debug"), new Object[] { response.MessageTiming });
-            }
-
-            HandleEvent(IOController, IOController.GetType().GetMethod("MessageReceived"), new Object[] { active == 0 ? errorEncountered ? Strings.strError : Strings.strSuccess : Strings.strPorcessing });
+            HandleEvent(IOController, IOController.GetType().GetMethod("MessageReceived"), new Object[] { response, active == 0 ? errorEncountered ? Strings.strError : Strings.strSuccess : Strings.strPorcessing });
         }
 
         private Boolean HandleEvent(Object target, MethodInfo method, Object[] args)
@@ -246,7 +242,7 @@ namespace MPersist.Core
             }
             catch (Exception e)
             {
-                IOController.Error(new ErrorMessage(target.GetType(), method, ErrorLevel.Error, e.InnerException.Message).Message);
+                IOController.ExceptionHandler(target, new System.Threading.ThreadExceptionEventArgs(e));
                 return false;
             }
         }
@@ -262,7 +258,7 @@ namespace MPersist.Core
 
         public static void SendRequest(RequestMessage request, MessageCompleteHandler successHandler, MessageCompleteHandler errorHandler)
         {
-            new MessageProcessor(successHandler, errorHandler).SendRequest(request);
+            new MessageProcessor(request, successHandler, errorHandler).SendRequest();
         }
 
         #endregion

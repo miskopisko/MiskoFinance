@@ -26,6 +26,8 @@ namespace MPersist.Enums
 
         #endregion
 
+        #region Constructors
+
         protected MessageMode()
         {
         }
@@ -33,6 +35,10 @@ namespace MPersist.Enums
         protected MessageMode(Int64 value, String code, String description) : base(value, code, description)
         {
         }
+
+        #endregion
+
+        #region Helpers
 
         public static MessageMode GetElement(long index)
         {
@@ -59,5 +65,7 @@ namespace MPersist.Enums
 
             return null;
         }
+
+        #endregion
     }
 }

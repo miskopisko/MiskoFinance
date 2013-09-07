@@ -26,9 +26,19 @@ namespace MPersist.Enums
 
         #endregion
 
+        #region Constructors
+
+        protected SortDirection()
+        {
+        }
+
         protected SortDirection(Int64 value, String code, String description) : base(value, code, description)
         {
         }
+
+        #endregion
+
+        #region Helpers
 
         public static SortDirection GetElement(long index)
         {
@@ -55,5 +65,7 @@ namespace MPersist.Enums
 
             return null;
         }
+
+        #endregion
     }
 }

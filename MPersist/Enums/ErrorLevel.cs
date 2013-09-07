@@ -32,9 +32,19 @@ namespace MPersist.Enums
 
         #endregion
 
+        #region Constructors
+
+        protected ErrorLevel()
+        {
+        }
+
         protected ErrorLevel(Int64 value, String code, String description) : base(value, code, description)
         {
         }
+
+        #endregion
+
+        #region Helpers
 
         public static ErrorLevel GetElement(long index)
         {
@@ -66,5 +76,7 @@ namespace MPersist.Enums
         {
             return this == Success || this == Warning || this == Info;
         }
+
+        #endregion
     }
 }

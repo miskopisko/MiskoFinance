@@ -30,9 +30,19 @@ namespace MPersist.Enums
 
         #endregion
 
+        #region Constructors
+
+        protected SvnPropsStatusType()
+        {
+        }
+
         protected SvnPropsStatusType(Int64 id, String Code, String Description) : base(id, Code, Description)
         {
         }
+
+        #endregion
+
+        #region Helpers
 
         public static SvnPropsStatusType GetElement(long index)
         {
@@ -59,5 +69,7 @@ namespace MPersist.Enums
 
             return null;
         }
-	}
+
+        #endregion
+    }
 }
