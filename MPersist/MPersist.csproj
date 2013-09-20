@@ -66,10 +66,6 @@
       <HintPath>Libraries\MySql.Data.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Libraries\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="Oracle.DataAccess, Version=2.112.1.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libraries\Oracle.DataAccess.dll</HintPath>
@@ -101,10 +97,6 @@
     <Compile Include="Core\ConnectionSettings.cs" />
     <Compile Include="Data\Page.cs" />
     <Compile Include="Data\PrimaryKey.cs" />
-    <Compile Include="Debug\MessageTiming.cs" />
-    <Compile Include="Debug\MessageTimings.cs" />
-    <Compile Include="Debug\SqlTiming.cs" />
-    <Compile Include="Debug\SqlTimings.cs" />
     <Compile Include="Enums\ConnectionType.cs" />
     <Compile Include="Enums\SortDirection.cs" />
     <Compile Include="Enums\SvnLogEntryPathAction.cs" />
@@ -140,11 +132,6 @@
     <Compile Include="Persistences\MySqlPersistence.cs" />
     <Compile Include="Persistences\OraclePersistence.cs" />
     <Compile Include="Persistences\SqlitePersistence.cs" />
-    <Compile Include="Resources\ErrorStrings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ErrorStrings.resx</DependentUpon>
-    </Compile>
     <Compile Include="Core\ServiceLocator.cs" />
     <Compile Include="Core\Session.cs" />
     <Compile Include="SVN\Subversion.cs" />
@@ -157,11 +144,6 @@
     <Compile Include="Enums\AbstractEnum.cs" />
     <Compile Include="Enums\ErrorLevel.cs" />
     <Compile Include="Enums\UpdateMode.cs" />
-    <Compile Include="Resources\Strings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Strings.resx</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
@@ -188,17 +170,27 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\ErrorStrings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>ErrorStrings.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>ErrorStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Strings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Compile Include="Resources\ErrorStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ErrorStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Strings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
     <Compile Include="SVN\SvnConnectionPool.cs" />
     <Compile Include="SVN\SvnDbCommand.cs">
       <SubType>Component</SubType>

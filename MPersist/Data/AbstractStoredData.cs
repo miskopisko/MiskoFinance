@@ -1,11 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Xml.Serialization;
 using MPersist.Attributes;
 using MPersist.Core;
-using MPersist.Tools;
-using Newtonsoft.Json;
 
 namespace MPersist.Data
 {
@@ -28,21 +25,9 @@ namespace MPersist.Data
 
         #region Other Properties
 
-        [JsonIgnore]
-        [XmlIgnore]
         public Int64 RowVer { get; set; }
-        [JsonIgnore]
-        [XmlIgnore]
         public bool IsSet { get; set; }
-        [JsonIgnore]
-        [XmlIgnore]
         public bool IsNotSet { get { return !IsSet; } }
-        [JsonIgnore]
-        [XmlIgnore]
-        public String JSON { get { return JsonConvert.SerializeObject(this, Formatting.Indented); } }
-        [JsonIgnore]
-        [XmlIgnore]
-        public String XML { get { return Utils.Serialize(this); } }
 
         #endregion
 

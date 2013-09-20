@@ -82,17 +82,6 @@ namespace MPersist.Tools
             return "";
         }
 
-        public static String Serialize(Object o)
-        {
-            // Rig it so that there are no namespaces in the XML
-            XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
-            ns.Add("", "");
-
-            StringBuilder builder = new StringBuilder();
-            new XmlSerializer(o.GetType()).Serialize(new NoNamespaceXmlWriter(new StringWriter(builder)), o, ns);
-            return builder.ToString();
-        }
-
         public static T Deserialize<T>(String xml)
         {
             if (String.IsNullOrEmpty(xml))

@@ -58,7 +58,7 @@
     <StartupObject>MPFinance.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>piggy_bank.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\piggy_bank.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Forms\AboutDialog.cs">
@@ -85,23 +85,11 @@
     <Compile Include="Controls\ImportedTransactionsGridView.Designer.cs">
       <DependentUpon>ImportedTransactionsGridView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\MessageTimingGridView.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\MessageTimingGridView.Designer.cs">
-      <DependentUpon>MessageTimingGridView.cs</DependentUpon>
-    </Compile>
     <Compile Include="Controls\MoneyBox.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\MoneyBox.Designer.cs">
       <DependentUpon>MoneyBox.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\SqlTimingGridView.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\SqlTimingGridView.Designer.cs">
-      <DependentUpon>SqlTimingGridView.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\TransactionsGridView.cs">
       <SubType>Component</SubType>
@@ -120,12 +108,6 @@
     </Compile>
     <Compile Include="Forms\EditCategoriesDialog.Designer.cs">
       <DependentUpon>EditCategoriesDialog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\DebugWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\DebugWindow.Designer.cs">
-      <DependentUpon>DebugWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\ImportNewTransactionsDialog.cs">
       <SubType>Form</SubType>
@@ -182,76 +164,8 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Forms\AboutDialog.resx">
-      <DependentUpon>AboutDialog.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\CategoriesGridView.resx">
-      <DependentUpon>CategoriesGridView.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ImportedTransactionsGridView.resx">
-      <DependentUpon>ImportedTransactionsGridView.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\MessageTimingGridView.resx">
-      <DependentUpon>MessageTimingGridView.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\SqlTimingGridView.resx">
-      <DependentUpon>SqlTimingGridView.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\TransactionsGridView.resx">
-      <DependentUpon>TransactionsGridView.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\EditAccountsDialog.resx">
-      <DependentUpon>EditAccountsDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\EditCategoriesDialog.resx">
-      <DependentUpon>EditCategoriesDialog.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\DebugWindow.resx">
-      <DependentUpon>DebugWindow.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ImportNewTransactionsDialog.resx">
-      <DependentUpon>ImportNewTransactionsDialog.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\LoginDialog.resx">
-      <DependentUpon>LoginDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\MPFinanceMain.resx">
-      <DependentUpon>MPFinanceMain.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Panels\ChooseAccountPanel.resx">
-      <DependentUpon>ChooseAccountPanel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Panels\ChooseTransactionsPanel.resx">
-      <DependentUpon>ChooseTransactionsPanel.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Panels\SummaryPanel.resx">
-      <DependentUpon>SummaryPanel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Panels\TransactionsPanel.resx">
-      <DependentUpon>TransactionsPanel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\SettingsDialog.resx">
-      <DependentUpon>SettingsDialog.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
       <Visible>False</Visible>
       <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
@@ -266,11 +180,6 @@
       <Visible>False</Visible>
       <ProductName>.NET Framework 3.5</ProductName>
       <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>false</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
       <Visible>False</Visible>
@@ -300,9 +209,18 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="Resources\MPersist_DB.sqlite3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="piggy_bank.ico" />
+    <Content Include="Resources\piggy_bank.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Forms\MPFinanceMain.resx">
+      <DependentUpon>MPFinanceMain.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

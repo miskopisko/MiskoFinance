@@ -5,7 +5,6 @@ using System.Data.Common;
 using System.Data.OleDb;
 using System.Data.SQLite;
 using MPersist.Data;
-using MPersist.Debug;
 using MPersist.Enums;
 using MPersist.MoneyType;
 using MPersist.Persistences;
@@ -28,21 +27,21 @@ namespace MPersist.Core
         protected List<Object> mParameters_ = new List<Object>();
         protected DataRow mResult_;
         protected Int32 mCurrentResult_ = 0;
-        
+
         #endregion
 
         #region Properties
 
         public Boolean HasNext { get { return mRs_ != null && mCurrentResult_ < mRs_.Rows.Count; } }
         public Int32 RecordCount { get { return mRs_ != null ? mRs_.Rows.Count : 0; } }
-       
+
         #endregion
 
         #region Constructors
 
         public Persistence(Session session)
         {
-            mSession_ = session;            
+            mSession_ = session;
             mCommand_ = mSession_.Connection.CreateCommand();
             mCommand_.Transaction = session.Transaction;
         }
@@ -53,11 +52,11 @@ namespace MPersist.Core
 
         public static Persistence GetInstance(Session session)
         {
-            if(session.Connection is OracleConnection)
+            if (session.Connection is OracleConnection)
             {
                 return new OraclePersistence(session);
             }
-            else if(session.Connection is MySqlConnection)
+            else if (session.Connection is MySqlConnection)
             {
                 return new MySqlPersistence(session);
             }
@@ -187,7 +186,7 @@ namespace MPersist.Core
 
         public Boolean ExecuteQuery(String sql)
         {
-            return ExecuteQuery(sql, new Object[]{});
+            return ExecuteQuery(sql, new Object[] { });
         }
 
         public Boolean ExecuteQuery(String sql, Object[] parameters)
@@ -221,7 +220,6 @@ namespace MPersist.Core
 
             DateTime startTime = DateTime.Now;
             adapter.Fill(mRs_);
-            mSession_.SqlTimings.Add(new SqlTiming(mCommand_.CommandText, mCommand_.Parameters, startTime));
 
             return HasNext;
         }
@@ -280,7 +278,6 @@ namespace MPersist.Core
             {
                 DateTime startTime = DateTime.Now;
                 newId = new PrimaryKey(mCommand_.ExecuteScalar().ToString());
-                mSession_.SqlTimings.Add(new SqlTiming(mCommand_.CommandText, mCommand_.Parameters, startTime));
             }
             else if (mCommand_ is OracleCommand)
             {
@@ -292,7 +289,6 @@ namespace MPersist.Core
 
                 DateTime startTime = DateTime.Now;
                 mCommand_.ExecuteNonQuery();
-                mSession_.SqlTimings.Add(new SqlTiming(mCommand_.CommandText, mCommand_.Parameters, startTime));
 
                 newId = new PrimaryKey(Convert.ToInt64(lastId.Value));
             }
@@ -310,7 +306,7 @@ namespace MPersist.Core
         private void ExecuteUpdate(AbstractStoredData clazz, Type type)
         {
             mSession_.PersistencePool.Add(this);
-            
+
             if (type.BaseType.Equals(typeof(AbstractStoredData)))
             {
                 clazz.RowVer++;
@@ -320,7 +316,6 @@ namespace MPersist.Core
 
             DateTime startTime = DateTime.Now;
             Int32 result = mCommand_.ExecuteNonQuery();
-            mSession_.SqlTimings.Add(new SqlTiming(mCommand_.CommandText, mCommand_.Parameters, startTime));
 
             if (result == 0)
             {
@@ -336,7 +331,6 @@ namespace MPersist.Core
 
             DateTime startTime = DateTime.Now;
             int result = mCommand_.ExecuteNonQuery();
-            mSession_.SqlTimings.Add(new SqlTiming(mCommand_.CommandText, mCommand_.Parameters, startTime));
 
             if (result == 0)
             {
@@ -356,7 +350,6 @@ namespace MPersist.Core
 
             DateTime startTime = DateTime.Now;
             int result = mCommand_.ExecuteNonQuery();
-            mSession_.SqlTimings.Add(new SqlTiming(mCommand_.CommandText, mCommand_.Parameters, startTime));
 
             return result;
         }
@@ -443,7 +436,7 @@ namespace MPersist.Core
             }
 
             return null;
-        }        
+        }
 
         public Int32? GetInt(String key)
         {
@@ -574,7 +567,7 @@ namespace MPersist.Core
             else if (o is DateTime)
             {
                 return (DateTime)o;
-            }            
+            }
 
             return null;
         }

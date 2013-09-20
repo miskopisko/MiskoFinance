@@ -28,11 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ToolStripSeparator mToolStripSeparator1_;
-            System.Windows.Forms.ToolStripSeparator mToolStripSeparator3_;
-            System.Windows.Forms.ToolStripSeparator mToolStripSeparator4_;
-            System.Windows.Forms.ToolStripSeparator mToolStripSeparator2_;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MPFinanceMain));
+            this.mToolStripSeparator1_ = new System.Windows.Forms.ToolStripSeparator();
+            this.mToolStripSeparator3_ = new System.Windows.Forms.ToolStripSeparator();
+            this.mToolStripSeparator4_ = new System.Windows.Forms.ToolStripSeparator();
+            this.mToolStripSeparator2_ = new System.Windows.Forms.ToolStripSeparator();
             this.mRootEditToolStripMenuItem_ = new System.Windows.Forms.ToolStripMenuItem();
             this.mAccountsToolStripMenuItem_ = new System.Windows.Forms.ToolStripMenuItem();
             this.mCatagoriesToolStripMenuItem_ = new System.Windows.Forms.ToolStripMenuItem();
@@ -55,10 +55,6 @@
             this.mAccountsList_ = new System.Windows.Forms.ListBox();
             this.mSummaryPanel_ = new MPFinance.Panels.SummaryPanel();
             this.mTransactionsPanel_ = new MPFinance.Panels.TransactionsPanel();
-            mToolStripSeparator1_ = new System.Windows.Forms.ToolStripSeparator();
-            mToolStripSeparator3_ = new System.Windows.Forms.ToolStripSeparator();
-            mToolStripSeparator4_ = new System.Windows.Forms.ToolStripSeparator();
-            mToolStripSeparator2_ = new System.Windows.Forms.ToolStripSeparator();
             this.mStatusStrip_.SuspendLayout();
             this.mMenuStrip_.SuspendLayout();
             this.mMainLayout_.SuspendLayout();
@@ -67,30 +63,30 @@
             // 
             // mToolStripSeparator1_
             // 
-            mToolStripSeparator1_.Name = "mToolStripSeparator1_";
-            mToolStripSeparator1_.Size = new System.Drawing.Size(153, 6);
+            this.mToolStripSeparator1_.Name = "mToolStripSeparator1_";
+            this.mToolStripSeparator1_.Size = new System.Drawing.Size(153, 6);
             // 
             // mToolStripSeparator3_
             // 
-            mToolStripSeparator3_.Name = "mToolStripSeparator3_";
-            mToolStripSeparator3_.Size = new System.Drawing.Size(149, 6);
+            this.mToolStripSeparator3_.Name = "mToolStripSeparator3_";
+            this.mToolStripSeparator3_.Size = new System.Drawing.Size(109, 6);
             // 
             // mToolStripSeparator4_
             // 
-            mToolStripSeparator4_.Name = "mToolStripSeparator4_";
-            mToolStripSeparator4_.Size = new System.Drawing.Size(127, 6);
+            this.mToolStripSeparator4_.Name = "mToolStripSeparator4_";
+            this.mToolStripSeparator4_.Size = new System.Drawing.Size(127, 6);
             // 
             // mToolStripSeparator2_
             // 
-            mToolStripSeparator2_.Name = "mToolStripSeparator2_";
-            mToolStripSeparator2_.Size = new System.Drawing.Size(104, 6);
+            this.mToolStripSeparator2_.Name = "mToolStripSeparator2_";
+            this.mToolStripSeparator2_.Size = new System.Drawing.Size(104, 6);
             // 
             // mRootEditToolStripMenuItem_
             // 
             this.mRootEditToolStripMenuItem_.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mAccountsToolStripMenuItem_,
             this.mCatagoriesToolStripMenuItem_,
-            mToolStripSeparator4_,
+            this.mToolStripSeparator4_,
             this.mSettingsToolStripMenuItem_});
             this.mRootEditToolStripMenuItem_.Name = "mRootEditToolStripMenuItem_";
             this.mRootEditToolStripMenuItem_.Size = new System.Drawing.Size(39, 20);
@@ -160,7 +156,7 @@
             this.mImportToolStripMenuItem_,
             this.toolStripSeparator1,
             this.mLogoutToolStripMenuItem_,
-            mToolStripSeparator3_,
+            this.mToolStripSeparator3_,
             this.mExitToolStripMenuItem_});
             this.mRootFileToolStripMenuItem_.Name = "mRootFileToolStripMenuItem_";
             this.mRootFileToolStripMenuItem_.Size = new System.Drawing.Size(37, 20);
@@ -171,7 +167,7 @@
             this.mImportToolStripMenuItem_.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mOFXFileToolStripMenuItem_});
             this.mImportToolStripMenuItem_.Name = "mImportToolStripMenuItem_";
-            this.mImportToolStripMenuItem_.Size = new System.Drawing.Size(152, 22);
+            this.mImportToolStripMenuItem_.Size = new System.Drawing.Size(112, 22);
             this.mImportToolStripMenuItem_.Text = "Import";
             // 
             // mOFXFileToolStripMenuItem_
@@ -184,20 +180,20 @@
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(109, 6);
             // 
             // mLogoutToolStripMenuItem_
             // 
             this.mLogoutToolStripMenuItem_.Enabled = false;
             this.mLogoutToolStripMenuItem_.Name = "mLogoutToolStripMenuItem_";
-            this.mLogoutToolStripMenuItem_.Size = new System.Drawing.Size(152, 22);
+            this.mLogoutToolStripMenuItem_.Size = new System.Drawing.Size(112, 22);
             this.mLogoutToolStripMenuItem_.Text = "Logout";
             this.mLogoutToolStripMenuItem_.Click += new System.EventHandler(this.mLogoutToolStripMenuItem__Click);
             // 
             // mExitToolStripMenuItem_
             // 
             this.mExitToolStripMenuItem_.Name = "mExitToolStripMenuItem_";
-            this.mExitToolStripMenuItem_.Size = new System.Drawing.Size(152, 22);
+            this.mExitToolStripMenuItem_.Size = new System.Drawing.Size(112, 22);
             this.mExitToolStripMenuItem_.Text = "Exit";
             this.mExitToolStripMenuItem_.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -205,7 +201,7 @@
             // 
             this.mRootHelpToolStripMenuItem_.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mAboutToolStripMenuItem_,
-            mToolStripSeparator2_,
+            this.mToolStripSeparator2_,
             this.mHelpToolStripMenuItem_});
             this.mRootHelpToolStripMenuItem_.Name = "mRootHelpToolStripMenuItem_";
             this.mRootHelpToolStripMenuItem_.Size = new System.Drawing.Size(44, 20);
@@ -261,7 +257,7 @@
             this.mAccountsList_.FormattingEnabled = true;
             this.mAccountsList_.Location = new System.Drawing.Point(3, 3);
             this.mAccountsList_.Name = "mAccountsList_";
-            this.mAccountsList_.Size = new System.Drawing.Size(238, 123);
+            this.mAccountsList_.Size = new System.Drawing.Size(238, 121);
             this.mAccountsList_.TabIndex = 1;
             this.mAccountsList_.SelectedIndexChanged += new System.EventHandler(this.AccountsList_SelectedIndexChanged);
             // 
@@ -329,6 +325,10 @@
         private Panels.SummaryPanel mSummaryPanel_;
         private Panels.TransactionsPanel mTransactionsPanel_;
         private System.Windows.Forms.ToolStripMenuItem mLogoutToolStripMenuItem_;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;        
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripSeparator mToolStripSeparator1_;
+        private System.Windows.Forms.ToolStripSeparator mToolStripSeparator3_;
+        private System.Windows.Forms.ToolStripSeparator mToolStripSeparator4_;
+        private System.Windows.Forms.ToolStripSeparator mToolStripSeparator2_;        
     }
 }

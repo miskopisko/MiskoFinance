@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Xml.Serialization;
-using Newtonsoft.Json;
 
 namespace MPersist.Enums
 {
@@ -12,12 +10,7 @@ namespace MPersist.Enums
         public Int64 Value { get; set; }
         public String Code { get; set; }
         public String Description { get; set; }
-
-        [JsonIgnore]
-        [XmlIgnore]
         public bool IsSet { get { return Value != -1; } }
-        [JsonIgnore]
-        [XmlIgnore]
         public bool IsNotSet { get { return !IsSet; } }
 
         #endregion
@@ -49,7 +42,7 @@ namespace MPersist.Enums
 
         public virtual int CompareTo(object e)
         {
-            if(e is AbstractEnum)
+            if (e is AbstractEnum)
             {
                 if (e == null || ((AbstractEnum)e).Code == null || ((AbstractEnum)e).Code.Trim().Length == 0)
                 {
