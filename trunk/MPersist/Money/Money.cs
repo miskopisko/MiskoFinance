@@ -1,347 +1,158 @@
 ﻿using System;
 using System.Globalization;
-using System.Xml;
-using System.Xml.Schema;
-using System.Xml.Serialization;
+using MPersist.Core;
 
 namespace MPersist.MoneyType
 {
-    public class Money : IEquatable<Money>, IComparable<Money>, IFormattable, IConvertible, IComparable, IXmlSerializable
+    public class Money : IEquatable<Money>, IComparable<Money>, IFormattable, IConvertible, IComparable
     {
-        #region Fields
+        private static Logger Log = Logger.GetInstance(typeof(Money));
+
+        #region Constants
 
         public static readonly Money ZERO = new Money(0);
-
-        public static readonly Money HUNDRED = new Money(new Decimal(100.00d));
-
-        [ThreadStatic]
-        private static Random _rng;
-
-        #endregion
+        public static readonly Money ONE = new Money(1);
+        public static readonly Money HUNDRED = new Money(100);
 
         private const Decimal FractionScale = 1E9M;
 
-        /// <summary>
-        /// The <see cref="Core.Money.Currency"/> this amount represents money in.
-        /// </summary>
-        private Currency? _currency;
+        #endregion
 
-        /// <summary>
-        /// The whole units of currency.
-        /// </summary>
-        private Int64 _units;
+        #region Fields
 
-        /// <summary>
-        /// The fractional units of currency.
-        /// </summary>
-        private Int32 _decimalFraction;
+        [ThreadStatic]
+        private static Random mRng_;
+        private Currency? mCurrency_;
+        private Int64 mUnits_;
+        private Int32 mDecimalFraction_;
+
+        #endregion
+
+        #region Properties
+
+        public Currency Currency
+        {
+            get { return mCurrency_.GetValueOrDefault(Currency.FromCurrentCulture()); }
+            set { }
+        }
+
+        #endregion
+
+        #region Constructors
 
         public Money()
+            : this(0)
         {
         }
 
         public Money(String s)
+            : this(Decimal.Parse(s))
         {
-            Decimal value;
-            Decimal.TryParse(s, out value);
-
-            checkValue(value);
-
-            _units = (Int64)value;
-            _decimalFraction = (Int32)Decimal.Round((value - _units) * FractionScale);
-
-            if (_decimalFraction >= FractionScale)
-            {
-                _units += 1;
-                _decimalFraction = _decimalFraction - (Int32)FractionScale;
-            }
-
-            _currency = Currency.FromCurrentCulture();
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Money"/> struct equal to <paramref name="value"/>.
-        /// </summary>
-        /// <param name="value">
-        /// The value.
-        /// </param>
         public Money(Decimal value)
         {
             checkValue(value);
 
-            _units = (Int64)value;
-            _decimalFraction = (Int32)Decimal.Round((value - _units) * FractionScale);
+            mUnits_ = (Int64)value;
+            mDecimalFraction_ = (Int32)Decimal.Round((value - mUnits_) * FractionScale);
 
-            if (_decimalFraction >= FractionScale)
+            if (mDecimalFraction_ >= FractionScale)
             {
-                _units += 1;
-                _decimalFraction = _decimalFraction - (Int32)FractionScale;
+                mUnits_ += 1;
+                mDecimalFraction_ = mDecimalFraction_ - (Int32)FractionScale;
             }
 
-            _currency = Currency.FromCurrentCulture();
+            mCurrency_ = Currency.FromCurrentCulture();
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Money"/> struct equal to <paramref name="value"/> 
-        /// in <paramref name="currency"/>.
-        /// </summary>
-        /// <param name="value">
-        /// The value.
-        /// </param>
-        /// <param name="currency">
-        /// The currency.
-        /// </param>
         public Money(Decimal value, Currency currency)
             : this(value)
         {
-            _currency = currency;
+            mCurrency_ = currency;
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Money"/> struct.
-        /// </summary>
-        /// <param name="units">
-        /// The units.
-        /// </param>
-        /// <param name="fraction">
-        /// The fraction.
-        /// </param>
-        /// <param name="currency">
-        /// The currency.
-        /// </param>
         private Money(Int64 units, Int32 fraction, Currency currency)
         {
-            _units = units;
-            _decimalFraction = fraction;
-            _currency = currency;
+            mUnits_ = units;
+            mDecimalFraction_ = fraction;
+            mCurrency_ = currency;
         }
 
-        /// <summary>
-        /// Gets the <see cref="Core.Money.Currency"/> which this money value is specified in.
-        /// </summary>
-        public Currency Currency
-        {
-            get { return _currency.GetValueOrDefault(Currency.FromCurrentCulture()); }
-        }
+        #endregion
 
-        public Decimal Value
-        {
-            get { return _units; }
-        }
+        #region Operators
 
-
-
-        /// <summary>
-        /// Implicitly converts a <see cref="Byte"/> value to <see cref="Money"/> with no <see cref="Currency"/> value.
-        /// </summary>
-        /// <param name="value">
-        /// The value.
-        /// </param>
-        /// <returns>
-        /// A <see cref="Money"/> value with no <see cref="Currency"/> specified.
-        /// </returns>
         public static implicit operator Money(Byte value)
         {
             return new Money(value);
         }
 
-        /// <summary>
-        /// Implicitly converts a <see cref="SByte"/> value to <see cref="Money"/> with no <see cref="Currency"/> value.
-        /// </summary>
-        /// <param name="value">
-        /// The value.
-        /// </param>
-        /// <returns>
-        /// A <see cref="Money"/> value with no <see cref="Currency"/> specified.
-        /// </returns>
         public static implicit operator Money(SByte value)
         {
             return new Money(value);
         }
 
-        /// <summary>
-        /// Implicitly converts a <see cref="Single"/> value to <see cref="Money"/> with no <see cref="Currency"/> value.
-        /// </summary>
-        /// <param name="value">
-        /// The value.
-        /// </param>
-        /// <returns>
-        /// A <see cref="Money"/> value with no <see cref="Currency"/> specified.
-        /// </returns>
         public static implicit operator Money(Single value)
         {
             return new Money((Decimal)value);
         }
 
-        /// <summary>
-        /// Implicitly converts a <see cref="Double"/> value to <see cref="Money"/> with no <see cref="Currency"/> value.
-        /// </summary>
-        /// <param name="value">
-        /// The value.
-        /// </param>
-        /// <returns>
-        /// A <see cref="Money"/> value with no <see cref="Currency"/> specified.
-        /// </returns>
         public static implicit operator Money(Double value)
         {
             return new Money((Decimal)value);
         }
 
-        /// <summary>
-        /// Implicitly converts a <see cref="Decimal"/> value to <see cref="Money"/> with no <see cref="Currency"/> value.
-        /// </summary>
-        /// <param name="value">
-        /// The value.
-        /// </param>
-        /// <returns>
-        /// A <see cref="Money"/> value with no <see cref="Currency"/> specified.
-        /// </returns>
         public static implicit operator Money(Decimal value)
         {
             return new Money(value);
         }
 
-        /// <summary>
-        /// Implicitly converts a <see cref="Money"/> value to <see cref="Decimal"/> value.
-        /// </summary>
-        /// <param name="value">
-        /// The value.
-        /// </param>
-        /// <returns>
-        /// A <see cref="Decimal"/> value which this <see cref="Money"/> value is equivalent to.
-        /// </returns>
         public static implicit operator Decimal(Money value)
         {
             return value.computeValue();
         }
 
-        /// <summary>
-        /// Implicitly converts a <see cref="Int16"/> value to <see cref="Money"/> with no <see cref="Currency"/> value.
-        /// </summary>
-        /// <param name="value">
-        /// The value.
-        /// </param>
-        /// <returns>
-        /// A <see cref="Money"/> value with no <see cref="Currency"/> specified.
-        /// </returns>
         public static implicit operator Money(Int16 value)
         {
             return new Money(value);
         }
 
-        /// <summary>
-        /// Implicitly converts a <see cref="Int32"/> value to <see cref="Money"/> with no <see cref="Currency"/> value.
-        /// </summary>
-        /// <param name="value">
-        /// The value.
-        /// </param>
-        /// <returns>
-        /// A <see cref="Money"/> value with no <see cref="Currency"/> specified.
-        /// </returns>
         public static implicit operator Money(Int32 value)
         {
             return new Money(value);
         }
 
-        /// <summary>
-        /// Implicitly converts a <see cref="Int64"/> value to <see cref="Money"/> with no <see cref="Currency"/> value.
-        /// </summary>
-        /// <param name="value">
-        /// The value.
-        /// </param>
-        /// <returns>
-        /// A <see cref="Money"/> value with no <see cref="Currency"/> specified.
-        /// </returns>
         public static implicit operator Money(Int64 value)
         {
             return new Money(value);
         }
 
-        /// <summary>
-        /// Implicitly converts a <see cref="UInt16"/> value to <see cref="Money"/> with no <see cref="Currency"/> value.
-        /// </summary>
-        /// <param name="value">
-        /// The value.
-        /// </param>
-        /// <returns>
-        /// A <see cref="Money"/> value with no <see cref="Currency"/> specified.
-        /// </returns>
         public static implicit operator Money(UInt16 value)
         {
             return new Money(value);
         }
 
-        /// <summary>
-        /// Implicitly converts a <see cref="UInt32"/> value to <see cref="Money"/> with no <see cref="Currency"/> value.
-        /// </summary>
-        /// <param name="value">
-        /// The value.
-        /// </param>
-        /// <returns>
-        /// A <see cref="Money"/> value with no <see cref="Currency"/> specified.
-        /// </returns>
         public static implicit operator Money(UInt32 value)
         {
             return new Money(value);
         }
 
-        /// <summary>
-        /// Implicitly converts a <see cref="UInt64"/> value to <see cref="Money"/> with no <see cref="Currency"/> value.
-        /// </summary>
-        /// <param name="value">
-        /// The value.
-        /// </param>
-        /// <returns>
-        /// A <see cref="Money"/> value with no <see cref="Currency"/> specified.
-        /// </returns>
         public static implicit operator Money(UInt64 value)
         {
             return new Money(value);
         }
 
-        /// <summary>
-        /// A negation operator for a <see cref="Money"/> value.
-        /// </summary>
-        /// <param name="value">
-        /// The value.
-        /// </param>
-        /// <returns>
-        /// The additive inverse (negation) of the given <paramref name="value"/>.
-        /// </returns>
         public static Money operator -(Money value)
         {
-            return new Money(-value._units, -value._decimalFraction, value.Currency);
+            return new Money(-value.mUnits_, -value.mDecimalFraction_, value.Currency);
         }
 
-        /// <summary>
-        /// An identity operator for a <see cref="Money"/> value.
-        /// </summary>
-        /// <param name="value">
-        /// The value.
-        /// </param>
-        /// <returns>
-        /// The given <paramref name="value"/>.
-        /// </returns>
         public static Money operator +(Money value)
         {
             return value;
         }
 
-        /// <summary>
-        /// An addition operator for two <see cref="Money"/> values.
-        /// </summary>
-        /// <param name="left">
-        /// The left operand.
-        /// </param>
-        /// <param name="right">
-        /// The right operand.
-        /// </param>
-        /// <returns>
-        /// The sum of <paramref name="left"/> and <paramref name="right"/>.
-        /// </returns>
-        /// <exception cref="InvalidOperationException">
-        /// Thrown if the currencies of <paramref name="left"/> and <paramref name="right"/> are not equal.
-        /// </exception>
         public static Money operator +(Money left, Money right)
         {
             if (object.ReferenceEquals(left, null)) left = new Money(0);
@@ -352,7 +163,7 @@ namespace MPersist.MoneyType
                 throw differentCurrencies();
             }
 
-            var fractionSum = left._decimalFraction + right._decimalFraction;
+            var fractionSum = left.mDecimalFraction_ + right.mDecimalFraction_;
 
             var overflow = 0L;
             var fractionSign = Math.Sign(fractionSum);
@@ -365,7 +176,7 @@ namespace MPersist.MoneyType
                 fractionSum = fractionSign * absFractionSum;
             }
 
-            var newUnits = left._units + right._units + overflow;
+            var newUnits = left.mUnits_ + right.mUnits_ + overflow;
 
             if (fractionSign < 0 && Math.Sign(newUnits) > 0)
             {
@@ -378,21 +189,6 @@ namespace MPersist.MoneyType
                              left.Currency);
         }
 
-        /// <summary>
-        /// A subtraction operator for two <see cref="Money"/> values.
-        /// </summary>
-        /// <param name="left">
-        /// The left operand.
-        /// </param>
-        /// <param name="right">
-        /// The right operand.
-        /// </param>
-        /// <returns>
-        /// The difference of <paramref name="left"/> and <paramref name="right"/>.
-        /// </returns>
-        /// <exception cref="InvalidOperationException">
-        /// Thrown if the currencies of <paramref name="left"/> and <paramref name="right"/> are not equal.
-        /// </exception>
         public static Money operator -(Money left, Money right)
         {
             if (object.ReferenceEquals(left, null)) left = new Money(0);
@@ -406,18 +202,6 @@ namespace MPersist.MoneyType
             return left + -right;
         }
 
-        /// <summary>
-        /// A product operator for a <see cref="Money"/> value and a <see cref="Decimal"/> value.
-        /// </summary>
-        /// <param name="left">
-        /// The left operand.
-        /// </param>
-        /// <param name="right">
-        /// The right operand.
-        /// </param>
-        /// <returns>
-        /// The product of <paramref name="left"/> and <paramref name="right"/>.
-        /// </returns>
         public static Money operator *(Money left, Decimal right)
         {
             return ((Decimal)left * right);
@@ -461,6 +245,10 @@ namespace MPersist.MoneyType
             return left.CompareTo(right) <= 0;
         }
 
+        #endregion
+
+        #region Misc
+
         public static Boolean TryParse(String s, out Money money)
         {
             money = ZERO;
@@ -480,10 +268,8 @@ namespace MPersist.MoneyType
             Currency? currency = null;
             Currency currencyValue;
 
-            // Check for currency symbol (e.g. $, £)
             if (!Currency.TryParse(s.Substring(0, 1), out currencyValue))
             {
-                // Check for currency ISO code (e.g. USD, GBP)
                 if (s.Length > 2 && Currency.TryParse(s.Substring(0, 3), out currencyValue))
                 {
                     s = s.Substring(3);
@@ -525,8 +311,8 @@ namespace MPersist.MoneyType
 
             var placesExponent = getExponentFromPlaces(places);
             var fraction = roundFraction(placesExponent, rounding, out unit);
-            var units = _units + unit;
-            remainder = new Money(0, _decimalFraction - fraction, Currency);
+            var units = mUnits_ + unit;
+            remainder = new Money(0, mDecimalFraction_ - fraction, Currency);
 
             return new Money(units, fraction, Currency);
         }
@@ -534,7 +320,7 @@ namespace MPersist.MoneyType
         private Int32 roundFraction(Int32 exponent, MidpointRoundingRule rounding, out Int64 unit)
         {
             var denominator = FractionScale / (Decimal)Math.Pow(10, exponent);
-            var fraction = _decimalFraction / denominator;
+            var fraction = mDecimalFraction_ / denominator;
 
             switch (rounding)
             {
@@ -544,18 +330,12 @@ namespace MPersist.MoneyType
                 case MidpointRoundingRule.AwayFromZero:
                     {
                         var sign = Math.Sign(fraction);
-                        fraction = Math.Abs(fraction);           // make positive
-                        fraction = Math.Floor(fraction + 0.5M);  // round UP
-                        fraction *= sign;                        // reapply sign
-                        break;
+                        fraction = Math.Abs(fraction); fraction = Math.Floor(fraction + 0.5M); fraction *= sign; break;
                     }
                 case MidpointRoundingRule.TowardZero:
                     {
                         var sign = Math.Sign(fraction);
-                        fraction = Math.Abs(fraction);           // make positive
-                        fraction = Math.Floor(fraction + 0.5M);  // round DOWN
-                        fraction *= sign;                        // reapply sign
-                        break;
+                        fraction = Math.Abs(fraction); fraction = Math.Floor(fraction + 0.5M); fraction *= sign; break;
                     }
                 case MidpointRoundingRule.Up:
                     fraction = Math.Floor(fraction + 0.5M);
@@ -564,12 +344,12 @@ namespace MPersist.MoneyType
                     fraction = Math.Ceiling(fraction - 0.5M);
                     break;
                 case MidpointRoundingRule.Stochastic:
-                    if (_rng == null)
+                    if (mRng_ == null)
                     {
-                        _rng = new MersenneTwister();
+                        mRng_ = new MersenneTwister();
                     }
 
-                    var coinFlip = _rng.NextDouble();
+                    var coinFlip = mRng_.NextDouble();
 
                     if (coinFlip >= 0.5)
                     {
@@ -625,11 +405,56 @@ namespace MPersist.MoneyType
             }
         }
 
+        private Decimal computeValue()
+        {
+            return mUnits_ + mDecimalFraction_ / FractionScale;
+        }
+
+        private static InvalidOperationException differentCurrencies()
+        {
+            return new InvalidOperationException("Money values are in different " +
+                                                 "currencies. Convert to the same " +
+                                                 "currency before performing " +
+                                                 "operations on the values.");
+        }
+
+        private static void checkValue(Decimal value)
+        {
+            if (value < Int64.MinValue || value > Int64.MaxValue)
+            {
+                throw new ArgumentOutOfRangeException("value",
+                                                      value,
+                                                      "Money value must be between " +
+                                                      Int64.MinValue + " and " +
+                                                      Int64.MaxValue);
+            }
+        }
+
+        private void checkCurrencies(Money other)
+        {
+            if (other.Currency != Currency)
+            {
+                throw differentCurrencies();
+            }
+        }
+
+        private String getDebugView()
+        {
+            return ToString() +
+                   String.Format(" ({0} {1})",
+                                 ToDecimal(CultureInfo.CurrentCulture),
+                                 Currency == Currency.None ? "<Unspecified Currency>" : Currency.Name);
+        }
+
+        #endregion
+
+        #region Override Methods
+
         public override Int32 GetHashCode()
         {
             unchecked
             {
-                return (397 * _units.GetHashCode()) ^ _currency.GetHashCode();
+                return (397 * mUnits_.GetHashCode()) ^ mCurrency_.GetHashCode();
             }
         }
 
@@ -646,27 +471,29 @@ namespace MPersist.MoneyType
 
         public override String ToString()
         {
-            return computeValue().ToString("C", (IFormatProvider)_currency ?? NumberFormatInfo.CurrentInfo);
+            return computeValue().ToString("C", (IFormatProvider)mCurrency_ ?? NumberFormatInfo.CurrentInfo);
         }
 
         public String ToString(String format)
         {
-            return computeValue().ToString(format, (IFormatProvider)_currency ?? NumberFormatInfo.CurrentInfo);
+            return computeValue().ToString(format, (IFormatProvider)mCurrency_ ?? NumberFormatInfo.CurrentInfo);
         }
+
+        #endregion
 
         #region Implementation of IEquatable<Money>
 
         public Boolean Equals(Money other)
         {
-            if(object.ReferenceEquals(other, null))
+            if (object.ReferenceEquals(other, null))
             {
                 return false;
             }
 
             checkCurrencies(other);
 
-            return _units == other._units &&
-                   _decimalFraction == other._decimalFraction;
+            return mUnits_ == other.mUnits_ &&
+                   mDecimalFraction_ == other.mDecimalFraction_;
         }
 
         #endregion
@@ -677,10 +504,10 @@ namespace MPersist.MoneyType
         {
             checkCurrencies(other);
 
-            var unitCompare = _units.CompareTo(other._units);
+            var unitCompare = mUnits_.CompareTo(other.mUnits_);
 
             return unitCompare == 0
-                       ? _decimalFraction.CompareTo(other._decimalFraction)
+                       ? mDecimalFraction_.CompareTo(other.mDecimalFraction_)
                        : unitCompare;
         }
 
@@ -709,7 +536,7 @@ namespace MPersist.MoneyType
 
         public Boolean lessThen(Money value)
         {
-            if(object.ReferenceEquals(value, null)) return false;
+            if (object.ReferenceEquals(value, null)) return false;
 
             return this.CompareTo(value) < 0;
         }
@@ -732,7 +559,7 @@ namespace MPersist.MoneyType
 
         public Boolean ToBoolean(IFormatProvider provider)
         {
-            return _units == 0 && _decimalFraction == 0;
+            return mUnits_ == 0 && mDecimalFraction_ == 0;
         }
 
         public Char ToChar(IFormatProvider provider)
@@ -808,92 +635,6 @@ namespace MPersist.MoneyType
         public Object ToType(Type conversionType, IFormatProvider provider)
         {
             return null;
-        }
-
-        #endregion
-
-        private Decimal computeValue()
-        {
-            return _units + _decimalFraction / FractionScale;
-        }
-
-        private static InvalidOperationException differentCurrencies()
-        {
-            return new InvalidOperationException("Money values are in different " +
-                                                 "currencies. Convert to the same " +
-                                                 "currency before performing " +
-                                                 "operations on the values.");
-        }
-
-        private static void checkValue(Decimal value)
-        {
-            if (value < Int64.MinValue || value > Int64.MaxValue)
-            {
-                throw new ArgumentOutOfRangeException("value",
-                                                      value,
-                                                      "Money value must be between " +
-                                                      Int64.MinValue + " and " +
-                                                      Int64.MaxValue);
-            }
-        }
-
-        private void checkCurrencies(Money other)
-        {
-            if (other.Currency != Currency)
-            {
-                throw differentCurrencies();
-            }
-        }
-
-        private String getDebugView()
-        {
-            return ToString() +
-                   String.Format(" ({0} {1})",
-                                 ToDecimal(CultureInfo.CurrentCulture),
-                                 Currency == Currency.None ? "<Unspecified Currency>" : Currency.Name);
-        }
-
-        #region IXmlSerializable Members
-
-        public XmlSchema GetSchema()
-        {
-            return null;
-        }
-
-        public void ReadXml(XmlReader reader)
-        {
-            reader.MoveToContent();
-
-            while (!reader.Name.Equals("Value"))
-            {
-                reader.Read();
-            }
-
-            reader.ReadStartElement("Value");
-            Decimal value = Decimal.Parse(reader.Value);
-
-            _units = (Int64)value;
-            _decimalFraction = (Int32)Decimal.Round((value - _units) * FractionScale);
-
-            if (_decimalFraction >= FractionScale)
-            {
-                _units += 1;
-                _decimalFraction = _decimalFraction - (Int32)FractionScale;
-            }
-
-            reader.Read();
-            reader.Read();
-
-            reader.ReadStartElement("Currency");
-            _currency = Currency.FromIso3LetterCode(reader.Value);
-
-            return;
-        }
-
-        public void WriteXml(XmlWriter writer)
-        {
-            writer.WriteElementString("Value", computeValue().ToString());
-            writer.WriteElementString("Currency", Currency.Iso3LetterCode);            
         }
 
         #endregion

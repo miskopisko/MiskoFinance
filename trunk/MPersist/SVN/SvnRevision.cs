@@ -1,7 +1,5 @@
 ﻿using System;
 using MPersist.Core;
-using Newtonsoft.Json;
-using System.Xml.Serialization;
 
 namespace MPersist.SVN
 {
@@ -27,9 +25,7 @@ namespace MPersist.SVN
         #region Properties
 
         public Int32 Revision { get { return mRevision_; } set { return; } }
-        [JsonIgnore]
-        [XmlIgnore]
-        public SvnRevision Previous { get { return new SvnRevision(mRevision_ - 1); } }
+        public Int32 Previous { get { return mRevision_ - 1; } }
 
         #endregion
 
@@ -53,7 +49,7 @@ namespace MPersist.SVN
 
         #region Public Methods
 
-        
+
 
         #endregion
 

@@ -69,7 +69,7 @@ namespace MPFinance.Panels
             mAccountNumber_.Text = mOfxDocument_.AccountID;
             mAccountType_.SelectedItem = mOfxDocument_.AccountType;
             mNickname_.Text = null;
-            mOpeningBalance_.Value = Money.Zero;
+            mOpeningBalance_.Value = Money.ZERO;
 
             GetAccountRQ request = new GetAccountRQ();
             request.AccountNo = mOfxDocument_.AccountID;

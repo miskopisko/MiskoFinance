@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Xml.Serialization;
 using MPersist.Core;
 using MPersist.Data;
 using MPersist.Enums;
-using MPersist.Tools;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
 namespace MPersist.Message.Request
 {
@@ -24,39 +20,16 @@ namespace MPersist.Message.Request
 
         #region Properties
 
-        public MessageMode MessageMode { get { return mMessageMode_; } set { return; } }
-        public String Command { get { return mCommand_; } set { return; } }
+        public MessageMode MessageMode { get { return mMessageMode_; } set { mMessageMode_ = value; } }
+        public String Command { get { return mCommand_; } set { mCommand_ = value; } }
         public String Connection { get { return mConnection_; } set { mConnection_ = value; } }
-        public Page Page { get { return mPage_; } set { return; } }
-
-        [JsonIgnore]
-        [XmlIgnore]
-        public String XML { get { return Utils.Serialize(this); } }
-        [JsonIgnore]
-        [XmlIgnore]
-        public String JSON 
-        { 
-            get 
-            { 
-                return JsonConvert.SerializeObject(this, 
-                            Newtonsoft.Json.Formatting.Indented, 
-                            new JsonSerializerSettings 
-                            { 
-                                Error = delegate(object sender, ErrorEventArgs args)
-                                    {
-                                        //errors.Add(args.ErrorContext.Error.Message);
-                                        args.ErrorContext.Handled = true;
-                                    }
-                            }
-                            ); 
-            } 
-        }
+        public Page Page { get { return mPage_; } set { mPage_ = value; } }
 
         #endregion
 
         #region Constructors
 
-        public RequestMessage()
+        protected RequestMessage()
         {
         }
 

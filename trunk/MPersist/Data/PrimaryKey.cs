@@ -1,7 +1,5 @@
 using System;
-using System.Xml.Serialization;
 using MPersist.Core;
-using Newtonsoft.Json;
 
 namespace MPersist.Data
 {
@@ -18,11 +16,7 @@ namespace MPersist.Data
         #region Properties
 
         public Int64 Value { get { return mValue_; } set { mValue_ = value; } }
-        [JsonIgnore]
-        [XmlIgnore]
         public Boolean IsSet { get { return mValue_ != 0; } }
-        [JsonIgnore]
-        [XmlIgnore]
         public Boolean IsNotSet { get { return !IsSet; } }
 
         #endregion
@@ -57,7 +51,7 @@ namespace MPersist.Data
 
         public static PrimaryKey operator +(PrimaryKey left, Int64 right)
         {
-            if(object.ReferenceEquals(left, null)) return new PrimaryKey() + right;
+            if (object.ReferenceEquals(left, null)) return new PrimaryKey() + right;
             return new PrimaryKey(left.Value + right);
         }
 

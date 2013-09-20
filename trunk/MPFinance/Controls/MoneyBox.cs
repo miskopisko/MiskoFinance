@@ -97,7 +97,7 @@ namespace MPFinance.Controls
 
         protected override void OnTextChanged(EventArgs e)
         {
-            if (mValue_ != null && mValue_.lessThen(Money.Zero))
+            if (mValue_ != null && mValue_.lessThen(Money.ZERO))
             {
                 ForeColor = Color.Red;
             }

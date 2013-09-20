@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Diagnostics;
 using System.Reflection;
-using MPersist.Debug;
 using MPersist.Enums;
 using MPersist.Resources;
 
@@ -24,7 +23,6 @@ namespace MPersist.Core
         private ErrorLevel mStatus_ = ErrorLevel.Success;
         private MessageMode mMessageMode_ = MessageMode.Normal;
         private Int32 mRowsPerPage_ = 20;
-        private SqlTimings<SqlTiming> mSqlTimings_ = null;
 
         #endregion
 
@@ -39,17 +37,6 @@ namespace MPersist.Core
         public MessageMode MessageMode { get { return mMessageMode_; } set { mMessageMode_ = value; } }
         public Int32 RowPerPage { get { return mRowsPerPage_; } set { mRowsPerPage_ = value; } }
         public ErrorMessages ErrorMessages { get { return mErrorMessages_; } }
-        public SqlTimings<SqlTiming> SqlTimings 
-        {
-            get 
-            { 
-                if(mSqlTimings_ == null)
-                {
-                    mSqlTimings_ = new SqlTimings<SqlTiming>();
-                }
-                return mSqlTimings_;
-            } 
-        }
 
         #endregion
 
@@ -75,7 +62,7 @@ namespace MPersist.Core
             {
                 mTransactionInProgress_ = true;
                 mTransaction_ = mConn_.BeginTransaction();
-            }            
+            }
         }
 
         public void EndTransaction()
@@ -98,7 +85,7 @@ namespace MPersist.Core
 
         public void FlushPersistence()
         {
-            while(mPersistencePool_.Count > 0)
+            while (mPersistencePool_.Count > 0)
             {
                 mPersistencePool_[mPersistencePool_.Count - 1].Close();
             }
@@ -107,7 +94,7 @@ namespace MPersist.Core
         public void Error(ErrorLevel errorLevel, String message)
         {
             StackFrame stackFrame = new StackFrame(1);
-            Error(stackFrame.GetMethod().DeclaringType, stackFrame.GetMethod(),  errorLevel, message, null);
+            Error(stackFrame.GetMethod().DeclaringType, stackFrame.GetMethod(), errorLevel, message, null);
         }
 
         public void Error(ErrorLevel errorLevel, String message, Object[] parameters)
@@ -115,7 +102,7 @@ namespace MPersist.Core
             StackFrame stackFrame = new StackFrame(1);
             Error(stackFrame.GetMethod().DeclaringType, stackFrame.GetMethod(), errorLevel, message, parameters);
         }
-        
+
         private void Error(Type clazz, MethodBase method, ErrorLevel errorLevel, String message, Object[] parameters)
         {
             ErrorMessage errorMessage = new ErrorMessage(clazz, method, errorLevel, message, parameters);

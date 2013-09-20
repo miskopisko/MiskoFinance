@@ -38,15 +38,15 @@ namespace MPFinanceCore.Data.Viewed
 
         public VwSummary()
         {
-            SelectionTotalCredits = Money.Zero;
-            SelectionTotalDebits = Money.Zero;
-            SelectionCreditsDebitsDifference = Money.Zero;
-            SelectionTotalTransfersIn = Money.Zero;
-            SelectionTotalTransfersOut = Money.Zero;
-            SelectionTransfersDifference = Money.Zero;
-            AllTimeOpeningBalance = Money.Zero;
-            AllTimeCurrentBalance = Money.Zero;
-            AllTimeBalanceDifference = Money.Zero;
+            SelectionTotalCredits = Money.ZERO;
+            SelectionTotalDebits = Money.ZERO;
+            SelectionCreditsDebitsDifference = Money.ZERO;
+            SelectionTotalTransfersIn = Money.ZERO;
+            SelectionTotalTransfersOut = Money.ZERO;
+            SelectionTransfersDifference = Money.ZERO;
+            AllTimeOpeningBalance = Money.ZERO;
+            AllTimeCurrentBalance = Money.ZERO;
+            AllTimeBalanceDifference = Money.ZERO;
         }
 
         #endregion

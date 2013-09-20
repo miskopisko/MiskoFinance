@@ -43,7 +43,7 @@ namespace MPersist.SVN
         }
 
         public SvnStatus(String file)
-            :this(new SvnTarget(file))
+            : this(new SvnTarget(file))
         {
         }
 
@@ -57,7 +57,7 @@ namespace MPersist.SVN
                 if (result.Success)
                 {
                     Target = Utils.Deserialize<SvnStatus>(result.StandardOutput).Target;
-                }                
+                }
 
                 // Conflicted files also bring up their working files (mine, theirs and merged) 
                 // We dont want these to show up in the listing so remove them from the list
@@ -72,8 +72,8 @@ namespace MPersist.SVN
 
                         foreach (SvnStatusEntry conflictItem in entries)
                         {
-                            if (conflictItem.Path.Name.Equals(t.Entry.Conflict.CurrentBase.Name) || 
-                                conflictItem.Path.Name.Equals(t.Entry.Conflict.PreviousBase.Name) || 
+                            if (conflictItem.Path.Name.Equals(t.Entry.Conflict.CurrentBase.Name) ||
+                                conflictItem.Path.Name.Equals(t.Entry.Conflict.PreviousBase.Name) ||
                                 conflictItem.Path.Name.Equals(t.Entry.Conflict.PreviousWorkingCopy.Name))
                             {
                                 mTarget_.Entries.Remove(conflictItem); // remove the entry
@@ -90,8 +90,8 @@ namespace MPersist.SVN
                         foreach (String filename in objects)
                         {
                             Target.Entries.Add(new SvnStatusEntry(filename));
-                        }                        
-                    }                    
+                        }
+                    }
                 }
             }
         }
@@ -100,7 +100,7 @@ namespace MPersist.SVN
     }
 
     #region Structs
-    
+
     public struct SvnStatusTarget
     {
         #region Fields
@@ -219,24 +219,25 @@ namespace MPersist.SVN
         [XmlAttribute("item")]
         public String Status_Agg
         {
-            get { return mStatus_!= null ? mStatus_.ToString() : ""; }
+            get { return mStatus_ != null ? mStatus_.ToString() : ""; }
             set { mStatus_ = SvnStatusType.GetElement(value); }
         }
 
         [XmlIgnore]
         public SvnStatusType Status
         {
-            get {
-                  if (mStatus_.Equals(SvnStatusType.NoChange) && Props.Equals(SvnPropsStatusType.Modified))
-                  {
-                      mStatus_ = SvnStatusType.ModifiedProperty;
-                  }
-                  if (mStatus_.Equals(SvnStatusType.NoChange) && (mLocked_ == true || mLock_.GetHashCode() > 0 ))
-                  {
-                      mStatus_ = SvnStatusType.Locked;
-                  }
-                  return mStatus_;                 
+            get
+            {
+                if (mStatus_.Equals(SvnStatusType.NoChange) && Props.Equals(SvnPropsStatusType.Modified))
+                {
+                    mStatus_ = SvnStatusType.ModifiedProperty;
                 }
+                if (mStatus_.Equals(SvnStatusType.NoChange) && (mLocked_ == true || mLock_.GetHashCode() > 0))
+                {
+                    mStatus_ = SvnStatusType.Locked;
+                }
+                return mStatus_;
+            }
         }
 
         [XmlAttribute("revision")]
@@ -290,7 +291,8 @@ namespace MPersist.SVN
 
         #endregion
 
-        public SvnStatusWorkingCopyStatus(SvnStatusType status) : this()
+        public SvnStatusWorkingCopyStatus(SvnStatusType status)
+            : this()
         {
             mStatus_ = status;
         }

@@ -3,7 +3,6 @@ using System.Threading;
 using System.Windows.Forms;
 using MPersist.Core;
 using MPersist.Data;
-using MPersist.Debug;
 using MPersist.Interfaces;
 using MPersist.Message.Response;
 using MPFinance.Properties;
@@ -16,7 +15,7 @@ using MPFinanceCore.Resources;
 namespace MPFinance.Forms
 {
     public partial class MPFinanceMain : Form, IOController
-    {   
+    {
         private static Logger Log = Logger.GetInstance(typeof(MPFinanceMain));
 
         #region Fields
@@ -24,7 +23,7 @@ namespace MPFinance.Forms
         private static MPFinanceMain mInstance_;
 
         private VwOperator mOperator_;
-        
+
         #endregion
 
         #region Properties
@@ -35,7 +34,7 @@ namespace MPFinance.Forms
             {
                 if (mInstance_ == null)
                 {
-                    mInstance_ = new MPFinanceMain();                    
+                    mInstance_ = new MPFinanceMain();
                 }
                 return mInstance_;
             }
@@ -54,7 +53,7 @@ namespace MPFinance.Forms
             InitializeComponent();
             MessageProcessor.IOController = this;
             Application.ThreadException += ExceptionHandler;
-        }        
+        }
 
         #endregion
 
@@ -203,7 +202,12 @@ namespace MPFinance.Forms
 
         public void ExceptionHandler(Object sender, ThreadExceptionEventArgs e)
         {
-            Error(e.Exception.InnerException.Message);
+            Exception ex = e.Exception;
+            while (ex.InnerException != null)
+            {
+                ex = ex.InnerException;
+            }
+            Error(ex.Message);
         }
 
         public void Error(String message)
@@ -213,9 +217,8 @@ namespace MPFinance.Forms
 
         public Boolean Confirm(String message)
         {
-            Func<DialogResult> showMsg = () => MessageBox.Show(this, message.ToString(), Strings.strConfirm, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            DialogResult result = (DialogResult)Invoke(showMsg);
-
+            DialogResult result = DialogResult.None;
+            Invoke(new MethodInvoker(delegate { result = MessageBox.Show(this, message.ToString(), Strings.strConfirm, MessageBoxButtons.YesNo, MessageBoxIcon.Question); }));
             return result.Equals(DialogResult.Yes);
         }
 
@@ -241,10 +244,6 @@ namespace MPFinance.Forms
             mMessageStatusLbl_.Text = message;
             mMessageStatusBar_.Increment(10);
             Application.DoEvents();
-        }
-
-        public void Debug(MessageTiming timing)
-        {
         }
 
         #endregion

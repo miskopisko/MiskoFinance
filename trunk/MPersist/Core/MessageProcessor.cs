@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel;
 using System.Reflection;
-using MPersist.Debug;
+using System.Threading;
 using MPersist.Enums;
 using MPersist.Interfaces;
 using MPersist.Message;
@@ -33,7 +33,7 @@ namespace MPersist.Core
 
         #region Properties
 
-        public static IOController IOController { get; set; }        
+        public static IOController IOController { get; set; }
 
         #endregion
 
@@ -64,7 +64,7 @@ namespace MPersist.Core
             bw.RunWorkerCompleted += RunWorkerCompleted;
             bw.RunWorkerAsync();
 
-            HandleEvent(IOController, IOController.GetType().GetMethod("MessageSent"), new Object[] { mRequest_, Strings.strPorcessing });
+            IOController.MessageSent(Strings.strPorcessing);
         }
 
         private void DoWork(object sender, DoWorkEventArgs e)
@@ -137,11 +137,9 @@ namespace MPersist.Core
                 {
                     String msgName = request.GetType().Name.Substring(0, request.GetType().Name.Length - 2);
                     String msgPath = request.GetType().FullName.Replace("Requests." + msgName + "RQ", "");
-                    
+
                     response = (ResponseMessage)request.GetType().Assembly.CreateInstance(msgPath + "Responses." + msgName + "RS");
                     wrapper = (MessageWrapper)request.GetType().Assembly.CreateInstance(msgPath + msgName, false, BindingFlags.CreateInstance, null, new object[] { request, response }, null, null);
-
-                    response.MessageTiming = new MessageTiming(wrapper);
 
                     session.BeginTransaction();
 
@@ -187,10 +185,8 @@ namespace MPersist.Core
                             response.Errors = session.ErrorMessages.ListOf(ErrorLevel.Error);
                             response.Warnings = session.ErrorMessages.ListOf(ErrorLevel.Warning);
                             response.Confirmations = session.ErrorMessages.ListOf(ErrorLevel.Confirmation);
-                            response.MessageTiming.EndTime = DateTime.Now;
-                            response.MessageTiming.SqlTimings = session.SqlTimings;
                             response.Page = request.Page;
-                        }                        
+                        }
                     }
                 }
 
@@ -209,7 +205,6 @@ namespace MPersist.Core
             if (e.Error != null)
             {
                 errorEncountered = true;
-
                 IOController.Error(e.Error.Message);
             }
             else
@@ -221,30 +216,30 @@ namespace MPersist.Core
             // No errors in the message; call the successfulHandler
             if (!errorEncountered && mSuccessHandler_ != null)
             {
-                errorEncountered = errorEncountered | !HandleEvent(mSuccessHandler_.Target, mSuccessHandler_.Method, new Object[] { response });
+                try
+                {
+                    mSuccessHandler_(response);
+                }
+                catch (Exception ex)
+                {
+                    errorEncountered = true;
+                    IOController.ExceptionHandler(mSuccessHandler_.Target, new ThreadExceptionEventArgs(ex));
+                }
+            }
+            // If errors in the message; call errorHandler
+            else if (errorEncountered && mErrorHandler_ != null)
+            {
+                try
+                {
+                    mErrorHandler_(response);
+                }
+                catch (Exception ex)
+                {
+                    IOController.ExceptionHandler(mErrorHandler_.Target, new ThreadExceptionEventArgs(ex));
+                }
             }
 
-            // If errors in the message OR errors on the successfulHandler then call errorHandler
-            if (errorEncountered && mErrorHandler_ != null)
-            {
-                errorEncountered = errorEncountered | !HandleEvent(mErrorHandler_.Target, mErrorHandler_.Method, new Object[] { response });
-            }
-
-            HandleEvent(IOController, IOController.GetType().GetMethod("MessageReceived"), new Object[] { response, active == 0 ? errorEncountered ? Strings.strError : Strings.strSuccess : Strings.strPorcessing });
-        }
-
-        private Boolean HandleEvent(Object target, MethodInfo method, Object[] args)
-        {
-            try
-            {
-                method.Invoke(target, args);
-                return true;
-            }
-            catch (Exception e)
-            {
-                IOController.ExceptionHandler(target, new System.Threading.ThreadExceptionEventArgs(e));
-                return false;
-            }
+            IOController.MessageReceived(active == 0 ? errorEncountered ? Strings.strError : Strings.strSuccess : Strings.strPorcessing);
         }
 
         #endregion

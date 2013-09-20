@@ -5,10 +5,6 @@ using System.Threading;
 
 namespace MPersist.MoneyType
 {
-    /// <summary>
-    ///     Represents a system of money within which <see cref="Money" />
-    ///     amounts can be compared and arithmetic can be performed.
-    /// </summary>
     [Serializable]
     public struct Currency : IEquatable<Currency>, IFormatProvider
     {
@@ -16,856 +12,340 @@ namespace MPersist.MoneyType
 
         public static readonly Currency None = new Currency(0);
 
-        /// <summary>
-        ///     Lek
-        /// </summary>
         public static readonly Currency All;
 
-        /// <summary>
-        ///     Algerian Dinar
-        /// </summary>
         public static readonly Currency Dzd;
 
-        /// <summary>
-        ///     Argentine Peso
-        /// </summary>
         public static readonly Currency Ars;
 
-        /// <summary>
-        ///     Australian Dollar
-        /// </summary>
         public static readonly Currency Aud;
 
-        /// <summary>
-        ///     Bahamian Dollar
-        /// </summary>
         public static readonly Currency Bsd;
 
-        /// <summary>
-        ///     Bahraini Dinar
-        /// </summary>
         public static readonly Currency Bhd;
 
-        /// <summary>
-        ///     Taka
-        /// </summary>
         public static readonly Currency Bdt;
 
-        /// <summary>
-        ///     Armenian Dram
-        /// </summary>
         public static readonly Currency Amd;
 
-        /// <summary>
-        ///     Barbados Dollar
-        /// </summary>
         public static readonly Currency Bbd;
 
-        /// <summary>
-        ///     Bermudian Dollar
-        ///     (customarily known as
-        ///     Bermuda Dollar)
-        /// </summary>
         public static readonly Currency Bmd;
 
-        /// <summary>
-        ///     Boliviano
-        /// </summary>
         public static readonly Currency Bob;
 
-        /// <summary>
-        ///     Pula
-        /// </summary>
         public static readonly Currency Bwp;
 
-        /// <summary>
-        ///     Belize Dollar
-        /// </summary>
         public static readonly Currency Bzd;
 
-        /// <summary>
-        ///     Solomon Islands Dollar
-        /// </summary>
         public static readonly Currency Sbd;
 
-        /// <summary>
-        ///     Brunei Dollar
-        /// </summary>
         public static readonly Currency Bnd;
 
-        /// <summary>
-        ///     Kyat
-        /// </summary>
         public static readonly Currency Mmk;
 
-        /// <summary>
-        ///     Burundi Franc
-        /// </summary>
         public static readonly Currency Bif;
 
-        /// <summary>
-        ///     Riel
-        /// </summary>
         public static readonly Currency Khr;
 
-        /// <summary>
-        ///     Canadian Dollar
-        /// </summary>
         public static readonly Currency Cad;
 
-        /// <summary>
-        ///     Cape Verde Escudo
-        /// </summary>
         public static readonly Currency Cve;
 
-        /// <summary>
-        ///     Cayman Islands Dollar
-        /// </summary>
         public static readonly Currency Kyd;
 
-        /// <summary>
-        ///     Sri Lanka Rupee
-        /// </summary>
         public static readonly Currency Lkr;
 
-        /// <summary>
-        ///     Chilean Peso
-        /// </summary>
         public static readonly Currency Clp;
 
-        /// <summary>
-        ///     Yuan Renminbi
-        /// </summary>
         public static readonly Currency Cny;
 
-        /// <summary>
-        ///     Colombian Peso
-        /// </summary>
         public static readonly Currency Cop;
 
-        /// <summary>
-        ///     Comoro Franc
-        /// </summary>
         public static readonly Currency Kmf;
 
-        /// <summary>
-        ///     Costa Rican Colon
-        /// </summary>
         public static readonly Currency Crc;
 
-        /// <summary>
-        ///     Croatian Kuna
-        /// </summary>
         public static readonly Currency Hrk;
 
-        /// <summary>
-        ///     Cuban Peso
-        /// </summary>
         public static readonly Currency Cup;
 
-        /// <summary>
-        ///     Czech Koruna
-        /// </summary>
         public static readonly Currency Czk;
 
-        /// <summary>
-        ///     Danish Krone
-        /// </summary>
         public static readonly Currency Dkk;
 
-        /// <summary>
-        ///     Dominican Peso
-        /// </summary>
         public static readonly Currency Dop;
 
-        /// <summary>
-        ///     El Salvador Colon
-        /// </summary>
         public static readonly Currency Svc;
 
-        /// <summary>
-        ///     Ethiopian Birr
-        /// </summary>
         public static readonly Currency Etb;
 
-        /// <summary>
-        ///     Nakfa
-        /// </summary>
         public static readonly Currency Ern;
 
-        /// <summary>
-        ///     Kroon
-        /// </summary>
         public static readonly Currency Eek;
 
-        /// <summary>
-        ///     Falkland Islands Pound
-        /// </summary>
         public static readonly Currency Fkp;
 
-        /// <summary>
-        ///     Fiji Dollar
-        /// </summary>
         public static readonly Currency Fjd;
 
-        /// <summary>
-        ///     Djibouti Franc
-        /// </summary>
         public static readonly Currency Djf;
 
-        /// <summary>
-        ///     Dalasi
-        /// </summary>
         public static readonly Currency Gmd;
 
-        /// <summary>
-        ///     Gibraltar Pound
-        /// </summary>
         public static readonly Currency Gip;
 
-        /// <summary>
-        ///     Quetzal
-        /// </summary>
         public static readonly Currency Gtq;
 
-        /// <summary>
-        ///     Guinea Franc
-        /// </summary>
         public static readonly Currency Gnf;
 
-        /// <summary>
-        ///     Guyana Dollar
-        /// </summary>
         public static readonly Currency Gyd;
 
-        /// <summary>
-        ///     Gourde
-        /// </summary>
         public static readonly Currency Htg;
 
-        /// <summary>
-        ///     Lempira
-        /// </summary>
         public static readonly Currency Hnl;
 
-        /// <summary>
-        ///     Hong Kong Dollar
-        /// </summary>
         public static readonly Currency Hkd;
 
-        /// <summary>
-        ///     Forint
-        /// </summary>
         public static readonly Currency Huf;
 
-        /// <summary>
-        ///     Iceland Krona
-        /// </summary>
         public static readonly Currency Isk;
 
-        /// <summary>
-        ///     Indian Rupee
-        /// </summary>
         public static readonly Currency Inr;
 
-        /// <summary>
-        ///     Rupiah
-        /// </summary>
         public static readonly Currency Idr;
 
-        /// <summary>
-        ///     Iranian Rial
-        /// </summary>
         public static readonly Currency Irr;
 
-        /// <summary>
-        ///     Iraqi Dinar
-        /// </summary>
         public static readonly Currency Iqd;
 
-        /// <summary>
-        ///     New Israeli Sheqel
-        /// </summary>
         public static readonly Currency Ils;
 
-        /// <summary>
-        ///     Jamaican Dollar
-        /// </summary>
         public static readonly Currency Jmd;
 
-        /// <summary>
-        ///     Yen
-        /// </summary>
         public static readonly Currency Jpy;
 
-        /// <summary>
-        ///     Tenge
-        /// </summary>
         public static readonly Currency Kzt;
 
-        /// <summary>
-        ///     Jordanian Dinar
-        /// </summary>
         public static readonly Currency Jod;
 
-        /// <summary>
-        ///     Kenyan Shilling
-        /// </summary>
         public static readonly Currency Kes;
 
-        /// <summary>
-        ///     North Korean Won
-        /// </summary>
         public static readonly Currency Kpw;
 
-        /// <summary>
-        ///     Won
-        /// </summary>
         public static readonly Currency Krw;
 
-        /// <summary>
-        ///     Kuwaiti Dinar
-        /// </summary>
         public static readonly Currency Kwd;
 
-        /// <summary>
-        ///     Som
-        /// </summary>
         public static readonly Currency Kgs;
 
-        /// <summary>
-        ///     Kip
-        /// </summary>
         public static readonly Currency Lak;
 
-        /// <summary>
-        ///     Lebanese Pound
-        /// </summary>
         public static readonly Currency Lbp;
 
-        /// <summary>
-        ///     Latvian Lats
-        /// </summary>
         public static readonly Currency Lvl;
 
-        /// <summary>
-        ///     Liberian Dollar
-        /// </summary>
         public static readonly Currency Lrd;
 
-        /// <summary>
-        ///     Libyan Dinar
-        /// </summary>
         public static readonly Currency Lyd;
 
-        /// <summary>
-        ///     Lithuanian Litas
-        /// </summary>
         public static readonly Currency Ltl;
 
-        /// <summary>
-        ///     Pataca
-        /// </summary>
         public static readonly Currency Mop;
 
-        /// <summary>
-        ///     Kwacha
-        /// </summary>
         public static readonly Currency Mwk;
 
-        /// <summary>
-        ///     Malaysian Ringgit
-        /// </summary>
         public static readonly Currency Myr;
 
-        /// <summary>
-        ///     Rufiyaa
-        /// </summary>
         public static readonly Currency Mvr;
 
-        /// <summary>
-        ///     Ouguiya
-        /// </summary>
         public static readonly Currency Mro;
 
-        /// <summary>
-        ///     Mauritius Rupee
-        /// </summary>
         public static readonly Currency Mur;
 
-        /// <summary>
-        ///     Mexican Peso
-        /// </summary>
         public static readonly Currency Mxn;
 
-        /// <summary>
-        ///     Tugrik
-        /// </summary>
         public static readonly Currency Mnt;
 
-        /// <summary>
-        ///     Moldovan Leu
-        /// </summary>
         public static readonly Currency Mdl;
 
-        /// <summary>
-        ///     Moroccan Dirham
-        /// </summary>
         public static readonly Currency Mad;
 
-        /// <summary>
-        ///     Rial Omani
-        /// </summary>
         public static readonly Currency Omr;
 
-        /// <summary>
-        ///     Nepalese Rupee
-        /// </summary>
         public static readonly Currency Npr;
 
-        /// <summary>
-        ///     Netherlands Antillian Guilder
-        /// </summary>
         public static readonly Currency Ang;
 
-        /// <summary>
-        ///     Aruban Guilder
-        /// </summary>
         public static readonly Currency Awg;
 
-        /// <summary>
-        ///     Vatu
-        /// </summary>
         public static readonly Currency Vuv;
 
-        /// <summary>
-        ///     New Zealand Dollar
-        /// </summary>
         public static readonly Currency Nzd;
 
-        /// <summary>
-        ///     Cordoba Oro
-        /// </summary>
         public static readonly Currency Nio;
 
-        /// <summary>
-        ///     Naira
-        /// </summary>
         public static readonly Currency Ngn;
 
-        /// <summary>
-        ///     Norwegian Krone
-        /// </summary>
         public static readonly Currency Nok;
 
-        /// <summary>
-        ///     Pakistan Rupee
-        /// </summary>
         public static readonly Currency Pkr;
 
-        /// <summary>
-        ///     Balboa
-        /// </summary>
         public static readonly Currency Pab;
 
-        /// <summary>
-        ///     Kina
-        /// </summary>
         public static readonly Currency Pgk;
 
-        /// <summary>
-        ///     Guarani
-        /// </summary>
         public static readonly Currency Pyg;
 
-        /// <summary>
-        ///     Nuevo Sol
-        /// </summary>
         public static readonly Currency Pen;
 
-        /// <summary>
-        ///     Philippine Peso
-        /// </summary>
         public static readonly Currency Php;
 
-        /// <summary>
-        ///     Guinea-Bissau Peso
-        /// </summary>
         public static readonly Currency Gwp;
 
-        /// <summary>
-        ///     Qatari Rial
-        /// </summary>
         public static readonly Currency Qar;
 
-        /// <summary>
-        ///     Russian Ruble
-        /// </summary>
         public static readonly Currency Rub;
 
-        /// <summary>
-        ///     Rwanda Franc
-        /// </summary>
         public static readonly Currency Rwf;
 
-        /// <summary>
-        ///     Saint Helena Pound
-        /// </summary>
         public static readonly Currency Shp;
 
-        /// <summary>
-        ///     Dobra
-        /// </summary>
         public static readonly Currency Std;
 
-        /// <summary>
-        ///     Saudi Riyal
-        /// </summary>
         public static readonly Currency Sar;
 
-        /// <summary>
-        ///     Seychelles Rupee
-        /// </summary>
         public static readonly Currency Scr;
 
-        /// <summary>
-        ///     Leone
-        /// </summary>
         public static readonly Currency Sll;
 
-        /// <summary>
-        ///     Singapore Dollar
-        /// </summary>
         public static readonly Currency Sgd;
 
-        /// <summary>
-        ///     Slovak Koruna
-        /// </summary>
         public static readonly Currency Skk;
 
-        /// <summary>
-        ///     Dong
-        /// </summary>
         public static readonly Currency Vnd;
 
-        /// <summary>
-        ///     Somali Shilling
-        /// </summary>
         public static readonly Currency Sos;
 
-        /// <summary>
-        ///     Rand
-        /// </summary>
         public static readonly Currency Zar;
 
-        /// <summary>
-        ///     Zimbabwe Dollar
-        /// </summary>
         public static readonly Currency Zwd;
 
-        /// <summary>
-        ///     Lilangeni
-        /// </summary>
         public static readonly Currency Szl;
 
-        /// <summary>
-        ///     Swedish Krona
-        /// </summary>
         public static readonly Currency Sek;
 
-        /// <summary>
-        ///     Swiss Franc
-        /// </summary>
         public static readonly Currency Chf;
 
-        /// <summary>
-        ///     Syrian Pound
-        /// </summary>
         public static readonly Currency Syp;
 
-        /// <summary>
-        ///     Baht
-        /// </summary>
         public static readonly Currency Thb;
 
-        /// <summary>
-        ///     Pa'anga
-        /// </summary>
         public static readonly Currency Top;
 
-        /// <summary>
-        ///     Trinidad and Tobago
-        ///     Dollar
-        /// </summary>
         public static readonly Currency Ttd;
 
-        /// <summary>
-        ///     UAE Dirham
-        /// </summary>
         public static readonly Currency Aed;
 
-        /// <summary>
-        ///     Tunisian Dinar
-        /// </summary>
         public static readonly Currency Tnd;
 
-        /// <summary>
-        ///     Manat
-        /// </summary>
         public static readonly Currency Tmm;
 
-        /// <summary>
-        ///     Uganda Shilling
-        /// </summary>
         public static readonly Currency Ugx;
 
-        /// <summary>
-        ///     Denar
-        /// </summary>
         public static readonly Currency Mkd;
 
-        /// <summary>
-        ///     Egyptian Pound
-        /// </summary>
         public static readonly Currency Egp;
 
-        /// <summary>
-        ///     Pound Sterling
-        /// </summary>
         public static readonly Currency Gbp;
 
-        /// <summary>
-        ///     Tanzanian Shilling
-        /// </summary>
         public static readonly Currency Tzs;
 
-        /// <summary>
-        ///     US Dollar
-        /// </summary>
         public static readonly Currency Usd;
 
-        /// <summary>
-        ///     Peso Uruguayo
-        /// </summary>
         public static readonly Currency Uyu;
 
-        /// <summary>
-        ///     Uzbekistan Sum
-        /// </summary>
         public static readonly Currency Uzs;
 
-        /// <summary>
-        ///     Tala
-        /// </summary>
         public static readonly Currency Wst;
 
-        /// <summary>
-        ///     Yemeni Rial
-        /// </summary>
         public static readonly Currency Yer;
 
-        /// <summary>
-        ///     Kwacha
-        /// </summary>
         public static readonly Currency Zmk;
 
-        /// <summary>
-        ///     New Taiwan Dollar
-        /// </summary>
         public static readonly Currency Twd;
 
-        /// <summary>
-        ///     Ghana Cedi
-        /// </summary>
         public static readonly Currency Ghs;
 
-        /// <summary>
-        ///     Bolivar Fuerte
-        /// </summary>
         public static readonly Currency Vef;
 
-        /// <summary>
-        ///     Sudanese Pound
-        /// </summary>
         public static readonly Currency Sdg;
 
-        /// <summary>
-        ///     Serbian Dinar
-        /// </summary>
         public static readonly Currency Rsd;
 
-        /// <summary>
-        ///     Metical
-        /// </summary>
         public static readonly Currency Mzn;
 
-        /// <summary>
-        ///     Azerbaijanian Manat
-        /// </summary>
         public static readonly Currency Azn;
 
-        /// <summary>
-        ///     New Leu
-        /// </summary>
         public static readonly Currency Ron;
 
-        /// <summary>
-        ///     New Turkish Lira
-        /// </summary>
         public static readonly Currency Try;
 
-        /// <summary>
-        ///     CFA Franc BEAC
-        /// </summary>
         public static readonly Currency Xaf;
 
-        /// <summary>
-        ///     East Caribbean Dollar
-        /// </summary>
         public static readonly Currency Xcd;
 
-        /// <summary>
-        ///     CFA Franc BCEAO
-        /// </summary>
         public static readonly Currency Xof;
 
-        /// <summary>
-        ///     CFP Franc
-        /// </summary>
         public static readonly Currency Xpf;
 
-        /// <summary>
-        ///     Bond Markets Units
-        ///     European Composite Unit
-        ///     (EURCO)
-        /// </summary>
         public static readonly Currency Xba;
 
-        /// <summary>
-        ///     European Monetary
-        ///     Unit (E.M.U.-6)
-        /// </summary>
         public static readonly Currency Xbb;
 
-        /// <summary>
-        ///     European Unit of
-        ///     Account 9(E.U.A.-9)
-        /// </summary>
         public static readonly Currency Xbc;
 
-        /// <summary>
-        ///     European Unit of
-        ///     Account 17(E.U.A.-17)
-        /// </summary>
         public static readonly Currency Xbd;
 
-        /// <summary>
-        ///     Gold
-        /// </summary>
         public static readonly Currency Xau;
 
-        /// <summary>
-        ///     SDR
-        /// </summary>
         public static readonly Currency Xdr;
 
-        /// <summary>
-        ///     Silver
-        /// </summary>
         public static readonly Currency Xag;
 
-        /// <summary>
-        ///     Platinum
-        /// </summary>
         public static readonly Currency Xpt;
 
-        /// <summary>
-        ///     Codes specifically
-        ///     reserved for testing
-        ///     purposes
-        /// </summary>
         public static readonly Currency Xts;
 
-        /// <summary>
-        ///     Palladium
-        /// </summary>
         public static readonly Currency Xpd;
 
-        /// <summary>
-        ///     Surinam Dollar
-        /// </summary>
         public static readonly Currency Srd;
 
-        /// <summary>
-        ///     Malagasy Ariary
-        /// </summary>
         public static readonly Currency Mga;
 
-        /// <summary>
-        ///     Afghani
-        /// </summary>
         public static readonly Currency Afn;
 
-        /// <summary>
-        ///     Somoni
-        /// </summary>
         public static readonly Currency Tjs;
 
-        /// <summary>
-        ///     Kwanza
-        /// </summary>
         public static readonly Currency Aoa;
 
-        /// <summary>
-        ///     Belarussian Ruble
-        /// </summary>
         public static readonly Currency Byr;
 
-        /// <summary>
-        ///     Bulgarian Lev
-        /// </summary>
         public static readonly Currency Bgn;
 
-        /// <summary>
-        ///     Franc Congolais
-        /// </summary>
         public static readonly Currency Cdf;
 
-        /// <summary>
-        ///     Convertible Marks
-        /// </summary>
         public static readonly Currency Bam;
 
-        /// <summary>
-        ///     Euro
-        /// </summary>
         public static readonly Currency Eur;
 
-        /// <summary>
-        ///     Hryvnia
-        /// </summary>
         public static readonly Currency Uah;
 
-        /// <summary>
-        ///     Lari
-        /// </summary>
         public static readonly Currency Gel;
 
-        /// <summary>
-        ///     Zloty
-        /// </summary>
         public static readonly Currency Pln;
 
-        /// <summary>
-        ///     Brazilian Real
-        /// </summary>
         public static readonly Currency Brl;
 
-        /// <summary>
-        ///     The codes assigned for
-        ///     transactions where no
-        ///     currency is involved.
-        /// </summary>
         public static readonly Currency Xxx;
 
         #endregion
@@ -1565,30 +1045,11 @@ namespace MPersist.MoneyType
             }
         }
 
-        /// <summary>
-        ///     Creates a <see cref="Currency" /> instance from the
-        ///     <see cref="CultureInfo.CurrentCulture" />.
-        /// </summary>
-        /// <returns>
-        ///     The <see cref="Currency" /> which corresponds
-        ///     to the current culture.
-        /// </returns>
         public static Currency FromCurrentCulture()
         {
             return FromCultureInfo(CultureInfo.CurrentCulture);
         }
 
-        /// <summary>
-        ///     Creates a <see cref="Currency" /> instance from the
-        ///     given <see cref="CultureInfo" />.
-        /// </summary>
-        /// <param name="cultureInfo">
-        ///     The <see cref="CultureInfo" /> from which to create the currency.
-        /// </param>
-        /// <returns>
-        ///     The <see cref="Currency" /> which corresponds
-        ///     to <paramref name="cultureInfo" />.
-        /// </returns>
         public static Currency FromCultureInfo(CultureInfo cultureInfo)
         {
             Int32 currencyId;
@@ -1601,41 +1062,16 @@ namespace MPersist.MoneyType
             throw new InvalidOperationException("Unknown culture: " + cultureInfo);
         }
 
-        /// <summary>
-        ///     Creates a <see cref="Currency" /> instance from its
-        ///     3-letter ISO 4217 code.
-        /// </summary>
-        /// <param name="code">The ISO 4217 3-letter currency code.</param>
-        /// <returns>
-        ///     The <see cref="Currency" /> which corresponds
-        ///     to the ISO 4217 3-letter <paramref name="code" />.
-        /// </returns>
         public static Currency FromIso3LetterCode(String code)
         {
             return new Currency(code);
         }
 
-        /// <summary>
-        ///     Compares two currency values for equality.
-        /// </summary>
-        /// <param name="left">The left side to compare.</param>
-        /// <param name="right">The right side to compare.</param>
-        /// <returns>
-        ///     <see langword="true" /> if they are equal; <see langword="false" /> otherwise.
-        /// </returns>
         public static Boolean operator ==(Currency left, Currency right)
         {
             return left.Equals(right);
         }
 
-        /// <summary>
-        ///     Compares two currency values for inequality.
-        /// </summary>
-        /// <param name="left">The left side to compare.</param>
-        /// <param name="right">The right side to compare.</param>
-        /// <returns>
-        ///     <see langword="true" /> if they are not equal; <see langword="false" /> otherwise.
-        /// </returns>
         public static Boolean operator !=(Currency left, Currency right)
         {
             return !left.Equals(right);
