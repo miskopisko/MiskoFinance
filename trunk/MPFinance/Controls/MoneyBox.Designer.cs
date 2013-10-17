@@ -28,7 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
+            this.SuspendLayout();
+            // 
+            // MoneyBox
+            // 
+            this.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.ResumeLayout(false);
+
         }
 
         #endregion

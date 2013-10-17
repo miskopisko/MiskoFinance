@@ -51,7 +51,7 @@ namespace MPersist.Core
             }
             else
             {
-                throw new MPException(ErrorStrings.errInvalidConnectionString, new Object[] { name });
+                throw new MPException(ErrorStrings.errInvalidConnectionString, new String[] { name });
             }
         }
 

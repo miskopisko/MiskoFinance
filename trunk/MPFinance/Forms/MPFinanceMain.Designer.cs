@@ -257,12 +257,13 @@
             this.mAccountsList_.FormattingEnabled = true;
             this.mAccountsList_.Location = new System.Drawing.Point(3, 3);
             this.mAccountsList_.Name = "mAccountsList_";
-            this.mAccountsList_.Size = new System.Drawing.Size(238, 121);
+            this.mAccountsList_.Size = new System.Drawing.Size(238, 123);
             this.mAccountsList_.TabIndex = 1;
             this.mAccountsList_.SelectedIndexChanged += new System.EventHandler(this.AccountsList_SelectedIndexChanged);
             // 
             // mSummaryPanel_
             // 
+            this.mSummaryPanel_.AutoSize = true;
             this.mSummaryPanel_.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mSummaryPanel_.Location = new System.Drawing.Point(3, 132);
             this.mSummaryPanel_.Name = "mSummaryPanel_";
@@ -297,6 +298,7 @@
             this.mMenuStrip_.PerformLayout();
             this.mMainLayout_.ResumeLayout(false);
             this.mAccountsAndSummary_.ResumeLayout(false);
+            this.mAccountsAndSummary_.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -44,7 +44,7 @@
             this.mImportedTransactionsGridView_.Name = "mImportedTransactionsGridView_";
             this.mImportedTransactionsGridView_.RowHeadersVisible = false;
             this.mImportedTransactionsGridView_.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.mImportedTransactionsGridView_.Size = new System.Drawing.Size(1059, 482);
+            this.mImportedTransactionsGridView_.Size = new System.Drawing.Size(1037, 457);
             this.mImportedTransactionsGridView_.TabIndex = 1;
             // 
             // ChooseTransactionsPanel
@@ -53,7 +53,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.mImportedTransactionsGridView_);
             this.Name = "ChooseTransactionsPanel";
-            this.Size = new System.Drawing.Size(1059, 482);
+            this.Size = new System.Drawing.Size(1037, 457);
             ((System.ComponentModel.ISupportInitialize)(this.mImportedTransactionsGridView_)).EndInit();
             this.ResumeLayout(false);
 

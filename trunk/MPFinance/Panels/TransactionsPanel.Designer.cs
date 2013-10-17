@@ -28,11 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.Label mCategoryLbl_;
-            System.Windows.Forms.Label mDescriptionLbl_;
-            System.Windows.Forms.Label mToDateLbl_;
-            System.Windows.Forms.Label mFromDateLbl_;
             MPersist.Data.Page page1 = new MPersist.Data.Page();
+            this.mCategoryLbl_ = new System.Windows.Forms.Label();
+            this.mDescriptionLbl_ = new System.Windows.Forms.Label();
+            this.mToDateLbl_ = new System.Windows.Forms.Label();
+            this.mFromDateLbl_ = new System.Windows.Forms.Label();
             this.mStatusStrip_ = new System.Windows.Forms.StatusStrip();
             this.mPageCountsLbl_ = new System.Windows.Forms.ToolStripStatusLabel();
             this.mTransactionCountsLbl_ = new System.Windows.Forms.ToolStripStatusLabel();
@@ -45,10 +45,6 @@
             this.mDescription_ = new System.Windows.Forms.TextBox();
             this.mToDate_ = new System.Windows.Forms.DateTimePicker();
             this.mFromDate_ = new System.Windows.Forms.DateTimePicker();
-            mCategoryLbl_ = new System.Windows.Forms.Label();
-            mDescriptionLbl_ = new System.Windows.Forms.Label();
-            mToDateLbl_ = new System.Windows.Forms.Label();
-            mFromDateLbl_ = new System.Windows.Forms.Label();
             this.mStatusStrip_.SuspendLayout();
             this.mTableLayoutPanel_.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mTransactionsGridView_)).BeginInit();
@@ -57,56 +53,56 @@
             // 
             // mCategoryLbl_
             // 
-            mCategoryLbl_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
-            mCategoryLbl_.AutoSize = true;
-            mCategoryLbl_.Location = new System.Drawing.Point(650, 0);
-            mCategoryLbl_.Name = "mCategoryLbl_";
-            mCategoryLbl_.Size = new System.Drawing.Size(52, 29);
-            mCategoryLbl_.TabIndex = 3;
-            mCategoryLbl_.Text = "Category:";
-            mCategoryLbl_.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.mCategoryLbl_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+            this.mCategoryLbl_.AutoSize = true;
+            this.mCategoryLbl_.Location = new System.Drawing.Point(666, 0);
+            this.mCategoryLbl_.Name = "mCategoryLbl_";
+            this.mCategoryLbl_.Size = new System.Drawing.Size(52, 29);
+            this.mCategoryLbl_.TabIndex = 3;
+            this.mCategoryLbl_.Text = "Category:";
+            this.mCategoryLbl_.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // mDescriptionLbl_
             // 
-            mDescriptionLbl_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
-            mDescriptionLbl_.AutoSize = true;
-            mDescriptionLbl_.Location = new System.Drawing.Point(429, 0);
-            mDescriptionLbl_.Name = "mDescriptionLbl_";
-            mDescriptionLbl_.Size = new System.Drawing.Size(63, 29);
-            mDescriptionLbl_.TabIndex = 5;
-            mDescriptionLbl_.Text = "Description:";
-            mDescriptionLbl_.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.mDescriptionLbl_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+            this.mDescriptionLbl_.AutoSize = true;
+            this.mDescriptionLbl_.Location = new System.Drawing.Point(445, 0);
+            this.mDescriptionLbl_.Name = "mDescriptionLbl_";
+            this.mDescriptionLbl_.Size = new System.Drawing.Size(63, 29);
+            this.mDescriptionLbl_.TabIndex = 5;
+            this.mDescriptionLbl_.Text = "Description:";
+            this.mDescriptionLbl_.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // mToDateLbl_
             // 
-            mToDateLbl_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
-            mToDateLbl_.AutoSize = true;
-            mToDateLbl_.Location = new System.Drawing.Point(247, 0);
-            mToDateLbl_.Name = "mToDateLbl_";
-            mToDateLbl_.Size = new System.Drawing.Size(49, 29);
-            mToDateLbl_.TabIndex = 7;
-            mToDateLbl_.Text = "To Date:";
-            mToDateLbl_.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.mToDateLbl_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+            this.mToDateLbl_.AutoSize = true;
+            this.mToDateLbl_.Location = new System.Drawing.Point(263, 0);
+            this.mToDateLbl_.Name = "mToDateLbl_";
+            this.mToDateLbl_.Size = new System.Drawing.Size(49, 29);
+            this.mToDateLbl_.TabIndex = 7;
+            this.mToDateLbl_.Text = "To Date:";
+            this.mToDateLbl_.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // mFromDateLbl_
             // 
-            mFromDateLbl_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
-            mFromDateLbl_.AutoSize = true;
-            mFromDateLbl_.Location = new System.Drawing.Point(58, 0);
-            mFromDateLbl_.Name = "mFromDateLbl_";
-            mFromDateLbl_.Size = new System.Drawing.Size(59, 29);
-            mFromDateLbl_.TabIndex = 9;
-            mFromDateLbl_.Text = "From Date:";
-            mFromDateLbl_.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.mFromDateLbl_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+            this.mFromDateLbl_.AutoSize = true;
+            this.mFromDateLbl_.Location = new System.Drawing.Point(74, 0);
+            this.mFromDateLbl_.Name = "mFromDateLbl_";
+            this.mFromDateLbl_.Size = new System.Drawing.Size(59, 29);
+            this.mFromDateLbl_.TabIndex = 9;
+            this.mFromDateLbl_.Text = "From Date:";
+            this.mFromDateLbl_.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // mStatusStrip_
             // 
             this.mStatusStrip_.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mPageCountsLbl_,
             this.mTransactionCountsLbl_});
-            this.mStatusStrip_.Location = new System.Drawing.Point(0, 380);
+            this.mStatusStrip_.Location = new System.Drawing.Point(0, 391);
             this.mStatusStrip_.Name = "mStatusStrip_";
-            this.mStatusStrip_.Size = new System.Drawing.Size(1000, 22);
+            this.mStatusStrip_.Size = new System.Drawing.Size(1016, 22);
             this.mStatusStrip_.SizingGrip = false;
             this.mStatusStrip_.TabIndex = 0;
             this.mStatusStrip_.Text = "mStatusStrip_";
@@ -114,7 +110,7 @@
             // mPageCountsLbl_
             // 
             this.mPageCountsLbl_.Name = "mPageCountsLbl_";
-            this.mPageCountsLbl_.Size = new System.Drawing.Size(880, 17);
+            this.mPageCountsLbl_.Size = new System.Drawing.Size(896, 17);
             this.mPageCountsLbl_.Spring = true;
             this.mPageCountsLbl_.Text = "Page Count";
             this.mPageCountsLbl_.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -138,7 +134,7 @@
             this.mTableLayoutPanel_.RowCount = 2;
             this.mTableLayoutPanel_.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.mTableLayoutPanel_.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.mTableLayoutPanel_.Size = new System.Drawing.Size(1000, 380);
+            this.mTableLayoutPanel_.Size = new System.Drawing.Size(1016, 391);
             this.mTableLayoutPanel_.TabIndex = 1;
             // 
             // mTransactionsGridView_
@@ -160,7 +156,7 @@
             this.mTransactionsGridView_.RowHeadersVisible = false;
             this.mTransactionsGridView_.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.mTransactionsGridView_.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.mTransactionsGridView_.Size = new System.Drawing.Size(994, 339);
+            this.mTransactionsGridView_.Size = new System.Drawing.Size(1010, 350);
             this.mTransactionsGridView_.TabIndex = 0;
             // 
             // mFlowLayoutPanel_
@@ -168,23 +164,23 @@
             this.mFlowLayoutPanel_.Controls.Add(this.mMore_);
             this.mFlowLayoutPanel_.Controls.Add(this.mSearch_);
             this.mFlowLayoutPanel_.Controls.Add(this.mCategory_);
-            this.mFlowLayoutPanel_.Controls.Add(mCategoryLbl_);
+            this.mFlowLayoutPanel_.Controls.Add(this.mCategoryLbl_);
             this.mFlowLayoutPanel_.Controls.Add(this.mDescription_);
-            this.mFlowLayoutPanel_.Controls.Add(mDescriptionLbl_);
+            this.mFlowLayoutPanel_.Controls.Add(this.mDescriptionLbl_);
             this.mFlowLayoutPanel_.Controls.Add(this.mToDate_);
-            this.mFlowLayoutPanel_.Controls.Add(mToDateLbl_);
+            this.mFlowLayoutPanel_.Controls.Add(this.mToDateLbl_);
             this.mFlowLayoutPanel_.Controls.Add(this.mFromDate_);
-            this.mFlowLayoutPanel_.Controls.Add(mFromDateLbl_);
+            this.mFlowLayoutPanel_.Controls.Add(this.mFromDateLbl_);
             this.mFlowLayoutPanel_.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mFlowLayoutPanel_.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
             this.mFlowLayoutPanel_.Location = new System.Drawing.Point(3, 3);
             this.mFlowLayoutPanel_.Name = "mFlowLayoutPanel_";
-            this.mFlowLayoutPanel_.Size = new System.Drawing.Size(994, 29);
+            this.mFlowLayoutPanel_.Size = new System.Drawing.Size(1010, 29);
             this.mFlowLayoutPanel_.TabIndex = 1;
             // 
             // mMore_
             // 
-            this.mMore_.Location = new System.Drawing.Point(916, 3);
+            this.mMore_.Location = new System.Drawing.Point(932, 3);
             this.mMore_.Name = "mMore_";
             this.mMore_.Size = new System.Drawing.Size(75, 23);
             this.mMore_.TabIndex = 0;
@@ -194,7 +190,7 @@
             // 
             // mSearch_
             // 
-            this.mSearch_.Location = new System.Drawing.Point(835, 3);
+            this.mSearch_.Location = new System.Drawing.Point(851, 3);
             this.mSearch_.Name = "mSearch_";
             this.mSearch_.Size = new System.Drawing.Size(75, 23);
             this.mSearch_.TabIndex = 1;
@@ -206,14 +202,14 @@
             // 
             this.mCategory_.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.mCategory_.FormattingEnabled = true;
-            this.mCategory_.Location = new System.Drawing.Point(708, 3);
+            this.mCategory_.Location = new System.Drawing.Point(724, 3);
             this.mCategory_.Name = "mCategory_";
             this.mCategory_.Size = new System.Drawing.Size(121, 21);
             this.mCategory_.TabIndex = 2;
             // 
             // mDescription_
             // 
-            this.mDescription_.Location = new System.Drawing.Point(498, 3);
+            this.mDescription_.Location = new System.Drawing.Point(514, 3);
             this.mDescription_.Name = "mDescription_";
             this.mDescription_.Size = new System.Drawing.Size(146, 20);
             this.mDescription_.TabIndex = 4;
@@ -222,7 +218,7 @@
             // 
             this.mToDate_.CustomFormat = "MMM dd, yyyy";
             this.mToDate_.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.mToDate_.Location = new System.Drawing.Point(302, 3);
+            this.mToDate_.Location = new System.Drawing.Point(318, 3);
             this.mToDate_.Name = "mToDate_";
             this.mToDate_.Size = new System.Drawing.Size(121, 20);
             this.mToDate_.TabIndex = 6;
@@ -231,7 +227,7 @@
             // 
             this.mFromDate_.CustomFormat = "MMM dd, yyyy";
             this.mFromDate_.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.mFromDate_.Location = new System.Drawing.Point(123, 3);
+            this.mFromDate_.Location = new System.Drawing.Point(139, 3);
             this.mFromDate_.Name = "mFromDate_";
             this.mFromDate_.Size = new System.Drawing.Size(118, 20);
             this.mFromDate_.TabIndex = 8;
@@ -243,7 +239,7 @@
             this.Controls.Add(this.mTableLayoutPanel_);
             this.Controls.Add(this.mStatusStrip_);
             this.Name = "TransactionsPanel";
-            this.Size = new System.Drawing.Size(1000, 402);
+            this.Size = new System.Drawing.Size(1016, 413);
             this.mStatusStrip_.ResumeLayout(false);
             this.mStatusStrip_.PerformLayout();
             this.mTableLayoutPanel_.ResumeLayout(false);
@@ -269,5 +265,9 @@
         private System.Windows.Forms.DateTimePicker mToDate_;
         private System.Windows.Forms.ToolStripStatusLabel mPageCountsLbl_;
         private System.Windows.Forms.ToolStripStatusLabel mTransactionCountsLbl_;
+        private System.Windows.Forms.Label mCategoryLbl_;
+        private System.Windows.Forms.Label mDescriptionLbl_;
+        private System.Windows.Forms.Label mToDateLbl_;
+        private System.Windows.Forms.Label mFromDateLbl_;
     }
 }

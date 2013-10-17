@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using MPersist.Core;
 using MPersist.MoneyType;
+using MPFinance.Forms;
 using MPFinanceCore.Data.Viewed;
 using MPFinanceCore.Enums;
 
@@ -25,6 +26,15 @@ namespace MPFinance.Controls
 
         #endregion
 
+        #region Properties
+
+        private ImportNewTransactionsDialog Owner
+        {
+            get { return (ImportNewTransactionsDialog)Parent.Parent; }
+        }
+
+        #endregion
+
         #region Constructors
 
         public ImportedTransactionsGridView()
@@ -39,17 +49,19 @@ namespace MPFinance.Controls
 
         protected override void OnDataBindingComplete(DataGridViewBindingCompleteEventArgs e)
         {
+            base.OnDataBindingComplete(e);
+
             mSelectableRecords_ = Rows.Count;
 
             ((CheckBoxHeaderCell)mImport_.HeaderCell).Enabled = mSelectableRecords_ > 0;
             ((CheckBoxHeaderCell)mImport_.HeaderCell).Checked = true;
             cbHeader_OnCheckBoxClicked(true);
-
-            base.OnDataBindingComplete(e);
         }
 
         protected override void OnCellValueChanged(DataGridViewCellEventArgs e)
         {
+            base.OnCellValueChanged(e);
+
             if (e.ColumnIndex.Equals(Columns.IndexOf(mImport_)) && e.RowIndex >= 0)
             {
                 mSelectedRecords_ += ((Boolean)Rows[e.RowIndex].Cells[e.ColumnIndex].Value) ? 1 : -1;
@@ -68,17 +80,17 @@ namespace MPFinance.Controls
                 InvalidateColumn(Columns.IndexOf(mImport_));
             }
 
-            base.OnCellValueChanged(e);
+            Owner.mImportBtn_.Enabled = mSelectedRecords_ > 0;
         }
 
         protected override void OnCurrentCellDirtyStateChanged(EventArgs e)
         {
+            base.OnCurrentCellDirtyStateChanged(e);
+
             if (CurrentCell is DataGridViewCheckBoxCell)
             {
                 CommitEdit(DataGridViewDataErrorContexts.Commit);
             }
-
-            base.OnCurrentCellDirtyStateChanged(e);
         }
 
         #endregion

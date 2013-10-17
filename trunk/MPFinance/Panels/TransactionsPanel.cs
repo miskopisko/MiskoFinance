@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
 using MPersist.Core;
-using MPersist.Data;
 using MPersist.Message.Response;
 using MPersist.Tools;
 using MPFinance.Forms;
@@ -65,14 +64,14 @@ namespace MPFinance.Panels
         {
             if (mTransactionsGridView_.CurrentPage.HasNext)
             {
-                GetTxns(mTransactionsGridView_.CurrentPage.NextPage);
+                GetTxns(mTransactionsGridView_.CurrentPage.PageNo + 1);
             }
         }
 
         private void mSearch__Click(object sender, EventArgs e)
         {
             // Load all txns if Ctrl + Click
-            GetTxns(new Page((ModifierKeys & Keys.Control) == Keys.Control ? 0 : 1));
+            GetTxns((ModifierKeys & Keys.Control) == Keys.Control ? 0 : 1);
         }
 
         #endregion
@@ -94,14 +93,14 @@ namespace MPFinance.Panels
         }
 
         // Fetch all txns as per the search criteria
-        public void GetTxns(Page page)
+        public void GetTxns(Int32 page)
         {
             mTransactionsGridView_.Focus();
             mMore_.Enabled = false;
             mSearch_.Enabled = false;
 
             // Clear the table if fetching first page
-            if(page.PageNo <= 1)
+            if(page <= 1)
             {
                 mTransactionsGridView_.DataSource = new VwTxns();
             }

@@ -49,7 +49,6 @@ namespace MPFinance.Controls
         public MoneyBox()
         {
             InitializeComponent();
-            TextAlign = HorizontalAlignment.Right;
             Text = mValue_.ToString();
         }
 
@@ -59,17 +58,26 @@ namespace MPFinance.Controls
 
         protected override void OnLeave(EventArgs e)
         {
+            base.OnLeave(e);
+
             if (!ReadOnly)
             {
-                mFocused_ = false;
-                Value = new Money(Text);
+                if (!String.IsNullOrEmpty(Text))
+                {
+                    Value = new Money(Text);
+                }
+                else
+                {
+                    Value = new Money(0);
+                }
+                mFocused_ = false;                
             }
-
-            base.OnLeave(e);
         }
 
         protected override void OnGotFocus(EventArgs e)
         {
+            base.OnGotFocus(e);
+
             if (!ReadOnly)
             {
                 if (MouseButtons == MouseButtons.None)
@@ -87,6 +95,8 @@ namespace MPFinance.Controls
 
         protected override void OnMouseUp(MouseEventArgs mevent)
         {
+            base.OnMouseUp(mevent);
+
             if (!ReadOnly && !mFocused_ && SelectionLength == 0)
             {
                 Text = Text.Replace("$", "");
@@ -97,6 +107,8 @@ namespace MPFinance.Controls
 
         protected override void OnTextChanged(EventArgs e)
         {
+            base.OnTextChanged(e);
+
             if (mValue_ != null && mValue_.lessThen(Money.ZERO))
             {
                 ForeColor = Color.Red;
@@ -109,6 +121,8 @@ namespace MPFinance.Controls
 
         protected override void OnKeyPress(KeyPressEventArgs e)
         {
+            base.OnKeyPress(e);
+
             if (!ReadOnly)
             {
                 if (Char.IsDigit(e.KeyChar) || e.KeyChar.Equals('-') || e.KeyChar.Equals('.') || e.KeyChar.Equals('\b'))

@@ -81,12 +81,6 @@ namespace MPersist.Data
             }
         }
 
-        public AbstractStoredData[] ToArray()
-        {
-            List<AbstractStoredData> list = Items as List<AbstractStoredData>;
-            return list.ToArray();
-        }
-
         #endregion
 
         #region Inherited Methods

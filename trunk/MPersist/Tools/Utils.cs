@@ -6,10 +6,11 @@ using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.Serialization;
 using MPersist.Core;
+using System.Collections.Generic;
 
 namespace MPersist.Tools
 {
-    public class Utils
+    public static class Utils
     {
         private static Logger Log = Logger.GetInstance(typeof(Utils));
 

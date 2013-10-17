@@ -31,10 +31,15 @@ namespace MPFinanceCore.Message
                 session.Error(ErrorLevel.Error, "Passwords do not match. Try again");
             }
 
-            VwOperator alreadyExists = VwOperator.GetInstanceByUsername(session, Request.Operator.Username);
-            if (alreadyExists.OperatorId != null && alreadyExists.OperatorId.IsSet)
+            // If the OperatorId is not set then we are adding a new operator
+            // Check if that operator already exists
+            if (Request.Operator.OperatorId == null || Request.Operator.OperatorId.IsNotSet)
             {
-                session.Error(ErrorLevel.Error, "Username {0} is already taken.", new Object[] { Request.Operator.Username });
+                VwOperator alreadyExists = VwOperator.GetInstanceByUsername(session, Request.Operator.Username);
+                if (alreadyExists.OperatorId != null && alreadyExists.OperatorId.IsSet)
+                {
+                    session.Error(ErrorLevel.Error, "Username {0} is already taken.", new String[] { Request.Operator.Username });
+                }
             }
 
             Request.Operator.Password = Utils.GenerateHash(Request.Password1);

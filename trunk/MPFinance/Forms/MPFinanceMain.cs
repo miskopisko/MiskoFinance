@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading;
 using System.Windows.Forms;
 using MPersist.Core;
 using MPersist.Data;
 using MPersist.Interfaces;
+using MPersist.Message.Request;
 using MPersist.Message.Response;
 using MPFinance.Properties;
 using MPFinanceCore.Data.Viewed;
@@ -93,7 +95,7 @@ namespace MPFinance.Forms
         // User picked new account from list; refresh txns
         private void AccountsList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            mTransactionsPanel_.GetTxns(new Page(1));
+            mTransactionsPanel_.GetTxns(1);
         }
 
         // Open file chooser and import new OFX file
@@ -244,6 +246,35 @@ namespace MPFinance.Forms
             mMessageStatusLbl_.Text = message;
             mMessageStatusBar_.Increment(10);
             Application.DoEvents();
+        }
+
+        public void Debug(Object obj)
+        {
+            if (obj is AbstractData)
+            {
+                String xml = AbstractData.Serialize((AbstractData)obj);
+
+                Trace.WriteLine(xml);
+
+                AbstractData deSerialized = AbstractData.Deserialize(xml, obj.GetType());
+
+                String xml2 = AbstractData.Serialize(deSerialized);
+
+                if (!xml.Equals(xml2))
+                {
+                    System.IO.File.WriteAllText(@"D:\TEMP\OriginalXML.txt", xml);
+                    System.IO.File.WriteAllText(@"D:\TEMP\DeserializedXML.txt", xml2);
+
+                    Process pr = new Process();
+                    pr.StartInfo.FileName = @"C:\Program Files (x86)\Beyond Compare 3\BCompare.exe";
+                    pr.StartInfo.Arguments = '\u0022' + @"D:\TEMP\OriginalXML.txt" + '\u0022' + " " + '\u0022' + @"D:\TEMP\DeserializedXML.txt" + '\u0022';
+                    pr.Start();
+                    
+                    return;
+                }
+
+                return;
+            }
         }
 
         #endregion

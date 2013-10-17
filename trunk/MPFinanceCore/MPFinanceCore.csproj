@@ -119,9 +119,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Database Scripts\MPersist_DB.sqlite3" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Database Scripts\MySql\Tables.sql" />
     <Content Include="Database Scripts\MySql\Views.sql" />
     <Content Include="Database Scripts\Oracle\Tables.sql" />
@@ -160,6 +157,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.XML" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

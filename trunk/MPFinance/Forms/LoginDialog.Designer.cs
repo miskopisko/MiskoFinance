@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.Label label1;
-            System.Windows.Forms.Label label2;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginDialog));
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.mTableLayoutPanel_ = new System.Windows.Forms.TableLayoutPanel();
             this.mUsername_ = new System.Windows.Forms.TextBox();
             this.mPassword_ = new System.Windows.Forms.TextBox();
@@ -40,33 +40,31 @@
             this.mNewUser_ = new System.Windows.Forms.Button();
             this.mDatasourceLbl_ = new System.Windows.Forms.Label();
             this.mDatasource_ = new System.Windows.Forms.ComboBox();
-            label1 = new System.Windows.Forms.Label();
-            label2 = new System.Windows.Forms.Label();
             this.mTableLayoutPanel_.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
             // 
-            label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            label1.AutoSize = true;
-            label1.Location = new System.Drawing.Point(3, 10);
-            label1.Name = "label1";
-            label1.Size = new System.Drawing.Size(79, 13);
-            label1.TabIndex = 3;
-            label1.Text = "Username:";
-            label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(3, 10);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(79, 13);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Username:";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label2
             // 
-            label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            label2.AutoSize = true;
-            label2.Location = new System.Drawing.Point(3, 44);
-            label2.Name = "label2";
-            label2.Size = new System.Drawing.Size(79, 13);
-            label2.TabIndex = 4;
-            label2.Text = "Password:";
-            label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(3, 44);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(79, 13);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "Password:";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // mTableLayoutPanel_
             // 
@@ -76,8 +74,8 @@
             this.mTableLayoutPanel_.Controls.Add(this.mUsername_, 1, 0);
             this.mTableLayoutPanel_.Controls.Add(this.mPassword_, 1, 1);
             this.mTableLayoutPanel_.Controls.Add(this.tableLayoutPanel1, 0, 3);
-            this.mTableLayoutPanel_.Controls.Add(label1, 0, 0);
-            this.mTableLayoutPanel_.Controls.Add(label2, 0, 1);
+            this.mTableLayoutPanel_.Controls.Add(this.label1, 0, 0);
+            this.mTableLayoutPanel_.Controls.Add(this.label2, 0, 1);
             this.mTableLayoutPanel_.Controls.Add(this.mDatasourceLbl_, 0, 2);
             this.mTableLayoutPanel_.Controls.Add(this.mDatasource_, 1, 2);
             this.mTableLayoutPanel_.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -215,5 +213,7 @@
         private System.Windows.Forms.Button mNewUser_;
         private System.Windows.Forms.Label mDatasourceLbl_;
         private System.Windows.Forms.ComboBox mDatasource_;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
     }
 }

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Globalization;
+using System.Xml;
 using MPersist.Core;
+using MPersist.Data;
 
 namespace MPersist.MoneyType
 {
-    public class Money : IEquatable<Money>, IComparable<Money>, IFormattable, IConvertible, IComparable
+    public class Money : AbstractData, IEquatable<Money>, IComparable<Money>, IFormattable, IConvertible, IComparable
     {
         private static Logger Log = Logger.GetInstance(typeof(Money));
 
@@ -449,6 +451,13 @@ namespace MPersist.MoneyType
         #endregion
 
         #region Override Methods
+
+        public override void WriteXml(XmlWriter writer)
+        {
+            base.WriteXml(writer);
+
+            writer.WriteString(computeValue().ToString());
+        }
 
         public override Int32 GetHashCode()
         {

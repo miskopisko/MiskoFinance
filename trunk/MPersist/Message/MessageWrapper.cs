@@ -16,7 +16,7 @@ namespace MPersist.Message
         #endregion
 
         #region Properties
-        
+
         public RequestMessage Request { get { return mRequest_; } }
         public ResponseMessage Response { get { return mResponse_; } }
 
@@ -38,6 +38,4 @@ namespace MPersist.Message
 
         public abstract void Execute(Session session);
     }
-
-    
 }

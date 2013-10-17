@@ -21,8 +21,8 @@ namespace MPFinance.Forms
 
         #region Properties
 
-        private VwBankAccount SelectedAccount { get { return (VwBankAccount)existingAccounts.SelectedItem; } }
-        private VwBankAccounts ExistingAccounts { get { return (VwBankAccounts)existingAccounts.DataSource; } set { existingAccounts.DataSource = value; } }
+        private VwBankAccount SelectedAccount { get { return (VwBankAccount)mExistingAccounts_.SelectedItem; } }
+        private VwBankAccounts ExistingAccounts { get { return (VwBankAccounts)mExistingAccounts_.DataSource; } set { mExistingAccounts_.DataSource = value; } }
 
         #endregion
 
@@ -31,14 +31,14 @@ namespace MPFinance.Forms
         public EditAccountsDialog()
         {
             InitializeComponent();
-            AccountTypeCmb.DataSource = AccountType.Elements;
+            mAccountType_.DataSource = AccountType.Elements;
 
-            existingAccounts.SelectedValueChanged += existingAccounts_SelectedValueChanged;
-            BankName.Leave += DataChanged;
-            AccountNumber.Leave += DataChanged;
-            AccountTypeCmb.Leave += DataChanged;
-            Nickname.Leave += DataChanged;
-            OpeningBalance.Leave += DataChanged;
+            mExistingAccounts_.SelectedValueChanged += existingAccounts_SelectedValueChanged;
+            mBankName_.Leave += DataChanged;
+            mAccountNumber_.Leave += DataChanged;
+            mAccountType_.Leave += DataChanged;
+            mNickname_.Leave += DataChanged;
+            mOpeningBalance_.Leave += DataChanged;
         }
 
         #endregion
@@ -49,15 +49,15 @@ namespace MPFinance.Forms
         {
             ExistingAccounts = MPFinanceMain.Instance.Operator.BankAccounts;
 
-            if (existingAccounts.Items.Count > 0)
+            if (mExistingAccounts_.Items.Count > 0)
             {
-                BankName.Enabled = true;
-                AccountNumber.Enabled = true;
-                AccountTypeCmb.Enabled = true;
-                Nickname.Enabled = true;
-                OpeningBalance.Enabled = true;
+                mBankName_.Enabled = true;
+                mAccountNumber_.Enabled = true;
+                mAccountType_.Enabled = true;
+                mNickname_.Enabled = true;
+                mOpeningBalance_.Enabled = true;
 
-                existingAccounts.SelectedIndex = 0;
+                mExistingAccounts_.SelectedIndex = 0;
             }
         }
 
@@ -72,11 +72,11 @@ namespace MPFinance.Forms
 
         private void existingAccounts_SelectedValueChanged(object sender, EventArgs e)
         {
-            BankName.Text = SelectedAccount.BankNumber;
-            AccountNumber.Text = SelectedAccount.AccountNumber;
-            AccountTypeCmb.SelectedItem = SelectedAccount.AccountType;
-            Nickname.Text = SelectedAccount.Nickname;
-            OpeningBalance.Value = SelectedAccount.OpeningBalance;
+            mBankName_.Text = SelectedAccount.BankNumber;
+            mAccountNumber_.Text = SelectedAccount.AccountNumber;
+            mAccountType_.SelectedItem = SelectedAccount.AccountType;
+            mNickname_.Text = SelectedAccount.Nickname;
+            mOpeningBalance_.Value = SelectedAccount.OpeningBalance;
         }
 
         private void Done_Click(object sender, EventArgs e)
@@ -95,11 +95,11 @@ namespace MPFinance.Forms
 
         private void DataChanged(object sender, EventArgs e)
         {
-            SelectedAccount.BankNumber = BankName.Text;
-            SelectedAccount.AccountNumber = AccountNumber.Text;
-            SelectedAccount.AccountType = (AccountType)AccountTypeCmb.SelectedItem;
-            SelectedAccount.Nickname = Nickname.Text;
-            SelectedAccount.OpeningBalance = OpeningBalance.Value;
+            SelectedAccount.BankNumber = mBankName_.Text;
+            SelectedAccount.AccountNumber = mAccountNumber_.Text;
+            SelectedAccount.AccountType = (AccountType)mAccountType_.SelectedItem;
+            SelectedAccount.Nickname = mNickname_.Text;
+            SelectedAccount.OpeningBalance = mOpeningBalance_.Value;
         }
 
         #endregion

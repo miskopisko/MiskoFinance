@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
+using System.Xml;
 using MPersist.Core;
 
 namespace MPersist.Data
@@ -88,6 +89,16 @@ namespace MPersist.Data
             }
         }
 
+        public void WriteXml(XmlWriter writer, String name)
+        {
+            foreach (AbstractViewedData item in this)
+            {
+                writer.WriteStartElement(name);
+                typeof(AbstractViewedData).InvokeMember("WriteXml", BindingFlags.InvokeMethod, null, item, new Object[] { writer });
+                writer.WriteFullEndElement();
+            }
+        }
+
         #endregion
 
         #region Private Methods
@@ -96,7 +107,7 @@ namespace MPersist.Data
 
         #endregion
 
-        #region Inherited Methods
+        #region Override Methods
 
         protected override bool SupportsSortingCore
         {
