@@ -117,13 +117,26 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="mOpeningBalance_.Value" mimetype="application/x-microsoft.net.object.binary.base64">
+  <metadata name="label1.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>False</value>
+  </metadata>
+  <metadata name="label2.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>False</value>
+  </metadata>
+  <metadata name="label3.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>False</value>
+  </metadata>
+  <metadata name="label4.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>False</value>
+  </metadata>
+  <metadata name="label5.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>False</value>
+  </metadata>
+  <data name="money1.Currency" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
         AAEAAAD/////AQAAAAAAAAAMAgAAAD9NUGVyc2lzdCwgVmVyc2lvbj0xLjAuMC4wLCBDdWx0dXJlPW5l
-        dXRyYWwsIFB1YmxpY0tleVRva2VuPW51bGwFAQAAABhNUGVyc2lzdC5Nb25leVR5cGUuTW9uZXkDAAAA
-        CV9jdXJyZW5jeQZfdW5pdHMQX2RlY2ltYWxGcmFjdGlvbgQAABtNUGVyc2lzdC5Nb25leVR5cGUuQ3Vy
-        cmVuY3kCAAAACQgCAAAABf3///8bTVBlcnNpc3QuTW9uZXlUeXBlLkN1cnJlbmN5AQAAAANfaWQACAIA
-        AAB8AAAAAAAAAAAAAAAAAAAACw==
+        dXRyYWwsIFB1YmxpY0tleVRva2VuPW51bGwFAQAAABtNUGVyc2lzdC5Nb25leVR5cGUuQ3VycmVuY3kB
+        AAAAA19pZAAIAgAAAHwAAAAL
 </value>
   </data>
 </root>

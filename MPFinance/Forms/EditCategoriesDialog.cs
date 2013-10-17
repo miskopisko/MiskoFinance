@@ -40,9 +40,9 @@ namespace MPFinance.Forms
         {
             base.OnLoad(e);
 
-            existingExpense.FillColumns();
-            existingIncome.FillColumns();
-            existingTransfer.FillColumns();
+            mExistingExpenses_.FillColumns();
+            mExistingIncome_.FillColumns();
+            mExistingTransfers_.FillColumns();
 
             GetCategoriesRQ request = new GetCategoriesRQ();
             request.Operator = MPFinanceMain.Instance.Operator.OperatorId;
@@ -56,9 +56,9 @@ namespace MPFinance.Forms
 
         private void GetCategoriesSuccess(ResponseMessage response)
         {
-            existingIncome.DataSource = ((GetCategoriesRS)response).Categories.GetByType(CategoryType.Income);
-            existingExpense.DataSource = ((GetCategoriesRS)response).Categories.GetByType(CategoryType.Expense);
-            existingTransfer.DataSource = ((GetCategoriesRS)response).Categories.GetByType(CategoryType.Transfer);
+            mExistingIncome_.DataSource = ((GetCategoriesRS)response).Categories.GetByType(CategoryType.Income);
+            mExistingExpenses_.DataSource = ((GetCategoriesRS)response).Categories.GetByType(CategoryType.Expense);
+            mExistingTransfers_.DataSource = ((GetCategoriesRS)response).Categories.GetByType(CategoryType.Transfer);
         }
 
         private void UpdateCategoriesSuccess(ResponseMessage response)
@@ -77,32 +77,32 @@ namespace MPFinance.Forms
             Dispose();
         }
 
-        private void AddBtn_Click(object sender, EventArgs e)
+        private void mAddExpense__Click(object sender, EventArgs e)
         {
-            VwCategory newCategory = null;
+            VwCategory newCategory = (VwCategory)((VwCategories)mExistingExpenses_.DataSource).AddNew();
+            newCategory.CategoryType = CategoryType.Expense;
+            mExistingExpenses_.CurrentCell = mExistingExpenses_.Rows[mExistingExpenses_.Rows.Count - 1].Cells["Name"];
+            mExistingExpenses_.BeginEdit(true);
+            newCategory.Status = Status.Active;
+            newCategory.OperatorId = MPFinanceMain.Instance.Operator.OperatorId;
+        }
 
-            if(tabControl.SelectedTab.Equals(ExpenseTab))
-            {
-                newCategory = (VwCategory)((VwCategories)existingExpense.DataSource).AddNew();
-                newCategory.CategoryType = CategoryType.Expense;
-                existingExpense.CurrentCell = existingExpense.Rows[existingExpense.Rows.Count - 1].Cells["Name"];
-                existingExpense.BeginEdit(true);
-            }
-            else if (tabControl.SelectedTab.Equals(IncomeTab))
-            {
-                newCategory = (VwCategory)((VwCategories)existingIncome.DataSource).AddNew();
-                newCategory.CategoryType = CategoryType.Income;                
-                existingIncome.CurrentCell = existingIncome.Rows[existingIncome.Rows.Count - 1].Cells["Name"];
-                existingIncome.BeginEdit(true);
-            }
-            else if (tabControl.SelectedTab.Equals(TransferTab))
-            {
-                newCategory = (VwCategory)((VwCategories)existingTransfer.DataSource).AddNew();
-                newCategory.CategoryType = CategoryType.Transfer;
-                existingTransfer.CurrentCell = existingTransfer.Rows[existingTransfer.Rows.Count - 1].Cells["Name"];
-                existingTransfer.BeginEdit(true);
-            }
+        private void mAddTransfer__Click(object sender, EventArgs e)
+        {
+            VwCategory newCategory = (VwCategory)((VwCategories)mExistingTransfers_.DataSource).AddNew();
+            newCategory.CategoryType = CategoryType.Transfer;
+            mExistingTransfers_.CurrentCell = mExistingTransfers_.Rows[mExistingTransfers_.Rows.Count - 1].Cells["Name"];
+            mExistingTransfers_.BeginEdit(true);
+            newCategory.Status = Status.Active;
+            newCategory.OperatorId = MPFinanceMain.Instance.Operator.OperatorId;
+        }
 
+        private void mAddIncome__Click(object sender, EventArgs e)
+        {
+            VwCategory newCategory = (VwCategory)((VwCategories)mExistingIncome_.DataSource).AddNew();
+            newCategory.CategoryType = CategoryType.Income;
+            mExistingIncome_.CurrentCell = mExistingIncome_.Rows[mExistingIncome_.Rows.Count - 1].Cells["Name"];
+            mExistingIncome_.BeginEdit(true);
             newCategory.Status = Status.Active;
             newCategory.OperatorId = MPFinanceMain.Instance.Operator.OperatorId;
         }
@@ -110,9 +110,9 @@ namespace MPFinance.Forms
         private void DoneBtn_Click(object sender, EventArgs e)
         {
             VwCategories categories = new VwCategories();
-            categories.AddRange(((VwCategories)existingIncome.DataSource));
-            categories.AddRange((VwCategories)existingExpense.DataSource);
-            categories.AddRange((VwCategories)existingTransfer.DataSource);
+            categories.AddRange(((VwCategories)mExistingIncome_.DataSource));
+            categories.AddRange((VwCategories)mExistingExpenses_.DataSource);
+            categories.AddRange((VwCategories)mExistingTransfers_.DataSource);
 
             if (categories.Count > 0)
             {

@@ -3,7 +3,7 @@ using MPersist.Core;
 
 namespace MPersist.Data
 {
-    public class PrimaryKey : IComparable<PrimaryKey>, IComparable<Int64>, IEquatable<PrimaryKey>, IEquatable<Int64>
+    public class PrimaryKey : AbstractData, IComparable<PrimaryKey>, IComparable<Int64>, IEquatable<PrimaryKey>, IEquatable<Int64>
     {
         private static Logger Log = Logger.GetInstance(typeof(PrimaryKey));
 

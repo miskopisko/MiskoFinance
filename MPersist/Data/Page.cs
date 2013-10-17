@@ -1,9 +1,10 @@
 using System;
+using MPersist.Attributes;
 using MPersist.Core;
 
 namespace MPersist.Data
 {
-    public class Page
+    public class Page : AbstractViewedData
     {
         private static Logger Log = Logger.GetInstance(typeof(Page));
 
@@ -19,12 +20,17 @@ namespace MPersist.Data
 
         #region Properties
 
+        [Viewed]
         public Int32 PageNo { get { return mPageNo_; } set { mPageNo_ = value; } }
+        [Viewed]
         public Boolean IncludeRecordCount { get { return mIncludeRecordCount_; } set { mIncludeRecordCount_ = value; } }
+        [Viewed]
         public Int32 TotalPageCount { get { return mTotalPageCount_; } set { mTotalPageCount_ = value; } }
+        [Viewed]
         public Int32 TotalRowCount { get { return mTotalRowCount_; } set { mTotalRowCount_ = value; } }
+        [Viewed]
         public Int32 RowsFetchedSoFar { get { return mRowsFetchedSoFar_; } set { mRowsFetchedSoFar_ = value; } }
-        public Page NextPage { get { return HasNext ? new Page(PageNo + 1) : null; } }
+        [Viewed]
         public Boolean HasNext { get { return PageNo < TotalPageCount; } }
 
         #endregion
@@ -73,6 +79,12 @@ namespace MPersist.Data
                 return 0;
             }
         }
+
+        #endregion
+
+        #region Override Methods
+
+        
 
         #endregion
     }

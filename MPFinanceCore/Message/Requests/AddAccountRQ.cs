@@ -10,7 +10,6 @@ namespace MPFinanceCore.Message.Requests
 
         #region Parameters
 
-        public VwOperator Operator { get; set; }
         public VwBankAccount BankAccount { get; set; }
 
         #endregion

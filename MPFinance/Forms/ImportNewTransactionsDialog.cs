@@ -2,7 +2,9 @@
 using System.IO;
 using System.Windows.Forms;
 using MPersist.Core;
+using MPersist.Enums;
 using MPersist.Message.Response;
+using MPFinance.Controls;
 using MPFinance.Panels;
 using MPFinanceCore.Data.Viewed;
 using MPFinanceCore.Message.Requests;
@@ -18,8 +20,8 @@ namespace MPFinance.Forms
 
         #region Fields
 
-        private ChooseAccountPanel mChooseAccountPanel_;
-        private ChooseTransactionsPanel mChooseTransactionsPanel_;
+        private ChooseAccountPanel mChooseAccountPanel_ = new ChooseAccountPanel();
+        private ImportedTransactionsGridView mImportedTransactionsGridView_ = new ImportedTransactionsGridView();
         private OfxDocument mOfxDocument_;
         private VwBankAccount mAccount_;
 
@@ -27,7 +29,16 @@ namespace MPFinance.Forms
 
         #region Properties
 
-        
+        public OfxDocument OfxDocument
+        {
+            get { return mOfxDocument_; }
+        }
+
+        public VwBankAccount Account
+        {
+            get { return mAccount_; }
+            set { mAccount_ = value; }
+        }
 
         #endregion
 
@@ -39,6 +50,11 @@ namespace MPFinance.Forms
             AutoSizeMode = AutoSizeMode.GrowAndShrink;
 
             InitializeComponent();
+
+            mImportedTransactionsGridView_.FillColumns();
+
+            mTableLayoutPanel_.Controls.Add(mChooseAccountPanel_, 0, 0);
+            mTableLayoutPanel_.Controls.Add(mImportedTransactionsGridView_, 0, 0);
         }        
 
         #endregion
@@ -47,33 +63,9 @@ namespace MPFinance.Forms
 
         protected override void OnLoad(System.EventArgs e)
         {
-            if (mOpenFileDialog_.ShowDialog(MPFinanceMain.Instance).Equals(DialogResult.OK))
-            {
-                mOfxDocument_ = new OfxDocument(new FileStream(mOpenFileDialog_.FileName, FileMode.Open));
-            }
-            else
-            {
-                Dispose();
-            }
+            base.OnLoad(e);
 
-            mChooseAccountPanel_ = new ChooseAccountPanel(mOfxDocument_);
-            mChooseTransactionsPanel_ = new ChooseTransactionsPanel();
-
-            mTableLayoutPanel_.Controls.Add(mChooseAccountPanel_, 0, 0);
-            mTableLayoutPanel_.Controls.Add(mChooseTransactionsPanel_, 0, 0);
-
-            mChooseAccountPanel_.Success += mChooseAccountPanel_Success;
-            mChooseAccountPanel_.Fail += mChooseAccountPanel_Fail;            
-
-            mNextBtn_.Visible = true;
-            mImportBtn_.Visible = false;
-
-            mChooseAccountPanel_.Visible = true;
-            mChooseTransactionsPanel_.Visible = false;
-
-            Text = Strings.strChooseAnAccount;
-
-            RepositionWindow();
+            LoadOfxDocument();
         }        
 
         #endregion
@@ -86,22 +78,46 @@ namespace MPFinance.Forms
 
         #region Private Methods
 
+        private void LoadOfxDocument()
+        {
+            if (mOpenFileDialog_.ShowDialog(MPFinanceMain.Instance).Equals(DialogResult.OK))
+            {
+                mOfxDocument_ = new OfxDocument(new FileStream(mOpenFileDialog_.FileName, FileMode.Open));
+
+                mChooseAccountPanel_.Visible = true;
+                mImportedTransactionsGridView_.Visible = false;
+
+                mBackBtn_.Visible = true;
+                mNextBtn_.Visible = true;
+                mImportBtn_.Visible = false;
+
+                RepositionWindow();
+
+                Text = Strings.strChooseAnAccount;
+                mChooseAccountPanel_.Refresh();
+            }
+            else
+            {
+                Dispose();
+            }
+        }
+
         private void CheckDuplicateTxnsSuccess(ResponseMessage Response)
         {
             Text = Strings.strChooseTxnsToAdd;
 
             mChooseAccountPanel_.Visible = false;
-            mChooseTransactionsPanel_.Visible = true;
+            mImportedTransactionsGridView_.Visible = true;
 
             mBackBtn_.Enabled = true;
             mNextBtn_.Visible = false;
             mNextBtn_.Enabled = false;
             mImportBtn_.Visible = true;
-            mImportBtn_.Enabled = true;
+            mImportBtn_.Enabled = false;
 
             RepositionWindow();
 
-            mChooseTransactionsPanel_.mImportedTransactionsGridView_.DataSource = ((CheckDuplicateTxnsRS)Response).Txns;
+            mImportedTransactionsGridView_.DataSource = ((CheckDuplicateTxnsRS)Response).Txns;
         }
 
         private void ImportTxnsSuccess(ResponseMessage Response)
@@ -121,9 +137,7 @@ namespace MPFinance.Forms
         {
             if (Owner != null && StartPosition == FormStartPosition.Manual)
             {
-                int offset = Owner.OwnedForms.Length * 38;  // approx. 10mm
-                Point p = new Point(Owner.Left + Owner.Width / 2 - Width / 2 + offset, Owner.Top + Owner.Height / 2 - Height / 2 + offset);
-                Location = p;
+                Location = new Point(Owner.Left + Owner.Width / 2 - Width / 2, Owner.Top + Owner.Height / 2 - Height / 2);
             }
         }
 
@@ -131,15 +145,9 @@ namespace MPFinance.Forms
 
         #region Event Listenners
 
-        private void mChooseAccountPanel_Fail()
+        private void AddAccountSuccess(ResponseMessage response)
         {
-            mNextBtn_.Enabled = true;
-            mBackBtn_.Enabled = true;
-        }
-
-        private void mChooseAccountPanel_Success(VwBankAccount account)
-        {
-            mAccount_ = account;
+            mAccount_ = ((AddAccountRS)response).NewAccount;
 
             Text = Strings.strCheckingForDuplicateTxns;
 
@@ -151,11 +159,21 @@ namespace MPFinance.Forms
             MessageProcessor.SendRequest(request, CheckDuplicateTxnsSuccess);
         }
 
+        private void AddAccountError(ResponseMessage response)
+        {
+            mNextBtn_.Enabled = true;
+            mBackBtn_.Enabled = true;
+        }
+
         private void nextBtn_Click(object sender, System.EventArgs e)
         {
             mNextBtn_.Enabled = false;
             mBackBtn_.Enabled = false;
-            mChooseAccountPanel_.GetAccount();
+
+            AddAccountRQ request = new AddAccountRQ();
+            request.BankAccount = mChooseAccountPanel_.GetAccount();
+            request.MessageMode = MessageMode.Trial;
+            MessageProcessor.SendRequest(request, AddAccountSuccess, AddAccountError);
         }
 
         private void ImportBtn_Click(object sender, System.EventArgs e)
@@ -163,7 +181,7 @@ namespace MPFinance.Forms
             ImportTxnsRQ request = new ImportTxnsRQ();
             request.Operator = MPFinanceMain.Instance.Operator;
             request.BankAccount = mAccount_;
-            request.VwTxns = mChooseTransactionsPanel_.mImportedTransactionsGridView_.GetSelected();
+            request.VwTxns = mImportedTransactionsGridView_.GetSelected();
             MessageProcessor.SendRequest(request, ImportTxnsSuccess);
         }
 
@@ -171,22 +189,14 @@ namespace MPFinance.Forms
         {
             if (mChooseAccountPanel_.Visible)
             {
-                if (mOpenFileDialog_.ShowDialog(MPFinanceMain.Instance).Equals(DialogResult.OK))
-                {
-                    mOfxDocument_ = new OfxDocument(new FileStream(mOpenFileDialog_.FileName, FileMode.Open));
-                    mChooseAccountPanel_.Refresh(mOfxDocument_);
-                }
-                else
-                {
-                    Dispose();
-                }
+                LoadOfxDocument();
             }
-            else if (mChooseTransactionsPanel_.Visible)
+            else if (mImportedTransactionsGridView_.Visible)
             {
                 Text = Strings.strChooseAnAccount;
 
                 mChooseAccountPanel_.Visible = true;
-                mChooseTransactionsPanel_.Visible = false;
+                mImportedTransactionsGridView_.Visible = false;
 
                 mNextBtn_.Visible = true;
                 mNextBtn_.Enabled = true;

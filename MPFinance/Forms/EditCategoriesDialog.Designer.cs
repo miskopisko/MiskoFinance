@@ -29,123 +29,172 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditCategoriesDialog));
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.tabControl = new System.Windows.Forms.TabControl();
-            this.IncomeTab = new System.Windows.Forms.TabPage();
-            this.ExpenseTab = new System.Windows.Forms.TabPage();
-            this.TransferTab = new System.Windows.Forms.TabPage();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.AddBtn = new System.Windows.Forms.Button();
+            this.mCategories_ = new System.Windows.Forms.TabControl();
+            this.mIncomes_ = new System.Windows.Forms.TabPage();
+            this.mExistingIncome_ = new MPFinance.Controls.CategoriesGridView();
+            this.mAddIncome_ = new System.Windows.Forms.Button();
+            this.mExpenses_ = new System.Windows.Forms.TabPage();
+            this.mAddExpense_ = new System.Windows.Forms.Button();
+            this.mExistingExpenses_ = new MPFinance.Controls.CategoriesGridView();
+            this.mTransfers_ = new System.Windows.Forms.TabPage();
+            this.mAddTransfer_ = new System.Windows.Forms.Button();
+            this.mExistingTransfers_ = new MPFinance.Controls.CategoriesGridView();
             this.mOK_ = new System.Windows.Forms.Button();
             this.mCancel_ = new System.Windows.Forms.Button();
-            this.existingIncome = new MPFinance.Controls.CategoriesGridView();
-            this.existingExpense = new MPFinance.Controls.CategoriesGridView();
-            this.existingTransfer = new MPFinance.Controls.CategoriesGridView();
+            this.mMainTableLayoutPanel_ = new System.Windows.Forms.TableLayoutPanel();
+            this.mButtonFlowLayoutPanel_ = new System.Windows.Forms.FlowLayoutPanel();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewButtonColumn1 = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.tableLayoutPanel1.SuspendLayout();
-            this.tabControl.SuspendLayout();
-            this.IncomeTab.SuspendLayout();
-            this.ExpenseTab.SuspendLayout();
-            this.TransferTab.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.existingIncome)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.existingExpense)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.existingTransfer)).BeginInit();
+            this.mCategories_.SuspendLayout();
+            this.mIncomes_.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mExistingIncome_)).BeginInit();
+            this.mExpenses_.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mExistingExpenses_)).BeginInit();
+            this.mTransfers_.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mExistingTransfers_)).BeginInit();
+            this.mMainTableLayoutPanel_.SuspendLayout();
+            this.mButtonFlowLayoutPanel_.SuspendLayout();
             this.SuspendLayout();
             // 
-            // tableLayoutPanel1
+            // mCategories_
             // 
-            this.tableLayoutPanel1.ColumnCount = 1;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Controls.Add(this.tabControl, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 1);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(366, 267);
-            this.tableLayoutPanel1.TabIndex = 4;
+            this.mCategories_.Controls.Add(this.mIncomes_);
+            this.mCategories_.Controls.Add(this.mExpenses_);
+            this.mCategories_.Controls.Add(this.mTransfers_);
+            this.mCategories_.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mCategories_.Location = new System.Drawing.Point(3, 3);
+            this.mCategories_.Name = "mCategories_";
+            this.mCategories_.SelectedIndex = 0;
+            this.mCategories_.Size = new System.Drawing.Size(396, 248);
+            this.mCategories_.TabIndex = 3;
             // 
-            // tabControl
+            // mIncomes_
             // 
-            this.tabControl.Controls.Add(this.IncomeTab);
-            this.tabControl.Controls.Add(this.ExpenseTab);
-            this.tabControl.Controls.Add(this.TransferTab);
-            this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl.Location = new System.Drawing.Point(3, 3);
-            this.tabControl.Name = "tabControl";
-            this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(360, 226);
-            this.tabControl.TabIndex = 3;
+            this.mIncomes_.Controls.Add(this.mExistingIncome_);
+            this.mIncomes_.Controls.Add(this.mAddIncome_);
+            this.mIncomes_.Location = new System.Drawing.Point(4, 22);
+            this.mIncomes_.Name = "mIncomes_";
+            this.mIncomes_.Padding = new System.Windows.Forms.Padding(3);
+            this.mIncomes_.Size = new System.Drawing.Size(388, 222);
+            this.mIncomes_.TabIndex = 0;
+            this.mIncomes_.Text = "Income";
+            this.mIncomes_.UseVisualStyleBackColor = true;
             // 
-            // IncomeTab
+            // mExistingIncome_
             // 
-            this.IncomeTab.Controls.Add(this.existingIncome);
-            this.IncomeTab.Location = new System.Drawing.Point(4, 22);
-            this.IncomeTab.Name = "IncomeTab";
-            this.IncomeTab.Padding = new System.Windows.Forms.Padding(3);
-            this.IncomeTab.Size = new System.Drawing.Size(352, 200);
-            this.IncomeTab.TabIndex = 0;
-            this.IncomeTab.Text = "Income";
-            this.IncomeTab.UseVisualStyleBackColor = true;
+            this.mExistingIncome_.AllowUserToAddRows = false;
+            this.mExistingIncome_.AllowUserToDeleteRows = false;
+            this.mExistingIncome_.AllowUserToResizeColumns = false;
+            this.mExistingIncome_.AllowUserToResizeRows = false;
+            this.mExistingIncome_.Categories = null;
+            this.mExistingIncome_.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.mExistingIncome_.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mExistingIncome_.Location = new System.Drawing.Point(3, 3);
+            this.mExistingIncome_.MultiSelect = false;
+            this.mExistingIncome_.Name = "mExistingIncome_";
+            this.mExistingIncome_.RowHeadersVisible = false;
+            this.mExistingIncome_.Size = new System.Drawing.Size(382, 193);
+            this.mExistingIncome_.TabIndex = 0;
             // 
-            // ExpenseTab
+            // mAddIncome_
             // 
-            this.ExpenseTab.Controls.Add(this.existingExpense);
-            this.ExpenseTab.Location = new System.Drawing.Point(4, 22);
-            this.ExpenseTab.Name = "ExpenseTab";
-            this.ExpenseTab.Padding = new System.Windows.Forms.Padding(3);
-            this.ExpenseTab.Size = new System.Drawing.Size(352, 200);
-            this.ExpenseTab.TabIndex = 1;
-            this.ExpenseTab.Text = "Expense";
-            this.ExpenseTab.UseVisualStyleBackColor = true;
+            this.mAddIncome_.AutoSize = true;
+            this.mAddIncome_.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.mAddIncome_.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.mAddIncome_.Location = new System.Drawing.Point(3, 196);
+            this.mAddIncome_.Name = "mAddIncome_";
+            this.mAddIncome_.Size = new System.Drawing.Size(382, 23);
+            this.mAddIncome_.TabIndex = 0;
+            this.mAddIncome_.Text = "Add New";
+            this.mAddIncome_.UseVisualStyleBackColor = true;
+            this.mAddIncome_.Click += new System.EventHandler(this.mAddIncome__Click);
             // 
-            // TransferTab
+            // mExpenses_
             // 
-            this.TransferTab.Controls.Add(this.existingTransfer);
-            this.TransferTab.Location = new System.Drawing.Point(4, 22);
-            this.TransferTab.Name = "TransferTab";
-            this.TransferTab.Padding = new System.Windows.Forms.Padding(3);
-            this.TransferTab.Size = new System.Drawing.Size(352, 200);
-            this.TransferTab.TabIndex = 2;
-            this.TransferTab.Text = "Transfer";
-            this.TransferTab.UseVisualStyleBackColor = true;
+            this.mExpenses_.Controls.Add(this.mAddExpense_);
+            this.mExpenses_.Controls.Add(this.mExistingExpenses_);
+            this.mExpenses_.Location = new System.Drawing.Point(4, 22);
+            this.mExpenses_.Name = "mExpenses_";
+            this.mExpenses_.Padding = new System.Windows.Forms.Padding(3);
+            this.mExpenses_.Size = new System.Drawing.Size(388, 222);
+            this.mExpenses_.TabIndex = 1;
+            this.mExpenses_.Text = "Expense";
+            this.mExpenses_.UseVisualStyleBackColor = true;
             // 
-            // tableLayoutPanel2
+            // mAddExpense_
             // 
-            this.tableLayoutPanel2.ColumnCount = 3;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel2.Controls.Add(this.AddBtn, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.mOK_, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this.mCancel_, 2, 0);
-            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 235);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 1;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(360, 29);
-            this.tableLayoutPanel2.TabIndex = 4;
+            this.mAddExpense_.AutoSize = true;
+            this.mAddExpense_.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.mAddExpense_.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.mAddExpense_.Location = new System.Drawing.Point(3, 196);
+            this.mAddExpense_.Name = "mAddExpense_";
+            this.mAddExpense_.Size = new System.Drawing.Size(382, 23);
+            this.mAddExpense_.TabIndex = 1;
+            this.mAddExpense_.Text = "Add New";
+            this.mAddExpense_.UseVisualStyleBackColor = true;
+            this.mAddExpense_.Click += new System.EventHandler(this.mAddExpense__Click);
             // 
-            // AddBtn
+            // mExistingExpenses_
             // 
-            this.AddBtn.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.AddBtn.Location = new System.Drawing.Point(22, 3);
-            this.AddBtn.Name = "AddBtn";
-            this.AddBtn.Size = new System.Drawing.Size(75, 23);
-            this.AddBtn.TabIndex = 0;
-            this.AddBtn.Text = "Add New";
-            this.AddBtn.UseVisualStyleBackColor = true;
-            this.AddBtn.Click += new System.EventHandler(this.AddBtn_Click);
+            this.mExistingExpenses_.AllowUserToAddRows = false;
+            this.mExistingExpenses_.AllowUserToDeleteRows = false;
+            this.mExistingExpenses_.AllowUserToResizeColumns = false;
+            this.mExistingExpenses_.AllowUserToResizeRows = false;
+            this.mExistingExpenses_.Categories = null;
+            this.mExistingExpenses_.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.mExistingExpenses_.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mExistingExpenses_.Location = new System.Drawing.Point(3, 3);
+            this.mExistingExpenses_.MultiSelect = false;
+            this.mExistingExpenses_.Name = "mExistingExpenses_";
+            this.mExistingExpenses_.RowHeadersVisible = false;
+            this.mExistingExpenses_.Size = new System.Drawing.Size(382, 216);
+            this.mExistingExpenses_.TabIndex = 0;
+            // 
+            // mTransfers_
+            // 
+            this.mTransfers_.Controls.Add(this.mAddTransfer_);
+            this.mTransfers_.Controls.Add(this.mExistingTransfers_);
+            this.mTransfers_.Location = new System.Drawing.Point(4, 22);
+            this.mTransfers_.Name = "mTransfers_";
+            this.mTransfers_.Padding = new System.Windows.Forms.Padding(3);
+            this.mTransfers_.Size = new System.Drawing.Size(388, 222);
+            this.mTransfers_.TabIndex = 2;
+            this.mTransfers_.Text = "Transfer";
+            this.mTransfers_.UseVisualStyleBackColor = true;
+            // 
+            // mAddTransfer_
+            // 
+            this.mAddTransfer_.AutoSize = true;
+            this.mAddTransfer_.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.mAddTransfer_.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.mAddTransfer_.Location = new System.Drawing.Point(3, 196);
+            this.mAddTransfer_.Name = "mAddTransfer_";
+            this.mAddTransfer_.Size = new System.Drawing.Size(382, 23);
+            this.mAddTransfer_.TabIndex = 1;
+            this.mAddTransfer_.Text = "Add New";
+            this.mAddTransfer_.UseVisualStyleBackColor = true;
+            this.mAddTransfer_.Click += new System.EventHandler(this.mAddTransfer__Click);
+            // 
+            // mExistingTransfers_
+            // 
+            this.mExistingTransfers_.AllowUserToAddRows = false;
+            this.mExistingTransfers_.AllowUserToDeleteRows = false;
+            this.mExistingTransfers_.AllowUserToResizeColumns = false;
+            this.mExistingTransfers_.AllowUserToResizeRows = false;
+            this.mExistingTransfers_.Categories = null;
+            this.mExistingTransfers_.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.mExistingTransfers_.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mExistingTransfers_.Location = new System.Drawing.Point(3, 3);
+            this.mExistingTransfers_.MultiSelect = false;
+            this.mExistingTransfers_.Name = "mExistingTransfers_";
+            this.mExistingTransfers_.RowHeadersVisible = false;
+            this.mExistingTransfers_.Size = new System.Drawing.Size(382, 216);
+            this.mExistingTransfers_.TabIndex = 0;
             // 
             // mOK_
             // 
             this.mOK_.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.mOK_.Location = new System.Drawing.Point(141, 3);
+            this.mOK_.Location = new System.Drawing.Point(237, 3);
             this.mOK_.Name = "mOK_";
             this.mOK_.Size = new System.Drawing.Size(75, 23);
             this.mOK_.TabIndex = 1;
@@ -157,7 +206,7 @@
             // 
             this.mCancel_.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.mCancel_.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.mCancel_.Location = new System.Drawing.Point(261, 3);
+            this.mCancel_.Location = new System.Drawing.Point(318, 3);
             this.mCancel_.Name = "mCancel_";
             this.mCancel_.Size = new System.Drawing.Size(75, 23);
             this.mCancel_.TabIndex = 2;
@@ -165,53 +214,33 @@
             this.mCancel_.UseVisualStyleBackColor = true;
             this.mCancel_.Click += new System.EventHandler(this.mCancel__Click);
             // 
-            // existingIncome
+            // mMainTableLayoutPanel_
             // 
-            this.existingIncome.AllowUserToAddRows = false;
-            this.existingIncome.AllowUserToDeleteRows = false;
-            this.existingIncome.AllowUserToResizeColumns = false;
-            this.existingIncome.AllowUserToResizeRows = false;
-            this.existingIncome.Categories = null;
-            this.existingIncome.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.existingIncome.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.existingIncome.Location = new System.Drawing.Point(3, 3);
-            this.existingIncome.MultiSelect = false;
-            this.existingIncome.Name = "existingIncome";
-            this.existingIncome.RowHeadersVisible = false;
-            this.existingIncome.Size = new System.Drawing.Size(346, 194);
-            this.existingIncome.TabIndex = 0;
+            this.mMainTableLayoutPanel_.ColumnCount = 1;
+            this.mMainTableLayoutPanel_.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.mMainTableLayoutPanel_.Controls.Add(this.mCategories_, 0, 0);
+            this.mMainTableLayoutPanel_.Controls.Add(this.mButtonFlowLayoutPanel_, 0, 1);
+            this.mMainTableLayoutPanel_.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mMainTableLayoutPanel_.Location = new System.Drawing.Point(0, 0);
+            this.mMainTableLayoutPanel_.Name = "mMainTableLayoutPanel_";
+            this.mMainTableLayoutPanel_.RowCount = 2;
+            this.mMainTableLayoutPanel_.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.mMainTableLayoutPanel_.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.mMainTableLayoutPanel_.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.mMainTableLayoutPanel_.Size = new System.Drawing.Size(402, 289);
+            this.mMainTableLayoutPanel_.TabIndex = 5;
             // 
-            // existingExpense
+            // mButtonFlowLayoutPanel_
             // 
-            this.existingExpense.AllowUserToAddRows = false;
-            this.existingExpense.AllowUserToDeleteRows = false;
-            this.existingExpense.AllowUserToResizeColumns = false;
-            this.existingExpense.AllowUserToResizeRows = false;
-            this.existingExpense.Categories = null;
-            this.existingExpense.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.existingExpense.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.existingExpense.Location = new System.Drawing.Point(3, 3);
-            this.existingExpense.MultiSelect = false;
-            this.existingExpense.Name = "existingExpense";
-            this.existingExpense.RowHeadersVisible = false;
-            this.existingExpense.Size = new System.Drawing.Size(346, 194);
-            this.existingExpense.TabIndex = 0;
-            // 
-            // existingTransfer
-            // 
-            this.existingTransfer.AllowUserToAddRows = false;
-            this.existingTransfer.AllowUserToDeleteRows = false;
-            this.existingTransfer.AllowUserToResizeColumns = false;
-            this.existingTransfer.AllowUserToResizeRows = false;
-            this.existingTransfer.Categories = null;
-            this.existingTransfer.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.existingTransfer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.existingTransfer.Location = new System.Drawing.Point(3, 3);
-            this.existingTransfer.MultiSelect = false;
-            this.existingTransfer.Name = "existingTransfer";
-            this.existingTransfer.RowHeadersVisible = false;
-            this.existingTransfer.Size = new System.Drawing.Size(346, 194);
-            this.existingTransfer.TabIndex = 0;
+            this.mButtonFlowLayoutPanel_.AutoSize = true;
+            this.mButtonFlowLayoutPanel_.Controls.Add(this.mCancel_);
+            this.mButtonFlowLayoutPanel_.Controls.Add(this.mOK_);
+            this.mButtonFlowLayoutPanel_.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mButtonFlowLayoutPanel_.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
+            this.mButtonFlowLayoutPanel_.Location = new System.Drawing.Point(3, 257);
+            this.mButtonFlowLayoutPanel_.Name = "mButtonFlowLayoutPanel_";
+            this.mButtonFlowLayoutPanel_.Size = new System.Drawing.Size(396, 29);
+            this.mButtonFlowLayoutPanel_.TabIndex = 4;
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -231,8 +260,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.mCancel_;
-            this.ClientSize = new System.Drawing.Size(366, 267);
-            this.Controls.Add(this.tableLayoutPanel1);
+            this.ClientSize = new System.Drawing.Size(402, 289);
+            this.Controls.Add(this.mMainTableLayoutPanel_);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -241,15 +270,19 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Add/Edit Categories";
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tabControl.ResumeLayout(false);
-            this.IncomeTab.ResumeLayout(false);
-            this.ExpenseTab.ResumeLayout(false);
-            this.TransferTab.ResumeLayout(false);
-            this.tableLayoutPanel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.existingIncome)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.existingExpense)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.existingTransfer)).EndInit();
+            this.mCategories_.ResumeLayout(false);
+            this.mIncomes_.ResumeLayout(false);
+            this.mIncomes_.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mExistingIncome_)).EndInit();
+            this.mExpenses_.ResumeLayout(false);
+            this.mExpenses_.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mExistingExpenses_)).EndInit();
+            this.mTransfers_.ResumeLayout(false);
+            this.mTransfers_.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mExistingTransfers_)).EndInit();
+            this.mMainTableLayoutPanel_.ResumeLayout(false);
+            this.mMainTableLayoutPanel_.PerformLayout();
+            this.mButtonFlowLayoutPanel_.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -258,17 +291,19 @@
 
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewButtonColumn dataGridViewButtonColumn1;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.Button AddBtn;
+        private System.Windows.Forms.Button mAddIncome_;
         private System.Windows.Forms.Button mOK_;
-        private System.Windows.Forms.TabControl tabControl;
-        private System.Windows.Forms.TabPage IncomeTab;
-        private System.Windows.Forms.TabPage ExpenseTab;
-        private System.Windows.Forms.TabPage TransferTab;
-        private MPFinance.Controls.CategoriesGridView existingTransfer;
-        private MPFinance.Controls.CategoriesGridView existingExpense;
-        private MPFinance.Controls.CategoriesGridView existingIncome;
+        private System.Windows.Forms.TabControl mCategories_;
+        private System.Windows.Forms.TabPage mIncomes_;
+        private System.Windows.Forms.TabPage mExpenses_;
+        private System.Windows.Forms.TabPage mTransfers_;
+        private MPFinance.Controls.CategoriesGridView mExistingTransfers_;
+        private MPFinance.Controls.CategoriesGridView mExistingExpenses_;
+        private MPFinance.Controls.CategoriesGridView mExistingIncome_;
         private System.Windows.Forms.Button mCancel_;
+        private System.Windows.Forms.TableLayoutPanel mMainTableLayoutPanel_;
+        private System.Windows.Forms.FlowLayoutPanel mButtonFlowLayoutPanel_;
+        private System.Windows.Forms.Button mAddExpense_;
+        private System.Windows.Forms.Button mAddTransfer_;
     }
 }

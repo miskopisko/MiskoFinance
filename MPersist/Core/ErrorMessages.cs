@@ -1,10 +1,10 @@
 using System;
-using System.Collections.Generic;
+using MPersist.Data;
 using MPersist.Enums;
 
 namespace MPersist.Core
 {
-    public class ErrorMessages : List<ErrorMessage>
+    public class ErrorMessages : AbstractViewedDataList<ErrorMessage>
     {
         private static Logger Log = Logger.GetInstance(typeof(ErrorMessages));
 
@@ -16,7 +16,7 @@ namespace MPersist.Core
 
         #region Properties
 
-
+        
 
         #endregion
 
@@ -67,6 +67,12 @@ namespace MPersist.Core
 
             return list;
         }
+
+        #endregion
+
+        #region XML Serialixation
+
+
 
         #endregion
     }

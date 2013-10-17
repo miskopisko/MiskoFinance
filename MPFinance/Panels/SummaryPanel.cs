@@ -45,8 +45,6 @@ namespace MPFinance.Panels
 
         public void Update(VwSummary summary)
         {
-            mAllTimeGroupBox_.Text = "All Time Summary - " + summary.BankAccountName;
-
             mTotalCredits_.Value = summary.SelectionTotalCredits;
             mTotalDebits_.Value = summary.SelectionTotalDebits;
             mCreditsDebitsDiff_.Value = summary.SelectionCreditsDebitsDifference;
@@ -57,7 +55,7 @@ namespace MPFinance.Panels
 
             mSelectionOpeningBalance_.Value = summary.SelectionOpeningBalance;
             mSelectionClosingBalance_.Value = summary.SelectionCurrentBalance;
-            mselectionBalanceDifference_.Value = summary.SelectionBalanceDifference;
+            mSelectionBalanceDifference_.Value = summary.SelectionBalanceDifference;
 
             mOpeningBalance_.Value = summary.AllTimeOpeningBalance;
             mCurrentBalance_.Value = summary.AllTimeCurrentBalance;

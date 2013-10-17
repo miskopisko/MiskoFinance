@@ -1,10 +1,11 @@
 using System;
 using System.Reflection;
+using System.Xml;
 using MPersist.Core;
 
 namespace MPersist.Data
 {
-    public class AbstractViewedData : AbstractData
+    public abstract class AbstractViewedData : AbstractData
     {
         private static Logger Log = Logger.GetInstance(typeof(AbstractViewedData));
 
@@ -45,6 +46,13 @@ namespace MPersist.Data
             }
 
             return result;
+        }
+
+        public override void WriteXml(XmlWriter writer)
+        {
+            base.WriteXml(writer);
+            
+            WriteXmlProperties(writer, GetViewedProperties());
         }
 
         #endregion

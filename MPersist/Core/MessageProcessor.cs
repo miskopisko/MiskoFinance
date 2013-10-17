@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel;
 using System.Reflection;
 using System.Threading;
+using MPersist.Data;
 using MPersist.Enums;
 using MPersist.Interfaces;
 using MPersist.Message;
@@ -75,14 +76,31 @@ namespace MPersist.Core
             session.MessageMode = mRequest_.MessageMode;
             session.RowPerPage = IOController.RowsPerPage;
 
+            try
+            {
+                IOController.Debug(mRequest_);
+            }
+            catch (Exception ex)
+            {
+                IOController.ExceptionHandler(mSuccessHandler_.Target, new ThreadExceptionEventArgs(ex));
+            }
+
             do
             {
                 resendMessage = false;
                 response = Process(session, mRequest_);
-                response.MessageMode = mRequest_.MessageMode;
 
                 if (response != null) // Now display warnings and error messages.
                 {
+                    try
+                    {
+                        IOController.Debug(response);
+                    }
+                    catch (Exception ex)
+                    {
+                        IOController.ExceptionHandler(mSuccessHandler_.Target, new ThreadExceptionEventArgs(ex));
+                    }
+
                     for (int i = 0; i < session.ErrorMessages.Count; i++)
                     {
                         ErrorMessage errorMessage = session.ErrorMessages[i];
@@ -101,7 +119,7 @@ namespace MPersist.Core
                         }
                         else if (errorMessage.Level.Equals(ErrorLevel.Confirmation))
                         {
-                            if (!errorMessage.Confirmed)
+                            if (errorMessage.Confirmed.HasValue && !errorMessage.Confirmed.Value)
                             {
                                 if (IOController.Confirm(errorMessage.Message))
                                 {
@@ -111,7 +129,6 @@ namespace MPersist.Core
                                 }
                                 else
                                 {
-                                    response.Errors.Add(new MPException(ErrorStrings.errUserDeclinedConfirmation).ErrorMessage);
                                     break;
                                 }
                             }
@@ -140,6 +157,8 @@ namespace MPersist.Core
 
                     response = (ResponseMessage)request.GetType().Assembly.CreateInstance(msgPath + "Responses." + msgName + "RS");
                     wrapper = (MessageWrapper)request.GetType().Assembly.CreateInstance(msgPath + msgName, false, BindingFlags.CreateInstance, null, new object[] { request, response }, null, null);
+
+                    response.Page = new Page(request.Page);
 
                     session.BeginTransaction();
 
@@ -182,10 +201,11 @@ namespace MPersist.Core
 
                         if (response != null)
                         {
+                            response.Status = session.Status;
                             response.Errors = session.ErrorMessages.ListOf(ErrorLevel.Error);
+                            response.Infos = session.ErrorMessages.ListOf(ErrorLevel.Info);
                             response.Warnings = session.ErrorMessages.ListOf(ErrorLevel.Warning);
                             response.Confirmations = session.ErrorMessages.ListOf(ErrorLevel.Confirmation);
-                            response.Page = request.Page;
                         }
                     }
                 }
@@ -210,7 +230,7 @@ namespace MPersist.Core
             else
             {
                 response = e.Result as ResponseMessage;
-                errorEncountered = response.HasErrors;
+                errorEncountered = !response.Status.IsCommitable();
             }
 
             // No errors in the message; call the successfulHandler
@@ -239,7 +259,7 @@ namespace MPersist.Core
                 }
             }
 
-            IOController.MessageReceived(active == 0 ? errorEncountered ? Strings.strError : Strings.strSuccess : Strings.strPorcessing);
+            IOController.MessageReceived(active == 0 ? errorEncountered ? Strings.strError : Strings.strSuccess : Strings.strPorcessing);            
         }
 
         #endregion

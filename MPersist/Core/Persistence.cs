@@ -319,7 +319,7 @@ namespace MPersist.Core
 
             if (result == 0)
             {
-                mSession_.Error(ErrorLevel.Error, ErrorStrings.errLockKeyFailed, new Object[] { clazz.GetType().Name });
+                mSession_.Error(ErrorLevel.Error, ErrorStrings.errLockKeyFailed, new String[] { clazz.GetType().Name });
             }
         }
 
@@ -334,7 +334,7 @@ namespace MPersist.Core
 
             if (result == 0)
             {
-                mSession_.Error(ErrorLevel.Error, ErrorStrings.errLockKeyFailed, new Object[] { GetType().Name });
+                mSession_.Error(ErrorLevel.Error, ErrorStrings.errLockKeyFailed, new String[] { GetType().Name });
             }
         }
 
@@ -407,7 +407,7 @@ namespace MPersist.Core
                 return new Money(value.Value);
             }
 
-            return null;
+            return Money.ZERO;
         }
 
         public String GetString(String key)

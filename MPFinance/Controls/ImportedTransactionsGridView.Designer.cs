@@ -37,8 +37,12 @@
             this.AllowUserToDeleteRows = false;
             this.AllowUserToResizeColumns = false;
             this.AllowUserToResizeRows = false;
+            this.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.MaximumSize = new System.Drawing.Size(900, 500);
+            this.MinimumSize = new System.Drawing.Size(900, 500);
             this.RowHeadersVisible = false;
             this.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.Size = new System.Drawing.Size(900, 500);
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
             this.ResumeLayout(false);
 

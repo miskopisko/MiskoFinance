@@ -97,17 +97,17 @@ namespace MPersist.Core
             Error(stackFrame.GetMethod().DeclaringType, stackFrame.GetMethod(), errorLevel, message, null);
         }
 
-        public void Error(ErrorLevel errorLevel, String message, Object[] parameters)
+        public void Error(ErrorLevel errorLevel, String message, String[] parameters)
         {
             StackFrame stackFrame = new StackFrame(1);
             Error(stackFrame.GetMethod().DeclaringType, stackFrame.GetMethod(), errorLevel, message, parameters);
         }
 
-        private void Error(Type clazz, MethodBase method, ErrorLevel errorLevel, String message, Object[] parameters)
+        private void Error(Type clazz, MethodBase method, ErrorLevel errorLevel, String message, String[] parameters)
         {
             ErrorMessage errorMessage = new ErrorMessage(clazz, method, errorLevel, message, parameters);
 
-            if (errorLevel.Equals(ErrorLevel.Confirmation) && ErrorMessages.Contains(errorMessage) && ErrorMessages[ErrorMessages.IndexOf(errorMessage)].Confirmed)
+            if (errorLevel.Equals(ErrorLevel.Confirmation) && ErrorMessages.Contains(errorMessage) && ErrorMessages[ErrorMessages.IndexOf(errorMessage)].Confirmed.Value)
             {
                 return;
             }

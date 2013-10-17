@@ -44,7 +44,7 @@ namespace MPersist.Core
             mErrorMessage_ = new ErrorMessage(mClass_, mMethod_, ErrorLevel.Error, message, null);
         }
 
-        public MPException(String message, Object[] parameters) : base(message)
+        public MPException(String message, String[] parameters) : base(message)
         {
             StackFrame stackframe = new StackFrame(1);
             mClass_ = stackframe.GetMethod().DeclaringType;
@@ -60,7 +60,7 @@ namespace MPersist.Core
             mErrorMessage_ = new ErrorMessage(mClass_, mMethod_, ErrorLevel.Error, message, null);
         }
 
-        public MPException(String message, Object[] parameters, Exception inner) : base(message, inner)
+        public MPException(String message, String[] parameters, Exception inner) : base(message, inner)
         {
             StackFrame stackframe = new StackFrame(1);
             mClass_ = stackframe.GetMethod().DeclaringType;

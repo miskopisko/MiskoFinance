@@ -46,7 +46,7 @@ namespace MPFinanceCore.Message
             }
             else
             {
-                session.Error(ErrorLevel.Error, "User {0} does not exist. Please try again.", new Object[] { Request.Username });
+                session.Error(ErrorLevel.Error, "User {0} does not exist. Please try again.", new String[] { Request.Username });
             }
         }
     }

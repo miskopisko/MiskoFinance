@@ -7,6 +7,8 @@ namespace MPersist.Interfaces
     {
         Int32 RowsPerPage { get; }
 
+        void Debug(Object obj);
+
         void MessageReceived(String message);
 
         void MessageSent(String message);

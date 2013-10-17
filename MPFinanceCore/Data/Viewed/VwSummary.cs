@@ -1,11 +1,12 @@
 using System;
+using MPersist.Attributes;
 using MPersist.Core;
 using MPersist.Data;
 using MPersist.MoneyType;
 
 namespace MPFinanceCore.Data.Viewed
 {
-    public class VwSummary
+    public class VwSummary : AbstractViewedData
     {
         private static Logger Log = Logger.GetInstance(typeof(VwSummary));
 
@@ -15,21 +16,31 @@ namespace MPFinanceCore.Data.Viewed
 
         #endregion
 
-        #region Properties
+        #region Viewed Properties
 
-        public String BankAccountName { get; set; }
-
+        [Viewed]
         public Money SelectionTotalCredits { get; set; }
+        [Viewed]
         public Money SelectionTotalDebits { get; set; }
+        [Viewed]
         public Money SelectionCreditsDebitsDifference { get; set; }
+        [Viewed]
         public Money SelectionTotalTransfersIn { get; set; }
+        [Viewed]
         public Money SelectionTotalTransfersOut { get; set; }
+        [Viewed]
         public Money SelectionTransfersDifference { get; set; }
+        [Viewed]
         public Money SelectionOpeningBalance { get; set; }
+        [Viewed]
         public Money SelectionCurrentBalance { get; set; }
+        [Viewed]
         public Money SelectionBalanceDifference { get; set; }
+        [Viewed]
         public Money AllTimeOpeningBalance { get; set; }
+        [Viewed]
         public Money AllTimeCurrentBalance { get; set; }
+        [Viewed]
         public Money AllTimeBalanceDifference { get; set; }
 
         #endregion
@@ -38,15 +49,6 @@ namespace MPFinanceCore.Data.Viewed
 
         public VwSummary()
         {
-            SelectionTotalCredits = Money.ZERO;
-            SelectionTotalDebits = Money.ZERO;
-            SelectionCreditsDebitsDifference = Money.ZERO;
-            SelectionTotalTransfersIn = Money.ZERO;
-            SelectionTotalTransfersOut = Money.ZERO;
-            SelectionTransfersDifference = Money.ZERO;
-            AllTimeOpeningBalance = Money.ZERO;
-            AllTimeCurrentBalance = Money.ZERO;
-            AllTimeBalanceDifference = Money.ZERO;
         }
 
         #endregion
@@ -74,7 +76,6 @@ namespace MPFinanceCore.Data.Viewed
             if (p.Next())
             {
                 AllTimeOpeningBalance = p.GetMoney("OpeningBalance");
-                BankAccountName = account != null && account.IsSet ? p.GetString("Nickname") : "All";
             }
 
             p.Close();
