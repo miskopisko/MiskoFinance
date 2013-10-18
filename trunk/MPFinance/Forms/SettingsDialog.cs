@@ -72,12 +72,12 @@ namespace MPFinance.Forms
 
         private void TestConnectionSuccess(ResponseMessage response)
         {
-            ConnectionSettings.Connections.Remove(ConnectionSettings.GetConnectionSettings("TEST"));
+            //ConnectionSettings.Connections.Remove(ConnectionSettings.GetConnectionSettings("TEST"));
         }
 
         private void TestConnectionError(ResponseMessage response)
         {
-            ConnectionSettings.Connections.Remove(ConnectionSettings.GetConnectionSettings("TEST"));
+            //ConnectionSettings.Connections.Remove(ConnectionSettings.GetConnectionSettings("TEST"));
 
             throw new MPException("Connection failed");
         }
@@ -122,7 +122,7 @@ namespace MPFinance.Forms
             request.Operator = mOperator_;
             request.Password1 = mPassword1_.Text;
             request.Password2 = mPassword2_.Text;
-            MessageProcessor.SendRequest(request, UpdateOperatorSuccess);
+            IOController.SendRequest(request, UpdateOperatorSuccess);
         }
 
         private void mCancelBtn__Click(object sender, EventArgs e)
@@ -133,29 +133,29 @@ namespace MPFinance.Forms
 
         private void mTestOracle__Click(object sender, EventArgs e)
         {
-            ConnectionSettings.AddOracleConnection("TEST", mOracleHost_.Text.Trim(), Decimal.ToInt32(mOraclePort_.Value), mOracleDatabase_.Text.Trim(), mOracleUsername_.Text.Trim(), mOraclePassword_.Text.Trim());
+            //ConnectionSettings.AddOracleConnection("TEST", mOracleHost_.Text.Trim(), Decimal.ToInt32(mOraclePort_.Value), mOracleDatabase_.Text.Trim(), mOracleUsername_.Text.Trim(), mOraclePassword_.Text.Trim());
 
             TestConnectionRQ request = new TestConnectionRQ();
             request.Connection = "TEST";
-            MessageProcessor.SendRequest(request, TestConnectionSuccess, TestConnectionError);
+            IOController.SendRequest(request, TestConnectionSuccess, TestConnectionError);
         }
 
         private void mTestMySql__Click(object sender, EventArgs e)
         {
-            ConnectionSettings.AddMySqlConnection("TEST", mMySqlHost_.Text.Trim(), mMySqlDatabase_.Text.Trim(), mMySqlUsername_.Text.Trim(), mMySqlPassword_.Text.Trim());
+            //ConnectionSettings.AddMySqlConnection("TEST", mMySqlHost_.Text.Trim(), mMySqlDatabase_.Text.Trim(), mMySqlUsername_.Text.Trim(), mMySqlPassword_.Text.Trim());
             
             TestConnectionRQ request = new TestConnectionRQ();
             request.Connection = "TEST";
-            MessageProcessor.SendRequest(request, TestConnectionSuccess, TestConnectionError);
+            IOController.SendRequest(request, TestConnectionSuccess, TestConnectionError);
         }
 
         private void mTestSqlite__Click(object sender, EventArgs e)
         {
-            ConnectionSettings.AddSqliteConnection("TEST", mSqliteDatasource_.Text.Trim());
+            //ConnectionSettings.AddSqliteConnection("TEST", mSqliteDatasource_.Text.Trim());
 
             TestConnectionRQ request = new TestConnectionRQ();
             request.Connection = "TEST";
-            MessageProcessor.SendRequest(request, TestConnectionSuccess, TestConnectionError);
+            IOController.SendRequest(request, TestConnectionSuccess, TestConnectionError);
         }
 
         private void mFileDialog__Click(object sender, EventArgs e)

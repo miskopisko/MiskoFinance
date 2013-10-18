@@ -1,22 +1,19 @@
 using System;
 using System.ComponentModel;
 using System.Reflection;
-using System.Threading;
 using MPersist.Data;
 using MPersist.Enums;
-using MPersist.Interfaces;
 using MPersist.Message;
 using MPersist.Message.Request;
 using MPersist.Message.Response;
-using MPersist.Resources;
 
 namespace MPersist.Core
 {
-    public class MessageProcessor
+    internal class MessageProcessor
     {
         private static Logger Log = Logger.GetInstance(typeof(MessageProcessor));
 
-        #region Delegates
+        /*#region Delegates
 
         public delegate void MessageCompleteHandler(ResponseMessage Response);
 
@@ -52,7 +49,7 @@ namespace MPersist.Core
             mRequest_ = request;
         }
 
-        #endregion
+        #endregion*/
 
         #region Private Methods
 
@@ -65,7 +62,7 @@ namespace MPersist.Core
             bw.RunWorkerCompleted += RunWorkerCompleted;
             bw.RunWorkerAsync();
 
-            IOController.MessageSent(Strings.strPorcessing);
+            //IOController.MessageSent(Strings.strPorcessing);
         }
 
         private void DoWork(object sender, DoWorkEventArgs e)
@@ -74,16 +71,16 @@ namespace MPersist.Core
             Boolean resendMessage = false;
             Session session = new Session(mRequest_.Connection, ServiceLocator.GetConnection(mRequest_.Connection));
             session.MessageMode = mRequest_.MessageMode;
-            session.RowPerPage = IOController.RowsPerPage;
+            //session.RowPerPage = IOController.RowsPerPage;
 
-            try
+            /*try
             {
                 IOController.Debug(mRequest_);
             }
             catch (Exception ex)
             {
                 IOController.ExceptionHandler(mSuccessHandler_.Target, new ThreadExceptionEventArgs(ex));
-            }
+            }*/
 
             do
             {
@@ -92,14 +89,14 @@ namespace MPersist.Core
 
                 if (response != null) // Now display warnings and error messages.
                 {
-                    try
+                    /*try
                     {
                         IOController.Debug(response);
                     }
                     catch (Exception ex)
                     {
                         IOController.ExceptionHandler(mSuccessHandler_.Target, new ThreadExceptionEventArgs(ex));
-                    }
+                    }*/
 
                     for (int i = 0; i < session.ErrorMessages.Count; i++)
                     {
@@ -107,21 +104,21 @@ namespace MPersist.Core
 
                         if (errorMessage.Level.Equals(ErrorLevel.Error))
                         {
-                            IOController.Error(errorMessage.Message);
+                            //IOController.Error(errorMessage.Message);
                         }
                         else if (errorMessage.Level.Equals(ErrorLevel.Warning))
                         {
-                            IOController.Warning(errorMessage.Message);
+                            //IOController.Warning(errorMessage.Message);
                         }
                         else if (errorMessage.Level.Equals(ErrorLevel.Info))
                         {
-                            IOController.Info(errorMessage.Message);
+                            //IOController.Info(errorMessage.Message);
                         }
                         else if (errorMessage.Level.Equals(ErrorLevel.Confirmation))
                         {
                             if (errorMessage.Confirmed.HasValue && !errorMessage.Confirmed.Value)
                             {
-                                if (IOController.Confirm(errorMessage.Message))
+                                /*if (IOController.Confirm(errorMessage.Message))
                                 {
                                     session.Status = ErrorLevel.Success;
                                     errorMessage.Confirmed = true;
@@ -130,7 +127,7 @@ namespace MPersist.Core
                                 else
                                 {
                                     break;
-                                }
+                                }*/
                             }
                         }
                     }
@@ -225,7 +222,7 @@ namespace MPersist.Core
             if (e.Error != null)
             {
                 errorEncountered = true;
-                IOController.Error(e.Error.Message);
+                //IOController.Error(e.Error.Message);
             }
             else
             {
@@ -243,7 +240,7 @@ namespace MPersist.Core
                 catch (Exception ex)
                 {
                     errorEncountered = true;
-                    IOController.ExceptionHandler(mSuccessHandler_.Target, new ThreadExceptionEventArgs(ex));
+                    //IOController.ExceptionHandler(mSuccessHandler_.Target, new ThreadExceptionEventArgs(ex));
                 }
             }
             // If errors in the message; call errorHandler
@@ -255,18 +252,23 @@ namespace MPersist.Core
                 }
                 catch (Exception ex)
                 {
-                    IOController.ExceptionHandler(mErrorHandler_.Target, new ThreadExceptionEventArgs(ex));
+                    //IOController.ExceptionHandler(mErrorHandler_.Target, new ThreadExceptionEventArgs(ex));
                 }
             }
 
-            IOController.MessageReceived(active == 0 ? errorEncountered ? Strings.strError : Strings.strSuccess : Strings.strPorcessing);            
+            //IOController.MessageReceived(active == 0 ? errorEncountered ? Strings.strError : Strings.strSuccess : Strings.strPorcessing);            
         }
 
         #endregion
 
         #region Public Methods
 
-        public static void SendRequest(RequestMessage request, MessageCompleteHandler successHandler)
+        public static void Process(Message message)
+        {
+            new MessageProcessor().SendRequest();
+        }
+
+        /*public static void SendRequest(RequestMessage request, MessageCompleteHandler successHandler)
         {
             SendRequest(request, successHandler, null);
         }
@@ -274,7 +276,7 @@ namespace MPersist.Core
         public static void SendRequest(RequestMessage request, MessageCompleteHandler successHandler, MessageCompleteHandler errorHandler)
         {
             new MessageProcessor(request, successHandler, errorHandler).SendRequest();
-        }
+        }*/
 
         #endregion
     }

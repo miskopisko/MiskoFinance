@@ -46,11 +46,7 @@ namespace MPFinanceCore.Data.Viewed
         public DateTime Birthday { get; set; }
         [Viewed]
         public Gender Gender { get; set; }
-
-        #endregion
-
-        #region Other Properties
-
+        [Viewed]
         public VwBankAccounts BankAccounts
         {
             get { return mBankAccounts_; }
@@ -63,7 +59,7 @@ namespace MPFinanceCore.Data.Viewed
                 }
             }
         }
-
+        [Viewed]
         public VwCategories Categories
         {
             get { return mCategories_; }

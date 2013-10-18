@@ -1,0 +1,11 @@
+D:\TEMP\mpfinance\MPFinanceWeb\MPFinanceWeb\bin\MPFinanceWeb.dll
+D:\TEMP\mpfinance\MPFinanceWeb\MPFinanceWeb\bin\MPFinanceWeb.pdb
+D:\TEMP\mpfinance\MPFinanceWeb\MPFinanceWeb\obj\Debug\ResolveAssemblyReference.cache
+D:\TEMP\mpfinance\MPFinanceWeb\MPFinanceWeb\obj\Debug\MPFinanceWeb.dll
+D:\TEMP\mpfinance\MPFinanceWeb\MPFinanceWeb\obj\Debug\MPFinanceWeb.pdb
+D:\TEMP\mpfinance\MPFinanceWeb\MPFinanceWeb\bin\MPersist.dll
+D:\TEMP\mpfinance\MPFinanceWeb\MPFinanceWeb\bin\MPFinanceCore.dll
+D:\TEMP\mpfinance\MPFinanceWeb\MPFinanceWeb\bin\System.Data.SQLite.dll
+D:\TEMP\mpfinance\MPFinanceWeb\MPFinanceWeb\bin\MySql.Data.dll
+D:\TEMP\mpfinance\MPFinanceWeb\MPFinanceWeb\bin\MPFinanceCore.pdb
+D:\TEMP\mpfinance\MPFinanceWeb\MPFinanceWeb\bin\MPersist.pdb

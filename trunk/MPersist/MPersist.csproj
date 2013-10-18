@@ -103,7 +103,7 @@
     <Compile Include="Enums\SvnPropsStatus.cs" />
     <Compile Include="Enums\SvnStatusType.cs" />
     <Compile Include="Enums\SvnTargetType.cs" />
-    <Compile Include="Interfaces\IOController.cs" />
+    <Compile Include="Core\IOController.cs" />
     <Compile Include="Data\AbstractData.cs" />
     <Compile Include="Data\AbstractStoredData.cs" />
     <Compile Include="Data\AbstractStoredDataList.cs" />
@@ -114,7 +114,6 @@
     <Compile Include="Core\ErrorMessage.cs" />
     <Compile Include="Core\ErrorMessages.cs" />
     <Compile Include="Core\Logger.cs" />
-    <Compile Include="Core\MessageProcessor.cs" />
     <Compile Include="Message\MessageWrapper.cs" />
     <Compile Include="Message\Request\RequestMessage.cs" />
     <Compile Include="Message\Response\ResponseMessage.cs" />
@@ -181,6 +180,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Compile Include="Enums\ServerType.cs" />
     <Compile Include="Resources\ErrorStrings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

@@ -28,7 +28,9 @@ namespace MPersist.Enums
         public static ErrorLevel Info { get { return mInfo_; } }
         public static ErrorLevel Warning { get { return mWarning_; } }
         public static ErrorLevel Confirmation { get { return mConfirmation_; } }
-        public static ErrorLevel Error { get { return mError_; } }        
+        public static ErrorLevel Error { get { return mError_; } }
+
+        public Boolean IsCommitable { get { return this == Success || this == Warning || this == Info; } }
 
         #endregion
 
@@ -70,11 +72,6 @@ namespace MPersist.Enums
             }
 
             return null;
-        }
-
-        public Boolean IsCommitable()
-        {
-            return this == Success || this == Warning || this == Info;
         }
 
         #endregion

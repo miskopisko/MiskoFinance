@@ -113,7 +113,7 @@ namespace MPFinance.Panels
             request.Category = Category.CategoryId;
             request.Description = mDescription_.Text;
             request.Page = page;
-            MessageProcessor.SendRequest(request, GetTxnsSuccess);
+            IOController.SendRequest(request, GetTxnsSuccess);
         }
 
         #endregion

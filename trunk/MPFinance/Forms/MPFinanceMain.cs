@@ -4,7 +4,6 @@ using System.Threading;
 using System.Windows.Forms;
 using MPersist.Core;
 using MPersist.Data;
-using MPersist.Interfaces;
 using MPersist.Message.Request;
 using MPersist.Message.Response;
 using MPFinance.Properties;
@@ -16,7 +15,7 @@ using MPFinanceCore.Resources;
 
 namespace MPFinance.Forms
 {
-    public partial class MPFinanceMain : Form, IOController
+    public partial class MPFinanceMain : Form
     {
         private static Logger Log = Logger.GetInstance(typeof(MPFinanceMain));
 
@@ -53,8 +52,6 @@ namespace MPFinance.Forms
         public MPFinanceMain()
         {
             InitializeComponent();
-            MessageProcessor.IOController = this;
-            Application.ThreadException += ExceptionHandler;
         }
 
         #endregion
@@ -141,7 +138,7 @@ namespace MPFinance.Forms
             LoginRQ request = new LoginRQ();
             request.Username = "miskopisko";
             request.Password = "secret";
-            MessageProcessor.SendRequest(request, LoginSuccess, LoginError);
+            IOController.SendRequest(request, LoginSuccess, LoginError);
         }
 
         #endregion
@@ -165,7 +162,7 @@ namespace MPFinance.Forms
             request.Operator.Email = "michael@piskuric.ca";
             request.Operator.Gender = Gender.Male;
             request.Operator.Birthday = new DateTime(1982, 05, 15);
-            MessageProcessor.SendRequest(request, UpdateOperatorSuccess, UpdateOperatorError);
+            IOController.SendRequest(request, UpdateOperatorSuccess, UpdateOperatorError);
         }
 
         private void UpdateOperatorSuccess(ResponseMessage response)
@@ -193,87 +190,6 @@ namespace MPFinance.Forms
 
                 mOperator_.Refresh();
                 mSettingsToolStripMenuItem_.Enabled = true;
-            }
-        }
-
-        #endregion
-
-        #region IOController Implementation
-
-        public Int32 RowsPerPage { get { return Settings.Default.RowsPerPage; } }
-
-        public void ExceptionHandler(Object sender, ThreadExceptionEventArgs e)
-        {
-            Exception ex = e.Exception;
-            while (ex.InnerException != null)
-            {
-                ex = ex.InnerException;
-            }
-            Error(ex.Message);
-        }
-
-        public void Error(String message)
-        {
-            Invoke(new MethodInvoker(delegate { MessageBox.Show(this, message.ToString(), Strings.strError, MessageBoxButtons.OK, MessageBoxIcon.Error); }));
-        }
-
-        public Boolean Confirm(String message)
-        {
-            DialogResult result = DialogResult.None;
-            Invoke(new MethodInvoker(delegate { result = MessageBox.Show(this, message.ToString(), Strings.strConfirm, MessageBoxButtons.YesNo, MessageBoxIcon.Question); }));
-            return result.Equals(DialogResult.Yes);
-        }
-
-        public void Warning(String message)
-        {
-            Invoke(new MethodInvoker(delegate { MessageBox.Show(this, message.ToString(), Strings.strWarning, MessageBoxButtons.OK, MessageBoxIcon.Warning); }));
-        }
-
-        public void Info(String message)
-        {
-            Invoke(new MethodInvoker(delegate { MessageBox.Show(this, message.ToString(), Strings.strInfo, MessageBoxButtons.OK, MessageBoxIcon.Information); }));
-        }
-
-        public void MessageReceived(String message)
-        {
-            mMessageStatusLbl_.Text = message;
-            mMessageStatusBar_.Increment(-10);
-            Application.DoEvents();
-        }
-
-        public void MessageSent(String message)
-        {
-            mMessageStatusLbl_.Text = message;
-            mMessageStatusBar_.Increment(10);
-            Application.DoEvents();
-        }
-
-        public void Debug(Object obj)
-        {
-            if (obj is AbstractData)
-            {
-                String xml = AbstractData.Serialize((AbstractData)obj);
-
-                Trace.WriteLine(xml);
-
-                AbstractData deSerialized = AbstractData.Deserialize(xml, obj.GetType());
-
-                String xml2 = AbstractData.Serialize(deSerialized);
-
-                if (!xml.Equals(xml2))
-                {
-                    System.IO.File.WriteAllText(@"D:\TEMP\OriginalXML.txt", xml);
-                    System.IO.File.WriteAllText(@"D:\TEMP\DeserializedXML.txt", xml2);
-
-                    Process pr = new Process();
-                    pr.StartInfo.FileName = @"C:\Program Files (x86)\Beyond Compare 3\BCompare.exe";
-                    pr.StartInfo.Arguments = '\u0022' + @"D:\TEMP\OriginalXML.txt" + '\u0022' + " " + '\u0022' + @"D:\TEMP\DeserializedXML.txt" + '\u0022';
-                    pr.Start();
-                    
-                    return;
-                }
-
-                return;
             }
         }
 

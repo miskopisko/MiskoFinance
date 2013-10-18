@@ -45,7 +45,7 @@ namespace MPFinanceCore.Data.Viewed
             p.SqlWhere(from.HasValue, "DatePosted >= ?", new Object[] { from });
             p.SqlWhere(to.HasValue, "DatePosted <= ?", new Object[] { to });
             p.SqlWhere(category != null && category > 0, "Category = ?", new Object[] { category });
-            p.SqlWhere(!String.IsNullOrEmpty(description.Trim()), "Description LIKE ?", new Object[] { "%" + description.Trim() + "%" });
+            p.SqlWhere(!String.IsNullOrEmpty(description), "Description LIKE ?", new Object[] { "%" + description + "%" });
             p.ExecuteQuery();
             Set(session, p, page);
             p.Close();

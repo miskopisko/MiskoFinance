@@ -47,7 +47,7 @@ namespace MPFinance.Forms
             GetCategoriesRQ request = new GetCategoriesRQ();
             request.Operator = MPFinanceMain.Instance.Operator.OperatorId;
             request.Status = Status.NULL;
-            MessageProcessor.SendRequest(request, GetCategoriesSuccess);
+            IOController.SendRequest(request, GetCategoriesSuccess);
         }
 
         #endregion
@@ -118,7 +118,7 @@ namespace MPFinance.Forms
             {
                 UpdateCategoriesRQ request = new UpdateCategoriesRQ();
                 request.Categories = categories;
-                MessageProcessor.SendRequest(request, UpdateCategoriesSuccess);
+                IOController.SendRequest(request, UpdateCategoriesSuccess);
             }
             else
             {

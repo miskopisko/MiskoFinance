@@ -127,6 +127,7 @@
     <Compile Include="Forms\MPFinanceMain.Designer.cs">
       <DependentUpon>MPFinanceMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="IOController_Impl.cs" />
     <Compile Include="Panels\ChooseAccountPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -214,36 +215,47 @@
   <ItemGroup>
     <EmbeddedResource Include="Controls\ImportedTransactionsGridView.resx">
       <DependentUpon>ImportedTransactionsGridView.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AboutDialog.resx">
       <DependentUpon>AboutDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\EditAccountsDialog.resx">
       <DependentUpon>EditAccountsDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\EditCategoriesDialog.resx">
       <DependentUpon>EditCategoriesDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ImportNewTransactionsDialog.resx">
       <DependentUpon>ImportNewTransactionsDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\LoginDialog.resx">
       <DependentUpon>LoginDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MPFinanceMain.resx">
       <DependentUpon>MPFinanceMain.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\SettingsDialog.resx">
       <DependentUpon>SettingsDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Panels\ChooseAccountPanel.resx">
       <DependentUpon>ChooseAccountPanel.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Panels\SummaryPanel.resx">
       <DependentUpon>SummaryPanel.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Panels\TransactionsPanel.resx">
       <DependentUpon>TransactionsPanel.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

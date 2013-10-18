@@ -85,7 +85,7 @@ namespace MPFinance.Forms
             {
                 UpdateAccountsRQ request = new UpdateAccountsRQ();
                 request.BankAccounts = ExistingAccounts;
-                MessageProcessor.SendRequest(request, UpdateAccountsSuccess);
+                IOController.SendRequest(request, UpdateAccountsSuccess);
             }
             else
             {

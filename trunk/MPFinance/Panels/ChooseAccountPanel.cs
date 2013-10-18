@@ -68,7 +68,7 @@ namespace MPFinance.Panels
             GetAccountRQ request = new GetAccountRQ();
             request.AccountNo = Owner.OfxDocument.AccountID;
             request.Operator = MPFinanceMain.Instance.Operator.OperatorId;
-            MessageProcessor.SendRequest(request, GetAccountSuccess);
+            IOController.SendRequest(request, GetAccountSuccess);
         }
 
         #endregion
@@ -186,7 +186,7 @@ namespace MPFinance.Panels
             {
                 if (mExistingAccounts_.CheckedItems.Count == 0)
                 {
-                    MPFinanceMain.Instance.Error(ErrorStrings.errChooseExistingAccount);
+                    IOController.Instance.Error(ErrorStrings.errChooseExistingAccount);
                     return null;
                 }
                 else
