@@ -317,10 +317,8 @@
         private System.Windows.Forms.ToolStripMenuItem mSettingsToolStripMenuItem_;
         private System.Windows.Forms.ToolStripMenuItem mRootHelpToolStripMenuItem_;
         private System.Windows.Forms.ToolStripMenuItem mAboutToolStripMenuItem_;
-        private System.Windows.Forms.ToolStripMenuItem mHelpToolStripMenuItem_;        
-        private System.Windows.Forms.StatusStrip mStatusStrip_;        
-        private System.Windows.Forms.ToolStripProgressBar mMessageStatusBar_;
-        private System.Windows.Forms.ToolStripStatusLabel mMessageStatusLbl_;
+        private System.Windows.Forms.ToolStripMenuItem mHelpToolStripMenuItem_;
+        private System.Windows.Forms.StatusStrip mStatusStrip_;
         private System.Windows.Forms.TableLayoutPanel mMainLayout_;
         private System.Windows.Forms.TableLayoutPanel mAccountsAndSummary_;
         private System.Windows.Forms.ListBox mAccountsList_;
@@ -331,6 +329,8 @@
         private System.Windows.Forms.ToolStripSeparator mToolStripSeparator1_;
         private System.Windows.Forms.ToolStripSeparator mToolStripSeparator3_;
         private System.Windows.Forms.ToolStripSeparator mToolStripSeparator4_;
-        private System.Windows.Forms.ToolStripSeparator mToolStripSeparator2_;        
+        private System.Windows.Forms.ToolStripSeparator mToolStripSeparator2_;
+        public System.Windows.Forms.ToolStripProgressBar mMessageStatusBar_;
+        public System.Windows.Forms.ToolStripStatusLabel mMessageStatusLbl_;        
     }
 }

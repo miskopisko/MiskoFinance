@@ -4,6 +4,7 @@ using System.Data.Common;
 using System.Diagnostics;
 using System.Reflection;
 using MPersist.Enums;
+using MPersist.Message.Request;
 using MPersist.Resources;
 
 namespace MPersist.Core
@@ -42,10 +43,13 @@ namespace MPersist.Core
 
         #region Constructors
 
-        public Session(String connectionName, DbConnection connection)
+        public Session(DbConnection conn, RequestMessage request)
         {
-            mConnectionName_ = connectionName;
-            mConn_ = connection;
+            mConn_ = conn;
+            mConnectionName_ = request.Connection;
+            mMessageMode_ = request.MessageMode;
+            mErrorMessages_.AddRange(request.Confirmations);
+            mRowsPerPage_ = request.RowsPerPage;
         }
 
         #endregion
@@ -69,7 +73,7 @@ namespace MPersist.Core
         {
             if (TransactionInProgress)
             {
-                if (!Status.IsCommitable() || MessageMode.Equals(MessageMode.Trial))
+                if (!Status.IsCommitable || MessageMode.Equals(MessageMode.Trial))
                 {
                     mTransaction_.Rollback();
                 }

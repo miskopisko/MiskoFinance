@@ -3,7 +3,6 @@ using System.Data.Common;
 using System.Data.OleDb;
 using System.Data.SQLite;
 using MPersist.Enums;
-using MPersist.Resources;
 using MPersist.SVN;
 using MySql.Data.MySqlClient;
 using Oracle.DataAccess.Client;
@@ -16,15 +15,8 @@ namespace MPersist.Core
 
         #region Public Methods
 
-        public static DbConnection GetConnection()
+        public static DbConnection GetConnection(ConnectionSettings connectionSettings)
         {
-            return GetConnection("Default");
-        }
-
-        public static DbConnection GetConnection(String name)
-        {
-            ConnectionSettings connectionSettings = ConnectionSettings.GetConnectionSettings(name);
-
             if (connectionSettings != null && connectionSettings.ConnectionType.Equals(ConnectionType.SQLite))
             {
                 return GetSqliteConnection(connectionSettings.ConnectionString);
@@ -49,10 +41,7 @@ namespace MPersist.Core
             {
                 return GetSvnConnection(connectionSettings.ConnectionString);
             }
-            else
-            {
-                throw new MPException(ErrorStrings.errInvalidConnectionString, new String[] { name });
-            }
+            return null;
         }
 
         #endregion

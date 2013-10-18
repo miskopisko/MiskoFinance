@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<logfile>
+	<log timestamp='2013-10-18T15:12:18' level='ERROR' class='MPersist.Core.Session' machine='MPISKURIC7'>
+		<message>Nickname is mandatory.</message>
+	</log>
+	<log timestamp='2013-10-18T15:14:16' level='ERROR' class='MPersist.Core.Session' machine='MPISKURIC7'>
+		<message>A bank account with the number 02962 78-07481 already exists</message>
+	</log>
+	<log timestamp='2013-10-18T15:17:19' level='ERROR' class='MPersist.Core.Session' machine='MPISKURIC7'>
+		<message>Nickname is mandatory.</message>
+	</log>
+	<log timestamp='2013-10-18T15:19:49' level='ERROR' class='MPersist.Core.Session' machine='MPISKURIC7'>
+		<message>Nickname is mandatory.</message>
+	</log>
+</logfile>
+

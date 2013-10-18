@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using MPersist.Enums;
 
 namespace MPersist.Core
@@ -10,13 +9,11 @@ namespace MPersist.Core
 
         #region Fields
 
-        private static List<ConnectionSettings> mConnections_ = new List<ConnectionSettings>();
+        
 
         #endregion
 
         #region Properties
-
-        public static List<ConnectionSettings> Connections { get { return mConnections_; } }
 
         public String Name { get; set; }
         public ConnectionType ConnectionType { get; set; }
@@ -31,18 +28,13 @@ namespace MPersist.Core
 
         #region Public Static Methods
 
-        public static void AddMySqlConnection(String server, String datasource, String username, String password)
+        public static ConnectionSettings GetMySqlConnection(String server, String datasource, String username, String password)
         {
-            AddMySqlConnection("Default", server, datasource, username, password);
+            return GetMySqlConnection("Default", server, datasource, username, password);
         }
 
-        public static void AddMySqlConnection(String name, String server, String datasource, String username, String password)
+        public static ConnectionSettings GetMySqlConnection(String name, String server, String datasource, String username, String password)
         {
-            if (AlreadyExists(name))
-            {
-                throw new MPException("A connection with the name {0} already exists", new String[] { name });
-            }
-
             ConnectionSettings item = new ConnectionSettings();
             item.Name = name;
             item.ConnectionType = ConnectionType.MySql;
@@ -53,21 +45,16 @@ namespace MPersist.Core
             item.Password = password;
             item.ConnectionString = "SERVER=" + server + ";DATABASE=" + datasource + ";UID=" + username + ";PASSWORD=" + password + ";Pooling=True;";
 
-            mConnections_.Add(item);
+            return item;
         }
 
-        public static void AddOracleConnection(String host, Int32 port, String datasource, String username, String password)
+        public static ConnectionSettings GetOracleConnection(String host, Int32 port, String datasource, String username, String password)
         {
-            AddOracleConnection("Default", host, port, datasource, username, password);
+            return GetOracleConnection("Default", host, port, datasource, username, password);
         }
 
-        public static void AddOracleConnection(String name, String host, Int32 port, String datasource, String username, String password)
+        public static ConnectionSettings GetOracleConnection(String name, String host, Int32 port, String datasource, String username, String password)
         {
-            if (AlreadyExists(name))
-            {
-                throw new MPException("A connection with the name {0} already exists", new String[] { name });
-            }
-
             ConnectionSettings item = new ConnectionSettings();
             item.Name = name;
             item.ConnectionType = ConnectionType.Oracle;
@@ -78,21 +65,16 @@ namespace MPersist.Core
             item.Password = password;
             item.ConnectionString = "Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=" + host + ")(PORT=" + port + ")))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=" + datasource + ")));User Id=" + username + ";Password=" + password + ";Pooling=True;";
 
-            mConnections_.Add(item);
+            return item;
         }
 
-        public static void AddSqliteConnection(String datasource)
+        public static ConnectionSettings GetSqliteConnection(String datasource)
         {
-            AddSqliteConnection("Default", datasource);
+            return GetSqliteConnection("Default", datasource);
         }
 
-        public static void AddSqliteConnection(String name, String datasource)
+        public static ConnectionSettings GetSqliteConnection(String name, String datasource)
         {
-            if (AlreadyExists(name))
-            {
-                throw new MPException("A connection with the name {0} already exists", new String[] { name });
-            }
-
             ConnectionSettings item = new ConnectionSettings();
             item.Name = name;
             item.ConnectionType = ConnectionType.SQLite;
@@ -103,21 +85,16 @@ namespace MPersist.Core
             item.Password = null;
             item.ConnectionString = "Data Source=" + datasource + ";Version=3;Pooling=True;";
 
-            mConnections_.Add(item);
+            return item;
         }
 
-        public static void AddFoxProConnection(String datasource)
+        public static ConnectionSettings GetFoxProConnection(String datasource)
         {
-            AddFoxProConnection("Default", datasource);
+            return GetFoxProConnection("Default", datasource);
         }
 
-        public static void AddFoxProConnection(String name, String datasource)
+        public static ConnectionSettings GetFoxProConnection(String name, String datasource)
         {
-            if (AlreadyExists(name))
-            {
-                throw new MPException("A connection with the name {0} already exists", new String[] { name });
-            }
-
             ConnectionSettings item = new ConnectionSettings();
             item.Name = name;
             item.ConnectionType = ConnectionType.FoxPro;
@@ -126,23 +103,18 @@ namespace MPersist.Core
             item.Datasource = datasource;
             item.Username = null;
             item.Password = null;
-            item.ConnectionString = "Provider=vfpoledb;Data Source=" + datasource + ";Collating Sequence=general;Exclusive=No;";            
+            item.ConnectionString = "Provider=vfpoledb;Data Source=" + datasource + ";Collating Sequence=general;Exclusive=No;";
 
-            mConnections_.Add(item);            
+            return item;
         }
 
-        public static void AddSvnConnection(String workingCopy)
+        public static ConnectionSettings GetSvnConnection(String workingCopy)
         {
-            AddSvnConnection("Default", workingCopy);
+            return GetSvnConnection("Default", workingCopy);
         }
 
-        public static void AddSvnConnection(String name, String workingCopy)
+        public static ConnectionSettings GetSvnConnection(String name, String workingCopy)
         {
-            if (AlreadyExists(name))
-            {
-                throw new MPException("A connection with the name {0} already exists", new String[] { name });
-            }
-
             ConnectionSettings item = new ConnectionSettings();
             item.Name = name;
             item.ConnectionType = ConnectionType.SVN;
@@ -153,47 +125,7 @@ namespace MPersist.Core
             item.Password = null;
             item.ConnectionString = workingCopy;
 
-            mConnections_.Add(item);  
-        }
-
-        public static ConnectionSettings GetConnectionSettings(String name)
-        {
-            foreach (ConnectionSettings item in mConnections_)
-            {
-                if (item.Name.Equals(name, StringComparison.CurrentCultureIgnoreCase))
-                {
-                    return item;
-                }
-            }
-            return null;            
-        }
-
-        public static void RemoveConnection(String connectionName)
-        {
-            List<ConnectionSettings> connections = mConnections_;
-            foreach (ConnectionSettings item in connections)
-            {
-                if (item.Name.Equals(connectionName, StringComparison.CurrentCultureIgnoreCase))
-                {
-                    mConnections_.Remove(item);
-                }
-            }
-        }
-
-        #endregion
-
-        #region Private Static Methods
-
-        private static Boolean AlreadyExists(String name)
-        {
-            foreach (ConnectionSettings item in mConnections_)
-            {
-                if(item.Name.Equals(name, StringComparison.CurrentCultureIgnoreCase))
-                {
-                    return true;
-                }
-            }
-            return false;
+            return item;
         }
 
         #endregion

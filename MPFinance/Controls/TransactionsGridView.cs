@@ -135,7 +135,7 @@ namespace MPFinance.Controls
             request.ToDate = ((TransactionsPanel)Parent.Parent).ToDate;
             request.Category = ((TransactionsPanel)Parent.Parent).Category.CategoryId;
             request.Description = ((TransactionsPanel)Parent.Parent).Description;
-            MessageProcessor.SendRequest(request, UpdateTxnSuccess);             
+            IOController.SendRequest(request, UpdateTxnSuccess);             
         }
 
         #endregion

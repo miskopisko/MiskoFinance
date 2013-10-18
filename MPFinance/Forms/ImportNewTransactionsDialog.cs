@@ -156,7 +156,7 @@ namespace MPFinance.Forms
             request.FromDate = mOfxDocument_.StartDate;
             request.ToDate = mOfxDocument_.EndDate;
             request.Transactions = mOfxDocument_.Transactions;
-            MessageProcessor.SendRequest(request, CheckDuplicateTxnsSuccess);
+            IOController.SendRequest(request, CheckDuplicateTxnsSuccess);
         }
 
         private void AddAccountError(ResponseMessage response)
@@ -173,7 +173,7 @@ namespace MPFinance.Forms
             AddAccountRQ request = new AddAccountRQ();
             request.BankAccount = mChooseAccountPanel_.GetAccount();
             request.MessageMode = MessageMode.Trial;
-            MessageProcessor.SendRequest(request, AddAccountSuccess, AddAccountError);
+            IOController.SendRequest(request, AddAccountSuccess, AddAccountError);
         }
 
         private void ImportBtn_Click(object sender, System.EventArgs e)
@@ -182,7 +182,7 @@ namespace MPFinance.Forms
             request.Operator = MPFinanceMain.Instance.Operator;
             request.BankAccount = mAccount_;
             request.VwTxns = mImportedTransactionsGridView_.GetSelected();
-            MessageProcessor.SendRequest(request, ImportTxnsSuccess);
+            IOController.SendRequest(request, ImportTxnsSuccess);
         }
 
         private void BackBtn_Click(object sender, System.EventArgs e)

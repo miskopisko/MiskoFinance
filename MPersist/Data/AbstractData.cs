@@ -20,6 +20,7 @@ namespace MPersist.Data
 
         #region Constants
 
+        public const String ENCODING = "ISO-8859-1";
         private const String NAMESPACE = "";
 
         #endregion
