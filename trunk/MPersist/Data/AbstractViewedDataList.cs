@@ -46,7 +46,7 @@ namespace MPersist.Data
 
         public void Set(Session session, Persistence persistence, Page page)
         {
-            Int32 noRows = page.PageNo != 0 ? session.RowPerPage : 0;
+            Int32 noRows = page.PageNo != 0 ? page.NoRows : 0;
             Int32 pageNo = page.PageNo != 0 ? page.PageNo : 1;            
 
             int rowsFetched = 0;
@@ -63,10 +63,14 @@ namespace MPersist.Data
                 rowsFetched++;
             }
 
+            if (page.PageNo == 0)
+            {
+                page.NoRows = persistence.RecordCount;
+            }
+
             if(page.IncludeRecordCount)
             {
                 page.TotalRowCount = persistence.RecordCount;
-                page.TotalPageCount = page.PageNo == 0 ? 1 : page.PageCount(session.RowPerPage);
                 page.RowsFetchedSoFar = rowsFetched;
                 page.PageNo = pageNo;
             }

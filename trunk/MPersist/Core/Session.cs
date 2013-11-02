@@ -23,7 +23,6 @@ namespace MPersist.Core
         private ErrorMessages mErrorMessages_ = new ErrorMessages();
         private ErrorLevel mStatus_ = ErrorLevel.Success;
         private MessageMode mMessageMode_ = MessageMode.Normal;
-        private Int32 mRowsPerPage_ = 20;
 
         #endregion
 
@@ -36,7 +35,6 @@ namespace MPersist.Core
         public DbTransaction Transaction { get { return mTransaction_; } }
         public ErrorLevel Status { get { return mStatus_; } set { mStatus_ = value; } }
         public MessageMode MessageMode { get { return mMessageMode_; } set { mMessageMode_ = value; } }
-        public Int32 RowPerPage { get { return mRowsPerPage_; } set { mRowsPerPage_ = value; } }
         public ErrorMessages ErrorMessages { get { return mErrorMessages_; } }
 
         #endregion
@@ -49,7 +47,6 @@ namespace MPersist.Core
             mConnectionName_ = request.Connection;
             mMessageMode_ = request.MessageMode;
             mErrorMessages_.AddRange(request.Confirmations);
-            mRowsPerPage_ = request.RowsPerPage;
         }
 
         #endregion

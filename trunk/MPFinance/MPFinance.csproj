@@ -127,7 +127,6 @@
     <Compile Include="Forms\MPFinanceMain.Designer.cs">
       <DependentUpon>MPFinanceMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="IOController_Impl.cs" />
     <Compile Include="Panels\ChooseAccountPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>

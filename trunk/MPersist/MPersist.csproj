@@ -94,7 +94,7 @@
     <Compile Include="Tools\CommandLineProcess.cs" />
     <Compile Include="Attributes\StoredAttribute.cs" />
     <Compile Include="Attributes\ViewedAttribute.cs" />
-    <Compile Include="Core\ConnectionSettings.cs" />
+    <Compile Include="Core\ServerConnection.cs" />
     <Compile Include="Data\Page.cs" />
     <Compile Include="Data\PrimaryKey.cs" />
     <Compile Include="Enums\ConnectionType.cs" />
@@ -180,6 +180,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Compile Include="Core\MessageProcessor.cs" />
     <Compile Include="Enums\ServerType.cs" />
     <Compile Include="Resources\ErrorStrings.Designer.cs">
       <AutoGen>True</AutoGen>
