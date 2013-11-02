@@ -1,11 +1,13 @@
 using System;
 using MPersist.Enums;
+using System.Collections.Generic;
+using MPersist.Resources;
 
 namespace MPersist.Core
 {
-    public class ConnectionSettings
+    public class ServerConnection
     {
-        private static Logger Log = Logger.GetInstance(typeof(ConnectionSettings));
+        private static Logger Log = Logger.GetInstance(typeof(ServerConnection));
 
         #region Fields
 
@@ -28,14 +30,14 @@ namespace MPersist.Core
 
         #region Public Static Methods
 
-        public static ConnectionSettings GetMySqlConnection(String server, String datasource, String username, String password)
+        public static ServerConnection GetMySqlConnection(String server, String datasource, String username, String password)
         {
             return GetMySqlConnection("Default", server, datasource, username, password);
         }
 
-        public static ConnectionSettings GetMySqlConnection(String name, String server, String datasource, String username, String password)
+        public static ServerConnection GetMySqlConnection(String name, String server, String datasource, String username, String password)
         {
-            ConnectionSettings item = new ConnectionSettings();
+            ServerConnection item = new ServerConnection();
             item.Name = name;
             item.ConnectionType = ConnectionType.MySql;
             item.Server = server;
@@ -48,14 +50,14 @@ namespace MPersist.Core
             return item;
         }
 
-        public static ConnectionSettings GetOracleConnection(String host, Int32 port, String datasource, String username, String password)
+        public static ServerConnection GetOracleConnection(String host, Int32 port, String datasource, String username, String password)
         {
             return GetOracleConnection("Default", host, port, datasource, username, password);
         }
 
-        public static ConnectionSettings GetOracleConnection(String name, String host, Int32 port, String datasource, String username, String password)
+        public static ServerConnection GetOracleConnection(String name, String host, Int32 port, String datasource, String username, String password)
         {
-            ConnectionSettings item = new ConnectionSettings();
+            ServerConnection item = new ServerConnection();
             item.Name = name;
             item.ConnectionType = ConnectionType.Oracle;
             item.Server = host;
@@ -68,14 +70,14 @@ namespace MPersist.Core
             return item;
         }
 
-        public static ConnectionSettings GetSqliteConnection(String datasource)
+        public static ServerConnection GetSqliteConnection(String datasource)
         {
             return GetSqliteConnection("Default", datasource);
         }
 
-        public static ConnectionSettings GetSqliteConnection(String name, String datasource)
+        public static ServerConnection GetSqliteConnection(String name, String datasource)
         {
-            ConnectionSettings item = new ConnectionSettings();
+            ServerConnection item = new ServerConnection();
             item.Name = name;
             item.ConnectionType = ConnectionType.SQLite;
             item.Server = null;
@@ -88,14 +90,14 @@ namespace MPersist.Core
             return item;
         }
 
-        public static ConnectionSettings GetFoxProConnection(String datasource)
+        public static ServerConnection GetFoxProConnection(String datasource)
         {
             return GetFoxProConnection("Default", datasource);
         }
 
-        public static ConnectionSettings GetFoxProConnection(String name, String datasource)
+        public static ServerConnection GetFoxProConnection(String name, String datasource)
         {
-            ConnectionSettings item = new ConnectionSettings();
+            ServerConnection item = new ServerConnection();
             item.Name = name;
             item.ConnectionType = ConnectionType.FoxPro;
             item.Server = null;
@@ -108,14 +110,14 @@ namespace MPersist.Core
             return item;
         }
 
-        public static ConnectionSettings GetSvnConnection(String workingCopy)
+        public static ServerConnection GetSvnConnection(String workingCopy)
         {
             return GetSvnConnection("Default", workingCopy);
         }
 
-        public static ConnectionSettings GetSvnConnection(String name, String workingCopy)
+        public static ServerConnection GetSvnConnection(String name, String workingCopy)
         {
-            ConnectionSettings item = new ConnectionSettings();
+            ServerConnection item = new ServerConnection();
             item.Name = name;
             item.ConnectionType = ConnectionType.SVN;
             item.Server = null;
@@ -129,5 +131,50 @@ namespace MPersist.Core
         }
 
         #endregion
+    }
+
+    public class ServerConnections
+    {
+        private static Logger Log = Logger.GetInstance(typeof(ServerConnection));
+
+        #region Fields
+
+        private List<ServerConnection> mConnections_ = new List<ServerConnection>();
+
+        #endregion
+
+        public void Add(ServerConnection serverConnection)
+        {
+            if (AlreadyExists(serverConnection.Name))
+            {
+                throw new MPException("Connection with name '{0}' already exists", new String[] { serverConnection.Name });
+            }
+
+            mConnections_.Add(serverConnection);
+        }
+
+        private Boolean AlreadyExists(String name)
+        {
+            foreach (ServerConnection item in mConnections_)
+            {
+                if (item.Name.Equals(name, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public ServerConnection GetServerConnection(String name)
+        {
+            foreach (ServerConnection item in mConnections_)
+            {
+                if (item.Name.Equals(name, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    return item;
+                }
+            }
+            throw new MPException(ErrorStrings.errInvalidConnectionString, new String[] { name });
+        }
     }
 }

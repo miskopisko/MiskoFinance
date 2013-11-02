@@ -7,12 +7,12 @@ namespace MPersist.Enums
         #region Fields
 
         private static readonly ServerType mNULL_ = new ServerType(-1, "", "");
-        private static readonly ServerType mDirect_ = new ServerType(0, "", "Direct");
+        private static readonly ServerType mLocal_ = new ServerType(0, "", "Local");
         private static readonly ServerType mOnline_ = new ServerType(1, "", "Online");
 
         private static readonly ServerType[] mElements_ = new[]
 		{
-		    mNULL_, mDirect_, mOnline_
+		    mNULL_, mLocal_, mOnline_
 		};
 
         #endregion
@@ -21,7 +21,7 @@ namespace MPersist.Enums
 
         public static ServerType[] Elements { get { return mElements_; } }
         public static ServerType NULL { get { return mNULL_; } }
-        public static ServerType Direct { get { return mDirect_; } }
+        public static ServerType Local { get { return mLocal_; } }
         public static ServerType Online { get { return mOnline_; } }
 
         #endregion

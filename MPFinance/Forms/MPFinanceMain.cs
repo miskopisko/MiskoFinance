@@ -41,6 +41,7 @@ namespace MPFinance.Forms
             }
         }
 
+        public Int32 RowsPerPage { get { return Settings.Default.RowsPerPage; } }
         public VwOperator Operator { get { return mOperator_; } set { SetOperator(value); } }
         public VwBankAccount BankAccount { get { return (VwBankAccount)mAccountsList_.SelectedItem; } }
         public VwSummary Summary { set { mSummaryPanel_.Update(value); } }

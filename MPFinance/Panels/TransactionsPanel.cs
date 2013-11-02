@@ -8,6 +8,7 @@ using MPFinanceCore.Data.Viewed;
 using MPFinanceCore.Message.Requests;
 using MPFinanceCore.Message.Responses;
 using MPFinanceCore.Resources;
+using MPersist.Data;
 
 namespace MPFinance.Panels
 {
@@ -112,7 +113,7 @@ namespace MPFinance.Panels
             request.ToDate = mToDate_.Value;
             request.Category = Category.CategoryId;
             request.Description = mDescription_.Text;
-            request.Page = page;
+            request.Page = new Page() { PageNo = page, NoRows = MPFinanceMain.Instance.RowsPerPage, IncludeRecordCount = true };
             IOController.SendRequest(request, GetTxnsSuccess);
         }
 

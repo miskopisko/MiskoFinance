@@ -22,12 +22,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
+    <DebugType>none</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <FileAlignment>4096</FileAlignment>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -55,7 +56,6 @@
   <ItemGroup>
     <Content Include="Global.asax" />
     <Content Include="Service.asmx" />
-    <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Global.asax.cs">
@@ -68,14 +68,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\MPersist\MPersist.csproj">
+    <ProjectReference Include="..\MPersist\MPersist.csproj">
       <Project>{F538732A-122B-40BB-86B0-199F99B0386C}</Project>
       <Name>MPersist</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\MPFinanceCore\MPFinanceCore.csproj">
+    <ProjectReference Include="..\MPFinanceCore\MPFinanceCore.csproj">
       <Project>{B821B2C4-D983-4F40-90E6-F6C3C1702535}</Project>
       <Name>MPFinanceCore</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

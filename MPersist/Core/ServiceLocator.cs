@@ -15,31 +15,31 @@ namespace MPersist.Core
 
         #region Public Methods
 
-        public static DbConnection GetConnection(ConnectionSettings connectionSettings)
+        public static DbConnection GetConnection(ServerConnection serverConnection)
         {
-            if (connectionSettings != null && connectionSettings.ConnectionType.Equals(ConnectionType.SQLite))
+            if (serverConnection != null && serverConnection.ConnectionType.Equals(ConnectionType.SQLite))
             {
-                return GetSqliteConnection(connectionSettings.ConnectionString);
+                return GetSqliteConnection(serverConnection.ConnectionString);
             }
-            else if (connectionSettings != null && connectionSettings.ConnectionType.Equals(ConnectionType.MySql))
+            else if (serverConnection != null && serverConnection.ConnectionType.Equals(ConnectionType.MySql))
             {
-                return GetMysqlConnection(connectionSettings.ConnectionString);
+                return GetMysqlConnection(serverConnection.ConnectionString);
             }
-            else if (connectionSettings != null && connectionSettings.ConnectionType.Equals(ConnectionType.Oracle))
+            else if (serverConnection != null && serverConnection.ConnectionType.Equals(ConnectionType.Oracle))
             {
-                return GetOracleConnection(connectionSettings.ConnectionString);
+                return GetOracleConnection(serverConnection.ConnectionString);
             }
-            else if (connectionSettings != null && connectionSettings.ConnectionType.Equals(ConnectionType.Postgres))
+            else if (serverConnection != null && serverConnection.ConnectionType.Equals(ConnectionType.Postgres))
             {
-                return GetPostgresConnection(connectionSettings.ConnectionString);
+                return GetPostgresConnection(serverConnection.ConnectionString);
             }
-            else if (connectionSettings != null && connectionSettings.ConnectionType.Equals(ConnectionType.FoxPro))
+            else if (serverConnection != null && serverConnection.ConnectionType.Equals(ConnectionType.FoxPro))
             {
-                return GetFoxProConnection(connectionSettings.ConnectionString);
+                return GetFoxProConnection(serverConnection.ConnectionString);
             }
-            else if (connectionSettings != null && connectionSettings.ConnectionType.Equals(ConnectionType.SVN))
+            else if (serverConnection != null && serverConnection.ConnectionType.Equals(ConnectionType.SVN))
             {
-                return GetSvnConnection(connectionSettings.ConnectionString);
+                return GetSvnConnection(serverConnection.ConnectionString);
             }
             return null;
         }

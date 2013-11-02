@@ -17,8 +17,7 @@ namespace MPersist.Message.Request
         private MessageMode mMessageMode_ = MessageMode.Normal;
         private String mCommand_ = "Execute";
         private String mConnection_ = "Default";
-        private Int32 mPage_ = 0;
-        private Int32 mRowsPerPage_ = 20;
+        private Page mPage_;
         private ErrorMessages mConfirmations_ = new ErrorMessages();
 
         #endregion
@@ -28,8 +27,7 @@ namespace MPersist.Message.Request
         public MessageMode MessageMode { get { return mMessageMode_; } set { mMessageMode_ = value; } }
         public String Command { get { return mCommand_; } set { mCommand_ = value; } }
         public String Connection { get { return mConnection_; } set { mConnection_ = value; } }
-        public Int32 Page { get { return mPage_; } set { mPage_ = value; } }
-        public Int32 RowsPerPage { get { return mRowsPerPage_; } set { mRowsPerPage_ = value; } }
+        public Page Page { get { return mPage_; } set { mPage_ = value; } }
         public ErrorMessages Confirmations { get { return mConfirmations_; } set { mConfirmations_ = value; } }
 
         #endregion
@@ -52,12 +50,14 @@ namespace MPersist.Message.Request
             writer.WriteElementString("Command", Command);
             writer.WriteElementString("Connection", Connection);
 
-            if (Page > 0)
+            if (Page != null)
             {
-                writer.WriteElementString("Page", Page.ToString());
+                writer.WriteStartElement("Page");
+                writer.WriteElementString("PageNo", Page.PageNo.ToString());
+                writer.WriteElementString("NoRows", Page.NoRows.ToString());
+                writer.WriteElementString("IncludeRecordCount", Page.IncludeRecordCount.ToString());
+                writer.WriteFullEndElement();
             }
-
-            writer.WriteElementString("RowsPerPage", RowsPerPage.ToString());
 
             if (Confirmations.Count > 0)
             {
