@@ -3,45 +3,56 @@ using System.Data.Common;
 using System.Data.OleDb;
 using System.Data.SQLite;
 using MPersist.Enums;
+using MPersist.Resources;
 using MPersist.SVN;
 using MySql.Data.MySqlClient;
 using Oracle.DataAccess.Client;
 
 namespace MPersist.Core
 {
-    public class ServiceLocator
+    public static class ServiceLocator
     {
         private static Logger Log = Logger.GetInstance(typeof(ServiceLocator));
 
         #region Public Methods
 
-        public static DbConnection GetConnection(ServerConnection serverConnection)
+        public static DbConnection GetConnection()
         {
-            if (serverConnection != null && serverConnection.ConnectionType.Equals(ConnectionType.SQLite))
+            return GetConnection("Default");
+        }
+
+        public static DbConnection GetConnection(String name)
+        {
+            ConnectionSettings connectionSettings = ConnectionSettings.GetConnectionSettings(name);
+
+            if (connectionSettings != null && connectionSettings.ConnectionType.Equals(ConnectionType.SQLite))
             {
-                return GetSqliteConnection(serverConnection.ConnectionString);
+                return GetSqliteConnection(connectionSettings.ConnectionString);
             }
-            else if (serverConnection != null && serverConnection.ConnectionType.Equals(ConnectionType.MySql))
+            else if (connectionSettings != null && connectionSettings.ConnectionType.Equals(ConnectionType.MySql))
             {
-                return GetMysqlConnection(serverConnection.ConnectionString);
+                return GetMysqlConnection(connectionSettings.ConnectionString);
             }
-            else if (serverConnection != null && serverConnection.ConnectionType.Equals(ConnectionType.Oracle))
+            else if (connectionSettings != null && connectionSettings.ConnectionType.Equals(ConnectionType.Oracle))
             {
-                return GetOracleConnection(serverConnection.ConnectionString);
+                return GetOracleConnection(connectionSettings.ConnectionString);
             }
-            else if (serverConnection != null && serverConnection.ConnectionType.Equals(ConnectionType.Postgres))
+            else if (connectionSettings != null && connectionSettings.ConnectionType.Equals(ConnectionType.Postgres))
             {
-                return GetPostgresConnection(serverConnection.ConnectionString);
+                return GetPostgresConnection(connectionSettings.ConnectionString);
             }
-            else if (serverConnection != null && serverConnection.ConnectionType.Equals(ConnectionType.FoxPro))
+            else if (connectionSettings != null && connectionSettings.ConnectionType.Equals(ConnectionType.FoxPro))
             {
-                return GetFoxProConnection(serverConnection.ConnectionString);
+                return GetFoxProConnection(connectionSettings.ConnectionString);
             }
-            else if (serverConnection != null && serverConnection.ConnectionType.Equals(ConnectionType.SVN))
+            else if (connectionSettings != null && connectionSettings.ConnectionType.Equals(ConnectionType.SVN))
             {
-                return GetSvnConnection(serverConnection.ConnectionString);
+                return GetSvnConnection(connectionSettings.ConnectionString);
             }
-            return null;
+            else
+            {
+                throw new MPException(ErrorStrings.errInvalidConnectionString, new String[] { name });
+            }
         }
 
         #endregion

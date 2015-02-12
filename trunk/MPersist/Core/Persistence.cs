@@ -39,7 +39,7 @@ namespace MPersist.Core
 
         #region Constructors
 
-        public Persistence(Session session)
+        protected Persistence(Session session)
         {
             mSession_ = session;
             mCommand_ = mSession_.Connection.CreateCommand();
@@ -84,6 +84,7 @@ namespace MPersist.Core
                 {
                     if (mRs_ != null)
                     {
+                    	mRs_.Dispose();
                         mRs_ = null;
                     }
                 }
@@ -117,7 +118,7 @@ namespace MPersist.Core
             }
             catch (Exception e)
             {
-                throw e;
+            	throw new MPException("Error closing persistence", e);
             }
             finally
             {
@@ -218,7 +219,7 @@ namespace MPersist.Core
                 adapter = new OleDbDataAdapter((OleDbCommand)mCommand_);
             }
 
-            DateTime startTime = DateTime.Now;
+            DateTime startTime = DateTime.Now;            
             adapter.Fill(mRs_);
 
             return HasNext;
@@ -371,14 +372,7 @@ namespace MPersist.Core
         private Object GetObject(String key)
         {
             Int32 ordinal = mRs_.Columns.IndexOf(key);
-            if (ordinal >= 0)
-            {
-                return (Object)mResult_.ItemArray[ordinal];
-            }
-            else
-            {
-                return null;
-            }
+			return ordinal >= 0 ? (Object)mResult_.ItemArray[ordinal] : null;
         }
 
         #endregion
@@ -402,12 +396,7 @@ namespace MPersist.Core
         {
             Decimal? value = GetDecimal(key);
 
-            if (value.HasValue)
-            {
-                return new Money(value.Value);
-            }
-
-            return Money.ZERO;
+			return value.HasValue ? new Money(value.Value) : Money.ZERO;
         }
 
         public String GetString(String key)
@@ -502,13 +491,13 @@ namespace MPersist.Core
             }
             else if (o is String)
             {
-                try
-                {
-                    return Int64.Parse((String)o);
-                }
-                catch
-                {
-                }
+				try 
+				{
+					return Int64.Parse((String)o);
+				} 
+				catch 
+				{
+				}
             }
 
             return null;

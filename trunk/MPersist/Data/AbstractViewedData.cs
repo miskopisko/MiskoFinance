@@ -23,11 +23,11 @@ namespace MPersist.Data
 
         #region Constructors
 
-        public AbstractViewedData()
+        protected AbstractViewedData()
         {
         }
 
-        public AbstractViewedData(Session session, Persistence persistence)
+        protected AbstractViewedData(Session session, Persistence persistence)
         {
             Set(session, persistence, true);
         }

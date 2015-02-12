@@ -201,6 +201,25 @@ namespace MPersist.Tools
 
             return plaintext;
         }
+        
+        public static DateTime AddWorkDays(DateTime date, int workingDays, List<DateTime> holidays)
+		{
+        	holidays = holidays ?? new List<DateTime>();
+        	
+			int direction = workingDays < 0 ? -1 : 1;
+			DateTime newDate = date;
+			
+			while (workingDays != 0)
+			{
+				newDate = newDate.AddDays(direction);
+				
+				if (newDate.DayOfWeek != DayOfWeek.Saturday && newDate.DayOfWeek != DayOfWeek.Sunday && !holidays.Contains(newDate))
+				{
+					workingDays -= direction;
+				}
+			}
+			return newDate;
+		}
 
         #endregion
 
