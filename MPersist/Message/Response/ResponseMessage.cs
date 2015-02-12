@@ -77,7 +77,9 @@ namespace MPersist.Message.Response
 
             if (Page != null && Page.PageNo > 0)
             {
+                writer.WriteStartElement("Page");
                 Page.WriteXml(writer);
+                writer.WriteFullEndElement();
             }
         }
 

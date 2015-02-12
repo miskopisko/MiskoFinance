@@ -4,14 +4,13 @@ using System.Data.Common;
 using System.Diagnostics;
 using System.Reflection;
 using MPersist.Enums;
-using MPersist.Message.Request;
 using MPersist.Resources;
 
 namespace MPersist.Core
 {
     public sealed class Session
     {
-        private static Logger Log = Logger.GetInstance(typeof(Session));
+        private static readonly Logger Log = Logger.GetInstance(typeof(Session));
 
         #region Fields
 
@@ -23,6 +22,7 @@ namespace MPersist.Core
         private ErrorMessages mErrorMessages_ = new ErrorMessages();
         private ErrorLevel mStatus_ = ErrorLevel.Success;
         private MessageMode mMessageMode_ = MessageMode.Normal;
+        private Int32 mRowsPerPage_ = 20;
 
         #endregion
 
@@ -35,18 +35,17 @@ namespace MPersist.Core
         public DbTransaction Transaction { get { return mTransaction_; } }
         public ErrorLevel Status { get { return mStatus_; } set { mStatus_ = value; } }
         public MessageMode MessageMode { get { return mMessageMode_; } set { mMessageMode_ = value; } }
+        public Int32 RowPerPage { get { return mRowsPerPage_; } set { mRowsPerPage_ = value; } }
         public ErrorMessages ErrorMessages { get { return mErrorMessages_; } }
 
         #endregion
 
         #region Constructors
 
-        public Session(DbConnection conn, RequestMessage request)
+        public Session(String connectionName)
         {
-            mConn_ = conn;
-            mConnectionName_ = request.Connection;
-            mMessageMode_ = request.MessageMode;
-            mErrorMessages_.AddRange(request.Confirmations);
+            mConnectionName_ = connectionName;
+            mConn_ = ServiceLocator.GetConnection(connectionName);
         }
 
         #endregion

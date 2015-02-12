@@ -20,7 +20,6 @@ namespace MPersist.Data
 
         #region Constants
 
-        public const String ENCODING = "ISO-8859-1";
         private const String NAMESPACE = "";
 
         #endregion
@@ -163,6 +162,12 @@ namespace MPersist.Data
                             item.Id = persistence.GetPrimaryKey(columnName);
                         }
 
+                        property.SetValue(this, item, null);
+                    }
+                    else if (property.PropertyType.IsSubclassOf(typeof(AbstractViewedData)))
+                    {
+                    	ConstructorInfo ctor = property.PropertyType.GetConstructor(new[] { typeof(Session), typeof(Persistence) });                   	
+                    	AbstractViewedData item = (AbstractViewedData)ctor.Invoke(new Object[] { session, persistence });
                         property.SetValue(this, item, null);
                     }
                     else if (property.PropertyType == typeof(Guid))
@@ -312,7 +317,7 @@ namespace MPersist.Data
                 else if (property.PropertyType == typeof(DateTime) || property.PropertyType == typeof(DateTime?))
                 {
                     String value = ReadXmlString(reader);
-                    property.SetValue(this, Convert.ToDateTime(value), null);
+                    property.SetValue(this, DateTime.ParseExact(value, "yyyyMMdd", null), null);
                     return true;
                 }
                 else if (property.PropertyType == typeof(PrimaryKey))
@@ -502,11 +507,11 @@ namespace MPersist.Data
                     }
                     else if (property.PropertyType == typeof(DateTime))
                     {
-                        writer.WriteElementString(property.Name, ((DateTime)value).ToShortDateString());
+                        writer.WriteElementString(property.Name, ((DateTime)value).ToString("yyyyMMdd"));
                     }
                     else if (property.PropertyType == typeof(DateTime?) && ((DateTime?)value).HasValue)
                     {
-                        writer.WriteElementString(property.Name, ((DateTime)value).ToShortDateString());
+                        writer.WriteElementString(property.Name, ((DateTime)value).ToString("yyyyMMdd"));
                     }
                     else if (property.PropertyType.IsSubclassOf(typeof(AbstractEnum)) && ((AbstractEnum)value).IsSet)
                     {
@@ -757,7 +762,7 @@ namespace MPersist.Data
 
                     xmlized = buffer.ToString();
                 }
-                catch(Exception e)
+                catch(Exception)
                 {
                     xmlized = "";
                 }
