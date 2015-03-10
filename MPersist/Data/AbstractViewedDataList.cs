@@ -188,7 +188,7 @@ namespace MPersist.Data
                 return 0; //both are the same
             }
             //not comparable, compare ToString
-            return lhsValue.ToString().CompareTo(rhsValue.ToString());
+			return string.Compare(lhsValue.ToString(), rhsValue.ToString(), StringComparison.Ordinal);
         }
 
         #endregion
