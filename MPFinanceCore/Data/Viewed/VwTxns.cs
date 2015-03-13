@@ -1,6 +1,7 @@
 using System;
 using MPersist.Core;
 using MPersist.Data;
+using MPersist.Enums;
 
 namespace MPFinanceCore.Data.Viewed
 {
@@ -46,6 +47,7 @@ namespace MPFinanceCore.Data.Viewed
             p.SqlWhere(to.HasValue, "DatePosted <= ?", new Object[] { to });
             p.SqlWhere(category != null && category > 0, "Category = ?", new Object[] { category });
             p.SqlWhere(!String.IsNullOrEmpty(description), "Description LIKE ?", new Object[] { "%" + description + "%" });
+            p.SqlOrderBy("DatePosted", SortDirection.Descending);            
             p.ExecuteQuery();
             Set(session, p, page);
             p.Close();

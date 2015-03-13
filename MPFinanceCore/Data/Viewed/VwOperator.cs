@@ -11,20 +11,8 @@ namespace MPFinanceCore.Data.Viewed
     {
         private static Logger Log = Logger.GetInstance(typeof(VwOperator));
 
-        #region Event Delegates
-
-        public delegate void BankAccountsChangedHandler();
-        public event BankAccountsChangedHandler BankAccountsChanged;
-
-        public delegate void CategoriesChangedHandler();
-        public event CategoriesChangedHandler CategoriesChanged;
-
-        #endregion
-
         #region Fields
 
-        private VwBankAccounts mBankAccounts_ = new VwBankAccounts();
-        private VwCategories mCategories_ = new VwCategories();
 
         #endregion
 
@@ -47,31 +35,9 @@ namespace MPFinanceCore.Data.Viewed
         [Viewed]
         public Gender Gender { get; set; }
         [Viewed]
-        public VwBankAccounts BankAccounts
-        {
-            get { return mBankAccounts_; }
-            set
-            {
-                mBankAccounts_ = value;
-                if (BankAccountsChanged != null)
-                {
-                    BankAccountsChanged();
-                }
-            }
-        }
+        public VwBankAccounts BankAccounts { get; set; }
         [Viewed]
-        public VwCategories Categories
-        {
-            get { return mCategories_; }
-            set
-            {
-                mCategories_ = value;
-                if (CategoriesChanged != null)
-                {
-                    CategoriesChanged();
-                }
-            }
-        }
+        public VwCategories Categories { get; set; }
 
         #endregion
 
@@ -79,11 +45,15 @@ namespace MPFinanceCore.Data.Viewed
 
         public VwOperator()
         {
+        	BankAccounts = new VwBankAccounts();
+        	Categories = new VwCategories();
         }
 
         public VwOperator(Session session, Persistence persistence)
             : base(session, persistence)
         {
+        	BankAccounts = new VwBankAccounts();
+        	Categories = new VwCategories();
         }
 
         #endregion
@@ -111,19 +81,6 @@ namespace MPFinanceCore.Data.Viewed
             o.Save(session);
 
             return o;
-        }
-
-        public void Refresh()
-        {
-            if (BankAccountsChanged != null)
-            {
-                BankAccountsChanged();
-            }
-
-            if (CategoriesChanged != null)
-            {
-                CategoriesChanged();
-            }
         }
 
         public static VwOperator GetInstanceByUsername(Session session, String username)

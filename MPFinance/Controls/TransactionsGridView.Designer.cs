@@ -28,21 +28,22 @@
         /// </summary>
         private void InitializeComponent()
         {
-            ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
-            this.SuspendLayout();
-            // 
-            // TransactionsGridView
-            // 
-            this.AllowUserToAddRows = false;
-            this.AllowUserToDeleteRows = false;
-            this.AllowUserToResizeColumns = false;
-            this.AllowUserToResizeRows = false;
-            this.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.RowHeadersVisible = false;
-            this.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
-            this.ResumeLayout(false);
+        	((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
+        	this.SuspendLayout();
+        	// 
+        	// TransactionsGridView
+        	// 
+        	this.AllowUserToAddRows = false;
+        	this.AllowUserToDeleteRows = false;
+        	this.AllowUserToResizeColumns = false;
+        	this.AllowUserToResizeRows = false;
+        	this.AutoGenerateColumns = false;
+        	this.Dock = System.Windows.Forms.DockStyle.Fill;
+        	this.RowHeadersVisible = false;
+        	this.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+        	this.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+        	((System.ComponentModel.ISupportInitialize)(this)).EndInit();
+        	this.ResumeLayout(false);
 
         }
 

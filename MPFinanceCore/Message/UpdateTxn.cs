@@ -23,8 +23,9 @@ namespace MPFinanceCore.Message
         public override void Execute(Session session)
         {
             Request.Txn.Update(session);
-
-            Response.Summary.Fetch(session, Request.Operator, Request.BankAccount, Request.FromDate, Request.ToDate, Request.Category, Request.Description);
+            Request.Summary.Fetch(session);
+            
+            Response.Summary = Request.Summary;           
         }
     }
 }

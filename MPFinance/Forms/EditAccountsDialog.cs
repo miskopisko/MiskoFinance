@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Windows.Forms;
-using MPersist.Core;
-using MPersist.Message.Response;
 using MPFinanceCore.Data.Viewed;
 using MPFinanceCore.Enums;
 using MPFinanceCore.Message.Requests;
 using MPFinanceCore.Message.Responses;
+using MPersist.Core;
+using MPersist.Message.Response;
 
 namespace MPFinance.Forms
 {
@@ -21,8 +21,7 @@ namespace MPFinance.Forms
 
         #region Properties
 
-        private VwBankAccount SelectedAccount { get { return (VwBankAccount)mExistingAccounts_.SelectedItem; } }
-        private VwBankAccounts ExistingAccounts { get { return (VwBankAccounts)mExistingAccounts_.DataSource; } set { mExistingAccounts_.DataSource = value; } }
+        
 
         #endregion
 
@@ -47,7 +46,9 @@ namespace MPFinance.Forms
 
         protected override void OnLoad(EventArgs e)
         {
-            ExistingAccounts = MPFinanceMain.Instance.Operator.BankAccounts;
+        	base.OnLoad(e);
+        	
+            mExistingAccounts_.DataSource = MPFinanceMain.Instance.Operator.BankAccounts;
 
             if (mExistingAccounts_.Items.Count > 0)
             {
@@ -72,20 +73,20 @@ namespace MPFinance.Forms
 
         private void existingAccounts_SelectedValueChanged(object sender, EventArgs e)
         {
-            mBankName_.Text = SelectedAccount.BankNumber;
-            mAccountNumber_.Text = SelectedAccount.AccountNumber;
-            mAccountType_.SelectedItem = SelectedAccount.AccountType;
-            mNickname_.Text = SelectedAccount.Nickname;
-            mOpeningBalance_.Value = SelectedAccount.OpeningBalance;
+        	mBankName_.Text = ((VwBankAccount)mExistingAccounts_.SelectedItem).BankNumber;
+            mAccountNumber_.Text = ((VwBankAccount)mExistingAccounts_.SelectedItem).AccountNumber;
+            mAccountType_.SelectedItem = ((VwBankAccount)mExistingAccounts_.SelectedItem).AccountType;
+            mNickname_.Text = ((VwBankAccount)mExistingAccounts_.SelectedItem).Nickname;
+            mOpeningBalance_.Value = ((VwBankAccount)mExistingAccounts_.SelectedItem).OpeningBalance;
         }
 
         private void Done_Click(object sender, EventArgs e)
         {
-            if (ExistingAccounts.Count > 0)
+            if (mExistingAccounts_.Items.Count > 0)
             {
                 UpdateAccountsRQ request = new UpdateAccountsRQ();
-                request.BankAccounts = ExistingAccounts;
-                IOController.SendRequest(request, UpdateAccountsSuccess);
+                request.BankAccounts = (VwBankAccounts)mExistingAccounts_.DataSource;
+                MessageProcessor.SendRequest(request, UpdateAccountsSuccess);
             }
             else
             {
@@ -95,11 +96,11 @@ namespace MPFinance.Forms
 
         private void DataChanged(object sender, EventArgs e)
         {
-            SelectedAccount.BankNumber = mBankName_.Text;
-            SelectedAccount.AccountNumber = mAccountNumber_.Text;
-            SelectedAccount.AccountType = (AccountType)mAccountType_.SelectedItem;
-            SelectedAccount.Nickname = mNickname_.Text;
-            SelectedAccount.OpeningBalance = mOpeningBalance_.Value;
+        	((VwBankAccount)mExistingAccounts_.SelectedItem).BankNumber = mBankName_.Text;
+        	((VwBankAccount)mExistingAccounts_.SelectedItem).AccountNumber = mAccountNumber_.Text;
+        	((VwBankAccount)mExistingAccounts_.SelectedItem).AccountType = (AccountType)mAccountType_.SelectedItem;
+        	((VwBankAccount)mExistingAccounts_.SelectedItem).Nickname = mNickname_.Text;
+        	((VwBankAccount)mExistingAccounts_.SelectedItem).OpeningBalance = mOpeningBalance_.Value;
         }
 
         #endregion
@@ -109,7 +110,7 @@ namespace MPFinance.Forms
         private void UpdateAccountsSuccess(ResponseMessage response)
         {
             MPFinanceMain.Instance.Operator.BankAccounts = ((UpdateAccountsRS)response).BankAccounts;
-
+            MPFinanceMain.Instance.AccountsList.DataSource = ((UpdateAccountsRS)response).BankAccounts.getAllAccounts();
             Dispose();
         }
 

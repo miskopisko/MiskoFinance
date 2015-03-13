@@ -35,6 +35,14 @@ namespace MPFinanceCore.Data.Viewed
         #endregion
 
         #region Public Methods
+        
+        public VwBankAccounts getAllAccounts()
+        {
+        	VwBankAccounts bankAccounts = new VwBankAccounts();
+        	bankAccounts.Add(new VwBankAccount{Nickname="All"});
+        	bankAccounts.AddRange(this);
+        	return bankAccounts;
+        }
 
         public void FetchByOperator(Session session, PrimaryKey o)
         {

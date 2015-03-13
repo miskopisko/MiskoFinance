@@ -47,7 +47,7 @@ namespace MPFinance.Forms
 
         private void LoginSuccess(ResponseMessage response)
         {
-            MPFinanceMain.Instance.Operator = ((LoginRS)response).Operator;
+            //MPFinanceMain.Operator = ((LoginRS)response).Operator;
             DialogResult = DialogResult.OK;
             Dispose();
         }
@@ -61,7 +61,7 @@ namespace MPFinance.Forms
             LoginRQ request = new LoginRQ();
             request.Username = mUsername_.Text.Trim();
             request.Password = Utils.GenerateHash(mPassword_.Text.Trim());
-            IOController.SendRequest(request, LoginSuccess);
+            MessageProcessor.SendRequest(request, LoginSuccess);
         }
 
         private void mCancel__Click(object sender, EventArgs e)

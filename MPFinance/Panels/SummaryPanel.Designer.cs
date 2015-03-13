@@ -292,7 +292,6 @@
             this.mCreditsDebitsDiff_.TabIndex = 4;
             this.mCreditsDebitsDiff_.Text = "$0.00";
             this.mCreditsDebitsDiff_.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            money1.Currency = ((MPersist.MoneyType.Currency)(resources.GetObject("money1.Currency")));
             this.mCreditsDebitsDiff_.Value = money1;
             // 
             // mTotalDebits_
@@ -308,7 +307,6 @@
             this.mTotalDebits_.TabIndex = 5;
             this.mTotalDebits_.Text = "$0.00";
             this.mTotalDebits_.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            money2.Currency = ((MPersist.MoneyType.Currency)(resources.GetObject("money2.Currency")));
             this.mTotalDebits_.Value = money2;
             // 
             // mTransfersDiff_
@@ -324,7 +322,6 @@
             this.mTransfersDiff_.TabIndex = 1;
             this.mTransfersDiff_.Text = "$0.00";
             this.mTransfersDiff_.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            money3.Currency = ((MPersist.MoneyType.Currency)(resources.GetObject("money3.Currency")));
             this.mTransfersDiff_.Value = money3;
             // 
             // mTotalCredits_
@@ -340,7 +337,6 @@
             this.mTotalCredits_.TabIndex = 6;
             this.mTotalCredits_.Text = "$0.00";
             this.mTotalCredits_.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            money4.Currency = ((MPersist.MoneyType.Currency)(resources.GetObject("money4.Currency")));
             this.mTotalCredits_.Value = money4;
             // 
             // mBalanceDiff_
@@ -356,7 +352,6 @@
             this.mBalanceDiff_.TabIndex = 0;
             this.mBalanceDiff_.Text = "$0.00";
             this.mBalanceDiff_.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            money5.Currency = ((MPersist.MoneyType.Currency)(resources.GetObject("money5.Currency")));
             this.mBalanceDiff_.Value = money5;
             // 
             // mCurrentBalance_
@@ -372,7 +367,6 @@
             this.mCurrentBalance_.TabIndex = 5;
             this.mCurrentBalance_.Text = "$0.00";
             this.mCurrentBalance_.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            money6.Currency = ((MPersist.MoneyType.Currency)(resources.GetObject("money6.Currency")));
             this.mCurrentBalance_.Value = money6;
             // 
             // mOpeningBalance_
@@ -388,7 +382,6 @@
             this.mOpeningBalance_.TabIndex = 4;
             this.mOpeningBalance_.Text = "$0.00";
             this.mOpeningBalance_.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            money7.Currency = ((MPersist.MoneyType.Currency)(resources.GetObject("money7.Currency")));
             this.mOpeningBalance_.Value = money7;
             // 
             // mSelectionBalanceDifference_
@@ -404,7 +397,6 @@
             this.mSelectionBalanceDifference_.TabIndex = 17;
             this.mSelectionBalanceDifference_.Text = "$0.00";
             this.mSelectionBalanceDifference_.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            money8.Currency = ((MPersist.MoneyType.Currency)(resources.GetObject("money8.Currency")));
             this.mSelectionBalanceDifference_.Value = money8;
             // 
             // mSelectionClosingBalance_
@@ -420,7 +412,6 @@
             this.mSelectionClosingBalance_.TabIndex = 16;
             this.mSelectionClosingBalance_.Text = "$0.00";
             this.mSelectionClosingBalance_.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            money9.Currency = ((MPersist.MoneyType.Currency)(resources.GetObject("money9.Currency")));
             this.mSelectionClosingBalance_.Value = money9;
             // 
             // mSelectionOpeningBalance_
@@ -436,7 +427,6 @@
             this.mSelectionOpeningBalance_.TabIndex = 15;
             this.mSelectionOpeningBalance_.Text = "$0.00";
             this.mSelectionOpeningBalance_.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            money10.Currency = ((MPersist.MoneyType.Currency)(resources.GetObject("money10.Currency")));
             this.mSelectionOpeningBalance_.Value = money10;
             // 
             // mTotalTransferIn_
@@ -452,7 +442,6 @@
             this.mTotalTransferIn_.TabIndex = 3;
             this.mTotalTransferIn_.Text = "$0.00";
             this.mTotalTransferIn_.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            money11.Currency = ((MPersist.MoneyType.Currency)(resources.GetObject("money11.Currency")));
             this.mTotalTransferIn_.Value = money11;
             // 
             // mTotalTransferOut_
@@ -468,7 +457,6 @@
             this.mTotalTransferOut_.TabIndex = 2;
             this.mTotalTransferOut_.Text = "$0.00";
             this.mTotalTransferOut_.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            money12.Currency = ((MPersist.MoneyType.Currency)(resources.GetObject("money12.Currency")));
             this.mTotalTransferOut_.Value = money12;
             // 
             // SummaryPanel

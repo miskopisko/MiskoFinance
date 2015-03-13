@@ -16,6 +16,7 @@ namespace MPFinanceCore.Message.Responses
 
         public ImportTxnsRS()
         {
+        	BankAccount = new VwBankAccount();
         }
     }
 }

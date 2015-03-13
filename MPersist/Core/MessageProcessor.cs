@@ -65,7 +65,8 @@ namespace MPersist.Core
             bw.RunWorkerCompleted += RunWorkerCompleted;
             bw.RunWorkerAsync();
 
-            IOController.MessageSent(Strings.strPorcessing);
+            IOController.Status(Strings.strPorcessing);
+            IOController.MessageSent();
         }
 
         private void DoWork(object sender, DoWorkEventArgs e)
@@ -107,6 +108,7 @@ namespace MPersist.Core
 
                         if (errorMessage.Level.Equals(ErrorLevel.Error))
                         {
+                        	IOController.Status(Strings.strError);
                             IOController.Error(errorMessage.Message);
                         }
                         else if (errorMessage.Level.Equals(ErrorLevel.Warning))
@@ -259,7 +261,8 @@ namespace MPersist.Core
                 }
             }
 
-            IOController.MessageReceived(active == 0 ? errorEncountered ? Strings.strError : Strings.strSuccess : Strings.strPorcessing);            
+            IOController.Status(active == 0 ? errorEncountered ? Strings.strError : Strings.strSuccess : Strings.strPorcessing);
+            IOController.MessageReceived();            
         }
 
         #endregion
