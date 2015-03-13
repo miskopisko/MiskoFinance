@@ -197,7 +197,6 @@
             this.mOpeningBalance_.TabIndex = 5;
             this.mOpeningBalance_.Text = "$0.00";
             this.mOpeningBalance_.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            money1.Currency = ((MPersist.MoneyType.Currency)(resources.GetObject("money1.Currency")));
             this.mOpeningBalance_.Value = money1;
             // 
             // mNickname_

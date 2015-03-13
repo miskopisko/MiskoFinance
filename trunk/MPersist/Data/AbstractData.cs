@@ -91,7 +91,7 @@ namespace MPersist.Data
                     else if (property.PropertyType == typeof(Boolean))
                     {
                         Boolean? value = persistence.GetBoolean(columnName);
-                        property.SetValue(this, value.HasValue ? value.Value : false, null);
+						property.SetValue(this, value.HasValue && value.Value, null);
                     }
                     else if (property.PropertyType == typeof(Boolean?))
                     {

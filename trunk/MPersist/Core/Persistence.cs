@@ -396,7 +396,7 @@ namespace MPersist.Core
         {
             Decimal? value = GetDecimal(key);
 
-			return value.HasValue ? new Money(value.Value) : Money.ZERO;
+			return value.HasValue ? new Money(value.Value) : null;
         }
 
         public String GetString(String key)

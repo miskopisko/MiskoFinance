@@ -34,8 +34,10 @@ namespace MPersist.MoneyType
 
         public Currency Currency
         {
-            get { return mCurrency_.GetValueOrDefault(Currency.FromCurrentCulture()); }
-            set { }
+            get 
+            { 
+            	return mCurrency_.GetValueOrDefault(Currency.FromCurrentCulture()); 
+            }
         }
 
         #endregion

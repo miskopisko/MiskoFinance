@@ -8,10 +8,12 @@ namespace MPersist.Interfaces
         Int32 RowsPerPage { get; }
 
         void Debug(Object obj);
+        
+        void Status(String message);
 
-        void MessageReceived(String message);
+        void MessageReceived();
 
-        void MessageSent(String message);
+        void MessageSent();
 
         void ExceptionHandler(Object sender, ThreadExceptionEventArgs e);
 

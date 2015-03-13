@@ -33,6 +33,7 @@
             // 
             // CategoriesGridView
             // 
+            this.AutoGenerateColumns = false;
             this.AllowUserToAddRows = false;
             this.AllowUserToDeleteRows = false;
             this.AllowUserToResizeColumns = false;

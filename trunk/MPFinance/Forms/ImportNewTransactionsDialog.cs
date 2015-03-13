@@ -1,16 +1,16 @@
 ﻿using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using MPersist.Core;
-using MPersist.Enums;
-using MPersist.Message.Response;
-using MPFinance.Controls;
-using MPFinance.Panels;
 using MPFinanceCore.Data.Viewed;
 using MPFinanceCore.Message.Requests;
 using MPFinanceCore.Message.Responses;
 using MPFinanceCore.OFX;
 using MPFinanceCore.Resources;
+using MPersist.Core;
+using MPersist.Enums;
+using MPersist.Message.Response;
+using MPFinance.Controls;
+using MPFinance.Panels;
 
 namespace MPFinance.Forms
 {
@@ -20,25 +20,24 @@ namespace MPFinance.Forms
 
         #region Fields
 
-        private ChooseAccountPanel mChooseAccountPanel_ = new ChooseAccountPanel();
-        private ImportedTransactionsGridView mImportedTransactionsGridView_ = new ImportedTransactionsGridView();
-        private OfxDocument mOfxDocument_;
-        private VwBankAccount mAccount_;
+        private readonly ChooseAccountPanel mChooseAccountPanel_ = new ChooseAccountPanel();
+        private readonly ImportedTransactionsGridView mImportedTransactionsGridView_ = new ImportedTransactionsGridView();
 
         #endregion
 
         #region Properties
 
-        public OfxDocument OfxDocument
-        {
-            get { return mOfxDocument_; }
-        }
+		public OfxDocument OfxDocument 
+		{
+			get;
+			set;
+		}
 
-        public VwBankAccount Account
-        {
-            get { return mAccount_; }
-            set { mAccount_ = value; }
-        }
+		public VwBankAccount Account 
+		{
+			get; 
+			set;
+		}
 
         #endregion
 
@@ -50,8 +49,6 @@ namespace MPFinance.Forms
             AutoSizeMode = AutoSizeMode.GrowAndShrink;
 
             InitializeComponent();
-
-            mImportedTransactionsGridView_.FillColumns();
 
             mTableLayoutPanel_.Controls.Add(mChooseAccountPanel_, 0, 0);
             mTableLayoutPanel_.Controls.Add(mImportedTransactionsGridView_, 0, 0);
@@ -82,7 +79,7 @@ namespace MPFinance.Forms
         {
             if (mOpenFileDialog_.ShowDialog(MPFinanceMain.Instance).Equals(DialogResult.OK))
             {
-                mOfxDocument_ = new OfxDocument(new FileStream(mOpenFileDialog_.FileName, FileMode.Open));
+                OfxDocument = new OfxDocument(new FileStream(mOpenFileDialog_.FileName, FileMode.Open));
 
                 mChooseAccountPanel_.Visible = true;
                 mImportedTransactionsGridView_.Visible = false;
@@ -117,17 +114,16 @@ namespace MPFinance.Forms
 
             RepositionWindow();
 
-            mImportedTransactionsGridView_.DataSource = ((CheckDuplicateTxnsRS)Response).Txns;
+            mImportedTransactionsGridView_.Txns = ((CheckDuplicateTxnsRS)Response).Txns;
         }
 
         private void ImportTxnsSuccess(ResponseMessage Response)
         {
-            mAccount_ = ((ImportTxnsRS)Response).BankAccount;
+            Account = ((ImportTxnsRS)Response).BankAccount;
 
-            if (!MPFinanceMain.Instance.Operator.BankAccounts.Contains(mAccount_))
+            if (!MPFinanceMain.Instance.Operator.BankAccounts.Contains(Account))
             {
-                MPFinanceMain.Instance.Operator.BankAccounts.Add(mAccount_);
-                MPFinanceMain.Instance.Operator.Refresh();
+                MPFinanceMain.Instance.Operator.BankAccounts.Add(Account);
             }
 
             Dispose();
@@ -147,16 +143,16 @@ namespace MPFinance.Forms
 
         private void AddAccountSuccess(ResponseMessage response)
         {
-            mAccount_ = ((AddAccountRS)response).NewAccount;
+            Account = ((AddAccountRS)response).NewAccount;
 
             Text = Strings.strCheckingForDuplicateTxns;
 
             CheckDuplicateTxnsRQ request = new CheckDuplicateTxnsRQ();
-            request.BankAccount = mAccount_;
-            request.FromDate = mOfxDocument_.StartDate;
-            request.ToDate = mOfxDocument_.EndDate;
-            request.Transactions = mOfxDocument_.Transactions;
-            IOController.SendRequest(request, CheckDuplicateTxnsSuccess);
+            request.BankAccount = Account;
+            request.FromDate = OfxDocument.StartDate;
+            request.ToDate = OfxDocument.EndDate;
+            request.Transactions = OfxDocument.Transactions;
+            MessageProcessor.SendRequest(request, CheckDuplicateTxnsSuccess);
         }
 
         private void AddAccountError(ResponseMessage response)
@@ -173,16 +169,16 @@ namespace MPFinance.Forms
             AddAccountRQ request = new AddAccountRQ();
             request.BankAccount = mChooseAccountPanel_.GetAccount();
             request.MessageMode = MessageMode.Trial;
-            IOController.SendRequest(request, AddAccountSuccess, AddAccountError);
+            MessageProcessor.SendRequest(request, AddAccountSuccess, AddAccountError);
         }
 
         private void ImportBtn_Click(object sender, System.EventArgs e)
         {
             ImportTxnsRQ request = new ImportTxnsRQ();
             request.Operator = MPFinanceMain.Instance.Operator;
-            request.BankAccount = mAccount_;
+            request.BankAccount = Account;
             request.VwTxns = mImportedTransactionsGridView_.GetSelected();
-            IOController.SendRequest(request, ImportTxnsSuccess);
+            MessageProcessor.SendRequest(request, ImportTxnsSuccess);
         }
 
         private void BackBtn_Click(object sender, System.EventArgs e)

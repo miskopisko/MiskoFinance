@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Windows.Forms;
-using MPersist.Core;
-using MPersist.Enums;
-using MPersist.Message.Response;
-using MPFinance.Properties;
 using MPFinanceCore.Data.Viewed;
 using MPFinanceCore.Enums;
 using MPFinanceCore.Message.Requests;
 using MPFinanceCore.Message.Responses;
+using MPersist.Core;
+using MPersist.Enums;
+using MPersist.Message.Response;
+using MPFinance.Properties;
 
 namespace MPFinance.Forms
 {
@@ -23,7 +23,13 @@ namespace MPFinance.Forms
 
         #region Parameters
 
-        public VwOperator Operator { get { return mOperator_; } }
+        public VwOperator Operator 
+        { 
+        	get 
+        	{ 
+        		return mOperator_; 
+        	} 
+        }
 
         #endregion
 
@@ -36,7 +42,6 @@ namespace MPFinance.Forms
             InitializeComponent();
 
             mGender_.DataSource = Gender.Elements;
-            mDefaultDatasource_.DataSource = new ConnectionType[] { ConnectionType.NULL, ConnectionType.SQLite, ConnectionType.MySql, ConnectionType.Oracle };
         }
 
         #endregion
@@ -60,39 +65,18 @@ namespace MPFinance.Forms
             mEmail_.Text = mOperator_.Email;
             mGender_.SelectedItem = mOperator_.Gender;
             mBirthday_.Value = mOperator_.Birthday > mBirthday_.MinDate ? mOperator_.Birthday : mBirthday_.MinDate;
-
             mRowPerPage_.Value = Settings.Default.RowsPerPage;
-            mDefaultDatasource_.SelectedItem = ConnectionType.GetElement(Settings.Default.DefaultDatasource);
-            mDefaultUsername_.Checked = Settings.Default.DefaultUsername.Equals(mOperator_.Username);
         }
 
         #endregion
 
         #region Private Methods
 
-        private void TestConnectionSuccess(ResponseMessage response)
-        {
-            //ConnectionSettings.Connections.Remove(ConnectionSettings.GetConnectionSettings("TEST"));
-        }
-
-        private void TestConnectionError(ResponseMessage response)
-        {
-            //ConnectionSettings.Connections.Remove(ConnectionSettings.GetConnectionSettings("TEST"));
-
-            throw new MPException("Connection failed");
-        }
-
         private void UpdateOperatorSuccess(ResponseMessage response)
         {
             mOperator_ = ((UpdateOperatorRS)response).Operator;
 
-            if (mDefaultUsername_.Checked)
-            {
-                Settings.Default.DefaultUsername = mUsername_.Text.Trim();
-            }
-
             Settings.Default.RowsPerPage = (Int32)mRowPerPage_.Value;
-            Settings.Default.DefaultDatasource = (Int64)mDefaultDatasource_.SelectedValue;
             Settings.Default.Save();
 
             DialogResult = DialogResult.OK;
@@ -122,48 +106,13 @@ namespace MPFinance.Forms
             request.Operator = mOperator_;
             request.Password1 = mPassword1_.Text;
             request.Password2 = mPassword2_.Text;
-            IOController.SendRequest(request, UpdateOperatorSuccess);
+            MessageProcessor.SendRequest(request, UpdateOperatorSuccess);
         }
 
         private void mCancelBtn__Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
             Dispose();
-        }
-
-        private void mTestOracle__Click(object sender, EventArgs e)
-        {
-            //ConnectionSettings.AddOracleConnection("TEST", mOracleHost_.Text.Trim(), Decimal.ToInt32(mOraclePort_.Value), mOracleDatabase_.Text.Trim(), mOracleUsername_.Text.Trim(), mOraclePassword_.Text.Trim());
-
-            TestConnectionRQ request = new TestConnectionRQ();
-            request.Connection = "TEST";
-            IOController.SendRequest(request, TestConnectionSuccess, TestConnectionError);
-        }
-
-        private void mTestMySql__Click(object sender, EventArgs e)
-        {
-            //ConnectionSettings.AddMySqlConnection("TEST", mMySqlHost_.Text.Trim(), mMySqlDatabase_.Text.Trim(), mMySqlUsername_.Text.Trim(), mMySqlPassword_.Text.Trim());
-            
-            TestConnectionRQ request = new TestConnectionRQ();
-            request.Connection = "TEST";
-            IOController.SendRequest(request, TestConnectionSuccess, TestConnectionError);
-        }
-
-        private void mTestSqlite__Click(object sender, EventArgs e)
-        {
-            //ConnectionSettings.AddSqliteConnection("TEST", mSqliteDatasource_.Text.Trim());
-
-            TestConnectionRQ request = new TestConnectionRQ();
-            request.Connection = "TEST";
-            IOController.SendRequest(request, TestConnectionSuccess, TestConnectionError);
-        }
-
-        private void mFileDialog__Click(object sender, EventArgs e)
-        {
-            if(mOpenFileDialog_.ShowDialog(this) == DialogResult.OK)
-            {
-                mSqliteDatasource_.Text = mOpenFileDialog_.FileName;
-            }
         }
 
         #endregion

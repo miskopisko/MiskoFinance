@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Windows.Forms;
-using MPersist.Core;
-using MPersist.Message.Response;
-using MPersist.MoneyType;
-using MPFinance.Forms;
 using MPFinanceCore.Data.Viewed;
 using MPFinanceCore.Enums;
 using MPFinanceCore.Message.Requests;
 using MPFinanceCore.Message.Responses;
 using MPFinanceCore.Resources;
+using MPersist.Core;
+using MPersist.Message.Response;
+using MPersist.MoneyType;
+using MPFinance.Forms;
 
 namespace MPFinance.Panels
 {
@@ -26,7 +26,10 @@ namespace MPFinance.Panels
 
         private ImportNewTransactionsDialog Owner
         {
-            get { return (ImportNewTransactionsDialog)Parent.Parent; }
+            get 
+            { 
+            	return (ImportNewTransactionsDialog)Parent.Parent; 
+            }
         }
 
         #endregion
@@ -68,7 +71,7 @@ namespace MPFinance.Panels
             GetAccountRQ request = new GetAccountRQ();
             request.AccountNo = Owner.OfxDocument.AccountID;
             request.Operator = MPFinanceMain.Instance.Operator.OperatorId;
-            IOController.SendRequest(request, GetAccountSuccess);
+            MessageProcessor.SendRequest(request, GetAccountSuccess);
         }
 
         #endregion
@@ -186,7 +189,7 @@ namespace MPFinance.Panels
             {
                 if (mExistingAccounts_.CheckedItems.Count == 0)
                 {
-                    IOController.Instance.Error(ErrorStrings.errChooseExistingAccount);
+                	MPFinanceMain.Instance.Error(ErrorStrings.errChooseExistingAccount);
                     return null;
                 }
                 else

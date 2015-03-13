@@ -36,10 +36,23 @@ namespace MPFinanceCore.Data.Viewed
         #endregion
 
         #region Public Methods
+        
+        public VwCategories getAllCategories()
+        {
+        	VwCategories categories = new VwCategories();
+        	categories.Add(new VwCategory());
+        	categories.AddRange(this);
+        	return categories;
+        }
 
-        public VwCategories GetByType(CategoryType type)
+        public VwCategories GetByType(CategoryType type, bool includeBlank)
         {
             VwCategories result = new VwCategories();
+            
+            if(includeBlank)
+            {
+            	result.Add(new VwCategory());
+            }
 
             foreach (VwCategory category in this)
             {

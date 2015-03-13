@@ -15,6 +15,17 @@ namespace MPFinanceCore.Data.Viewed
 
 
         #endregion
+        
+        #region Properties
+        
+        public PrimaryKey Operator { get; set; }
+        public PrimaryKey BankAccount { get; set; }
+        public DateTime? FromDate { get; set; }
+        public DateTime? ToDate { get; set; }
+        public PrimaryKey Category { get; set; }
+        public String Description { get; set; }
+        
+        #endregion
 
         #region Viewed Properties
 
@@ -61,7 +72,7 @@ namespace MPFinanceCore.Data.Viewed
 
         #region Public Methods
 
-        public void Fetch(Session session, PrimaryKey op, PrimaryKey account, DateTime? from, DateTime? to, PrimaryKey category, String description)
+        public void Fetch(Session session)
         {
             String sql1 = "SELECT SUM(B.OpeningBalance) OpeningBalance, MAX(B.Nickname) Nickname " +
                           "FROM   Account A, BankAccount B " +
@@ -69,8 +80,8 @@ namespace MPFinanceCore.Data.Viewed
 
             Persistence p = Persistence.GetInstance(session);
             p.SetSql(sql1);
-            p.SqlWhere(true, "A.Operator = ?", new Object[] { op });
-            p.SqlWhere(account != null && account.IsSet, "A.Id = ?", new Object[] { account });
+            p.SqlWhere(true, "A.Operator = ?", new Object[] { Operator });
+            p.SqlWhere(BankAccount != null, "A.Id = ?", new Object[] { BankAccount });
             p.ExecuteQuery();           
 
             if (p.Next())
@@ -88,8 +99,8 @@ namespace MPFinanceCore.Data.Viewed
 
             p = Persistence.GetInstance(session);
             p.SetSql(sql2);
-            p.SqlWhere(true, "A.Operator = ?", new Object[] { op });
-            p.SqlWhere(account != null && account.IsSet, "A.Id = ?", new Object[] { account });
+            p.SqlWhere(true, "A.Operator = ?", new Object[] { Operator });
+            p.SqlWhere(BankAccount != null, "A.Id = ?", new Object[] { BankAccount });
             p.ExecuteQuery();
 
             if (p.Next())
@@ -108,12 +119,12 @@ namespace MPFinanceCore.Data.Viewed
 
             p = Persistence.GetInstance(session);
             p.SetSql(sql3);
-            p.SqlWhere(true, "OperatorId = ?", new Object[] { op });
-            p.SqlWhere(account != null && account.IsSet, "AccountId = ?", new Object[] { account });
-            p.SqlWhere(from.HasValue, "DatePosted >= ?", new Object[] { from });
-            p.SqlWhere(to.HasValue, "DatePosted <= ?", new Object[] { to });
-            p.SqlWhere(category != null && category.IsSet, "Category = ?", new Object[] { category });
-            p.SqlWhere(!String.IsNullOrEmpty(description), "Description LIKE ?", new Object[] { "%" + description + "%" });
+            p.SqlWhere(true, "OperatorId = ?", new Object[] { Operator });
+            p.SqlWhere(BankAccount != null, "AccountId = ?", new Object[] { BankAccount });
+            p.SqlWhere(FromDate.HasValue, "DatePosted >= ?", new Object[] { FromDate });
+            p.SqlWhere(ToDate.HasValue, "DatePosted <= ?", new Object[] { ToDate });
+            p.SqlWhere(Category != null, "Category = ?", new Object[] { Category });
+            p.SqlWhere(!String.IsNullOrEmpty(Description), "Description LIKE ?", new Object[] { "%" + Description + "%" });
             p.ExecuteQuery();
 
             if (p.Next())
@@ -135,9 +146,9 @@ namespace MPFinanceCore.Data.Viewed
                           "AND    C.DatePosted <= ? ";
 
             p = Persistence.GetInstance(session);
-            p.SetSql(sql4, new Object[]{ from.Value, to.Value, to.Value });
-            p.SqlWhere(true, "A.Operator = ?", new Object[] { op });
-            p.SqlWhere(account != null && account.IsSet, "A.Id = ?", new Object[] { account });
+            p.SetSql(sql4, new Object[]{ FromDate.Value, ToDate.Value, ToDate.Value });
+            p.SqlWhere(true, "A.Operator = ?", new Object[] { Operator });
+            p.SqlWhere(BankAccount != null, "A.Id = ?", new Object[] { BankAccount });
             p.ExecuteQuery();
 
             if (p.Next())

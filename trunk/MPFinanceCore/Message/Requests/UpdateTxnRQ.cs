@@ -13,13 +13,8 @@ namespace MPFinanceCore.Message.Requests
         #region Parameters
 
         public VwTxn Txn { get; set; }
-        public PrimaryKey Operator { get; set; }
-        public PrimaryKey BankAccount { get; set; }
-        public PrimaryKey Category { get; set; }
-        public DateTime FromDate { get; set; }
-        public DateTime ToDate { get; set; }
-        public String Description { get; set; }
-
+        public VwSummary Summary { get; set; } 
+        
         #endregion
 
         public UpdateTxnRQ()

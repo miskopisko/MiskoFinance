@@ -7,16 +7,27 @@ namespace MPFinance.Panels
     public partial class SummaryPanel : UserControl
     {
         private static Logger Log = Logger.GetInstance(typeof(SummaryPanel));
-
+        
         #region Fields
 
-
+        private VwSummary mDataSource_ = new VwSummary();
 
         #endregion
 
         #region Parameters
 
-
+		public VwSummary Summary
+		{
+			get
+			{
+				return mDataSource_;
+			}
+			set
+			{
+				mDataSource_ = value ?? new VwSummary();
+				Update();
+			}
+		}
 
         #endregion
 
@@ -43,23 +54,23 @@ namespace MPFinance.Panels
 
         #region Public Methods
 
-        public void Update(VwSummary summary)
+        private new void Update()
         {
-            mTotalCredits_.Value = summary.SelectionTotalCredits;
-            mTotalDebits_.Value = summary.SelectionTotalDebits;
-            mCreditsDebitsDiff_.Value = summary.SelectionCreditsDebitsDifference;
+            mTotalCredits_.Value = mDataSource_.SelectionTotalCredits;
+            mTotalDebits_.Value = mDataSource_.SelectionTotalDebits;
+            mCreditsDebitsDiff_.Value = mDataSource_.SelectionCreditsDebitsDifference;
 
-            mTotalTransferIn_.Value = summary.SelectionTotalTransfersIn;
-            mTotalTransferOut_.Value = summary.SelectionTotalTransfersOut;
-            mTransfersDiff_.Value = summary.SelectionTransfersDifference;
+            mTotalTransferIn_.Value = mDataSource_.SelectionTotalTransfersIn;
+            mTotalTransferOut_.Value = mDataSource_.SelectionTotalTransfersOut;
+            mTransfersDiff_.Value = mDataSource_.SelectionTransfersDifference;
 
-            mSelectionOpeningBalance_.Value = summary.SelectionOpeningBalance;
-            mSelectionClosingBalance_.Value = summary.SelectionCurrentBalance;
-            mSelectionBalanceDifference_.Value = summary.SelectionBalanceDifference;
+            mSelectionOpeningBalance_.Value = mDataSource_.SelectionOpeningBalance;
+            mSelectionClosingBalance_.Value = mDataSource_.SelectionCurrentBalance;
+            mSelectionBalanceDifference_.Value = mDataSource_.SelectionBalanceDifference;
 
-            mOpeningBalance_.Value = summary.AllTimeOpeningBalance;
-            mCurrentBalance_.Value = summary.AllTimeCurrentBalance;
-            mBalanceDiff_.Value = summary.AllTimeBalanceDifference;
+            mOpeningBalance_.Value = mDataSource_.AllTimeOpeningBalance;
+            mCurrentBalance_.Value = mDataSource_.AllTimeCurrentBalance;
+            mBalanceDiff_.Value = mDataSource_.AllTimeBalanceDifference;
         }
 
         #endregion
