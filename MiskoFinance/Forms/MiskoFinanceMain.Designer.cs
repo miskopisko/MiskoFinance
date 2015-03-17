@@ -291,7 +291,7 @@
         	this.MinimumSize = new System.Drawing.Size(1200, 800);
         	this.Name = "MiskoFinanceMain";
         	this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-        	this.Text = "MP Finance";
+        	this.Text = "Misko-Finance";
         	this.mStatusStrip_.ResumeLayout(false);
         	this.mStatusStrip_.PerformLayout();
         	this.mMenuStrip_.ResumeLayout(false);

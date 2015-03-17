@@ -5,9 +5,9 @@ using MiskoPersist.Enums;
 
 namespace MiskoPersist.Core
 {
-    public class MPException : Exception
+    public class MiskoException : Exception
     {
-        private static Logger Log = Logger.GetInstance(typeof(MPException));
+        private static Logger Log = Logger.GetInstance(typeof(MiskoException));
 
         #region Fields
 
@@ -28,7 +28,7 @@ namespace MiskoPersist.Core
 
         #region Constructors
 
-        public MPException(ErrorMessage message) : base(message != null ? message.ToString() : "")
+        public MiskoException(ErrorMessage message) : base(message != null ? message.ToString() : "")
         {
             StackFrame stackframe = new StackFrame(1);
             mClass_ = stackframe.GetMethod().DeclaringType;
@@ -36,7 +36,7 @@ namespace MiskoPersist.Core
             mErrorMessage_ = message;
         }
 
-        public MPException(String message) : base(message)
+        public MiskoException(String message) : base(message)
         {
             StackFrame stackframe = new StackFrame(1);
             mClass_ = stackframe.GetMethod().DeclaringType;
@@ -44,7 +44,7 @@ namespace MiskoPersist.Core
             mErrorMessage_ = new ErrorMessage(mClass_, mMethod_, ErrorLevel.Error, message, null);
         }
 
-        public MPException(String message, String[] parameters) : base(message)
+        public MiskoException(String message, String[] parameters) : base(message)
         {
             StackFrame stackframe = new StackFrame(1);
             mClass_ = stackframe.GetMethod().DeclaringType;
@@ -52,7 +52,7 @@ namespace MiskoPersist.Core
             mErrorMessage_ = new ErrorMessage(mClass_, mMethod_, ErrorLevel.Error, message, parameters);
         }
 
-        public MPException(String message, Exception inner) : base(message, inner)
+        public MiskoException(String message, Exception inner) : base(message, inner)
         {
             StackFrame stackframe = new StackFrame(1);
             mClass_ = stackframe.GetMethod().DeclaringType;
@@ -60,7 +60,7 @@ namespace MiskoPersist.Core
             mErrorMessage_ = new ErrorMessage(mClass_, mMethod_, ErrorLevel.Error, message, null);
         }
 
-        public MPException(String message, String[] parameters, Exception inner) : base(message, inner)
+        public MiskoException(String message, String[] parameters, Exception inner) : base(message, inner)
         {
             StackFrame stackframe = new StackFrame(1);
             mClass_ = stackframe.GetMethod().DeclaringType;

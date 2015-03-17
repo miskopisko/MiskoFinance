@@ -44,7 +44,7 @@ namespace MiskoPersist.Core
         {
             if (IOController == null)
             {
-                throw new MPException(ErrorStrings.errIOControllerIsNull);
+                throw new MiskoException(ErrorStrings.errIOControllerIsNull);
             }
 
             mSuccessHandler_ = successHandler;
@@ -177,9 +177,9 @@ namespace MiskoPersist.Core
                         ActualException = ActualException.InnerException;
                     }
 
-                    if (ActualException is MPException)
+                    if (ActualException is MiskoException)
                     {
-                        MPException ex = (MPException)ActualException;
+                        MiskoException ex = (MiskoException)ActualException;
 
                         // Ignore the generic exception thrown from session.Error
                         if (!(ex.Class.Name.Equals("Session") && ex.Method.Name.Equals("Error")))

@@ -125,7 +125,7 @@ namespace MiskoPersist.Core
                 {
                     Log.Error(errorMessage.Message);
                 }
-                throw new MPException("Houston we have a problem!");
+                throw new MiskoException("Houston we have a problem!");
             }
         }
 

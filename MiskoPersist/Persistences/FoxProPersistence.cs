@@ -116,22 +116,22 @@ namespace MiskoPersist.Persistences
 
         protected override void GenerateUpdateStatement(AbstractStoredData clazz, Type type)
         {
-            throw new MPException("FoxPro UPDATEs are implemented on a class by class basis by overriding the Store(session) method");
+            throw new MiskoException("FoxPro UPDATEs are implemented on a class by class basis by overriding the Store(session) method");
         }
 
         protected override void GenerateDeleteStatement(AbstractStoredData clazz, Type type)
         {
-            throw new MPException("FoxPro DELETEs are implemented on a class by class basis by overriding the Remove(session) method");
+            throw new MiskoException("FoxPro DELETEs are implemented on a class by class basis by overriding the Remove(session) method");
         }
 
         protected override void GenerateInsertStatement(AbstractStoredData clazz, Type type)
         {
-            throw new MPException("FoxPro INSERTSs are implemented on a class by class basis by overriding the Create(session) method");
+            throw new MiskoException("FoxPro INSERTSs are implemented on a class by class basis by overriding the Create(session) method");
         }
 
         protected override string GenerateCreateTableStatement(Type type)
         {
-            throw new MPException("Automated CREATE TABLE statements for FoxPro are not supported at this time");
+            throw new MiskoException("Automated CREATE TABLE statements for FoxPro are not supported at this time");
         }
 
         #endregion

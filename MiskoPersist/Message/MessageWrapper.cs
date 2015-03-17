@@ -24,11 +24,11 @@ namespace MiskoPersist.Message
 
         #region Constructors
 
-        public MessageWrapper()
+        protected MessageWrapper()
         {
         }
 
-        public MessageWrapper(RequestMessage request, ResponseMessage response)
+        protected MessageWrapper(RequestMessage request, ResponseMessage response)
         {
             mRequest_ = request;
             mResponse_ = response;

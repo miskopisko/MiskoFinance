@@ -87,7 +87,7 @@ namespace MiskoPersist.Tools
             {
                 if (!Success)
                 {
-                    throw new MPException(StandardError);
+                    throw new MiskoException(StandardError);
                 }
             }
         }

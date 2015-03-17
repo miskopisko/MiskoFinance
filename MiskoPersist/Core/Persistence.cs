@@ -118,7 +118,7 @@ namespace MiskoPersist.Core
             }
             catch (Exception e)
             {
-            	throw new MPException("Error closing persistence", e);
+            	throw new MiskoException("Error closing persistence", e);
             }
             finally
             {

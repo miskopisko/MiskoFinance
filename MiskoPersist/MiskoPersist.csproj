@@ -133,7 +133,7 @@
     <Compile Include="Money\MoneyDistributor.cs" />
     <Compile Include="Money\MoneyExtensions.cs" />
     <Compile Include="Money\RoundingPlaces.cs" />
-    <Compile Include="Core\MPException.cs" />
+    <Compile Include="Core\MiskoException.cs" />
     <Compile Include="Core\Persistence.cs" />
     <Compile Include="Persistences\MySqlPersistence.cs" />
     <Compile Include="Persistences\OraclePersistence.cs" />

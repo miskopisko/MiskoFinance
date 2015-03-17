@@ -40,7 +40,7 @@ namespace MiskoPersist.Core
         {
             if (AlreadyExists(name))
             {
-                throw new MPException("A connection with the name {0} already exists", new String[] { name });
+                throw new MiskoException("A connection with the name {0} already exists", new String[] { name });
             }
 
             ConnectionSettings item = new ConnectionSettings();
@@ -65,7 +65,7 @@ namespace MiskoPersist.Core
         {
             if (AlreadyExists(name))
             {
-                throw new MPException("A connection with the name {0} already exists", new String[] { name });
+                throw new MiskoException("A connection with the name {0} already exists", new String[] { name });
             }
 
             ConnectionSettings item = new ConnectionSettings();
@@ -90,7 +90,7 @@ namespace MiskoPersist.Core
         {
             if (AlreadyExists(name))
             {
-                throw new MPException("A connection with the name {0} already exists", new String[] { name });
+                throw new MiskoException("A connection with the name {0} already exists", new String[] { name });
             }
 
             ConnectionSettings item = new ConnectionSettings();
@@ -115,7 +115,7 @@ namespace MiskoPersist.Core
         {
             if (AlreadyExists(name))
             {
-                throw new MPException("A connection with the name {0} already exists", new String[] { name });
+                throw new MiskoException("A connection with the name {0} already exists", new String[] { name });
             }
 
             ConnectionSettings item = new ConnectionSettings();
@@ -140,7 +140,7 @@ namespace MiskoPersist.Core
         {
             if (AlreadyExists(name))
             {
-                throw new MPException("A connection with the name {0} already exists", new String[] { name });
+                throw new MiskoException("A connection with the name {0} already exists", new String[] { name });
             }
 
             ConnectionSettings item = new ConnectionSettings();

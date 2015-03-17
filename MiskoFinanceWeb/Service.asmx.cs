@@ -1,19 +1,18 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Drawing.Design;
 using System.IO;
 using System.Reflection;
-using System.Web.Script.Services;
 using System.Web.Services;
 using System.Xml;
-using MPersist.Core;
-using MPersist.Data;
-using MPersist.Message.Request;
+using MiskoPersist.Core;
+using MiskoPersist.Data;
+using MiskoPersist.Message.Request;
 
-namespace MPFinanceWeb
+namespace MiskoFinanceWeb
 {
-    [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
-    [ToolboxItem(false)]
-    [ScriptService]
+    [WebServiceBindingAttribute(ConformsTo = WsiProfiles.BasicProfile1_1)]
+    [ToolboxItemAttribute(false)]
     public class Service : System.Web.Services.WebService
     {
         [WebMethod]
@@ -29,20 +28,15 @@ namespace MPFinanceWeb
                 document.Load(XmlReader.Create(new StringReader(xmlRequest.Trim())));
 
                 String className = document.DocumentElement.Name;
-                Type type = Assembly.Load("MPFinanceCore").GetType("MPFinanceCore.Message.Requests." + className);
+                Type type = Assembly.Load("MiskoFinanceCore").GetType("MiskoFinanceCore.Message.Requests." + className);
 
                 if (type != null)
                 {
                     RequestMessage request = (RequestMessage)AbstractData.Deserialize(xmlRequest, type);
 
-                    Message message = new Message
-                    {
-                        ServerConnection = Global.ServerConnections.GetServerConnection(request.Connection),
-                        Request = request
-                    };
-
-                    message.Process();
-                    xmlResponse = AbstractData.Serialize(message.Response);
+                    //MessageProcessor.
+    
+                    //xmlResponse = AbstractData.Serialize(message.Response);
                 }
             }
 

@@ -51,7 +51,7 @@ namespace MiskoPersist.Core
             }
             else
             {
-                throw new MPException(ErrorStrings.errInvalidConnectionString, new String[] { name });
+                throw new MiskoException(ErrorStrings.errInvalidConnectionString, new String[] { name });
             }
         }
 
