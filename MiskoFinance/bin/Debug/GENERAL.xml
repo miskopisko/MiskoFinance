@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<logfile>
+	<log timestamp='2015-03-16T20:00:01' level='ERROR' class='MiskoPersist.Core.MessageProcessor' machine='SARAHSLAPTOP'>
+		<message>Unexpected Error: (SQL logic error or missing database<br />no such table: VwOperator)</message>
+		<stacktrace>
+			<at>at System.Data.SQLite.SQLite3.Prepare(SQLiteConnection cnn, String strSql, SQLiteStatement previous, UInt32 timeoutMS, String&amp; strRemain)</at>
+			<at>at System.Data.SQLite.SQLiteCommand.BuildNextCommand()</at>
+			<at>at System.Data.SQLite.SQLiteCommand.GetStatement(Int32 index)</at>
+			<at>at System.Data.SQLite.SQLiteDataReader.NextResult()</at>
+			<at>at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)</at>
+			<at>at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)</at>
+			<at>at System.Data.SQLite.SQLiteCommand.ExecuteDbDataReader(CommandBehavior behavior)</at>
+			<at>at System.Data.Common.DbCommand.System.Data.IDbCommand.ExecuteReader(CommandBehavior behavior)</at>
+			<at>at System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)</at>
+			<at>at System.Data.Common.DbDataAdapter.Fill(DataTable[] dataTables, Int32 startRecord, Int32 maxRecords, IDbCommand command, CommandBehavior behavior)</at>
+			<at>at System.Data.Common.DbDataAdapter.Fill(DataTable dataTable)</at>
+			<at class='c:\Users\micha_000\Dev\MiskoPersist\Core\Persistence.cs' line='223' method='ExecuteQuery(String sql, Object[] parameters)' />
+			<at class='c:\Users\micha_000\Dev\MiskoFinanceCore\Data\Viewed\VwOperator.cs' line='91' method='GetInstanceByUsername(Session session, String username)' />
+			<at class='c:\Users\micha_000\Dev\MiskoFinanceCore\Message\Login.cs' line='35' method='Execute(Session session)' />
+		</stacktrace>
+	</log>
+</logfile>
+

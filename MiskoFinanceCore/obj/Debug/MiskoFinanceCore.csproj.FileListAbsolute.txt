@@ -1,0 +1,10 @@
+C:\Users\micha_000\Dev\MiskoFinanceCore\bin\Debug\MiskoFinanceCore.dll
+C:\Users\micha_000\Dev\MiskoFinanceCore\bin\Debug\MiskoFinanceCore.pdb
+C:\Users\micha_000\Dev\MiskoFinanceCore\obj\Debug\MiskoFinanceCore.csprojResolveAssemblyReference.cache
+C:\Users\micha_000\Dev\MiskoFinanceCore\obj\Debug\MiskoFinanceCore.Resources.ConfirmStrings.resources
+C:\Users\micha_000\Dev\MiskoFinanceCore\obj\Debug\MiskoFinanceCore.Resources.ErrorStrings.resources
+C:\Users\micha_000\Dev\MiskoFinanceCore\obj\Debug\MiskoFinanceCore.Resources.Strings.resources
+C:\Users\micha_000\Dev\MiskoFinanceCore\obj\Debug\MiskoFinanceCore.Resources.WarningStrings.resources
+C:\Users\micha_000\Dev\MiskoFinanceCore\obj\Debug\MiskoFinanceCore.csproj.GenerateResource.Cache
+C:\Users\micha_000\Dev\MiskoFinanceCore\obj\Debug\MiskoFinanceCore.dll
+C:\Users\micha_000\Dev\MiskoFinanceCore\obj\Debug\MiskoFinanceCore.pdb
