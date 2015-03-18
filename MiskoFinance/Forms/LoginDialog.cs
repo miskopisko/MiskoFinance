@@ -18,8 +18,6 @@ namespace MiskoFinance.Forms
         public LoginDialog()
         {
             InitializeComponent();
-
-            mDatasource_.DataSource = new ConnectionType[] { ConnectionType.NULL, ConnectionType.SQLite, ConnectionType.MySql, ConnectionType.Oracle };
         }
 
         #region Override Methods
@@ -31,8 +29,6 @@ namespace MiskoFinance.Forms
                 mUsername_.Text = Settings.Default.DefaultUsername.Trim();
                 mPassword_.Text = "";
                 mPassword_.Select();
-
-                mDatasource_.SelectedItem = ConnectionType.GetElement(Settings.Default.DefaultDatasource);
             }
 
             #if (DEBUG)

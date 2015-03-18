@@ -11,6 +11,7 @@ namespace MiskoFinance
         public static void Main()
         {
             ConnectionSettings.AddSqliteConnection(@"..\..\..\MiskoFinance_DB.sqlite3");
+            //ConnectionSettings.AddMySqlConnection("piskuric.ca", "mpfinance", "mpfinance", "mpfinance");                                              
         	
         	Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(true);

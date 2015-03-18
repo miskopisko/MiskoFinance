@@ -220,6 +220,30 @@ namespace MiskoPersist.Tools
 			}
 			return newDate;
 		}
+        
+        public static int WorkDaysBetween(DateTime startDate, DateTime endDate, List<DateTime> holidays)
+		{
+			int result = 0;
+			
+			if(endDate < startDate)
+			{
+				return 0;
+			}
+        	
+        	holidays = holidays ?? new List<DateTime>();
+        	DateTime date = startDate;
+        	
+        	while (date <= endDate)
+			{
+				if (date.DayOfWeek != DayOfWeek.Saturday && date.DayOfWeek != DayOfWeek.Sunday && !holidays.Contains(date))
+				{
+					result += 1;
+				}
+				
+				date = date.AddDays(1);
+			}
+			return result;
+		}
 
         #endregion
 

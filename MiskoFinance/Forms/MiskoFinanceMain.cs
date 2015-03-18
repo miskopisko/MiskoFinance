@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
 using MiskoFinanceCore.Data.Viewed;
@@ -80,6 +81,12 @@ namespace MiskoFinance.Forms
         public MiskoFinanceMain()
         {
             InitializeComponent();
+            
+            Size size = Screen.FromControl(this).Bounds.Size;
+            if(size.Height <= 1024 || size.Width <= 1280)
+            {
+            	WindowState = FormWindowState.Maximized;
+            }
             
             mAccountsList_.DataSourceChanged += accountList_DataSourceChanged;
         }
@@ -217,7 +224,7 @@ namespace MiskoFinance.Forms
         { 
         	get 
         	{ 
-        		return 10; 
+        		return Settings.Default.RowsPerPage; 
         	} 
         }
         
