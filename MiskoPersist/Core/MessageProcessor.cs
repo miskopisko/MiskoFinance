@@ -73,8 +73,8 @@ namespace MiskoPersist.Core
         {
             ResponseMessage response;
             Boolean resendMessage = false;
-            Session session = new Session(mRequest_.Connection);
-            session.MessageMode = mRequest_.MessageMode;
+            Session session = new Session(mRequest_.Connection ?? "Default");
+			session.MessageMode = mRequest_.MessageMode ?? MessageMode.Normal;
             session.RowPerPage = IOController.RowsPerPage;
 
             try
@@ -160,11 +160,11 @@ namespace MiskoPersist.Core
                     response = (ResponseMessage)request.GetType().Assembly.CreateInstance(msgPath + "Responses." + msgName + "RS");
                     wrapper = (MessageWrapper)request.GetType().Assembly.CreateInstance(msgPath + msgName, false, BindingFlags.CreateInstance, null, new object[] { request, response }, null, null);
 
-                    response.Page = new Page(request.Page);
+                    response.Page = request.Page ?? new Page();
 
                     session.BeginTransaction();
 
-                    wrapper.GetType().InvokeMember(request.Command, BindingFlags.Default | BindingFlags.InvokeMethod, null, wrapper, new Object[] { session });
+                    wrapper.GetType().InvokeMember(request.Command ?? "Execute", BindingFlags.Default | BindingFlags.InvokeMethod, null, wrapper, new Object[] { session });
                 }
                 catch (Exception e)
                 {

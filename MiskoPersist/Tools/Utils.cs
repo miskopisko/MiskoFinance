@@ -268,39 +268,4 @@ namespace MiskoPersist.Tools
 
         #endregion
     }
-
-    // Internal class to override the NameSpaces to be excluded from the XML
-    internal class NoNamespaceXmlWriter : XmlTextWriter
-    {
-        public override XmlWriterSettings Settings
-        {
-            get
-            {
-                return new XmlWriterSettings();
-            }
-        }
-
-        public NoNamespaceXmlWriter(TextWriter output) : base(output)
-        {
-            Formatting = Formatting.Indented;
-            Settings.NewLineHandling = NewLineHandling.Entitize;
-            Settings.CloseOutput = true;
-            Settings.OmitXmlDeclaration = true;
-        }
-
-        public override void WriteStartDocument()
-        {
-        }
-
-        public override void WriteStartElement(string prefix, string localName, string ns)
-        {
-           
-            base.WriteStartElement("", localName, "");
-        }
-
-        public override void WriteString(string text)
-        {
-            base.WriteString(text);
-        }
-    }
 }

@@ -32,7 +32,7 @@ namespace MiskoFinanceWeb
 
                 if (type != null)
                 {
-                    RequestMessage request = (RequestMessage)AbstractData.Deserialize(xmlRequest, type);
+                    //RequestMessage request = (RequestMessage)AbstractData.Deserialize(xmlRequest, type);
 
                     //MessageProcessor.
     

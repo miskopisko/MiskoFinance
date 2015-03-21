@@ -10,7 +10,7 @@ namespace MiskoPersist.Core
 
         #region Fields
 
-        private static List<ConnectionSettings> mConnections_ = new List<ConnectionSettings>();
+        private static readonly List<ConnectionSettings> mConnections_ = new List<ConnectionSettings>();
 
         #endregion
 
@@ -51,7 +51,7 @@ namespace MiskoPersist.Core
             item.Datasource = datasource;
             item.Username = username;
             item.Password = password;
-            item.ConnectionString = "SERVER=" + server + ";DATABASE=" + datasource + ";UID=" + username + ";PASSWORD=" + password + ";Pooling=True;";
+            item.ConnectionString = "SERVER=" + server + ";DATABASE=" + datasource + ";UID=" + username + ";PASSWORD=" + password + ";Pooling=True;ConvertZeroDateTime=True;";
 
             mConnections_.Add(item);
         }

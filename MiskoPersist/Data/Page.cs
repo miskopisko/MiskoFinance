@@ -1,9 +1,11 @@
 using System;
+using Newtonsoft.Json;
 using MiskoPersist.Attributes;
 using MiskoPersist.Core;
 
 namespace MiskoPersist.Data
 {
+	[JsonObjectAttribute(MemberSerialization.OptOut)]
     public class Page : AbstractViewedData
     {
         private static Logger Log = Logger.GetInstance(typeof(Page));
@@ -31,7 +33,11 @@ namespace MiskoPersist.Data
         [Viewed]
         public Int32 RowsFetchedSoFar { get { return mRowsFetchedSoFar_; } set { mRowsFetchedSoFar_ = value; } }
         [Viewed]
+        [JsonIgnore]
         public Boolean HasNext { get { return PageNo < TotalPageCount; } }
+        [Viewed]
+        [JsonIgnore]
+        public Page Next { get { return new Page(mPageNo_+ 1); } }
 
         #endregion
 

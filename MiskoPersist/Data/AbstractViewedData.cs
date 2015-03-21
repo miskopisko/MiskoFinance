@@ -48,13 +48,6 @@ namespace MiskoPersist.Data
             return result;
         }
 
-        public override void WriteXml(XmlWriter writer)
-        {
-            base.WriteXml(writer);
-            
-            WriteXmlProperties(writer, GetViewedProperties());
-        }
-
         #endregion
 
         #region Private Methods

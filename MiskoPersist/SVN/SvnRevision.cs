@@ -18,14 +18,14 @@ namespace MiskoPersist.SVN
 
         #region Fields
 
-        private Int32 mRevision_;
+
 
         #endregion
 
         #region Properties
 
-        public Int32 Revision { get { return mRevision_; } set { return; } }
-        public Int32 Previous { get { return mRevision_ - 1; } }
+        public Int32 Revision { get; set; }
+        public Int32 Previous { get { return Revision - 1; } }
 
         #endregion
 
@@ -37,12 +37,12 @@ namespace MiskoPersist.SVN
 
         public SvnRevision(Int32 revision)
         {
-            mRevision_ = revision;
+            Revision = revision;
         }
 
         public SvnRevision(String revision)
         {
-            mRevision_ = Convert.ToInt32(revision);
+            Revision = Convert.ToInt32(revision);
         }
 
         #endregion
@@ -75,7 +75,7 @@ namespace MiskoPersist.SVN
             }
             else
             {
-                return mRevision_.ToString();
+                return Revision.ToString();
             }
         }
 

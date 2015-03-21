@@ -1,27 +1,33 @@
 ﻿using System;
+using Newtonsoft.Json;
 
 namespace MiskoPersist.Enums
 {
     [Serializable]
+    [JsonObjectAttribute(MemberSerialization.OptOut)]
     public abstract class AbstractEnum : IComparable
     {
         #region Properties
-
+		
         public Int64 Value { get; set; }
+        [JsonIgnore]
         public String Code { get; set; }
+        [JsonIgnore]
         public String Description { get; set; }
+        [JsonIgnore]
         public bool IsSet { get { return Value != -1; } }
+        [JsonIgnore]
         public bool IsNotSet { get { return !IsSet; } }
 
         #endregion
 
         #region Constructors
 
-        public AbstractEnum()
+        protected AbstractEnum()
         {
         }
 
-        public AbstractEnum(Int64 v, String code, String description)
+        protected AbstractEnum(Int64 v, String code, String description)
         {
             Value = v;
             Code = code;
@@ -37,7 +43,7 @@ namespace MiskoPersist.Enums
 
         public bool Equals(String codeOrDesc)
         {
-            return codeOrDesc != null ? Description.Equals(codeOrDesc) || Code.Equals(codeOrDesc) : false;
+			return codeOrDesc != null && Description.Equals(codeOrDesc) || Code.Equals(codeOrDesc);
         }
 
         public virtual int CompareTo(object e)
@@ -48,7 +54,7 @@ namespace MiskoPersist.Enums
                 {
                     return 1;
                 }
-                return Code.CompareTo(((AbstractEnum)e).Code);
+				return string.Compare(Code, ((AbstractEnum)e).Code, StringComparison.Ordinal);
             }
             return -1;
         }

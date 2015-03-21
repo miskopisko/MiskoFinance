@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Xml;
+using Newtonsoft.Json;
 using MiskoPersist.Core;
 using MiskoPersist.Data;
 using MiskoPersist.Enums;
 
 namespace MiskoPersist.Message.Response
 {
+	[JsonObjectAttribute(MemberSerialization.OptOut)]
     public class ResponseMessage : AbstractData
     {
         private static Logger Log = Logger.GetInstance(typeof(ResponseMessage));
@@ -25,11 +27,15 @@ namespace MiskoPersist.Message.Response
         public ErrorMessages Infos { get; set; }
         public ErrorMessages Warnings { get; set; }
         public ErrorMessages Confirmations { get; set; }
-        public Boolean HasErrors { get { return Errors != null && Errors.Count > 0; } }
-        public Boolean HasInfos { get { return Infos != null && Infos.Count > 0; } }
-        public Boolean HasWarnings { get { return Warnings != null && Warnings.Count > 0; } }
-        public Boolean HasConfirmations { get { return Confirmations != null && Confirmations.Count > 0; } }
         public Page Page { get; set; }
+        [JsonIgnore]
+        public Boolean HasErrors { get { return Errors != null && Errors.Count > 0; } }
+        [JsonIgnore]
+        public Boolean HasInfos { get { return Infos != null && Infos.Count > 0; } }
+        [JsonIgnore]
+        public Boolean HasWarnings { get { return Warnings != null && Warnings.Count > 0; } }
+        [JsonIgnore]
+        public Boolean HasConfirmations { get { return Confirmations != null && Confirmations.Count > 0; } }
 
         #endregion
 
@@ -37,50 +43,6 @@ namespace MiskoPersist.Message.Response
 
         protected ResponseMessage()
         {
-        }
-
-        #endregion
-
-        #region XML Serialization
-
-        public override void WriteXml(XmlWriter writer)
-        {
-            base.WriteXml(writer);
-         
-            writer.WriteElementString("Status", Status.Value.ToString());
-            writer.WriteElementString("HasErrors", HasErrors.ToString());
-            writer.WriteElementString("HasInfos", HasInfos.ToString());
-            writer.WriteElementString("HasWarnings", HasWarnings.ToString());
-            writer.WriteElementString("HasConfirmations", HasConfirmations.ToString());
-
-            if (HasErrors)
-            {
-                Errors.WriteXml(writer, "Errors");
-            }
-
-            if (HasInfos)
-            {
-                Infos.WriteXml(writer, "Infos");
-            }
-
-            if (HasWarnings)
-            {
-                Warnings.WriteXml(writer, "Warnings");
-            }
-
-            if (HasConfirmations)
-            {
-                Confirmations.WriteXml(writer, "Confirmations");
-            }
-
-            WriteXmlProperties(writer, GetProperties());
-
-            if (Page != null && Page.PageNo > 0)
-            {
-                writer.WriteStartElement("Page");
-                Page.WriteXml(writer);
-                writer.WriteFullEndElement();
-            }
         }
 
         #endregion

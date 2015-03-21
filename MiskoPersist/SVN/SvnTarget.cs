@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Xml.Serialization;
+using Newtonsoft.Json;
 using MiskoPersist.Core;
 using MiskoPersist.Enums;
 using MiskoPersist.Tools;
@@ -14,7 +15,6 @@ namespace MiskoPersist.SVN
 		
 		#region Fields
 
-        private SvnInfoEntry mEntry_;
         private Boolean mSet_ = false;
 
         #endregion
@@ -22,16 +22,16 @@ namespace MiskoPersist.SVN
 		#region Properties
 
         [XmlElement("entry")]
-        public SvnInfoEntry Entry
-        {
-            get { return mEntry_; }
-            set { mEntry_ = value; }
+        public SvnInfoEntry Entry {
+        	get;
+        	set;
         }
 
         [XmlIgnore]
         public Boolean IsSet
         {
             get { return mSet_; }
+            set { mSet_ = value; }
         }
 
 		#endregion       
@@ -79,7 +79,7 @@ namespace MiskoPersist.SVN
                 target = Utils.Deserialize<SvnTarget>(result.StandardOutput);
                 if (target != null)
                 {
-                    mEntry_ = target.Entry;
+                    Entry = target.Entry;
                     mSet_ = true;
                 }
             }            
@@ -330,6 +330,7 @@ namespace MiskoPersist.SVN
         #endregion
     }
 
+    [JsonObjectAttribute(MemberSerialization.OptOut)]
     public struct SvnInfoConflict
     {
         #region Fields
@@ -343,6 +344,7 @@ namespace MiskoPersist.SVN
         #region Properties
 
         [XmlElement("prev-base-file")]
+        [JsonIgnore]
         public String PreviousBase_Agg
         {
             get { return mPreviousBase_ != null ? mPreviousBase_.ToString() : ""; }
@@ -350,6 +352,7 @@ namespace MiskoPersist.SVN
         }
 
         [XmlElement("prev-wc-file")]
+        [JsonIgnore]
         public String PreviousWorkingCopy_Agg
         {
             get { return mPreviousWorkingCopy_ != null ? mPreviousWorkingCopy_.ToString() : ""; }
@@ -357,6 +360,7 @@ namespace MiskoPersist.SVN
         }
 
         [XmlElement("cur-base-file")]
+        [JsonIgnore]
         public String CurrentBase_Agg
         {
             get { return mCurrentBase_ != null ? mCurrentBase_.ToString() : ""; }

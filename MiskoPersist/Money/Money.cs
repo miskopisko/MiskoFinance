@@ -31,6 +31,29 @@ namespace MiskoPersist.MoneyType
         #endregion
 
         #region Properties
+        
+        public Decimal Value
+        {
+        	get
+        	{
+        		return computeValue();
+        	}
+        	set
+        	{
+        		checkValue(value);
+
+            	mUnits_ = (Int64)value;
+            	mDecimalFraction_ = (Int32)Decimal.Round((value - mUnits_) * FractionScale);
+
+            	if (mDecimalFraction_ >= FractionScale)
+            	{
+                	mUnits_ += 1;
+                	mDecimalFraction_ = mDecimalFraction_ - (Int32)FractionScale;
+            	}
+
+            	mCurrency_ = Currency.FromCurrentCulture();;
+        	}
+        }
 
         public Currency Currency
         {
@@ -56,18 +79,7 @@ namespace MiskoPersist.MoneyType
 
         public Money(Decimal value)
         {
-            checkValue(value);
-
-            mUnits_ = (Int64)value;
-            mDecimalFraction_ = (Int32)Decimal.Round((value - mUnits_) * FractionScale);
-
-            if (mDecimalFraction_ >= FractionScale)
-            {
-                mUnits_ += 1;
-                mDecimalFraction_ = mDecimalFraction_ - (Int32)FractionScale;
-            }
-
-            mCurrency_ = Currency.FromCurrentCulture();
+        	Value = value;
         }
 
         public Money(Decimal value, Currency currency)
@@ -453,13 +465,6 @@ namespace MiskoPersist.MoneyType
         #endregion
 
         #region Override Methods
-
-        public override void WriteXml(XmlWriter writer)
-        {
-            base.WriteXml(writer);
-
-            writer.WriteString(computeValue().ToString());
-        }
 
         public override Int32 GetHashCode()
         {

@@ -182,7 +182,7 @@ namespace MiskoFinance.Controls
             request.ToDate = MiskoFinanceMain.Instance.TransactionsPanel.ToDate;
             request.Category = MiskoFinanceMain.Instance.TransactionsPanel.Category.CategoryId;
             request.Description = MiskoFinanceMain.Instance.TransactionsPanel.Description;
-            request.Page = mPage_.PageNo + 1;
+            request.Page = mPage_.Next;
             MessageProcessor.SendRequest(request, GetTxnsSuccess);
         }
 

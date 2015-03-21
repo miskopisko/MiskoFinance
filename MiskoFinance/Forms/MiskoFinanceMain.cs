@@ -248,18 +248,18 @@ namespace MiskoFinance.Forms
         {
             if (obj is AbstractData)
             {
-                String xml = AbstractData.Serialize((AbstractData)obj);
+                String serialized = AbstractData.SerializeJson((AbstractData)obj);
 
-                Trace.WriteLine(xml);
+                Trace.WriteLine(serialized);
 
-                AbstractData deSerialized = AbstractData.Deserialize(xml, obj.GetType());
+                AbstractData deSerializedObj = AbstractData.DeserializeJson(serialized);
 
-                String xml2 = AbstractData.Serialize(deSerialized);
+                String deSerialized = AbstractData.SerializeJson(deSerializedObj);
 
-                if (!xml.Equals(xml2))
+                if (!serialized.Equals(deSerialized))
                 {
-                    System.IO.File.WriteAllText(@"D:\TEMP\OriginalXML.txt", xml);
-                    System.IO.File.WriteAllText(@"D:\TEMP\DeserializedXML.txt", xml2);
+                    System.IO.File.WriteAllText(@"D:\TEMP\OriginalXML.txt", serialized);
+                    System.IO.File.WriteAllText(@"D:\TEMP\DeserializedXML.txt", deSerialized);
 
                     Process pr = new Process();
                     pr.StartInfo.FileName = @"C:\Program Files (x86)\Beyond Compare 3\BCompare.exe";

@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Xml;
+using Newtonsoft.Json;
 using MiskoPersist.Data;
 using MiskoPersist.Enums;
 using MiskoPersist.Tools;
 
 namespace MiskoPersist.Core
 {
+	[JsonObjectAttribute(MemberSerialization.OptOut)]
     public class ErrorMessage : AbstractViewedData
     {
         private static Logger Log = Logger.GetInstance(typeof(ErrorMessage));
@@ -30,6 +32,7 @@ namespace MiskoPersist.Core
         public List<String> Parameters { get { return mParameters_; } set { mParameters_ = value; } }
         public ErrorLevel Level { get { return mErrorLevel_; } set { mErrorLevel_ = value; } }
         public String Message { get { return ToString(); } set { mErrorMessage_ = value; } }
+        [JsonIgnore]
         public Boolean? Confirmed { get  { return mErrorLevel_.Equals(ErrorLevel.Confirmation) ? mConfirmed_ : null; } set { mConfirmed_ = value; } }
 
         #endregion
@@ -61,51 +64,6 @@ namespace MiskoPersist.Core
 
         #region Override Methods
 
-        protected internal override bool ReadXmlElement(string name, XmlReader reader)
-        {
-            if (!base.ReadXmlElement(name, reader))
-            {
-                if (name.Equals("Parameters"))
-                {
-                    if (mParameters_ == null)
-                    {
-                        mParameters_ = new List<String>();
-                    }
-                    mParameters_.Add(ReadXmlString(reader));
-                }
-
-                return false;
-            }
-            return true;
-        }
-
-        public override void WriteXml(XmlWriter writer)
-        {
-            base.WriteXml(writer);
-
-            writer.WriteElementString("Class", Class);
-            writer.WriteElementString("Method", Method);
-
-            if(mParameters_ != null && mParameters_.Count > 0)
-            {
-                writer.WriteStartElement("Parameters");
-
-                foreach (Object item in mParameters_)
-                {
-                    writer.WriteElementString("Parameter", item.ToString());
-                }
-
-                writer.WriteEndElement();
-            }
-
-            writer.WriteElementString("Level", Level.Value.ToString());
-            writer.WriteElementString("Message", mErrorMessage_);
-            if (Confirmed.HasValue)
-            {
-                writer.WriteElementString("Confirmed", Confirmed.ToString());
-            }
-        }
-
         public override string ToString()
         {
             return Utils.ResolveTextParameters(mErrorMessage_, mParameters_ != null ? mParameters_.ToArray() : null);
@@ -115,7 +73,7 @@ namespace MiskoPersist.Core
         {
             if(obj is ErrorMessage)
             {
-                return ToString().CompareTo(((ErrorMessage)obj).ToString()) == 0;
+                return string.Compare(ToString(), ((ErrorMessage)obj).ToString(), StringComparison.CurrentCulture) == 0;
             }
             return false;
         }

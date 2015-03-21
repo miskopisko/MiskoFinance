@@ -94,16 +94,6 @@ namespace MiskoPersist.Data
             }
         }
 
-        public void WriteXml(XmlWriter writer, String name)
-        {
-            foreach (AbstractViewedData item in this)
-            {
-                writer.WriteStartElement(name);
-                typeof(AbstractViewedData).InvokeMember("WriteXml", BindingFlags.InvokeMethod, null, item, new Object[] { writer });
-                writer.WriteFullEndElement();
-            }
-        }
-
         #endregion
 
         #region Private Methods

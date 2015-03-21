@@ -1,22 +1,25 @@
 using System;
+using Newtonsoft.Json;
 using MiskoPersist.Core;
 
 namespace MiskoPersist.Data
 {
+	[JsonObjectAttribute(MemberSerialization.OptOut)]
     public class PrimaryKey : AbstractData, IComparable<PrimaryKey>, IComparable<Int64>, IEquatable<PrimaryKey>, IEquatable<Int64>
     {
         private static Logger Log = Logger.GetInstance(typeof(PrimaryKey));
 
         #region Fields
 
-        private Int64 mValue_;
 
         #endregion
 
         #region Properties
 
-        public Int64 Value { get { return mValue_; } set { mValue_ = value; } }
-        public Boolean IsSet { get { return mValue_ != 0; } }
+		public Int64 Value { get; set; }
+        [JsonIgnore]
+        public Boolean IsSet { get { return Value != 0; } }
+        [JsonIgnore]
         public Boolean IsNotSet { get { return !IsSet; } }
 
         #endregion
@@ -25,23 +28,23 @@ namespace MiskoPersist.Data
 
         public PrimaryKey()
         {
-            mValue_ = 0;
+            Value = 0;
         }
 
         public PrimaryKey(Int64 value)
         {
-            mValue_ = value;
+            Value = value;
         }
 
         public PrimaryKey(String s)
         {
             if (!String.IsNullOrEmpty(s))
             {
-                mValue_ = Convert.ToInt64(s);
+                Value = Convert.ToInt64(s);
             }
             else
             {
-                mValue_ = 0;
+                Value = 0;
             }
         }
 
@@ -186,12 +189,12 @@ namespace MiskoPersist.Data
 
         public override int GetHashCode()
         {
-            return mValue_.GetHashCode();
+            return Value.GetHashCode();
         }
 
         public override string ToString()
         {
-            return mValue_.ToString();
+            return Value.ToString();
         }
 
         #endregion
@@ -200,7 +203,7 @@ namespace MiskoPersist.Data
 
         public int CompareTo(PrimaryKey other)
         {
-            return mValue_.CompareTo(other.Value);
+            return Value.CompareTo(other.Value);
         }
 
         #endregion
@@ -209,7 +212,7 @@ namespace MiskoPersist.Data
 
         public int CompareTo(long other)
         {
-            return mValue_.CompareTo(other);
+            return Value.CompareTo(other);
         }
 
         #endregion
@@ -223,7 +226,7 @@ namespace MiskoPersist.Data
                 return false;
             }
 
-            return mValue_ == other.Value;
+            return Value == other.Value;
         }
 
         #endregion
@@ -237,7 +240,7 @@ namespace MiskoPersist.Data
                 return false;
             }
 
-            return mValue_ == other;
+            return Value == other;
         }
 
         #endregion

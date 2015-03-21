@@ -14,20 +14,38 @@ namespace MiskoPersist.Message.Request
 
         #region Fields
 
-        private MessageMode mMessageMode_ = MessageMode.Normal;
-        private String mCommand_ = "Execute";
-        private String mConnection_ = "Default";
-        private Int32 mPage_ = 0;
-
+        //private MessageMode mMessageMode_ = MessageMode.Normal;
+        //private String mCommand_ = "Execute";
+        //private String mConnection_ = "Default";
+        //private Page mPage_ = new Page(0);
 
         #endregion
 
         #region Properties
 
-        public MessageMode MessageMode { get { return mMessageMode_; } set { mMessageMode_ = value; } }
-        public String Command { get { return mCommand_; } set { mCommand_ = value; } }
-        public String Connection { get { return mConnection_; } set { mConnection_ = value; } }
-        public Int32 Page { get { return mPage_; } set { mPage_ = value; } }
+        public MessageMode MessageMode 
+        { 
+        	get;
+        	set; 
+        }
+        
+        public String Command 
+        { 
+        	get;
+        	set; 
+        }
+        
+        public String Connection 
+        { 
+        	get;
+        	set; 
+        }
+        
+        public Page Page 
+        { 
+        	get;
+        	set; 
+        }
 
         #endregion
 
@@ -39,41 +57,10 @@ namespace MiskoPersist.Message.Request
 
         #endregion
 
-        #region XML Serialization
-
-        public override void WriteXml(XmlWriter writer)
-        {
-            base.WriteXml(writer);
-
-            writer.WriteElementString("MessageMode", MessageMode.Value.ToString());
-            writer.WriteElementString("Command", Command);
-            writer.WriteElementString("Connection", Connection);
-            writer.WriteElementString("Page", Page.ToString());
-
-            WriteXmlProperties(writer, GetProperties());
-        }
-
-        #endregion
-
         #region Private Properties
 
-        private PropertyInfo[] GetProperties()
-        {
-            List<PropertyInfo> properties = new List<PropertyInfo>();
-
-            String[] filter = { "MessageMode", "Command", "Connection", "Page" };
-
-            foreach (PropertyInfo item in GetType().GetProperties())
-            {
-                if (Array.IndexOf(filter, item.Name) < 0)
-                {
-                    properties.Add(item);
-                }
-            }
-
-            return properties.ToArray();
-        }
-
+        
+        
         #endregion
     }
 }
