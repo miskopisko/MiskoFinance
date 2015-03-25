@@ -15,7 +15,11 @@ namespace MiskoPersist.Attributes
 
         #region Properties
 
-        public String ColumnName { get; set; }
+        public String ColumnName
+        {
+        	get;
+        	set;
+        }
 
         #endregion
 

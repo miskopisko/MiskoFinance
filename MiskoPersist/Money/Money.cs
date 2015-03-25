@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Globalization;
-using System.Xml;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using MiskoPersist.Core;
-using MiskoPersist.Data;
 
 namespace MiskoPersist.MoneyType
 {
-    public class Money : AbstractData, IEquatable<Money>, IComparable<Money>, IFormattable, IConvertible, IComparable
+	[JsonConverter(typeof(MoneySerializer))]
+	public class Money : IComparable, IFormattable, IConvertible
     {
         private static Logger Log = Logger.GetInstance(typeof(Money));
 
@@ -655,4 +656,40 @@ namespace MiskoPersist.MoneyType
 
         #endregion
     }
+	
+	public class MoneySerializer : JsonConverter
+    {
+		#region implemented abstract members of JsonConverter
+		
+		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+		{
+			Type type = value.GetType();
+			writer.WriteStartObject();
+		    writer.WritePropertyName("$type");
+		    serializer.Serialize(writer, type.FullName + ", " + type.Assembly.FullName.Substring(0, type.Assembly.FullName.IndexOf(',')));
+		    writer.WritePropertyName("Value");
+		    serializer.Serialize(writer, ((Money)value).Value);
+		    writer.WritePropertyName("Currency");
+		    serializer.Serialize(writer, ((Money)value).Currency.Iso3LetterCode);
+		    writer.WriteEndObject();			
+		}
+		
+		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+		{
+			JObject jsonObject = JObject.Load(reader);
+			
+			Type type = Type.GetType(jsonObject.GetValue("$type").ToString());
+			Decimal value = Decimal.Parse(jsonObject.SelectToken("Value").ToString());
+			Currency currency = Currency.FromIso3LetterCode(jsonObject.GetValue("Currency").ToString());
+			
+			return new Money(value, currency);
+		}
+		
+		public override bool CanConvert(Type objectType)
+		{
+			throw new NotImplementedException();
+		}
+		
+		#endregion		
+	}
 }

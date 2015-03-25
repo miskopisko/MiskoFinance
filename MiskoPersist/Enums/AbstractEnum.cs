@@ -1,23 +1,49 @@
 ﻿using System;
+using System.Reflection;
+using System.Runtime.Serialization;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace MiskoPersist.Enums
 {
-    [Serializable]
-    [JsonObjectAttribute(MemberSerialization.OptOut)]
+	[JsonConverter(typeof(EnumSerializer))]
     public abstract class AbstractEnum : IComparable
     {
         #region Properties
 		
-        public Int64 Value { get; set; }
-        [JsonIgnore]
-        public String Code { get; set; }
-        [JsonIgnore]
-        public String Description { get; set; }
-        [JsonIgnore]
-        public bool IsSet { get { return Value != -1; } }
-        [JsonIgnore]
-        public bool IsNotSet { get { return !IsSet; } }
+        public Int64 Value 
+        { 
+        	get; 
+        	set; 
+        }
+        
+        public String Code 
+        { 
+        	get; 
+        	set; 
+        }
+        
+        public String Description 
+        { 
+        	get; 
+        	set; 
+        }
+        
+        public bool IsSet 
+        { 
+        	get 
+        	{ 
+        		return Value != -1; 
+        	} 
+        }
+        
+        public bool IsNotSet 
+        { 
+        	get 
+        	{ 
+        		return !IsSet; 
+        	} 
+        }
 
         #endregion
 
@@ -58,5 +84,27 @@ namespace MiskoPersist.Enums
             }
             return -1;
         }
+    }
+    
+    public class EnumSerializer : JsonConverter
+    {
+		#region implemented abstract members of JsonConverter
+		
+		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+		{    
+		    writer.WriteValue(((AbstractEnum)value).Value);
+		}
+		
+		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+		{
+			return (AbstractEnum)objectType.InvokeMember("GetElement", BindingFlags.Default | BindingFlags.InvokeMethod, null, null, new object[] { (Int64)reader.Value });
+		}
+		
+		public override bool CanConvert(Type objectType)
+		{
+			throw new NotImplementedException();
+		}
+		
+		#endregion
     }
 }

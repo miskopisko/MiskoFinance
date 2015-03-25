@@ -18,14 +18,53 @@ namespace MiskoPersist.Core
 
         public static List<ConnectionSettings> Connections { get { return mConnections_; } }
 
-        public String Name { get; set; }
-        public ConnectionType ConnectionType { get; set; }
-        public String Server { get; set; }
-        public Int32? Port { get; set; }
-        public String Datasource { get; set; }
-        public String Username { get; set; }
-        public String Password { get; set; }
-        public String ConnectionString { get; set; }        
+        public String Name
+        {
+        	get;
+        	set;
+        }
+        
+        public ConnectionType ConnectionType
+        {
+        	get;
+        	set;
+        }
+        
+        public String Server
+        {
+        	get;
+        	set;
+        }
+        
+        public Int32? Port
+        {
+        	get;
+        	set;
+        }
+        
+        public String Datasource
+        {
+        	get;
+        	set;
+        }
+        
+        public String Username
+        {
+        	get;
+        	set;
+        }
+        
+        public String Password
+        {
+        	get;
+        	set;
+        }
+        
+        public String ConnectionString
+        {
+        	get;
+        	set;
+        }
 
         #endregion
 

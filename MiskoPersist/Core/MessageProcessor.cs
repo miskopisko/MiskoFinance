@@ -34,7 +34,11 @@ namespace MiskoPersist.Core
 
         #region Properties
 
-        public static IOController IOController { get; set; }
+        public static IOController IOController 
+        {
+        	get;
+        	set;
+        }
 
         #endregion
 
@@ -106,20 +110,20 @@ namespace MiskoPersist.Core
                     {
                         ErrorMessage errorMessage = session.ErrorMessages[i];
 
-                        if (errorMessage.Level.Equals(ErrorLevel.Error))
+                        if (errorMessage.ErrorLevel.Equals(ErrorLevel.Error))
                         {
                         	IOController.Status(Strings.strError);
                             IOController.Error(errorMessage.Message);
                         }
-                        else if (errorMessage.Level.Equals(ErrorLevel.Warning))
+                        else if (errorMessage.ErrorLevel.Equals(ErrorLevel.Warning))
                         {
                             IOController.Warning(errorMessage.Message);
                         }
-                        else if (errorMessage.Level.Equals(ErrorLevel.Info))
+                        else if (errorMessage.ErrorLevel.Equals(ErrorLevel.Info))
                         {
                             IOController.Info(errorMessage.Message);
                         }
-                        else if (errorMessage.Level.Equals(ErrorLevel.Confirmation))
+                        else if (errorMessage.ErrorLevel.Equals(ErrorLevel.Confirmation))
                         {
                             if (errorMessage.Confirmed.HasValue && !errorMessage.Confirmed.Value)
                             {
@@ -211,8 +215,10 @@ namespace MiskoPersist.Core
                         }
                     }
                 }
+                
+                String json  = AbstractData.SerializeJson(response);
 
-                return response;
+                return (ResponseMessage)AbstractData.DeserializeJson(json);
             }
 
             return null;
@@ -232,7 +238,7 @@ namespace MiskoPersist.Core
             else
             {
                 response = e.Result as ResponseMessage;
-                errorEncountered = !response.Status.IsCommitable;
+                errorEncountered = response.HasErrors;
             }
 
             // No errors in the message; call the successfulHandler
@@ -276,7 +282,10 @@ namespace MiskoPersist.Core
 
         public static void SendRequest(RequestMessage request, MessageCompleteHandler successHandler, MessageCompleteHandler errorHandler)
         {
-            new MessageProcessor(request, successHandler, errorHandler).SendRequest();
+        	String json = AbstractData.SerializeJson(request);        	
+        	RequestMessage r = (RequestMessage)AbstractData.DeserializeJson(json);
+        	
+            new MessageProcessor(r, successHandler, errorHandler).SendRequest();
         }
 
         #endregion

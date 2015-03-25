@@ -32,8 +32,21 @@ namespace MiskoPersist.Core
 
         #region Properties
 
-        public Boolean HasNext { get { return mRs_ != null && mCurrentResult_ < mRs_.Rows.Count; } }
-        public Int32 RecordCount { get { return mRs_ != null ? mRs_.Rows.Count : 0; } }
+        public Boolean HasNext
+        {
+        	get
+        	{
+        		return mRs_ != null && mCurrentResult_ < mRs_.Rows.Count;
+        	}
+        }
+        
+        public Int32 RecordCount
+        {
+        	get
+        	{
+        		return mRs_ != null ? mRs_.Rows.Count : 0;
+        	}
+        }
 
         #endregion
 

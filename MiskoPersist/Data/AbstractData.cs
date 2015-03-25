@@ -1,13 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters;
-using System.Text;
-using System.Xml;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using MiskoPersist.Attributes;
 using MiskoPersist.Core;
 using MiskoPersist.Enums;
@@ -24,8 +19,9 @@ namespace MiskoPersist.Data
         private static readonly JsonSerializerSettings settings = new JsonSerializerSettings()
         			{ 	
         				TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple,
-        				TypeNameHandling = TypeNameHandling.All,
-						NullValueHandling = NullValueHandling.Ignore        				
+        				TypeNameHandling = TypeNameHandling.Objects,
+						NullValueHandling = NullValueHandling.Ignore,
+						Formatting = Formatting.Indented
         			};
 
         #endregion
@@ -299,7 +295,7 @@ namespace MiskoPersist.Data
         
         public static String SerializeJson(AbstractData obj)
         {
-        	return JsonConvert.SerializeObject(obj, Newtonsoft.Json.Formatting.Indented, settings);
+        	return JsonConvert.SerializeObject(obj, settings);
         }
         
         public static AbstractData DeserializeJson(String json)

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Xml;
 using Newtonsoft.Json;
 using MiskoPersist.Data;
 using MiskoPersist.Enums;
@@ -16,10 +15,6 @@ namespace MiskoPersist.Core
 
         #region Fields
 
-        private String mClass_;
-        private String mMethod_;
-        private List<String> mParameters_;
-        private ErrorLevel mErrorLevel_;
         private String mErrorMessage_;
         private Boolean? mConfirmed_ = false;
 
@@ -27,13 +22,54 @@ namespace MiskoPersist.Core
 
         #region Properties
 
-        public String Class { get { return mClass_; } set { mClass_ = value; } }
-        public String Method { get { return mMethod_; } set { mMethod_ = value; } }
-        public List<String> Parameters { get { return mParameters_; } set { mParameters_ = value; } }
-        public ErrorLevel Level { get { return mErrorLevel_; } set { mErrorLevel_ = value; } }
-        public String Message { get { return ToString(); } set { mErrorMessage_ = value; } }
+		public String Class 
+		{
+			get;
+			set;
+		}
+		
+		public String Method 
+		{
+			get;
+			set;
+		}
+		
+		public List<String> Parameters 
+		{
+			get;
+			set;
+		}
+		
+		public ErrorLevel ErrorLevel 
+		{
+			get;
+			set;
+		}
+		
+        public String Message 
+        { 
+        	get 
+        	{ 
+        		return ToString(); 
+        	} 
+        	set 
+        	{ 
+        		mErrorMessage_ = value;
+        	} 
+        }
+        
         [JsonIgnore]
-        public Boolean? Confirmed { get  { return mErrorLevel_.Equals(ErrorLevel.Confirmation) ? mConfirmed_ : null; } set { mConfirmed_ = value; } }
+        public Boolean? Confirmed 
+        { 
+        	get  
+        	{ 
+        		return ErrorLevel.Equals(ErrorLevel.Confirmation) ? mConfirmed_ : null; 
+        	} 
+        	set
+        	{ 
+        		mConfirmed_ = value; 
+        	} 
+        }
 
         #endregion
 
@@ -53,11 +89,11 @@ namespace MiskoPersist.Core
 
         public ErrorMessage(Type clazz, MethodBase method, ErrorLevel level, String message, String[] parameters)
         {
-            mClass_ = clazz.Name;
-            mMethod_ = method.Name;
-            mErrorLevel_ = level;
+            Class = clazz.Name;
+            Method = method.Name;
+            ErrorLevel = level;
             mErrorMessage_ = message;
-            mParameters_ = parameters != null ? new List<String>(parameters) : null;
+            Parameters = parameters != null ? new List<String>(parameters) : null;
         }
 
         #endregion
@@ -66,7 +102,7 @@ namespace MiskoPersist.Core
 
         public override string ToString()
         {
-            return Utils.ResolveTextParameters(mErrorMessage_, mParameters_ != null ? mParameters_.ToArray() : null);
+            return Utils.ResolveTextParameters(mErrorMessage_, Parameters != null ? Parameters.ToArray() : null);
         }
 
         public override Boolean Equals(Object obj)

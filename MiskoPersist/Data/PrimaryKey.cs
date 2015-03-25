@@ -1,11 +1,12 @@
 using System;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using MiskoPersist.Core;
 
 namespace MiskoPersist.Data
 {
-	[JsonObjectAttribute(MemberSerialization.OptOut)]
-    public class PrimaryKey : AbstractData, IComparable<PrimaryKey>, IComparable<Int64>, IEquatable<PrimaryKey>, IEquatable<Int64>
+	[JsonConverter(typeof(PrimaryKeySerializer))]
+	public class PrimaryKey : IComparable<PrimaryKey>, IComparable<long>, IEquatable<PrimaryKey>, IEquatable<long>
     {
         private static Logger Log = Logger.GetInstance(typeof(PrimaryKey));
 
@@ -16,11 +17,27 @@ namespace MiskoPersist.Data
 
         #region Properties
 
-		public Int64 Value { get; set; }
-        [JsonIgnore]
-        public Boolean IsSet { get { return Value != 0; } }
-        [JsonIgnore]
-        public Boolean IsNotSet { get { return !IsSet; } }
+		public Int64 Value 
+		{ 
+			get; 
+			set; 
+		}
+        
+        public Boolean IsSet 
+        { 
+        	get 
+        	{ 
+        		return Value != 0; 
+        	} 
+        }
+        
+        public Boolean IsNotSet 
+        { 
+        	get 
+        	{ 
+        		return !IsSet; 
+        	} 
+        }
 
         #endregion
 
@@ -65,9 +82,9 @@ namespace MiskoPersist.Data
 
         public static Boolean operator ==(PrimaryKey left, Int64 right)
         {
-            if (object.ReferenceEquals(left, null) && object.ReferenceEquals(right, null)) return true;
-            else if (object.ReferenceEquals(left, null) && !object.ReferenceEquals(right, null)) return false;
-            else if (!object.ReferenceEquals(left, null) && object.ReferenceEquals(right, null)) return false;
+            if (object.ReferenceEquals(left, null) && object.Equals(right, null)) return true;
+            else if (object.ReferenceEquals(left, null) && !object.Equals(right, null)) return false;
+            else if (!object.ReferenceEquals(left, null) && object.Equals(right, null)) return false;
             return left.Value.Equals(right);
         }
 
@@ -244,5 +261,27 @@ namespace MiskoPersist.Data
         }
 
         #endregion
+    }
+    
+    public class PrimaryKeySerializer : JsonConverter
+    {
+		#region implemented abstract members of JsonConverter
+		
+		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+		{
+		    writer.WriteValue(((PrimaryKey)value).Value);
+		}
+		
+		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+		{
+			return new PrimaryKey((Int64)reader.Value);
+		}
+		
+		public override bool CanConvert(Type objectType)
+		{
+			throw new NotImplementedException();
+		}
+		
+		#endregion    	
     }
 }

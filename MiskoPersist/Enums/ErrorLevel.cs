@@ -31,8 +31,15 @@ namespace MiskoPersist.Enums
         public static ErrorLevel Confirmation { get { return mConfirmation_; } }
         public static ErrorLevel Error { get { return mError_; } }        
 
-        [JsonIgnoreAttribute]
-        public Boolean IsCommitable { get { return this == Success || this == Warning || this == Info; } }
+        [JsonIgnore]
+        public Boolean IsCommitable 
+        { 
+        	get 
+        	{ 
+        		return this == Success || this == Warning || this == Info; 
+        	} 
+        }
+        
         #endregion
 
         #region Constructors

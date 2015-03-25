@@ -21,16 +21,36 @@ namespace MiskoPersist.Data
         #region Stored Properties
 
         [Stored(PrimaryKey=true)]
-        public PrimaryKey Id { get; set; }
+        public PrimaryKey Id 
+        { 
+        	get; 
+        	set; 
+        }
 
         #endregion
 
         #region Other Properties
 		
-        public Int64 RowVer { get; set; }
-        public bool IsSet { get; set; }
+        public Int64 RowVer 
+        { 
+        	get; 
+        	set; 
+        }
+        
+        public bool IsSet 
+        { 
+        	get; 
+        	set; 
+        }
+        
         [JsonIgnore]
-        public bool IsNotSet { get { return !IsSet; } }
+        public bool IsNotSet 
+        { 
+        	get 
+        	{ 
+        		return !IsSet; 
+        	} 
+        }
 
         #endregion
 

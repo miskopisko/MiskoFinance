@@ -40,7 +40,7 @@ namespace MiskoPersist.Core
             {
                 foreach (ErrorMessage message in this)
                 {
-                    if (message.Level.Equals(level))
+                    if (message.ErrorLevel.Equals(level))
                     {
                         return true;
                     }
@@ -58,7 +58,7 @@ namespace MiskoPersist.Core
             {
                 foreach (ErrorMessage message in this)
                 {
-                    if (message.Level.Equals(level))
+                    if (message.ErrorLevel.Equals(level))
                     {
                         list.Add(message);
                     }

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Xml;
 using Newtonsoft.Json;
 using MiskoPersist.Core;
 using MiskoPersist.Data;
@@ -16,26 +13,110 @@ namespace MiskoPersist.Message.Response
 
         #region Fields
 
-
+        private ErrorMessages mErrors_;
+        private ErrorMessages mInfos_;
+        private ErrorMessages mWarnings_;
+        private ErrorMessages mConfirmations_;
 
         #endregion
 
         #region Properties
 
-        public ErrorLevel Status { get; set; }
-        public ErrorMessages Errors { get; set; }
-        public ErrorMessages Infos { get; set; }
-        public ErrorMessages Warnings { get; set; }
-        public ErrorMessages Confirmations { get; set; }
-        public Page Page { get; set; }
+        public ErrorLevel Status 
+        { 
+        	get; 
+        	set; 
+        }        
+		
+        public ErrorMessages Errors 
+        {
+			get 
+			{
+				return HasErrors ? mErrors_ : null;
+			}
+			set 
+			{
+				mErrors_ = value;
+			}
+		}
+        
+        public ErrorMessages Infos 
+        { 
+        	get 
+			{
+        		return HasInfos ? mInfos_ : null;
+			}
+			set 
+			{
+				mInfos_ = value;
+			} 
+        }
+        
+        public ErrorMessages Warnings 
+        { 
+        	get 
+			{
+				return HasWarnings ? mWarnings_ : null;
+			}
+			set 
+			{
+				mWarnings_ = value;
+			} 
+        }
+        
+        public ErrorMessages Confirmations 
+        { 
+        	get 
+			{
+				return HasConfirmations ? mConfirmations_ : null;
+			}
+			set 
+			{
+				mConfirmations_ = value;
+			}
+        }
+        
+        public Page Page 
+        { 
+        	get; 
+        	set; 
+        }
+        
         [JsonIgnore]
-        public Boolean HasErrors { get { return Errors != null && Errors.Count > 0; } }
+        public Boolean HasErrors 
+        { 
+        	get 
+        	{ 
+        		return mErrors_ != null && mErrors_.Count > 0; 
+        	} 
+        }
+        
         [JsonIgnore]
-        public Boolean HasInfos { get { return Infos != null && Infos.Count > 0; } }
+        public Boolean HasInfos 
+        { 
+        	get 
+        	{ 
+        		return mInfos_ != null && mInfos_.Count > 0; 
+        	} 
+        }
+        
         [JsonIgnore]
-        public Boolean HasWarnings { get { return Warnings != null && Warnings.Count > 0; } }
+        public Boolean HasWarnings 
+        { 
+        	get 
+        	{ 
+        		return mWarnings_ != null && mWarnings_.Count > 0; 
+        	} 
+        }
+        
         [JsonIgnore]
-        public Boolean HasConfirmations { get { return Confirmations != null && Confirmations.Count > 0; } }
+        public Boolean HasConfirmations 
+        { 
+        	get 
+        	{ 
+        		return mConfirmations_ != null && mConfirmations_.Count > 0; 
+        	} 
+        }
 
         #endregion
 
@@ -49,22 +130,7 @@ namespace MiskoPersist.Message.Response
 
         #region Private Properties
 
-        private PropertyInfo[] GetProperties()
-        {
-            List<PropertyInfo> properties = new List<PropertyInfo>();
 
-            String[] filter = { "Status", "HasErrors", "Errors", "HasInfos", "Infos", "HasWarnings", "Warnings", "HasConfirmations", "Confirmations", "Page" };
-
-            foreach (PropertyInfo item in GetType().GetProperties())
-            {
-                if (Array.IndexOf(filter, item.Name) < 0)
-                {
-                    properties.Add(item);
-                }
-            }
-
-            return properties.ToArray();
-        }
 
         #endregion
     }

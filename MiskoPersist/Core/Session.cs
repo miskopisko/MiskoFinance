@@ -28,15 +28,89 @@ namespace MiskoPersist.Core
 
         #region Properties
 
-        public DbConnection Connection { get { return mConn_; } }
-        public String ConnectionName { get { return mConnectionName_; } }
-        public Boolean TransactionInProgress { get { return mTransactionInProgress_; } }
-        public List<Persistence> PersistencePool { get { return MiskoPersistencePool_; } }
-        public DbTransaction Transaction { get { return mTransaction_; } }
-        public ErrorLevel Status { get { return mStatus_; } set { mStatus_ = value; } }
-        public MessageMode MessageMode { get { return mMessageMode_; } set { mMessageMode_ = value; } }
-        public Int32 RowPerPage { get { return mRowsPerPage_; } set { mRowsPerPage_ = value; } }
-        public ErrorMessages ErrorMessages { get { return mErrorMessages_; } }
+        public DbConnection Connection
+        {
+        	get
+        	{
+        		return mConn_;
+        	}
+        }
+        
+        public String ConnectionName
+        {
+        	get
+        	{
+        		return mConnectionName_;
+        	}
+        }
+        
+        public Boolean TransactionInProgress
+        {
+        	get
+        	{
+        		return mTransactionInProgress_;
+        	}
+        }
+        
+        public List<Persistence> PersistencePool
+        {
+        	get
+        	{
+        		return MiskoPersistencePool_;
+        	}
+        }
+        
+        public DbTransaction Transaction
+        {
+        	get
+        	{
+        		return mTransaction_;
+        	}
+        }
+        
+        public ErrorLevel Status
+        {
+        	get
+        	{
+        		return mStatus_;
+        	}
+        	set
+        	{
+        		mStatus_ = value;
+        	}
+        }
+        
+        public MessageMode MessageMode
+        {
+        	get
+        	{
+        		return mMessageMode_;
+        	}
+        	set
+        	{
+        		mMessageMode_ = value;
+        	}
+        }
+        
+        public Int32 RowPerPage
+        {
+        	get
+        	{
+        		return mRowsPerPage_;
+        	}
+        	set
+        	{
+        		mRowsPerPage_ = value;
+        	}
+        }
+        
+        public ErrorMessages ErrorMessages
+        {
+        	get
+        	{
+        		return mErrorMessages_;
+        	}
+        }
 
         #endregion
 

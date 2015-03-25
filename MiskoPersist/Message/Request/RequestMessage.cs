@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Xml;
+using Newtonsoft.Json;
 using MiskoPersist.Core;
 using MiskoPersist.Data;
 using MiskoPersist.Enums;
@@ -14,10 +12,7 @@ namespace MiskoPersist.Message.Request
 
         #region Fields
 
-        //private MessageMode mMessageMode_ = MessageMode.Normal;
-        //private String mCommand_ = "Execute";
-        //private String mConnection_ = "Default";
-        //private Page mPage_ = new Page(0);
+		
 
         #endregion
 

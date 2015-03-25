@@ -19,10 +19,37 @@ namespace MiskoPersist.Core
 
         #region Properties
 
-        public Type Class { get { return mClass_; } }
-        public MethodBase Method { get { return mMethod_; } }
-        public ErrorMessage ErrorMessage { get { return mErrorMessage_; } }
-        public override string Message { get { return ErrorMessage.Message; } }
+        public Type Class 
+        {
+        	get 
+        	{
+        		return mClass_;
+        	}
+        }
+        
+        public MethodBase Method
+        {
+        	get
+        	{
+        		return mMethod_;
+        	}
+        }
+        
+        public ErrorMessage ErrorMessage
+        {
+        	get
+        	{
+        		return mErrorMessage_;
+        	}
+        }
+        
+        public override string Message
+        {
+        	get
+        	{
+        		return ErrorMessage.Message;
+        	}
+        }
 
         #endregion
 

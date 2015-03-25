@@ -12,32 +12,59 @@ namespace MiskoPersist.Data
 
         #region Fields
 
-        private Int32 mPageNo_ = 0;
-        private Boolean mIncludeRecordCount_ = true;
-        private Int32 mTotalPageCount_ = 0;
-        private Int32 mTotalRowCount_ = 0;
-        private Int32 mRowsFetchedSoFar_ = 0;
+        
 
         #endregion
 
         #region Properties
 
-        [Viewed]
-        public Int32 PageNo { get { return mPageNo_; } set { mPageNo_ = value; } }
-        [Viewed]
-        public Boolean IncludeRecordCount { get { return mIncludeRecordCount_; } set { mIncludeRecordCount_ = value; } }
-        [Viewed]
-        public Int32 TotalPageCount { get { return mTotalPageCount_; } set { mTotalPageCount_ = value; } }
-        [Viewed]
-        public Int32 TotalRowCount { get { return mTotalRowCount_; } set { mTotalRowCount_ = value; } }
-        [Viewed]
-        public Int32 RowsFetchedSoFar { get { return mRowsFetchedSoFar_; } set { mRowsFetchedSoFar_ = value; } }
-        [Viewed]
+		public Int32 PageNo 
+		{
+			get;
+			set;
+		}
+        
+        public Boolean IncludeRecordCount 
+        { 
+        	get;
+        	set;
+        }
+        
+		public Int32 TotalPageCount 
+		{
+			get;
+			set;
+		}
+		
+		public Int32 TotalRowCount 
+		{
+			get;
+			set;
+		}
+		
+        public Int32 RowsFetchedSoFar 
+        { 
+        	get;
+        	set;
+        }
+        
         [JsonIgnore]
-        public Boolean HasNext { get { return PageNo < TotalPageCount; } }
-        [Viewed]
+        public Boolean HasNext 
+        { 
+        	get 
+        	{ 
+        		return PageNo < TotalPageCount; 
+        	}
+        }
+        
         [JsonIgnore]
-        public Page Next { get { return new Page(mPageNo_+ 1); } }
+        public Page Next 
+        { 
+        	get 
+        	{ 
+        		return new Page(PageNo + 1); 
+        	}
+        }
 
         #endregion
 
@@ -45,11 +72,13 @@ namespace MiskoPersist.Data
 
         public Page()
         {
+        	IncludeRecordCount = true;
         }
 
         public Page(Int32 page)
+        	: this()
         {
-            mPageNo_ = page;
+            PageNo = page;
         }
 
         #endregion
@@ -64,13 +93,13 @@ namespace MiskoPersist.Data
 
         public Int32 PageCount(Int32 pageSize)
         {
-            if (mTotalRowCount_ > 0 && pageSize > 0)
+            if (TotalRowCount > 0 && pageSize > 0)
             {
                 if (pageSize > 0)
                 {
-                    int r = mTotalRowCount_ / pageSize;
+                    int r = TotalRowCount / pageSize;
 
-                    if (mTotalRowCount_ % pageSize > 0)
+                    if (TotalRowCount % pageSize > 0)
                     {
                         r = r + 1;
                     }
