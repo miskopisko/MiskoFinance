@@ -51,29 +51,29 @@ namespace MiskoPersist.Data
 
         public void Set(Session session, Persistence persistence, Page page)
         {
-            Int32 noRows = page.PageNo != 0 ? session.RowPerPage : 0;
-            Int32 pageNo = page.PageNo != 0 ? page.PageNo : 1;            
+        	if(!persistence.HasNext)
+        	{
+        		page.PageNo = 0;
+        		return;
+        	}
+        	
+            Int32 noRows = page.RowsPerPage;
+            Int32 pageNo = page.PageNo;
 
-            int rowsFetched = 0;
-            for (int i = 0; i < (pageNo - 1) * noRows && persistence.HasNext; i++)
+			for (int i = 0; i < (pageNo - 1) * noRows && persistence.HasNext; i++)
             {
                 persistence.Next();
-                rowsFetched++;
             }
 
             for (int i = 0; (noRows == 0 || i < noRows) && persistence.HasNext; i++)
             {
                 ConstructorInfo ctor = typeof(AbstractViewedData).GetConstructor(new[] { typeof(Session), typeof(Persistence) });
                 Add((AbstractViewedData)ctor.Invoke(new object[] { session, persistence }));
-                rowsFetched++;
             }
 
             if(page.IncludeRecordCount)
             {
                 page.TotalRowCount = persistence.RecordCount;
-                page.TotalPageCount = page.PageNo == 0 ? 1 : page.PageCount(session.RowPerPage);
-                page.RowsFetchedSoFar = rowsFetched;
-                page.PageNo = pageNo;
             }
         }
 

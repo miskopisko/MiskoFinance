@@ -16,7 +16,13 @@ namespace MiskoPersist.Core
 
         #region Properties
 
-        public static List<ConnectionSettings> Connections { get { return mConnections_; } }
+        public static List<ConnectionSettings> Connections 
+        { 
+        	get 
+        	{ 
+        		return mConnections_; 
+        	} 
+        }
 
         public String Name
         {

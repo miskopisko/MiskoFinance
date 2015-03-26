@@ -1,12 +1,11 @@
 ﻿using System;
-using Newtonsoft.Json;
 using MiskoPersist.Core;
 using MiskoPersist.Data;
 using MiskoPersist.Enums;
 
 namespace MiskoPersist.Message.Request
 {
-    public class RequestMessage : AbstractData
+    public class RequestMessage
     {
         private static Logger Log = Logger.GetInstance(typeof(RequestMessage));
 

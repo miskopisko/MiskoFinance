@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
@@ -6,7 +7,6 @@ using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.Serialization;
 using MiskoPersist.Core;
-using System.Collections.Generic;
 
 namespace MiskoPersist.Tools
 {
@@ -17,7 +17,7 @@ namespace MiskoPersist.Tools
         #region Fields
 
         private static byte[] mSalt_ = Encoding.ASCII.GetBytes("b780gU&G&*GP&G&*)");
-        private static String mSharedSecret_ = "bn89*(HG)*h80I&*(*)Y*Hjkjub";
+        private const String mSharedSecret_ = "bn89*(HG)*h80I&*(*)Y*Hjkjub";
 
         #endregion
 

@@ -1,13 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Newtonsoft.Json;
 using MiskoPersist.Attributes;
 using MiskoPersist.Core;
 
 namespace MiskoPersist.Data
 {	
-    [JsonObjectAttribute(MemberSerialization.OptOut)]
     public abstract class AbstractStoredData : AbstractData
     {
         private static Logger Log = Logger.GetInstance(typeof(AbstractStoredData));
@@ -43,7 +41,6 @@ namespace MiskoPersist.Data
         	set; 
         }
         
-        [JsonIgnore]
         public bool IsNotSet 
         { 
         	get 

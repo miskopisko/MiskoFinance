@@ -97,7 +97,7 @@ namespace MiskoFinance.Panels
 			MiskoFinanceMain.Instance.SummaryPanel.Summary = summary;
 			
 			mPageCountsLbl_.Text = Utils.ResolveTextParameters(Strings.strPageCounts, new Object[] { page.PageNo, page.TotalPageCount });
-            mTransactionCountsLbl_.Text = Utils.ResolveTextParameters(Strings.strTransactionCounts, new Object[] { page.RowsFetchedSoFar, page.TotalRowCount });
+            mTransactionCountsLbl_.Text = Utils.ResolveTextParameters(Strings.strTransactionCounts, new Object[] { mTransactionsGridView_.RowCount, page.TotalRowCount });
 			mSearch_.Enabled = true;
             mMore_.Enabled = page.HasNext;
 		}

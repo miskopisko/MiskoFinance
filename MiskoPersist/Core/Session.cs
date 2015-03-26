@@ -22,7 +22,6 @@ namespace MiskoPersist.Core
         private ErrorMessages mErrorMessages_ = new ErrorMessages();
         private ErrorLevel mStatus_ = ErrorLevel.Success;
         private MessageMode mMessageMode_ = MessageMode.Normal;
-        private Int32 mRowsPerPage_ = 20;
 
         #endregion
 
@@ -89,18 +88,6 @@ namespace MiskoPersist.Core
         	set
         	{
         		mMessageMode_ = value;
-        	}
-        }
-        
-        public Int32 RowPerPage
-        {
-        	get
-        	{
-        		return mRowsPerPage_;
-        	}
-        	set
-        	{
-        		mRowsPerPage_ = value;
         	}
         }
         

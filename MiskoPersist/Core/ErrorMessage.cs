@@ -79,11 +79,13 @@ namespace MiskoPersist.Core
         {
         }
 
-        public ErrorMessage(Exception e) : this(e.TargetSite.DeclaringType, e.TargetSite, ErrorLevel.Error, e.Message, null)
+        public ErrorMessage(Exception e) 
+        	: this(e.TargetSite.DeclaringType, e.TargetSite, ErrorLevel.Error, e.Message, null)
         {
         }
 
-        public ErrorMessage(Type clazz, MethodBase method, ErrorLevel level, String message) : this(clazz, method, level, message, null)
+        public ErrorMessage(Type clazz, MethodBase method, ErrorLevel level, String message) 
+        	: this(clazz, method, level, message, null)
         {
         }
 
@@ -104,20 +106,79 @@ namespace MiskoPersist.Core
         {
             return Utils.ResolveTextParameters(mErrorMessage_, Parameters != null ? Parameters.ToArray() : null);
         }
+        
+        #endregion
 
-        public override Boolean Equals(Object obj)
-        {
-            if(obj is ErrorMessage)
-            {
-                return string.Compare(ToString(), ((ErrorMessage)obj).ToString(), StringComparison.CurrentCulture) == 0;
-            }
-            return false;
-        }
+		#region Equals and GetHashCode implementation
+		
+		public override int GetHashCode()
+		{
+			int hashCode = 0;
+			
+			unchecked
+			{
+				if (Message != null) 
+				{
+					hashCode += 1000000007 * Message.GetHashCode();
+				}
+				
+				hashCode += 1000000009 * Confirmed.GetHashCode();
+				
+				if (Class != null) 
+				{
+					hashCode += 1000000021 * Class.GetHashCode();
+				}
+				
+				if (Method != null) 
+				{
+					hashCode += 1000000033 * Method.GetHashCode();
+				}
+				
+				if (Parameters != null) 
+				{
+					hashCode += 1000000087 * Parameters.GetHashCode();
+				}
+				
+				if (ErrorLevel != null) 
+				{
+					hashCode += 1000000093 * ErrorLevel.GetHashCode();
+				}
+			}
+			
+			return hashCode;
+		}
 
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
+		public override bool Equals(object obj)
+		{
+			ErrorMessage other = obj as ErrorMessage;
+			
+			if (other == null)
+			{
+				return false;
+			}
+					
+			return mErrorMessage_ == other.mErrorMessage_ && mConfirmed_ == other.mConfirmed_ && Class == other.Class && Method == other.Method && object.Equals(Parameters, other.Parameters) && object.Equals(ErrorLevel, other.ErrorLevel);
+		}
+
+		public static bool operator ==(ErrorMessage lhs, ErrorMessage rhs) 
+		{
+			if (ReferenceEquals(lhs, rhs)) 
+			{
+				return true;
+			}
+			
+			if (ReferenceEquals(lhs, null) || ReferenceEquals(rhs, null)) 
+			{
+				return false;
+			}
+			
+			return lhs.Equals(rhs);
+		}
+
+		public static bool operator !=(ErrorMessage lhs, ErrorMessage rhs) 
+		{
+			return !(lhs == rhs);
+		}
 
         #endregion
     }

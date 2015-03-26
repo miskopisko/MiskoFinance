@@ -86,13 +86,18 @@ namespace MiskoPersist.Enums
         }
     }
     
-    public class EnumSerializer : JsonConverter
+    internal class EnumSerializer : JsonConverter
     {
 		#region implemented abstract members of JsonConverter
 		
 		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-		{    
-		    writer.WriteValue(((AbstractEnum)value).Value);
+		{
+			AbstractEnum e = value as AbstractEnum;
+			
+			if(e.IsSet)
+			{
+		    	writer.WriteValue(((AbstractEnum)value).Value);
+			}
 		}
 		
 		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)

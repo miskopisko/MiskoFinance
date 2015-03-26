@@ -289,18 +289,18 @@ namespace MiskoPersist.Data
             return viewedProperties.ToArray();
         }
 
-        #endregion
+        #endregion     
         
         #region JSON Serialization
         
-        public static String SerializeJson(AbstractData obj)
+        public static String SerializeJson(Object obj)
         {
         	return JsonConvert.SerializeObject(obj, settings);
         }
         
-        public static AbstractData DeserializeJson(String json)
+        public static Object DeserializeJson(String json)
         {
-        	return (AbstractData)JsonConvert.DeserializeObject(json, settings);
+        	return JsonConvert.DeserializeObject(json, settings);
         }
         
         #endregion

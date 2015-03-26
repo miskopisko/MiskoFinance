@@ -9,6 +9,7 @@ using MiskoPersist.Data;
 using MiskoPersist.Message.Response;
 using MiskoPersist.MoneyType;
 using MiskoFinance.Forms;
+using MiskoFinance.Properties;
 
 namespace MiskoFinance.Controls
 {
@@ -183,6 +184,7 @@ namespace MiskoFinance.Controls
             request.Category = MiskoFinanceMain.Instance.TransactionsPanel.Category.CategoryId;
             request.Description = MiskoFinanceMain.Instance.TransactionsPanel.Description;
             request.Page = mPage_.Next;
+            request.Page.IncludeRecordCount = true;
             MessageProcessor.SendRequest(request, GetTxnsSuccess);
         }
 

@@ -13,6 +13,7 @@ using MiskoPersist.Data;
 using MiskoPersist.Interfaces;
 using MiskoPersist.Message.Request;
 using MiskoPersist.Message.Response;
+using MiskoPersist.Tools;
 using MiskoFinance.Panels;
 using MiskoFinance.Properties;
 
@@ -246,30 +247,23 @@ namespace MiskoFinance.Forms
 
         public void Debug(Object obj)
         {
-            if (obj is AbstractData)
+        	String serialized = AbstractData.SerializeJson(obj);
+
+            Trace.WriteLine(serialized);
+
+            Object deSerializedObj = AbstractData.DeserializeJson(serialized);
+
+            String deSerialized = AbstractData.SerializeJson(deSerializedObj);
+
+            if (!serialized.Equals(deSerialized))
             {
-                String serialized = AbstractData.SerializeJson((AbstractData)obj);
+                System.IO.File.WriteAllText(@"D:\TEMP\OriginalXML.txt", serialized);
+                System.IO.File.WriteAllText(@"D:\TEMP\DeserializedXML.txt", deSerialized);
 
-                Trace.WriteLine(serialized);
-
-                AbstractData deSerializedObj = AbstractData.DeserializeJson(serialized);
-
-                String deSerialized = AbstractData.SerializeJson(deSerializedObj);
-
-                if (!serialized.Equals(deSerialized))
-                {
-                    System.IO.File.WriteAllText(@"D:\TEMP\OriginalXML.txt", serialized);
-                    System.IO.File.WriteAllText(@"D:\TEMP\DeserializedXML.txt", deSerialized);
-
-                    Process pr = new Process();
-                    pr.StartInfo.FileName = @"C:\Program Files (x86)\Beyond Compare 3\BCompare.exe";
-                    pr.StartInfo.Arguments = '\u0022' + @"D:\TEMP\OriginalXML.txt" + '\u0022' + " " + '\u0022' + @"D:\TEMP\DeserializedXML.txt" + '\u0022';
-                    pr.Start();
-
-                    return;
-                }
-
-                return;
+                Process pr = new Process();
+                pr.StartInfo.FileName = @"C:\Program Files (x86)\Beyond Compare 3\BCompare.exe";
+                pr.StartInfo.Arguments = '\u0022' + @"D:\TEMP\OriginalXML.txt" + '\u0022' + " " + '\u0022' + @"D:\TEMP\DeserializedXML.txt" + '\u0022';
+                pr.Start();
             }
         }       
 

@@ -1,12 +1,13 @@
 using System;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using MiskoPersist.Attributes;
 using MiskoPersist.Core;
 
 namespace MiskoPersist.Data
 {
-	[JsonObjectAttribute(MemberSerialization.OptOut)]
-    public class Page : AbstractViewedData
+	[JsonConverter(typeof(PageSerializer))]
+    public class Page
     {
         private static Logger Log = Logger.GetInstance(typeof(Page));
 
@@ -23,6 +24,12 @@ namespace MiskoPersist.Data
 			get;
 			set;
 		}
+		
+		public Int32 RowsPerPage 
+        { 
+        	get;
+        	set;
+        }
         
         public Boolean IncludeRecordCount 
         { 
@@ -30,25 +37,20 @@ namespace MiskoPersist.Data
         	set;
         }
         
+        public Int32 TotalRowCount 
+		{
+			get;
+			set;
+		}
+        
 		public Int32 TotalPageCount 
 		{
-			get;
-			set;
-		}
-		
-		public Int32 TotalRowCount 
-		{
-			get;
-			set;
-		}
-		
-        public Int32 RowsFetchedSoFar 
-        { 
-        	get;
-        	set;
-        }
+			get
+			{
+				return TotalRowCount > 0 ? (Int32)Math.Ceiling((decimal)TotalRowCount / (decimal)RowsPerPage) : 0;
+			}
+		}		
         
-        [JsonIgnore]
         public Boolean HasNext 
         { 
         	get 
@@ -57,12 +59,11 @@ namespace MiskoPersist.Data
         	}
         }
         
-        [JsonIgnore]
         public Page Next 
         { 
         	get 
         	{ 
-        		return new Page(PageNo + 1); 
+        		return HasNext ? new Page(PageNo + 1) : new Page(1);
         	}
         }
 
@@ -72,7 +73,6 @@ namespace MiskoPersist.Data
 
         public Page()
         {
-        	IncludeRecordCount = true;
         }
 
         public Page(Int32 page)
@@ -91,29 +91,7 @@ namespace MiskoPersist.Data
 
         #region Public Methods
 
-        public Int32 PageCount(Int32 pageSize)
-        {
-            if (TotalRowCount > 0 && pageSize > 0)
-            {
-                if (pageSize > 0)
-                {
-                    int r = TotalRowCount / pageSize;
-
-                    if (TotalRowCount % pageSize > 0)
-                    {
-                        r = r + 1;
-                    }
-
-                    return r;
-                }
-
-                return 0;
-            }
-            else
-            {
-                return 0;
-            }
-        }
+        
 
         #endregion
 
@@ -122,5 +100,54 @@ namespace MiskoPersist.Data
         
 
         #endregion
+    }
+    
+    internal class PageSerializer : JsonConverter
+    {
+		#region implemented abstract members of JsonConverter
+		
+		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+		{
+			Page page = value as Page;
+			
+			writer.WriteStartObject();
+			writer.WritePropertyName("PageNo");
+    		serializer.Serialize(writer, page.PageNo);
+    		
+    		if(page.RowsPerPage > 0)
+    		{
+    			writer.WritePropertyName("RowsPerPage");
+    			serializer.Serialize(writer, page.RowsPerPage);
+    		}
+    		
+    		writer.WritePropertyName("IncludeRecordCount");
+    		serializer.Serialize(writer, page.IncludeRecordCount);
+    		
+    		if(page.IncludeRecordCount && page.RowsPerPage > 0)
+    		{
+    			writer.WritePropertyName("TotalRowCount");
+    			serializer.Serialize(writer, page.TotalRowCount);
+    		}
+	    		
+			writer.WriteEndObject();
+		}
+		
+		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+		{
+			JObject jsonObject = JObject.Load(reader);
+			
+			return new Page{PageNo = (Int32)jsonObject["PageNo"],
+							RowsPerPage = ((Int32?)jsonObject["RowsPerPage"]).HasValue ? ((Int32?)jsonObject["RowsPerPage"]).Value : 0,
+							IncludeRecordCount = (Boolean)jsonObject["IncludeRecordCount"],
+							TotalRowCount = ((Int32?)jsonObject["TotalRowCount"]).HasValue ? ((Int32?)jsonObject["TotalRowCount"]).Value : 0
+						   };
+		}
+		
+		public override bool CanConvert(Type objectType)
+		{
+			throw new NotImplementedException();
+		}
+		
+		#endregion    	
     }
 }

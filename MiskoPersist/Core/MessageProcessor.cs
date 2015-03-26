@@ -9,6 +9,7 @@ using MiskoPersist.Message;
 using MiskoPersist.Message.Request;
 using MiskoPersist.Message.Response;
 using MiskoPersist.Resources;
+using MiskoPersist.Tools;
 
 namespace MiskoPersist.Core
 {
@@ -79,7 +80,6 @@ namespace MiskoPersist.Core
             Boolean resendMessage = false;
             Session session = new Session(mRequest_.Connection ?? "Default");
 			session.MessageMode = mRequest_.MessageMode ?? MessageMode.Normal;
-            session.RowPerPage = IOController.RowsPerPage;
 
             try
             {
@@ -164,7 +164,11 @@ namespace MiskoPersist.Core
                     response = (ResponseMessage)request.GetType().Assembly.CreateInstance(msgPath + "Responses." + msgName + "RS");
                     wrapper = (MessageWrapper)request.GetType().Assembly.CreateInstance(msgPath + msgName, false, BindingFlags.CreateInstance, null, new object[] { request, response }, null, null);
 
-                    response.Page = request.Page ?? new Page();
+                    if(request.Page != null)
+                    {
+                    	response.Page = request.Page;
+                    	response.Page.RowsPerPage = IOController.RowsPerPage;	
+                    }                    
 
                     session.BeginTransaction();
 
@@ -285,7 +289,7 @@ namespace MiskoPersist.Core
         	String json = AbstractData.SerializeJson(request);        	
         	RequestMessage r = (RequestMessage)AbstractData.DeserializeJson(json);
         	
-            new MessageProcessor(r, successHandler, errorHandler).SendRequest();
+        	new MessageProcessor(r, successHandler, errorHandler).SendRequest();
         }
 
         #endregion

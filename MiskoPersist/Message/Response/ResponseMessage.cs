@@ -7,7 +7,7 @@ using MiskoPersist.Enums;
 namespace MiskoPersist.Message.Response
 {
 	[JsonObjectAttribute(MemberSerialization.OptOut)]
-    public class ResponseMessage : AbstractData
+    public class ResponseMessage
     {
         private static Logger Log = Logger.GetInstance(typeof(ResponseMessage));
 
@@ -78,8 +78,8 @@ namespace MiskoPersist.Message.Response
         
         public Page Page 
         { 
-        	get; 
-        	set; 
+        	get;
+        	set;
         }
         
         [JsonIgnore]
