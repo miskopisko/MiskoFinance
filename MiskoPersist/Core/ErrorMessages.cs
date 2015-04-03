@@ -69,11 +69,5 @@ namespace MiskoPersist.Core
         }
 
         #endregion
-
-        #region XML Serialixation
-
-
-
-        #endregion
     }
 }

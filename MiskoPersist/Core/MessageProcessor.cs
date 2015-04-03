@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Reflection;
 using System.Threading;
 using MiskoPersist.Data;
@@ -172,7 +173,12 @@ namespace MiskoPersist.Core
 
                     session.BeginTransaction();
 
+                    Trace.WriteLine("Executing " + request.GetType().Name + "...");
+        			var watch = Stopwatch.StartNew();
                     wrapper.GetType().InvokeMember(request.Command ?? "Execute", BindingFlags.Default | BindingFlags.InvokeMethod, null, wrapper, new Object[] { session });
+                    watch.Stop();
+        			var elapsedMs = watch.ElapsedMilliseconds;
+        			Trace.WriteLine(request.GetType().Name + " complete: " + elapsedMs.ToString());
                 }
                 catch (Exception e)
                 {
@@ -220,9 +226,7 @@ namespace MiskoPersist.Core
                     }
                 }
                 
-                String json  = AbstractData.SerializeJson(response);
-
-                return (ResponseMessage)AbstractData.DeserializeJson(json);
+                return response;
             }
 
             return null;
@@ -286,10 +290,7 @@ namespace MiskoPersist.Core
 
         public static void SendRequest(RequestMessage request, MessageCompleteHandler successHandler, MessageCompleteHandler errorHandler)
         {
-        	String json = AbstractData.SerializeJson(request);        	
-        	RequestMessage r = (RequestMessage)AbstractData.DeserializeJson(json);
-        	
-        	new MessageProcessor(r, successHandler, errorHandler).SendRequest();
+        	new MessageProcessor(request, successHandler, errorHandler).SendRequest();
         }
 
         #endregion

@@ -171,7 +171,7 @@ namespace MiskoPersist.Core
             item.Datasource = datasource;
             item.Username = null;
             item.Password = null;
-            item.ConnectionString = "Provider=vfpoledb.1;Data Source=" + datasource + ";Collating Sequence=general;";            
+            item.ConnectionString = "Provider=vfpoledb.1;Data Source=" + datasource + ";";
 
             mConnections_.Add(item);            
         }

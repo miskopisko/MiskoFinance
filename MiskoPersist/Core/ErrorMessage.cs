@@ -157,7 +157,7 @@ namespace MiskoPersist.Core
 				return false;
 			}
 					
-			return mErrorMessage_ == other.mErrorMessage_ && mConfirmed_ == other.mConfirmed_ && Class == other.Class && Method == other.Method && object.Equals(Parameters, other.Parameters) && object.Equals(ErrorLevel, other.ErrorLevel);
+			return mErrorMessage_ == other.mErrorMessage_ && Class == other.Class && Method == other.Method && object.Equals(Parameters, other.Parameters) && object.Equals(ErrorLevel, other.ErrorLevel);
 		}
 
 		public static bool operator ==(ErrorMessage lhs, ErrorMessage rhs) 

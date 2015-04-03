@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Common;
 using System.Data.OleDb;
 using System.Data.SQLite;
+using System.Diagnostics;
 using MiskoPersist.Data;
 using MiskoPersist.Enums;
 using MiskoPersist.MoneyType;
@@ -213,27 +214,10 @@ namespace MiskoPersist.Core
             mCommand_.CommandText = mSql_;
             SetParameters(parameters);
 
-            DbDataAdapter adapter = null;
-
-            if (mCommand_ is OracleCommand)
-            {
-                adapter = new OracleDataAdapter((OracleCommand)mCommand_);
-            }
-            else if (mCommand_ is MySqlCommand)
-            {
-                adapter = new MySqlDataAdapter((MySqlCommand)mCommand_);
-            }
-            else if (mCommand_ is SQLiteCommand)
-            {
-                adapter = new SQLiteDataAdapter((SQLiteCommand)mCommand_);
-            }
-            else if (mCommand_ is OleDbCommand)
-            {
-                adapter = new OleDbDataAdapter((OleDbCommand)mCommand_);
-            }
-
-            DateTime startTime = DateTime.Now;            
-            adapter.Fill(mRs_);
+            Stopwatch timer = Stopwatch.StartNew();            
+            GetDataAdapter().Fill(mRs_);
+            timer.Stop();
+        	long elapsedMs = timer.ElapsedMilliseconds;
 
             return HasNext;
         }
@@ -275,10 +259,55 @@ namespace MiskoPersist.Core
             persistence.Close();
             persistence = null;
         }
+        
+        public Boolean ExecuteRSFunction(String function)
+        {
+        	return ExecuteRSFunction(function, new Object[] { });
+        }
+        
+        public Boolean ExecuteRSFunction(String function, Object[] parameters)
+        {
+    	 	mSession_.PersistencePool.Add(this);
+
+            mSql_ = function;
+            mParameters_ = new List<object>(parameters);
+
+            mCommand_.CommandText = mSql_;
+            mCommand_.CommandType = CommandType.StoredProcedure;
+            SetParameters(parameters);
+            
+            Stopwatch timer = Stopwatch.StartNew();            
+            GetDataAdapter().Fill(mRs_);
+            timer.Stop();
+        	long elapsedMs = timer.ElapsedMilliseconds;  
+
+			return HasNext;        	
+        }
 
         #endregion
 
         #region Private Methods
+        
+        private DbDataAdapter GetDataAdapter()
+        {
+        	if (mCommand_ is OracleCommand)
+            {
+                return new OracleDataAdapter((OracleCommand)mCommand_);
+            }
+            else if (mCommand_ is MySqlCommand)
+            {
+                return new MySqlDataAdapter((MySqlCommand)mCommand_);
+            }
+            else if (mCommand_ is SQLiteCommand)
+            {
+                return new SQLiteDataAdapter((SQLiteCommand)mCommand_);
+            }
+            else if (mCommand_ is OleDbCommand)
+            {
+                return new OleDbDataAdapter((OleDbCommand)mCommand_);
+            }
+            return null;
+        }
 
         private void ExecuteInsert(AbstractStoredData clazz, Type type)
         {
