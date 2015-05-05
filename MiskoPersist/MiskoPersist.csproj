@@ -42,6 +42,8 @@
     <NoStdLib>False</NoStdLib>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+    <RunCodeAnalysis>False</RunCodeAnalysis>
+    <SourceAnalysisOverrideSettingsFile>C:\Users\mpiskuric\AppData\Roaming\ICSharpCode\SharpDevelop5\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -62,7 +64,6 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
     <FileAlignment>4096</FileAlignment>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <PlatformTarget>x86</PlatformTarget>
@@ -70,6 +71,7 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
+    <StartAction>Project</StartAction>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
     <BaseAddress>4194304</BaseAddress>
@@ -97,6 +99,12 @@
     <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\LocalConnectionProvider.cs" />
+    <Compile Include="Core\OnlineConnectionProvider.cs" />
+    <Compile Include="Core\ServerConnection.cs" />
+    <Compile Include="Enums\DataSource.cs" />
+    <Compile Include="Interfaces\ConnectionProvider.cs" />
+    <Compile Include="Interfaces\IOController.cs" />
     <Compile Include="Persistences\FoxProPersistence.cs" />
     <Compile Include="SVN\SvnConnection.cs">
       <SubType>Component</SubType>
@@ -113,7 +121,6 @@
     <Compile Include="Enums\SvnPropsStatus.cs" />
     <Compile Include="Enums\SvnStatusType.cs" />
     <Compile Include="Enums\SvnTargetType.cs" />
-    <Compile Include="Interfaces\IOController.cs" />
     <Compile Include="Data\AbstractData.cs" />
     <Compile Include="Data\AbstractStoredData.cs" />
     <Compile Include="Data\AbstractStoredDataList.cs" />
@@ -190,6 +197,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Interfaces" />
     <Folder Include="Libraries" />
   </ItemGroup>
   <ItemGroup>

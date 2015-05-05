@@ -145,6 +145,7 @@
     <Compile Include="Forms\MiskoFinanceMain.Designer.cs">
       <DependentUpon>MiskoFinanceMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="MiskoFinance_IOController_Impl.cs" />
     <Compile Include="Panels\ChooseAccountPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>

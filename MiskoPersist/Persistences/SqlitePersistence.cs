@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Data.SQLite;
 using System.Reflection;
 using MiskoPersist.Core;
@@ -22,7 +23,13 @@ namespace MiskoPersist.Persistences
 
         #region Properties
 
-
+		protected override DbDataAdapter DataAdapter
+		{
+			get
+			{
+				return new SQLiteDataAdapter((SQLiteCommand)mCommand_);
+			}
+		}
 
         #endregion
 
@@ -63,6 +70,7 @@ namespace MiskoPersist.Persistences
                 {
                     param.IsNullable = true;
                     param.Value = DBNull.Value;
+                    param.DbType = DbType.Object;
                     mCommand_.Parameters.Add(param);
                 }
                 else if (parameter is AbstractStoredData)
@@ -99,7 +107,7 @@ namespace MiskoPersist.Persistences
                 }
                 else if (parameter is Money)
                 {
-                    param.DbType = DbType.Decimal;
+                    param.DbType = DbType.Currency;
                     param.Value = ((Money)parameter).ToDecimal(null);
                     mCommand_.Parameters.Add(param);
                 }
@@ -109,15 +117,53 @@ namespace MiskoPersist.Persistences
                     param.Value = ((PrimaryKey)parameter).Value;
                     mCommand_.Parameters.Add(param);
                 }
+                else if (parameter is Int16)
+                {
+                    param.DbType = DbType.Int16;
+                    param.Value = parameter;
+                    mCommand_.Parameters.Add(param);
+                }
+                else if (parameter is Int32)
+                {
+                    param.DbType = DbType.Int32;
+                    param.Value = parameter;
+                    mCommand_.Parameters.Add(param);
+                }
+                else if (parameter is Int64)
+                {
+                    param.DbType = DbType.Int64;
+                    param.Value = parameter;
+                    mCommand_.Parameters.Add(param);
+                }
                 else if (parameter is Guid)
                 {
-                    param.DbType = DbType.String;
+                    param.DbType = DbType.Guid;
                     param.Value = ((Guid)parameter).ToString();
+                    mCommand_.Parameters.Add(param);
+                }
+                else if(parameter is String)
+                {
+                    param.Value = parameter;
+                    param.DbType = DbType.String;
+                    param.Size = ((String)parameter).Length;
+                    mCommand_.Parameters.Add(param);
+                }
+                else if(parameter is DateTime)
+                {
+                    param.Value = parameter;
+                    param.DbType = DbType.DateTime;
+                    mCommand_.Parameters.Add(param);
+                }
+                else if(parameter is bool || parameter is Boolean)
+                {
+                	param.Value = parameter;
+                    param.DbType = DbType.Int16;
                     mCommand_.Parameters.Add(param);
                 }
                 else
                 {
                     param.Value = parameter;
+                    param.DbType = DbType.Object;
                     mCommand_.Parameters.Add(param);
                 }
 

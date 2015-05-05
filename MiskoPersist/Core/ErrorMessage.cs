@@ -58,7 +58,6 @@ namespace MiskoPersist.Core
         	} 
         }
         
-        [JsonIgnore]
         public Boolean? Confirmed 
         { 
         	get  

@@ -165,7 +165,7 @@ namespace MiskoFinance.Controls
 	            UpdateTxnRQ request = new UpdateTxnRQ();
 	            request.Txn = vwTxn;
 	            request.Summary = MiskoFinanceMain.Instance.SummaryPanel.Summary;
-	            MessageProcessor.SendRequest(request, UpdateTxnSuccess);
+	            ServerConnection.SendRequest(request, UpdateTxnSuccess);
             }
         }
 
@@ -184,8 +184,9 @@ namespace MiskoFinance.Controls
             request.Category = MiskoFinanceMain.Instance.TransactionsPanel.Category.CategoryId;
             request.Description = MiskoFinanceMain.Instance.TransactionsPanel.Description;
             request.Page = mPage_.Next;
+            request.Page.RowsPerPage = MiskoFinance_IOController_Impl.Instance.RowsPerPage;
             request.Page.IncludeRecordCount = true;
-            MessageProcessor.SendRequest(request, GetTxnsSuccess);
+            ServerConnection.SendRequest(request, GetTxnsSuccess);
         }
 
         #endregion

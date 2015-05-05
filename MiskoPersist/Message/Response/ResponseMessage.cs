@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Remoting.Messaging;
 using Newtonsoft.Json;
 using MiskoPersist.Core;
 using MiskoPersist.Data;
@@ -92,6 +93,27 @@ namespace MiskoPersist.Message.Response
         }
         
         [JsonIgnore]
+        public Boolean HasUnconfirmed 
+        {
+        	get
+        	{
+        		bool hasUnconfirmed = false;
+        		if(HasConfirmations)
+        		{
+        			foreach (ErrorMessage confirmMessage in Confirmations) 
+        			{
+        				if(confirmMessage.Confirmed.HasValue && !confirmMessage.Confirmed.Value)
+        				{
+        					hasUnconfirmed = true;
+        					break;
+        				}
+        			}
+        		}
+        		return hasUnconfirmed;
+        	}
+        }
+        
+        [JsonIgnore]
         public Boolean HasInfos 
         { 
         	get 
@@ -117,12 +139,40 @@ namespace MiskoPersist.Message.Response
         		return mConfirmations_ != null && mConfirmations_.Count > 0; 
         	} 
         }
+        
+        [JsonIgnore]
+        public ErrorMessages AllMessages
+        {
+        	get
+        	{
+        		ErrorMessages all = new ErrorMessages();
+        		
+        		if(mErrors_ != null && mErrors_.Count > 0)
+        		{
+        			all.AddRange(Errors);
+        		}
+        		if(HasWarnings)
+        		{
+        			all.AddRange(Warnings);
+        		}
+        		if(HasConfirmations)
+        		{
+        			all.AddRange(Confirmations);
+        		}
+        		if(HasInfos)
+        		{
+        			all.AddRange(Infos);
+        		}
+        		
+        		return all;
+        	}
+        }
 
         #endregion
 
         #region Constructors
 
-        protected ResponseMessage()
+        public  ResponseMessage()
         {
         }
 

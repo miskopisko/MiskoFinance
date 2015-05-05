@@ -86,7 +86,7 @@ namespace MiskoFinance.Forms
             {
                 UpdateAccountsRQ request = new UpdateAccountsRQ();
                 request.BankAccounts = (VwBankAccounts)mExistingAccounts_.DataSource;
-                MessageProcessor.SendRequest(request, UpdateAccountsSuccess);
+                ServerConnection.SendRequest(request, UpdateAccountsSuccess);
             }
             else
             {

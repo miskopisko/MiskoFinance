@@ -24,9 +24,9 @@ namespace MiskoPersist.Message
 
         #region Constructors
 
-        protected MessageWrapper()
-        {
-        }
+		protected MessageWrapper()
+		{
+		}
 
         protected MessageWrapper(RequestMessage request, ResponseMessage response)
         {

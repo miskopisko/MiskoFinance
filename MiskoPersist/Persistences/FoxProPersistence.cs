@@ -1,5 +1,6 @@
 using System;
 using System.Data;
+using System.Data.Common;
 using System.Data.OleDb;
 using MiskoPersist.Core;
 using MiskoPersist.Data;
@@ -20,7 +21,13 @@ namespace MiskoPersist.Persistences
 
         #region Properties
 
-
+		protected override DbDataAdapter DataAdapter
+		{
+			get
+			{
+				return new OleDbDataAdapter((OleDbCommand)mCommand_);
+			}
+		}
 
         #endregion
 
@@ -48,10 +55,11 @@ namespace MiskoPersist.Persistences
                 OleDbParameter param = new OleDbParameter();
                 param.ParameterName = position.ToString();
 
-                if (parameter == null)
+                if (parameter == null || (parameter is String && String.IsNullOrEmpty((String)parameter)))
                 {
                     param.IsNullable = true;
                     param.Value = DBNull.Value;
+                    param.OleDbType = OleDbType.IUnknown;
                     mCommand_.Parameters.Add(param);
                 }
                 else if (parameter is AbstractStoredData)
@@ -88,25 +96,57 @@ namespace MiskoPersist.Persistences
                 }
                 else if (parameter is Money)
                 {
-                    param.DbType = DbType.Decimal;
+                    param.OleDbType = OleDbType.Currency;
                     param.Value = ((Money)parameter).ToDecimal(null);
                     mCommand_.Parameters.Add(param);
                 }
                 else if (parameter is PrimaryKey)
                 {
-                    param.DbType = DbType.Int32;
+                    param.OleDbType = OleDbType.BigInt;
                     param.Value = ((PrimaryKey)parameter).Value;
+                    mCommand_.Parameters.Add(param);
+                }
+                else if (parameter is Int16)
+                {
+                    param.OleDbType = OleDbType.SmallInt;
+                    param.Value = parameter;
+                    mCommand_.Parameters.Add(param);
+                }
+                else if (parameter is Int32)
+                {
+                    param.OleDbType = OleDbType.Integer;
+                    param.Value = parameter;
                     mCommand_.Parameters.Add(param);
                 }
                 else if (parameter is Int64)
                 {
-                    param.DbType = DbType.Int32;
+                    param.OleDbType = OleDbType.BigInt;
                     param.Value = parameter;
+                    mCommand_.Parameters.Add(param);
+                }
+                else if(parameter is String)
+                {
+                	param.Value = parameter;
+                    param.OleDbType = OleDbType.VarChar;
+                    param.Size = ((String)parameter).Length;
+                    mCommand_.Parameters.Add(param);
+                }
+                else if(parameter is DateTime)
+                {
+                	param.Value = parameter;
+                    param.OleDbType = OleDbType.DBDate;
+                    mCommand_.Parameters.Add(param);
+                }
+                else if(parameter is bool || parameter is Boolean)
+                {
+                	param.Value = parameter;
+                    param.OleDbType = OleDbType.SmallInt;
                     mCommand_.Parameters.Add(param);
                 }
                 else
                 {
                     param.Value = parameter;
+                    param.OleDbType = OleDbType.IUnknown;
                     mCommand_.Parameters.Add(param);
                 }
 

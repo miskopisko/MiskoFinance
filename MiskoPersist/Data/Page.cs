@@ -47,6 +47,10 @@ namespace MiskoPersist.Data
 		{
 			get
 			{
+				if(RowsPerPage == 0)
+				{
+					return 1;
+				}
 				return TotalRowCount > 0 ? (Int32)Math.Ceiling((decimal)TotalRowCount / (decimal)RowsPerPage) : 0;
 			}
 		}		

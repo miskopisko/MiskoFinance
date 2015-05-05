@@ -71,7 +71,7 @@ namespace MiskoFinance.Panels
             GetAccountRQ request = new GetAccountRQ();
             request.AccountNo = Owner.OfxDocument.AccountID;
             request.Operator = MiskoFinanceMain.Instance.Operator.OperatorId;
-            MessageProcessor.SendRequest(request, GetAccountSuccess);
+            ServerConnection.SendRequest(request, GetAccountSuccess);
         }
 
         #endregion
@@ -189,8 +189,7 @@ namespace MiskoFinance.Panels
             {
                 if (mExistingAccounts_.CheckedItems.Count == 0)
                 {
-                	MiskoFinanceMain.Instance.Error(ErrorStrings.errChooseExistingAccount);
-                    return null;
+                	throw new MiskoException(ErrorStrings.errChooseExistingAccount);
                 }
                 else
                 {

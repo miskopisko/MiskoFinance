@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Reflection;
 using MiskoPersist.Core;
 using MiskoPersist.Data;
@@ -22,7 +23,13 @@ namespace MiskoPersist.Persistences
 
         #region Properties
 
-
+		protected override DbDataAdapter DataAdapter
+		{
+			get
+			{
+				return new MySqlDataAdapter((MySqlCommand)mCommand_);
+			}
+		}
 
         #endregion
 
@@ -63,6 +70,7 @@ namespace MiskoPersist.Persistences
                 {
                     param.IsNullable = true;
                     param.Value = DBNull.Value;
+                    param.MySqlDbType = MySqlDbType.Binary;
                     mCommand_.Parameters.Add(param);
                 }
                 else if (parameter is AbstractStoredData)
@@ -75,7 +83,7 @@ namespace MiskoPersist.Persistences
                 else if (parameter is AbstractEnum)
                 {
                     param.IsNullable = true;
-                    param.MySqlDbType = MySqlDbType.Int32;
+                    param.MySqlDbType = MySqlDbType.Int64;
                     param.Value = ((AbstractEnum)parameter).IsSet ? (Object)((AbstractEnum)parameter).Value : DBNull.Value;
                     mCommand_.Parameters.Add(param);
                 }
@@ -99,25 +107,63 @@ namespace MiskoPersist.Persistences
                 }
                 else if (parameter is Money)
                 {
-                    param.DbType = DbType.Decimal;
+                    param.MySqlDbType = MySqlDbType.Decimal;
                     param.Value = ((Money)parameter).ToDecimal(null);
                     mCommand_.Parameters.Add(param);
                 }
                 else if (parameter is PrimaryKey)
                 {
-                    param.DbType = DbType.Int64;
+                    param.MySqlDbType = MySqlDbType.Int64;
                     param.Value = ((PrimaryKey)parameter).Value;
                     mCommand_.Parameters.Add(param);
+                }                
+                else if (parameter is Int16)
+                {
+                    param.MySqlDbType = MySqlDbType.Int16;
+                    param.Value = parameter;
+                    mCommand_.Parameters.Add(param);
                 }
+                else if (parameter is Int32)
+                {
+                    param.MySqlDbType = MySqlDbType.Int32;
+                    param.Value = parameter;
+                    mCommand_.Parameters.Add(param);
+                }
+                else if (parameter is Int64)
+                {
+                    param.MySqlDbType = MySqlDbType.Int64;
+                    param.Value = parameter;
+                    mCommand_.Parameters.Add(param);
+                }                
                 else if (parameter is Guid)
                 {
-                    param.DbType = DbType.String;
+                    param.MySqlDbType = MySqlDbType.String;
                     param.Value = ((Guid)parameter).ToString();
+                    mCommand_.Parameters.Add(param);
+                }
+                else if(parameter is String)
+                {
+                    param.Value = parameter;
+                    param.MySqlDbType = MySqlDbType.String;
+                    param.Size = ((String)parameter).Length;
+                    mCommand_.Parameters.Add(param);
+                }
+                else if(parameter is DateTime)
+                {
+                    param.Value = parameter;
+                    param.MySqlDbType = MySqlDbType.DateTime;
+                    mCommand_.Parameters.Add(param);
+                }
+                else if(parameter is bool || parameter is Boolean)
+                {
+                	param.Value = parameter;
+                    param.MySqlDbType = MySqlDbType.Int16;
                     mCommand_.Parameters.Add(param);
                 }
                 else
                 {
                     param.Value = parameter;
+                    param.MySqlDbType = MySqlDbType.Blob;
                     mCommand_.Parameters.Add(param);
                 }
                 

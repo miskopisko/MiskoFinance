@@ -22,6 +22,7 @@ namespace MiskoPersist.Core
         private ErrorMessages mErrorMessages_ = new ErrorMessages();
         private ErrorLevel mStatus_ = ErrorLevel.Success;
         private MessageMode mMessageMode_ = MessageMode.Normal;
+        private long mSqlExecutionTime_ = 0;
 
         #endregion
 
@@ -96,6 +97,18 @@ namespace MiskoPersist.Core
         	get
         	{
         		return mErrorMessages_;
+        	}
+        }
+        
+        public long SqlExecutionTime
+        {
+        	get
+        	{
+        		return mSqlExecutionTime_;
+        	}
+        	set
+        	{
+        		mSqlExecutionTime_ = value;
         	}
         }
 

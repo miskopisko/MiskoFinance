@@ -5,13 +5,13 @@ using System.Data.Common;
 using System.Data.OleDb;
 using System.Data.SQLite;
 using System.Diagnostics;
+using MySql.Data.MySqlClient;
+using Oracle.DataAccess.Client;
 using MiskoPersist.Data;
 using MiskoPersist.Enums;
 using MiskoPersist.MoneyType;
 using MiskoPersist.Persistences;
 using MiskoPersist.Resources;
-using MySql.Data.MySqlClient;
-using Oracle.DataAccess.Client;
 
 namespace MiskoPersist.Core
 {
@@ -213,11 +213,13 @@ namespace MiskoPersist.Core
 
             mCommand_.CommandText = mSql_;
             SetParameters(parameters);
+            
+            mCommand_.Prepare();
 
             Stopwatch timer = Stopwatch.StartNew();            
-            GetDataAdapter().Fill(mRs_);
+            DataAdapter.Fill(mRs_);
             timer.Stop();
-        	long elapsedMs = timer.ElapsedMilliseconds;
+            mSession_.SqlExecutionTime += timer.ElapsedMilliseconds;
 
             return HasNext;
         }
@@ -276,10 +278,12 @@ namespace MiskoPersist.Core
             mCommand_.CommandType = CommandType.StoredProcedure;
             SetParameters(parameters);
             
+            mCommand_.Prepare();
+            
             Stopwatch timer = Stopwatch.StartNew();            
-            GetDataAdapter().Fill(mRs_);
+            DataAdapter.Fill(mRs_);
             timer.Stop();
-        	long elapsedMs = timer.ElapsedMilliseconds;  
+        	mSession_.SqlExecutionTime += timer.ElapsedMilliseconds;  
 
 			return HasNext;        	
         }
@@ -287,39 +291,20 @@ namespace MiskoPersist.Core
         #endregion
 
         #region Private Methods
-        
-        private DbDataAdapter GetDataAdapter()
-        {
-        	if (mCommand_ is OracleCommand)
-            {
-                return new OracleDataAdapter((OracleCommand)mCommand_);
-            }
-            else if (mCommand_ is MySqlCommand)
-            {
-                return new MySqlDataAdapter((MySqlCommand)mCommand_);
-            }
-            else if (mCommand_ is SQLiteCommand)
-            {
-                return new SQLiteDataAdapter((SQLiteCommand)mCommand_);
-            }
-            else if (mCommand_ is OleDbCommand)
-            {
-                return new OleDbDataAdapter((OleDbCommand)mCommand_);
-            }
-            return null;
-        }
 
         private void ExecuteInsert(AbstractStoredData clazz, Type type)
         {
             mSession_.PersistencePool.Add(this);
 
-            GenerateInsertStatement(clazz, type);
-
             PrimaryKey newId = new PrimaryKey();
+            
+            GenerateInsertStatement(clazz, type);
+            
+            mCommand_.Prepare();           
 
+            Stopwatch timer = Stopwatch.StartNew();
             if (mCommand_ is MySqlCommand || mCommand_ is SQLiteCommand)
             {
-                DateTime startTime = DateTime.Now;
                 newId = new PrimaryKey(mCommand_.ExecuteScalar().ToString());
             }
             else if (mCommand_ is OracleCommand)
@@ -330,7 +315,6 @@ namespace MiskoPersist.Core
                 lastId.Direction = ParameterDirection.Output;
                 ((OracleCommand)mCommand_).Parameters.Add(lastId);
 
-                DateTime startTime = DateTime.Now;
                 mCommand_.ExecuteNonQuery();
 
                 newId = new PrimaryKey(Convert.ToInt64(lastId.Value));
@@ -339,7 +323,9 @@ namespace MiskoPersist.Core
             {
                 // FoxPro INSERT is done on a class by class basis by overriding the Create method
             }
-
+            timer.Stop();            
+            mSession_.SqlExecutionTime += timer.ElapsedMilliseconds;
+            
             if (mSession_.MessageMode.Equals(MessageMode.Normal))
             {
                 clazz.Id = newId;
@@ -356,9 +342,13 @@ namespace MiskoPersist.Core
             }
 
             GenerateUpdateStatement(clazz, type);
+            
+            mCommand_.Prepare();
 
-            DateTime startTime = DateTime.Now;
+			Stopwatch timer = Stopwatch.StartNew();
             Int32 result = mCommand_.ExecuteNonQuery();
+            timer.Stop();
+            mSession_.SqlExecutionTime += timer.ElapsedMilliseconds;
 
             if (result == 0)
             {
@@ -371,9 +361,13 @@ namespace MiskoPersist.Core
             mSession_.PersistencePool.Add(this);
 
             GenerateDeleteStatement(clazz, type);
+            
+            mCommand_.Prepare();
 
-            DateTime startTime = DateTime.Now;
+            Stopwatch timer = Stopwatch.StartNew();
             int result = mCommand_.ExecuteNonQuery();
+            timer.Stop();
+            mSession_.SqlExecutionTime += timer.ElapsedMilliseconds;
 
             if (result == 0)
             {
@@ -390,9 +384,13 @@ namespace MiskoPersist.Core
 
             mCommand_.CommandText = mSql_;
             SetParameters(parameters);
+            
+            mCommand_.Prepare();
 
-            DateTime startTime = DateTime.Now;
+            Stopwatch timer = Stopwatch.StartNew();
             int result = mCommand_.ExecuteNonQuery();
+            timer.Stop();
+            mSession_.SqlExecutionTime += timer.ElapsedMilliseconds;
 
             return result;
         }
@@ -401,7 +399,8 @@ namespace MiskoPersist.Core
 
         #region Abstract Methods
 
-        protected abstract void SetParameters(Object[] value);
+        protected abstract DbDataAdapter DataAdapter { get; }
+        protected abstract void SetParameters(Object[] parameters);
         protected abstract void GenerateUpdateStatement(AbstractStoredData clazz, Type type);
         protected abstract void GenerateDeleteStatement(AbstractStoredData clazz, Type type);
         protected abstract void GenerateInsertStatement(AbstractStoredData clazz, Type type);

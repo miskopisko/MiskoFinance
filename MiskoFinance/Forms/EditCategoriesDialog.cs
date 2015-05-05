@@ -43,7 +43,7 @@ namespace MiskoFinance.Forms
             GetCategoriesRQ request = new GetCategoriesRQ();
             request.Operator = MiskoFinanceMain.Instance.Operator.OperatorId;
             request.Status = Status.NULL;
-            MessageProcessor.SendRequest(request, GetCategoriesSuccess);
+            ServerConnection.SendRequest(request, GetCategoriesSuccess);
         }
 
         #endregion
@@ -114,7 +114,7 @@ namespace MiskoFinance.Forms
             {
                 UpdateCategoriesRQ request = new UpdateCategoriesRQ();
                 request.Categories = categories;
-                MessageProcessor.SendRequest(request, UpdateCategoriesSuccess);
+                ServerConnection.SendRequest(request, UpdateCategoriesSuccess);
             }
             else
             {

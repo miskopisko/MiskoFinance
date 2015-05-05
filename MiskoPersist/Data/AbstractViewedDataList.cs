@@ -88,6 +88,11 @@ namespace MiskoPersist.Data
 
         public void AddRange(AbstractViewedDataList<AbstractViewedData> list)
         {
+        	if(list == null)
+        	{
+        		return;
+        	}
+        	
             foreach (AbstractViewedData item in list)
             {
                 Items.Add(item);

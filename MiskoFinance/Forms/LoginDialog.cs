@@ -57,7 +57,7 @@ namespace MiskoFinance.Forms
             LoginRQ request = new LoginRQ();
             request.Username = mUsername_.Text.Trim();
             request.Password = Utils.GenerateHash(mPassword_.Text.Trim());
-            MessageProcessor.SendRequest(request, LoginSuccess);
+            ServerConnection.SendRequest(request, LoginSuccess);
         }
 
         private void mCancel__Click(object sender, EventArgs e)

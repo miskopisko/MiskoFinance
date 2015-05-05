@@ -106,7 +106,7 @@ namespace MiskoFinance.Forms
             request.Operator = mOperator_;
             request.Password1 = mPassword1_.Text;
             request.Password2 = mPassword2_.Text;
-            MessageProcessor.SendRequest(request, UpdateOperatorSuccess);
+            ServerConnection.SendRequest(request, UpdateOperatorSuccess);
         }
 
         private void mCancelBtn__Click(object sender, EventArgs e)

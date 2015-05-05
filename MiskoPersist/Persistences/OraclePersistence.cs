@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Reflection;
 using MiskoPersist.Core;
 using MiskoPersist.Data;
@@ -22,7 +23,13 @@ namespace MiskoPersist.Persistences
 
         #region Properties
 
-
+		protected override DbDataAdapter DataAdapter
+		{
+			get
+			{
+				return new OracleDataAdapter((OracleCommand)mCommand_);
+			}
+		}
 
         #endregion
 
@@ -113,6 +120,12 @@ namespace MiskoPersist.Persistences
                 {
                     param.DbType = DbType.String;
                     param.Value = ((Guid)parameter).ToString();
+                    mCommand_.Parameters.Add(param);
+                }
+                else if(parameter is bool || parameter is Boolean)
+                {
+                	param.Value = parameter;
+                    param.OracleDbType = OracleDbType.Int16;
                     mCommand_.Parameters.Add(param);
                 }
                 else

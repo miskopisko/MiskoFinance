@@ -1,184 +1,56 @@
 using System;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Reflection;
-using System.Threading;
-using MiskoPersist.Data;
 using MiskoPersist.Enums;
-using MiskoPersist.Interfaces;
 using MiskoPersist.Message;
 using MiskoPersist.Message.Request;
 using MiskoPersist.Message.Response;
-using MiskoPersist.Resources;
-using MiskoPersist.Tools;
 
 namespace MiskoPersist.Core
 {
     public class MessageProcessor
     {
-        private static Logger Log = Logger.GetInstance(typeof(MessageProcessor));
-
-        #region Delegates
-
-        public delegate void MessageCompleteHandler(ResponseMessage Response);
-
-        #endregion
-
-        #region Fields
-
-        private readonly MessageCompleteHandler mSuccessHandler_;
-        private readonly MessageCompleteHandler mErrorHandler_;
-        private readonly RequestMessage mRequest_;
-
-        private static int active = 0;
-
-        #endregion
-
-        #region Properties
-
-        public static IOController IOController 
-        {
-        	get;
-        	set;
-        }
-
-        #endregion
+        private static readonly Logger Log = Logger.GetInstance(typeof(MessageProcessor));
 
         #region Constructors
 
-        private MessageProcessor(RequestMessage request, MessageCompleteHandler successHandler, MessageCompleteHandler errorHandler)
-        {
-            if (IOController == null)
-            {
-                throw new MiskoException(ErrorStrings.errIOControllerIsNull);
-            }
-
-            mSuccessHandler_ = successHandler;
-            mErrorHandler_ = errorHandler;
-            mRequest_ = request;
+        private MessageProcessor()
+        {            
         }
 
         #endregion
 
         #region Private Methods
 
-        private void SendRequest()
-        {
-            active++;
-
-            BackgroundWorker bw = new BackgroundWorker();
-            bw.DoWork += DoWork;
-            bw.RunWorkerCompleted += RunWorkerCompleted;
-            bw.RunWorkerAsync();
-
-            IOController.Status(Strings.strPorcessing);
-            IOController.MessageSent();
-        }
-
-        private void DoWork(object sender, DoWorkEventArgs e)
-        {
-            ResponseMessage response;
-            Boolean resendMessage = false;
-            Session session = new Session(mRequest_.Connection ?? "Default");
-			session.MessageMode = mRequest_.MessageMode ?? MessageMode.Normal;
-
-            try
-            {
-                IOController.Debug(mRequest_);
-            }
-            catch (Exception ex)
-            {
-                IOController.ExceptionHandler(mSuccessHandler_.Target, new ThreadExceptionEventArgs(ex));
-            }
-
-            do
-            {
-                resendMessage = false;
-                response = Process(session, mRequest_);
-
-                if (response != null) // Now display warnings and error messages.
-                {
-                    try
-                    {
-                        IOController.Debug(response);
-                    }
-                    catch (Exception ex)
-                    {
-                        IOController.ExceptionHandler(mSuccessHandler_.Target, new ThreadExceptionEventArgs(ex));
-                    }
-
-                    for (int i = 0; i < session.ErrorMessages.Count; i++)
-                    {
-                        ErrorMessage errorMessage = session.ErrorMessages[i];
-
-                        if (errorMessage.ErrorLevel.Equals(ErrorLevel.Error))
-                        {
-                        	IOController.Status(Strings.strError);
-                            IOController.Error(errorMessage.Message);
-                        }
-                        else if (errorMessage.ErrorLevel.Equals(ErrorLevel.Warning))
-                        {
-                            IOController.Warning(errorMessage.Message);
-                        }
-                        else if (errorMessage.ErrorLevel.Equals(ErrorLevel.Info))
-                        {
-                            IOController.Info(errorMessage.Message);
-                        }
-                        else if (errorMessage.ErrorLevel.Equals(ErrorLevel.Confirmation))
-                        {
-                            if (errorMessage.Confirmed.HasValue && !errorMessage.Confirmed.Value)
-                            {
-                                if (IOController.Confirm(errorMessage.Message))
-                                {
-                                    session.Status = ErrorLevel.Success;
-                                    errorMessage.Confirmed = true;
-                                    resendMessage = true;
-                                }
-                                else
-                                {
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            while (response != null && resendMessage);
-
-            session.Connection.Close();
-            e.Result = response;
-        }
-
-        private ResponseMessage Process(Session session, RequestMessage request)
+        public static ResponseMessage Process(RequestMessage request)
         {
             if (request != null)
             {
                 ResponseMessage response = null;
                 MessageWrapper wrapper = null;
                 DateTime startTime = DateTime.Now;
+                Session session = null;
 
                 try
                 {
+                	session = new Session(request.Connection ?? "Default");
+					session.MessageMode = request.MessageMode ?? MessageMode.Normal;
+					session.ErrorMessages.AddRange(request.Confirms);
+                	
                     String msgName = request.GetType().Name.Substring(0, request.GetType().Name.Length - 2);
                     String msgPath = request.GetType().FullName.Replace("Requests." + msgName + "RQ", "");
 
                     response = (ResponseMessage)request.GetType().Assembly.CreateInstance(msgPath + "Responses." + msgName + "RS");
                     wrapper = (MessageWrapper)request.GetType().Assembly.CreateInstance(msgPath + msgName, false, BindingFlags.CreateInstance, null, new object[] { request, response }, null, null);
 
-                    if(request.Page != null)
-                    {
-                    	response.Page = request.Page;
-                    	response.Page.RowsPerPage = IOController.RowsPerPage;	
-                    }                    
+                    response.Page = request.Page;
 
                     session.BeginTransaction();
 
-                    Trace.WriteLine("Executing " + request.GetType().Name + "...");
-        			var watch = Stopwatch.StartNew();
+                    Stopwatch watch = Stopwatch.StartNew();
                     wrapper.GetType().InvokeMember(request.Command ?? "Execute", BindingFlags.Default | BindingFlags.InvokeMethod, null, wrapper, new Object[] { session });
                     watch.Stop();
-        			var elapsedMs = watch.ElapsedMilliseconds;
-        			Trace.WriteLine(request.GetType().Name + " complete: " + elapsedMs.ToString());
+        			long elapsedMs = watch.ElapsedMilliseconds;
                 }
                 catch (Exception e)
                 {
@@ -200,12 +72,20 @@ namespace MiskoPersist.Core
                         {
                             Log.Error("Unexpected Error: (" + ex.Message + ")", ex);
                             session.ErrorMessages.Add(ex.ErrorMessage);
+                            
+                            #if DEBUG
+								Trace.Write(ActualException.StackTrace);
+							#endif                   
                         }
                     }
                     else
                     {
                         Log.Error("Unexpected Error: (" + ActualException.Message + ")", ActualException);
                         session.ErrorMessages.Add(new ErrorMessage(ActualException));
+                        
+                        #if DEBUG
+							Trace.Write(ActualException.StackTrace);
+						#endif
                     }
                 }
                 finally
@@ -223,76 +103,17 @@ namespace MiskoPersist.Core
                             response.Warnings = session.ErrorMessages.ListOf(ErrorLevel.Warning);
                             response.Confirmations = session.ErrorMessages.ListOf(ErrorLevel.Confirmation);
                         }
+                        
+                        session.Connection.Close();
                     }
                 }
                 
                 return response;
             }
 
-            return null;
+            return new ResponseMessage();
         }
 
-        private void RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            active--;
-            Boolean errorEncountered = false;
-            ResponseMessage response = null;
-
-            if (e.Error != null)
-            {
-                errorEncountered = true;
-                IOController.Error(e.Error.Message);
-            }
-            else
-            {
-                response = e.Result as ResponseMessage;
-                errorEncountered = response.HasErrors;
-            }
-
-            // No errors in the message; call the successfulHandler
-            if (!errorEncountered && mSuccessHandler_ != null)
-            {
-                try
-                {
-                    mSuccessHandler_(response);
-                }
-                catch (Exception ex)
-                {
-                    errorEncountered = true;
-                    IOController.ExceptionHandler(mSuccessHandler_.Target, new ThreadExceptionEventArgs(ex));
-                }
-            }
-            // If errors in the message; call errorHandler
-            else if (errorEncountered && mErrorHandler_ != null)
-            {
-                try
-                {
-                    mErrorHandler_(response);
-                }
-                catch (Exception ex)
-                {
-                    IOController.ExceptionHandler(mErrorHandler_.Target, new ThreadExceptionEventArgs(ex));
-                }
-            }
-
-            IOController.Status(active == 0 ? errorEncountered ? Strings.strError : Strings.strSuccess : Strings.strPorcessing);
-            IOController.MessageReceived();            
-        }
-
-        #endregion
-
-        #region Public Methods
-
-        public static void SendRequest(RequestMessage request, MessageCompleteHandler successHandler)
-        {
-            SendRequest(request, successHandler, null);
-        }
-
-        public static void SendRequest(RequestMessage request, MessageCompleteHandler successHandler, MessageCompleteHandler errorHandler)
-        {
-        	new MessageProcessor(request, successHandler, errorHandler).SendRequest();
-        }
-
-        #endregion
+        #endregion        
     }
 }

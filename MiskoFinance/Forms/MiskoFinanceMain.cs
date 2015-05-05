@@ -1,25 +1,16 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Drawing;
-using System.Threading;
 using System.Windows.Forms;
 using MiskoFinanceCore.Data.Viewed;
-using MiskoFinanceCore.Enums;
 using MiskoFinanceCore.Message.Requests;
 using MiskoFinanceCore.Message.Responses;
-using MiskoFinanceCore.Resources;
 using MiskoPersist.Core;
-using MiskoPersist.Data;
-using MiskoPersist.Interfaces;
-using MiskoPersist.Message.Request;
 using MiskoPersist.Message.Response;
-using MiskoPersist.Tools;
 using MiskoFinance.Panels;
-using MiskoFinance.Properties;
 
 namespace MiskoFinance.Forms
 {
-    public partial class MiskoFinanceMain : Form, IOController
+    public partial class MiskoFinanceMain : Form
     {
         private static Logger Log = Logger.GetInstance(typeof(MiskoFinanceMain));
 
@@ -38,8 +29,6 @@ namespace MiskoFinance.Forms
         		if(mInstance_ == null)
         		{
         			mInstance_ = new MiskoFinanceMain();
-        			MessageProcessor.IOController = mInstance_;
-            		Application.ThreadException += mInstance_.ExceptionHandler;
         		}
                 return mInstance_;
         	}
@@ -73,6 +62,22 @@ namespace MiskoFinance.Forms
         { 
         	get; 
         	set;
+        }
+        
+        public ToolStripStatusLabel StatusLabel
+        {
+        	get
+        	{
+        		return mMessageStatusLbl_;
+        	}
+        }
+        
+        public ToolStripProgressBar MessageStatusBar
+        {
+        	get
+        	{
+        		return mMessageStatusBar_;
+        	}
         }
 
         #endregion
@@ -171,7 +176,7 @@ namespace MiskoFinance.Forms
             LoginRQ request = new LoginRQ();
             request.Username = "miskopisko";
             request.Password = "secret";
-            MessageProcessor.SendRequest(request, LoginSuccess, LoginError);
+            ServerConnection.SendRequest(request, LoginSuccess, LoginError);
         }
 
         #endregion
@@ -188,7 +193,7 @@ namespace MiskoFinance.Forms
 
         private void LoginError(ResponseMessage response)
         {
-        	MiskoFinanceMain.Instance.Error("Cannot log in");
+        	throw new MiskoException("Cannot log in");
         	
         	/*
  			UpdateOperatorRQ request = new UpdateOperatorRQ();
@@ -219,31 +224,9 @@ namespace MiskoFinance.Forms
 
         #endregion
         
-        #region IOController Methods
+/*        #region IOController Methods
         
-        public Int32 RowsPerPage 
-        { 
-        	get 
-        	{ 
-        		return Settings.Default.RowsPerPage; 
-        	} 
-        }
-        
-        public void Status(String message)
-        {
-        	mMessageStatusLbl_.Text = message;
-        	Application.DoEvents();
-        }
-        
-        public void ExceptionHandler(Object sender, ThreadExceptionEventArgs e)
-        {
-            Exception ex = e.Exception;
-            while (ex.InnerException != null)
-            {
-                ex = ex.InnerException;
-            }
-            Error(ex.Message);
-        }
+     
 
         public void Debug(Object obj)
         {
@@ -267,40 +250,7 @@ namespace MiskoFinance.Forms
             }
         }       
 
-        public void MessageReceived()
-        {
-            mMessageStatusBar_.Increment(-10);            
-            Application.DoEvents();
-        }
 
-        public void MessageSent()
-        {
-            mMessageStatusBar_.Increment(10);
-            Application.DoEvents();
-        }
-
-        public void Error(String message)
-        {
-            Invoke(new MethodInvoker(delegate { MessageBox.Show(this, message.ToString(), Strings.strError, MessageBoxButtons.OK, MessageBoxIcon.Error); }));
-        }
-
-        public void Warning(String message)
-        {
-            Invoke(new MethodInvoker(delegate { MessageBox.Show(this, message.ToString(), Strings.strWarning, MessageBoxButtons.OK, MessageBoxIcon.Warning); }));
-        }
-
-        public void Info(String message)
-        {
-            Invoke(new MethodInvoker(delegate { MessageBox.Show(this, message.ToString(), Strings.strInfo, MessageBoxButtons.OK, MessageBoxIcon.Information); }));
-        }
-
-        public bool Confirm(String message)
-        {
-            DialogResult result = DialogResult.None;
-            Invoke(new MethodInvoker(delegate { result = MessageBox.Show(this, message.ToString(), Strings.strConfirm, MessageBoxButtons.YesNo, MessageBoxIcon.Question); }));
-            return result.Equals(DialogResult.Yes);
-        }
-
-        #endregion
+        #endregion*/
     }
 }

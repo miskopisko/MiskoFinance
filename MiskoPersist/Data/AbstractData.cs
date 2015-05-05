@@ -295,7 +295,18 @@ namespace MiskoPersist.Data
         
         public static String SerializeJson(Object obj)
         {
-        	return JsonConvert.SerializeObject(obj, settings);
+        	String result = "";
+        	
+        	try
+        	{
+        		result = JsonConvert.SerializeObject(obj, settings);
+        	}
+        	catch
+        	{
+        		result = "Could not serialize object: " + obj.GetType().Name;
+        	}
+        	
+        	return result;
         }
         
         public static Object DeserializeJson(String json)

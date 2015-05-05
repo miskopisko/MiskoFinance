@@ -40,12 +40,18 @@ namespace MiskoPersist.Message.Request
         	get;
         	set; 
         }
+        
+        public ErrorMessages Confirms
+        {
+        	get;
+        	set;
+        }
 
         #endregion
 
         #region Constructors
 
-        protected RequestMessage()
+        public RequestMessage()
         {
         }
 

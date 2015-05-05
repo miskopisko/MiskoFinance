@@ -152,7 +152,7 @@ namespace MiskoFinance.Forms
             request.FromDate = OfxDocument.StartDate;
             request.ToDate = OfxDocument.EndDate;
             request.Transactions = OfxDocument.Transactions;
-            MessageProcessor.SendRequest(request, CheckDuplicateTxnsSuccess);
+            ServerConnection.SendRequest(request, CheckDuplicateTxnsSuccess);
         }
 
         private void AddAccountError(ResponseMessage response)
@@ -169,7 +169,7 @@ namespace MiskoFinance.Forms
             AddAccountRQ request = new AddAccountRQ();
             request.BankAccount = mChooseAccountPanel_.GetAccount();
             request.MessageMode = MessageMode.Trial;
-            MessageProcessor.SendRequest(request, AddAccountSuccess, AddAccountError);
+            ServerConnection.SendRequest(request, AddAccountSuccess, AddAccountError);
         }
 
         private void ImportBtn_Click(object sender, System.EventArgs e)
@@ -178,7 +178,7 @@ namespace MiskoFinance.Forms
             request.Operator = MiskoFinanceMain.Instance.Operator;
             request.BankAccount = Account;
             request.VwTxns = mImportedTransactionsGridView_.GetSelected();
-            MessageProcessor.SendRequest(request, ImportTxnsSuccess);
+            ServerConnection.SendRequest(request, ImportTxnsSuccess);
         }
 
         private void BackBtn_Click(object sender, System.EventArgs e)

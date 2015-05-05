@@ -132,4 +132,13 @@
   <data name="strSuccess" xml:space="preserve">
     <value>Success!</value>
   </data>
+  <data name="strConfirm" xml:space="preserve">
+    <value>Confirm?</value>
+  </data>
+  <data name="strWarning" xml:space="preserve">
+    <value>Warning!</value>
+  </data>
+  <data name="strInformation" xml:space="preserve">
+    <value>Information</value>
+  </data>
 </root>

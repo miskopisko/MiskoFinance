@@ -1,11 +1,16 @@
 using System;
 using System.Threading;
+using MiskoPersist.Enums;
 
 namespace MiskoPersist.Interfaces
 {
     public interface IOController
     {
-        Int32 RowsPerPage { get; }
+    	Int32 RowsPerPage { get; }
+        
+        DataSource DataSource  { get; }
+        
+        ConnectionProvider GetConnectionProvider();
 
         void Debug(Object obj);
         
