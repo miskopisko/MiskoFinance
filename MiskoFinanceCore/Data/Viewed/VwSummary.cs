@@ -18,12 +18,7 @@ namespace MiskoFinanceCore.Data.Viewed
         
         #region Properties
         
-        public PrimaryKey Operator { get; set; }
-        public PrimaryKey BankAccount { get; set; }
-        public DateTime? FromDate { get; set; }
-        public DateTime? ToDate { get; set; }
-        public PrimaryKey Category { get; set; }
-        public String Description { get; set; }
+		
         
         #endregion
 
@@ -72,7 +67,7 @@ namespace MiskoFinanceCore.Data.Viewed
 
         #region Public Methods
 
-        public void Fetch(Session session)
+        public void Fetch(Session session, PrimaryKey Operator, PrimaryKey BankAccount, DateTime? FromDate, DateTime? ToDate, PrimaryKey Category, String Description)
         {
             String sql1 = "SELECT SUM(B.OpeningBalance) OpeningBalance, MAX(B.Nickname) Nickname " +
                           "FROM   Account A, BankAccount B " +
@@ -92,7 +87,7 @@ namespace MiskoFinanceCore.Data.Viewed
             p.Close();
             p = null;
 
-            String sql2 = "SELECT SUM(CASE WHEN C.TxnType IN (0,2) THEN C.Amount ELSE -C.Amount END) ClosingBalance " +
+            String sql2 = "SELECT SUM(CASE WHEN C.DrCr = 0 THEN C.Amount ELSE -C.Amount END) ClosingBalance " +
                           "FROM   Account A, BankAccount B, Txn C " +
                           "WHERE  A.Id = B.Id " +
                           "AND    B.Id = C.Account";
@@ -111,10 +106,10 @@ namespace MiskoFinanceCore.Data.Viewed
             p.Close();
             p = null;
 
-            String sql3 = "SELECT SUM(CASE WHEN TxnType = 0 THEN Credit ELSE 0 END) SumCredit, " +
-                          "       SUM(CASE WHEN TxnType = 1 THEN Debit ELSE 0 END) SumDebit, " +
-                          "       SUM(CASE WHEN TxnType = 2 THEN Credit ELSE 0 END) SumTransferIn, " +
-                          "       SUM(CASE WHEN TxnType = 3 THEN Debit ELSE 0 END)  SumTransferOut " +
+            String sql3 = "SELECT SUM(CASE WHEN DrCr = 0 AND Transfer = 0 THEN Amount ELSE 0 END) SumCredit, " +
+                          "       SUM(CASE WHEN DrCr = 1 AND Transfer = 0 THEN Amount ELSE 0 END) SumDebit, " +
+                          "       SUM(CASE WHEN DrCr = 0 AND Transfer = 1 THEN Amount ELSE 0 END) SumTransferIn, " +
+                          "       SUM(CASE WHEN DrCr = 1 AND Transfer = 1 THEN Amount ELSE 0 END)  SumTransferOut " +
                           "FROM   VwTxn";
 
             p = Persistence.GetInstance(session);
@@ -138,8 +133,8 @@ namespace MiskoFinanceCore.Data.Viewed
             p.Close();
             p = null;
 
-            String sql4 = "SELECT SUM(DISTINCT B.OpeningBalance) + SUM(CASE WHEN C.DatePosted < ? THEN CASE WHEN C.TxnType IN (0,2) THEN C.Amount ELSE -C.Amount END ELSE 0 END) OpeningBalance, " +
-                          "       SUM(DISTINCT B.OpeningBalance) + SUM(CASE WHEN C.DatePosted <= ? THEN CASE WHEN C.TxnType IN (0,2) THEN C.Amount ELSE -C.Amount END ELSE 0 END) ClosingBalance " +
+            String sql4 = "SELECT SUM(DISTINCT B.OpeningBalance) + SUM(CASE WHEN C.DatePosted < ? THEN CASE WHEN C.DrCr = 0 THEN C.Amount ELSE -C.Amount END ELSE 0 END) OpeningBalance, " +
+                          "       SUM(DISTINCT B.OpeningBalance) + SUM(CASE WHEN C.DatePosted <= ? THEN CASE WHEN C.DrCr = 0 THEN C.Amount ELSE -C.Amount END ELSE 0 END) ClosingBalance " +
                           "FROM   Account A, BankAccount B, Txn C " +
                           "WHERE  A.Id = B.Id " +
                           "AND    B.Id = C.Account " +

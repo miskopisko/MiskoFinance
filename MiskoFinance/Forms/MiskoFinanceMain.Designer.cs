@@ -44,21 +44,18 @@
         	this.mRootFileToolStripMenuItem_ = new System.Windows.Forms.ToolStripMenuItem();
         	this.mImportToolStripMenuItem_ = new System.Windows.Forms.ToolStripMenuItem();
         	this.mOFXFileToolStripMenuItem_ = new System.Windows.Forms.ToolStripMenuItem();
-        	this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
         	this.mLogoutToolStripMenuItem_ = new System.Windows.Forms.ToolStripMenuItem();
         	this.mExitToolStripMenuItem_ = new System.Windows.Forms.ToolStripMenuItem();
         	this.mRootHelpToolStripMenuItem_ = new System.Windows.Forms.ToolStripMenuItem();
         	this.mAboutToolStripMenuItem_ = new System.Windows.Forms.ToolStripMenuItem();
         	this.mHelpToolStripMenuItem_ = new System.Windows.Forms.ToolStripMenuItem();
-        	this.mMainLayout_ = new System.Windows.Forms.TableLayoutPanel();
-        	this.mAccountsAndSummary_ = new System.Windows.Forms.TableLayoutPanel();
-        	this.mAccountsList_ = new System.Windows.Forms.ListBox();
+        	this.mMainLayoutTable_ = new System.Windows.Forms.TableLayoutPanel();
         	this.mSummaryPanel_ = new MiskoFinance.Panels.SummaryPanel();
         	this.mTransactionsPanel_ = new MiskoFinance.Panels.TransactionsPanel();
+        	this.mSearchPanel_ = new MiskoFinance.Panels.SearchPanel();
         	this.mStatusStrip_.SuspendLayout();
         	this.mMenuStrip_.SuspendLayout();
-        	this.mMainLayout_.SuspendLayout();
-        	this.mAccountsAndSummary_.SuspendLayout();
+        	this.mMainLayoutTable_.SuspendLayout();
         	this.SuspendLayout();
         	// 
         	// mToolStripSeparator1_
@@ -119,10 +116,10 @@
         	this.mStatusStrip_.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.mMessageStatusBar_,
 			this.mMessageStatusLbl_});
-        	this.mStatusStrip_.Location = new System.Drawing.Point(0, 751);
+        	this.mStatusStrip_.Location = new System.Drawing.Point(0, 740);
         	this.mStatusStrip_.Name = "mStatusStrip_";
         	this.mStatusStrip_.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-        	this.mStatusStrip_.Size = new System.Drawing.Size(1192, 22);
+        	this.mStatusStrip_.Size = new System.Drawing.Size(1206, 22);
         	this.mStatusStrip_.TabIndex = 2;
         	this.mStatusStrip_.Text = "statusStrip1";
         	// 
@@ -146,7 +143,7 @@
         	this.mMenuStrip_.Location = new System.Drawing.Point(0, 0);
         	this.mMenuStrip_.Name = "mMenuStrip_";
         	this.mMenuStrip_.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-        	this.mMenuStrip_.Size = new System.Drawing.Size(1192, 24);
+        	this.mMenuStrip_.Size = new System.Drawing.Size(1206, 24);
         	this.mMenuStrip_.TabIndex = 3;
         	this.mMenuStrip_.Text = "menuStrip";
         	// 
@@ -154,7 +151,6 @@
         	// 
         	this.mRootFileToolStripMenuItem_.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.mImportToolStripMenuItem_,
-			this.toolStripSeparator1,
 			this.mLogoutToolStripMenuItem_,
 			this.mToolStripSeparator3_,
 			this.mExitToolStripMenuItem_});
@@ -176,11 +172,6 @@
         	this.mOFXFileToolStripMenuItem_.Size = new System.Drawing.Size(117, 22);
         	this.mOFXFileToolStripMenuItem_.Text = "OFX File";
         	this.mOFXFileToolStripMenuItem_.Click += new System.EventHandler(this.OFXFileToolStripMenuItem_Click);
-        	// 
-        	// toolStripSeparator1
-        	// 
-        	this.toolStripSeparator1.Name = "toolStripSeparator1";
-        	this.toolStripSeparator1.Size = new System.Drawing.Size(109, 6);
         	// 
         	// mLogoutToolStripMenuItem_
         	// 
@@ -220,70 +211,59 @@
         	this.mHelpToolStripMenuItem_.Size = new System.Drawing.Size(107, 22);
         	this.mHelpToolStripMenuItem_.Text = "Help";
         	// 
-        	// mMainLayout_
+        	// mMainLayoutTable_
         	// 
-        	this.mMainLayout_.ColumnCount = 2;
-        	this.mMainLayout_.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 250F));
-        	this.mMainLayout_.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-        	this.mMainLayout_.Controls.Add(this.mAccountsAndSummary_, 0, 0);
-        	this.mMainLayout_.Controls.Add(this.mTransactionsPanel_, 1, 0);
-        	this.mMainLayout_.Dock = System.Windows.Forms.DockStyle.Fill;
-        	this.mMainLayout_.Location = new System.Drawing.Point(0, 24);
-        	this.mMainLayout_.Name = "mMainLayout_";
-        	this.mMainLayout_.RowCount = 2;
-        	this.mMainLayout_.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 60F));
-        	this.mMainLayout_.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40F));
-        	this.mMainLayout_.Size = new System.Drawing.Size(1192, 727);
-        	this.mMainLayout_.TabIndex = 4;
-        	// 
-        	// mAccountsAndSummary_
-        	// 
-        	this.mAccountsAndSummary_.ColumnCount = 1;
-        	this.mAccountsAndSummary_.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-        	this.mAccountsAndSummary_.Controls.Add(this.mAccountsList_, 0, 0);
-        	this.mAccountsAndSummary_.Controls.Add(this.mSummaryPanel_, 0, 1);
-        	this.mAccountsAndSummary_.Dock = System.Windows.Forms.DockStyle.Fill;
-        	this.mAccountsAndSummary_.Location = new System.Drawing.Point(3, 3);
-        	this.mAccountsAndSummary_.Name = "mAccountsAndSummary_";
-        	this.mAccountsAndSummary_.RowCount = 2;
-        	this.mAccountsAndSummary_.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 30F));
-        	this.mAccountsAndSummary_.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 70F));
-        	this.mAccountsAndSummary_.Size = new System.Drawing.Size(244, 430);
-        	this.mAccountsAndSummary_.TabIndex = 0;
-        	// 
-        	// mAccountsList_
-        	// 
-        	this.mAccountsList_.Dock = System.Windows.Forms.DockStyle.Fill;
-        	this.mAccountsList_.FormattingEnabled = true;
-        	this.mAccountsList_.Location = new System.Drawing.Point(3, 3);
-        	this.mAccountsList_.Name = "mAccountsList_";
-        	this.mAccountsList_.Size = new System.Drawing.Size(238, 123);
-        	this.mAccountsList_.TabIndex = 1;
-        	this.mAccountsList_.SelectedIndexChanged += new System.EventHandler(this.AccountsList_SelectedIndexChanged);
+        	this.mMainLayoutTable_.ColumnCount = 1;
+        	this.mMainLayoutTable_.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+        	this.mMainLayoutTable_.Controls.Add(this.mTransactionsPanel_, 0, 1);
+        	this.mMainLayoutTable_.Controls.Add(this.mSearchPanel_, 0, 0);
+        	this.mMainLayoutTable_.Controls.Add(this.mSummaryPanel_, 0, 2);
+        	this.mMainLayoutTable_.Dock = System.Windows.Forms.DockStyle.Fill;
+        	this.mMainLayoutTable_.Location = new System.Drawing.Point(0, 24);
+        	this.mMainLayoutTable_.Name = "mMainLayoutTable_";
+        	this.mMainLayoutTable_.RowCount = 3;
+        	this.mMainLayoutTable_.RowStyles.Add(new System.Windows.Forms.RowStyle());
+        	this.mMainLayoutTable_.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+        	this.mMainLayoutTable_.RowStyles.Add(new System.Windows.Forms.RowStyle());
+        	this.mMainLayoutTable_.Size = new System.Drawing.Size(1206, 716);
+        	this.mMainLayoutTable_.TabIndex = 4;
         	// 
         	// mSummaryPanel_
         	// 
+        	this.mSummaryPanel_.Anchor = System.Windows.Forms.AnchorStyles.None;
         	this.mSummaryPanel_.AutoSize = true;
-        	this.mSummaryPanel_.Dock = System.Windows.Forms.DockStyle.Fill;
-        	this.mSummaryPanel_.Location = new System.Drawing.Point(3, 132);
+        	this.mSummaryPanel_.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+        	this.mSummaryPanel_.Location = new System.Drawing.Point(172, 632);
         	this.mSummaryPanel_.Name = "mSummaryPanel_";
-        	this.mSummaryPanel_.Size = new System.Drawing.Size(238, 295);
-        	this.mSummaryPanel_.TabIndex = 2;
+        	this.mSummaryPanel_.Size = new System.Drawing.Size(862, 81);
+        	this.mSummaryPanel_.TabIndex = 0;
         	// 
         	// mTransactionsPanel_
         	// 
         	this.mTransactionsPanel_.Dock = System.Windows.Forms.DockStyle.Fill;
-        	this.mTransactionsPanel_.Location = new System.Drawing.Point(253, 3);
+        	this.mTransactionsPanel_.Location = new System.Drawing.Point(3, 38);
         	this.mTransactionsPanel_.Name = "mTransactionsPanel_";
-        	this.mTransactionsPanel_.Size = new System.Drawing.Size(936, 430);
+        	this.mTransactionsPanel_.Size = new System.Drawing.Size(1200, 588);
         	this.mTransactionsPanel_.TabIndex = 1;
+        	// 
+        	// mSearchPanel_
+        	// 
+        	this.mSearchPanel_.Accounts = null;
+        	this.mSearchPanel_.AutoSize = true;
+        	this.mSearchPanel_.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+        	this.mSearchPanel_.Categories = null;
+        	this.mSearchPanel_.Dock = System.Windows.Forms.DockStyle.Fill;
+        	this.mSearchPanel_.Location = new System.Drawing.Point(3, 3);
+        	this.mSearchPanel_.Name = "mSearchPanel_";
+        	this.mSearchPanel_.Size = new System.Drawing.Size(1200, 29);
+        	this.mSearchPanel_.TabIndex = 2;
         	// 
         	// MiskoFinanceMain
         	// 
         	this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
         	this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-        	this.ClientSize = new System.Drawing.Size(1192, 773);
-        	this.Controls.Add(this.mMainLayout_);
+        	this.ClientSize = new System.Drawing.Size(1206, 762);
+        	this.Controls.Add(this.mMainLayoutTable_);
         	this.Controls.Add(this.mStatusStrip_);
         	this.Controls.Add(this.mMenuStrip_);
         	this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -296,9 +276,8 @@
         	this.mStatusStrip_.PerformLayout();
         	this.mMenuStrip_.ResumeLayout(false);
         	this.mMenuStrip_.PerformLayout();
-        	this.mMainLayout_.ResumeLayout(false);
-        	this.mAccountsAndSummary_.ResumeLayout(false);
-        	this.mAccountsAndSummary_.PerformLayout();
+        	this.mMainLayoutTable_.ResumeLayout(false);
+        	this.mMainLayoutTable_.PerformLayout();
         	this.ResumeLayout(false);
         	this.PerformLayout();
 
@@ -319,18 +298,16 @@
         private System.Windows.Forms.ToolStripMenuItem mAboutToolStripMenuItem_;
         private System.Windows.Forms.ToolStripMenuItem mHelpToolStripMenuItem_;
         private System.Windows.Forms.StatusStrip mStatusStrip_;
-        private System.Windows.Forms.TableLayoutPanel mMainLayout_;
-        private System.Windows.Forms.TableLayoutPanel mAccountsAndSummary_;
-        private System.Windows.Forms.ListBox mAccountsList_;
-        private Panels.SummaryPanel mSummaryPanel_;
-        private Panels.TransactionsPanel mTransactionsPanel_;
         private System.Windows.Forms.ToolStripMenuItem mLogoutToolStripMenuItem_;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripSeparator mToolStripSeparator1_;
         private System.Windows.Forms.ToolStripSeparator mToolStripSeparator3_;
         private System.Windows.Forms.ToolStripSeparator mToolStripSeparator4_;
         private System.Windows.Forms.ToolStripSeparator mToolStripSeparator2_;
-        public System.Windows.Forms.ToolStripProgressBar mMessageStatusBar_;
-        public System.Windows.Forms.ToolStripStatusLabel mMessageStatusLbl_;        
+        private System.Windows.Forms.ToolStripProgressBar mMessageStatusBar_;
+        private System.Windows.Forms.ToolStripStatusLabel mMessageStatusLbl_;        
+        private System.Windows.Forms.TableLayoutPanel mMainLayoutTable_;
+        private MiskoFinance.Panels.SummaryPanel mSummaryPanel_;
+        private MiskoFinance.Panels.TransactionsPanel mTransactionsPanel_;
+        private MiskoFinance.Panels.SearchPanel mSearchPanel_;
     }
 }

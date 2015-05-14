@@ -79,6 +79,10 @@
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Controls\AbstractEnumComboBoxCell.cs" />
+    <Compile Include="Controls\AbstractEnumComboBoxCell.Designer.cs">
+      <DependentUpon>AbstractEnumComboBoxCell.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\AboutDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -95,13 +99,6 @@
     </Compile>
     <Compile Include="Controls\CheckBoxHeaderCell.Designer.cs">
       <DependentUpon>CheckBoxHeaderCell.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\DGVComboBoxColumn.cs" />
-    <Compile Include="Controls\ImportedTransactionsGridView.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\ImportedTransactionsGridView.Designer.cs">
-      <DependentUpon>ImportedTransactionsGridView.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\MoneyBox.cs">
       <SubType>Component</SubType>
@@ -146,11 +143,9 @@
       <DependentUpon>MiskoFinanceMain.cs</DependentUpon>
     </Compile>
     <Compile Include="MiskoFinance_IOController_Impl.cs" />
-    <Compile Include="Panels\ChooseAccountPanel.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Panels\ChooseAccountPanel.Designer.cs">
-      <DependentUpon>ChooseAccountPanel.cs</DependentUpon>
+    <Compile Include="Panels\SearchPanel.cs" />
+    <Compile Include="Panels\SearchPanel.Designer.cs">
+      <DependentUpon>SearchPanel.cs</DependentUpon>
     </Compile>
     <Compile Include="Panels\SummaryPanel.cs">
       <SubType>UserControl</SubType>
@@ -230,9 +225,8 @@
     <Content Include="Resources\piggy_bank.ico" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Controls\ImportedTransactionsGridView.resx">
-      <DependentUpon>ImportedTransactionsGridView.cs</DependentUpon>
-      <SubType>Designer</SubType>
+    <EmbeddedResource Include="Controls\CategoriesGridView.resx">
+      <DependentUpon>CategoriesGridView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\TransactionsGridView.resx">
       <DependentUpon>TransactionsGridView.cs</DependentUpon>
@@ -263,6 +257,12 @@
     <EmbeddedResource Include="Forms\SettingsDialog.resx">
       <DependentUpon>SettingsDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Panels\SearchPanel.resx">
+      <DependentUpon>SearchPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Panels\SummaryPanel.resx">
+      <DependentUpon>SummaryPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Panels\TransactionsPanel.resx">
       <DependentUpon>TransactionsPanel.cs</DependentUpon>

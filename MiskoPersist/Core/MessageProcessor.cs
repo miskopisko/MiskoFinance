@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.Reflection;
+using MiskoPersist.Data;
 using MiskoPersist.Enums;
 using MiskoPersist.Message;
 using MiskoPersist.Message.Request;
@@ -21,6 +22,11 @@ namespace MiskoPersist.Core
         #endregion
 
         #region Private Methods
+        
+        public static ResponseMessage Process(String request)
+        {
+        	return Process((RequestMessage)AbstractData.DeserializeJson(request));
+        }
 
         public static ResponseMessage Process(RequestMessage request)
         {

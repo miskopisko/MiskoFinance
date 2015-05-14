@@ -123,4 +123,7 @@
   <data name="conCreateNewAccount" xml:space="preserve">
     <value>Create new account {0}?</value>
   </data>
+  <data name="conConfirmation" xml:space="preserve">
+    <value>Confirmation</value>
+  </data>
 </root>

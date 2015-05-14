@@ -171,13 +171,13 @@ namespace MiskoPersist.Core
             Error(stackFrame.GetMethod().DeclaringType, stackFrame.GetMethod(), errorLevel, message, null);
         }
 
-        public void Error(ErrorLevel errorLevel, String message, String[] parameters)
+        public void Error(ErrorLevel errorLevel, String message, Object[] parameters)
         {
             StackFrame stackFrame = new StackFrame(1);
             Error(stackFrame.GetMethod().DeclaringType, stackFrame.GetMethod(), errorLevel, message, parameters);
         }
 
-        private void Error(Type clazz, MethodBase method, ErrorLevel errorLevel, String message, String[] parameters)
+        private void Error(Type clazz, MethodBase method, ErrorLevel errorLevel, String message, Object[] parameters)
         {
             ErrorMessage errorMessage = new ErrorMessage(clazz, method, errorLevel, message, parameters);
 

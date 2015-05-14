@@ -23,7 +23,11 @@ namespace MiskoFinanceCore.Data.Stored
         [Stored]
         public PrimaryKey Account { get; set; }
         [Stored]
-        public TxnType TxnType { get; set;}
+        public DrCr DrCr { get; set; }
+        [Stored]
+        public Boolean Transfer { get; set; }
+        [Stored]
+        public Boolean OneTime { get; set; }
         [Stored]
         public DateTime DatePosted { get; set; }
         [Stored]

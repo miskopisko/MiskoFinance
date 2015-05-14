@@ -34,7 +34,7 @@ namespace MiskoPersist.Core
 			set;
 		}
 		
-		public List<String> Parameters 
+		public List<Object> Parameters 
 		{
 			get;
 			set;
@@ -88,13 +88,13 @@ namespace MiskoPersist.Core
         {
         }
 
-        public ErrorMessage(Type clazz, MethodBase method, ErrorLevel level, String message, String[] parameters)
+        public ErrorMessage(Type clazz, MethodBase method, ErrorLevel level, String message, Object[] parameters)
         {
             Class = clazz.Name;
             Method = method.Name;
             ErrorLevel = level;
             mErrorMessage_ = message;
-            Parameters = parameters != null ? new List<String>(parameters) : null;
+            Parameters = parameters != null ? new List<Object>(parameters) : null;
         }
 
         #endregion

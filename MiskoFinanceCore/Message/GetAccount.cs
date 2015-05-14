@@ -1,7 +1,10 @@
+using System;
 using MiskoPersist.Core;
+using MiskoPersist.Enums;
 using MiskoPersist.Message;
 using MiskoFinanceCore.Message.Requests;
 using MiskoFinanceCore.Message.Responses;
+using MiskoFinanceCore.Resources;
 
 namespace MiskoFinanceCore.Message
 {
@@ -23,6 +26,11 @@ namespace MiskoFinanceCore.Message
         public override void Execute(Session session)
         {
             Response.BankAccount.FetchByAccountNo(session, Request.AccountNo);
+            
+            if(Response.BankAccount.BankAccountId == null || Response.BankAccount.BankAccountId.IsNotSet)
+            {
+            	session.Error(ErrorLevel.Error, ErrorStrings.errAccountNotFound, new Object[] { Request.AccountNo });
+            }
         }
     }
 }

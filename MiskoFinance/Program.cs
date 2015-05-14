@@ -10,7 +10,7 @@ namespace MiskoFinance
         [STAThread]
         public static void Main()
         {
-            ConnectionSettings.AddSqliteConnection(@"..\..\..\MiskoFinance_DB.sqlite3");
+            ConnectionSettings.AddSqliteConnection(@"..\..\..\MiskoFinance_TEST.sqlite3");
             //ConnectionSettings.AddMySqlConnection("piskuric.ca", "mpfinance", "mpfinance", "mpfinance");
 
             ServerConnection.IOController = MiskoFinance_IOController_Impl.Instance;

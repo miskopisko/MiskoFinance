@@ -1,4 +1,5 @@
 ﻿using System;
+using MiskoPersist.Data;
 using MiskoPersist.Interfaces;
 using MiskoPersist.Message.Request;
 using MiskoPersist.Message.Response;
@@ -15,7 +16,9 @@ namespace MiskoPersist.Core
 
 		public ResponseMessage Send(RequestMessage request)
 		{
-			throw new NotImplementedException();
+			ResponseMessage response = MessageProcessor.Process(AbstractData.SerializeJson(request));
+			
+			return (ResponseMessage)AbstractData.DeserializeJson(AbstractData.SerializeJson(response));
 		}
 
 		#endregion

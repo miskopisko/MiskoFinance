@@ -34,27 +34,26 @@ namespace MiskoFinance.Controls
         private readonly DataGridViewTextBoxColumn mCredit_ = new DataGridViewTextBoxColumn();
         private readonly DataGridViewTextBoxColumn mDebit_ = new DataGridViewTextBoxColumn();
         private readonly DataGridViewCheckBoxColumn mTransfer_ = new DataGridViewCheckBoxColumn();
+        private readonly DataGridViewCheckBoxColumn mOneTime_ = new DataGridViewCheckBoxColumn();
         private readonly DataGridViewComboBoxColumn mCategory_ = new DataGridViewComboBoxColumn();
         
+        private VwTxns mTxns_ = new VwTxns();
         private Page mPage_ = new Page();
 
         #endregion
 
         #region Properties
         
-        public VwTxns Txns
+        public new VwTxns DataSource
         {
         	get
         	{
-        		if(DataSource == null)
-        		{
-        			DataSource = new VwTxns();
-        		}
-        		return (VwTxns)DataSource;
+        		return (VwTxns)base.DataSource ?? new VwTxns();
         	}
         	set
         	{
-        		DataSource = value ?? new VwTxns();
+        		base.DataSource = value ?? new VwTxns();
+        
         		if(value == null || ((VwTxns)value).Count == 0)
         		{
         			mPage_ = new Page();
@@ -69,6 +68,7 @@ namespace MiskoFinance.Controls
         public TransactionsGridView()
         {
             InitializeComponent();
+            AutoGenerateColumns = false;
             FillColumns();
         }
 
@@ -96,15 +96,15 @@ namespace MiskoFinance.Controls
             {
                 VwTxn txn = (VwTxn)row.DataBoundItem;
 
-                if (txn.TxnType.Equals(TxnType.Credit))
+                if (txn.DrCr.Equals(DrCr.Credit) && !txn.Transfer && !txn.OneTime)
                 {
                     ((DataGridViewComboBoxCell)row.Cells["Category"]).DataSource = MiskoFinanceMain.Instance.Operator.Categories.GetByType(CategoryType.Income, true);
                 }
-                else if (txn.TxnType.Equals(TxnType.Debit))
+                else if (txn.DrCr.Equals(DrCr.Debit) && !txn.Transfer && !txn.OneTime)
                 {
                     ((DataGridViewComboBoxCell)row.Cells["Category"]).DataSource = MiskoFinanceMain.Instance.Operator.Categories.GetByType(CategoryType.Expense, true);
                 }
-                else if (txn.TxnType.Equals(TxnType.TransferIn) || txn.TxnType.Equals(TxnType.TransferOut))
+                else if (txn.Transfer && !txn.OneTime)
                 {
                     ((DataGridViewComboBoxCell)row.Cells["Category"]).DataSource = MiskoFinanceMain.Instance.Operator.Categories.GetByType(CategoryType.Transfer, true);
                 }
@@ -127,17 +127,7 @@ namespace MiskoFinance.Controls
             if(e.RowIndex >= 0)
             {            
 	            VwTxn vwTxn = (VwTxn)Rows[e.RowIndex].DataBoundItem;
-	
-	            // Set the transaction type
-	            if (vwTxn.TxnType.Equals(TxnType.Credit) || vwTxn.TxnType.Equals(TxnType.TransferIn))
-	            {
-	                vwTxn.TxnType = vwTxn.Transfer ? TxnType.TransferIn : TxnType.Credit;
-	            }
-	            else if (vwTxn.TxnType.Equals(TxnType.Debit) || vwTxn.TxnType.Equals(TxnType.TransferOut))
-	            {
-	                vwTxn.TxnType = vwTxn.Transfer ? TxnType.TransferOut : TxnType.Debit;
-	            }
-	
+		
 	            // If the Transfer checkbox was changed then change the category
 	            if (e.ColumnIndex.Equals(Columns.IndexOf(mTransfer_)))
 	            {
@@ -149,11 +139,11 @@ namespace MiskoFinance.Controls
 	                }
 	                else
 	                {
-	                    if(vwTxn.TxnType.Equals(TxnType.Credit))
+	                    if(vwTxn.DrCr.Equals(DrCr.Credit))
 	                    {
 	                        ((DataGridViewComboBoxCell)Rows[e.RowIndex].Cells["Category"]).DataSource = MiskoFinanceMain.Instance.Operator.Categories.GetByType(CategoryType.Income, true);
 	                    }
-	                    else if (vwTxn.TxnType.Equals(TxnType.Debit))
+	                    else if (vwTxn.DrCr.Equals(DrCr.Debit))
 	                    {
 	                        ((DataGridViewComboBoxCell)Rows[e.RowIndex].Cells["Category"]).DataSource = MiskoFinanceMain.Instance.Operator.Categories.GetByType(CategoryType.Expense, true);
 	                    }
@@ -164,7 +154,12 @@ namespace MiskoFinance.Controls
 	
 	            UpdateTxnRQ request = new UpdateTxnRQ();
 	            request.Txn = vwTxn;
-	            request.Summary = MiskoFinanceMain.Instance.SummaryPanel.Summary;
+	            request.Operator = MiskoFinanceMain.Instance.Operator.OperatorId;
+            	request.Account = MiskoFinanceMain.Instance.SearchPanel.Account.BankAccountId;
+            	request.FromDate = MiskoFinanceMain.Instance.SearchPanel.FromDate;
+            	request.ToDate = MiskoFinanceMain.Instance.SearchPanel.ToDate;
+            	request.Category = MiskoFinanceMain.Instance.SearchPanel.Category.CategoryId;
+            	request.Description = MiskoFinanceMain.Instance.SearchPanel.Description;
 	            ServerConnection.SendRequest(request, UpdateTxnSuccess);
             }
         }
@@ -178,11 +173,11 @@ namespace MiskoFinance.Controls
         {
         	GetTxnsRQ request = new GetTxnsRQ();
             request.Operator = MiskoFinanceMain.Instance.Operator.OperatorId;
-            request.Account = ((VwBankAccount)MiskoFinanceMain.Instance.AccountsList.SelectedItem).BankAccountId;
-            request.FromDate = MiskoFinanceMain.Instance.TransactionsPanel.FromDate;
-            request.ToDate = MiskoFinanceMain.Instance.TransactionsPanel.ToDate;
-            request.Category = MiskoFinanceMain.Instance.TransactionsPanel.Category.CategoryId;
-            request.Description = MiskoFinanceMain.Instance.TransactionsPanel.Description;
+            request.Account = MiskoFinanceMain.Instance.SearchPanel.Account.BankAccountId;
+            request.FromDate = MiskoFinanceMain.Instance.SearchPanel.FromDate;
+            request.ToDate = MiskoFinanceMain.Instance.SearchPanel.ToDate;
+            request.Category = MiskoFinanceMain.Instance.SearchPanel.Category.CategoryId;
+            request.Description = MiskoFinanceMain.Instance.SearchPanel.Description;
             request.Page = mPage_.Next;
             request.Page.RowsPerPage = MiskoFinance_IOController_Impl.Instance.RowsPerPage;
             request.Page.IncludeRecordCount = true;
@@ -196,8 +191,8 @@ namespace MiskoFinance.Controls
         // Callback method for GetTxns
         private void GetTxnsSuccess(ResponseMessage response)
         {
-        	Txns.AddRange(((GetTxnsRS)response).Txns);
-    		Txns.ResetBindings();
+        	DataSource.AddRange(((GetTxnsRS)response).Txns);
+    		DataSource.ResetBindings();
 
             mPage_ = response.Page;
             
@@ -219,9 +214,7 @@ namespace MiskoFinance.Controls
         // Add columns to the control
         private void FillColumns()
         {
-        	Columns.Clear();
-        	
-            mDate_.ValueType = typeof(DateTime);
+        	mDate_.ValueType = typeof(DateTime);
             mDate_.DataPropertyName = "DatePosted";
             mDate_.HeaderText = "Txn. Date";
             mDate_.Name = "Date";
@@ -257,6 +250,13 @@ namespace MiskoFinance.Controls
             mTransfer_.Name = "Transfer";
             mTransfer_.Width = 75;
             mTransfer_.SortMode = DataGridViewColumnSortMode.Automatic;
+            
+            mOneTime_.ValueType = typeof(bool);
+            mOneTime_.DataPropertyName = "OneTime";
+            mOneTime_.HeaderText = "One Time";
+            mOneTime_.Name = "OneTime";
+            mOneTime_.Width = 85;
+            mOneTime_.SortMode = DataGridViewColumnSortMode.Automatic;
 
             mCategory_.ValueType = typeof(VwCategory);
             mCategory_.HeaderText = "Category";
@@ -274,6 +274,7 @@ namespace MiskoFinance.Controls
                             mCredit_,
                             mDebit_,
                             mTransfer_,
+                            mOneTime_,
                             mCategory_});
 
         }

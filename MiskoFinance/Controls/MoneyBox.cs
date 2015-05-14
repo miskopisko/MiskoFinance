@@ -17,7 +17,7 @@ namespace MiskoFinance.Controls
 
         #region Fields
 
-        private Money mValue_ = new Money(0);
+        private Money mValue_ = Money.ZERO;
         private Boolean mFocused_ = false;        
 
         #endregion
@@ -33,11 +33,7 @@ namespace MiskoFinance.Controls
             }
             set 
             {
-                mValue_ = value;
-                if (mValue_ == null)
-                {
-                    mValue_ = new Money(0);
-                }
+                mValue_ = value ?? Money.ZERO;
                 Text = mValue_.ToString();
             }
         }

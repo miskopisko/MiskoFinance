@@ -352,7 +352,7 @@ namespace MiskoPersist.Core
 
             if (result == 0)
             {
-                mSession_.Error(ErrorLevel.Error, ErrorStrings.errLockKeyFailed, new String[] { clazz.GetType().Name });
+                mSession_.Error(ErrorLevel.Error, ErrorStrings.errLockKeyFailed, new Object[] { clazz.GetType().Name });
             }
         }
 
@@ -371,7 +371,7 @@ namespace MiskoPersist.Core
 
             if (result == 0)
             {
-                mSession_.Error(ErrorLevel.Error, ErrorStrings.errLockKeyFailed, new String[] { GetType().Name });
+                mSession_.Error(ErrorLevel.Error, ErrorStrings.errLockKeyFailed, new Object[] { GetType().Name });
             }
         }
 

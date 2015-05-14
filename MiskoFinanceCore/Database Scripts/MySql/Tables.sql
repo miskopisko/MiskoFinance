@@ -52,7 +52,9 @@ CREATE TABLE Txn
 ( 
     Id			  int(10) NOT NULL AUTO_INCREMENT,
 	Account		  int(10) NOT NULL,
-    TxnType		  int(3) NOT NULL,
+    DrCr		  int(3) NOT NULL,
+    Transfer	  int(1) NOT NULL DEFAULT 0,
+    OneTime	  	  int(1) NOT NULL DEFAULT 0,
 	DatePosted	  datetime NOT NULL,
 	Amount		  numeric(19,4) NOT NULL,
 	Description	  varchar(128) NULL,

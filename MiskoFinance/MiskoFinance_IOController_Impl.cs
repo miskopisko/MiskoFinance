@@ -106,12 +106,12 @@ namespace MiskoFinance
 
 		public void Error(string message)
 		{			
-			MiskoFinanceMain.Instance.Invoke(new MethodInvoker(delegate { MessageBox.Show(MiskoFinanceMain.Instance, message, Strings.strError, MessageBoxButtons.OK, MessageBoxIcon.Error); }));
+			MiskoFinanceMain.Instance.Invoke(new MethodInvoker(delegate { MessageBox.Show(MiskoFinanceMain.Instance, message, ErrorStrings.errError, MessageBoxButtons.OK, MessageBoxIcon.Error); }));
 		}
 
 		public void Warning(string message)
 		{
-			MiskoFinanceMain.Instance.Invoke(new MethodInvoker(delegate { MessageBox.Show(MiskoFinanceMain.Instance, message, Strings.strWarning, MessageBoxButtons.OK, MessageBoxIcon.Warning); }));
+			MiskoFinanceMain.Instance.Invoke(new MethodInvoker(delegate { MessageBox.Show(MiskoFinanceMain.Instance, message, WarningStrings.warnWarning, MessageBoxButtons.OK, MessageBoxIcon.Warning); }));
 		}
 
 		public void Info(string message)
@@ -122,7 +122,7 @@ namespace MiskoFinance
 		public bool Confirm(string message)
 		{
 			DialogResult result = DialogResult.None;
-            MiskoFinanceMain.Instance.Invoke(new MethodInvoker(delegate { result = MessageBox.Show(MiskoFinanceMain.Instance, message, Strings.strConfirm, MessageBoxButtons.YesNo, MessageBoxIcon.Question); }));
+            MiskoFinanceMain.Instance.Invoke(new MethodInvoker(delegate { result = MessageBox.Show(MiskoFinanceMain.Instance, message, ConfirmStrings.conConfirmation, MessageBoxButtons.YesNo, MessageBoxIcon.Question); }));
             return result.Equals(DialogResult.Yes);
 		}
 
