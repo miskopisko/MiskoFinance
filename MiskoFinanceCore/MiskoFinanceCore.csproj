@@ -138,13 +138,6 @@
     <Content Include="Database Scripts\Sqlite\Views.sql" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MiskoPersist\MiskoPersist.csproj">
-      <Project>{F538732A-122B-40BB-86B0-199F99B0386C}</Project>
-      <Name>MiskoPersist</Name>
-      <Private>False</Private>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Resources\ConfirmStrings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ConfirmStrings.Designer.cs</LastGenOutput>
@@ -169,6 +162,12 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\MiskoPersist\MiskoPersist.csproj">
+      <Project>{f538732a-122b-40bb-86b0-199f99b0386c}</Project>
+      <Name>MiskoPersist</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
