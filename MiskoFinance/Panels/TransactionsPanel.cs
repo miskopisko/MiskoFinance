@@ -20,51 +20,8 @@ namespace MiskoFinance.Panels
         #endregion
         
         #region Properties
-
-        public DateTime FromDate 
-        { 
-        	get 
-        	{ 
-        		return mFromDate_.Value; 
-        	} 
-        }
         
-        public DateTime ToDate 
-        { 
-        	get 
-        	{ 
-        		return mToDate_.Value; 
-        	} 
-        }
         
-        public VwCategories Categories 
-        { 
-        	get 
-        	{ 
-				return (VwCategories)mCategories_.DataSource; 
-        	}
-        	set
-        	{
-        		mCategories_.DataSource = value ?? new VwCategories();
-        		mCategories_.Update();
-        	}
-        }
-        
-        public VwCategory Category 
-        { 
-        	get 
-        	{ 
-        		return (VwCategory)mCategories_.SelectedItem ?? new VwCategory();
-        	}
-        }
-        
-        public String Description 
-        { 
-        	get 
-        	{ 
-        		return mDescription_.Text.Trim(); 
-        	} 
-        }
 
         #endregion
 
@@ -72,7 +29,6 @@ namespace MiskoFinance.Panels
         {
             InitializeComponent();
             
-            mFromDate_.Value = new DateTime(DateTime.Now.Year, 1, 1);
             mTransactionsGridView_.FetchComplete += transactionsGridView_FetchComplete;            
             mTransactionsGridView_.TxnUpdated += transactionsGridView_TxnUpdated;
             mPageCountsLbl_.Text = Utils.ResolveTextParameters(Strings.strPageCounts, new Object[] { 0, 0 });
@@ -97,32 +53,28 @@ namespace MiskoFinance.Panels
 			MiskoFinanceMain.Instance.SummaryPanel.Summary = summary;
 			
 			mPageCountsLbl_.Text = Utils.ResolveTextParameters(Strings.strPageCounts, new Object[] { page.PageNo, page.TotalPageCount });
-            mTransactionCountsLbl_.Text = Utils.ResolveTextParameters(Strings.strTransactionCounts, new Object[] { page.RowsFetchedSoFar, page.TotalRowCount });
-			mSearch_.Enabled = true;
-            mMore_.Enabled = page.HasNext;
-		}
-		
-        private void mMore__Click(object sender, EventArgs e)
-        {
-        	mMore_.Enabled = false;
-            mSearch_.Enabled = false;
-            mTransactionsGridView_.GetTxns();
-        }
-
-        private void mSearch__Click(object sender, EventArgs e)
-        {
-        	GetTxns();
-        }
+            mTransactionCountsLbl_.Text = Utils.ResolveTextParameters(Strings.strTransactionCounts, new Object[] { mTransactionsGridView_.RowCount, page.TotalRowCount });
+			
+            MiskoFinanceMain.Instance.SearchPanel.Search.Enabled = true;
+            MiskoFinanceMain.Instance.SearchPanel.More.Enabled = page.HasNext;
+		}        
 		
         #endregion
 
         #region Public Methods
 
-        public void GetTxns()
+		public void More()
         {
-        	mMore_.Enabled = false;
-            mSearch_.Enabled = false;
-            mTransactionsGridView_.Txns = null;
+        	MiskoFinanceMain.Instance.SearchPanel.Search.Enabled = false;
+        	MiskoFinanceMain.Instance.SearchPanel.More.Enabled = false;
+            mTransactionsGridView_.GetTxns();
+        }
+
+        public void Search()
+        {
+        	MiskoFinanceMain.Instance.SearchPanel.Search.Enabled = false;
+        	MiskoFinanceMain.Instance.SearchPanel.More.Enabled = false;
+            mTransactionsGridView_.DataSource = null;
            	mTransactionsGridView_.GetTxns();
         }
 

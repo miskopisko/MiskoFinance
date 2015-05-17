@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Windows.Forms;
+using MiskoFinanceCore.Data.Viewed;
+using MiskoFinanceCore.Message.Requests;
 using MiskoPersist.Core;
-using MiskoPersist.Enums;
 using MiskoPersist.Message.Response;
 using MiskoPersist.Tools;
 using MiskoFinance.Properties;
-using MiskoFinanceCore.Data.Viewed;
-using MiskoFinanceCore.Message.Requests;
-using MiskoFinanceCore.Message.Responses;
 
 namespace MiskoFinance.Forms
 {
@@ -18,8 +16,6 @@ namespace MiskoFinance.Forms
         public LoginDialog()
         {
             InitializeComponent();
-
-            mDatasource_.DataSource = new ConnectionType[] { ConnectionType.NULL, ConnectionType.SQLite, ConnectionType.MySql, ConnectionType.Oracle };
         }
 
         #region Override Methods
@@ -31,8 +27,6 @@ namespace MiskoFinance.Forms
                 mUsername_.Text = Settings.Default.DefaultUsername.Trim();
                 mPassword_.Text = "";
                 mPassword_.Select();
-
-                mDatasource_.SelectedItem = ConnectionType.GetElement(Settings.Default.DefaultDatasource);
             }
 
             #if (DEBUG)
@@ -61,7 +55,7 @@ namespace MiskoFinance.Forms
             LoginRQ request = new LoginRQ();
             request.Username = mUsername_.Text.Trim();
             request.Password = Utils.GenerateHash(mPassword_.Text.Trim());
-            MessageProcessor.SendRequest(request, LoginSuccess);
+            ServerConnection.SendRequest(request, LoginSuccess);
         }
 
         private void mCancel__Click(object sender, EventArgs e)

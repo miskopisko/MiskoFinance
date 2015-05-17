@@ -27,26 +27,44 @@ namespace MiskoFinanceCore.Data.Viewed
         [Viewed]
         public PrimaryKey AccountId { get; set; }
         [Viewed]
+        public Money Amount { get; set; }
+        [Viewed]
         public DateTime DatePosted { get ; set; }
         [Viewed]
         public String Description { get; set; }
         [Viewed]
-        public TxnType TxnType { get; set; }
+        public DrCr DrCr { get; set; }
         [Viewed]
-        public PrimaryKey Category { get; set; }
+        public PrimaryKey Category { get; set; }        
         [Viewed]
-        public Money Debit { get; set; }
-        [Viewed]
-        public Money Credit { get; set; }
-        [Viewed]
-        public Boolean Transfer { get; set; }        
+        public Boolean Transfer { get; set; }
+		[Viewed]
+        public Boolean OneTime { get; set; }           
 
         #endregion
 
         #region Other Properties
 
-        public Money Amount { get; set; }
-        public String HashCode { get; set; }
+		public Money Debit 
+		{ 
+			get
+			{
+				return DrCr.Equals(DrCr.Debit) ? Amount : null;
+			}
+		}
+		
+		public Money Credit 
+		{ 
+			get
+			{
+				return DrCr.Equals(DrCr.Credit) ? Amount : null;
+			}
+		}
+		
+        public String HashCode 
+        { 
+        	get; set; 
+        }
 
         #endregion
 
@@ -76,16 +94,23 @@ namespace MiskoFinanceCore.Data.Viewed
 
         #region Public Methods
 
-        public Txn Update(Session session)
+        public void Update(Session session)
         {
             Txn txn = new Txn();
             txn.FetchById(session, TxnId);
-                
-            txn.TxnType = TxnType;
+
+            txn.Account = AccountId;
+            txn.Amount = Amount;
+            txn.DatePosted = DatePosted;
+            txn.Description = Description;
+            txn.DrCr = DrCr;
+            txn.HashCode = HashCode;
+            txn.OneTime = OneTime;
+            txn.Transfer = Transfer;
             txn.Category = Category;
             txn.Save(session);
-
-            return txn;
+            
+            TxnId = txn.Id;
         }
 
         #endregion

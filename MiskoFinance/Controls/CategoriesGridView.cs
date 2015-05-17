@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows.Forms;
 using MiskoFinanceCore.Data.Stored;
 using MiskoFinanceCore.Data.Viewed;
 using MiskoFinanceCore.Enums;
 using MiskoPersist.Core;
+using MiskoPersist.Enums;
 
 namespace MiskoFinance.Controls
 {
@@ -12,29 +15,25 @@ namespace MiskoFinance.Controls
         private static Logger Log = Logger.GetInstance(typeof(CategoriesGridView));
 
         #region Fields
-
+		
         private readonly DataGridViewTextBoxColumn mCategoryName_ = new DataGridViewTextBoxColumn();
-        private readonly DGVComboBoxColumn mStatus_ = new DGVComboBoxColumn();
+        private readonly DataGridViewComboBoxColumn mStatus_ = new DataGridViewComboBoxColumn();
         private readonly DataGridViewButtonColumn mDelete_ = new DataGridViewButtonColumn();
 
         #endregion
 
         #region Properties
 
-        public VwCategories Categories 
-        { 
-        	get 
-        	{ 
-        		if(DataSource == null)
-        		{
-        			DataSource = new VwCategories();
-        		}
-        		return ((VwCategories)DataSource);
-        	} 
-        	set 
-        	{ 
-        		DataSource = value ?? new VwCategories();
-        	} 
+        public new VwCategories DataSource
+        {
+        	get
+        	{
+        		return (VwCategories)base.DataSource ?? new VwCategories();
+        	}
+        	set
+        	{
+        		base.DataSource = value ?? new VwCategories();
+        	}
         }
 
         #endregion
@@ -44,6 +43,7 @@ namespace MiskoFinance.Controls
         public CategoriesGridView()
         {
             InitializeComponent();
+            AutoGenerateColumns = false;            
             FillColumns();
         }
 
@@ -72,20 +72,27 @@ namespace MiskoFinance.Controls
                 }
                 else
                 {
-                    Categories.Remove(category);
+                    DataSource.Remove(category);
                 }
             }
+        }
+        
+        protected override void OnCurrentCellDirtyStateChanged(EventArgs e)
+        {
+            base.OnCurrentCellDirtyStateChanged(e);
+            
+            CommitEdit(DataGridViewDataErrorContexts.Commit);            
         }
 
         protected override void OnCellFormatting(DataGridViewCellFormattingEventArgs e)
         {
             base.OnCellFormatting(e);
 
-            if (e.RowIndex >= 0 && e.RowIndex < Categories.Count && e.ColumnIndex.Equals(Columns.IndexOf(mDelete_)))
+            if (e.RowIndex >= 0 && e.RowIndex < DataSource.Count && e.ColumnIndex.Equals(Columns.IndexOf(mDelete_)))
             {
                 Rows[e.RowIndex].Cells[e.ColumnIndex].Value = GetItemAt(e.RowIndex).CategoryId >= 0 ? "Delete" : "Undelete";
             }
-        }
+        } 
 
         #endregion
 
@@ -95,27 +102,26 @@ namespace MiskoFinance.Controls
         {
             return (VwCategory)Rows[row].DataBoundItem;
         }
-        
+		
         private void FillColumns()
         {
-        	Columns.Clear();
-        	
-            mCategoryName_.ValueType = typeof(String);
+        	mCategoryName_.ValueType = typeof(String);
             mCategoryName_.DataPropertyName = "Name";
-            mCategoryName_.HeaderText = "Category Name";
+            mCategoryName_.HeaderText = "Name";
             mCategoryName_.Name = "Name";
             mCategoryName_.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-
+            
             mStatus_.ValueType = typeof(Status);
+            mStatus_.CellTemplate = new AbstractEnumComboBoxCell();
             mStatus_.HeaderText = "Status";
             mStatus_.Name = "Status";
             mStatus_.Width = 100;
-            mStatus_.DisplayMember = "Description";
-            mStatus_.DataPropertyName = "Status";                
+			mStatus_.DisplayMember = "Description";
+            mStatus_.DataPropertyName = "Status";
             mStatus_.DataSource = MiskoFinanceCore.Enums.Status.NonNullElements;
             mStatus_.DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing;
-            mStatus_.SortMode = DataGridViewColumnSortMode.Automatic;
-
+            mStatus_.SortMode = DataGridViewColumnSortMode.Automatic;            
+            
             mDelete_.ValueType = typeof(String);
             mDelete_.HeaderText = "";
             mDelete_.FlatStyle = FlatStyle.Flat;
@@ -126,7 +132,8 @@ namespace MiskoFinance.Controls
             Columns.AddRange(new DataGridViewColumn[] {
                             mCategoryName_,
                             mStatus_,
-                            mDelete_});    
+                            mDelete_});
+            
         }
 
         #endregion
@@ -137,4 +144,6 @@ namespace MiskoFinance.Controls
 
         #endregion
     }
+    
+    
 }

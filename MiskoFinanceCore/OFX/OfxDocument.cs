@@ -139,23 +139,19 @@ namespace MiskoFinanceCore.OFX
 
                     if (Regex.Match(capture.Value, @"(?<=<trntype>).+?(?=<)", RegexOptions.Multiline | RegexOptions.IgnoreCase).Value.ToLower().Equals("credit"))
                     {
-                        txn.TxnType = TxnType.Credit;
-                        txn.Credit = txn.Amount;
+                        txn.DrCr = DrCr.Credit;
                     }
                     if (Regex.Match(capture.Value, @"(?<=<trntype>).+?(?=<)", RegexOptions.Multiline | RegexOptions.IgnoreCase).Value.ToLower().Equals("debit"))
                     {
-                        txn.TxnType = TxnType.Debit;
-                        txn.Debit = txn.Amount;
+                        txn.DrCr = DrCr.Debit;
                     }
                     if (Regex.Match(capture.Value, @"(?<=<trntype>).+?(?=<)", RegexOptions.Multiline | RegexOptions.IgnoreCase).Value.ToLower().Equals("srvchg"))
                     {
-                        txn.TxnType = TxnType.Debit;
-                        txn.Debit = txn.Amount;
+                        txn.DrCr = DrCr.Debit;
                     }
                     if (Regex.Match(capture.Value, @"(?<=<trntype>).+?(?=<)", RegexOptions.Multiline | RegexOptions.IgnoreCase).Value.ToLower().Equals("check"))
                     {
-                        txn.TxnType = TxnType.Debit;
-                        txn.Debit = txn.Amount;
+                        txn.DrCr = DrCr.Debit;
                     }
 
                     Transactions.Add(txn);

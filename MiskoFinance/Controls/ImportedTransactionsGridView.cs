@@ -183,7 +183,7 @@ namespace MiskoFinance.Controls
         {
             VwTxns txns = new VwTxns();
 
-            foreach (DataGridViewRow row in Rows)
+            /*foreach (DataGridViewRow row in Rows)
             {
                 if(row.Cells["Import"].Value != null && (bool)row.Cells["Import"].Value == true)
                 {
@@ -198,7 +198,7 @@ namespace MiskoFinance.Controls
                     }
                     txns.Add(txn);
                 }
-            }
+            }*/
 
             return txns;
         }        

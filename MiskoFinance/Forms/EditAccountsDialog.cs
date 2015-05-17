@@ -31,7 +31,10 @@ namespace MiskoFinance.Forms
         {
             InitializeComponent();
             mAccountType_.DataSource = AccountType.Elements;
-
+            
+            mExistingAccounts_.ValueMember = "BankAccountid";
+            mExistingAccounts_.DisplayMember = "Nickname";
+            
             mExistingAccounts_.SelectedValueChanged += existingAccounts_SelectedValueChanged;
             mBankName_.Leave += DataChanged;
             mAccountNumber_.Leave += DataChanged;
@@ -50,16 +53,13 @@ namespace MiskoFinance.Forms
         	
             mExistingAccounts_.DataSource = MiskoFinanceMain.Instance.Operator.BankAccounts;
 
-            if (mExistingAccounts_.Items.Count > 0)
-            {
-                mBankName_.Enabled = true;
-                mAccountNumber_.Enabled = true;
-                mAccountType_.Enabled = true;
-                mNickname_.Enabled = true;
-                mOpeningBalance_.Enabled = true;
+            mBankName_.Enabled = mExistingAccounts_.Items.Count > 0;
+            mAccountNumber_.Enabled = mExistingAccounts_.Items.Count > 0;
+            mAccountType_.Enabled = mExistingAccounts_.Items.Count > 0;
+            mNickname_.Enabled = mExistingAccounts_.Items.Count > 0;
+            mOpeningBalance_.Enabled = mExistingAccounts_.Items.Count > 0;
 
-                mExistingAccounts_.SelectedIndex = 0;
-            }
+            mExistingAccounts_.SelectedIndex = 0;
         }
 
         #endregion
@@ -86,7 +86,7 @@ namespace MiskoFinance.Forms
             {
                 UpdateAccountsRQ request = new UpdateAccountsRQ();
                 request.BankAccounts = (VwBankAccounts)mExistingAccounts_.DataSource;
-                MessageProcessor.SendRequest(request, UpdateAccountsSuccess);
+                ServerConnection.SendRequest(request, UpdateAccountsSuccess);
             }
             else
             {
@@ -110,7 +110,8 @@ namespace MiskoFinance.Forms
         private void UpdateAccountsSuccess(ResponseMessage response)
         {
             MiskoFinanceMain.Instance.Operator.BankAccounts = ((UpdateAccountsRS)response).BankAccounts;
-            MiskoFinanceMain.Instance.AccountsList.DataSource = ((UpdateAccountsRS)response).BankAccounts.getAllAccounts();
+            MiskoFinanceMain.Instance.SearchPanel.Accounts = ((UpdateAccountsRS)response).BankAccounts.getAllAccounts();
+            
             Dispose();
         }
 

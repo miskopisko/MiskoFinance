@@ -118,13 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="errAccountNumberMandatory" xml:space="preserve">
-    <value>Account number is mandatory.</value>
+    <value>Account number is mandatory</value>
   </data>
   <data name="errAccountTypeMandatory" xml:space="preserve">
-    <value>Account type is mandatory.</value>
+    <value>Account type is mandatory</value>
   </data>
   <data name="errBankNameMandatory" xml:space="preserve">
-    <value>Bank name is mandatory.</value>
+    <value>Bank name is mandatory</value>
   </data>
   <data name="errCategoryNameNull" xml:space="preserve">
     <value>Category name cannot be blank</value>
@@ -136,22 +136,22 @@
     <value>Category type is not set</value>
   </data>
   <data name="errChooseExistingAccount" xml:space="preserve">
-    <value>Must choose an existing account.</value>
+    <value>Must choose an existing account</value>
   </data>
   <data name="errChooseOnlyOneExistingAccount" xml:space="preserve">
     <value>Must choose only one existing account</value>
   </data>
   <data name="errInvalidAccount" xml:space="preserve">
-    <value>Invalid account.</value>
+    <value>Invalid account</value>
   </data>
   <data name="errNicknameMandatory" xml:space="preserve">
-    <value>Nickname is mandatory.</value>
+    <value>Nickname is mandatory</value>
   </data>
   <data name="errNoCategorySelected" xml:space="preserve">
     <value>No category selected to delete</value>
   </data>
   <data name="errOpeningBalance" xml:space="preserve">
-    <value>Opening balance cannot be blank and must be a numerical value.</value>
+    <value>Opening balance cannot be blank and must be a numerical value</value>
   </data>
   <data name="errOperatorNotFound" xml:space="preserve">
     <value>Operator {0} not found</value>
@@ -169,5 +169,14 @@ Method :{2}</value>
   </data>
   <data name="errUnexpectedApplicationErrorShort" xml:space="preserve">
     <value>Unexpected Application Error : {0}</value>
+  </data>
+  <data name="errAccountNotFound" xml:space="preserve">
+    <value>Account {0} not found</value>
+  </data>
+  <data name="errError" xml:space="preserve">
+    <value>Error!</value>
+  </data>
+  <data name="errNotTxnsFound" xml:space="preserve">
+    <value>No transactions found</value>
   </data>
 </root>

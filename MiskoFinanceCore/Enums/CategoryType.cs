@@ -11,10 +11,11 @@ namespace MiskoFinanceCore.Enums
         private static readonly CategoryType mIncome_ = new CategoryType(0, "I", "Income");
         private static readonly CategoryType mExpense_ = new CategoryType(1, "E", "Expense");
         private static readonly CategoryType mTransfer_ = new CategoryType(2, "T", "Transfer");
+        private static readonly CategoryType mOneTime_ = new CategoryType(3, "O", "One Time");
 
         private static readonly CategoryType[] mElements_ = new[]
 		{
-		    mNULL_, mIncome_, mExpense_, mTransfer_
+		    mNULL_, mIncome_, mExpense_, mTransfer_, mOneTime_
 		};
 
         #endregion
@@ -26,6 +27,7 @@ namespace MiskoFinanceCore.Enums
         public static CategoryType Income { get { return mIncome_; } }
         public static CategoryType Expense { get { return mExpense_; } }
         public static CategoryType Transfer { get { return mTransfer_; } }
+        public static CategoryType OneTime { get { return mOneTime_; } }
 
         #endregion
 

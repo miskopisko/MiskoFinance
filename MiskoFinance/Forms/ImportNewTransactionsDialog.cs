@@ -1,7 +1,8 @@
-﻿using System.Drawing;
+﻿using System;
 using System.IO;
 using System.Windows.Forms;
 using MiskoFinanceCore.Data.Viewed;
+using MiskoFinanceCore.Enums;
 using MiskoFinanceCore.Message.Requests;
 using MiskoFinanceCore.Message.Responses;
 using MiskoFinanceCore.OFX;
@@ -9,49 +10,41 @@ using MiskoFinanceCore.Resources;
 using MiskoPersist.Core;
 using MiskoPersist.Enums;
 using MiskoPersist.Message.Response;
-using MiskoFinance.Controls;
-using MiskoFinance.Panels;
+using MiskoPersist.MoneyType;
 
 namespace MiskoFinance.Forms
 {
-    public partial class ImportNewTransactionsDialog : Form
+    public partial class ImportTransactionsDialog : Form
     {
-        private static Logger Log = Logger.GetInstance(typeof(ImportNewTransactionsDialog));
+        private static Logger Log = Logger.GetInstance(typeof(ImportTransactionsDialog));
 
         #region Fields
 
-        private readonly ChooseAccountPanel mChooseAccountPanel_ = new ChooseAccountPanel();
-        private readonly ImportedTransactionsGridView mImportedTransactionsGridView_ = new ImportedTransactionsGridView();
+        private OfxDocument mOfxDocument_;
 
         #endregion
 
         #region Properties
 
-		public OfxDocument OfxDocument 
-		{
-			get;
-			set;
-		}
-
-		public VwBankAccount Account 
-		{
-			get; 
-			set;
-		}
+        
 
         #endregion
 
         #region Constructor
 
-        public ImportNewTransactionsDialog()
+        public ImportTransactionsDialog()
         {
-            AutoSize = true;
-            AutoSizeMode = AutoSizeMode.GrowAndShrink;
-
             InitializeComponent();
+            
+            mExistingAccounts_.DataSource = MiskoFinanceMain.Instance.Operator.BankAccounts;
+            mExistingAccounts_.ItemCheck += mExistingAccounts__ItemCheck;
+            
+            mCreateNewAccount_.CheckedChanged += mCreateNewAccount__CheckedChanged;
+            mExistingAccount_.CheckedChanged += mExistingAccount__CheckedChanged;;
 
-            mTableLayoutPanel_.Controls.Add(mChooseAccountPanel_, 0, 0);
-            mTableLayoutPanel_.Controls.Add(mImportedTransactionsGridView_, 0, 0);
+            mAccountType_.DataSource = AccountType.Elements;
+            
+            mExistingAccount_.Enabled = MiskoFinanceMain.Instance.Operator.BankAccounts.Count > 0;
         }        
 
         #endregion
@@ -62,7 +55,19 @@ namespace MiskoFinance.Forms
         {
             base.OnLoad(e);
 
-            LoadOfxDocument();
+            if (mOpenFileDialog_.ShowDialog(MiskoFinanceMain.Instance).Equals(DialogResult.OK))
+            {
+                mOfxDocument_ = new OfxDocument(new FileStream(mOpenFileDialog_.FileName, FileMode.Open));                
+                
+                GetAccountRQ request = new GetAccountRQ();
+            	request.AccountNo = mOfxDocument_.AccountID;
+            	request.Operator = MiskoFinanceMain.Instance.Operator.OperatorId;
+            	ServerConnection.SendRequest(request, GetAccountSuccess, GetAccountError);
+            }
+            else
+            {
+                Dispose();
+            }
         }        
 
         #endregion
@@ -74,134 +79,131 @@ namespace MiskoFinance.Forms
         #endregion
 
         #region Private Methods
-
-        private void LoadOfxDocument()
+        
+        private VwBankAccount GetAccount()
         {
-            if (mOpenFileDialog_.ShowDialog(MiskoFinanceMain.Instance).Equals(DialogResult.OK))
+            if (mCreateNewAccount_.Checked)
             {
-                OfxDocument = new OfxDocument(new FileStream(mOpenFileDialog_.FileName, FileMode.Open));
-
-                mChooseAccountPanel_.Visible = true;
-                mImportedTransactionsGridView_.Visible = false;
-
-                mBackBtn_.Visible = true;
-                mNextBtn_.Visible = true;
-                mImportBtn_.Visible = false;
-
-                RepositionWindow();
-
-                Text = Strings.strChooseAnAccount;
-                mChooseAccountPanel_.Refresh();
+                VwBankAccount bankAccount = new VwBankAccount();
+                bankAccount.OperatorId = MiskoFinanceMain.Instance.Operator.OperatorId;
+                bankAccount.AccountNumber = mAccountNumber_.Text.Trim();
+                bankAccount.BankNumber = mBankName_.Text.Trim();
+                bankAccount.Nickname = mNickname_.Text.Trim();
+                bankAccount.AccountType = (AccountType)mAccountType_.SelectedItem;
+                bankAccount.OpeningBalance = mOpeningBalance_.Value;
+                return bankAccount;
             }
-            else
+            else if (mExistingAccount_.Checked)
             {
-                Dispose();
+                if (mExistingAccounts_.CheckedItems.Count == 0)
+                {
+                	throw new MiskoException(ErrorStrings.errChooseExistingAccount);
+                }
+                else
+                {
+                    return (VwBankAccount)mExistingAccounts_.CheckedItems[0];
+                }
             }
+            return null;
         }
 
-        private void CheckDuplicateTxnsSuccess(ResponseMessage Response)
+		private void GetAccountSuccess(ResponseMessage response)
         {
-            Text = Strings.strChooseTxnsToAdd;
+			mExistingAccount_.Checked = true;
 
-            mChooseAccountPanel_.Visible = false;
-            mImportedTransactionsGridView_.Visible = true;
-
-            mBackBtn_.Enabled = true;
-            mNextBtn_.Visible = false;
-            mNextBtn_.Enabled = false;
-            mImportBtn_.Visible = true;
-            mImportBtn_.Enabled = false;
-
-            RepositionWindow();
-
-            mImportedTransactionsGridView_.Txns = ((CheckDuplicateTxnsRS)Response).Txns;
-        }
-
-        private void ImportTxnsSuccess(ResponseMessage Response)
-        {
-            Account = ((ImportTxnsRS)Response).BankAccount;
-
-            if (!MiskoFinanceMain.Instance.Operator.BankAccounts.Contains(Account))
+            for (int i = 0; i < mExistingAccounts_.Items.Count; i++)
             {
-                MiskoFinanceMain.Instance.Operator.BankAccounts.Add(Account);
+                mExistingAccounts_.SetItemChecked(i, ((VwBankAccount)mExistingAccounts_.Items[i]).BankAccountId.Equals(((GetAccountRS)response).BankAccount.BankAccountId));
             }
-
-            Dispose();
-        }
-
-        private void RepositionWindow()
+		}
+		
+		private void GetAccountError(ResponseMessage response)
         {
-            if (Owner != null && StartPosition == FormStartPosition.Manual)
+			mCreateNewAccount_.Checked = true;
+
+            mBankName_.Text = mOfxDocument_.BankID;
+            mAccountNumber_.Text = mOfxDocument_.AccountID;
+            mAccountType_.SelectedItem = mOfxDocument_.AccountType;
+            mNickname_.Text = String.Empty;
+            mOpeningBalance_.Value = Money.ZERO;
+
+            for (int i = 0; i < mExistingAccounts_.Items.Count; i++)
             {
-                Location = new Point(Owner.Left + Owner.Width / 2 - Width / 2, Owner.Top + Owner.Height / 2 - Height / 2);
+                mExistingAccounts_.SetItemChecked(i, false);
             }
-        }
+		}
+		
+		private void ImportTxnsSuccess(ResponseMessage response)
+		{
+			Dispose();
+		}
+		
+		private void ImportTxnsError(ResponseMessage response)
+		{
+			mCancel_.Enabled = true;
+            mImport_.Enabled = true;
+		}
 
         #endregion
 
         #region Event Listenners
 
-        private void AddAccountSuccess(ResponseMessage response)
-        {
-            Account = ((AddAccountRS)response).NewAccount;
+		private void mExistingAccounts__ItemCheck(object sender, ItemCheckEventArgs e)
+		{
+			for (int ix = 0; ix < mExistingAccounts_.Items.Count; ++ix)
+            {
+                if (ix != e.Index)
+                {
+                    mExistingAccounts_.SetItemChecked(ix, false);
+                }
+            }
 
-            Text = Strings.strCheckingForDuplicateTxns;
+            VwBankAccount bankAccount = (VwBankAccount)mExistingAccounts_.Items[e.Index];
 
-            CheckDuplicateTxnsRQ request = new CheckDuplicateTxnsRQ();
-            request.BankAccount = Account;
-            request.FromDate = OfxDocument.StartDate;
-            request.ToDate = OfxDocument.EndDate;
-            request.Transactions = OfxDocument.Transactions;
-            MessageProcessor.SendRequest(request, CheckDuplicateTxnsSuccess);
-        }
+            mBankName_.Text = bankAccount.BankNumber;
+            mAccountNumber_.Text = bankAccount.AccountNumber;
+            mAccountType_.SelectedItem = bankAccount.AccountType;
+            mNickname_.Text = bankAccount.Nickname;
+            mOpeningBalance_.Value = bankAccount.OpeningBalance;
+		}
 
-        private void AddAccountError(ResponseMessage response)
-        {
-            mNextBtn_.Enabled = true;
-            mBackBtn_.Enabled = true;
-        }
+		private void mCreateNewAccount__CheckedChanged(object sender, System.EventArgs e)
+		{
+			mExistingAccounts_.Enabled = mExistingAccount_.Checked;
+            mBankName_.Enabled = !mExistingAccount_.Checked;
+            mAccountNumber_.Enabled = !mExistingAccount_.Checked;
+            mOpeningBalance_.Enabled = !mExistingAccount_.Checked;
+            mAccountType_.Enabled = !mExistingAccount_.Checked;
+            mNickname_.Enabled = !mExistingAccount_.Checked;
+		}
 
-        private void nextBtn_Click(object sender, System.EventArgs e)
-        {
-            mNextBtn_.Enabled = false;
-            mBackBtn_.Enabled = false;
+		private void mExistingAccount__CheckedChanged(object sender, System.EventArgs e)
+		{
+			mExistingAccounts_.Enabled = mExistingAccount_.Checked;
+            mBankName_.Enabled = !mExistingAccount_.Checked;
+            mAccountNumber_.Enabled = !mExistingAccount_.Checked;
+            mOpeningBalance_.Enabled = !mExistingAccount_.Checked;
+            mAccountType_.Enabled = !mExistingAccount_.Checked;
+            mNickname_.Enabled = !mExistingAccount_.Checked;
+		}
+		
+		private void mCancel__Click(object sender, EventArgs e)
+		{
+			Dispose();
+		}
+		
+		private void mImport__Click(object sender, EventArgs e)
+		{
+			mCancel_.Enabled = false;
+            mImport_.Enabled = false;
 
-            AddAccountRQ request = new AddAccountRQ();
-            request.BankAccount = mChooseAccountPanel_.GetAccount();
-            request.MessageMode = MessageMode.Trial;
-            MessageProcessor.SendRequest(request, AddAccountSuccess, AddAccountError);
-        }
-
-        private void ImportBtn_Click(object sender, System.EventArgs e)
-        {
             ImportTxnsRQ request = new ImportTxnsRQ();
+            request.BankAccount = GetAccount();
             request.Operator = MiskoFinanceMain.Instance.Operator;
-            request.BankAccount = Account;
-            request.VwTxns = mImportedTransactionsGridView_.GetSelected();
-            MessageProcessor.SendRequest(request, ImportTxnsSuccess);
-        }
-
-        private void BackBtn_Click(object sender, System.EventArgs e)
-        {
-            if (mChooseAccountPanel_.Visible)
-            {
-                LoadOfxDocument();
-            }
-            else if (mImportedTransactionsGridView_.Visible)
-            {
-                Text = Strings.strChooseAnAccount;
-
-                mChooseAccountPanel_.Visible = true;
-                mImportedTransactionsGridView_.Visible = false;
-
-                mNextBtn_.Visible = true;
-                mNextBtn_.Enabled = true;
-                mImportBtn_.Visible = false;
-                mImportBtn_.Enabled = false;
-                RepositionWindow();
-            }
-        }
-
-        #endregion
+            request.VwTxns = mOfxDocument_.Transactions;
+            ServerConnection.SendRequest(request, ImportTxnsSuccess, ImportTxnsError);
+		}
+		
+		#endregion
     }
 }

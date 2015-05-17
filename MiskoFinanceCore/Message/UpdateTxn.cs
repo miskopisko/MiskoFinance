@@ -23,9 +23,7 @@ namespace MiskoFinanceCore.Message
         public override void Execute(Session session)
         {
             Request.Txn.Update(session);
-            Request.Summary.Fetch(session);
-            
-            Response.Summary = Request.Summary;           
+            Response.Summary.Fetch(session, Request.Operator, Request.Account, Request.FromDate, Request.ToDate, Request.Category, Request.Description);
         }
     }
 }

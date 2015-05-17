@@ -38,11 +38,15 @@ namespace MiskoFinanceCore.Message
                 VwOperator alreadyExists = VwOperator.GetInstanceByUsername(session, Request.Operator.Username);
                 if (alreadyExists.OperatorId != null && alreadyExists.OperatorId.IsSet)
                 {
-                    session.Error(ErrorLevel.Error, "Username {0} is already taken.", new String[] { Request.Operator.Username });
+                    session.Error(ErrorLevel.Error, "Username {0} is already taken.", new Object[] { Request.Operator.Username });
                 }
             }
 
-            Request.Operator.Password = Utils.GenerateHash(Request.Password1);
+            // Only reset the password of a new password was sent
+            if(!String.IsNullOrEmpty(Request.Password1))
+            {
+            	Request.Operator.Password = Utils.GenerateHash(Request.Password1);
+            }
 
             Request.Operator.Update(session);
 

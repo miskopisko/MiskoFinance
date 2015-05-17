@@ -1,6 +1,6 @@
 ﻿namespace MiskoFinance.Forms
 {
-    partial class ImportNewTransactionsDialog
+    partial class ImportTransactionsDialog
     {
         /// <summary>
         /// Required designer variable.
@@ -28,129 +28,301 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ImportNewTransactionsDialog));
-            this.mTableLayoutPanel_ = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.mImportBtn_ = new System.Windows.Forms.Button();
-            this.mNextBtn_ = new System.Windows.Forms.Button();
-            this.mBackBtn_ = new System.Windows.Forms.Button();
-            this.mOpenFileDialog_ = new System.Windows.Forms.OpenFileDialog();
-            this.mTableLayoutPanel_.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
-            this.flowLayoutPanel1.SuspendLayout();
-            this.SuspendLayout();
-            // 
-            // mTableLayoutPanel_
-            // 
-            this.mTableLayoutPanel_.AutoSize = true;
-            this.mTableLayoutPanel_.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.mTableLayoutPanel_.ColumnCount = 1;
-            this.mTableLayoutPanel_.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.mTableLayoutPanel_.Controls.Add(this.tableLayoutPanel1, 0, 1);
-            this.mTableLayoutPanel_.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mTableLayoutPanel_.Location = new System.Drawing.Point(0, 0);
-            this.mTableLayoutPanel_.Name = "mTableLayoutPanel_";
-            this.mTableLayoutPanel_.RowCount = 2;
-            this.mTableLayoutPanel_.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.mTableLayoutPanel_.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.mTableLayoutPanel_.Size = new System.Drawing.Size(423, 92);
-            this.mTableLayoutPanel_.TabIndex = 0;
-            // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60F));
-            this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel1, 1, 0);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 55);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 1;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(417, 34);
-            this.tableLayoutPanel1.TabIndex = 4;
-            // 
-            // flowLayoutPanel1
-            // 
-            this.flowLayoutPanel1.Controls.Add(this.mImportBtn_);
-            this.flowLayoutPanel1.Controls.Add(this.mNextBtn_);
-            this.flowLayoutPanel1.Controls.Add(this.mBackBtn_);
-            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(169, 3);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(245, 28);
-            this.flowLayoutPanel1.TabIndex = 0;
-            // 
-            // mImportBtn_
-            // 
-            this.mImportBtn_.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.mImportBtn_.Location = new System.Drawing.Point(167, 3);
-            this.mImportBtn_.Name = "mImportBtn_";
-            this.mImportBtn_.Size = new System.Drawing.Size(75, 23);
-            this.mImportBtn_.TabIndex = 2;
-            this.mImportBtn_.Text = "Import";
-            this.mImportBtn_.UseVisualStyleBackColor = true;
-            this.mImportBtn_.Click += new System.EventHandler(this.ImportBtn_Click);
-            // 
-            // mNextBtn_
-            // 
-            this.mNextBtn_.Location = new System.Drawing.Point(86, 3);
-            this.mNextBtn_.Name = "mNextBtn_";
-            this.mNextBtn_.Size = new System.Drawing.Size(75, 23);
-            this.mNextBtn_.TabIndex = 1;
-            this.mNextBtn_.Text = "Next";
-            this.mNextBtn_.UseVisualStyleBackColor = true;
-            this.mNextBtn_.Click += new System.EventHandler(this.nextBtn_Click);
-            // 
-            // mBackBtn_
-            // 
-            this.mBackBtn_.Location = new System.Drawing.Point(5, 3);
-            this.mBackBtn_.Name = "mBackBtn_";
-            this.mBackBtn_.Size = new System.Drawing.Size(75, 23);
-            this.mBackBtn_.TabIndex = 0;
-            this.mBackBtn_.Text = "Back";
-            this.mBackBtn_.UseVisualStyleBackColor = true;
-            this.mBackBtn_.Click += new System.EventHandler(this.BackBtn_Click);
-            // 
-            // mOpenFileDialog_
-            // 
-            this.mOpenFileDialog_.Filter = "OFX Files|*.ofx";
-            // 
-            // ImportNewTransactionsDialog
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(423, 92);
-            this.Controls.Add(this.mTableLayoutPanel_);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "ImportNewTransactionsDialog";
-            this.ShowInTaskbar = false;
-            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.Text = "MiskoFinanceDialog";
-            this.mTableLayoutPanel_.ResumeLayout(false);
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.flowLayoutPanel1.ResumeLayout(false);
-            this.ResumeLayout(false);
-            this.PerformLayout();
+        	MiskoPersist.MoneyType.Money money1 = new MiskoPersist.MoneyType.Money();
+        	System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ImportTransactionsDialog));
+        	this.mButtonLayoutPanel_ = new System.Windows.Forms.FlowLayoutPanel();
+        	this.mCancel_ = new System.Windows.Forms.Button();
+        	this.mImport_ = new System.Windows.Forms.Button();
+        	this.mOpenFileDialog_ = new System.Windows.Forms.OpenFileDialog();
+        	this.mMainTableLayoutPanel_ = new System.Windows.Forms.TableLayoutPanel();
+        	this.mExistingAccount_ = new System.Windows.Forms.RadioButton();
+        	this.mCreateNewAccount_ = new System.Windows.Forms.RadioButton();
+        	this.mExistingAccounts_ = new System.Windows.Forms.CheckedListBox();
+        	this.mFieldsLayoutTable_ = new System.Windows.Forms.TableLayoutPanel();
+        	this.mAccountTypeLbl_ = new System.Windows.Forms.Label();
+        	this.mAccountNumberLbl_ = new System.Windows.Forms.Label();
+        	this.mBankNameLbl_ = new System.Windows.Forms.Label();
+        	this.mNicknameLbl_ = new System.Windows.Forms.Label();
+        	this.mOpeningBalanceLbl_ = new System.Windows.Forms.Label();
+        	this.mOpeningBalance_ = new MiskoFinance.Controls.MoneyBox();
+        	this.mNickname_ = new System.Windows.Forms.TextBox();
+        	this.mAccountNumber_ = new System.Windows.Forms.TextBox();
+        	this.mBankName_ = new System.Windows.Forms.TextBox();
+        	this.mAccountType_ = new System.Windows.Forms.ComboBox();
+        	this.mButtonLayoutPanel_.SuspendLayout();
+        	this.mMainTableLayoutPanel_.SuspendLayout();
+        	this.mFieldsLayoutTable_.SuspendLayout();
+        	this.SuspendLayout();
+        	// 
+        	// mButtonLayoutPanel_
+        	// 
+        	this.mButtonLayoutPanel_.AutoSize = true;
+        	this.mButtonLayoutPanel_.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+        	this.mButtonLayoutPanel_.Controls.Add(this.mCancel_);
+        	this.mButtonLayoutPanel_.Controls.Add(this.mImport_);
+        	this.mButtonLayoutPanel_.Dock = System.Windows.Forms.DockStyle.Bottom;
+        	this.mButtonLayoutPanel_.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
+        	this.mButtonLayoutPanel_.Location = new System.Drawing.Point(0, 206);
+        	this.mButtonLayoutPanel_.Name = "mButtonLayoutPanel_";
+        	this.mButtonLayoutPanel_.Size = new System.Drawing.Size(493, 29);
+        	this.mButtonLayoutPanel_.TabIndex = 0;
+        	// 
+        	// mCancel_
+        	// 
+        	this.mCancel_.Location = new System.Drawing.Point(415, 3);
+        	this.mCancel_.Name = "mCancel_";
+        	this.mCancel_.Size = new System.Drawing.Size(75, 23);
+        	this.mCancel_.TabIndex = 0;
+        	this.mCancel_.Text = "Cancel";
+        	this.mCancel_.UseVisualStyleBackColor = true;
+        	this.mCancel_.Click += new System.EventHandler(this.mCancel__Click);
+        	// 
+        	// mImport_
+        	// 
+        	this.mImport_.Anchor = System.Windows.Forms.AnchorStyles.Right;
+        	this.mImport_.Location = new System.Drawing.Point(334, 3);
+        	this.mImport_.Name = "mImport_";
+        	this.mImport_.Size = new System.Drawing.Size(75, 23);
+        	this.mImport_.TabIndex = 2;
+        	this.mImport_.Text = "Import";
+        	this.mImport_.UseVisualStyleBackColor = true;
+        	this.mImport_.Click += new System.EventHandler(this.mImport__Click);
+        	// 
+        	// mOpenFileDialog_
+        	// 
+        	this.mOpenFileDialog_.Filter = "OFX Files|*.ofx";
+        	// 
+        	// mMainTableLayoutPanel_
+        	// 
+        	this.mMainTableLayoutPanel_.ColumnCount = 2;
+        	this.mMainTableLayoutPanel_.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
+        	this.mMainTableLayoutPanel_.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60F));
+        	this.mMainTableLayoutPanel_.Controls.Add(this.mExistingAccount_, 0, 0);
+        	this.mMainTableLayoutPanel_.Controls.Add(this.mCreateNewAccount_, 1, 0);
+        	this.mMainTableLayoutPanel_.Controls.Add(this.mExistingAccounts_, 0, 1);
+        	this.mMainTableLayoutPanel_.Controls.Add(this.mFieldsLayoutTable_, 1, 1);
+        	this.mMainTableLayoutPanel_.Dock = System.Windows.Forms.DockStyle.Fill;
+        	this.mMainTableLayoutPanel_.Location = new System.Drawing.Point(0, 0);
+        	this.mMainTableLayoutPanel_.Name = "mMainTableLayoutPanel_";
+        	this.mMainTableLayoutPanel_.RowCount = 2;
+        	this.mMainTableLayoutPanel_.RowStyles.Add(new System.Windows.Forms.RowStyle());
+        	this.mMainTableLayoutPanel_.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+        	this.mMainTableLayoutPanel_.Size = new System.Drawing.Size(493, 206);
+        	this.mMainTableLayoutPanel_.TabIndex = 1;
+        	// 
+        	// mExistingAccount_
+        	// 
+        	this.mExistingAccount_.AutoSize = true;
+        	this.mExistingAccount_.Location = new System.Drawing.Point(3, 3);
+        	this.mExistingAccount_.Name = "mExistingAccount_";
+        	this.mExistingAccount_.Size = new System.Drawing.Size(104, 17);
+        	this.mExistingAccount_.TabIndex = 0;
+        	this.mExistingAccount_.TabStop = true;
+        	this.mExistingAccount_.Text = "Existing Account";
+        	this.mExistingAccount_.UseVisualStyleBackColor = true;
+        	// 
+        	// mCreateNewAccount_
+        	// 
+        	this.mCreateNewAccount_.AutoSize = true;
+        	this.mCreateNewAccount_.Location = new System.Drawing.Point(200, 3);
+        	this.mCreateNewAccount_.Name = "mCreateNewAccount_";
+        	this.mCreateNewAccount_.Size = new System.Drawing.Size(124, 17);
+        	this.mCreateNewAccount_.TabIndex = 1;
+        	this.mCreateNewAccount_.TabStop = true;
+        	this.mCreateNewAccount_.Text = "Create New Account";
+        	this.mCreateNewAccount_.UseVisualStyleBackColor = true;
+        	// 
+        	// mExistingAccounts_
+        	// 
+        	this.mExistingAccounts_.CheckOnClick = true;
+        	this.mExistingAccounts_.Dock = System.Windows.Forms.DockStyle.Fill;
+        	this.mExistingAccounts_.FormattingEnabled = true;
+        	this.mExistingAccounts_.Location = new System.Drawing.Point(3, 26);
+        	this.mExistingAccounts_.Name = "mExistingAccounts_";
+        	this.mExistingAccounts_.Size = new System.Drawing.Size(191, 177);
+        	this.mExistingAccounts_.TabIndex = 2;
+        	// 
+        	// mFieldsLayoutTable_
+        	// 
+        	this.mFieldsLayoutTable_.ColumnCount = 2;
+        	this.mFieldsLayoutTable_.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+        	this.mFieldsLayoutTable_.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+        	this.mFieldsLayoutTable_.Controls.Add(this.mAccountTypeLbl_, 0, 2);
+        	this.mFieldsLayoutTable_.Controls.Add(this.mAccountNumberLbl_, 0, 1);
+        	this.mFieldsLayoutTable_.Controls.Add(this.mBankNameLbl_, 0, 0);
+        	this.mFieldsLayoutTable_.Controls.Add(this.mNicknameLbl_, 0, 3);
+        	this.mFieldsLayoutTable_.Controls.Add(this.mOpeningBalanceLbl_, 0, 4);
+        	this.mFieldsLayoutTable_.Controls.Add(this.mOpeningBalance_, 1, 4);
+        	this.mFieldsLayoutTable_.Controls.Add(this.mNickname_, 1, 3);
+        	this.mFieldsLayoutTable_.Controls.Add(this.mAccountNumber_, 1, 1);
+        	this.mFieldsLayoutTable_.Controls.Add(this.mBankName_, 1, 0);
+        	this.mFieldsLayoutTable_.Controls.Add(this.mAccountType_, 1, 2);
+        	this.mFieldsLayoutTable_.Dock = System.Windows.Forms.DockStyle.Fill;
+        	this.mFieldsLayoutTable_.Location = new System.Drawing.Point(200, 26);
+        	this.mFieldsLayoutTable_.Name = "mFieldsLayoutTable_";
+        	this.mFieldsLayoutTable_.RowCount = 5;
+        	this.mFieldsLayoutTable_.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+        	this.mFieldsLayoutTable_.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+        	this.mFieldsLayoutTable_.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+        	this.mFieldsLayoutTable_.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+        	this.mFieldsLayoutTable_.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+        	this.mFieldsLayoutTable_.Size = new System.Drawing.Size(290, 177);
+        	this.mFieldsLayoutTable_.TabIndex = 3;
+        	// 
+        	// mAccountTypeLbl_
+        	// 
+        	this.mAccountTypeLbl_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+        	this.mAccountTypeLbl_.AutoSize = true;
+        	this.mAccountTypeLbl_.Location = new System.Drawing.Point(3, 81);
+        	this.mAccountTypeLbl_.Name = "mAccountTypeLbl_";
+        	this.mAccountTypeLbl_.Size = new System.Drawing.Size(89, 13);
+        	this.mAccountTypeLbl_.TabIndex = 4;
+        	this.mAccountTypeLbl_.Text = "Account Type";
+        	this.mAccountTypeLbl_.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+        	// 
+        	// mAccountNumberLbl_
+        	// 
+        	this.mAccountNumberLbl_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+        	this.mAccountNumberLbl_.AutoSize = true;
+        	this.mAccountNumberLbl_.Location = new System.Drawing.Point(3, 46);
+        	this.mAccountNumberLbl_.Name = "mAccountNumberLbl_";
+        	this.mAccountNumberLbl_.Size = new System.Drawing.Size(89, 13);
+        	this.mAccountNumberLbl_.TabIndex = 2;
+        	this.mAccountNumberLbl_.Text = "Account Number";
+        	this.mAccountNumberLbl_.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+        	// 
+        	// mBankNameLbl_
+        	// 
+        	this.mBankNameLbl_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+        	this.mBankNameLbl_.AutoSize = true;
+        	this.mBankNameLbl_.Location = new System.Drawing.Point(3, 11);
+        	this.mBankNameLbl_.Name = "mBankNameLbl_";
+        	this.mBankNameLbl_.Size = new System.Drawing.Size(89, 13);
+        	this.mBankNameLbl_.TabIndex = 0;
+        	this.mBankNameLbl_.Text = "Bank Name";
+        	this.mBankNameLbl_.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+        	// 
+        	// mNicknameLbl_
+        	// 
+        	this.mNicknameLbl_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+        	this.mNicknameLbl_.AutoSize = true;
+        	this.mNicknameLbl_.Location = new System.Drawing.Point(3, 116);
+        	this.mNicknameLbl_.Name = "mNicknameLbl_";
+        	this.mNicknameLbl_.Size = new System.Drawing.Size(89, 13);
+        	this.mNicknameLbl_.TabIndex = 1;
+        	this.mNicknameLbl_.Text = "Nickname";
+        	this.mNicknameLbl_.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+        	// 
+        	// mOpeningBalanceLbl_
+        	// 
+        	this.mOpeningBalanceLbl_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+        	this.mOpeningBalanceLbl_.AutoSize = true;
+        	this.mOpeningBalanceLbl_.Location = new System.Drawing.Point(3, 152);
+        	this.mOpeningBalanceLbl_.Name = "mOpeningBalanceLbl_";
+        	this.mOpeningBalanceLbl_.Size = new System.Drawing.Size(89, 13);
+        	this.mOpeningBalanceLbl_.TabIndex = 3;
+        	this.mOpeningBalanceLbl_.Text = "Opening Balance";
+        	this.mOpeningBalanceLbl_.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+        	// 
+        	// mOpeningBalance_
+        	// 
+        	this.mOpeningBalance_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+        	this.mOpeningBalance_.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+        	this.mOpeningBalance_.ForeColor = System.Drawing.Color.Black;
+        	this.mOpeningBalance_.Location = new System.Drawing.Point(98, 148);
+        	this.mOpeningBalance_.Name = "mOpeningBalance_";
+        	this.mOpeningBalance_.Size = new System.Drawing.Size(189, 20);
+        	this.mOpeningBalance_.TabIndex = 5;
+        	this.mOpeningBalance_.Text = "$0.00";
+        	this.mOpeningBalance_.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+        	money1.Value = new decimal(new int[] {
+			0,
+			0,
+			0,
+			0});
+        	this.mOpeningBalance_.Value = money1;
+        	// 
+        	// mNickname_
+        	// 
+        	this.mNickname_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+        	this.mNickname_.Location = new System.Drawing.Point(98, 112);
+        	this.mNickname_.Name = "mNickname_";
+        	this.mNickname_.Size = new System.Drawing.Size(189, 20);
+        	this.mNickname_.TabIndex = 6;
+        	// 
+        	// mAccountNumber_
+        	// 
+        	this.mAccountNumber_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+        	this.mAccountNumber_.Location = new System.Drawing.Point(98, 42);
+        	this.mAccountNumber_.Name = "mAccountNumber_";
+        	this.mAccountNumber_.Size = new System.Drawing.Size(189, 20);
+        	this.mAccountNumber_.TabIndex = 7;
+        	// 
+        	// mBankName_
+        	// 
+        	this.mBankName_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+        	this.mBankName_.Location = new System.Drawing.Point(98, 7);
+        	this.mBankName_.Name = "mBankName_";
+        	this.mBankName_.Size = new System.Drawing.Size(189, 20);
+        	this.mBankName_.TabIndex = 8;
+        	// 
+        	// mAccountType_
+        	// 
+        	this.mAccountType_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+        	this.mAccountType_.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+        	this.mAccountType_.FormattingEnabled = true;
+        	this.mAccountType_.Location = new System.Drawing.Point(98, 77);
+        	this.mAccountType_.Name = "mAccountType_";
+        	this.mAccountType_.Size = new System.Drawing.Size(189, 21);
+        	this.mAccountType_.TabIndex = 9;
+        	// 
+        	// ImportTransactionsDialog
+        	// 
+        	this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+        	this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+        	this.ClientSize = new System.Drawing.Size(493, 235);
+        	this.Controls.Add(this.mMainTableLayoutPanel_);
+        	this.Controls.Add(this.mButtonLayoutPanel_);
+        	this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+        	this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+        	this.MaximizeBox = false;
+        	this.MinimizeBox = false;
+        	this.Name = "ImportTransactionsDialog";
+        	this.ShowInTaskbar = false;
+        	this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
+        	this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+        	this.Text = "Import Transactions";
+        	this.mButtonLayoutPanel_.ResumeLayout(false);
+        	this.mMainTableLayoutPanel_.ResumeLayout(false);
+        	this.mMainTableLayoutPanel_.PerformLayout();
+        	this.mFieldsLayoutTable_.ResumeLayout(false);
+        	this.mFieldsLayoutTable_.PerformLayout();
+        	this.ResumeLayout(false);
+        	this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TableLayoutPanel mTableLayoutPanel_;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        public System.Windows.Forms.Button mImportBtn_;
-        public System.Windows.Forms.Button mNextBtn_;
-        public System.Windows.Forms.Button mBackBtn_;
+        private System.Windows.Forms.FlowLayoutPanel mButtonLayoutPanel_;
+        private System.Windows.Forms.Button mImport_;
+        private System.Windows.Forms.Button mCancel_;
         private System.Windows.Forms.OpenFileDialog mOpenFileDialog_;
+        private System.Windows.Forms.TableLayoutPanel mMainTableLayoutPanel_;
+        private System.Windows.Forms.RadioButton mExistingAccount_;
+        private System.Windows.Forms.RadioButton mCreateNewAccount_;
+        private System.Windows.Forms.CheckedListBox mExistingAccounts_;
+        private System.Windows.Forms.TableLayoutPanel mFieldsLayoutTable_;
+        private System.Windows.Forms.Label mAccountTypeLbl_;
+        private System.Windows.Forms.Label mAccountNumberLbl_;
+        private System.Windows.Forms.Label mBankNameLbl_;
+        private System.Windows.Forms.Label mNicknameLbl_;
+        private System.Windows.Forms.Label mOpeningBalanceLbl_;
+        private MiskoFinance.Controls.MoneyBox mOpeningBalance_;
+        private System.Windows.Forms.TextBox mNickname_;
+        private System.Windows.Forms.TextBox mAccountNumber_;
+        private System.Windows.Forms.TextBox mBankName_;
+        private System.Windows.Forms.ComboBox mAccountType_;
 
     }
 }

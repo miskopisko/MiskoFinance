@@ -13,7 +13,12 @@ namespace MiskoFinanceCore.Message.Requests
         #region Parameters
 
         public VwTxn Txn { get; set; }
-        public VwSummary Summary { get; set; } 
+        public PrimaryKey Operator { get; set; }
+        public PrimaryKey Account { get; set; }
+        public DateTime FromDate { get; set; }
+        public DateTime ToDate { get; set; }
+        public PrimaryKey Category { get; set; }
+        public String Description { get; set; }
         
         #endregion
 

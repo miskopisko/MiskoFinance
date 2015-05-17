@@ -15,7 +15,7 @@ namespace MiskoFinance.Forms
     {
         private static Logger Log = Logger.GetInstance(typeof(SettingsDialog));
 
-        #region Variable Declarations
+        #region Fields
 
         private VwOperator mOperator_;
 
@@ -37,9 +37,9 @@ namespace MiskoFinance.Forms
 
         public SettingsDialog(VwOperator o)
         {
+        	InitializeComponent();
+            
             mOperator_ = o;
-
-            InitializeComponent();
 
             mGender_.DataSource = Gender.Elements;
         }
@@ -58,8 +58,6 @@ namespace MiskoFinance.Forms
             }            
 
             mUsername_.Text = mOperator_.Username;
-            mPassword1_.Text = mOperator_.Password;
-            mPassword2_.Text = mOperator_.Password;
             mFirstName_.Text = mOperator_.FirstName;
             mLastName_.Text = mOperator_.LastName;
             mEmail_.Text = mOperator_.Email;
@@ -106,7 +104,7 @@ namespace MiskoFinance.Forms
             request.Operator = mOperator_;
             request.Password1 = mPassword1_.Text;
             request.Password2 = mPassword2_.Text;
-            MessageProcessor.SendRequest(request, UpdateOperatorSuccess);
+            ServerConnection.SendRequest(request, UpdateOperatorSuccess);
         }
 
         private void mCancelBtn__Click(object sender, EventArgs e)

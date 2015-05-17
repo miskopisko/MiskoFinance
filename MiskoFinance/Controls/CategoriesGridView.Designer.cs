@@ -28,20 +28,23 @@
         /// </summary>
         private void InitializeComponent()
         {
-            ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
-            this.SuspendLayout();
-            // 
-            // CategoriesGridView
-            // 
-            this.AutoGenerateColumns = false;
-            this.AllowUserToAddRows = false;
-            this.AllowUserToDeleteRows = false;
-            this.AllowUserToResizeColumns = false;
-            this.AllowUserToResizeRows = false;
-            this.MultiSelect = false;
-            this.RowHeadersVisible = false;
-            ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
-            this.ResumeLayout(false);
+        	((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
+        	this.SuspendLayout();
+        	// 
+        	// CategoriesGridView
+        	// 
+        	this.AllowUserToAddRows = false;
+        	this.AllowUserToDeleteRows = false;
+        	this.AllowUserToResizeColumns = false;
+        	this.AllowUserToResizeRows = false;
+        	this.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+        	this.Dock = System.Windows.Forms.DockStyle.Fill;
+        	this.MultiSelect = false;
+        	this.RowHeadersVisible = false;
+        	this.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+        	this.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+        	((System.ComponentModel.ISupportInitialize)(this)).EndInit();
+        	this.ResumeLayout(false);
 
         }
 

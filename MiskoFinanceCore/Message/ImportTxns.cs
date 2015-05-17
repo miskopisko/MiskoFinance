@@ -26,18 +26,13 @@ namespace MiskoFinanceCore.Message
         {
             // Save the bank account first
             Response.BankAccount = Request.BankAccount;
-            Response.BankAccount.BankAccountId = Request.BankAccount.Update(session).Id;
+            Request.BankAccount.Update(session);
 
+            // Save each txn
             foreach (VwTxn vwTxn in Request.VwTxns)
             {
-                Txn txn = new Txn();
-                txn.Account = Response.BankAccount.BankAccountId;
-                txn.Amount = vwTxn.Amount;
-                txn.DatePosted = vwTxn.DatePosted;
-                txn.Description = vwTxn.Description;
-                txn.HashCode = vwTxn.HashCode;
-                txn.TxnType = vwTxn.TxnType;
-                txn.Save(session);
+            	vwTxn.AccountId = Response.BankAccount.BankAccountId;
+            	vwTxn.Update(session);
             }
         }
     }

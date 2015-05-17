@@ -1,6 +1,8 @@
-﻿using System.Windows.Forms;
-using MiskoPersist.Core;
+﻿using System.ComponentModel;
+using System.Windows.Forms;
 using MiskoFinanceCore.Data.Viewed;
+using MiskoPersist.Core;
+using MiskoPersist.MoneyType;
 
 namespace MiskoFinance.Panels
 {
@@ -10,22 +12,32 @@ namespace MiskoFinance.Panels
         
         #region Fields
 
-        private VwSummary mDataSource_ = new VwSummary();
+
 
         #endregion
 
         #region Parameters
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
 		public VwSummary Summary
 		{
-			get
-			{
-				return mDataSource_;
-			}
 			set
 			{
-				mDataSource_ = value ?? new VwSummary();
-				Update();
+				mTotalCredits_.Value = value != null ? value.SelectionTotalCredits : Money.ZERO;
+	            mTotalDebits_.Value = value != null ? value.SelectionTotalDebits : Money.ZERO;
+	            mCreditsDebitsDiff_.Value = value != null ? value.SelectionCreditsDebitsDifference : Money.ZERO;
+	
+	            mTotalTransferIn_.Value = value != null ? value.SelectionTotalTransfersIn : Money.ZERO;
+	            mTotalTransferOut_.Value = value != null ? value.SelectionTotalTransfersOut : Money.ZERO;
+	            mTransfersDiff_.Value = value != null ? value.SelectionTransfersDifference : Money.ZERO;
+	
+	            mSelectionOpeningBalance_.Value = value != null ? value.SelectionOpeningBalance : Money.ZERO;
+	            mSelectionClosingBalance_.Value = value != null ? value.SelectionCurrentBalance : Money.ZERO;
+	            mSelectionBalanceDifference_.Value = value != null ? value.SelectionBalanceDifference : Money.ZERO;
+	
+	            mOpeningBalance_.Value = value != null ? value.AllTimeOpeningBalance : Money.ZERO;
+	            mCurrentBalance_.Value = value != null ? value.AllTimeCurrentBalance : Money.ZERO;
+	            mBalanceDiff_.Value = value != null ? value.AllTimeBalanceDifference : Money.ZERO;
 			}
 		}
 
@@ -44,7 +56,7 @@ namespace MiskoFinance.Panels
 
 
 
-        #endregion""
+        #endregion
 
         #region Override Methods
 
@@ -54,24 +66,7 @@ namespace MiskoFinance.Panels
 
         #region Public Methods
 
-        private new void Update()
-        {
-            mTotalCredits_.Value = mDataSource_.SelectionTotalCredits;
-            mTotalDebits_.Value = mDataSource_.SelectionTotalDebits;
-            mCreditsDebitsDiff_.Value = mDataSource_.SelectionCreditsDebitsDifference;
-
-            mTotalTransferIn_.Value = mDataSource_.SelectionTotalTransfersIn;
-            mTotalTransferOut_.Value = mDataSource_.SelectionTotalTransfersOut;
-            mTransfersDiff_.Value = mDataSource_.SelectionTransfersDifference;
-
-            mSelectionOpeningBalance_.Value = mDataSource_.SelectionOpeningBalance;
-            mSelectionClosingBalance_.Value = mDataSource_.SelectionCurrentBalance;
-            mSelectionBalanceDifference_.Value = mDataSource_.SelectionBalanceDifference;
-
-            mOpeningBalance_.Value = mDataSource_.AllTimeOpeningBalance;
-            mCurrentBalance_.Value = mDataSource_.AllTimeCurrentBalance;
-            mBalanceDiff_.Value = mDataSource_.AllTimeBalanceDifference;
-        }
+		
 
         #endregion
 

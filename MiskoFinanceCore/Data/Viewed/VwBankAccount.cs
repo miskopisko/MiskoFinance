@@ -58,10 +58,7 @@ namespace MiskoFinanceCore.Data.Viewed
 
         #region Override Methods
 
-        public override string ToString()
-        {
-            return Nickname;
-        }
+        
 
         #endregion
 
@@ -73,7 +70,7 @@ namespace MiskoFinanceCore.Data.Viewed
 
         #region Public Methods
 
-        public BankAccount Update(Session session)
+        public void Update(Session session)
         {
             BankAccount bankAccount = new BankAccount();
             bankAccount.FetchById(session, BankAccountId);
@@ -85,8 +82,8 @@ namespace MiskoFinanceCore.Data.Viewed
             bankAccount.Nickname = Nickname;
             bankAccount.OpeningBalance = OpeningBalance;
             bankAccount.Save(session);
-
-            return bankAccount;
+            
+            BankAccountId = bankAccount.Id;
         }
 
         public void FetchByAccountNo(Session session, String accountNo)
