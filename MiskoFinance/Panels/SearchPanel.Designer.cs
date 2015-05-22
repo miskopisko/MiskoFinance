@@ -66,6 +66,7 @@ namespace MiskoFinance.Panels
 			// mSearch_
 			// 
 			this.mSearch_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.mSearch_.Enabled = false;
 			this.mSearch_.Location = new System.Drawing.Point(1039, 3);
 			this.mSearch_.Name = "mSearch_";
 			this.mSearch_.Size = new System.Drawing.Size(79, 23);
@@ -77,6 +78,7 @@ namespace MiskoFinance.Panels
 			// 
 			this.mCategories_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.mCategories_.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.mCategories_.Enabled = false;
 			this.mCategories_.FormattingEnabled = true;
 			this.mCategories_.Location = new System.Drawing.Point(833, 4);
 			this.mCategories_.Name = "mCategories_";
@@ -97,6 +99,7 @@ namespace MiskoFinance.Panels
 			// mDescription_
 			// 
 			this.mDescription_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.mDescription_.Enabled = false;
 			this.mDescription_.Location = new System.Drawing.Point(599, 4);
 			this.mDescription_.Name = "mDescription_";
 			this.mDescription_.Size = new System.Drawing.Size(173, 20);
@@ -117,6 +120,7 @@ namespace MiskoFinance.Panels
 			// 
 			this.mToDate_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.mToDate_.CustomFormat = "MMM dd, yyyy";
+			this.mToDate_.Enabled = false;
 			this.mToDate_.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
 			this.mToDate_.Location = new System.Drawing.Point(402, 4);
 			this.mToDate_.Name = "mToDate_";
@@ -127,6 +131,7 @@ namespace MiskoFinance.Panels
 			// 
 			this.mFromDate_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.mFromDate_.CustomFormat = "MMM dd, yyyy";
+			this.mFromDate_.Enabled = false;
 			this.mFromDate_.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
 			this.mFromDate_.Location = new System.Drawing.Point(245, 4);
 			this.mFromDate_.Name = "mFromDate_";
@@ -159,6 +164,7 @@ namespace MiskoFinance.Panels
 			// 
 			this.mAccounts_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.mAccounts_.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.mAccounts_.Enabled = false;
 			this.mAccounts_.FormattingEnabled = true;
 			this.mAccounts_.Location = new System.Drawing.Point(3, 4);
 			this.mAccounts_.Name = "mAccounts_";
@@ -202,6 +208,7 @@ namespace MiskoFinance.Panels
 			// 
 			// mMore_
 			// 
+			this.mMore_.Enabled = false;
 			this.mMore_.Location = new System.Drawing.Point(1124, 3);
 			this.mMore_.Name = "mMore_";
 			this.mMore_.Size = new System.Drawing.Size(75, 23);

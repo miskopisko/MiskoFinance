@@ -99,18 +99,10 @@ namespace MiskoFinanceCore.Data.Viewed
             Txn txn = new Txn();
             txn.FetchById(session, TxnId);
 
-            txn.Account = AccountId;
-            txn.Amount = Amount;
-            txn.DatePosted = DatePosted;
-            txn.Description = Description;
-            txn.DrCr = DrCr;
-            txn.HashCode = HashCode;
             txn.OneTime = OneTime;
             txn.Transfer = Transfer;
             txn.Category = Category;
             txn.Save(session);
-            
-            TxnId = txn.Id;
         }
 
         #endregion

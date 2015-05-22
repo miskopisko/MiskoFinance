@@ -33,7 +33,7 @@ namespace MiskoFinance
 			}
 		}
 		
-		public int RowsPerPage 
+		public static int RowsPerPage 
 		{
 			get 
 			{
@@ -50,26 +50,8 @@ namespace MiskoFinance
 		}
 		
 		#endregion
-		
-		public MiskoFinance_IOController_Impl()
-		{
-		}
 
 		#region IOController implementation
-
-		public ConnectionProvider GetConnectionProvider()
-		{
-			if(DataSource.Equals(DataSource.Local))
-			{
-			   	return new LocalConnectionProvider();
-			}
-		   	return null;
-		}
-
-		public void Debug(object obj)
-		{
-			Trace.Write(AbstractData.SerializeJson(obj));
-		}
 
 		public void Status(string message)
 		{
@@ -89,7 +71,7 @@ namespace MiskoFinance
             Application.DoEvents();
 		}
 
-		public void ExceptionHandler(object sender, System.Threading.ThreadExceptionEventArgs e)
+		public void Exception(object sender, System.Threading.ThreadExceptionEventArgs e)
 		{
 			Exception ex = e.Exception;
             while (ex.InnerException != null)
@@ -98,7 +80,7 @@ namespace MiskoFinance
             }
             
             #if DEBUG
-				Trace.TraceError(ex.StackTrace);
+            	Debug.WriteLine(ex.StackTrace);
 			#endif
             
             Error(ex.Message);

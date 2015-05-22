@@ -61,7 +61,7 @@
         	this.mLastNameLbl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
         	this.mLastNameLbl.AutoSize = true;
         	this.mLastNameLbl.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-        	this.mLastNameLbl.Location = new System.Drawing.Point(3, 160);
+        	this.mLastNameLbl.Location = new System.Drawing.Point(3, 146);
         	this.mLastNameLbl.Name = "mLastNameLbl";
         	this.mLastNameLbl.Size = new System.Drawing.Size(67, 13);
         	this.mLastNameLbl.TabIndex = 0;
@@ -73,7 +73,7 @@
         	this.mUsernameLbl_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
         	this.mUsernameLbl_.AutoSize = true;
         	this.mUsernameLbl_.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-        	this.mUsernameLbl_.Location = new System.Drawing.Point(3, 12);
+        	this.mUsernameLbl_.Location = new System.Drawing.Point(3, 10);
         	this.mUsernameLbl_.Name = "mUsernameLbl_";
         	this.mUsernameLbl_.Size = new System.Drawing.Size(67, 13);
         	this.mUsernameLbl_.TabIndex = 1;
@@ -85,7 +85,7 @@
         	this.mPassword1Lbl_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
         	this.mPassword1Lbl_.AutoSize = true;
         	this.mPassword1Lbl_.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-        	this.mPassword1Lbl_.Location = new System.Drawing.Point(3, 49);
+        	this.mPassword1Lbl_.Location = new System.Drawing.Point(3, 44);
         	this.mPassword1Lbl_.Name = "mPassword1Lbl_";
         	this.mPassword1Lbl_.Size = new System.Drawing.Size(67, 13);
         	this.mPassword1Lbl_.TabIndex = 2;
@@ -97,7 +97,7 @@
         	this.mEmailLbl_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
         	this.mEmailLbl_.AutoSize = true;
         	this.mEmailLbl_.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-        	this.mEmailLbl_.Location = new System.Drawing.Point(3, 197);
+        	this.mEmailLbl_.Location = new System.Drawing.Point(3, 180);
         	this.mEmailLbl_.Name = "mEmailLbl_";
         	this.mEmailLbl_.Size = new System.Drawing.Size(67, 13);
         	this.mEmailLbl_.TabIndex = 3;
@@ -109,7 +109,7 @@
         	this.mFirstNameLbl_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
         	this.mFirstNameLbl_.AutoSize = true;
         	this.mFirstNameLbl_.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-        	this.mFirstNameLbl_.Location = new System.Drawing.Point(3, 123);
+        	this.mFirstNameLbl_.Location = new System.Drawing.Point(3, 112);
         	this.mFirstNameLbl_.Name = "mFirstNameLbl_";
         	this.mFirstNameLbl_.Size = new System.Drawing.Size(67, 13);
         	this.mFirstNameLbl_.TabIndex = 4;
@@ -121,7 +121,7 @@
         	this.mGenderLbl_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
         	this.mGenderLbl_.AutoSize = true;
         	this.mGenderLbl_.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-        	this.mGenderLbl_.Location = new System.Drawing.Point(3, 234);
+        	this.mGenderLbl_.Location = new System.Drawing.Point(3, 214);
         	this.mGenderLbl_.Name = "mGenderLbl_";
         	this.mGenderLbl_.Size = new System.Drawing.Size(67, 13);
         	this.mGenderLbl_.TabIndex = 5;
@@ -133,7 +133,7 @@
         	this.mRowsLbl_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
         	this.mRowsLbl_.AutoSize = true;
         	this.mRowsLbl_.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-        	this.mRowsLbl_.Location = new System.Drawing.Point(3, 308);
+        	this.mRowsLbl_.Location = new System.Drawing.Point(3, 285);
         	this.mRowsLbl_.Name = "mRowsLbl_";
         	this.mRowsLbl_.Size = new System.Drawing.Size(67, 13);
         	this.mRowsLbl_.TabIndex = 7;
@@ -145,7 +145,7 @@
         	this.mBirthdayLbl_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
         	this.mBirthdayLbl_.AutoSize = true;
         	this.mBirthdayLbl_.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-        	this.mBirthdayLbl_.Location = new System.Drawing.Point(3, 271);
+        	this.mBirthdayLbl_.Location = new System.Drawing.Point(3, 248);
         	this.mBirthdayLbl_.Name = "mBirthdayLbl_";
         	this.mBirthdayLbl_.Size = new System.Drawing.Size(67, 13);
         	this.mBirthdayLbl_.TabIndex = 6;
@@ -157,7 +157,7 @@
         	this.mPassword2Lbl_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
         	this.mPassword2Lbl_.AutoSize = true;
         	this.mPassword2Lbl_.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-        	this.mPassword2Lbl_.Location = new System.Drawing.Point(3, 86);
+        	this.mPassword2Lbl_.Location = new System.Drawing.Point(3, 78);
         	this.mPassword2Lbl_.Name = "mPassword2Lbl_";
         	this.mPassword2Lbl_.Size = new System.Drawing.Size(67, 13);
         	this.mPassword2Lbl_.TabIndex = 19;
@@ -167,10 +167,10 @@
         	// mPassword2_
         	// 
         	this.mPassword2_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-        	this.mPassword2_.Location = new System.Drawing.Point(76, 82);
+        	this.mPassword2_.Location = new System.Drawing.Point(76, 75);
         	this.mPassword2_.Name = "mPassword2_";
         	this.mPassword2_.PasswordChar = '*';
-        	this.mPassword2_.Size = new System.Drawing.Size(253, 20);
+        	this.mPassword2_.Size = new System.Drawing.Size(261, 20);
         	this.mPassword2_.TabIndex = 3;
         	// 
         	// mGender_
@@ -179,7 +179,7 @@
         	this.mGender_.DisplayMember = "Description";
         	this.mGender_.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
         	this.mGender_.FormattingEnabled = true;
-        	this.mGender_.Location = new System.Drawing.Point(76, 230);
+        	this.mGender_.Location = new System.Drawing.Point(76, 210);
         	this.mGender_.Name = "mGender_";
         	this.mGender_.Size = new System.Drawing.Size(143, 21);
         	this.mGender_.TabIndex = 7;
@@ -188,44 +188,44 @@
         	// mEmail_
         	// 
         	this.mEmail_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-        	this.mEmail_.Location = new System.Drawing.Point(76, 193);
+        	this.mEmail_.Location = new System.Drawing.Point(76, 177);
         	this.mEmail_.Name = "mEmail_";
-        	this.mEmail_.Size = new System.Drawing.Size(253, 20);
+        	this.mEmail_.Size = new System.Drawing.Size(261, 20);
         	this.mEmail_.TabIndex = 6;
         	// 
         	// mLastName_
         	// 
         	this.mLastName_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-        	this.mLastName_.Location = new System.Drawing.Point(76, 156);
+        	this.mLastName_.Location = new System.Drawing.Point(76, 143);
         	this.mLastName_.Name = "mLastName_";
-        	this.mLastName_.Size = new System.Drawing.Size(253, 20);
+        	this.mLastName_.Size = new System.Drawing.Size(261, 20);
         	this.mLastName_.TabIndex = 5;
         	// 
         	// mFirstName_
         	// 
         	this.mFirstName_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-        	this.mFirstName_.Location = new System.Drawing.Point(76, 119);
+        	this.mFirstName_.Location = new System.Drawing.Point(76, 109);
         	this.mFirstName_.Name = "mFirstName_";
-        	this.mFirstName_.Size = new System.Drawing.Size(253, 20);
+        	this.mFirstName_.Size = new System.Drawing.Size(261, 20);
         	this.mFirstName_.TabIndex = 4;
         	// 
         	// mPassword1_
         	// 
         	this.mPassword1_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-        	this.mPassword1_.Location = new System.Drawing.Point(76, 45);
+        	this.mPassword1_.Location = new System.Drawing.Point(76, 41);
         	this.mPassword1_.Name = "mPassword1_";
         	this.mPassword1_.PasswordChar = '*';
-        	this.mPassword1_.Size = new System.Drawing.Size(253, 20);
+        	this.mPassword1_.Size = new System.Drawing.Size(261, 20);
         	this.mPassword1_.TabIndex = 2;
         	// 
         	// mUsername_
         	// 
         	this.mUsername_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
         	this.mUsername_.Enabled = false;
-        	this.mUsername_.Location = new System.Drawing.Point(76, 8);
+        	this.mUsername_.Location = new System.Drawing.Point(76, 7);
         	this.mUsername_.Name = "mUsername_";
         	this.mUsername_.ReadOnly = true;
-        	this.mUsername_.Size = new System.Drawing.Size(253, 20);
+        	this.mUsername_.Size = new System.Drawing.Size(261, 20);
         	this.mUsername_.TabIndex = 1;
         	// 
         	// mBirthday_
@@ -233,10 +233,9 @@
         	this.mBirthday_.Anchor = System.Windows.Forms.AnchorStyles.Left;
         	this.mBirthday_.CustomFormat = "MMMM dd, yyyy";
         	this.mBirthday_.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-        	this.mBirthday_.Location = new System.Drawing.Point(76, 267);
+        	this.mBirthday_.Location = new System.Drawing.Point(76, 245);
         	this.mBirthday_.MinDate = new System.DateTime(1900, 1, 1, 0, 0, 0, 0);
         	this.mBirthday_.Name = "mBirthday_";
-        	this.mBirthday_.ShowUpDown = true;
         	this.mBirthday_.Size = new System.Drawing.Size(143, 20);
         	this.mBirthday_.TabIndex = 8;
         	// 
@@ -244,7 +243,7 @@
         	// 
         	this.mRowPerPage_.Anchor = System.Windows.Forms.AnchorStyles.Left;
         	this.mRowPerPage_.AutoSize = true;
-        	this.mRowPerPage_.Location = new System.Drawing.Point(76, 305);
+        	this.mRowPerPage_.Location = new System.Drawing.Point(76, 282);
         	this.mRowPerPage_.Name = "mRowPerPage_";
         	this.mRowPerPage_.Size = new System.Drawing.Size(41, 20);
         	this.mRowPerPage_.TabIndex = 9;
@@ -257,7 +256,7 @@
         	// mOKBtn_
         	// 
         	this.mOKBtn_.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-        	this.mOKBtn_.Location = new System.Drawing.Point(173, 3);
+        	this.mOKBtn_.Location = new System.Drawing.Point(181, 3);
         	this.mOKBtn_.Name = "mOKBtn_";
         	this.mOKBtn_.Size = new System.Drawing.Size(75, 23);
         	this.mOKBtn_.TabIndex = 12;
@@ -269,7 +268,7 @@
         	// 
         	this.mCancelBtn_.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
         	this.mCancelBtn_.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-        	this.mCancelBtn_.Location = new System.Drawing.Point(254, 3);
+        	this.mCancelBtn_.Location = new System.Drawing.Point(262, 3);
         	this.mCancelBtn_.Name = "mCancelBtn_";
         	this.mCancelBtn_.Size = new System.Drawing.Size(75, 23);
         	this.mCancelBtn_.TabIndex = 11;
@@ -285,9 +284,9 @@
         	this.mButtonFlowLayoutPanel_.Controls.Add(this.mOKBtn_);
         	this.mButtonFlowLayoutPanel_.Dock = System.Windows.Forms.DockStyle.Bottom;
         	this.mButtonFlowLayoutPanel_.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-        	this.mButtonFlowLayoutPanel_.Location = new System.Drawing.Point(0, 334);
+        	this.mButtonFlowLayoutPanel_.Location = new System.Drawing.Point(0, 312);
         	this.mButtonFlowLayoutPanel_.Name = "mButtonFlowLayoutPanel_";
-        	this.mButtonFlowLayoutPanel_.Size = new System.Drawing.Size(332, 29);
+        	this.mButtonFlowLayoutPanel_.Size = new System.Drawing.Size(340, 29);
         	this.mButtonFlowLayoutPanel_.TabIndex = 0;
         	// 
         	// mSettingsTableLayoutPanel_
@@ -326,7 +325,7 @@
         	this.mSettingsTableLayoutPanel_.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
         	this.mSettingsTableLayoutPanel_.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
         	this.mSettingsTableLayoutPanel_.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
-        	this.mSettingsTableLayoutPanel_.Size = new System.Drawing.Size(332, 334);
+        	this.mSettingsTableLayoutPanel_.Size = new System.Drawing.Size(340, 312);
         	this.mSettingsTableLayoutPanel_.TabIndex = 1;
         	// 
         	// SettingsDialog
@@ -335,7 +334,7 @@
         	this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
         	this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
         	this.CancelButton = this.mCancelBtn_;
-        	this.ClientSize = new System.Drawing.Size(332, 363);
+        	this.ClientSize = new System.Drawing.Size(340, 341);
         	this.Controls.Add(this.mSettingsTableLayoutPanel_);
         	this.Controls.Add(this.mButtonFlowLayoutPanel_);
         	this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;

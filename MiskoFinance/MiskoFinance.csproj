@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MiskoFinance</RootNamespace>
     <AssemblyName>MiskoFinance</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <TargetFrameworkProfile>
@@ -142,7 +142,6 @@
     <Compile Include="Forms\MiskoFinanceMain.Designer.cs">
       <DependentUpon>MiskoFinanceMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="MiskoFinance_IOController_Impl.cs" />
     <Compile Include="Panels\SearchPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>

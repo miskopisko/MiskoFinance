@@ -37,7 +37,6 @@
         	this.mMainTableLayoutPanel_ = new System.Windows.Forms.TableLayoutPanel();
         	this.mExistingAccount_ = new System.Windows.Forms.RadioButton();
         	this.mCreateNewAccount_ = new System.Windows.Forms.RadioButton();
-        	this.mExistingAccounts_ = new System.Windows.Forms.CheckedListBox();
         	this.mFieldsLayoutTable_ = new System.Windows.Forms.TableLayoutPanel();
         	this.mAccountTypeLbl_ = new System.Windows.Forms.Label();
         	this.mAccountNumberLbl_ = new System.Windows.Forms.Label();
@@ -49,6 +48,7 @@
         	this.mAccountNumber_ = new System.Windows.Forms.TextBox();
         	this.mBankName_ = new System.Windows.Forms.TextBox();
         	this.mAccountType_ = new System.Windows.Forms.ComboBox();
+        	this.mExistingAccounts_ = new System.Windows.Forms.ListBox();
         	this.mButtonLayoutPanel_.SuspendLayout();
         	this.mMainTableLayoutPanel_.SuspendLayout();
         	this.mFieldsLayoutTable_.SuspendLayout();
@@ -99,8 +99,8 @@
         	this.mMainTableLayoutPanel_.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60F));
         	this.mMainTableLayoutPanel_.Controls.Add(this.mExistingAccount_, 0, 0);
         	this.mMainTableLayoutPanel_.Controls.Add(this.mCreateNewAccount_, 1, 0);
-        	this.mMainTableLayoutPanel_.Controls.Add(this.mExistingAccounts_, 0, 1);
         	this.mMainTableLayoutPanel_.Controls.Add(this.mFieldsLayoutTable_, 1, 1);
+        	this.mMainTableLayoutPanel_.Controls.Add(this.mExistingAccounts_, 0, 1);
         	this.mMainTableLayoutPanel_.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.mMainTableLayoutPanel_.Location = new System.Drawing.Point(0, 0);
         	this.mMainTableLayoutPanel_.Name = "mMainTableLayoutPanel_";
@@ -131,16 +131,6 @@
         	this.mCreateNewAccount_.TabStop = true;
         	this.mCreateNewAccount_.Text = "Create New Account";
         	this.mCreateNewAccount_.UseVisualStyleBackColor = true;
-        	// 
-        	// mExistingAccounts_
-        	// 
-        	this.mExistingAccounts_.CheckOnClick = true;
-        	this.mExistingAccounts_.Dock = System.Windows.Forms.DockStyle.Fill;
-        	this.mExistingAccounts_.FormattingEnabled = true;
-        	this.mExistingAccounts_.Location = new System.Drawing.Point(3, 26);
-        	this.mExistingAccounts_.Name = "mExistingAccounts_";
-        	this.mExistingAccounts_.Size = new System.Drawing.Size(191, 177);
-        	this.mExistingAccounts_.TabIndex = 2;
         	// 
         	// mFieldsLayoutTable_
         	// 
@@ -276,6 +266,15 @@
         	this.mAccountType_.Size = new System.Drawing.Size(189, 21);
         	this.mAccountType_.TabIndex = 9;
         	// 
+        	// mExistingAccounts_
+        	// 
+        	this.mExistingAccounts_.Dock = System.Windows.Forms.DockStyle.Fill;
+        	this.mExistingAccounts_.FormattingEnabled = true;
+        	this.mExistingAccounts_.Location = new System.Drawing.Point(3, 26);
+        	this.mExistingAccounts_.Name = "mExistingAccounts_";
+        	this.mExistingAccounts_.Size = new System.Drawing.Size(191, 177);
+        	this.mExistingAccounts_.TabIndex = 4;
+        	// 
         	// ImportTransactionsDialog
         	// 
         	this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -311,7 +310,7 @@
         private System.Windows.Forms.TableLayoutPanel mMainTableLayoutPanel_;
         private System.Windows.Forms.RadioButton mExistingAccount_;
         private System.Windows.Forms.RadioButton mCreateNewAccount_;
-        private System.Windows.Forms.CheckedListBox mExistingAccounts_;
+        private System.Windows.Forms.ListBox mExistingAccounts_;
         private System.Windows.Forms.TableLayoutPanel mFieldsLayoutTable_;
         private System.Windows.Forms.Label mAccountTypeLbl_;
         private System.Windows.Forms.Label mAccountNumberLbl_;

@@ -41,16 +41,16 @@
         	MiskoPersist.MoneyType.Money money11 = new MiskoPersist.MoneyType.Money();
         	MiskoPersist.MoneyType.Money money12 = new MiskoPersist.MoneyType.Money();
         	this.mTotalDebitsLbl_ = new System.Windows.Forms.Label();
-        	this.label5 = new System.Windows.Forms.Label();
-        	this.label6 = new System.Windows.Forms.Label();
-        	this.label7 = new System.Windows.Forms.Label();
-        	this.label8 = new System.Windows.Forms.Label();
-        	this.label9 = new System.Windows.Forms.Label();
-        	this.label10 = new System.Windows.Forms.Label();
-        	this.label11 = new System.Windows.Forms.Label();
-        	this.label12 = new System.Windows.Forms.Label();
-        	this.label13 = new System.Windows.Forms.Label();
-        	this.label14 = new System.Windows.Forms.Label();
+        	this.mCreditsDebitsDifferenceLbl_ = new System.Windows.Forms.Label();
+        	this.mTransferInLbl_ = new System.Windows.Forms.Label();
+        	this.mTransferOutLbl_ = new System.Windows.Forms.Label();
+        	this.mTransfersDifferenceLbl_ = new System.Windows.Forms.Label();
+        	this.mSelectionOpeningBalanceLbl_ = new System.Windows.Forms.Label();
+        	this.mSelectionClosingBalanceLbl_ = new System.Windows.Forms.Label();
+        	this.mSelectionDifferenceLbl_ = new System.Windows.Forms.Label();
+        	this.mAllTimeStartingBalanceLbl_ = new System.Windows.Forms.Label();
+        	this.mAllTimeCurrentBalanceLbl_ = new System.Windows.Forms.Label();
+        	this.mAllTimeDifferenceLbl_ = new System.Windows.Forms.Label();
         	this.mSummaryTableLayoutPanel_ = new System.Windows.Forms.TableLayoutPanel();
         	this.mTotalCredits_ = new MiskoFinance.Controls.MoneyBox();
         	this.mTotalCreditsLbl_ = new System.Windows.Forms.Label();
@@ -79,115 +79,115 @@
         	this.mTotalDebitsLbl_.Text = "Total Debits";
         	this.mTotalDebitsLbl_.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
         	// 
-        	// label5
+        	// mCreditsDebitsDifferenceLbl_
         	// 
-        	this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-        	this.label5.AutoSize = true;
-        	this.label5.Location = new System.Drawing.Point(3, 58);
-        	this.label5.Name = "label5";
-        	this.label5.Size = new System.Drawing.Size(66, 13);
-        	this.label5.TabIndex = 22;
-        	this.label5.Text = "Difference";
-        	this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+        	this.mCreditsDebitsDifferenceLbl_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+        	this.mCreditsDebitsDifferenceLbl_.AutoSize = true;
+        	this.mCreditsDebitsDifferenceLbl_.Location = new System.Drawing.Point(3, 58);
+        	this.mCreditsDebitsDifferenceLbl_.Name = "mCreditsDebitsDifferenceLbl_";
+        	this.mCreditsDebitsDifferenceLbl_.Size = new System.Drawing.Size(66, 13);
+        	this.mCreditsDebitsDifferenceLbl_.TabIndex = 22;
+        	this.mCreditsDebitsDifferenceLbl_.Text = "Difference";
+        	this.mCreditsDebitsDifferenceLbl_.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
         	// 
-        	// label6
+        	// mTransferInLbl_
         	// 
-        	this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-        	this.label6.AutoSize = true;
-        	this.label6.Location = new System.Drawing.Point(206, 6);
-        	this.label6.Name = "label6";
-        	this.label6.Size = new System.Drawing.Size(71, 13);
-        	this.label6.TabIndex = 23;
-        	this.label6.Text = "Transfers In";
-        	this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+        	this.mTransferInLbl_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+        	this.mTransferInLbl_.AutoSize = true;
+        	this.mTransferInLbl_.Location = new System.Drawing.Point(206, 6);
+        	this.mTransferInLbl_.Name = "mTransferInLbl_";
+        	this.mTransferInLbl_.Size = new System.Drawing.Size(71, 13);
+        	this.mTransferInLbl_.TabIndex = 23;
+        	this.mTransferInLbl_.Text = "Transfers In";
+        	this.mTransferInLbl_.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
         	// 
-        	// label7
+        	// mTransferOutLbl_
         	// 
-        	this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-        	this.label7.AutoSize = true;
-        	this.label7.Location = new System.Drawing.Point(206, 32);
-        	this.label7.Name = "label7";
-        	this.label7.Size = new System.Drawing.Size(71, 13);
-        	this.label7.TabIndex = 24;
-        	this.label7.Text = "Transfers Out";
-        	this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+        	this.mTransferOutLbl_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+        	this.mTransferOutLbl_.AutoSize = true;
+        	this.mTransferOutLbl_.Location = new System.Drawing.Point(206, 32);
+        	this.mTransferOutLbl_.Name = "mTransferOutLbl_";
+        	this.mTransferOutLbl_.Size = new System.Drawing.Size(71, 13);
+        	this.mTransferOutLbl_.TabIndex = 24;
+        	this.mTransferOutLbl_.Text = "Transfers Out";
+        	this.mTransferOutLbl_.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
         	// 
-        	// label8
+        	// mTransfersDifferenceLbl_
         	// 
-        	this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-        	this.label8.AutoSize = true;
-        	this.label8.Location = new System.Drawing.Point(206, 58);
-        	this.label8.Name = "label8";
-        	this.label8.Size = new System.Drawing.Size(71, 13);
-        	this.label8.TabIndex = 25;
-        	this.label8.Text = "Difference";
-        	this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+        	this.mTransfersDifferenceLbl_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+        	this.mTransfersDifferenceLbl_.AutoSize = true;
+        	this.mTransfersDifferenceLbl_.Location = new System.Drawing.Point(206, 58);
+        	this.mTransfersDifferenceLbl_.Name = "mTransfersDifferenceLbl_";
+        	this.mTransfersDifferenceLbl_.Size = new System.Drawing.Size(71, 13);
+        	this.mTransfersDifferenceLbl_.TabIndex = 25;
+        	this.mTransfersDifferenceLbl_.Text = "Difference";
+        	this.mTransfersDifferenceLbl_.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
         	// 
-        	// label9
+        	// mSelectionOpeningBalanceLbl_
         	// 
-        	this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-        	this.label9.AutoSize = true;
-        	this.label9.Location = new System.Drawing.Point(414, 6);
-        	this.label9.Name = "label9";
-        	this.label9.Size = new System.Drawing.Size(89, 13);
-        	this.label9.TabIndex = 26;
-        	this.label9.Text = "Opening Balance";
-        	this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+        	this.mSelectionOpeningBalanceLbl_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+        	this.mSelectionOpeningBalanceLbl_.AutoSize = true;
+        	this.mSelectionOpeningBalanceLbl_.Location = new System.Drawing.Point(414, 6);
+        	this.mSelectionOpeningBalanceLbl_.Name = "mSelectionOpeningBalanceLbl_";
+        	this.mSelectionOpeningBalanceLbl_.Size = new System.Drawing.Size(89, 13);
+        	this.mSelectionOpeningBalanceLbl_.TabIndex = 26;
+        	this.mSelectionOpeningBalanceLbl_.Text = "Opening Balance";
+        	this.mSelectionOpeningBalanceLbl_.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
         	// 
-        	// label10
+        	// mSelectionClosingBalanceLbl_
         	// 
-        	this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-        	this.label10.AutoSize = true;
-        	this.label10.Location = new System.Drawing.Point(414, 32);
-        	this.label10.Name = "label10";
-        	this.label10.Size = new System.Drawing.Size(89, 13);
-        	this.label10.TabIndex = 27;
-        	this.label10.Text = "Closing Balance";
-        	this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+        	this.mSelectionClosingBalanceLbl_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+        	this.mSelectionClosingBalanceLbl_.AutoSize = true;
+        	this.mSelectionClosingBalanceLbl_.Location = new System.Drawing.Point(414, 32);
+        	this.mSelectionClosingBalanceLbl_.Name = "mSelectionClosingBalanceLbl_";
+        	this.mSelectionClosingBalanceLbl_.Size = new System.Drawing.Size(89, 13);
+        	this.mSelectionClosingBalanceLbl_.TabIndex = 27;
+        	this.mSelectionClosingBalanceLbl_.Text = "Closing Balance";
+        	this.mSelectionClosingBalanceLbl_.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
         	// 
-        	// label11
+        	// mSelectionDifferenceLbl_
         	// 
-        	this.label11.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-        	this.label11.AutoSize = true;
-        	this.label11.Location = new System.Drawing.Point(414, 58);
-        	this.label11.Name = "label11";
-        	this.label11.Size = new System.Drawing.Size(89, 13);
-        	this.label11.TabIndex = 28;
-        	this.label11.Text = "Difference";
-        	this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+        	this.mSelectionDifferenceLbl_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+        	this.mSelectionDifferenceLbl_.AutoSize = true;
+        	this.mSelectionDifferenceLbl_.Location = new System.Drawing.Point(414, 58);
+        	this.mSelectionDifferenceLbl_.Name = "mSelectionDifferenceLbl_";
+        	this.mSelectionDifferenceLbl_.Size = new System.Drawing.Size(89, 13);
+        	this.mSelectionDifferenceLbl_.TabIndex = 28;
+        	this.mSelectionDifferenceLbl_.Text = "Difference";
+        	this.mSelectionDifferenceLbl_.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
         	// 
-        	// label12
+        	// mAllTimeStartingBalanceLbl_
         	// 
-        	this.label12.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-        	this.label12.AutoSize = true;
-        	this.label12.Location = new System.Drawing.Point(640, 6);
-        	this.label12.Name = "label12";
-        	this.label12.Size = new System.Drawing.Size(85, 13);
-        	this.label12.TabIndex = 29;
-        	this.label12.Text = "Starting Balance";
-        	this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+        	this.mAllTimeStartingBalanceLbl_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+        	this.mAllTimeStartingBalanceLbl_.AutoSize = true;
+        	this.mAllTimeStartingBalanceLbl_.Location = new System.Drawing.Point(640, 6);
+        	this.mAllTimeStartingBalanceLbl_.Name = "mAllTimeStartingBalanceLbl_";
+        	this.mAllTimeStartingBalanceLbl_.Size = new System.Drawing.Size(85, 13);
+        	this.mAllTimeStartingBalanceLbl_.TabIndex = 29;
+        	this.mAllTimeStartingBalanceLbl_.Text = "Starting Balance";
+        	this.mAllTimeStartingBalanceLbl_.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
         	// 
-        	// label13
+        	// mAllTimeCurrentBalanceLbl_
         	// 
-        	this.label13.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-        	this.label13.AutoSize = true;
-        	this.label13.Location = new System.Drawing.Point(640, 32);
-        	this.label13.Name = "label13";
-        	this.label13.Size = new System.Drawing.Size(85, 13);
-        	this.label13.TabIndex = 30;
-        	this.label13.Text = "Current Balance";
-        	this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+        	this.mAllTimeCurrentBalanceLbl_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+        	this.mAllTimeCurrentBalanceLbl_.AutoSize = true;
+        	this.mAllTimeCurrentBalanceLbl_.Location = new System.Drawing.Point(640, 32);
+        	this.mAllTimeCurrentBalanceLbl_.Name = "mAllTimeCurrentBalanceLbl_";
+        	this.mAllTimeCurrentBalanceLbl_.Size = new System.Drawing.Size(85, 13);
+        	this.mAllTimeCurrentBalanceLbl_.TabIndex = 30;
+        	this.mAllTimeCurrentBalanceLbl_.Text = "Current Balance";
+        	this.mAllTimeCurrentBalanceLbl_.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
         	// 
-        	// label14
+        	// mAllTimeDifferenceLbl_
         	// 
-        	this.label14.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-        	this.label14.AutoSize = true;
-        	this.label14.Location = new System.Drawing.Point(640, 58);
-        	this.label14.Name = "label14";
-        	this.label14.Size = new System.Drawing.Size(85, 13);
-        	this.label14.TabIndex = 31;
-        	this.label14.Text = "Difference";
-        	this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+        	this.mAllTimeDifferenceLbl_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+        	this.mAllTimeDifferenceLbl_.AutoSize = true;
+        	this.mAllTimeDifferenceLbl_.Location = new System.Drawing.Point(640, 58);
+        	this.mAllTimeDifferenceLbl_.Name = "mAllTimeDifferenceLbl_";
+        	this.mAllTimeDifferenceLbl_.Size = new System.Drawing.Size(85, 13);
+        	this.mAllTimeDifferenceLbl_.TabIndex = 31;
+        	this.mAllTimeDifferenceLbl_.Text = "Difference";
+        	this.mAllTimeDifferenceLbl_.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
         	// 
         	// mSummaryTableLayoutPanel_
         	// 
@@ -206,26 +206,26 @@
         	this.mSummaryTableLayoutPanel_.Controls.Add(this.mTotalCreditsLbl_, 0, 0);
         	this.mSummaryTableLayoutPanel_.Controls.Add(this.mTotalDebitsLbl_, 0, 1);
         	this.mSummaryTableLayoutPanel_.Controls.Add(this.mTotalDebits_, 1, 1);
-        	this.mSummaryTableLayoutPanel_.Controls.Add(this.label5, 0, 2);
+        	this.mSummaryTableLayoutPanel_.Controls.Add(this.mCreditsDebitsDifferenceLbl_, 0, 2);
         	this.mSummaryTableLayoutPanel_.Controls.Add(this.mCreditsDebitsDiff_, 1, 2);
-        	this.mSummaryTableLayoutPanel_.Controls.Add(this.label6, 2, 0);
-        	this.mSummaryTableLayoutPanel_.Controls.Add(this.label7, 2, 1);
-        	this.mSummaryTableLayoutPanel_.Controls.Add(this.label8, 2, 2);
+        	this.mSummaryTableLayoutPanel_.Controls.Add(this.mTransferInLbl_, 2, 0);
+        	this.mSummaryTableLayoutPanel_.Controls.Add(this.mTransferOutLbl_, 2, 1);
+        	this.mSummaryTableLayoutPanel_.Controls.Add(this.mTransfersDifferenceLbl_, 2, 2);
         	this.mSummaryTableLayoutPanel_.Controls.Add(this.mTotalTransferIn_, 3, 0);
         	this.mSummaryTableLayoutPanel_.Controls.Add(this.mTotalTransferOut_, 3, 1);
         	this.mSummaryTableLayoutPanel_.Controls.Add(this.mTransfersDiff_, 3, 2);
-        	this.mSummaryTableLayoutPanel_.Controls.Add(this.label9, 4, 0);
-        	this.mSummaryTableLayoutPanel_.Controls.Add(this.label10, 4, 1);
-        	this.mSummaryTableLayoutPanel_.Controls.Add(this.label11, 4, 2);
+        	this.mSummaryTableLayoutPanel_.Controls.Add(this.mSelectionOpeningBalanceLbl_, 4, 0);
+        	this.mSummaryTableLayoutPanel_.Controls.Add(this.mSelectionClosingBalanceLbl_, 4, 1);
+        	this.mSummaryTableLayoutPanel_.Controls.Add(this.mSelectionDifferenceLbl_, 4, 2);
         	this.mSummaryTableLayoutPanel_.Controls.Add(this.mSelectionOpeningBalance_, 5, 0);
         	this.mSummaryTableLayoutPanel_.Controls.Add(this.mSelectionClosingBalance_, 5, 1);
         	this.mSummaryTableLayoutPanel_.Controls.Add(this.mSelectionBalanceDifference_, 5, 2);
-        	this.mSummaryTableLayoutPanel_.Controls.Add(this.label12, 6, 0);
+        	this.mSummaryTableLayoutPanel_.Controls.Add(this.mAllTimeStartingBalanceLbl_, 6, 0);
         	this.mSummaryTableLayoutPanel_.Controls.Add(this.mOpeningBalance_, 7, 0);
         	this.mSummaryTableLayoutPanel_.Controls.Add(this.mCurrentBalance_, 7, 1);
         	this.mSummaryTableLayoutPanel_.Controls.Add(this.mBalanceDiff_, 7, 2);
-        	this.mSummaryTableLayoutPanel_.Controls.Add(this.label13, 6, 1);
-        	this.mSummaryTableLayoutPanel_.Controls.Add(this.label14, 6, 2);
+        	this.mSummaryTableLayoutPanel_.Controls.Add(this.mAllTimeCurrentBalanceLbl_, 6, 1);
+        	this.mSummaryTableLayoutPanel_.Controls.Add(this.mAllTimeDifferenceLbl_, 6, 2);
         	this.mSummaryTableLayoutPanel_.Location = new System.Drawing.Point(0, 0);
         	this.mSummaryTableLayoutPanel_.Name = "mSummaryTableLayoutPanel_";
         	this.mSummaryTableLayoutPanel_.RowCount = 3;
@@ -518,15 +518,15 @@
         private System.Windows.Forms.TableLayoutPanel mSummaryTableLayoutPanel_;
         private System.Windows.Forms.Label mTotalCreditsLbl_;
         private System.Windows.Forms.Label mTotalDebitsLbl_;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label mCreditsDebitsDifferenceLbl_;
+        private System.Windows.Forms.Label mTransferInLbl_;
+        private System.Windows.Forms.Label mTransferOutLbl_;
+        private System.Windows.Forms.Label mTransfersDifferenceLbl_;
+        private System.Windows.Forms.Label mSelectionOpeningBalanceLbl_;
+        private System.Windows.Forms.Label mSelectionClosingBalanceLbl_;
+        private System.Windows.Forms.Label mSelectionDifferenceLbl_;
+        private System.Windows.Forms.Label mAllTimeStartingBalanceLbl_;
+        private System.Windows.Forms.Label mAllTimeCurrentBalanceLbl_;
+        private System.Windows.Forms.Label mAllTimeDifferenceLbl_;
     }
 }

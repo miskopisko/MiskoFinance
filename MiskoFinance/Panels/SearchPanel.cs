@@ -27,6 +27,13 @@ namespace MiskoFinance.Panels
         	set
         	{
         		mAccounts_.DataSource = value ?? new VwBankAccounts();
+        		mAccounts_.Enabled = Accounts.Count > 0;
+        		mFromDate_.Enabled = Accounts.Count > 0;
+        		mToDate_.Enabled = Accounts.Count > 0;
+        		mDescription_.Enabled = Accounts.Count > 0;
+        		mCategories_.Enabled = Accounts.Count > 0;
+        		mSearch_.Enabled = Accounts.Count > 0;
+        		mMore_.Enabled = false;
         	}
         }
         
@@ -63,6 +70,7 @@ namespace MiskoFinance.Panels
         	set
         	{
         		mCategories_.DataSource = value ?? new VwCategories();
+        		mCategories_.Enabled = mCategories_.DataSource != null && ((VwCategories)mCategories_.DataSource).Count > 0;
         	}
         }
         
@@ -112,18 +120,12 @@ namespace MiskoFinance.Panels
 			
 			mFromDate_.Value = new DateTime(DateTime.Now.Year, 1, 1);
 			
-			mAccounts_.SelectedValueChanged += mAccounts_SelectedValueChanged;
 			mSearch_.Click += mSearch_Click;
 			mMore_.Click += mMore_Click;
 		}
 
 		#region Private Methods
 		
-		private void mAccounts_SelectedValueChanged(object sender, EventArgs e)
-		{
-			MiskoFinanceMain.Instance.TransactionsPanel.Search();
-		}
-
 		private void mSearch_Click(object sender, EventArgs e)
 		{
 			MiskoFinanceMain.Instance.TransactionsPanel.Search();

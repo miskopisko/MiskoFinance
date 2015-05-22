@@ -50,9 +50,9 @@
         	this.mAboutToolStripMenuItem_ = new System.Windows.Forms.ToolStripMenuItem();
         	this.mHelpToolStripMenuItem_ = new System.Windows.Forms.ToolStripMenuItem();
         	this.mMainLayoutTable_ = new System.Windows.Forms.TableLayoutPanel();
-        	this.mSummaryPanel_ = new MiskoFinance.Panels.SummaryPanel();
         	this.mTransactionsPanel_ = new MiskoFinance.Panels.TransactionsPanel();
         	this.mSearchPanel_ = new MiskoFinance.Panels.SearchPanel();
+        	this.mSummaryPanel_ = new MiskoFinance.Panels.SummaryPanel();
         	this.mStatusStrip_.SuspendLayout();
         	this.mMenuStrip_.SuspendLayout();
         	this.mMainLayoutTable_.SuspendLayout();
@@ -91,17 +91,19 @@
         	// 
         	// mAccountsToolStripMenuItem_
         	// 
+        	this.mAccountsToolStripMenuItem_.Enabled = false;
         	this.mAccountsToolStripMenuItem_.Name = "mAccountsToolStripMenuItem_";
         	this.mAccountsToolStripMenuItem_.Size = new System.Drawing.Size(130, 22);
         	this.mAccountsToolStripMenuItem_.Text = "Accounts";
-        	this.mAccountsToolStripMenuItem_.Click += new System.EventHandler(this.accountsToolStripMenuItem_Click);
+        	this.mAccountsToolStripMenuItem_.Click += new System.EventHandler(this.mAccountsToolStripMenuItem_Click);
         	// 
         	// mCatagoriesToolStripMenuItem_
         	// 
+        	this.mCatagoriesToolStripMenuItem_.Enabled = false;
         	this.mCatagoriesToolStripMenuItem_.Name = "mCatagoriesToolStripMenuItem_";
         	this.mCatagoriesToolStripMenuItem_.Size = new System.Drawing.Size(130, 22);
         	this.mCatagoriesToolStripMenuItem_.Text = "Categories";
-        	this.mCatagoriesToolStripMenuItem_.Click += new System.EventHandler(this.catagoriesToolStripMenuItem_Click);
+        	this.mCatagoriesToolStripMenuItem_.Click += new System.EventHandler(this.mCatagoriesToolStripMenuItem_Click);
         	// 
         	// mSettingsToolStripMenuItem_
         	// 
@@ -109,7 +111,7 @@
         	this.mSettingsToolStripMenuItem_.Name = "mSettingsToolStripMenuItem_";
         	this.mSettingsToolStripMenuItem_.Size = new System.Drawing.Size(130, 22);
         	this.mSettingsToolStripMenuItem_.Text = "Settings";
-        	this.mSettingsToolStripMenuItem_.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
+        	this.mSettingsToolStripMenuItem_.Click += new System.EventHandler(this.mSettingsToolStripMenuItem_Click);
         	// 
         	// mStatusStrip_
         	// 
@@ -125,9 +127,10 @@
         	// 
         	// mMessageStatusBar_
         	// 
-        	this.mMessageStatusBar_.Maximum = 200;
+        	this.mMessageStatusBar_.Enabled = false;
+        	this.mMessageStatusBar_.MarqueeAnimationSpeed = 0;
         	this.mMessageStatusBar_.Name = "mMessageStatusBar_";
-        	this.mMessageStatusBar_.Size = new System.Drawing.Size(200, 16);
+        	this.mMessageStatusBar_.Size = new System.Drawing.Size(100, 16);
         	// 
         	// mMessageStatusLbl_
         	// 
@@ -162,6 +165,7 @@
         	// 
         	this.mImportToolStripMenuItem_.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.mOFXFileToolStripMenuItem_});
+        	this.mImportToolStripMenuItem_.Enabled = false;
         	this.mImportToolStripMenuItem_.Name = "mImportToolStripMenuItem_";
         	this.mImportToolStripMenuItem_.Size = new System.Drawing.Size(112, 22);
         	this.mImportToolStripMenuItem_.Text = "Import";
@@ -171,7 +175,7 @@
         	this.mOFXFileToolStripMenuItem_.Name = "mOFXFileToolStripMenuItem_";
         	this.mOFXFileToolStripMenuItem_.Size = new System.Drawing.Size(117, 22);
         	this.mOFXFileToolStripMenuItem_.Text = "OFX File";
-        	this.mOFXFileToolStripMenuItem_.Click += new System.EventHandler(this.OFXFileToolStripMenuItem_Click);
+        	this.mOFXFileToolStripMenuItem_.Click += new System.EventHandler(this.mOFXFileToolStripMenuItem_Click);
         	// 
         	// mLogoutToolStripMenuItem_
         	// 
@@ -186,7 +190,7 @@
         	this.mExitToolStripMenuItem_.Name = "mExitToolStripMenuItem_";
         	this.mExitToolStripMenuItem_.Size = new System.Drawing.Size(112, 22);
         	this.mExitToolStripMenuItem_.Text = "Exit";
-        	this.mExitToolStripMenuItem_.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+        	this.mExitToolStripMenuItem_.Click += new System.EventHandler(this.mExitToolStripMenuItem_Click);
         	// 
         	// mRootHelpToolStripMenuItem_
         	// 
@@ -203,7 +207,7 @@
         	this.mAboutToolStripMenuItem_.Name = "mAboutToolStripMenuItem_";
         	this.mAboutToolStripMenuItem_.Size = new System.Drawing.Size(107, 22);
         	this.mAboutToolStripMenuItem_.Text = "About";
-        	this.mAboutToolStripMenuItem_.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+        	this.mAboutToolStripMenuItem_.Click += new System.EventHandler(this.mAboutToolStripMenuItem_Click);
         	// 
         	// mHelpToolStripMenuItem_
         	// 
@@ -228,20 +232,13 @@
         	this.mMainLayoutTable_.Size = new System.Drawing.Size(1206, 716);
         	this.mMainLayoutTable_.TabIndex = 4;
         	// 
-        	// mSummaryPanel_
-        	// 
-        	this.mSummaryPanel_.Anchor = System.Windows.Forms.AnchorStyles.None;
-        	this.mSummaryPanel_.AutoSize = true;
-        	this.mSummaryPanel_.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-        	this.mSummaryPanel_.Location = new System.Drawing.Point(172, 632);
-        	this.mSummaryPanel_.Name = "mSummaryPanel_";
-        	this.mSummaryPanel_.Size = new System.Drawing.Size(862, 81);
-        	this.mSummaryPanel_.TabIndex = 0;
-        	// 
         	// mTransactionsPanel_
         	// 
+        	this.mTransactionsPanel_.AutoSize = true;
+        	this.mTransactionsPanel_.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
         	this.mTransactionsPanel_.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.mTransactionsPanel_.Location = new System.Drawing.Point(3, 38);
+        	this.mTransactionsPanel_.MinimumSize = new System.Drawing.Size(500, 250);
         	this.mTransactionsPanel_.Name = "mTransactionsPanel_";
         	this.mTransactionsPanel_.Size = new System.Drawing.Size(1200, 588);
         	this.mTransactionsPanel_.TabIndex = 1;
@@ -257,6 +254,16 @@
         	this.mSearchPanel_.Name = "mSearchPanel_";
         	this.mSearchPanel_.Size = new System.Drawing.Size(1200, 29);
         	this.mSearchPanel_.TabIndex = 2;
+        	// 
+        	// mSummaryPanel_
+        	// 
+        	this.mSummaryPanel_.Anchor = System.Windows.Forms.AnchorStyles.Left;
+        	this.mSummaryPanel_.AutoSize = true;
+        	this.mSummaryPanel_.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+        	this.mSummaryPanel_.Location = new System.Drawing.Point(3, 632);
+        	this.mSummaryPanel_.Name = "mSummaryPanel_";
+        	this.mSummaryPanel_.Size = new System.Drawing.Size(862, 81);
+        	this.mSummaryPanel_.TabIndex = 0;
         	// 
         	// MiskoFinanceMain
         	// 

@@ -30,23 +30,25 @@ namespace MiskoFinanceCore.Message
             if (String.IsNullOrEmpty(Request.Username))
             {
                 session.Error(ErrorLevel.Error, "Invalid username.");
-            }
+            }             
+            
+            VwOperator o = VwOperator.GetInstanceByUsername(session, Request.Username);
 
-            Response.Operator = VwOperator.GetInstanceByUsername(session, Request.Username);
-
-            if (Response.Operator.OperatorId != null && Response.Operator.OperatorId.IsSet)
+            if (o != null && o.IsSet)
             {
-                if (!Response.Operator.Password.Equals(Utils.GenerateHash(Request.Password)))
+                if (!o.Password.Equals(Request.Password))
                 {
-                    session.Error(ErrorLevel.Error, "Incorrect password.");
+                    session.Error(ErrorLevel.Error, "Invalid username or password. Please try again.");
                 }
+                
+                o.BankAccounts.FetchByOperator(session, o.OperatorId);
+                o.Categories.FetchByComposite(session, o.OperatorId, Status.Active);
 
-                Response.Operator.BankAccounts.FetchByOperator(session, Response.Operator.OperatorId);
-                Response.Operator.Categories.FetchByComposite(session, Response.Operator.OperatorId, Status.Active);
+                Response.Operator = o;
             }
             else
             {
-                session.Error(ErrorLevel.Error, "User {0} does not exist. Please try again.", new Object[] { Request.Username });
+                session.Error(ErrorLevel.Error, "Invalid username or password. Please try again.");
             }
         }
     }

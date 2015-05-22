@@ -38,10 +38,15 @@ namespace MiskoFinanceCore.Data.Viewed
         
         public VwBankAccounts getAllAccounts()
         {
-        	VwBankAccounts bankAccounts = new VwBankAccounts();
-        	bankAccounts.Add(new VwBankAccount{Nickname="All"});
-        	bankAccounts.AddRange(this);
-        	return bankAccounts;
+        	if(Count > 0)
+        	{
+        		VwBankAccounts bankAccounts = new VwBankAccounts();
+        		bankAccounts.Add(new VwBankAccount{Nickname="All"});
+        		bankAccounts.AddRange(this);
+        		return bankAccounts;
+        	}
+        	
+        	return null;
         }
 
         public void FetchByOperator(Session session, PrimaryKey o)

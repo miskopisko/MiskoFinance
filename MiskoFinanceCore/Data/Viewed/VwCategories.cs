@@ -39,10 +39,15 @@ namespace MiskoFinanceCore.Data.Viewed
         
         public VwCategories getAllCategories()
         {
-        	VwCategories categories = new VwCategories();
-        	categories.Add(new VwCategory());
-        	categories.AddRange(this);
-        	return categories;
+        	if(Count > 0)
+        	{
+        		VwCategories categories = new VwCategories();
+        		categories.Add(new VwCategory());
+        		categories.AddRange(this);
+        		return categories;
+        	}
+        	
+        	return null;
         }
 
         public VwCategories GetByType(CategoryType type, bool includeBlank)

@@ -50,7 +50,7 @@ namespace MiskoFinance.Forms
 
         protected override void OnLoad(EventArgs e)
         {
-            if (mOperator_.OperatorId == null || mOperator_.OperatorId.IsNotSet)
+            if (mOperator_ == null || mOperator_.IsNotSet)
             {
                 Text = "Create new user";
                 mUsername_.Enabled = true;
@@ -62,7 +62,7 @@ namespace MiskoFinance.Forms
             mLastName_.Text = mOperator_.LastName;
             mEmail_.Text = mOperator_.Email;
             mGender_.SelectedItem = mOperator_.Gender;
-            mBirthday_.Value = mOperator_.Birthday > mBirthday_.MinDate ? mOperator_.Birthday : mBirthday_.MinDate;
+            mBirthday_.Value = mOperator_.Birthday.HasValue ? mOperator_.Birthday.Value : mBirthday_.MinDate;
             mRowPerPage_.Value = Settings.Default.RowsPerPage;
         }
 

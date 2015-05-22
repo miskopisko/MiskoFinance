@@ -54,7 +54,7 @@
         	// 
         	this.mNickname_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
         	this.mNickname_.Enabled = false;
-        	this.mNickname_.Location = new System.Drawing.Point(98, 143);
+        	this.mNickname_.Location = new System.Drawing.Point(98, 120);
         	this.mNickname_.Name = "mNickname_";
         	this.mNickname_.Size = new System.Drawing.Size(195, 20);
         	this.mNickname_.TabIndex = 7;
@@ -63,7 +63,7 @@
         	// 
         	this.mAccountNumber_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
         	this.mAccountNumber_.Enabled = false;
-        	this.mAccountNumber_.Location = new System.Drawing.Point(98, 75);
+        	this.mAccountNumber_.Location = new System.Drawing.Point(98, 62);
         	this.mAccountNumber_.Name = "mAccountNumber_";
         	this.mAccountNumber_.Size = new System.Drawing.Size(195, 20);
         	this.mAccountNumber_.TabIndex = 3;
@@ -72,7 +72,7 @@
         	// 
         	this.mBankName_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
         	this.mBankName_.Enabled = false;
-        	this.mBankName_.Location = new System.Drawing.Point(98, 41);
+        	this.mBankName_.Location = new System.Drawing.Point(98, 33);
         	this.mBankName_.Name = "mBankName_";
         	this.mBankName_.Size = new System.Drawing.Size(195, 20);
         	this.mBankName_.TabIndex = 1;
@@ -83,7 +83,7 @@
         	this.mAccountType_.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
         	this.mAccountType_.Enabled = false;
         	this.mAccountType_.FormattingEnabled = true;
-        	this.mAccountType_.Location = new System.Drawing.Point(98, 108);
+        	this.mAccountType_.Location = new System.Drawing.Point(98, 91);
         	this.mAccountType_.Name = "mAccountType_";
         	this.mAccountType_.Size = new System.Drawing.Size(195, 21);
         	this.mAccountType_.TabIndex = 10;
@@ -94,7 +94,7 @@
         	this.mOpeningBalance_.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
         	this.mOpeningBalance_.Enabled = false;
         	this.mOpeningBalance_.ForeColor = System.Drawing.Color.Black;
-        	this.mOpeningBalance_.Location = new System.Drawing.Point(98, 179);
+        	this.mOpeningBalance_.Location = new System.Drawing.Point(98, 150);
         	this.mOpeningBalance_.Name = "mOpeningBalance_";
         	this.mOpeningBalance_.Size = new System.Drawing.Size(195, 20);
         	this.mOpeningBalance_.TabIndex = 11;
@@ -137,14 +137,14 @@
         	this.mTableLayoutPanel_.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
         	this.mTableLayoutPanel_.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
         	this.mTableLayoutPanel_.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-        	this.mTableLayoutPanel_.Size = new System.Drawing.Size(296, 209);
+        	this.mTableLayoutPanel_.Size = new System.Drawing.Size(296, 175);
         	this.mTableLayoutPanel_.TabIndex = 7;
         	// 
         	// mAccountLbl_
         	// 
         	this.mAccountLbl_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
         	this.mAccountLbl_.AutoSize = true;
-        	this.mAccountLbl_.Location = new System.Drawing.Point(3, 10);
+        	this.mAccountLbl_.Location = new System.Drawing.Point(3, 8);
         	this.mAccountLbl_.Name = "mAccountLbl_";
         	this.mAccountLbl_.Size = new System.Drawing.Size(89, 13);
         	this.mAccountLbl_.TabIndex = 13;
@@ -155,7 +155,7 @@
         	// 
         	this.mOpeningBalanceLbl_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
         	this.mOpeningBalanceLbl_.AutoSize = true;
-        	this.mOpeningBalanceLbl_.Location = new System.Drawing.Point(3, 183);
+        	this.mOpeningBalanceLbl_.Location = new System.Drawing.Point(3, 153);
         	this.mOpeningBalanceLbl_.Name = "mOpeningBalanceLbl_";
         	this.mOpeningBalanceLbl_.Size = new System.Drawing.Size(89, 13);
         	this.mOpeningBalanceLbl_.TabIndex = 8;
@@ -166,7 +166,7 @@
         	// 
         	this.mNicknamelbl_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
         	this.mNicknamelbl_.AutoSize = true;
-        	this.mNicknamelbl_.Location = new System.Drawing.Point(3, 146);
+        	this.mNicknamelbl_.Location = new System.Drawing.Point(3, 124);
         	this.mNicknamelbl_.Name = "mNicknamelbl_";
         	this.mNicknamelbl_.Size = new System.Drawing.Size(89, 13);
         	this.mNicknamelbl_.TabIndex = 6;
@@ -177,7 +177,7 @@
         	// 
         	this.mAccountTypeLbl_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
         	this.mAccountTypeLbl_.AutoSize = true;
-        	this.mAccountTypeLbl_.Location = new System.Drawing.Point(3, 112);
+        	this.mAccountTypeLbl_.Location = new System.Drawing.Point(3, 95);
         	this.mAccountTypeLbl_.Name = "mAccountTypeLbl_";
         	this.mAccountTypeLbl_.Size = new System.Drawing.Size(89, 13);
         	this.mAccountTypeLbl_.TabIndex = 4;
@@ -188,7 +188,7 @@
         	// 
         	this.mAccountNumberLbl_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
         	this.mAccountNumberLbl_.AutoSize = true;
-        	this.mAccountNumberLbl_.Location = new System.Drawing.Point(3, 78);
+        	this.mAccountNumberLbl_.Location = new System.Drawing.Point(3, 66);
         	this.mAccountNumberLbl_.Name = "mAccountNumberLbl_";
         	this.mAccountNumberLbl_.Size = new System.Drawing.Size(89, 13);
         	this.mAccountNumberLbl_.TabIndex = 2;
@@ -199,7 +199,7 @@
         	// 
         	this.mBankNameLbl_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
         	this.mBankNameLbl_.AutoSize = true;
-        	this.mBankNameLbl_.Location = new System.Drawing.Point(3, 44);
+        	this.mBankNameLbl_.Location = new System.Drawing.Point(3, 37);
         	this.mBankNameLbl_.Name = "mBankNameLbl_";
         	this.mBankNameLbl_.Size = new System.Drawing.Size(89, 13);
         	this.mBankNameLbl_.TabIndex = 0;
@@ -211,7 +211,7 @@
         	this.mExistingAccounts_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
         	this.mExistingAccounts_.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
         	this.mExistingAccounts_.FormattingEnabled = true;
-        	this.mExistingAccounts_.Location = new System.Drawing.Point(98, 6);
+        	this.mExistingAccounts_.Location = new System.Drawing.Point(98, 4);
         	this.mExistingAccounts_.Name = "mExistingAccounts_";
         	this.mExistingAccounts_.Size = new System.Drawing.Size(195, 21);
         	this.mExistingAccounts_.TabIndex = 12;
@@ -223,7 +223,7 @@
         	this.mButtonFlowLayoutPanel_.Controls.Add(this.mOK_);
         	this.mButtonFlowLayoutPanel_.Dock = System.Windows.Forms.DockStyle.Bottom;
         	this.mButtonFlowLayoutPanel_.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-        	this.mButtonFlowLayoutPanel_.Location = new System.Drawing.Point(0, 209);
+        	this.mButtonFlowLayoutPanel_.Location = new System.Drawing.Point(0, 175);
         	this.mButtonFlowLayoutPanel_.Name = "mButtonFlowLayoutPanel_";
         	this.mButtonFlowLayoutPanel_.Size = new System.Drawing.Size(296, 30);
         	this.mButtonFlowLayoutPanel_.TabIndex = 5;
@@ -256,7 +256,7 @@
         	this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
         	this.AutoSize = true;
         	this.CancelButton = this.mCancel_;
-        	this.ClientSize = new System.Drawing.Size(296, 239);
+        	this.ClientSize = new System.Drawing.Size(296, 205);
         	this.Controls.Add(this.mTableLayoutPanel_);
         	this.Controls.Add(this.mButtonFlowLayoutPanel_);
         	this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;

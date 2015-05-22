@@ -1,17 +1,22 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using MiskoFinanceCore.Data.Viewed;
-using MiskoFinanceCore.Enums;
 using MiskoFinanceCore.Message.Requests;
 using MiskoFinanceCore.Message.Responses;
+using MiskoFinanceCore.Resources;
 using MiskoPersist.Core;
+using MiskoPersist.Enums;
+using MiskoPersist.Interfaces;
 using MiskoPersist.Message.Response;
+using MiskoPersist.Tools;
 using MiskoFinance.Panels;
+using MiskoFinance.Properties;
 
 namespace MiskoFinance.Forms
 {
-    public partial class MiskoFinanceMain : Form
+    public partial class MiskoFinanceMain : Form, IOController
     {
         private static Logger Log = Logger.GetInstance(typeof(MiskoFinanceMain));
 
@@ -72,23 +77,13 @@ namespace MiskoFinance.Forms
         		mOperator_ = value ?? new VwOperator();
         		SearchPanel.Accounts = Operator.BankAccounts.getAllAccounts();
         		SearchPanel.Categories = Operator.Categories.getAllCategories();
-        		mSettingsToolStripMenuItem_.Enabled = Operator.OperatorId.IsSet;
-        	}
-        }
-        
-        public ToolStripStatusLabel StatusLabel
-        {
-        	get
-        	{
-        		return mMessageStatusLbl_;
-        	}
-        }
-        
-        public ToolStripProgressBar MessageStatusBar
-        {
-        	get
-        	{
-        		return mMessageStatusBar_;
+        		mLogoutToolStripMenuItem_.Enabled = Operator.IsSet;
+        		mSettingsToolStripMenuItem_.Enabled = Operator.IsSet;
+        		mAccountsToolStripMenuItem_.Enabled = Operator.IsSet;
+        		mCatagoriesToolStripMenuItem_.Enabled = Operator.IsSet;
+        		mImportToolStripMenuItem_.Enabled = Operator.IsSet;
+        		
+        		MiskoFinanceMain.Instance.TransactionsPanel.Search();
         	}
         }
 
@@ -116,41 +111,40 @@ namespace MiskoFinance.Forms
         {
         	Operator = null;
             SummaryPanel.Summary = null;
+            TransactionsPanel.Clear();
 
-            if (new LoginDialog().ShowDialog(this) == DialogResult.Cancel)
-            {
-                Application.Exit();
-            }
+            new LoginDialog().ShowDialog(this);
         }
 
         // Exit the application
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        private void mExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Dispose();
         }
 
         // Open file chooser and import new OFX file
-        private void OFXFileToolStripMenuItem_Click(object sender, EventArgs e)
+        private void mOFXFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             new ImportTransactionsDialog().ShowDialog(this);
         }
 
         // Show the edit account dialog
-        private void accountsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void mAccountsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             new EditAccountsDialog().ShowDialog(this);
         }
 
         // Show the about dialog
-        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        private void mAboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             new AboutDialog().ShowDialog(this);
         }
 
         // Show settings dialog
-        private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void mSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SettingsDialog settings = new SettingsDialog(Operator);
+            
             if (settings.ShowDialog(this) == DialogResult.OK)
             {
                 Operator = settings.Operator;
@@ -158,7 +152,7 @@ namespace MiskoFinance.Forms
         }
 
         // Show Edit Categorie Dialog
-        private void catagoriesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void mCatagoriesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             new EditCategoriesDialog().ShowDialog(this);
         }
@@ -166,14 +160,27 @@ namespace MiskoFinance.Forms
         #endregion
 
         #region Override Methods
-
-        protected override void OnLoad(EventArgs e)
-        {
-            LoginRQ request = new LoginRQ();
-            request.Username = "miskopisko";
-            request.Password = "secret";
-            ServerConnection.SendRequest(request, LoginSuccess, LoginError);
-        }
+        
+		protected override void OnShown(EventArgs e)
+		{
+			base.OnShown(e);
+			
+			#if (DEBUG)
+				LoginRQ request = new LoginRQ();
+            	request.Username = "miskopisko";
+            	request.Password = Utils.GenerateHash("secret");
+            	ServerConnection.SendRequest(request, LoginSuccess, LoginError);
+			#else
+				new LoginDialog().ShowDialog(this);
+			#endif
+		}
+        
+		protected override void OnFormClosing(FormClosingEventArgs e)
+		{
+			base.OnFormClosing(e);
+			
+			Application.Exit();
+		}
 
         #endregion
 
@@ -200,5 +207,76 @@ namespace MiskoFinance.Forms
 
 
         #endregion
+
+		#region IOController implementation
+
+		public void Status(MessageStatus status)
+		{
+			mMessageStatusLbl_.Text = status.ToString();
+		}
+
+		public void MessageReceived()
+		{			
+			mMessageStatusBar_.Increment(-mMessageStatusBar_.Step);
+		}
+
+		public void MessageSent()
+		{
+			mMessageStatusBar_.Increment(mMessageStatusBar_.Step);
+		}
+
+		public void Exception(object sender, System.Threading.ThreadExceptionEventArgs e)
+		{
+			Exception ex = e.Exception;
+            while (ex.InnerException != null)
+            {
+                ex = ex.InnerException;
+            }
+            
+            #if DEBUG
+            	Debug.WriteLine(ex.StackTrace);
+			#endif
+            
+			Error(new ErrorMessage(ex));
+		}
+
+		public void Error(ErrorMessage message)
+		{
+			MessageBox.Show(this, message.Message, ErrorStrings.errError, MessageBoxButtons.OK, MessageBoxIcon.Error);
+		}
+
+		public void Warning(ErrorMessage message)
+		{
+			MessageBox.Show(this, message.Message, WarningStrings.warnWarning, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+		}
+
+		public void Info(ErrorMessage message)
+		{
+			MessageBox.Show(this, message.Message, Strings.strInfo, MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
+
+		public bool Confirm(ErrorMessage message)
+		{
+			DialogResult result = MessageBox.Show(this, message.Message, ConfirmStrings.conConfirmation, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+			return result.Equals(DialogResult.Yes);
+		}
+
+		public int RowsPerPage 
+		{
+			get 
+			{
+				return Settings.Default.RowsPerPage;
+			}
+		}
+
+		public DataSource DataSource 
+		{
+			get 
+			{
+				return DataSource.Local;
+			}
+		}
+
+		#endregion
     }
 }

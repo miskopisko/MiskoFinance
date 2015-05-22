@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using MiskoFinanceCore.Data.Viewed;
 using MiskoFinanceCore.Message.Requests;
+using MiskoFinanceCore.Message.Responses;
 using MiskoPersist.Core;
 using MiskoPersist.Message.Response;
 using MiskoPersist.Tools;
@@ -16,6 +17,8 @@ namespace MiskoFinance.Forms
         public LoginDialog()
         {
             InitializeComponent();
+            
+            mUsername_.TextChanged += mUsername_TextChanged;
         }
 
         #region Override Methods
@@ -27,13 +30,18 @@ namespace MiskoFinance.Forms
                 mUsername_.Text = Settings.Default.DefaultUsername.Trim();
                 mPassword_.Text = "";
                 mPassword_.Select();
-            }
-
-            #if (DEBUG)
-                mPassword_.Text = "secret";
-                //AcceptButton.PerformClick();
-            #endif
+            }           
         }
+        
+		protected override void OnFormClosing(FormClosingEventArgs e)
+		{
+			base.OnFormClosing(e);
+
+        	if (this.DialogResult == DialogResult.Cancel)
+        	{
+        		Application.Exit();
+        	}
+		}
 
         #endregion
 
@@ -41,9 +49,17 @@ namespace MiskoFinance.Forms
 
         private void LoginSuccess(ResponseMessage response)
         {
-            //MiskoFinanceMain.Operator = ((LoginRS)response).Operator;
+        	MiskoFinanceMain.Instance.Operator = ((LoginRS)response).Operator;
+        	Settings.Default.DefaultUsername = MiskoFinanceMain.Instance.Operator.Username;
+        	Settings.Default.Save();
             DialogResult = DialogResult.OK;
-            Dispose();
+        }
+        
+        private void LoginError(ResponseMessage response)
+        {
+        	mNewUser_.Enabled = true;
+        	mCancel_.Enabled = true;
+        	mLogin_.Enabled = true;
         }
 
         #endregion
@@ -52,18 +68,26 @@ namespace MiskoFinance.Forms
 
         private void mLogin__Click(object sender, EventArgs e)
         {
+        	mNewUser_.Enabled = false;
+        	mCancel_.Enabled = false;
+        	mLogin_.Enabled = false;
+        	
             LoginRQ request = new LoginRQ();
             request.Username = mUsername_.Text.Trim();
             request.Password = Utils.GenerateHash(mPassword_.Text.Trim());
-            ServerConnection.SendRequest(request, LoginSuccess);
+            ServerConnection.SendRequest(request, LoginSuccess, LoginError);
         }
 
         private void mCancel__Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
-            Dispose();
         }
 
+		private void mUsername_TextChanged(object sender, EventArgs e)
+		{
+			mPassword_.Text = "";
+		}
+		
         private void mNewUser__Click(object sender, EventArgs e)
         {
             SettingsDialog settings = new SettingsDialog(new VwOperator());

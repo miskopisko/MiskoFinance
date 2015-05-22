@@ -50,18 +50,6 @@
         	this.mCancel_ = new System.Windows.Forms.Button();
         	this.mMainTableLayoutPanel_ = new System.Windows.Forms.TableLayoutPanel();
         	this.mButtonFlowLayoutPanel_ = new System.Windows.Forms.FlowLayoutPanel();
-        	this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-        	this.dataGridViewComboBoxColumn1 = new System.Windows.Forms.DataGridViewComboBoxColumn();
-        	this.dataGridViewButtonColumn1 = new System.Windows.Forms.DataGridViewButtonColumn();
-        	this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-        	this.dataGridViewComboBoxColumn2 = new System.Windows.Forms.DataGridViewComboBoxColumn();
-        	this.dataGridViewButtonColumn2 = new System.Windows.Forms.DataGridViewButtonColumn();
-        	this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-        	this.dataGridViewComboBoxColumn3 = new System.Windows.Forms.DataGridViewComboBoxColumn();
-        	this.dataGridViewButtonColumn3 = new System.Windows.Forms.DataGridViewButtonColumn();
-        	this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-        	this.dataGridViewComboBoxColumn4 = new System.Windows.Forms.DataGridViewComboBoxColumn();
-        	this.dataGridViewButtonColumn4 = new System.Windows.Forms.DataGridViewButtonColumn();
         	this.mCategories_.SuspendLayout();
         	this.mIncomes_.SuspendLayout();
         	this.mIncomeLayoutPanel_.SuspendLayout();
@@ -137,12 +125,7 @@
         	this.mExistingIncome_.AllowUserToDeleteRows = false;
         	this.mExistingIncome_.AllowUserToResizeColumns = false;
         	this.mExistingIncome_.AllowUserToResizeRows = false;
-        	this.mExistingIncome_.AutoGenerateColumns = false;
         	this.mExistingIncome_.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-        	this.mExistingIncome_.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-			this.dataGridViewTextBoxColumn1,
-			this.dataGridViewComboBoxColumn1,
-			this.dataGridViewButtonColumn1});
         	this.mExistingIncome_.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.mExistingIncome_.Location = new System.Drawing.Point(3, 3);
         	this.mExistingIncome_.MultiSelect = false;
@@ -198,12 +181,7 @@
         	this.mExistingExpenses_.AllowUserToDeleteRows = false;
         	this.mExistingExpenses_.AllowUserToResizeColumns = false;
         	this.mExistingExpenses_.AllowUserToResizeRows = false;
-        	this.mExistingExpenses_.AutoGenerateColumns = false;
         	this.mExistingExpenses_.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-        	this.mExistingExpenses_.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-			this.dataGridViewTextBoxColumn2,
-			this.dataGridViewComboBoxColumn2,
-			this.dataGridViewButtonColumn2});
         	this.mExistingExpenses_.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.mExistingExpenses_.Location = new System.Drawing.Point(3, 3);
         	this.mExistingExpenses_.MultiSelect = false;
@@ -259,12 +237,7 @@
         	this.mExistingTransfers_.AllowUserToDeleteRows = false;
         	this.mExistingTransfers_.AllowUserToResizeColumns = false;
         	this.mExistingTransfers_.AllowUserToResizeRows = false;
-        	this.mExistingTransfers_.AutoGenerateColumns = false;
         	this.mExistingTransfers_.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-        	this.mExistingTransfers_.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-			this.dataGridViewTextBoxColumn3,
-			this.dataGridViewComboBoxColumn3,
-			this.dataGridViewButtonColumn3});
         	this.mExistingTransfers_.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.mExistingTransfers_.Location = new System.Drawing.Point(3, 3);
         	this.mExistingTransfers_.MultiSelect = false;
@@ -320,12 +293,7 @@
         	this.mExistingOneTime_.AllowUserToDeleteRows = false;
         	this.mExistingOneTime_.AllowUserToResizeColumns = false;
         	this.mExistingOneTime_.AllowUserToResizeRows = false;
-        	this.mExistingOneTime_.AutoGenerateColumns = false;
         	this.mExistingOneTime_.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-        	this.mExistingOneTime_.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-			this.dataGridViewTextBoxColumn4,
-			this.dataGridViewComboBoxColumn4,
-			this.dataGridViewButtonColumn4});
         	this.mExistingOneTime_.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.mExistingOneTime_.Location = new System.Drawing.Point(3, 3);
         	this.mExistingOneTime_.MultiSelect = false;
@@ -391,98 +359,6 @@
         	this.mButtonFlowLayoutPanel_.Size = new System.Drawing.Size(400, 29);
         	this.mButtonFlowLayoutPanel_.TabIndex = 4;
         	// 
-        	// dataGridViewTextBoxColumn1
-        	// 
-        	this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-        	this.dataGridViewTextBoxColumn1.DataPropertyName = "Name";
-        	this.dataGridViewTextBoxColumn1.HeaderText = "Name";
-        	this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-        	// 
-        	// dataGridViewComboBoxColumn1
-        	// 
-        	this.dataGridViewComboBoxColumn1.DataPropertyName = "Status";
-        	this.dataGridViewComboBoxColumn1.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
-        	this.dataGridViewComboBoxColumn1.HeaderText = "Status";
-        	this.dataGridViewComboBoxColumn1.Name = "dataGridViewComboBoxColumn1";
-        	this.dataGridViewComboBoxColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-        	// 
-        	// dataGridViewButtonColumn1
-        	// 
-        	this.dataGridViewButtonColumn1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-        	this.dataGridViewButtonColumn1.HeaderText = "";
-        	this.dataGridViewButtonColumn1.Name = "dataGridViewButtonColumn1";
-        	this.dataGridViewButtonColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-        	this.dataGridViewButtonColumn1.Width = 75;
-        	// 
-        	// dataGridViewTextBoxColumn2
-        	// 
-        	this.dataGridViewTextBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-        	this.dataGridViewTextBoxColumn2.DataPropertyName = "Name";
-        	this.dataGridViewTextBoxColumn2.HeaderText = "Name";
-        	this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-        	// 
-        	// dataGridViewComboBoxColumn2
-        	// 
-        	this.dataGridViewComboBoxColumn2.DataPropertyName = "Status";
-        	this.dataGridViewComboBoxColumn2.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
-        	this.dataGridViewComboBoxColumn2.HeaderText = "Status";
-        	this.dataGridViewComboBoxColumn2.Name = "dataGridViewComboBoxColumn2";
-        	this.dataGridViewComboBoxColumn2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-        	// 
-        	// dataGridViewButtonColumn2
-        	// 
-        	this.dataGridViewButtonColumn2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-        	this.dataGridViewButtonColumn2.HeaderText = "";
-        	this.dataGridViewButtonColumn2.Name = "dataGridViewButtonColumn2";
-        	this.dataGridViewButtonColumn2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-        	this.dataGridViewButtonColumn2.Width = 75;
-        	// 
-        	// dataGridViewTextBoxColumn3
-        	// 
-        	this.dataGridViewTextBoxColumn3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-        	this.dataGridViewTextBoxColumn3.DataPropertyName = "Name";
-        	this.dataGridViewTextBoxColumn3.HeaderText = "Name";
-        	this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-        	// 
-        	// dataGridViewComboBoxColumn3
-        	// 
-        	this.dataGridViewComboBoxColumn3.DataPropertyName = "Status";
-        	this.dataGridViewComboBoxColumn3.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
-        	this.dataGridViewComboBoxColumn3.HeaderText = "Status";
-        	this.dataGridViewComboBoxColumn3.Name = "dataGridViewComboBoxColumn3";
-        	this.dataGridViewComboBoxColumn3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-        	// 
-        	// dataGridViewButtonColumn3
-        	// 
-        	this.dataGridViewButtonColumn3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-        	this.dataGridViewButtonColumn3.HeaderText = "";
-        	this.dataGridViewButtonColumn3.Name = "dataGridViewButtonColumn3";
-        	this.dataGridViewButtonColumn3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-        	this.dataGridViewButtonColumn3.Width = 75;
-        	// 
-        	// dataGridViewTextBoxColumn4
-        	// 
-        	this.dataGridViewTextBoxColumn4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-        	this.dataGridViewTextBoxColumn4.DataPropertyName = "Name";
-        	this.dataGridViewTextBoxColumn4.HeaderText = "Name";
-        	this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
-        	// 
-        	// dataGridViewComboBoxColumn4
-        	// 
-        	this.dataGridViewComboBoxColumn4.DataPropertyName = "Status";
-        	this.dataGridViewComboBoxColumn4.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
-        	this.dataGridViewComboBoxColumn4.HeaderText = "Status";
-        	this.dataGridViewComboBoxColumn4.Name = "dataGridViewComboBoxColumn4";
-        	this.dataGridViewComboBoxColumn4.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-        	// 
-        	// dataGridViewButtonColumn4
-        	// 
-        	this.dataGridViewButtonColumn4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-        	this.dataGridViewButtonColumn4.HeaderText = "";
-        	this.dataGridViewButtonColumn4.Name = "dataGridViewButtonColumn4";
-        	this.dataGridViewButtonColumn4.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-        	this.dataGridViewButtonColumn4.Width = 75;
-        	// 
         	// EditCategoriesDialog
         	// 
         	this.AcceptButton = this.mOK_;
@@ -546,17 +422,5 @@
         private System.Windows.Forms.TableLayoutPanel mExpenseLayoutPanel_;
         private System.Windows.Forms.TableLayoutPanel mTransferLayoutPanel_;
         private System.Windows.Forms.TableLayoutPanel mOneTimeLayoutPanel_;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewComboBoxColumn dataGridViewComboBoxColumn1;
-        private System.Windows.Forms.DataGridViewButtonColumn dataGridViewButtonColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
-        private System.Windows.Forms.DataGridViewComboBoxColumn dataGridViewComboBoxColumn2;
-        private System.Windows.Forms.DataGridViewButtonColumn dataGridViewButtonColumn2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
-        private System.Windows.Forms.DataGridViewComboBoxColumn dataGridViewComboBoxColumn3;
-        private System.Windows.Forms.DataGridViewButtonColumn dataGridViewButtonColumn3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
-        private System.Windows.Forms.DataGridViewComboBoxColumn dataGridViewComboBoxColumn4;
-        private System.Windows.Forms.DataGridViewButtonColumn dataGridViewButtonColumn4;
     }
 }

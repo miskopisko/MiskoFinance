@@ -2,30 +2,16 @@
 using System.Windows.Forms;
 using MiskoFinanceCore.Data.Viewed;
 using MiskoFinanceCore.Enums;
-using MiskoFinanceCore.Message.Requests;
-using MiskoFinanceCore.Message.Responses;
 using MiskoPersist.Core;
 using MiskoPersist.Data;
-using MiskoPersist.Message.Response;
 using MiskoPersist.MoneyType;
 using MiskoFinance.Forms;
-using MiskoFinance.Properties;
 
 namespace MiskoFinance.Controls
 {
     public partial class TransactionsGridView : DataGridView
     {
         private static Logger Log = Logger.GetInstance(typeof(TransactionsGridView));
-
-        #region Delegates
-
-        public delegate void TxnUpdatedEventHandler(VwSummary summary);
-        public event TxnUpdatedEventHandler TxnUpdated;
-        
-        public delegate void FetchCompleteEventHandler(VwSummary summary, Page page);
-        public event FetchCompleteEventHandler FetchComplete;
-
-        #endregion
 
         #region Fields
 
@@ -36,9 +22,6 @@ namespace MiskoFinance.Controls
         private readonly DataGridViewCheckBoxColumn mTransfer_ = new DataGridViewCheckBoxColumn();
         private readonly DataGridViewCheckBoxColumn mOneTime_ = new DataGridViewCheckBoxColumn();
         private readonly DataGridViewComboBoxColumn mCategory_ = new DataGridViewComboBoxColumn();
-        
-        private VwTxns mTxns_ = new VwTxns();
-        private Page mPage_ = new Page();
 
         #endregion
 
@@ -56,9 +39,15 @@ namespace MiskoFinance.Controls
         
         		if(value == null || ((VwTxns)value).Count == 0)
         		{
-        			mPage_ = new Page();
+        			Page = new Page();
         		}
         	}
+        }
+        
+        public Page Page
+        {
+        	get;
+        	set;
         }
 
         #endregion
@@ -150,17 +139,7 @@ namespace MiskoFinance.Controls
 	                }
 	
 	                ((DataGridViewComboBoxCell)Rows[e.RowIndex].Cells["Category"]).Value = null;
-	            }
-	
-	            UpdateTxnRQ request = new UpdateTxnRQ();
-	            request.Txn = vwTxn;
-	            request.Operator = MiskoFinanceMain.Instance.Operator.OperatorId;
-            	request.Account = MiskoFinanceMain.Instance.SearchPanel.Account.BankAccountId;
-            	request.FromDate = MiskoFinanceMain.Instance.SearchPanel.FromDate;
-            	request.ToDate = MiskoFinanceMain.Instance.SearchPanel.ToDate;
-            	request.Category = MiskoFinanceMain.Instance.SearchPanel.Category.CategoryId;
-            	request.Description = MiskoFinanceMain.Instance.SearchPanel.Description;
-	            ServerConnection.SendRequest(request, UpdateTxnSuccess);
+	            }            
             }
         }
 
@@ -168,48 +147,11 @@ namespace MiskoFinance.Controls
 
         #region Public Methods
 
-        // Fetch all txns as per the search criteria
-        public void GetTxns()
-        {
-        	GetTxnsRQ request = new GetTxnsRQ();
-            request.Operator = MiskoFinanceMain.Instance.Operator.OperatorId;
-            request.Account = MiskoFinanceMain.Instance.SearchPanel.Account.BankAccountId;
-            request.FromDate = MiskoFinanceMain.Instance.SearchPanel.FromDate;
-            request.ToDate = MiskoFinanceMain.Instance.SearchPanel.ToDate;
-            request.Category = MiskoFinanceMain.Instance.SearchPanel.Category.CategoryId;
-            request.Description = MiskoFinanceMain.Instance.SearchPanel.Description;
-            request.Page = mPage_.Next;
-            request.Page.RowsPerPage = MiskoFinance_IOController_Impl.Instance.RowsPerPage;
-            request.Page.IncludeRecordCount = true;
-            ServerConnection.SendRequest(request, GetTxnsSuccess);
-        }
+        
 
         #endregion
 
         #region Private Methods
-        
-        // Callback method for GetTxns
-        private void GetTxnsSuccess(ResponseMessage response)
-        {
-        	DataSource.AddRange(((GetTxnsRS)response).Txns);
-    		DataSource.ResetBindings();
-
-            mPage_ = response.Page;
-            
-            if(FetchComplete != null)
-            {
-            	FetchComplete(((GetTxnsRS)response).Summary, mPage_);
-            }
-        } 
-
-        // Callback method for UpdateTxns
-        private void UpdateTxnSuccess(ResponseMessage response)
-        {
-            if (TxnUpdated != null)
-            {
-            	TxnUpdated(((UpdateTxnRS)response).Summary);
-            }
-        }
         
         // Add columns to the control
         private void FillColumns()

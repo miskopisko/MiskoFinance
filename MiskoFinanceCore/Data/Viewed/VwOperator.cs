@@ -31,7 +31,7 @@ namespace MiskoFinanceCore.Data.Viewed
         [Viewed]
         public String Email { get; set; }
         [Viewed]
-        public DateTime Birthday { get; set; }
+        public DateTime? Birthday { get; set; }
         [Viewed]
         public Gender Gender { get; set; }
         [Viewed]
@@ -77,7 +77,7 @@ namespace MiskoFinanceCore.Data.Viewed
             o.LastName = LastName;
             o.Email = Email;
             o.Gender = Gender;
-            o.Birthday = Birthday;
+            o.Birthday = Birthday.Value;
             o.Save(session);
 
             return o;
