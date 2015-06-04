@@ -16,8 +16,6 @@ namespace MiskoFinance
         	Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(true);
             Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
-			ServerConnection.IOController = MiskoFinanceMain.Instance;
-			Application.ThreadException += MiskoFinanceMain.Instance.Exception;
 			Application.Run(MiskoFinanceMain.Instance);            
         }        
     }

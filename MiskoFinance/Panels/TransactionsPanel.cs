@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 using MiskoFinanceCore.Data.Viewed;
 using MiskoFinanceCore.Message.Requests;
@@ -18,7 +19,7 @@ namespace MiskoFinance.Panels
         
         #region Fields
         
-		
+        
         
         #endregion
         
@@ -33,13 +34,55 @@ namespace MiskoFinance.Panels
             InitializeComponent();
             
             mTransactionsGridView_.CellValueChanged += mTransactionsGridView_CellValueChanged;
-            mPageCountsLbl_.Text = Utils.ResolveTextParameters(Strings.strPageCounts, new Object[] { 0, 0 });
-            mTransactionCountsLbl_.Text = Utils.ResolveTextParameters(Strings.strTransactionCounts, new Object[] { 0, 0 });
+        	
+            mTransactionsGridView_.DataBindingComplete += delegate(object sender, DataGridViewBindingCompleteEventArgs e) {
+            	DataGridViewColumn dgvColumn = mTransactionsGridView_.Columns["Description"];
+            	mSummaryRow_.ColumnStyles[dgvColumn.Index].Width = dgvColumn.Width;
+            };
+            
+            mTransactionsGridView_.Resize += delegate(object sender, EventArgs e) {
+            	DataGridViewColumn dgvColumn = mTransactionsGridView_.Columns["Description"];
+            	mSummaryRow_.ColumnStyles[dgvColumn.Index].Width = dgvColumn.Width;
+            };
+            
+            mPageCountLbl_.Text = Utils.ResolveTextParameters(Strings.strPageCounts, new Object[] { 0, 0 });
+            mTransactionCountLbl_.Text = Utils.ResolveTextParameters(Strings.strTransactionCounts, new Object[] { 0, 0 });
         }
 
         #region Override Methods
 
-        
+		protected override void OnLoad(EventArgs e)
+		{
+			base.OnLoad(e);
+			
+			DataGridViewColumn dgvColumn = mTransactionsGridView_.Columns["Date"];
+            mSummaryRow_.ColumnStyles[dgvColumn.Index].SizeType = SizeType.Absolute;
+        	mSummaryRow_.ColumnStyles[dgvColumn.Index].Width = dgvColumn.Width;
+        	
+        	dgvColumn = mTransactionsGridView_.Columns["Description"];
+        	mSummaryRow_.ColumnStyles[dgvColumn.Index].SizeType = SizeType.Absolute;
+        	mSummaryRow_.ColumnStyles[dgvColumn.Index].Width = dgvColumn.Width;
+        	
+        	dgvColumn = mTransactionsGridView_.Columns["Credit"];
+        	mSummaryRow_.ColumnStyles[dgvColumn.Index].SizeType = SizeType.Absolute;
+        	mSummaryRow_.ColumnStyles[dgvColumn.Index].Width = dgvColumn.Width;
+        	
+        	dgvColumn = mTransactionsGridView_.Columns["Debit"];
+        	mSummaryRow_.ColumnStyles[dgvColumn.Index].SizeType = SizeType.Absolute;
+        	mSummaryRow_.ColumnStyles[dgvColumn.Index].Width = dgvColumn.Width;
+        	
+        	dgvColumn = mTransactionsGridView_.Columns["Transfer"];
+        	mSummaryRow_.ColumnStyles[dgvColumn.Index].SizeType = SizeType.Absolute;
+        	mSummaryRow_.ColumnStyles[dgvColumn.Index].Width = dgvColumn.Width;
+        	
+        	dgvColumn = mTransactionsGridView_.Columns["OneTime"];
+        	mSummaryRow_.ColumnStyles[dgvColumn.Index].SizeType = SizeType.Absolute;
+        	mSummaryRow_.ColumnStyles[dgvColumn.Index].Width = dgvColumn.Width;
+        	
+        	dgvColumn = mTransactionsGridView_.Columns["Category"];
+        	mSummaryRow_.ColumnStyles[dgvColumn.Index].SizeType = SizeType.Absolute;
+        	mSummaryRow_.ColumnStyles[dgvColumn.Index].Width = dgvColumn.Width;
+		}
 
         #endregion
 
@@ -105,12 +148,29 @@ namespace MiskoFinance.Panels
 
         #region Private Methods
         
+        private void UpdateSummary(VwSummary summary)
+        {
+        	mCreditTotal_.Value = summary.SelectionTotalCredits;
+        	mDebitTotal_.Value = summary.SelectionTotalDebits;
+        	mCreditDebitDiff_.Value = summary.SelectionCreditsDebitsDifference;
+        	
+        	mTotalTransferIn_.Value = summary.SelectionTotalTransfersIn;
+        	mTotalTransferOut_.Value = summary.SelectionTotalTransfersOut;
+        	mTransferDiff_.Value = summary.SelectionTransfersDifference;
+        	
+        	mTotalOneTimeIn_.Value = summary.SelectionTotalOneTimeIn;
+        	mTotalOneTimeOut_.Value = summary.SelectionTotalOneTimeOut;
+        	mOneTimeDiff_.Value = summary.SelectionOneTimeDifference;
+        }
+        
         // Callback for UpdateTxn
         private void UpdateTxnSuccess(ResponseMessage response)
         {
         	MiskoFinanceMain.Instance.SummaryPanel.Summary = ((UpdateTxnRS)response).Summary;
+        	
+        	UpdateSummary(((UpdateTxnRS)response).Summary);
         }
-
+		
         // Callback method for GetTxns
         private void GetTxnsSuccess(ResponseMessage response)
         {
@@ -118,12 +178,14 @@ namespace MiskoFinance.Panels
     		mTransactionsGridView_.DataSource.ResetBindings();
             mTransactionsGridView_.Page = response.Page;
 			
-			mPageCountsLbl_.Text = Utils.ResolveTextParameters(Strings.strPageCounts, new Object[] { mTransactionsGridView_.Page.PageNo, mTransactionsGridView_.Page.TotalPageCount });
-            mTransactionCountsLbl_.Text = Utils.ResolveTextParameters(Strings.strTransactionCounts, new Object[] { mTransactionsGridView_.RowCount, mTransactionsGridView_.Page.TotalRowCount });
+			mPageCountLbl_.Text = Utils.ResolveTextParameters(Strings.strPageCounts, new Object[] { mTransactionsGridView_.Page.PageNo, mTransactionsGridView_.Page.TotalPageCount });
+            mTransactionCountLbl_.Text = Utils.ResolveTextParameters(Strings.strTransactionCounts, new Object[] { mTransactionsGridView_.RowCount, mTransactionsGridView_.Page.TotalRowCount });
 			
             MiskoFinanceMain.Instance.SummaryPanel.Summary = ((GetTxnsRS)response).Summary;
             MiskoFinanceMain.Instance.SearchPanel.Search.Enabled = true;
             MiskoFinanceMain.Instance.SearchPanel.More.Enabled = mTransactionsGridView_.Page.HasNext;
+            
+            UpdateSummary(((GetTxnsRS)response).Summary);
         } 
 
         #endregion

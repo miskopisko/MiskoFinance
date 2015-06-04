@@ -37,6 +37,12 @@ namespace MiskoFinanceCore.Data.Viewed
         [Viewed]
         public Money SelectionTransfersDifference { get; set; }
         [Viewed]
+        public Money SelectionTotalOneTimeIn { get; set; }
+        [Viewed]
+        public Money SelectionTotalOneTimeOut { get; set; }
+        [Viewed]
+        public Money SelectionOneTimeDifference { get; set; }        
+        [Viewed]
         public Money SelectionOpeningBalance { get; set; }
         [Viewed]
         public Money SelectionCurrentBalance { get; set; }
@@ -106,10 +112,12 @@ namespace MiskoFinanceCore.Data.Viewed
             p.Close();
             p = null;
 
-            String sql3 = "SELECT SUM(CASE WHEN DrCr = 0 AND Transfer = 0 THEN Amount ELSE 0 END) SumCredit, " +
-                          "       SUM(CASE WHEN DrCr = 1 AND Transfer = 0 THEN Amount ELSE 0 END) SumDebit, " +
+            String sql3 = "SELECT SUM(CASE WHEN DrCr = 0 AND Transfer = 0 AND OneTime = 0 THEN Amount ELSE 0 END) SumCredit, " +
+                          "       SUM(CASE WHEN DrCr = 1 AND Transfer = 0 AND OneTime = 0 THEN Amount ELSE 0 END) SumDebit, " +
                           "       SUM(CASE WHEN DrCr = 0 AND Transfer = 1 THEN Amount ELSE 0 END) SumTransferIn, " +
-                          "       SUM(CASE WHEN DrCr = 1 AND Transfer = 1 THEN Amount ELSE 0 END)  SumTransferOut " +
+                          "       SUM(CASE WHEN DrCr = 1 AND Transfer = 1 THEN Amount ELSE 0 END) SumTransferOut, " +
+            			  "       SUM(CASE WHEN DrCr = 0 AND OneTime = 1 THEN Amount ELSE 0 END) SumOneTimeIn, " +
+                          "       SUM(CASE WHEN DrCr = 1 AND OneTime = 1 THEN Amount ELSE 0 END) SumOneTimeOut " +
                           "FROM   VwTxn";
 
             p = Persistence.GetInstance(session);
@@ -128,6 +136,8 @@ namespace MiskoFinanceCore.Data.Viewed
                 SelectionTotalDebits = p.GetMoney("SumDebit");
                 SelectionTotalTransfersIn = p.GetMoney("SumTransferIn");
                 SelectionTotalTransfersOut = p.GetMoney("SumTransferOut");
+                SelectionTotalOneTimeIn = p.GetMoney("SumOneTimeIn");
+                SelectionTotalOneTimeOut = p.GetMoney("SumOneTimeOut");
             }
 
             p.Close();
@@ -157,6 +167,7 @@ namespace MiskoFinanceCore.Data.Viewed
 
             SelectionCreditsDebitsDifference = SelectionTotalCredits - SelectionTotalDebits;
             SelectionTransfersDifference = SelectionTotalTransfersIn - SelectionTotalTransfersOut;
+            SelectionOneTimeDifference = SelectionTotalOneTimeIn - SelectionTotalOneTimeOut;            
             SelectionBalanceDifference = SelectionCurrentBalance - SelectionOpeningBalance;
             AllTimeBalanceDifference = AllTimeCurrentBalance - AllTimeOpeningBalance;
         } 

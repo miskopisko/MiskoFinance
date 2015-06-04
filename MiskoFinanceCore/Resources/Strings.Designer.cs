@@ -61,15 +61,6 @@ namespace MiskoFinanceCore.Resources {
 		}
 		
 		/// <summary>
-		///   Looks up a localized string similar to Information.
-		/// </summary>
-		public static string strInfo {
-			get {
-				return ResourceManager.GetString("strInfo", resourceCulture);
-			}
-		}
-		
-		/// <summary>
 		///   Looks up a localized string similar to Page {0} / {1}.
 		/// </summary>
 		public static string strPageCounts {
@@ -79,7 +70,7 @@ namespace MiskoFinanceCore.Resources {
 		}
 		
 		/// <summary>
-		///   Looks up a localized string similar to Showing {0} of {1} transactions.
+		///   Looks up a localized string similar to Transactins {0} / {1}.
 		/// </summary>
 		public static string strTransactionCounts {
 			get {

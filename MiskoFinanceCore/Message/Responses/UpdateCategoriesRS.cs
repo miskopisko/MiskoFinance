@@ -16,7 +16,6 @@ namespace MiskoFinanceCore.Message.Responses
 
         public UpdateCategoriesRS()
         {
-            Categories = new VwCategories();
         }
     }
 }

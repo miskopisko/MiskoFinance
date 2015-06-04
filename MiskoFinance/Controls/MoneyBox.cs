@@ -28,7 +28,7 @@ namespace MiskoFinance.Controls
         {
             get 
             {
-                mValue_ = new Money(Text.Replace("$", ""));
+            	mValue_ = !String.IsNullOrEmpty(Text) ? new Money(Text.Replace("$", "")) : Money.ZERO;
                 return mValue_;
             }
             set 
@@ -51,6 +51,16 @@ namespace MiskoFinance.Controls
         #endregion
 
         #region Override Methods
+        
+		protected override void OnMouseEnter(EventArgs e)
+		{
+			base.OnMouseEnter(e);
+			
+			if(ReadOnly)
+			{
+				Cursor = Cursors.Default;
+			}
+		}
 
         protected override void OnLeave(EventArgs e)
         {
@@ -92,6 +102,11 @@ namespace MiskoFinance.Controls
         protected override void OnMouseUp(MouseEventArgs mevent)
         {
             base.OnMouseUp(mevent);
+            
+            if(ReadOnly)
+            {
+            	SelectionLength = 0;
+            }
 
             if (!ReadOnly && !mFocused_ && SelectionLength == 0)
             {
@@ -143,6 +158,36 @@ namespace MiskoFinance.Controls
                 e.Handled = true;
             }
         }
+        
+		protected override void OnMouseHover(EventArgs e)
+		{
+			base.OnMouseHover(e);
+			
+			if(ReadOnly)
+			{
+				Cursor = Cursors.Default;
+			}
+		}
+        
+		protected override void OnClick(EventArgs e)
+		{
+			base.OnClick(e);
+			
+			if(ReadOnly)
+			{
+				SelectionLength = 0;
+			}
+		}
+		
+		protected override void OnMouseMove(MouseEventArgs e)
+		{
+			base.OnMouseMove(e);
+			
+			if(ReadOnly)
+			{
+				SelectionLength = 0;
+			}
+		}
 
         #endregion
     }

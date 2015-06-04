@@ -32,7 +32,7 @@ namespace MiskoFinanceCore.Message
 
             Response.BankAccounts = Request.BankAccounts;
 
-            session.Error(ErrorLevel.Info, WarningStrings.warnAccountUpdateSuccess);
+            session.Error(ErrorLevel.Information, WarningStrings.warnAccountUpdateSuccess);
         }
     }
 }

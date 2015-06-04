@@ -23,14 +23,6 @@ namespace MiskoFinance.Panels
 		{
 			set
 			{
-				mTotalCredits_.Value = value != null ? value.SelectionTotalCredits : Money.ZERO;
-	            mTotalDebits_.Value = value != null ? value.SelectionTotalDebits : Money.ZERO;
-	            mCreditsDebitsDiff_.Value = value != null ? value.SelectionCreditsDebitsDifference : Money.ZERO;
-	
-	            mTotalTransferIn_.Value = value != null ? value.SelectionTotalTransfersIn : Money.ZERO;
-	            mTotalTransferOut_.Value = value != null ? value.SelectionTotalTransfersOut : Money.ZERO;
-	            mTransfersDiff_.Value = value != null ? value.SelectionTransfersDifference : Money.ZERO;
-	
 	            mSelectionOpeningBalance_.Value = value != null ? value.SelectionOpeningBalance : Money.ZERO;
 	            mSelectionClosingBalance_.Value = value != null ? value.SelectionCurrentBalance : Money.ZERO;
 	            mSelectionBalanceDifference_.Value = value != null ? value.SelectionBalanceDifference : Money.ZERO;

@@ -37,6 +37,7 @@ namespace MiskoFinance.Forms
         		if(mInstance_ == null)
         		{
         			mInstance_ = new MiskoFinanceMain();
+        			ServerConnection.IOController = mInstance_;
         		}
                 return mInstance_;
         	}
@@ -252,7 +253,7 @@ namespace MiskoFinance.Forms
 
 		public void Info(ErrorMessage message)
 		{
-			MessageBox.Show(this, message.Message, Strings.strInfo, MessageBoxButtons.OK, MessageBoxIcon.Information);
+			MessageBox.Show(this, message.Message, WarningStrings.infoInformation, MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
 		public bool Confirm(ErrorMessage message)

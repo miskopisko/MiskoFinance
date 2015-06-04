@@ -61,6 +61,15 @@ namespace MiskoFinanceCore.Resources {
 		}
 		
 		/// <summary>
+		///   Looks up a localized string similar to Information!.
+		/// </summary>
+		public static string infoInformation {
+			get {
+				return ResourceManager.GetString("infoInformation", resourceCulture);
+			}
+		}
+		
+		/// <summary>
 		///   Looks up a localized string similar to Bank accounts updated successfully.
 		/// </summary>
 		public static string warnAccountUpdateSuccess {

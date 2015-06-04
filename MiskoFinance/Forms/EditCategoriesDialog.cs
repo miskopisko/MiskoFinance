@@ -6,6 +6,7 @@ using MiskoFinanceCore.Message.Requests;
 using MiskoFinanceCore.Message.Responses;
 using MiskoPersist.Core;
 using MiskoPersist.Message.Response;
+using MiskoFinance.Controls;
 
 namespace MiskoFinance.Forms
 {
@@ -30,6 +31,13 @@ namespace MiskoFinance.Forms
         public EditCategoriesDialog()
         {
             InitializeComponent();
+            
+            mIncomes_.Tag = mExistingIncome_;
+            mExpenses_.Tag = mExistingExpenses_;
+            mTransfers_.Tag = mExistingTransfers_;
+            mOneTime_.Tag = mExistingOneTime_;
+            
+            mCategories_.SelectedIndexChanged += mCategories_Selected;
         }
 
         #endregion
@@ -42,7 +50,6 @@ namespace MiskoFinance.Forms
 
             GetCategoriesRQ request = new GetCategoriesRQ();
             request.Operator = MiskoFinanceMain.Instance.Operator.OperatorId;
-            request.Status = Status.NULL;
             ServerConnection.SendRequest(request, GetCategoriesSuccess);
         }
 
@@ -56,6 +63,9 @@ namespace MiskoFinance.Forms
             mExistingExpenses_.DataSource = ((GetCategoriesRS)response).Categories.GetByType(CategoryType.Expense, false);
             mExistingTransfers_.DataSource = ((GetCategoriesRS)response).Categories.GetByType(CategoryType.Transfer, false);
             mExistingOneTime_.DataSource = ((GetCategoriesRS)response).Categories.GetByType(CategoryType.OneTime, false);
+            
+            mExistingIncome_.ClearSelection();
+            mExistingIncome_.CurrentCell = null;
         }
 
         private void UpdateCategoriesSuccess(ResponseMessage response)
@@ -77,41 +87,41 @@ namespace MiskoFinance.Forms
 
         private void mAddExpense__Click(object sender, EventArgs e)
         {
-            VwCategory newCategory = (VwCategory)((VwCategories)mExistingExpenses_.DataSource).AddNew();
+            VwCategory newCategory = mExistingExpenses_.DataSource.AddNew();
             newCategory.CategoryType = CategoryType.Expense;
+            newCategory.Status = Status.Active;
             mExistingExpenses_.CurrentCell = mExistingExpenses_.Rows[mExistingExpenses_.Rows.Count - 1].Cells["Name"];
             mExistingExpenses_.BeginEdit(true);
-            newCategory.Status = Status.Active;
             newCategory.OperatorId = MiskoFinanceMain.Instance.Operator.OperatorId;
         }
 
         private void mAddTransfer__Click(object sender, EventArgs e)
         {
-            VwCategory newCategory = (VwCategory)((VwCategories)mExistingTransfers_.DataSource).AddNew();
+            VwCategory newCategory = mExistingTransfers_.DataSource.AddNew();
             newCategory.CategoryType = CategoryType.Transfer;
-            mExistingTransfers_.CurrentCell = mExistingTransfers_.Rows[mExistingTransfers_.Rows.Count - 1].Cells["Name"];
-            mExistingTransfers_.BeginEdit(true);
             newCategory.Status = Status.Active;
+            mExistingTransfers_.CurrentCell = mExistingTransfers_.Rows[mExistingTransfers_.Rows.Count - 1].Cells["Name"];
+            mExistingTransfers_.BeginEdit(true);            
             newCategory.OperatorId = MiskoFinanceMain.Instance.Operator.OperatorId;
         }
 
         private void mAddIncome__Click(object sender, EventArgs e)
         {
-            VwCategory newCategory = (VwCategory)((VwCategories)mExistingIncome_.DataSource).AddNew();
+            VwCategory newCategory = mExistingIncome_.DataSource.AddNew();
             newCategory.CategoryType = CategoryType.Income;
+            newCategory.Status = Status.Active;
             mExistingIncome_.CurrentCell = mExistingIncome_.Rows[mExistingIncome_.Rows.Count - 1].Cells["Name"];
             mExistingIncome_.BeginEdit(true);
-            newCategory.Status = Status.Active;
             newCategory.OperatorId = MiskoFinanceMain.Instance.Operator.OperatorId;
         }
         
         private void mAddOneTime__Click(object sender, EventArgs e)
         {
-            VwCategory newCategory = (VwCategory)((VwCategories)mExistingOneTime_.DataSource).AddNew();
+        	VwCategory newCategory = mExistingOneTime_.DataSource.AddNew();
             newCategory.CategoryType = CategoryType.OneTime;
+            newCategory.Status = Status.Active;
             mExistingOneTime_.CurrentCell = mExistingOneTime_.Rows[mExistingOneTime_.Rows.Count - 1].Cells["Name"];
             mExistingOneTime_.BeginEdit(true);
-            newCategory.Status = Status.Active;
             newCategory.OperatorId = MiskoFinanceMain.Instance.Operator.OperatorId;
         }
 
@@ -133,6 +143,12 @@ namespace MiskoFinance.Forms
                 Dispose();
             }
         }
+        
+        private void mCategories_Selected(object sender, EventArgs e)
+		{
+        	((CategoriesGridView)mCategories_.SelectedTab.Tag).ClearSelection();
+        	((CategoriesGridView)mCategories_.SelectedTab.Tag).CurrentCell = null;
+		}
 
         #endregion
     }

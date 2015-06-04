@@ -16,7 +16,6 @@ namespace MiskoFinanceCore.Message.Responses
 
         public GetAccountRS()
         {
-            BankAccount = new VwBankAccount();
         }
     }
 }

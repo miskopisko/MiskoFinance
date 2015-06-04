@@ -33,7 +33,6 @@
         	// 
         	// TransactionsGridView
         	// 
-        	this.AutoGenerateColumns = false;
         	this.AllowUserToAddRows = false;
         	this.AllowUserToDeleteRows = false;
         	this.AllowUserToResizeColumns = false;
@@ -43,6 +42,7 @@
         	this.RowHeadersVisible = false;
         	this.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
         	this.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+        	this.VirtualMode = true;
         	((System.ComponentModel.ISupportInitialize)(this)).EndInit();
         	this.ResumeLayout(false);
 

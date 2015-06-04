@@ -30,7 +30,7 @@ namespace MiskoFinanceCore.Message
             
             if(Response.Txns == null || Response.Txns.Count == 0)
             {
-            	session.Error(ErrorLevel.Info, ErrorStrings.errNotTxnsFound);
+            	session.Error(ErrorLevel.Information, ErrorStrings.errNotTxnsFound);
             }
         }
     }

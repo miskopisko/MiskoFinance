@@ -16,7 +16,6 @@ namespace MiskoFinanceCore.Message.Responses
 
         public UpdateOperatorRS()
         {
-            Operator = new VwOperator();
         }
     }
 }

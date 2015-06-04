@@ -32,7 +32,7 @@ namespace MiskoFinanceCore.Message
 
             Response.Categories = Request.Categories;
 
-            session.Error(ErrorLevel.Info, WarningStrings.warnCategoriesAddedUpdated);
+            session.Error(ErrorLevel.Information, WarningStrings.warnCategoriesAddedUpdated);
         }
     }
 }

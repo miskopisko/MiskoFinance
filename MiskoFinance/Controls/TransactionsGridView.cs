@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 using MiskoFinanceCore.Data.Viewed;
 using MiskoFinanceCore.Enums;
@@ -142,7 +143,7 @@ namespace MiskoFinance.Controls
 	            }            
             }
         }
-
+        
         #endregion
 
         #region Public Methods
@@ -153,7 +154,7 @@ namespace MiskoFinance.Controls
 
         #region Private Methods
         
-        // Add columns to the control
+		// Add columns to the control
         private void FillColumns()
         {
         	mDate_.ValueType = typeof(DateTime);
@@ -190,14 +191,14 @@ namespace MiskoFinance.Controls
             mTransfer_.DataPropertyName = "Transfer";
             mTransfer_.HeaderText = "Transfer";
             mTransfer_.Name = "Transfer";
-            mTransfer_.Width = 75;
+            mTransfer_.Width = 100;
             mTransfer_.SortMode = DataGridViewColumnSortMode.Automatic;
             
             mOneTime_.ValueType = typeof(bool);
             mOneTime_.DataPropertyName = "OneTime";
             mOneTime_.HeaderText = "One Time";
             mOneTime_.Name = "OneTime";
-            mOneTime_.Width = 85;
+            mOneTime_.Width = 100;
             mOneTime_.SortMode = DataGridViewColumnSortMode.Automatic;
 
             mCategory_.ValueType = typeof(VwCategory);

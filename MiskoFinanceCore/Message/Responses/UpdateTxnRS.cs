@@ -16,7 +16,6 @@ namespace MiskoFinanceCore.Message.Responses
 
         public UpdateTxnRS()
         {
-            Summary = new VwSummary();
         }
     }
 }

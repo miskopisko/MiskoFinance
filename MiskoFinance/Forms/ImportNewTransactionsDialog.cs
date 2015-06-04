@@ -21,6 +21,7 @@ namespace MiskoFinance.Forms
         #region Fields
 
         private OfxDocument mOfxDocument_;
+        private VwBankAccount mAccount_;
 
         #endregion
 
@@ -36,16 +37,15 @@ namespace MiskoFinance.Forms
         {
             InitializeComponent();
             
-            mExistingAccounts_.DisplayMember = "Nickname";            
+            mExistingAccounts_.DisplayMember = "Nickname";
             mExistingAccounts_.DataSource = MiskoFinanceMain.Instance.Operator.BankAccounts;
             mExistingAccounts_.SelectedValueChanged += mExistingAccounts_SelectedValueChanged;
+            mExistingAccounts_.SelectedItems.Clear();
             
-            mCreateNewAccount_.CheckedChanged += mCreateNewAccount__CheckedChanged;
-            mExistingAccount_.CheckedChanged += mExistingAccount__CheckedChanged;;
+            mCreateNewAccount_.CheckedChanged += AccountType__CheckedChanged;
+            mExistingAccount_.CheckedChanged += AccountType__CheckedChanged;;
 
             mAccountType_.DataSource = AccountType.Elements;
-            
-            mExistingAccount_.Enabled = MiskoFinanceMain.Instance.Operator.BankAccounts.Count > 0;
         }        
 
         #endregion
@@ -96,26 +96,20 @@ namespace MiskoFinance.Forms
             }
             else if (mExistingAccount_.Checked)
             {
-                if (mExistingAccounts_.SelectedItems.Count != 1)
+                if (mExistingAccounts_.SelectedItems.Count == 1)
                 {
-                	throw new MiskoException(ErrorStrings.errChooseExistingAccount);
-                }
-                else
-                {
-                    return (VwBankAccount)mExistingAccounts_.SelectedItem;
+                	return (VwBankAccount)mExistingAccounts_.SelectedItem;
                 }
             }
-            return null;
+            
+            throw new MiskoException(ErrorStrings.errChooseExistingAccount);
         }
 
 		private void GetAccountSuccess(ResponseMessage response)
         {
+			mAccount_ = ((GetAccountRS)response).BankAccount;
+			mExistingAccounts_.SelectedIndex = mExistingAccounts_.FindStringExact(mAccount_.Nickname);
 			mExistingAccount_.Checked = true;
-
-            for (int i = 0; i < mExistingAccounts_.Items.Count; i++)
-            {
-                //mExistingAccounts_.SetItemChecked(i, ((VwBankAccount)mExistingAccounts_.Items[i]).BankAccountId.Equals(((GetAccountRS)response).BankAccount.BankAccountId));
-            }
 		}
 		
 		private void GetAccountError(ResponseMessage response)
@@ -128,10 +122,7 @@ namespace MiskoFinance.Forms
             mNickname_.Text = String.Empty;
             mOpeningBalance_.Value = Money.ZERO;
 
-            for (int i = 0; i < mExistingAccounts_.Items.Count; i++)
-            {
-            	mExistingAccounts_.SelectedItems.Clear();
-            }
+            mExistingAccounts_.SelectedItems.Clear();
 		}
 		
 		private void ImportTxnsSuccess(ResponseMessage response)
@@ -151,31 +142,41 @@ namespace MiskoFinance.Forms
 
 		private void mExistingAccounts_SelectedValueChanged(object sender, EventArgs e)
 		{
-			VwBankAccount bankAccount = (VwBankAccount)mExistingAccounts_.SelectedValue;
-
-            mBankName_.Text = bankAccount.BankNumber;
+			VwBankAccount bankAccount;
+			
+			if(mExistingAccounts_.SelectedItems.Count == 1)
+			{
+				bankAccount = (VwBankAccount)mExistingAccounts_.SelectedValue;            
+			}
+			else
+			{
+				bankAccount = new VwBankAccount()
+				{
+					AccountNumber = mOfxDocument_ != null ? mOfxDocument_.AccountID : null,
+					AccountType = mOfxDocument_ != null ? mOfxDocument_.AccountType : null,
+					BankNumber = mOfxDocument_ != null ? mOfxDocument_.BankID : null,
+				};
+			}
+			
+			mBankName_.Text = bankAccount.BankNumber;
             mAccountNumber_.Text = bankAccount.AccountNumber;
             mAccountType_.SelectedItem = bankAccount.AccountType;
             mNickname_.Text = bankAccount.Nickname;
             mOpeningBalance_.Value = bankAccount.OpeningBalance;
 		}
 		
-		private void mCreateNewAccount__CheckedChanged(object sender, System.EventArgs e)
+		private void AccountType__CheckedChanged(object sender, System.EventArgs e)
 		{
 			mExistingAccounts_.Enabled = mExistingAccount_.Checked;
-			mExistingAccounts_.SelectedItems.Clear();
 			
-            mBankName_.Enabled = !mExistingAccount_.Checked;
-            mAccountNumber_.Enabled = !mExistingAccount_.Checked;
-            mOpeningBalance_.Enabled = !mExistingAccount_.Checked;
-            mAccountType_.Enabled = !mExistingAccount_.Checked;
-            mNickname_.Enabled = !mExistingAccount_.Checked;
-		}
-
-		private void mExistingAccount__CheckedChanged(object sender, System.EventArgs e)
-		{
-			mExistingAccounts_.Enabled = mExistingAccount_.Checked;
-			mExistingAccounts_.SelectedItems.Clear();
+			if(mExistingAccounts_.Enabled)
+			{
+				mExistingAccounts_.SelectedIndex = mExistingAccounts_.FindStringExact(mAccount_.Nickname);
+			}
+			else
+			{
+				mExistingAccounts_.SelectedItems.Clear();
+			}
 			
             mBankName_.Enabled = !mExistingAccount_.Checked;
             mAccountNumber_.Enabled = !mExistingAccount_.Checked;
@@ -191,14 +192,16 @@ namespace MiskoFinance.Forms
 		
 		private void mImport__Click(object sender, EventArgs e)
 		{
-			mCancel_.Enabled = false;
-            mImport_.Enabled = false;
-
-            ImportTxnsRQ request = new ImportTxnsRQ();
+			ImportTxnsRQ request = new ImportTxnsRQ();
             request.BankAccount = GetAccount();
             request.Operator = MiskoFinanceMain.Instance.Operator;
             request.VwTxns = mOfxDocument_.Transactions;
+            request.FromDate = mOfxDocument_.StartDate;
+            request.ToDate = mOfxDocument_.EndDate;
             ServerConnection.SendRequest(request, ImportTxnsSuccess, ImportTxnsError);
+            
+            mCancel_.Enabled = false;
+            mImport_.Enabled = false;
 		}
 		
 		#endregion

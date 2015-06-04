@@ -98,6 +98,17 @@ namespace MiskoFinanceCore.Data.Stored
             {
                 session.Error(ErrorLevel.Error, ErrorStrings.errOpeningBalance);
             }
+            
+            // Check to see if another bank account already exists
+        	if(mode.Equals(UpdateMode.Insert))
+        	{
+        	   	BankAccount bankAccount = BankAccount.GetInstanceByComposite(session, Operator, AccountNumber);
+        	   	
+        	   	if(bankAccount.IsSet)
+        	   	{
+        	   		session.Error(ErrorLevel.Confirmation, "Account {0} already exists. Are you sure you want to create this account?", new Object[] { AccountNumber });
+        	   	}
+        	}
         }
 
         public new void PostSave(Session session, UpdateMode mode)
