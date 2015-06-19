@@ -27,11 +27,11 @@ namespace MiskoFinanceCore.Enums
 
         #endregion
 
-        protected Gender()
+        public Gender()
         {
         }
 
-        protected Gender(Int64 value, String code, String description) : base(value, code, description)
+        public Gender(Int64 value, String code, String description) : base(value, code, description)
         {
         }
 

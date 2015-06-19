@@ -27,11 +27,11 @@ namespace MiskoFinanceCore.Enums
 
         #endregion
 
-        protected DrCr()
+        public DrCr()
         {
         }
 
-        protected DrCr(Int64 value, String code, String description) : base(value, code, description)
+        public DrCr(Int64 value, String code, String description) : base(value, code, description)
         {
         }
 

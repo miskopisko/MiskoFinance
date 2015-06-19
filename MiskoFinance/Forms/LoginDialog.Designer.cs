@@ -168,7 +168,7 @@
         	this.MinimizeBox = false;
         	this.Name = "LoginDialog";
         	this.ShowInTaskbar = false;
-        	this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+        	this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
         	this.Text = "Login";
         	this.mTableLayoutPanel_.ResumeLayout(false);
         	this.mTableLayoutPanel_.PerformLayout();

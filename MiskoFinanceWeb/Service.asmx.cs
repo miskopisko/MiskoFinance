@@ -1,46 +1,56 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Drawing.Design;
+using System.Diagnostics;
 using System.IO;
-using System.Reflection;
+using System.Web;
+using System.Web.Script.Services;
 using System.Web.Services;
-using System.Xml;
 using MiskoPersist.Core;
 using MiskoPersist.Data;
-using MiskoPersist.Message.Request;
+using MiskoPersist.Enums;
+using MiskoPersist.Message.Response;
 
 namespace MiskoFinanceWeb
 {
-    [WebServiceBindingAttribute(ConformsTo = WsiProfiles.BasicProfile1_1)]
-    [ToolboxItemAttribute(false)]
-    public class Service : System.Web.Services.WebService
-    {
-        [WebMethod]
-        public void Process()
-        {
-            String xmlResponse = "";
-            StreamReader reader = new StreamReader(Context.Request.InputStream);
-            String xmlRequest = reader.ReadToEnd();
+	[WebService(Namespace="http://miskofinance.piskuric.ca")]
+	public class Service : System.Web.Services.WebService
+	{
+		[WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void ProcessRequest(String request)
+		{
+            ResponseMessage responseMessage;
 
-            if(!String.IsNullOrEmpty(xmlRequest))
-            {
-                XmlDocument document = new XmlDocument();
-                document.Load(XmlReader.Create(new StringReader(xmlRequest.Trim())));
+			try
+			{
+                responseMessage = MessageProcessor.Process(request);
 
-                String className = document.DocumentElement.Name;
-                Type type = Assembly.Load("MiskoFinanceCore").GetType("MiskoFinanceCore.Message.Requests." + className);
-
-                if (type != null)
+                #if DEBUG
+                    String response1 = AbstractData.SerializeJson(responseMessage);
+                    String response2 = AbstractData.SerializeJson((ResponseMessage)AbstractData.DeserializeJson(response1));
+                    if(!response1.Equals(response2))
+                    {
+                        File.WriteAllText(@"D:\TEMP\Response1.txt", response1);
+                        File.WriteAllText(@"D:\TEMP\Response2.txt", response2);
+                        Process pr = new Process();
+                        pr.StartInfo.FileName = @"C:\Program Files (x86)\Beyond Compare 4\BCompare.exe";
+                        pr.StartInfo.Arguments = '\u0022' + @"D:\TEMP\Response1.txt" + '\u0022' + " " + '\u0022' + @"D:\TEMP\Response2.txt" + '\u0022';
+                        pr.Start();
+                    }
+                #endif
+			}
+			catch(Exception ex)
+			{
+                while(ex.InnerException != null)
                 {
-                    //RequestMessage request = (RequestMessage)AbstractData.Deserialize(xmlRequest, type);
-
-                    //MessageProcessor.
-    
-                    //xmlResponse = AbstractData.Serialize(message.Response);
+                    ex = ex.InnerException;
                 }
-            }
 
-            Context.Response.Output.Write(xmlResponse);
-        }
-    }
+				responseMessage = new ResponseMessage();
+                responseMessage.Status = ErrorLevel.Error;
+                responseMessage.Errors.Add(new ErrorMessage(ex));
+			}
+
+            Context.Response.Output.Write(AbstractData.SerializeJson(responseMessage));
+		}
+	}
 }

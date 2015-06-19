@@ -1,1 +1,2 @@
-﻿<%@ WebService Language="C#" CodeBehind="Service.asmx.cs" Class="MiskoFinanceWeb.Service" %>
+﻿<%@ WebService Language="C#" Class="MiskoFinanceWeb.Service" %>
+

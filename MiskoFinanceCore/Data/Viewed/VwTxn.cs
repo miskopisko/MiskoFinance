@@ -40,6 +40,8 @@ namespace MiskoFinanceCore.Data.Viewed
         public Boolean Transfer { get; set; }
 		[Viewed]
         public Boolean OneTime { get; set; }           
+        [Viewed]
+        public String HashCode { get; set; }
 
         #endregion
 
@@ -60,11 +62,6 @@ namespace MiskoFinanceCore.Data.Viewed
 				return DrCr.Equals(DrCr.Credit) ? Amount : null;
 			}
 		}
-		
-        public String HashCode 
-        { 
-        	get; set; 
-        }
 
         #endregion
 

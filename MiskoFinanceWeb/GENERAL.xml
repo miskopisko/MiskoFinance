@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<logfile>
+	<log timestamp='2015-06-19T11:57:33' level='ERROR' class='MiskoPersist.Core.Session' machine='MPISKU7'>
+		<message>Bank name is mandatory</message>
+	</log>
+	<log timestamp='2015-06-19T11:57:46' level='ERROR' class='MiskoPersist.Core.Session' machine='MPISKU7'>
+		<message>Nickname is mandatory</message>
+	</log>
+	<log timestamp='2015-06-19T12:03:32' level='ERROR' class='MiskoPersist.Core.Session' machine='MPISKU7'>
+		<message>Nickname is mandatory</message>
+	</log>
+	<log timestamp='2015-06-19T12:04:10' level='ERROR' class='MiskoPersist.Core.Session' machine='MPISKU7'>
+		<message>Category name cannot be blank</message>
+	</log>
+	<log timestamp='2015-06-19T12:04:41' level='ERROR' class='MiskoPersist.Core.Session' machine='MPISKU7'>
+		<message>Passwords do not match. Try again</message>
+	</log>
+</logfile>
+

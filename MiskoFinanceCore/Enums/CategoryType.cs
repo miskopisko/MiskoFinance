@@ -31,11 +31,11 @@ namespace MiskoFinanceCore.Enums
 
         #endregion
 
-        protected CategoryType()
+        public CategoryType()
         {
         }
 
-        protected CategoryType(Int64 value, String code, String description): base(value, code, description)
+        public CategoryType(Int64 value, String code, String description): base(value, code, description)
         {
         }
 

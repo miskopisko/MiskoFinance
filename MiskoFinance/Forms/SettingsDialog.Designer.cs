@@ -343,7 +343,7 @@
         	this.MinimizeBox = false;
         	this.Name = "SettingsDialog";
         	this.ShowInTaskbar = false;
-        	this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+        	this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
         	this.Text = "Settings";
         	((System.ComponentModel.ISupportInitialize)(this.mRowPerPage_)).EndInit();
         	this.mButtonFlowLayoutPanel_.ResumeLayout(false);

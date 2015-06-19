@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Windows.Forms;
-using MiskoPersist.Core;
 using MiskoFinance.Forms;
+using MiskoFinance.Properties;
+using MiskoPersist.Core;
+using MiskoPersist.Enums;
 
 namespace MiskoFinance
 {

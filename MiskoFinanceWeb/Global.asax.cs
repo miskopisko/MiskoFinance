@@ -1,4 +1,5 @@
 ﻿using System;
+using MiskoPersist.Core;
 
 namespace MiskoFinanceWeb
 {
@@ -6,7 +7,8 @@ namespace MiskoFinanceWeb
     {
         protected void Application_Start(object sender, EventArgs e)
         {
-        	
+			ConnectionSettings.AddSqliteConnection(@"..\MiskoFinance_DB.sqlite3");
+            //ConnectionSettings.AddMySqlConnection("localhost", "mpfinance", "mpfinance", "mpfinance");
         }
 
         protected void Session_Start(object sender, EventArgs e)

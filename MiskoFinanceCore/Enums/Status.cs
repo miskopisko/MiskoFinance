@@ -35,11 +35,11 @@ namespace MiskoFinanceCore.Enums
 
         #region Constructors
 
-        protected Status()
+        public Status()
         {
         }
 
-        protected Status(Int64 value, String code, String description) : base(value, code, description)
+        public Status(Int64 value, String code, String description) : base(value, code, description)
         {
         }
 

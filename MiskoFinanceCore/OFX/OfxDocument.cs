@@ -5,6 +5,7 @@ using MiskoPersist.Core;
 using MiskoPersist.MoneyType;
 using MiskoFinanceCore.Data.Viewed;
 using MiskoFinanceCore.Enums;
+using System.Web;
 
 namespace MiskoFinanceCore.OFX
 {
@@ -131,7 +132,10 @@ namespace MiskoFinanceCore.OFX
                     String amt = Regex.Match(capture.Value, @"(?<=<trnamt>).+?(?=<)", RegexOptions.Multiline | RegexOptions.IgnoreCase).Value;                    
                     String name = Regex.Match(capture.Value, @"(?<=<name>).+?(?=<)", RegexOptions.Multiline | RegexOptions.IgnoreCase).Value;
                     String memo = Regex.Match(capture.Value, @"(?<=<memo>).+?(?=<)", RegexOptions.Multiline | RegexOptions.IgnoreCase).Value;
-                    
+
+                    name = HttpUtility.HtmlDecode(name);
+                    memo = HttpUtility.HtmlDecode(memo);
+
                     txn.Amount = new Money(Math.Abs(Decimal.Parse(amt)));
                     txn.Description = (name + " " + memo).Trim();
                     txn.DatePosted = DateTime.ParseExact(dt.Substring(0, 8), "yyyyMMdd", null);

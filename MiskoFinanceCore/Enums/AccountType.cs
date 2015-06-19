@@ -33,11 +33,11 @@ namespace MiskoFinanceCore.Enums
 
         #endregion
 
-        protected AccountType()
+        public AccountType()
         {
         }
 
-        protected AccountType(Int64 value, String code, String description) : base(value, code, description)
+        public AccountType(Int64 value, String code, String description) : base(value, code, description)
         {
         }
 

@@ -74,7 +74,7 @@ namespace MiskoFinance.Controls
                 }
                 else
                 {
-                    Value = new Money(0);
+                    Value = Money.ZERO;
                 }
                 mFocused_ = false;                
             }
