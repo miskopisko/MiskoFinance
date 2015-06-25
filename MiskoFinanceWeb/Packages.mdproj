@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ItemType>PackagingProject</ItemType>
+    <ProjectGuid>{33B85A0E-950A-4B71-A322-DDF7CD5E40D4}</ProjectGuid>
+    <Packages>
+      <Packages>
+        <Package name="Linux Binaries">
+          <Builder targetFile="..\..\..\..\MiskoFinanceWeb.tar.gz" platform="Linux" configuration="Release" ctype="BinariesZipPackageBuilder">
+            <ChildEntries>
+              <SolutionItemReference path="..\..\MiskoPersist\MiskoPersist.csproj" />
+              <SolutionItemReference path="MiskoFinanceWeb.csproj" />
+              <SolutionItemReference path="..\MiskoFinanceCore\MiskoFinanceCore.csproj" />
+            </ChildEntries>
+            <RootEntry path="MiskoFinanceWeb.sln" id=":root:" />
+          </Builder>
+        </Package>
+      </Packages>
+    </Packages>
+  </PropertyGroup>
+</Project>

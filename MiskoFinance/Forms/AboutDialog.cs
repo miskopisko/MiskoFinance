@@ -15,6 +15,8 @@ namespace MiskoFinance.Forms
             this.labelCopyright.Text = AssemblyCopyright;
             this.labelCompanyName.Text = AssemblyCompany;
             this.textBoxDescription.Text = AssemblyDescription;
+            
+            CenterToParent();
         }
 
         #region Assembly Attribute Accessors

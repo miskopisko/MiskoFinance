@@ -64,6 +64,8 @@ namespace MiskoFinance.Forms
             	request.AccountNo = mOfxDocument_.AccountID;
             	request.Operator = MiskoFinanceMain.Instance.Operator.OperatorId;
             	ServerConnection.SendRequest(request, GetAccountSuccess, GetAccountError);
+            	
+            	CenterToParent();
             }
             else
             {

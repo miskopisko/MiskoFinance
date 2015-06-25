@@ -1,5 +1,6 @@
 ﻿using System;
 using MiskoPersist.Core;
+using System.Globalization;
 
 namespace MiskoFinanceWeb
 {
@@ -7,8 +8,8 @@ namespace MiskoFinanceWeb
     {
         protected void Application_Start(object sender, EventArgs e)
         {
-			ConnectionSettings.AddSqliteConnection(@"..\MiskoFinance_DB.sqlite3");
-            //ConnectionSettings.AddMySqlConnection("localhost", "mpfinance", "mpfinance", "mpfinance");
+            ConnectionSettings.AddMySqlConnection("localhost", "mpfinance", "mpfinance", "mpfinance");
+            CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-CA");
         }
 
         protected void Session_Start(object sender, EventArgs e)

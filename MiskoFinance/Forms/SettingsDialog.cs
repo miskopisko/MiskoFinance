@@ -64,6 +64,8 @@ namespace MiskoFinance.Forms
             mGender_.SelectedItem = mOperator_.Gender;
             mBirthday_.Value = mOperator_.Birthday.HasValue ? mOperator_.Birthday.Value : mBirthday_.MinDate;
             mRowPerPage_.Value = Settings.Default.RowsPerPage;
+            
+            CenterToParent();
         }
 
         #endregion

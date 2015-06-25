@@ -25,12 +25,14 @@ namespace MiskoFinance.Forms
 
         protected override void OnLoad(EventArgs e)
         {
-            if (!String.IsNullOrEmpty(Settings.Default.DefaultUsername.Trim()))
+        	if (!String.IsNullOrEmpty(Settings.Default.DefaultUsername.Trim()))
             {
                 mUsername_.Text = Settings.Default.DefaultUsername.Trim();
                 mPassword_.Text = "";
                 mPassword_.Select();
-            }           
+            }
+
+        	CenterToParent();
         }
         
 		protected override void OnFormClosing(FormClosingEventArgs e)

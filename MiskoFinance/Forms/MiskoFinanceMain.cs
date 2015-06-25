@@ -282,7 +282,7 @@ namespace MiskoFinance.Forms
         {
             get
             {
-                return "localhost";
+                return "miskofinance.piskuric.ca";
             }
         }
 
@@ -290,7 +290,7 @@ namespace MiskoFinance.Forms
         {
             get
             {
-                return 8080;
+                return 80;
             }
         }
 

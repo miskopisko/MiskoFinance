@@ -51,6 +51,8 @@ namespace MiskoFinance.Forms
             GetCategoriesRQ request = new GetCategoriesRQ();
             request.Operator = MiskoFinanceMain.Instance.Operator.OperatorId;
             ServerConnection.SendRequest(request, GetCategoriesSuccess);
+            
+            CenterToParent();
         }
 
         #endregion

@@ -58,6 +58,8 @@ namespace MiskoFinance.Forms
             mAccountType_.Enabled = mExistingAccounts_.Items.Count > 0;
             mNickname_.Enabled = mExistingAccounts_.Items.Count > 0;
             mOpeningBalance_.Enabled = mExistingAccounts_.Items.Count > 0;
+            
+            CenterToParent();
         }
 
         #endregion
