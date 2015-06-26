@@ -12,7 +12,7 @@ namespace MiskoFinance.Properties {
 	
 	
 	[global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-	[global::System.CodeDom.Compiler.GeneratedCodeAttribute("ICSharpCode.SettingsEditor.SettingsCodeGeneratorTool", "5.1.0.4936")]
+	[global::System.CodeDom.Compiler.GeneratedCodeAttribute("ICSharpCode.SettingsEditor.SettingsCodeGeneratorTool", "5.1.0.5071")]
 	internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
 		
 		private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -38,6 +38,42 @@ namespace MiskoFinance.Properties {
 		
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("localhost")]
+		public string Hostname {
+			get {
+				return ((string)(this["Hostname"]));
+			}
+			set {
+				this["Hostname"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("")]
+		public string LocalDatabase {
+			get {
+				return ((string)(this["LocalDatabase"]));
+			}
+			set {
+				this["LocalDatabase"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("80")]
+		public short Port {
+			get {
+				return ((short)(this["Port"]));
+			}
+			set {
+				this["Port"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("25")]
 		[global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
 		public int RowsPerPage {
@@ -46,6 +82,42 @@ namespace MiskoFinance.Properties {
 			}
 			set {
 				this["RowsPerPage"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("/Service.asmx/ProcessRequest")]
+		public string Script {
+			get {
+				return ((string)(this["Script"]));
+			}
+			set {
+				this["Script"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("Online")]
+		public string ServerLocation {
+			get {
+				return ((string)(this["ServerLocation"]));
+			}
+			set {
+				this["ServerLocation"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("False")]
+		public bool UseSSL {
+			get {
+				return ((bool)(this["UseSSL"]));
+			}
+			set {
+				this["UseSSL"] = value;
 			}
 		}
 	}

@@ -147,6 +147,14 @@
     <Compile Include="Forms\MiskoFinanceMain.Designer.cs">
       <DependentUpon>MiskoFinanceMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="Panels\DatasourcePanel.cs" />
+    <Compile Include="Panels\DatasourcePanel.Designer.cs">
+      <DependentUpon>DatasourcePanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Panels\LoginPanel.cs" />
+    <Compile Include="Panels\LoginPanel.Designer.cs">
+      <DependentUpon>LoginPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Panels\SearchPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -263,6 +271,12 @@
     <EmbeddedResource Include="Forms\SettingsDialog.resx">
       <DependentUpon>SettingsDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Panels\DatasourcePanel.resx">
+      <DependentUpon>DatasourcePanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Panels\LoginPanel.resx">
+      <DependentUpon>LoginPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Panels\SearchPanel.resx">
       <DependentUpon>SearchPanel.cs</DependentUpon>

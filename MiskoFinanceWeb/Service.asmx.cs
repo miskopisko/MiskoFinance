@@ -13,6 +13,8 @@ namespace MiskoFinanceWeb
     [ScriptService]
 	public class Service : System.Web.Services.WebService
 	{
+        private static readonly Logger Log = Logger.GetInstance(typeof(Service));
+
         [WebMethod(Description = "Accepts a JSON RequestMessage, process it it on the server and returns a JSON ResponseMessage")]
         public void ProcessRequest(String request)
 		{
@@ -29,6 +31,8 @@ namespace MiskoFinanceWeb
                     ex = ex.InnerException;
                 }
 
+                Log.Error("Error processing message",ex);
+
 				responseMessage = new ResponseMessage();
                 responseMessage.Status = ErrorLevel.Error;
                 responseMessage.Errors.Add(new ErrorMessage(ex));
@@ -37,14 +41,28 @@ namespace MiskoFinanceWeb
             Context.Response.Output.Write(AbstractData.SerializeJson(responseMessage));
 		}
 
-        [WebMethod]
-        public string Info()
+        [WebMethod(Description = "Tests the connection to the database and reports status")]
+        public string TestDBConnection()
         {
             String result = "";
-            foreach (var item in ConnectionSettings.Connections)
+
+            try
             {
-                result += item.ConnectionString + Environment.NewLine;
-                result += ServiceLocator.GetConnection(item.Name).State + Environment.NewLine;
+                foreach (var item in ConnectionSettings.Connections)
+                {
+                    result += item.ConnectionString + Environment.NewLine;
+                    result += ServiceLocator.GetConnection(item.Name).State + Environment.NewLine;
+                }
+            }
+            catch(Exception ex)
+            {
+                while(ex.InnerException != null)
+                {
+                    ex = ex.InnerException;
+                }
+
+                Log.Error("Error testing DB connection", ex);
+                result = "Error testing DB connection. See exception log for details.";
             }
 
             return result;

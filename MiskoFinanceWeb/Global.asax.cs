@@ -1,6 +1,9 @@
 ﻿using System;
-using MiskoPersist.Core;
 using System.Globalization;
+using System.Linq;
+using System.Web.Configuration;
+using MiskoPersist.Core;
+using MiskoPersist.Enums;
 
 namespace MiskoFinanceWeb
 {
@@ -8,8 +11,27 @@ namespace MiskoFinanceWeb
     {
         protected void Application_Start(object sender, EventArgs e)
         {
-            ConnectionSettings.AddMySqlConnection("localhost", "mpfinance", "mpfinance", "mpfinance");
-            CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-CA");
+            ConnectionType[] allowableConnectionTypes = {ConnectionType.MySql, ConnectionType.SQLite};
+
+            ConnectionType connectionType = ConnectionType.GetElement(WebConfigurationManager.AppSettings["ConnectionType"]);
+
+            if(connectionType == null || !allowableConnectionTypes.Contains(connectionType))
+            {
+                throw new MiskoException("Invalid server location. Must be one of 'Online' or 'Local'");
+            }
+            else if(connectionType.Equals(ConnectionType.MySql))
+            {
+                String host = WebConfigurationManager.AppSettings["Hostname"];
+                String database = WebConfigurationManager.AppSettings["Database"];
+                String username = WebConfigurationManager.AppSettings["Username"];
+                String password = WebConfigurationManager.AppSettings["Password"];
+
+                ConnectionSettings.AddMySqlConnection(host, database, username, password);    
+            }
+            else if(connectionType.Equals(ConnectionType.SQLite))
+            {
+                ConnectionSettings.AddSqliteConnection(WebConfigurationManager.AppSettings["SqliteDB"]);
+            }
         }
 
         protected void Session_Start(object sender, EventArgs e)

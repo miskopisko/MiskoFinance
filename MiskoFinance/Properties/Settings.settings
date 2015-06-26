@@ -7,8 +7,26 @@
     <Setting Name="DefaultUsername" Type="System.String" Scope="User" Roaming="true">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="Hostname" Type="System.String" Scope="User" Roaming="false">
+      <Value Profile="(Default)">localhost</Value>
+    </Setting>
+    <Setting Name="LocalDatabase" Type="System.String" Scope="User" Roaming="false">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="Port" Type="System.Int16" Scope="User" Roaming="false">
+      <Value Profile="(Default)">80</Value>
+    </Setting>
     <Setting Name="RowsPerPage" Type="System.Int32" Scope="User" Roaming="true">
       <Value Profile="(Default)">25</Value>
+    </Setting>
+    <Setting Name="Script" Type="System.String" Scope="User" Roaming="false">
+      <Value Profile="(Default)">/Service.asmx/ProcessRequest</Value>
+    </Setting>
+    <Setting Name="ServerLocation" Type="System.String" Scope="User" Roaming="false">
+      <Value Profile="(Default)">Online</Value>
+    </Setting>
+    <Setting Name="UseSSL" Type="System.Boolean" Scope="User" Roaming="false">
+      <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>
 </SettingsFile>

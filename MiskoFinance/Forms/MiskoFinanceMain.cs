@@ -166,14 +166,14 @@ namespace MiskoFinance.Forms
 		{
 			base.OnShown(e);
 			
-			#if (DEBUG)
-				LoginRQ request = new LoginRQ();
-            	request.Username = "miskopisko";
-            	request.Password = Utils.GenerateHash("secret");
-            	ServerConnection.SendRequest(request, LoginSuccess, LoginError);
-			#else
+			//#if (DEBUG)
+			//	LoginRQ request = new LoginRQ();
+            //	request.Username = "miskopisko";
+            //	request.Password = Utils.GenerateHash("secret");
+            //	ServerConnection.SendRequest(request, LoginSuccess, LoginError);
+			//#else
 				new LoginDialog().ShowDialog(this);
-			#endif
+			//#endif
 		}
         
 		protected override void OnFormClosing(FormClosingEventArgs e)
@@ -274,7 +274,18 @@ namespace MiskoFinance.Forms
         {
             get
             {
-                return ServerLocation.Online;
+            	ServerLocation serverLocation = ServerLocation.GetElement(Settings.Default.ServerLocation);
+            	
+            	if(serverLocation == null)
+            	{
+            		throw new MiskoException("Invalid server location in settings");
+            	}
+            	else if(serverLocation.Equals(ServerLocation.Local))
+            	{
+            		ConnectionSettings.AddSqliteConnection(Settings.Default.LocalDatabase);
+            	}
+            	
+                return serverLocation;
             }
         }
 
@@ -282,7 +293,7 @@ namespace MiskoFinance.Forms
         {
             get
             {
-                return "miskofinance.piskuric.ca";
+            	return Settings.Default.Hostname;
             }
         }
 
@@ -290,7 +301,7 @@ namespace MiskoFinance.Forms
         {
             get
             {
-                return 80;
+            	return (short)Settings.Default.Port;
             }
         }
 
@@ -298,7 +309,7 @@ namespace MiskoFinance.Forms
         {
             get
             {
-                return "/Service.asmx/ProcessRequest";
+                return Settings.Default.Script;
             }
         }
 
@@ -306,9 +317,10 @@ namespace MiskoFinance.Forms
         {
             get
             {
-                return false;
+                return Settings.Default.UseSSL;
             }
         }
+        
 		#endregion
     }
 }
