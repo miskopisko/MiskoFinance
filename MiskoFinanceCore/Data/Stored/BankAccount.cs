@@ -1,10 +1,10 @@
 using System;
+using MiskoFinanceCore.Resources;
 using MiskoPersist.Attributes;
 using MiskoPersist.Core;
 using MiskoPersist.Data;
 using MiskoPersist.Enums;
 using MiskoPersist.MoneyType;
-using MiskoFinanceCore.Resources;
 
 namespace MiskoFinanceCore.Data.Stored
 {
@@ -76,9 +76,9 @@ namespace MiskoFinanceCore.Data.Stored
             PostSave(session, UpdateMode.Delete);
             return this;
         }
-
+        
         public new void PreSave(Session session, UpdateMode mode)
-        {
+        {        	
             if (String.IsNullOrEmpty(BankNumber))
             {
                 session.Error(ErrorLevel.Error, ErrorStrings.errBankNameMandatory);

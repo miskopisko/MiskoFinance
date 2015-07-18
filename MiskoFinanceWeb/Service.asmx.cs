@@ -38,7 +38,7 @@ namespace MiskoFinanceWeb
                 responseMessage.Errors.Add(new ErrorMessage(ex));
 			}
 
-            Context.Response.Output.Write(AbstractData.SerializeJson(responseMessage));
+            Context.Response.Output.Write(responseMessage.Serialize());
 		}
 
         [WebMethod(Description = "Tests the connection to the database and reports status")]

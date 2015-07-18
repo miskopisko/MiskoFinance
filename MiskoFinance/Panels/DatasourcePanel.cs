@@ -40,6 +40,9 @@ namespace MiskoFinance.Panels
 			mScript_.Text = Settings.Default.Script;
 			mUseSSL_.Checked = Settings.Default.UseSSL;
 			mLocalDatabase_.Text = Settings.Default.LocalDatabase;
+			
+			Parent.AcceptButton = mSave_;
+			Parent.CancelButton = mCancel_;
 		}
 		
 		private void mSave__Click(object sender, EventArgs e)

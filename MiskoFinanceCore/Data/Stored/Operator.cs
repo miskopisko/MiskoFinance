@@ -1,9 +1,9 @@
 using System;
+using MiskoFinanceCore.Enums;
 using MiskoPersist.Attributes;
 using MiskoPersist.Core;
 using MiskoPersist.Data;
 using MiskoPersist.Enums;
-using MiskoFinanceCore.Enums;
 
 namespace MiskoFinanceCore.Data.Stored
 {

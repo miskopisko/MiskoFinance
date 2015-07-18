@@ -67,9 +67,9 @@ namespace MiskoFinance.Panels
 			this.mLocalDatabaselbl_ = new System.Windows.Forms.Label();
 			this.mUseSSL_ = new System.Windows.Forms.CheckBox();
 			this.mPort_ = new System.Windows.Forms.NumericUpDown();
-			this.mSave_ = new System.Windows.Forms.Button();
 			this.mFlowLayoutPanel_ = new System.Windows.Forms.FlowLayoutPanel();
 			this.mCancel_ = new System.Windows.Forms.Button();
+			this.mSave_ = new System.Windows.Forms.Button();
 			this.mTableLayoutPanel_.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.mPort_)).BeginInit();
 			this.mFlowLayoutPanel_.SuspendLayout();
@@ -106,7 +106,7 @@ namespace MiskoFinance.Panels
 			this.mTableLayoutPanel_.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
 			this.mTableLayoutPanel_.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
 			this.mTableLayoutPanel_.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.mTableLayoutPanel_.Size = new System.Drawing.Size(299, 186);
+			this.mTableLayoutPanel_.Size = new System.Drawing.Size(354, 186);
 			this.mTableLayoutPanel_.TabIndex = 0;
 			// 
 			// mServerLocation_
@@ -116,7 +116,7 @@ namespace MiskoFinance.Panels
 			this.mServerLocation_.FormattingEnabled = true;
 			this.mServerLocation_.Location = new System.Drawing.Point(91, 3);
 			this.mServerLocation_.Name = "mServerLocation_";
-			this.mServerLocation_.Size = new System.Drawing.Size(170, 21);
+			this.mServerLocation_.Size = new System.Drawing.Size(225, 21);
 			this.mServerLocation_.TabIndex = 0;
 			// 
 			// mHostname_
@@ -125,7 +125,7 @@ namespace MiskoFinance.Panels
 			this.mHostname_.Enabled = false;
 			this.mHostname_.Location = new System.Drawing.Point(91, 28);
 			this.mHostname_.Name = "mHostname_";
-			this.mHostname_.Size = new System.Drawing.Size(170, 20);
+			this.mHostname_.Size = new System.Drawing.Size(225, 20);
 			this.mHostname_.TabIndex = 1;
 			// 
 			// mScript_
@@ -134,8 +134,8 @@ namespace MiskoFinance.Panels
 			this.mScript_.Enabled = false;
 			this.mScript_.Location = new System.Drawing.Point(91, 78);
 			this.mScript_.Name = "mScript_";
-			this.mScript_.Size = new System.Drawing.Size(170, 20);
-			this.mScript_.TabIndex = 2;
+			this.mScript_.Size = new System.Drawing.Size(225, 20);
+			this.mScript_.TabIndex = 23;
 			// 
 			// mLocalDatabase_
 			// 
@@ -143,14 +143,14 @@ namespace MiskoFinance.Panels
 			this.mLocalDatabase_.Enabled = false;
 			this.mLocalDatabase_.Location = new System.Drawing.Point(91, 128);
 			this.mLocalDatabase_.Name = "mLocalDatabase_";
-			this.mLocalDatabase_.Size = new System.Drawing.Size(170, 20);
+			this.mLocalDatabase_.Size = new System.Drawing.Size(225, 20);
 			this.mLocalDatabase_.TabIndex = 5;
 			// 
 			// mFileChooser_
 			// 
 			this.mFileChooser_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.mFileChooser_.Enabled = false;
-			this.mFileChooser_.Location = new System.Drawing.Point(267, 128);
+			this.mFileChooser_.Location = new System.Drawing.Point(322, 128);
 			this.mFileChooser_.Name = "mFileChooser_";
 			this.mFileChooser_.Size = new System.Drawing.Size(29, 19);
 			this.mFileChooser_.TabIndex = 6;
@@ -230,8 +230,8 @@ namespace MiskoFinance.Panels
 			this.mUseSSL_.Enabled = false;
 			this.mUseSSL_.Location = new System.Drawing.Point(91, 103);
 			this.mUseSSL_.Name = "mUseSSL_";
-			this.mUseSSL_.Size = new System.Drawing.Size(170, 19);
-			this.mUseSSL_.TabIndex = 13;
+			this.mUseSSL_.Size = new System.Drawing.Size(225, 19);
+			this.mUseSSL_.TabIndex = 4;
 			this.mUseSSL_.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.mUseSSL_.UseVisualStyleBackColor = true;
 			// 
@@ -246,24 +246,13 @@ namespace MiskoFinance.Panels
 			0,
 			0});
 			this.mPort_.Name = "mPort_";
-			this.mPort_.Size = new System.Drawing.Size(170, 20);
-			this.mPort_.TabIndex = 14;
+			this.mPort_.Size = new System.Drawing.Size(225, 20);
+			this.mPort_.TabIndex = 2;
 			this.mPort_.Value = new decimal(new int[] {
 			80,
 			0,
 			0,
 			0});
-			// 
-			// mSave_
-			// 
-			this.mSave_.Anchor = System.Windows.Forms.AnchorStyles.Right;
-			this.mSave_.Location = new System.Drawing.Point(43, 3);
-			this.mSave_.Name = "mSave_";
-			this.mSave_.Size = new System.Drawing.Size(78, 23);
-			this.mSave_.TabIndex = 15;
-			this.mSave_.Text = "Save";
-			this.mSave_.UseVisualStyleBackColor = true;
-			this.mSave_.Click += new System.EventHandler(this.mSave__Click);
 			// 
 			// mFlowLayoutPanel_
 			// 
@@ -276,18 +265,29 @@ namespace MiskoFinance.Panels
 			this.mFlowLayoutPanel_.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
 			this.mFlowLayoutPanel_.Location = new System.Drawing.Point(91, 153);
 			this.mFlowLayoutPanel_.Name = "mFlowLayoutPanel_";
-			this.mFlowLayoutPanel_.Size = new System.Drawing.Size(205, 30);
+			this.mFlowLayoutPanel_.Size = new System.Drawing.Size(260, 30);
 			this.mFlowLayoutPanel_.TabIndex = 16;
 			// 
 			// mCancel_
 			// 
-			this.mCancel_.Location = new System.Drawing.Point(127, 3);
+			this.mCancel_.Location = new System.Drawing.Point(182, 3);
 			this.mCancel_.Name = "mCancel_";
 			this.mCancel_.Size = new System.Drawing.Size(75, 23);
-			this.mCancel_.TabIndex = 16;
+			this.mCancel_.TabIndex = 8;
 			this.mCancel_.Text = "Cancel";
 			this.mCancel_.UseVisualStyleBackColor = true;
 			this.mCancel_.Click += new System.EventHandler(this.mCancel__Click);
+			// 
+			// mSave_
+			// 
+			this.mSave_.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this.mSave_.Location = new System.Drawing.Point(98, 3);
+			this.mSave_.Name = "mSave_";
+			this.mSave_.Size = new System.Drawing.Size(78, 23);
+			this.mSave_.TabIndex = 7;
+			this.mSave_.Text = "Save";
+			this.mSave_.UseVisualStyleBackColor = true;
+			this.mSave_.Click += new System.EventHandler(this.mSave__Click);
 			// 
 			// DatasourcePanel
 			// 
@@ -295,7 +295,7 @@ namespace MiskoFinance.Panels
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.mTableLayoutPanel_);
 			this.Name = "DatasourcePanel";
-			this.Size = new System.Drawing.Size(299, 186);
+			this.Size = new System.Drawing.Size(354, 186);
 			this.mTableLayoutPanel_.ResumeLayout(false);
 			this.mTableLayoutPanel_.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.mPort_)).EndInit();

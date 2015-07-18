@@ -1,10 +1,10 @@
 using System;
+using MiskoFinanceCore.Enums;
+using MiskoFinanceCore.Resources;
 using MiskoPersist.Attributes;
 using MiskoPersist.Core;
 using MiskoPersist.Data;
 using MiskoPersist.Enums;
-using MiskoFinanceCore.Enums;
-using MiskoFinanceCore.Resources;
 
 namespace MiskoFinanceCore.Data.Stored
 {
@@ -66,7 +66,7 @@ namespace MiskoFinanceCore.Data.Stored
             PostSave(session, UpdateMode.Update);
             return this;
         }
-
+        
         public override AbstractStoredData Remove(Session session)
         {
             Persistence.ExecuteDelete(session, this, typeof(Category));

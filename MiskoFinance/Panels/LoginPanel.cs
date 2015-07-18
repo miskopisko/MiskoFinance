@@ -41,7 +41,10 @@ namespace MiskoFinance.Panels
                 mUsername_.Text = Settings.Default.DefaultUsername.Trim();
                 mPassword_.Text = "";
                 mPassword_.Select();
-            }        	
+            }
+        	
+        	Parent.AcceptButton = mLogin_;
+        	Parent.CancelButton = mCancel_;
         }
 
         #endregion

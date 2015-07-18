@@ -166,14 +166,14 @@ namespace MiskoFinance.Forms
 		{
 			base.OnShown(e);
 			
-			//#if (DEBUG)
-			//	LoginRQ request = new LoginRQ();
-            //	request.Username = "miskopisko";
-            //	request.Password = Utils.GenerateHash("secret");
-            //	ServerConnection.SendRequest(request, LoginSuccess, LoginError);
-			//#else
+			#if (DEBUG)
+				LoginRQ request = new LoginRQ();
+            	request.Username = "miskopisko";
+            	request.Password = Utils.GenerateHash("secret");
+            	ServerConnection.SendRequest(request, LoginSuccess, LoginError);
+			#else
 				new LoginDialog().ShowDialog(this);
-			//#endif
+			#endif
 		}
         
 		protected override void OnFormClosing(FormClosingEventArgs e)
@@ -228,15 +228,15 @@ namespace MiskoFinance.Forms
 
 		public void Exception(object sender, System.Threading.ThreadExceptionEventArgs e)
 		{
+			#if DEBUG
+            	Debug.WriteLine(e.Exception.StackTrace);
+			#endif
+			
 			Exception ex = e.Exception;
             while (ex.InnerException != null)
             {
                 ex = ex.InnerException;
             }
-            
-            #if DEBUG
-            	Debug.WriteLine(ex.StackTrace);
-			#endif
             
 			Error(new ErrorMessage(ex));
 		}

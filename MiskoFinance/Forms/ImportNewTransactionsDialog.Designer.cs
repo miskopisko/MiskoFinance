@@ -69,6 +69,7 @@
         	// 
         	// mCancel_
         	// 
+        	this.mCancel_.DialogResult = System.Windows.Forms.DialogResult.Cancel;
         	this.mCancel_.Location = new System.Drawing.Point(368, 3);
         	this.mCancel_.Name = "mCancel_";
         	this.mCancel_.Size = new System.Drawing.Size(75, 23);
@@ -278,8 +279,10 @@
         	// 
         	// ImportTransactionsDialog
         	// 
+        	this.AcceptButton = this.mImport_;
         	this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
         	this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+        	this.CancelButton = this.mCancel_;
         	this.ClientSize = new System.Drawing.Size(446, 226);
         	this.Controls.Add(this.mMainTableLayoutPanel_);
         	this.Controls.Add(this.mButtonLayoutPanel_);

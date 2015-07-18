@@ -6,7 +6,7 @@
     <Packages>
       <Packages>
         <Package name="Linux Binaries">
-          <Builder targetFile="..\..\..\..\MiskoFinanceWeb.tar.gz" platform="Linux" configuration="Release" ctype="BinariesZipPackageBuilder">
+          <Builder targetFile="..\..\..\..\MiskoFinanceWeb.zip" platform="Linux" configuration="Release" ctype="BinariesZipPackageBuilder">
             <ChildEntries>
               <SolutionItemReference path="..\..\MiskoPersist\MiskoPersist.csproj" />
               <SolutionItemReference path="MiskoFinanceWeb.csproj" />
