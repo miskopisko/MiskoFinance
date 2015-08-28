@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MiskoFinanceCore</RootNamespace>
     <AssemblyName>MiskoFinanceCore</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>4096</FileAlignment>
     <TargetFrameworkProfile />
     <NoWin32Manifest>False</NoWin32Manifest>
@@ -135,12 +135,12 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Database Scripts\MySql\Tables.sql" />
-    <Content Include="Database Scripts\MySql\Views.sql" />
-    <Content Include="Database Scripts\Oracle\Tables.sql" />
-    <Content Include="Database Scripts\Oracle\Views.sql" />
-    <Content Include="Database Scripts\Sqlite\Tables.sql" />
-    <Content Include="Database Scripts\Sqlite\Views.sql" />
+    <Content Include="DatabaseScripts\MySql\Tables.sql" />
+    <Content Include="DatabaseScripts\MySql\Views.sql" />
+    <Content Include="DatabaseScripts\Oracle\Tables.sql" />
+    <Content Include="DatabaseScripts\Oracle\Views.sql" />
+    <Content Include="DatabaseScripts\Sqlite\Tables.sql" />
+    <Content Include="DatabaseScripts\Sqlite\Views.sql" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\ConfirmStrings.resx">
