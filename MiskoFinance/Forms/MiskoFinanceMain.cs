@@ -9,6 +9,7 @@ using MiskoFinanceCore.Message.Requests;
 using MiskoFinanceCore.Message.Responses;
 using MiskoFinanceCore.Resources;
 using MiskoPersist.Core;
+using MiskoPersist.Data;
 using MiskoPersist.Enums;
 using MiskoPersist.Interfaces;
 using MiskoPersist.Message.Response;

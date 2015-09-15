@@ -1,7 +1,7 @@
+using MiskoFinanceCore.Enums;
 using MiskoPersist.Core;
 using MiskoPersist.Data;
 using MiskoPersist.Message.Request;
-using MiskoFinanceCore.Enums;
 
 namespace MiskoFinanceCore.Message.Requests
 {

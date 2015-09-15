@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Windows.Forms;
+using MiskoFinance.Properties;
 using MiskoFinanceCore.Data.Viewed;
 using MiskoFinanceCore.Enums;
 using MiskoFinanceCore.Message.Requests;
 using MiskoFinanceCore.Message.Responses;
 using MiskoPersist.Core;
-using MiskoPersist.Enums;
 using MiskoPersist.Message.Response;
-using MiskoFinance.Properties;
 
 namespace MiskoFinance.Forms
 {

@@ -1,7 +1,7 @@
-using MiskoPersist.Core;
-using MiskoPersist.Message;
 using MiskoFinanceCore.Message.Requests;
 using MiskoFinanceCore.Message.Responses;
+using MiskoPersist.Core;
+using MiskoPersist.Message;
 
 namespace MiskoFinanceCore.Message
 {

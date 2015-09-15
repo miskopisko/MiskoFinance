@@ -1,11 +1,11 @@
 using System;
+using MiskoFinanceCore.Data.Viewed;
+using MiskoFinanceCore.Message.Requests;
+using MiskoFinanceCore.Message.Responses;
 using MiskoPersist.Core;
 using MiskoPersist.Enums;
 using MiskoPersist.Message;
 using MiskoPersist.Tools;
-using MiskoFinanceCore.Data.Viewed;
-using MiskoFinanceCore.Message.Requests;
-using MiskoFinanceCore.Message.Responses;
 
 namespace MiskoFinanceCore.Message
 {

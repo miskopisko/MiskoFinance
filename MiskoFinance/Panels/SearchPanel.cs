@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
+using MiskoFinance.Forms;
 using MiskoFinanceCore.Data.Viewed;
 using MiskoPersist.Core;
-using MiskoFinance.Forms;
 
 namespace MiskoFinance.Panels
 {
@@ -120,18 +120,22 @@ namespace MiskoFinance.Panels
 			
 			mFromDate_.Value = new DateTime(DateTime.Now.Year, 1, 1);
 			
-			mSearch_.Click += mSearch_Click;
-			mMore_.Click += mMore_Click;
-		}
+			mSearch_.Click += DoSearch;
+			mMore_.Click += DoMore;
+            mAccounts_.SelectionChangeCommitted += DoSearch;
+            mCategories_.SelectionChangeCommitted += DoSearch;
+            mFromDate_.ValueChanged += DoSearch;
+            mToDate_.ValueChanged += DoSearch;
+        }
 
-		#region Private Methods
-		
-		private void mSearch_Click(object sender, EventArgs e)
+        #region Private Methods
+
+        private void DoSearch(object sender, EventArgs e)
 		{
 			MiskoFinanceMain.Instance.TransactionsPanel.Search();
 		}
 
-		private void mMore_Click(object sender, EventArgs e)
+		private void DoMore(object sender, EventArgs e)
 		{
 			MiskoFinanceMain.Instance.TransactionsPanel.More();
 		}

@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
-using MiskoPersist.Core;
-using MiskoPersist.Enums;
-using MiskoPersist.Message;
 using MiskoFinanceCore.Data.Stored;
 using MiskoFinanceCore.Data.Viewed;
 using MiskoFinanceCore.Message.Requests;
 using MiskoFinanceCore.Message.Responses;
+using MiskoPersist.Core;
+using MiskoPersist.Enums;
+using MiskoPersist.Message;
 
 namespace MiskoFinanceCore.Message
 {

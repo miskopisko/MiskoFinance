@@ -2,13 +2,12 @@
 using System.Web.Script.Services;
 using System.Web.Services;
 using MiskoPersist.Core;
-using MiskoPersist.Data;
 using MiskoPersist.Enums;
 using MiskoPersist.Message.Response;
 
 namespace MiskoFinanceWeb
 {
-	[WebService(Namespace="http://miskofinance.piskuric.ca")]
+    [WebService(Namespace="http://miskofinance.piskuric.ca")]
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [ScriptService]
 	public class Service : System.Web.Services.WebService

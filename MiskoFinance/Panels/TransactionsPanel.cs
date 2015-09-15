@@ -1,6 +1,7 @@
 ﻿using System;
-using System.Drawing;
 using System.Windows.Forms;
+using MiskoFinance.Controls;
+using MiskoFinance.Forms;
 using MiskoFinanceCore.Data.Viewed;
 using MiskoFinanceCore.Message.Requests;
 using MiskoFinanceCore.Message.Responses;
@@ -8,8 +9,6 @@ using MiskoFinanceCore.Resources;
 using MiskoPersist.Core;
 using MiskoPersist.Message.Response;
 using MiskoPersist.Tools;
-using MiskoFinance.Controls;
-using MiskoFinance.Forms;
 
 namespace MiskoFinance.Panels
 {

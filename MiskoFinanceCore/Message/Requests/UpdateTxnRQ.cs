@@ -1,8 +1,8 @@
 using System;
+using MiskoFinanceCore.Data.Viewed;
 using MiskoPersist.Core;
 using MiskoPersist.Data;
 using MiskoPersist.Message.Request;
-using MiskoFinanceCore.Data.Viewed;
 
 namespace MiskoFinanceCore.Message.Requests
 {

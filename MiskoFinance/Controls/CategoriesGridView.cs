@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Windows.Forms;
-using MiskoFinanceCore.Data.Stored;
 using MiskoFinanceCore.Data.Viewed;
 using MiskoFinanceCore.Enums;
 using MiskoPersist.Core;
-using MiskoPersist.Enums;
 
 namespace MiskoFinance.Controls
 {

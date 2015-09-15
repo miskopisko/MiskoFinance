@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Windows.Forms;
+using MiskoFinance.Controls;
 using MiskoFinanceCore.Data.Viewed;
 using MiskoFinanceCore.Enums;
 using MiskoFinanceCore.Message.Requests;
 using MiskoFinanceCore.Message.Responses;
 using MiskoPersist.Core;
 using MiskoPersist.Message.Response;
-using MiskoFinance.Controls;
 
 namespace MiskoFinance.Forms
 {
@@ -133,6 +133,7 @@ namespace MiskoFinance.Forms
             categories.AddRange(((VwCategories)mExistingIncome_.DataSource));
             categories.AddRange((VwCategories)mExistingExpenses_.DataSource);
             categories.AddRange((VwCategories)mExistingTransfers_.DataSource);
+            categories.AddRange((VwCategories)mExistingOneTime_.DataSource);
 
             if (categories.Count > 0)
             {

@@ -1,11 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Drawing;
 using System.Windows.Forms;
 
 namespace MiskoFinance.Controls
 {
-	public partial class AbstractEnumComboBoxCell : DataGridViewComboBoxCell
+    public partial class AbstractEnumComboBoxCell : DataGridViewComboBoxCell
 	{
 		#region Properties
 

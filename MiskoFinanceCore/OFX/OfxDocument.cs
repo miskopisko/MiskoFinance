@@ -1,11 +1,11 @@
 using System;
 using System.IO;
 using System.Text.RegularExpressions;
-using MiskoPersist.Core;
-using MiskoPersist.MoneyType;
+using System.Web;
 using MiskoFinanceCore.Data.Viewed;
 using MiskoFinanceCore.Enums;
-using System.Web;
+using MiskoPersist.Core;
+using MiskoPersist.MoneyType;
 
 namespace MiskoFinanceCore.OFX
 {

@@ -8,7 +8,6 @@ using MiskoFinanceCore.Message.Responses;
 using MiskoFinanceCore.OFX;
 using MiskoFinanceCore.Resources;
 using MiskoPersist.Core;
-using MiskoPersist.Enums;
 using MiskoPersist.Message.Response;
 using MiskoPersist.MoneyType;
 

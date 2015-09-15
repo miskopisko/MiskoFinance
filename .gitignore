@@ -2,4 +2,5 @@ bin
 obj
 MiskoFinance_DB.sqlite3
 *.userprefs
-MiskoFinanceWeb/GENERAL_LOG.xml
+GENERAL_LOG.xml
+.vs
