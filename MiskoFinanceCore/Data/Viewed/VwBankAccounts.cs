@@ -35,19 +35,6 @@ namespace MiskoFinanceCore.Data.Viewed
         #endregion
 
         #region Public Methods
-        
-        public VwBankAccounts getAllAccounts()
-        {
-        	if(Count > 0)
-        	{
-        		VwBankAccounts bankAccounts = new VwBankAccounts();
-        		bankAccounts.Add(new VwBankAccount{Nickname="All"});
-        		bankAccounts.AddRange(this);
-        		return bankAccounts;
-        	}
-        	
-        	return null;
-        }
 
         public void FetchByOperator(Session session, PrimaryKey o)
         {

@@ -12,7 +12,7 @@ namespace MiskoFinance.Controls
 
 		#region Delegate Functions
 
-		public delegate void CheckBoxClickedHandler(object sender, CheckBoxHeaderCellClickedArgs args);
+		public delegate void CheckBoxClickedHandler(Object sender, CheckBoxHeaderCellClickedArgs args);
 		public event CheckBoxClickedHandler OnCheckBoxClicked;		
 
 		#endregion
@@ -24,15 +24,15 @@ namespace MiskoFinance.Controls
 		private Point mCheckBoxLocation_;
 		private Point mCellLocation_ = new Point();
 		private Size mCheckBoxSize_;
-		private bool mChecked_ = false;
-		private bool mEnabled_ = true;
+		private Boolean mChecked_ = false;
+		private Boolean mEnabled_ = true;
 
 		#endregion
 
 		#region Properties
 
-		public bool Enabled { get { return mEnabled_; } set { mEnabled_ = value; } }
-		public bool Checked { get { return mChecked_; } set { mChecked_ = value; } }
+		public Boolean Enabled { get { return mEnabled_; } set { mEnabled_ = value; } }
+		public Boolean Checked { get { return mChecked_; } set { mChecked_ = value; } }
 
 		#endregion
 
@@ -51,7 +51,7 @@ namespace MiskoFinance.Controls
 
 		#region Override Methods
 
-		protected override void Paint(Graphics graphics, Rectangle clipBounds, Rectangle cellBounds, int rowIndex, DataGridViewElementStates dataGridViewElementState, object value, object formattedValue, String errorText, DataGridViewCellStyle cellStyle, DataGridViewAdvancedBorderStyle advancedBorderStyle, DataGridViewPaintParts paintParts)
+		protected override void Paint(Graphics graphics, Rectangle clipBounds, Rectangle cellBounds, Int32 rowIndex, DataGridViewElementStates dataGridViewElementState, Object value, Object formattedValue, String errorText, DataGridViewCellStyle cellStyle, DataGridViewAdvancedBorderStyle advancedBorderStyle, DataGridViewPaintParts paintParts)
 		{
 			base.Paint(graphics, clipBounds, cellBounds, rowIndex, dataGridViewElementState, value, "      " + mText_, errorText, cellStyle, advancedBorderStyle, paintParts);
 
@@ -101,7 +101,7 @@ namespace MiskoFinance.Controls
 	public sealed class CheckBoxHeaderCellClickedArgs : EventArgs
 	{
 
-		public bool Checked
+		public Boolean Checked
 		{
 			get;
 			set;

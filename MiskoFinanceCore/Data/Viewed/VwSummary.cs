@@ -87,7 +87,7 @@ namespace MiskoFinanceCore.Data.Viewed
 
             if (p.Next())
             {
-                AllTimeOpeningBalance = p.GetMoney("OpeningBalance");
+                AllTimeOpeningBalance = p.GetMoney("OpeningBalance") ?? Money.ZERO;
             }
 
             p.Close();
@@ -106,7 +106,7 @@ namespace MiskoFinanceCore.Data.Viewed
 
             if (p.Next())
             {
-                AllTimeCurrentBalance = AllTimeOpeningBalance + p.GetMoney("ClosingBalance");
+                AllTimeCurrentBalance = AllTimeOpeningBalance + p.GetMoney("ClosingBalance") ?? Money.ZERO;
             }
 
             p.Close();
@@ -132,12 +132,12 @@ namespace MiskoFinanceCore.Data.Viewed
 
             if (p.Next())
             {
-                SelectionTotalCredits = p.GetMoney("SumCredit");
-                SelectionTotalDebits = p.GetMoney("SumDebit");
-                SelectionTotalTransfersIn = p.GetMoney("SumTransferIn");
-                SelectionTotalTransfersOut = p.GetMoney("SumTransferOut");
-                SelectionTotalOneTimeIn = p.GetMoney("SumOneTimeIn");
-                SelectionTotalOneTimeOut = p.GetMoney("SumOneTimeOut");
+                SelectionTotalCredits = p.GetMoney("SumCredit") ?? Money.ZERO;
+                SelectionTotalDebits = p.GetMoney("SumDebit") ?? Money.ZERO;
+                SelectionTotalTransfersIn = p.GetMoney("SumTransferIn") ?? Money.ZERO;
+                SelectionTotalTransfersOut = p.GetMoney("SumTransferOut") ?? Money.ZERO;
+                SelectionTotalOneTimeIn = p.GetMoney("SumOneTimeIn") ?? Money.ZERO;
+                SelectionTotalOneTimeOut = p.GetMoney("SumOneTimeOut") ?? Money.ZERO;
             }
 
             p.Close();
@@ -158,8 +158,8 @@ namespace MiskoFinanceCore.Data.Viewed
 
             if (p.Next())
             {
-                SelectionOpeningBalance = p.GetMoney("OpeningBalance");
-                SelectionCurrentBalance = p.GetMoney("ClosingBalance");
+                SelectionOpeningBalance = p.GetMoney("OpeningBalance") ?? Money.ZERO;
+                SelectionCurrentBalance = p.GetMoney("ClosingBalance") ?? Money.ZERO;
             }
 
             p.Close();

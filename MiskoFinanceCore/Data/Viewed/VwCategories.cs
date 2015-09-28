@@ -31,37 +31,19 @@ namespace MiskoFinanceCore.Data.Viewed
 
         #region Private Methods
 
-
+		
 
         #endregion
 
         #region Public Methods
-        
-        public VwCategories getAllCategories()
-        {
-        	if(Count > 0)
-        	{
-        		VwCategories categories = new VwCategories();
-        		categories.Add(new VwCategory());
-        		categories.AddRange(this);
-        		return categories;
-        	}
-        	
-        	return null;
-        }
 
-        public VwCategories GetByType(CategoryType type, bool includeBlank)
+        public VwCategories GetByType(CategoryType type)
         {
             VwCategories result = new VwCategories();
-            
-            if(includeBlank)
-            {
-            	result.Add(new VwCategory());
-            }
 
             foreach (VwCategory category in this)
             {
-                if (category.CategoryType.Equals(type))
+                if (category.IsSet && category.CategoryType.Equals(type))
                 {
                     result.Add(category);
                 }

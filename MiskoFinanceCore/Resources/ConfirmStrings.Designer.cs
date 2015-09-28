@@ -8,6 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System;
 namespace MiskoFinanceCore.Resources
 {
 
@@ -38,7 +39,7 @@ namespace MiskoFinanceCore.Resources
 		[global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
 		public static global::System.Resources.ResourceManager ResourceManager {
 			get {
-				if (object.ReferenceEquals(resourceMan, null)) {
+				if (Object.ReferenceEquals(resourceMan, null)) {
 					global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MiskoFinanceCore.Resources.ConfirmStrings", typeof(ConfirmStrings).Assembly);
 					resourceMan = temp;
 				}
@@ -61,27 +62,27 @@ namespace MiskoFinanceCore.Resources
 		}
 		
 		/// <summary>
-		///   Looks up a localized string similar to Confirmation.
+		///   Looks up a localized String similar to Confirmation.
 		/// </summary>
-		public static string conConfirmation {
+		public static String conConfirmation {
 			get {
 				return ResourceManager.GetString("conConfirmation", resourceCulture);
 			}
 		}
 		
 		/// <summary>
-		///   Looks up a localized string similar to User {0} does not exist yet. Add new user?.
+		///   Looks up a localized String similar to User {0} does not exist yet. Add new user?.
 		/// </summary>
-		public static string conConfirmNewUser {
+		public static String conConfirmNewUser {
 			get {
 				return ResourceManager.GetString("conConfirmNewUser", resourceCulture);
 			}
 		}
 		
 		/// <summary>
-		///   Looks up a localized string similar to Create new account {0}?.
+		///   Looks up a localized String similar to Create new account {0}?.
 		/// </summary>
-		public static string conCreateNewAccount {
+		public static String conCreateNewAccount {
 			get {
 				return ResourceManager.GetString("conCreateNewAccount", resourceCulture);
 			}

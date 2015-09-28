@@ -8,6 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System;
 namespace MiskoFinanceCore.Resources
 {
 
@@ -38,7 +39,7 @@ namespace MiskoFinanceCore.Resources
 		[global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
 		public static global::System.Resources.ResourceManager ResourceManager {
 			get {
-				if (object.ReferenceEquals(resourceMan, null)) {
+				if (Object.ReferenceEquals(resourceMan, null)) {
 					global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MiskoFinanceCore.Resources.WarningStrings", typeof(WarningStrings).Assembly);
 					resourceMan = temp;
 				}
@@ -61,36 +62,36 @@ namespace MiskoFinanceCore.Resources
 		}
 		
 		/// <summary>
-		///   Looks up a localized string similar to Information!.
+		///   Looks up a localized String similar to Information!.
 		/// </summary>
-		public static string infoInformation {
+		public static String infoInformation {
 			get {
 				return ResourceManager.GetString("infoInformation", resourceCulture);
 			}
 		}
 		
 		/// <summary>
-		///   Looks up a localized string similar to Bank accounts updated successfully.
+		///   Looks up a localized String similar to Bank accounts updated successfully.
 		/// </summary>
-		public static string warnAccountUpdateSuccess {
+		public static String warnAccountUpdateSuccess {
 			get {
 				return ResourceManager.GetString("warnAccountUpdateSuccess", resourceCulture);
 			}
 		}
 		
 		/// <summary>
-		///   Looks up a localized string similar to Categories added/updated successfully.
+		///   Looks up a localized String similar to Categories added/updated successfully.
 		/// </summary>
-		public static string warnCategoriesAddedUpdated {
+		public static String warnCategoriesAddedUpdated {
 			get {
 				return ResourceManager.GetString("warnCategoriesAddedUpdated", resourceCulture);
 			}
 		}
 		
 		/// <summary>
-		///   Looks up a localized string similar to Warning!.
+		///   Looks up a localized String similar to Warning!.
 		/// </summary>
-		public static string warnWarning {
+		public static String warnWarning {
 			get {
 				return ResourceManager.GetString("warnWarning", resourceCulture);
 			}

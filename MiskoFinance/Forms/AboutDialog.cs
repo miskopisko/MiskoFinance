@@ -21,11 +21,11 @@ namespace MiskoFinance.Forms
 
         #region Assembly Attribute Accessors
 
-        public string AssemblyTitle
+        public String AssemblyTitle
         {
             get
             {
-                object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
+                Object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
                 if (attributes.Length > 0)
                 {
                     AssemblyTitleAttribute titleAttribute = (AssemblyTitleAttribute)attributes[0];
@@ -38,7 +38,7 @@ namespace MiskoFinance.Forms
             }
         }
 
-        public string AssemblyVersion
+        public String AssemblyVersion
         {
             get
             {
@@ -46,11 +46,11 @@ namespace MiskoFinance.Forms
             }
         }
 
-        public string AssemblyDescription
+        public String AssemblyDescription
         {
             get
             {
-                object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyDescriptionAttribute), false);
+                Object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyDescriptionAttribute), false);
                 if (attributes.Length == 0)
                 {
                     return "";
@@ -59,11 +59,11 @@ namespace MiskoFinance.Forms
             }
         }
 
-        public string AssemblyProduct
+        public String AssemblyProduct
         {
             get
             {
-                object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyProductAttribute), false);
+                Object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyProductAttribute), false);
                 if (attributes.Length == 0)
                 {
                     return "";
@@ -72,11 +72,11 @@ namespace MiskoFinance.Forms
             }
         }
 
-        public string AssemblyCopyright
+        public String AssemblyCopyright
         {
             get
             {
-                object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
+                Object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
                 if (attributes.Length == 0)
                 {
                     return "";
@@ -85,11 +85,11 @@ namespace MiskoFinance.Forms
             }
         }
 
-        public string AssemblyCompany
+        public String AssemblyCompany
         {
             get
             {
-                object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyCompanyAttribute), false);
+                Object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyCompanyAttribute), false);
                 if (attributes.Length == 0)
                 {
                     return "";

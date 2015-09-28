@@ -1,4 +1,5 @@
-﻿namespace MiskoFinance.Panels
+﻿using System;
+namespace MiskoFinance.Panels
 {
     partial class SummaryPanel
     {
@@ -11,7 +12,7 @@
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
+        protected override void Dispose(Boolean disposing)
         {
             if (disposing && (components != null))
             {
@@ -154,6 +155,7 @@
         	// 
         	this.mSelectionOpeningBalance_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
         	this.mSelectionOpeningBalance_.BackColor = System.Drawing.SystemColors.Window;
+        	this.mSelectionOpeningBalance_.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
         	this.mSelectionOpeningBalance_.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
         	this.mSelectionOpeningBalance_.ForeColor = System.Drawing.Color.Black;
         	this.mSelectionOpeningBalance_.Location = new System.Drawing.Point(98, 3);
@@ -174,6 +176,7 @@
         	// 
         	this.mSelectionClosingBalance_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
         	this.mSelectionClosingBalance_.BackColor = System.Drawing.SystemColors.Window;
+        	this.mSelectionClosingBalance_.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
         	this.mSelectionClosingBalance_.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
         	this.mSelectionClosingBalance_.ForeColor = System.Drawing.Color.Black;
         	this.mSelectionClosingBalance_.Location = new System.Drawing.Point(98, 29);
@@ -194,6 +197,7 @@
         	// 
         	this.mSelectionBalanceDifference_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
         	this.mSelectionBalanceDifference_.BackColor = System.Drawing.SystemColors.Window;
+        	this.mSelectionBalanceDifference_.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
         	this.mSelectionBalanceDifference_.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
         	this.mSelectionBalanceDifference_.ForeColor = System.Drawing.Color.Black;
         	this.mSelectionBalanceDifference_.Location = new System.Drawing.Point(98, 55);
@@ -201,6 +205,7 @@
         	this.mSelectionBalanceDifference_.ReadOnly = true;
         	this.mSelectionBalanceDifference_.Size = new System.Drawing.Size(125, 20);
         	this.mSelectionBalanceDifference_.TabIndex = 17;
+        	this.mSelectionBalanceDifference_.Text = "$0.00";
         	this.mSelectionBalanceDifference_.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
         	money3.Value = new decimal(new int[] {
 			0,
@@ -213,6 +218,7 @@
         	// 
         	this.mOpeningBalance_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
         	this.mOpeningBalance_.BackColor = System.Drawing.SystemColors.Window;
+        	this.mOpeningBalance_.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
         	this.mOpeningBalance_.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
         	this.mOpeningBalance_.ForeColor = System.Drawing.Color.Black;
         	this.mOpeningBalance_.Location = new System.Drawing.Point(320, 3);
@@ -233,6 +239,7 @@
         	// 
         	this.mCurrentBalance_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
         	this.mCurrentBalance_.BackColor = System.Drawing.SystemColors.Window;
+        	this.mCurrentBalance_.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
         	this.mCurrentBalance_.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
         	this.mCurrentBalance_.ForeColor = System.Drawing.Color.Black;
         	this.mCurrentBalance_.Location = new System.Drawing.Point(320, 29);
@@ -253,6 +260,7 @@
         	// 
         	this.mBalanceDiff_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
         	this.mBalanceDiff_.BackColor = System.Drawing.SystemColors.Window;
+        	this.mBalanceDiff_.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
         	this.mBalanceDiff_.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
         	this.mBalanceDiff_.ForeColor = System.Drawing.Color.Black;
         	this.mBalanceDiff_.Location = new System.Drawing.Point(320, 55);

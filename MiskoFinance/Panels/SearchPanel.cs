@@ -26,14 +26,10 @@ namespace MiskoFinance.Panels
         	}
         	set
         	{
-        		mAccounts_.DataSource = value ?? new VwBankAccounts();
-        		mAccounts_.Enabled = Accounts.Count > 0;
-        		mFromDate_.Enabled = Accounts.Count > 0;
-        		mToDate_.Enabled = Accounts.Count > 0;
-        		mDescription_.Enabled = Accounts.Count > 0;
-        		mCategories_.Enabled = Accounts.Count > 0;
-        		mSearch_.Enabled = Accounts.Count > 0;
-        		mMore_.Enabled = false;
+        		VwBankAccounts dataSource = new VwBankAccounts();
+        		dataSource.Insert(0, new VwBankAccount() { Nickname = "All" });
+        		dataSource.AddRange(value);
+        		mAccounts_.DataSource = dataSource;
         	}
         }
         
@@ -69,8 +65,10 @@ namespace MiskoFinance.Panels
         	}
         	set
         	{
-        		mCategories_.DataSource = value ?? new VwCategories();
-        		mCategories_.Enabled = mCategories_.DataSource != null && ((VwCategories)mCategories_.DataSource).Count > 0;
+        		VwCategories dataSource = new VwCategories();
+        		dataSource.Insert(0, new VwCategory());
+        		dataSource.AddRange(value);
+        		mCategories_.DataSource = dataSource;
         	}
         }
         
@@ -90,22 +88,6 @@ namespace MiskoFinance.Panels
         	} 
         }
         
-        public Button Search
-        {
-        	get
-        	{
-        		return mSearch_;
-        	}
-        }
-        
-        public Button More
-        {
-        	get
-        	{
-        		return mMore_;
-        	}
-        }
-        
         #endregion
 		
 		public SearchPanel()
@@ -122,24 +104,46 @@ namespace MiskoFinance.Panels
 			
 			mSearch_.Click += DoSearch;
 			mMore_.Click += DoMore;
-            mAccounts_.SelectionChangeCommitted += DoSearch;
-            mCategories_.SelectionChangeCommitted += DoSearch;
-            mFromDate_.ValueChanged += DoSearch;
-            mToDate_.ValueChanged += DoSearch;
         }
 
         #region Private Methods
 
-        private void DoSearch(object sender, EventArgs e)
+        private void DoSearch(Object sender, EventArgs e)
 		{
 			MiskoFinanceMain.Instance.TransactionsPanel.Search();
 		}
 
-		private void DoMore(object sender, EventArgs e)
+		private void DoMore(Object sender, EventArgs e)
 		{
 			MiskoFinanceMain.Instance.TransactionsPanel.More();
 		}
 		
-		#endregion		
+		#endregion	
+
+		#region Public Methods
+		
+		public void Disable()
+		{
+			mAccounts_.Enabled = false;
+			mFromDate_.Enabled = false;
+			mToDate_.Enabled = false;
+			mDescription_.Enabled = false;
+			mCategories_.Enabled = false;
+			mSearch_.Enabled = false;
+			mMore_.Enabled = false;
+		}
+		
+		public void Enable(Boolean enableMoreBtn)
+		{
+			mAccounts_.Enabled = true;
+			mFromDate_.Enabled = true;
+			mToDate_.Enabled = true;
+			mDescription_.Enabled = true;
+			mCategories_.Enabled = true;
+			mSearch_.Enabled = true;
+			mMore_.Enabled = enableMoreBtn;
+		}
+		
+		#endregion
 	}
 }

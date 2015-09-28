@@ -4,6 +4,7 @@ using MiskoPersist.Attributes;
 using MiskoPersist.Core;
 using MiskoPersist.Data;
 using MiskoPersist.Enums;
+using MiskoFinanceCore.Resources;
 
 namespace MiskoFinanceCore.Data.Stored
 {
@@ -30,7 +31,7 @@ namespace MiskoFinanceCore.Data.Stored
         [Stored(Length = 128)]
         public String Email { get; set; }
         [Stored]
-        public DateTime Birthday { get; set; }
+        public DateTime? Birthday { get; set; }
         [Stored]
         public Gender Gender { get; set; }
 
@@ -81,6 +82,16 @@ namespace MiskoFinanceCore.Data.Stored
 
         public void PreSave(Session session, UpdateMode mode)
         {
+        	if(String.IsNullOrEmpty(Username))
+        	{
+        		session.Error(ErrorLevel.Error, "Username name cannot be blank");
+        	}
+        	
+        	if(String.IsNullOrEmpty(Password))
+        	{
+        		session.Error(ErrorLevel.Error, "Cannot have blank password");
+        	}
+        	
             if (String.IsNullOrEmpty(FirstName))
             {
                 session.Error(ErrorLevel.Error, "First name cannot be blank");
@@ -100,7 +111,11 @@ namespace MiskoFinanceCore.Data.Stored
             {
                 session.Error(ErrorLevel.Error, "Gender must be set");
             }
-
+			
+            if(Birthday == null || !Birthday.HasValue || Birthday.Value == DateTime.MinValue)
+            {
+            	session.Error(ErrorLevel.Error, "Birthday must be set");
+            }
         }
 
         public void PostSave(Session session, UpdateMode mode)

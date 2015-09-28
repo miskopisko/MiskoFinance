@@ -10,10 +10,8 @@ namespace MiskoFinance.Controls
 {
     public partial class MoneyBox : TextBox
     {
-        private static Logger Log = Logger.GetInstance(typeof(TransactionsGridView));
-
         [DllImport("user32.dll")]
-        static extern bool HideCaret(IntPtr hWnd);
+        static extern Boolean HideCaret(IntPtr hWnd);
 
         #region Fields
 
@@ -37,7 +35,7 @@ namespace MiskoFinance.Controls
                 Text = mValue_.ToString();
             }
         }
-
+        
         #endregion
 
         #region Constructor
@@ -45,7 +43,7 @@ namespace MiskoFinance.Controls
         public MoneyBox()
         {
             InitializeComponent();
-            Text = mValue_.ToString();
+            Text = Value.ToString();
         }
 
         #endregion
@@ -68,14 +66,8 @@ namespace MiskoFinance.Controls
 
             if (!ReadOnly)
             {
-                if (!String.IsNullOrEmpty(Text))
-                {
-                    Value = new Money(Text);
-                }
-                else
-                {
-                    Value = Money.ZERO;
-                }
+				Value = !String.IsNullOrEmpty(Text) ? new Money(Text.Replace("$", "")) : Money.ZERO;
+				
                 mFocused_ = false;                
             }
         }
@@ -91,7 +83,7 @@ namespace MiskoFinance.Controls
                     Text = Text.Replace("$", "");                    
                     mFocused_ = true;
                     SelectAll();
-                }
+              	}
             }
             else
             {

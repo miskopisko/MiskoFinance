@@ -44,10 +44,10 @@ namespace MiskoFinanceCore.OFX
         {
             using (StreamReader reader = new StreamReader(stream))
             {
-                bool inHeader = true;
+                Boolean inHeader = true;
                 while (!reader.EndOfStream)
                 {
-                    string temp = reader.ReadLine();
+                    String temp = reader.ReadLine();
                     if (inHeader)
                     {
                         if (temp.ToLower().Contains("<ofx>"))
@@ -57,7 +57,7 @@ namespace MiskoFinanceCore.OFX
                         #region Read Header
                         else
                         {
-                            string[] tempSplit = temp.Split(":".ToCharArray());
+                            String[] tempSplit = temp.Split(":".ToCharArray());
                             switch (tempSplit[0].ToLower())
                             {
                                 case "ofxheader":
@@ -93,7 +93,7 @@ namespace MiskoFinanceCore.OFX
                     }
                     if (!inHeader) // have to make different if statement so it rolls over correctly
                     {
-                        string restOfFile = temp + reader.ReadToEnd();
+                        String restOfFile = temp + reader.ReadToEnd();
                         restOfFile = Regex.Replace(restOfFile, Environment.NewLine, "");
                         restOfFile = Regex.Replace(restOfFile, "\n", "");
                         restOfFile = Regex.Replace(restOfFile, "\t", "");

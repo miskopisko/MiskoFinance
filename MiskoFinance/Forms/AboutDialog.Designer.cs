@@ -1,4 +1,5 @@
-﻿namespace MiskoFinance.Forms
+﻿using System;
+namespace MiskoFinance.Forms
 {
     partial class AboutDialog
     {
@@ -10,7 +11,7 @@
         /// <summary>
         /// Clean up any resources being used.
         /// </summary>
-        protected override void Dispose(bool disposing)
+        protected override void Dispose(Boolean disposing)
         {
             if (disposing && (components != null))
             {

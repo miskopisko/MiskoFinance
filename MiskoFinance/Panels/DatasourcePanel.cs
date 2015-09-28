@@ -22,7 +22,7 @@ namespace MiskoFinance.Panels
 			
 			Parent.Text = "Datasource";
 			
-			mServerLocation_.DataSource = ServerLocation.Elements;
+			mServerLocation_.DataSource = new ServerLocation[] {ServerLocation.Online, ServerLocation.Local};
 			mServerLocation_.SelectedValueChanged += mServerLocation_SelectedValueChanged;
 		}
 		
@@ -40,10 +40,9 @@ namespace MiskoFinance.Panels
 			mLocalDatabase_.Text = Settings.Default.LocalDatabase;
 			
 			Parent.AcceptButton = mSave_;
-			Parent.CancelButton = mCancel_;
 		}
 		
-		private void mSave__Click(object sender, EventArgs e)
+		private void mSave__Click(Object sender, EventArgs e)
 		{
 			Settings.Default.ServerLocation = ((ServerLocation)mServerLocation_.SelectedItem).ToString();
 			Settings.Default.Hostname = mHostname_.Text.Trim();
@@ -59,7 +58,7 @@ namespace MiskoFinance.Panels
 		
 		#endregion
 
-		private void mServerLocation_SelectedValueChanged(object sender, EventArgs e)
+		private void mServerLocation_SelectedValueChanged(Object sender, EventArgs e)
 		{
 			mHostname_.Enabled = ((ServerLocation)mServerLocation_.SelectedItem).Equals(ServerLocation.Online);
 			mPort_.Enabled = ((ServerLocation)mServerLocation_.SelectedItem).Equals(ServerLocation.Online);
@@ -70,7 +69,7 @@ namespace MiskoFinance.Panels
 			mFileChooser_.Enabled = ((ServerLocation)mServerLocation_.SelectedItem).Equals(ServerLocation.Local);
 		}
 		
-		private void mFileChooser__Click(object sender, EventArgs e)
+		private void mFileChooser__Click(Object sender, EventArgs e)
 		{
 			OpenFileDialog openFileDialog = new OpenFileDialog();
 			openFileDialog.ShowDialog();
@@ -78,7 +77,7 @@ namespace MiskoFinance.Panels
 			mLocalDatabase_.Text = openFileDialog.FileName;
 		}
 		
-		private void mCancel__Click(object sender, EventArgs e)
+		private void mCancel__Click(Object sender, EventArgs e)
 		{
 			Parent.Controls.Clear();
 			Parent.Controls.Add(new LoginPanel(Parent));

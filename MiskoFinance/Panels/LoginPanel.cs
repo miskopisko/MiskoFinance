@@ -1,23 +1,35 @@
 ﻿using System;
 using System.Windows.Forms;
-using MiskoFinance.Forms;
-using MiskoFinance.Properties;
 using MiskoFinanceCore.Data.Viewed;
 using MiskoFinanceCore.Message.Requests;
 using MiskoFinanceCore.Message.Responses;
 using MiskoPersist.Core;
 using MiskoPersist.Message.Response;
 using MiskoPersist.Tools;
+using MiskoFinance.Forms;
+using MiskoFinance.Properties;
 
 namespace MiskoFinance.Panels
 {
     public partial class LoginPanel : UserControl
 	{
+    	#region Fields
+    	
+    	private readonly ToolStripDropDownMenu mMenu_ = new ToolStripDropDownMenu();
+    	private ToolStripMenuItem mDatasource_ = new ToolStripMenuItem();
+    	private ToolStripMenuItem mNewUser_ = new ToolStripMenuItem();
+    	
+    	#endregion
+    	
+    	#region Properties
+    	
 		private new LoginDialog Parent 
 		{
 			get;
 			set;
 		}
+		
+		#endregion
 		
 		public LoginPanel(LoginDialog loginDialog)
 		{
@@ -28,6 +40,14 @@ namespace MiskoFinance.Panels
 			Parent.Text = "Login";
             
             mUsername_.TextChanged += mUsername_TextChanged;
+            
+            mDatasource_.Text = "Datasource";
+            mDatasource_.Click += mDatasource__Click;
+            mMenu_.Items.Add(mDatasource_);
+            
+            mNewUser_.Text = "New User";
+            mNewUser_.Click += mNewUser__Click;
+            mMenu_.Items.Add(mNewUser_);
 		}
 		
 		#region Override Methods
@@ -59,22 +79,16 @@ namespace MiskoFinance.Panels
         
         private void LoginError(ResponseMessage response)
         {
-        	mNewUser_.Enabled = true;
-        	mCancel_.Enabled = true;
-        	mLogin_.Enabled = true;
-        	mDatasource_.Enabled = true;
+        	Parent.Enabled = true;
         }
 
         #endregion
 
         #region Event Listenners
 
-        private void mLogin__Click(object sender, EventArgs e)
-        {
-        	mNewUser_.Enabled = false;
-        	mCancel_.Enabled = false;
-        	mLogin_.Enabled = false;
-        	mDatasource_.Enabled = false;
+        private void mLogin__Click(Object sender, EventArgs e)
+        {        	
+        	Parent.Enabled = false;
         	
             LoginRQ request = new LoginRQ();
             request.Username = mUsername_.Text.Trim();
@@ -82,23 +96,24 @@ namespace MiskoFinance.Panels
             ServerConnection.SendRequest(request, LoginSuccess, LoginError);
         }
 
-        private void mCancel__Click(object sender, EventArgs e)
+        private void mCancel__Click(Object sender, EventArgs e)
         {
             Parent.DialogResult = DialogResult.Cancel;
         }
 
-		private void mUsername_TextChanged(object sender, EventArgs e)
+		private void mUsername_TextChanged(Object sender, EventArgs e)
 		{
 			mPassword_.Text = "";
 		}
 		
-        private void mNewUser__Click(object sender, EventArgs e)
+        private void mNewUser__Click(Object sender, EventArgs e)
         {
-            SettingsDialog settings = new SettingsDialog(new VwOperator());
+        	VwOperator o = new VwOperator();
+            SettingsDialog settings = new SettingsDialog(o);
 
             if (settings.ShowDialog(this) == DialogResult.OK)
             {
-                VwOperator o = settings.Operator;
+                o = settings.Operator;
 
                 mUsername_.Text = o.Username;
                 mPassword_.Text = "";
@@ -106,10 +121,15 @@ namespace MiskoFinance.Panels
             }
         }
         
-		private void mDatasource__Click(object sender, EventArgs e)
+		private void mDatasource__Click(Object sender, EventArgs e)
 		{
 			Parent.Controls.Clear();
 			Parent.Controls.Add(new DatasourcePanel(Parent));
+		}
+		
+		private void mMore__Click(object sender, EventArgs e)
+		{
+			mMenu_.Show(mMore_, 0, mMore_.Height);
 		}
 
         #endregion

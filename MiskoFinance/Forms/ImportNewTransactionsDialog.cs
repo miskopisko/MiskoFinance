@@ -59,6 +59,8 @@ namespace MiskoFinance.Forms
             {
                 mOfxDocument_ = new OfxDocument(new FileStream(mOpenFileDialog_.FileName, FileMode.Open));                
                 
+                Enabled = false;
+                
                 GetAccountRQ request = new GetAccountRQ();
             	request.AccountNo = mOfxDocument_.AccountID;
             	request.Operator = MiskoFinanceMain.Instance.Operator.OperatorId;
@@ -108,6 +110,8 @@ namespace MiskoFinance.Forms
 
 		private void GetAccountSuccess(ResponseMessage response)
         {
+			Enabled = true;
+			
 			mAccount_ = ((GetAccountRS)response).BankAccount;
 			mExistingAccounts_.SelectedIndex = mExistingAccounts_.FindStringExact(mAccount_.Nickname);
 			mExistingAccount_.Checked = true;
@@ -115,6 +119,8 @@ namespace MiskoFinance.Forms
 		
 		private void GetAccountError(ResponseMessage response)
         {
+			Enabled = true;
+			
 			mCreateNewAccount_.Checked = true;
 
             mBankName_.Text = mOfxDocument_.BankID;
@@ -133,15 +139,14 @@ namespace MiskoFinance.Forms
 		
 		private void ImportTxnsError(ResponseMessage response)
 		{
-			mCancel_.Enabled = true;
-            mImport_.Enabled = true;
+			Enabled = true;
 		}
 
         #endregion
 
         #region Event Listenners
 
-		private void mExistingAccounts_SelectedValueChanged(object sender, EventArgs e)
+		private void mExistingAccounts_SelectedValueChanged(Object sender, EventArgs e)
 		{
 			VwBankAccount bankAccount;
 			
@@ -166,11 +171,11 @@ namespace MiskoFinance.Forms
             mOpeningBalance_.Value = bankAccount.OpeningBalance;
 		}
 		
-		private void AccountType__CheckedChanged(object sender, System.EventArgs e)
+		private void AccountType__CheckedChanged(Object sender, System.EventArgs e)
 		{
 			mExistingAccounts_.Enabled = mExistingAccount_.Checked;
 			
-			if(mExistingAccounts_.Enabled)
+			if(mExistingAccounts_.Enabled && mAccount_ != null && mAccount_.IsSet)
 			{
 				mExistingAccounts_.SelectedIndex = mExistingAccounts_.FindStringExact(mAccount_.Nickname);
 			}
@@ -186,13 +191,15 @@ namespace MiskoFinance.Forms
             mNickname_.Enabled = !mExistingAccount_.Checked;
 		}
 		
-		private void mCancel__Click(object sender, EventArgs e)
+		private void mCancel__Click(Object sender, EventArgs e)
 		{
 			Dispose();
 		}
 		
-		private void mImport__Click(object sender, EventArgs e)
+		private void mImport__Click(Object sender, EventArgs e)
 		{
+			Enabled = false;
+			
 			ImportTxnsRQ request = new ImportTxnsRQ();
             request.BankAccount = GetAccount();
             request.Operator = MiskoFinanceMain.Instance.Operator;
@@ -200,9 +207,6 @@ namespace MiskoFinance.Forms
             request.FromDate = mOfxDocument_.StartDate;
             request.ToDate = mOfxDocument_.EndDate;
             ServerConnection.SendRequest(request, ImportTxnsSuccess, ImportTxnsError);
-            
-            mCancel_.Enabled = false;
-            mImport_.Enabled = false;
 		}
 		
 		#endregion

@@ -6,6 +6,7 @@
  * 
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
+using System;
 namespace MiskoFinance.Panels
 {
 	partial class DatasourcePanel
@@ -36,7 +37,7 @@ namespace MiskoFinance.Panels
 		/// Disposes resources used by the control.
 		/// </summary>
 		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		protected override void Dispose(bool disposing)
+		protected override void Dispose(Boolean disposing)
 		{
 			if (disposing) {
 				if (components != null) {
@@ -77,6 +78,8 @@ namespace MiskoFinance.Panels
 			// 
 			// mTableLayoutPanel_
 			// 
+			this.mTableLayoutPanel_.AutoSize = true;
+			this.mTableLayoutPanel_.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.mTableLayoutPanel_.ColumnCount = 3;
 			this.mTableLayoutPanel_.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.mTableLayoutPanel_.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -99,14 +102,14 @@ namespace MiskoFinance.Panels
 			this.mTableLayoutPanel_.Location = new System.Drawing.Point(0, 0);
 			this.mTableLayoutPanel_.Name = "mTableLayoutPanel_";
 			this.mTableLayoutPanel_.RowCount = 7;
-			this.mTableLayoutPanel_.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-			this.mTableLayoutPanel_.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-			this.mTableLayoutPanel_.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-			this.mTableLayoutPanel_.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-			this.mTableLayoutPanel_.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-			this.mTableLayoutPanel_.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
 			this.mTableLayoutPanel_.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.mTableLayoutPanel_.Size = new System.Drawing.Size(354, 186);
+			this.mTableLayoutPanel_.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.mTableLayoutPanel_.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.mTableLayoutPanel_.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.mTableLayoutPanel_.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.mTableLayoutPanel_.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.mTableLayoutPanel_.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.mTableLayoutPanel_.Size = new System.Drawing.Size(354, 191);
 			this.mTableLayoutPanel_.TabIndex = 0;
 			// 
 			// mServerLocation_
@@ -123,7 +126,7 @@ namespace MiskoFinance.Panels
 			// 
 			this.mHostname_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.mHostname_.Enabled = false;
-			this.mHostname_.Location = new System.Drawing.Point(91, 28);
+			this.mHostname_.Location = new System.Drawing.Point(91, 30);
 			this.mHostname_.Name = "mHostname_";
 			this.mHostname_.Size = new System.Drawing.Size(225, 20);
 			this.mHostname_.TabIndex = 1;
@@ -132,7 +135,7 @@ namespace MiskoFinance.Panels
 			// 
 			this.mScript_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.mScript_.Enabled = false;
-			this.mScript_.Location = new System.Drawing.Point(91, 78);
+			this.mScript_.Location = new System.Drawing.Point(91, 82);
 			this.mScript_.Name = "mScript_";
 			this.mScript_.Size = new System.Drawing.Size(225, 20);
 			this.mScript_.TabIndex = 23;
@@ -141,7 +144,7 @@ namespace MiskoFinance.Panels
 			// 
 			this.mLocalDatabase_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.mLocalDatabase_.Enabled = false;
-			this.mLocalDatabase_.Location = new System.Drawing.Point(91, 128);
+			this.mLocalDatabase_.Location = new System.Drawing.Point(91, 133);
 			this.mLocalDatabase_.Name = "mLocalDatabase_";
 			this.mLocalDatabase_.Size = new System.Drawing.Size(225, 20);
 			this.mLocalDatabase_.TabIndex = 5;
@@ -150,7 +153,7 @@ namespace MiskoFinance.Panels
 			// 
 			this.mFileChooser_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.mFileChooser_.Enabled = false;
-			this.mFileChooser_.Location = new System.Drawing.Point(322, 128);
+			this.mFileChooser_.Location = new System.Drawing.Point(322, 133);
 			this.mFileChooser_.Name = "mFileChooser_";
 			this.mFileChooser_.Size = new System.Drawing.Size(29, 19);
 			this.mFileChooser_.TabIndex = 6;
@@ -162,7 +165,7 @@ namespace MiskoFinance.Panels
 			// 
 			this.mServerLocationLbl_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.mServerLocationLbl_.AutoSize = true;
-			this.mServerLocationLbl_.Location = new System.Drawing.Point(3, 6);
+			this.mServerLocationLbl_.Location = new System.Drawing.Point(3, 7);
 			this.mServerLocationLbl_.Name = "mServerLocationLbl_";
 			this.mServerLocationLbl_.Size = new System.Drawing.Size(82, 13);
 			this.mServerLocationLbl_.TabIndex = 7;
@@ -173,7 +176,7 @@ namespace MiskoFinance.Panels
 			// 
 			this.mHostnameLbl_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.mHostnameLbl_.AutoSize = true;
-			this.mHostnameLbl_.Location = new System.Drawing.Point(3, 31);
+			this.mHostnameLbl_.Location = new System.Drawing.Point(3, 33);
 			this.mHostnameLbl_.Name = "mHostnameLbl_";
 			this.mHostnameLbl_.Size = new System.Drawing.Size(82, 13);
 			this.mHostnameLbl_.TabIndex = 8;
@@ -184,7 +187,7 @@ namespace MiskoFinance.Panels
 			// 
 			this.mPortLbl_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.mPortLbl_.AutoSize = true;
-			this.mPortLbl_.Location = new System.Drawing.Point(3, 56);
+			this.mPortLbl_.Location = new System.Drawing.Point(3, 59);
 			this.mPortLbl_.Name = "mPortLbl_";
 			this.mPortLbl_.Size = new System.Drawing.Size(82, 13);
 			this.mPortLbl_.TabIndex = 9;
@@ -195,7 +198,7 @@ namespace MiskoFinance.Panels
 			// 
 			this.mScriptLbl_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.mScriptLbl_.AutoSize = true;
-			this.mScriptLbl_.Location = new System.Drawing.Point(3, 81);
+			this.mScriptLbl_.Location = new System.Drawing.Point(3, 85);
 			this.mScriptLbl_.Name = "mScriptLbl_";
 			this.mScriptLbl_.Size = new System.Drawing.Size(82, 13);
 			this.mScriptLbl_.TabIndex = 10;
@@ -206,7 +209,7 @@ namespace MiskoFinance.Panels
 			// 
 			this.mUseSSLLbl_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.mUseSSLLbl_.AutoSize = true;
-			this.mUseSSLLbl_.Location = new System.Drawing.Point(3, 106);
+			this.mUseSSLLbl_.Location = new System.Drawing.Point(3, 111);
 			this.mUseSSLLbl_.Name = "mUseSSLLbl_";
 			this.mUseSSLLbl_.Size = new System.Drawing.Size(82, 13);
 			this.mUseSSLLbl_.TabIndex = 11;
@@ -217,7 +220,7 @@ namespace MiskoFinance.Panels
 			// 
 			this.mLocalDatabaselbl_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.mLocalDatabaselbl_.AutoSize = true;
-			this.mLocalDatabaselbl_.Location = new System.Drawing.Point(3, 131);
+			this.mLocalDatabaselbl_.Location = new System.Drawing.Point(3, 136);
 			this.mLocalDatabaselbl_.Name = "mLocalDatabaselbl_";
 			this.mLocalDatabaselbl_.Size = new System.Drawing.Size(82, 13);
 			this.mLocalDatabaselbl_.TabIndex = 12;
@@ -228,7 +231,7 @@ namespace MiskoFinance.Panels
 			// 
 			this.mUseSSL_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.mUseSSL_.Enabled = false;
-			this.mUseSSL_.Location = new System.Drawing.Point(91, 103);
+			this.mUseSSL_.Location = new System.Drawing.Point(91, 108);
 			this.mUseSSL_.Name = "mUseSSL_";
 			this.mUseSSL_.Size = new System.Drawing.Size(225, 19);
 			this.mUseSSL_.TabIndex = 4;
@@ -239,7 +242,7 @@ namespace MiskoFinance.Panels
 			// 
 			this.mPort_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.mPort_.Enabled = false;
-			this.mPort_.Location = new System.Drawing.Point(91, 53);
+			this.mPort_.Location = new System.Drawing.Point(91, 56);
 			this.mPort_.Maximum = new decimal(new int[] {
 			65535,
 			0,
@@ -263,9 +266,9 @@ namespace MiskoFinance.Panels
 			this.mFlowLayoutPanel_.Controls.Add(this.mSave_);
 			this.mFlowLayoutPanel_.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.mFlowLayoutPanel_.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-			this.mFlowLayoutPanel_.Location = new System.Drawing.Point(91, 153);
+			this.mFlowLayoutPanel_.Location = new System.Drawing.Point(91, 159);
 			this.mFlowLayoutPanel_.Name = "mFlowLayoutPanel_";
-			this.mFlowLayoutPanel_.Size = new System.Drawing.Size(260, 30);
+			this.mFlowLayoutPanel_.Size = new System.Drawing.Size(260, 29);
 			this.mFlowLayoutPanel_.TabIndex = 16;
 			// 
 			// mCancel_
@@ -280,7 +283,6 @@ namespace MiskoFinance.Panels
 			// 
 			// mSave_
 			// 
-			this.mSave_.Anchor = System.Windows.Forms.AnchorStyles.Right;
 			this.mSave_.Location = new System.Drawing.Point(98, 3);
 			this.mSave_.Name = "mSave_";
 			this.mSave_.Size = new System.Drawing.Size(78, 23);
@@ -293,14 +295,17 @@ namespace MiskoFinance.Panels
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.AutoSize = true;
+			this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.Controls.Add(this.mTableLayoutPanel_);
 			this.Name = "DatasourcePanel";
-			this.Size = new System.Drawing.Size(354, 186);
+			this.Size = new System.Drawing.Size(354, 191);
 			this.mTableLayoutPanel_.ResumeLayout(false);
 			this.mTableLayoutPanel_.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.mPort_)).EndInit();
 			this.mFlowLayoutPanel_.ResumeLayout(false);
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 	}

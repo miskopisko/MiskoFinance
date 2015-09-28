@@ -37,7 +37,7 @@ namespace MiskoFinanceCore.Enums
 
         public static DrCr GetElement(long index)
         {
-            for (int i = 0; Elements != null && i < Elements.Length; i++)
+            for (Int32 i = 0; Elements != null && i < Elements.Length; i++)
             {
                 if (Elements[i].Value == index)
                 {
@@ -50,7 +50,7 @@ namespace MiskoFinanceCore.Enums
 
         public static DrCr GetElement(String descriptionCode)
         {
-            for (int i = 0; descriptionCode != null && Elements != null && i < Elements.Length; i++)
+            for (Int32 i = 0; descriptionCode != null && Elements != null && i < Elements.Length; i++)
             {
                 if (Elements[i].Description.ToLower().Equals(descriptionCode.ToLower()) || Elements[i].Code.ToLower().Equals(descriptionCode.ToLower()))
                 {

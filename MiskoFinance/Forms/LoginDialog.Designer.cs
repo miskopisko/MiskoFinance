@@ -1,4 +1,5 @@
-﻿namespace MiskoFinance.Forms
+﻿using System;
+namespace MiskoFinance.Forms
 {
     partial class LoginDialog
     {
@@ -11,7 +12,7 @@
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
+        protected override void Dispose(Boolean disposing)
         {
             if (disposing && (components != null))
             {
@@ -37,7 +38,7 @@
         	this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
         	this.AutoSize = true;
         	this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-        	this.ClientSize = new System.Drawing.Size(319, 55);
+        	this.ClientSize = new System.Drawing.Size(181, 56);
         	this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
         	this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
         	this.MaximizeBox = false;

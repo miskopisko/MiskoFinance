@@ -77,15 +77,18 @@ namespace MiskoFinance.Forms
         	set
         	{
         		mOperator_ = value ?? new VwOperator();
-        		SearchPanel.Accounts = Operator.BankAccounts.getAllAccounts();
-        		SearchPanel.Categories = Operator.Categories.getAllCategories();
+        		SearchPanel.Accounts = Operator.BankAccounts;
+        		SearchPanel.Categories = Operator.Categories;
         		mLogoutToolStripMenuItem_.Enabled = Operator.IsSet;
         		mSettingsToolStripMenuItem_.Enabled = Operator.IsSet;
         		mAccountsToolStripMenuItem_.Enabled = Operator.IsSet;
         		mCatagoriesToolStripMenuItem_.Enabled = Operator.IsSet;
         		mImportToolStripMenuItem_.Enabled = Operator.IsSet;
         		
-        		MiskoFinanceMain.Instance.TransactionsPanel.Search();
+        		if(Operator.IsSet)
+        		{
+        			MiskoFinanceMain.Instance.TransactionsPanel.Search();	
+        		}
         	}
         }
 
@@ -102,6 +105,8 @@ namespace MiskoFinance.Forms
             {
             	WindowState = FormWindowState.Maximized;
             }
+            
+            Reset();
         }
 
         #endregion
@@ -109,43 +114,41 @@ namespace MiskoFinance.Forms
         #region Event Listenners
 
         // Change users, show the login dialog
-        private void mLogoutToolStripMenuItem__Click(object sender, EventArgs e)
+        private void mLogoutToolStripMenuItem__Click(Object sender, EventArgs e)
         {
-        	Operator = null;
-            SummaryPanel.Summary = null;
-            TransactionsPanel.Clear();
+        	Reset();
 
             new LoginDialog().ShowDialog(this);
         }
 
         // Exit the application
-        private void mExitToolStripMenuItem_Click(object sender, EventArgs e)
+        private void mExitToolStripMenuItem_Click(Object sender, EventArgs e)
         {
             Dispose();
         }
 
         // Open file chooser and import new OFX file
-        private void mOFXFileToolStripMenuItem_Click(object sender, EventArgs e)
+        private void mOFXFileToolStripMenuItem_Click(Object sender, EventArgs e)
         {
             new ImportTransactionsDialog().ShowDialog(this);
         }
 
         // Show the edit account dialog
-        private void mAccountsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void mAccountsToolStripMenuItem_Click(Object sender, EventArgs e)
         {
             new EditAccountsDialog().ShowDialog(this);
         }
 
         // Show the about dialog
-        private void mAboutToolStripMenuItem_Click(object sender, EventArgs e)
+        private void mAboutToolStripMenuItem_Click(Object sender, EventArgs e)
         {
             new AboutDialog().ShowDialog(this);
         }
 
         // Show settings dialog
-        private void mSettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void mSettingsToolStripMenuItem_Click(Object sender, EventArgs e)
         {
-            SettingsDialog settings = new SettingsDialog(Operator);
+            SettingsDialog settings = new SettingsDialog(mOperator_);
             
             if (settings.ShowDialog(this) == DialogResult.OK)
             {
@@ -154,7 +157,7 @@ namespace MiskoFinance.Forms
         }
 
         // Show Edit Categorie Dialog
-        private void mCatagoriesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void mCatagoriesToolStripMenuItem_Click(Object sender, EventArgs e)
         {
             new EditCategoriesDialog().ShowDialog(this);
         }
@@ -187,6 +190,14 @@ namespace MiskoFinance.Forms
         #endregion
 
         #region Private Methods
+        
+        private void Reset()
+        {
+        	Operator = null;
+            SummaryPanel.Summary = null;
+            TransactionsPanel.Clear();
+            SearchPanel.Disable();
+        }
 
         private void LoginSuccess(ResponseMessage response)
         {
@@ -218,7 +229,7 @@ namespace MiskoFinance.Forms
 		}
 
 		public void MessageReceived()
-		{			
+		{
 			mMessageStatusBar_.Increment(-mMessageStatusBar_.Step);
 		}
 
@@ -227,7 +238,7 @@ namespace MiskoFinance.Forms
 			mMessageStatusBar_.Increment(mMessageStatusBar_.Step);
 		}
 
-		public void Exception(object sender, System.Threading.ThreadExceptionEventArgs e)
+		public void Exception(Object sender, System.Threading.ThreadExceptionEventArgs e)
 		{
 			#if DEBUG
             	Debug.WriteLine(e.Exception.StackTrace);
@@ -257,13 +268,13 @@ namespace MiskoFinance.Forms
 			MessageBox.Show(this, message.Message, WarningStrings.infoInformation, MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
-		public bool Confirm(ErrorMessage message)
+		public Boolean Confirm(ErrorMessage message)
 		{
 			DialogResult result = MessageBox.Show(this, message.Message, ConfirmStrings.conConfirmation, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 			return result.Equals(DialogResult.Yes);
 		}
 
-		public int RowsPerPage
+		public Int32 RowsPerPage
         {
             get
             {

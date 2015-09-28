@@ -34,12 +34,12 @@ namespace MiskoFinance.Panels
             
             mTransactionsGridView_.CellValueChanged += mTransactionsGridView_CellValueChanged;
         	
-            mTransactionsGridView_.DataBindingComplete += delegate(object sender, DataGridViewBindingCompleteEventArgs e) {
+            mTransactionsGridView_.DataBindingComplete += delegate(Object sender, DataGridViewBindingCompleteEventArgs e) {
             	DataGridViewColumn dgvColumn = mTransactionsGridView_.Columns["Description"];
             	mSummaryRow_.ColumnStyles[dgvColumn.Index].Width = dgvColumn.Width;
             };
             
-            mTransactionsGridView_.Resize += delegate(object sender, EventArgs e) {
+            mTransactionsGridView_.Resize += delegate(Object sender, EventArgs e) {
             	DataGridViewColumn dgvColumn = mTransactionsGridView_.Columns["Description"];
             	mSummaryRow_.ColumnStyles[dgvColumn.Index].Width = dgvColumn.Width;
             };
@@ -87,7 +87,7 @@ namespace MiskoFinance.Panels
 
         #region Event Listenners
 
-		private void mTransactionsGridView_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+		private void mTransactionsGridView_CellValueChanged(Object sender, DataGridViewCellEventArgs e)
 		{
 			UpdateTxnRQ request = new UpdateTxnRQ();
             request.Txn = (VwTxn)((TransactionsGridView)sender).CurrentRow.DataBoundItem;
@@ -107,40 +107,37 @@ namespace MiskoFinance.Panels
         public void Clear()
         {
         	mTransactionsGridView_.DataSource = null;
+        	UpdateSummary(new VwSummary());
         }
 
 		public void More()
         {
-        	MiskoFinanceMain.Instance.SearchPanel.Search.Enabled = false;
-        	MiskoFinanceMain.Instance.SearchPanel.More.Enabled = false;
             GetTxns();
         }
 
         public void Search()
         {
-        	MiskoFinanceMain.Instance.SearchPanel.Search.Enabled = false;
-        	MiskoFinanceMain.Instance.SearchPanel.More.Enabled = false;
             mTransactionsGridView_.DataSource = null;
+            UpdateSummary(new VwSummary());
            	GetTxns();
         }
         
         // Fetch all txns as per the search criteria
         public void GetTxns()
         {
-        	if(MiskoFinanceMain.Instance.Operator.IsSet)
-        	{
-	        	GetTxnsRQ request = new GetTxnsRQ();
-	            request.Operator = MiskoFinanceMain.Instance.Operator.OperatorId;
-	            request.Account = MiskoFinanceMain.Instance.SearchPanel.Account.BankAccountId;
-	            request.FromDate = MiskoFinanceMain.Instance.SearchPanel.FromDate;
-	            request.ToDate = MiskoFinanceMain.Instance.SearchPanel.ToDate;
-	            request.Category = MiskoFinanceMain.Instance.SearchPanel.Category.CategoryId;
-	            request.Description = MiskoFinanceMain.Instance.SearchPanel.Description;
-	            request.Page =  mTransactionsGridView_.Page.Next;
-	            request.Page.RowsPerPage = MiskoFinanceMain.Instance.RowsPerPage;
-	            request.Page.IncludeRecordCount = true;
-	            ServerConnection.SendRequest(request, GetTxnsSuccess);
-        	}
+        	MiskoFinanceMain.Instance.SearchPanel.Disable();
+        		
+        	GetTxnsRQ request = new GetTxnsRQ();
+            request.Operator = MiskoFinanceMain.Instance.Operator.OperatorId;
+            request.Account = MiskoFinanceMain.Instance.SearchPanel.Account.BankAccountId;
+            request.FromDate = MiskoFinanceMain.Instance.SearchPanel.FromDate;
+            request.ToDate = MiskoFinanceMain.Instance.SearchPanel.ToDate;
+            request.Category = MiskoFinanceMain.Instance.SearchPanel.Category.CategoryId;
+            request.Description = MiskoFinanceMain.Instance.SearchPanel.Description;
+            request.Page = mTransactionsGridView_.Page.Next;
+            request.Page.RowsPerPage = MiskoFinanceMain.Instance.RowsPerPage;
+            request.Page.IncludeRecordCount = true;
+            ServerConnection.SendRequest(request, GetTxnsSuccess, GetTxnsError);
         }
 
         #endregion
@@ -149,6 +146,9 @@ namespace MiskoFinance.Panels
         
         private void UpdateSummary(VwSummary summary)
         {
+        	mPageCountLbl_.Text = Utils.ResolveTextParameters(Strings.strPageCounts, new Object[] { mTransactionsGridView_.Page.PageNo, mTransactionsGridView_.Page.TotalPageCount });
+            mTransactionCountLbl_.Text = Utils.ResolveTextParameters(Strings.strTransactionCounts, new Object[] { mTransactionsGridView_.RowCount, mTransactionsGridView_.Page.TotalRowCount });
+        	
         	mCreditTotal_.Value = summary.SelectionTotalCredits;
         	mDebitTotal_.Value = summary.SelectionTotalDebits;
         	mCreditDebitDiff_.Value = summary.SelectionCreditsDebitsDifference;
@@ -177,15 +177,16 @@ namespace MiskoFinance.Panels
     		mTransactionsGridView_.DataSource.ResetBindings();
             mTransactionsGridView_.Page = response.Page;
 			
-			mPageCountLbl_.Text = Utils.ResolveTextParameters(Strings.strPageCounts, new Object[] { mTransactionsGridView_.Page.PageNo, mTransactionsGridView_.Page.TotalPageCount });
-            mTransactionCountLbl_.Text = Utils.ResolveTextParameters(Strings.strTransactionCounts, new Object[] { mTransactionsGridView_.RowCount, mTransactionsGridView_.Page.TotalRowCount });
-			
             MiskoFinanceMain.Instance.SummaryPanel.Summary = ((GetTxnsRS)response).Summary;
-            MiskoFinanceMain.Instance.SearchPanel.Search.Enabled = true;
-            MiskoFinanceMain.Instance.SearchPanel.More.Enabled = mTransactionsGridView_.Page.HasNext;
+            MiskoFinanceMain.Instance.SearchPanel.Enable(mTransactionsGridView_.Page.HasNext);
             
             UpdateSummary(((GetTxnsRS)response).Summary);
         } 
+        
+        private void GetTxnsError(ResponseMessage response)
+        {
+        	MiskoFinanceMain.Instance.SearchPanel.Enable(true);
+        }
 
         #endregion
     }

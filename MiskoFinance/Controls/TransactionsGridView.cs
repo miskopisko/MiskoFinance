@@ -77,11 +77,6 @@ namespace MiskoFinance.Controls
 
 		#region Override Methods
 
-		protected override void OnDataError(bool displayErrorDialogIfNoHandler, DataGridViewDataErrorEventArgs e)
-		{
-			base.OnDataError(displayErrorDialogIfNoHandler, e);
-		}
-
 		protected override void OnClick(EventArgs e)
         {
             base.OnClick(e);
@@ -116,18 +111,22 @@ namespace MiskoFinance.Controls
 
                 if (txn.DrCr.Equals(DrCr.Credit) && !txn.Transfer && !txn.OneTime)
                 {
-                    ((DataGridViewComboBoxCell)row.Cells["Category"]).DataSource = MiskoFinanceMain.Instance.Operator.Categories.GetByType(CategoryType.Income, true);
+                    ((TxnsGridCategoriesComboBoxCell)row.Cells["Category"]).DataSource = MiskoFinanceMain.Instance.Operator.Categories.GetByType(CategoryType.Income);
                 }
                 else if (txn.DrCr.Equals(DrCr.Debit) && !txn.Transfer && !txn.OneTime)
                 {
-                    ((DataGridViewComboBoxCell)row.Cells["Category"]).DataSource = MiskoFinanceMain.Instance.Operator.Categories.GetByType(CategoryType.Expense, true);
+                    ((TxnsGridCategoriesComboBoxCell)row.Cells["Category"]).DataSource = MiskoFinanceMain.Instance.Operator.Categories.GetByType(CategoryType.Expense);
                 }
                 else if (txn.Transfer && !txn.OneTime)
                 {
-                    ((DataGridViewComboBoxCell)row.Cells["Category"]).DataSource = MiskoFinanceMain.Instance.Operator.Categories.GetByType(CategoryType.Transfer, true);
+                    ((TxnsGridCategoriesComboBoxCell)row.Cells["Category"]).DataSource = MiskoFinanceMain.Instance.Operator.Categories.GetByType(CategoryType.Transfer);
+                }
+                else if (!txn.Transfer && txn.OneTime)
+                {
+                    ((TxnsGridCategoriesComboBoxCell)row.Cells["Category"]).DataSource = MiskoFinanceMain.Instance.Operator.Categories.GetByType(CategoryType.OneTime);
                 }
 
-                ((DataGridViewComboBoxCell)row.Cells["Category"]).Value = txn.Category;
+                ((TxnsGridCategoriesComboBoxCell)row.Cells["Category"]).Value = txn.Category;
             }
         }
 
@@ -135,7 +134,18 @@ namespace MiskoFinance.Controls
         {
             base.OnCurrentCellDirtyStateChanged(e);
             
-            CommitEdit(DataGridViewDataErrorContexts.Commit);            
+            CommitEdit(DataGridViewDataErrorContexts.Commit);
+            
+            if(CurrentCell.OwningColumn == mTransfer_ && (Boolean)Rows[CurrentCell.RowIndex].Cells["OneTime"].Value)
+            {
+            	Rows[CurrentCell.RowIndex].Cells["OneTime"].Value = false;
+            }
+            else if(CurrentCell.OwningColumn == mOneTime_ && (Boolean)Rows[CurrentCell.RowIndex].Cells["Transfer"].Value)
+            {
+            	Rows[CurrentCell.RowIndex].Cells["Transfer"].Value = false;
+            }
+
+            EndEdit();
         }
 
         protected override void OnCellValueChanged(DataGridViewCellEventArgs e)
@@ -145,29 +155,29 @@ namespace MiskoFinance.Controls
             if(e.RowIndex >= 0)
             {            
 	            VwTxn vwTxn = (VwTxn)Rows[e.RowIndex].DataBoundItem;
-		
-	            // If the Transfer checkbox was changed then change the category
+
+	            // If the Transfer or One Time checkbox was changed then change the category
 	            if (e.ColumnIndex.Equals(Columns.IndexOf(mTransfer_)) || e.ColumnIndex.Equals(Columns.IndexOf(mOneTime_)))
 	            {
 	                vwTxn.Category = null;               
 	
 	                if(vwTxn.Transfer)
 	                {
-	                    ((DataGridViewComboBoxCell)Rows[e.RowIndex].Cells["Category"]).DataSource = MiskoFinanceMain.Instance.Operator.Categories.GetByType(CategoryType.Transfer, true);
+	                    ((TxnsGridCategoriesComboBoxCell)Rows[e.RowIndex].Cells["Category"]).DataSource = MiskoFinanceMain.Instance.Operator.Categories.GetByType(CategoryType.Transfer);
 	                }
-                    if (vwTxn.OneTime)
+                    else if (vwTxn.OneTime)
                     {
-                        ((DataGridViewComboBoxCell)Rows[e.RowIndex].Cells["Category"]).DataSource = MiskoFinanceMain.Instance.Operator.Categories.GetByType(CategoryType.OneTime, true);
+                        ((TxnsGridCategoriesComboBoxCell)Rows[e.RowIndex].Cells["Category"]).DataSource = MiskoFinanceMain.Instance.Operator.Categories.GetByType(CategoryType.OneTime);
                     }
                     else
 	                {
 	                    if(vwTxn.DrCr.Equals(DrCr.Credit))
 	                    {
-	                        ((DataGridViewComboBoxCell)Rows[e.RowIndex].Cells["Category"]).DataSource = MiskoFinanceMain.Instance.Operator.Categories.GetByType(CategoryType.Income, true);
+	                        ((TxnsGridCategoriesComboBoxCell)Rows[e.RowIndex].Cells["Category"]).DataSource = MiskoFinanceMain.Instance.Operator.Categories.GetByType(CategoryType.Income);
 	                    }
 	                    else if (vwTxn.DrCr.Equals(DrCr.Debit))
 	                    {
-	                        ((DataGridViewComboBoxCell)Rows[e.RowIndex].Cells["Category"]).DataSource = MiskoFinanceMain.Instance.Operator.Categories.GetByType(CategoryType.Expense, true);
+	                        ((TxnsGridCategoriesComboBoxCell)Rows[e.RowIndex].Cells["Category"]).DataSource = MiskoFinanceMain.Instance.Operator.Categories.GetByType(CategoryType.Expense);
 	                    }
 	                }
 	
@@ -223,7 +233,7 @@ namespace MiskoFinance.Controls
             mDebit_.ReadOnly = true;
             Columns.Add(mDebit_);
 
-            mTransfer_.ValueType = typeof(bool);
+            mTransfer_.ValueType = typeof(Boolean);
             mTransfer_.DataPropertyName = "Transfer";
             mTransfer_.HeaderText = "Transfer";
             mTransfer_.Name = "Transfer";
@@ -231,7 +241,7 @@ namespace MiskoFinance.Controls
             mTransfer_.SortMode = DataGridViewColumnSortMode.Automatic;
             Columns.Add(mTransfer_);
 
-            mOneTime_.ValueType = typeof(bool);
+            mOneTime_.ValueType = typeof(Boolean);
             mOneTime_.DataPropertyName = "OneTime";
             mOneTime_.HeaderText = "One Time";
             mOneTime_.Name = "OneTime";
@@ -240,6 +250,7 @@ namespace MiskoFinance.Controls
             Columns.Add(mOneTime_);
 
             mCategory_.ValueType = typeof(VwCategory);
+            mCategory_.CellTemplate = new TxnsGridCategoriesComboBoxCell();
             mCategory_.HeaderText = "Category";
             mCategory_.Name = "Category";
             mCategory_.Width = 150;
@@ -252,6 +263,24 @@ namespace MiskoFinance.Controls
         }
 
         #endregion
+    }
+    
+    partial class TxnsGridCategoriesComboBoxCell : DataGridViewComboBoxCell
+    {    	
+		public new VwCategories DataSource
+		{
+			get 
+			{ 
+				return (VwCategories)base.DataSource;
+			}
+			set 
+			{ 
+				VwCategories dataSource = new VwCategories();
+        		dataSource.Insert(0, new VwCategory());
+        		dataSource.AddRange(value);
+        		base.DataSource = dataSource; 
+			}
+		}
     }
 
     partial class TransactionsGridContextMenu : ContextMenuStrip
@@ -294,20 +323,20 @@ namespace MiskoFinance.Controls
             base.OnOpening(e);
 
             Point clickLocation = TransactionsGrid.PointToClient(Cursor.Position);
-            int currentRow = TransactionsGrid.HitTest(clickLocation.X, clickLocation.Y).RowIndex;
+            Int32 currentRow = TransactionsGrid.HitTest(clickLocation.X, clickLocation.Y).RowIndex;
             
             e.Cancel = !TransactionsGrid.SelectedRows.Contains(TransactionsGrid.Rows[currentRow]);
         }
 
-        private void mTransfer_Click(object sender, EventArgs e)
+        private void mTransfer_Click(Object sender, EventArgs e)
         {
             Point clickLocation = TransactionsGrid.PointToClient(Cursor.Position);
-            int currentRow = TransactionsGrid.HitTest(clickLocation.X, clickLocation.Y).RowIndex;
+            Int32 currentRow = TransactionsGrid.HitTest(clickLocation.X, clickLocation.Y).RowIndex;
 
             ((VwTxn)TransactionsGrid.Rows[currentRow].DataBoundItem).Transfer = true;
         }
 
-        private void mOneTime_Click(object sender, EventArgs e)
+        private void mOneTime_Click(Object sender, EventArgs e)
         {
             throw new NotImplementedException();
         }

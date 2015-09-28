@@ -6,6 +6,7 @@
  * 
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
+using System;
 namespace MiskoFinance.Controls
 {
 	partial class AbstractEnumComboBoxCell
@@ -19,7 +20,7 @@ namespace MiskoFinance.Controls
 		/// Disposes resources used by the control.
 		/// </summary>
 		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		protected override void Dispose(bool disposing)
+		protected override void Dispose(Boolean disposing)
 		{
 			if (disposing) {
 				if (components != null) {

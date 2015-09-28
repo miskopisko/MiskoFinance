@@ -4,7 +4,6 @@ using MiskoFinance.Properties;
 using MiskoFinanceCore.Data.Viewed;
 using MiskoFinanceCore.Enums;
 using MiskoFinanceCore.Message.Requests;
-using MiskoFinanceCore.Message.Responses;
 using MiskoPersist.Core;
 using MiskoPersist.Message.Response;
 
@@ -38,9 +37,16 @@ namespace MiskoFinance.Forms
         {
         	InitializeComponent();
             
-            mOperator_ = o;
-
-            mGender_.DataSource = Gender.Elements;
+        	mGender_.DataSource = Gender.Elements;
+        	
+        	mOperator_ = (VwOperator)o.Clone();
+            
+            mUsername_.DataBindings.Add("Text", mOperator_, "Username", true, DataSourceUpdateMode.OnPropertyChanged);
+            mFirstName_.DataBindings.Add("Text", mOperator_, "FirstName", true, DataSourceUpdateMode.OnPropertyChanged);
+            mLastName_.DataBindings.Add("Text", mOperator_, "LastName", true, DataSourceUpdateMode.OnPropertyChanged);
+            mEmail_.DataBindings.Add("Text", mOperator_, "Email", true, DataSourceUpdateMode.OnPropertyChanged);
+            mGender_.DataBindings.Add("SelectedItem", mOperator_, "Gender", true, DataSourceUpdateMode.OnPropertyChanged);
+            mBirthday_.DataBindings.Add("Value", mOperator_, "Birthday", true, DataSourceUpdateMode.OnPropertyChanged, mBirthday_.MinDate);
         }
 
         #endregion
@@ -56,12 +62,6 @@ namespace MiskoFinance.Forms
                 mUsername_.ReadOnly = false;
             }            
 
-            mUsername_.Text = mOperator_.Username;
-            mFirstName_.Text = mOperator_.FirstName;
-            mLastName_.Text = mOperator_.LastName;
-            mEmail_.Text = mOperator_.Email;
-            mGender_.SelectedItem = mOperator_.Gender;
-            mBirthday_.Value = mOperator_.Birthday.HasValue ? mOperator_.Birthday.Value : mBirthday_.MinDate;
             mRowPerPage_.Value = Settings.Default.RowsPerPage;
             
             CenterToParent();
@@ -73,13 +73,16 @@ namespace MiskoFinance.Forms
 
         private void UpdateOperatorSuccess(ResponseMessage response)
         {
-            mOperator_ = ((UpdateOperatorRS)response).Operator;
-
             Settings.Default.RowsPerPage = (Int32)mRowPerPage_.Value;
             Settings.Default.Save();
 
             DialogResult = DialogResult.OK;
             Dispose();
+        }
+        
+        private void UpdateOperatorError(ResponseMessage response)
+        {
+        	Enabled = true;
         }
 
         #endregion
@@ -92,23 +95,18 @@ namespace MiskoFinance.Forms
 
         #region Event Listenners
 
-        private void mOKBtn__Click(object sender, EventArgs e)
+        private void mOK__Click(Object sender, EventArgs e)
         {
-            mOperator_.Username = mUsername_.Text.Trim();
-            mOperator_.FirstName = mFirstName_.Text.Trim();
-            mOperator_.LastName = mLastName_.Text.Trim();
-            mOperator_.Email = mEmail_.Text.Trim();
-            mOperator_.Birthday = mBirthday_.Value;
-            mOperator_.Gender = (Gender)mGender_.SelectedItem;
+            Enabled = false;
 
             UpdateOperatorRQ request = new UpdateOperatorRQ();
             request.Operator = mOperator_;
             request.Password1 = mPassword1_.Text;
             request.Password2 = mPassword2_.Text;
-            ServerConnection.SendRequest(request, UpdateOperatorSuccess);
+            ServerConnection.SendRequest(request, UpdateOperatorSuccess, UpdateOperatorError);
         }
 
-        private void mCancelBtn__Click(object sender, EventArgs e)
+        private void mCancel__Click(Object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
             Dispose();

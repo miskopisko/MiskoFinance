@@ -77,7 +77,7 @@ namespace MiskoFinanceCore.Data.Viewed
             o.LastName = LastName;
             o.Email = Email;
             o.Gender = Gender;
-            o.Birthday = Birthday.Value;
+            o.Birthday = Birthday;
             o.Save(session);
 
             return o;

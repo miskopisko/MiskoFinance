@@ -34,7 +34,7 @@ namespace MiskoFinance.Controls
 
         #region Override Methods
 
-        protected override Object GetFormattedValue(Object value, int rowIndex, ref DataGridViewCellStyle cellStyle, TypeConverter valueTypeConverter, TypeConverter formattedValueTypeConverter, DataGridViewDataErrorContexts context)
+        protected override Object GetFormattedValue(Object value, Int32 rowIndex, ref DataGridViewCellStyle cellStyle, TypeConverter valueTypeConverter, TypeConverter formattedValueTypeConverter, DataGridViewDataErrorContexts context)
         {
             if (value == null || value == cellStyle.DataSourceNullValue)
             {

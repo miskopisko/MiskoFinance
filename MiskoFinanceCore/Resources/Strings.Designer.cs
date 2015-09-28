@@ -8,6 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System;
 namespace MiskoFinanceCore.Resources
 {
 
@@ -38,7 +39,7 @@ namespace MiskoFinanceCore.Resources
 		[global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
 		public static global::System.Resources.ResourceManager ResourceManager {
 			get {
-				if (object.ReferenceEquals(resourceMan, null)) {
+				if (Object.ReferenceEquals(resourceMan, null)) {
 					global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MiskoFinanceCore.Resources.Strings", typeof(Strings).Assembly);
 					resourceMan = temp;
 				}
@@ -61,18 +62,18 @@ namespace MiskoFinanceCore.Resources
 		}
 		
 		/// <summary>
-		///   Looks up a localized string similar to Page {0} / {1}.
+		///   Looks up a localized String similar to Page {0} / {1}.
 		/// </summary>
-		public static string strPageCounts {
+		public static String strPageCounts {
 			get {
 				return ResourceManager.GetString("strPageCounts", resourceCulture);
 			}
 		}
 		
 		/// <summary>
-		///   Looks up a localized string similar to Transactins {0} / {1}.
+		///   Looks up a localized String similar to Transactins {0} / {1}.
 		/// </summary>
-		public static string strTransactionCounts {
+		public static String strTransactionCounts {
 			get {
 				return ResourceManager.GetString("strTransactionCounts", resourceCulture);
 			}

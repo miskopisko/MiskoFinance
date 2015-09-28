@@ -30,17 +30,20 @@ namespace MiskoFinance.Forms
         public EditAccountsDialog()
         {
             InitializeComponent();
+            
             mAccountType_.DataSource = AccountType.Elements;
             
-            mExistingAccounts_.ValueMember = "BankAccountid";
-            mExistingAccounts_.DisplayMember = "Nickname";
+            VwBankAccounts accounts = (VwBankAccounts)MiskoFinanceMain.Instance.Operator.BankAccounts.Clone();
             
-            mExistingAccounts_.SelectedValueChanged += existingAccounts_SelectedValueChanged;
-            mBankName_.Leave += DataChanged;
-            mAccountNumber_.Leave += DataChanged;
-            mAccountType_.Leave += DataChanged;
-            mNickname_.Leave += DataChanged;
-            mOpeningBalance_.Leave += DataChanged;
+            mExistingAccounts_.DataSource = accounts;
+            mExistingAccounts_.ValueMember = "BankAccountId";
+            mExistingAccounts_.DisplayMember = "Nickname";            
+            
+            mBankName_.DataBindings.Add("Text", accounts, "BankNumber", true, DataSourceUpdateMode.OnPropertyChanged);
+			mAccountNumber_.DataBindings.Add("Text", accounts, "AccountNumber", true, DataSourceUpdateMode.OnPropertyChanged);
+			mAccountType_.DataBindings.Add("SelectedItem", accounts, "AccountType", true, DataSourceUpdateMode.OnPropertyChanged);
+			mNickname_.DataBindings.Add("Text", accounts, "NickName", true, DataSourceUpdateMode.OnPropertyChanged);
+			mOpeningBalance_.DataBindings.Add("Value", accounts, "OpeningBalance", true, DataSourceUpdateMode.OnPropertyChanged);
         }
 
         #endregion
@@ -51,8 +54,6 @@ namespace MiskoFinance.Forms
         {
         	base.OnLoad(e);
         	
-            mExistingAccounts_.DataSource = MiskoFinanceMain.Instance.Operator.BankAccounts;
-
             mBankName_.Enabled = mExistingAccounts_.Items.Count > 0;
             mAccountNumber_.Enabled = mExistingAccounts_.Items.Count > 0;
             mAccountType_.Enabled = mExistingAccounts_.Items.Count > 0;
@@ -66,41 +67,25 @@ namespace MiskoFinance.Forms
 
         #region Event Listenners
 
-        private void mCancel__Click(object sender, EventArgs e)
+        private void mCancel__Click(Object sender, EventArgs e)
         {
             Dispose();
         }
 
-        private void existingAccounts_SelectedValueChanged(object sender, EventArgs e)
-        {
-        	mBankName_.Text = ((VwBankAccount)mExistingAccounts_.SelectedItem).BankNumber;
-            mAccountNumber_.Text = ((VwBankAccount)mExistingAccounts_.SelectedItem).AccountNumber;
-            mAccountType_.SelectedItem = ((VwBankAccount)mExistingAccounts_.SelectedItem).AccountType;
-            mNickname_.Text = ((VwBankAccount)mExistingAccounts_.SelectedItem).Nickname;
-            mOpeningBalance_.Value = ((VwBankAccount)mExistingAccounts_.SelectedItem).OpeningBalance;
-        }
-
-        private void Done_Click(object sender, EventArgs e)
+        private void Done_Click(Object sender, EventArgs e)
         {
             if (mExistingAccounts_.Items.Count > 0)
             {
+            	Enabled = false;
+            	
                 UpdateAccountsRQ request = new UpdateAccountsRQ();
                 request.BankAccounts = (VwBankAccounts)mExistingAccounts_.DataSource;
-                ServerConnection.SendRequest(request, UpdateAccountsSuccess);
+                ServerConnection.SendRequest(request, UpdateAccountsSuccess, UpdateAccountsError);
             }
             else
             {
                 Dispose();
             }
-        }
-
-        private void DataChanged(object sender, EventArgs e)
-        {
-        	((VwBankAccount)mExistingAccounts_.SelectedItem).BankNumber = mBankName_.Text;
-        	((VwBankAccount)mExistingAccounts_.SelectedItem).AccountNumber = mAccountNumber_.Text;
-        	((VwBankAccount)mExistingAccounts_.SelectedItem).AccountType = (AccountType)mAccountType_.SelectedItem;
-        	((VwBankAccount)mExistingAccounts_.SelectedItem).Nickname = mNickname_.Text;
-        	((VwBankAccount)mExistingAccounts_.SelectedItem).OpeningBalance = mOpeningBalance_.Value;
         }
 
         #endregion
@@ -110,9 +95,14 @@ namespace MiskoFinance.Forms
         private void UpdateAccountsSuccess(ResponseMessage response)
         {
             MiskoFinanceMain.Instance.Operator.BankAccounts = ((UpdateAccountsRS)response).BankAccounts;
-            MiskoFinanceMain.Instance.SearchPanel.Accounts = ((UpdateAccountsRS)response).BankAccounts.getAllAccounts();
+            MiskoFinanceMain.Instance.SearchPanel.Accounts = ((UpdateAccountsRS)response).BankAccounts;
             
             Dispose();
+        }
+        
+        private void UpdateAccountsError(ResponseMessage response)
+        {
+        	Enabled = true;
         }
 
         #endregion

@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Windows.Forms;
-using MiskoFinance.Panels;
 using MiskoPersist.Core;
+using MiskoFinance.Panels;
 
 namespace MiskoFinance.Forms
 {
     public partial class LoginDialog : Form
     {
         private static Logger Log = Logger.GetInstance(typeof(LoginDialog));
-
+        
         public LoginDialog()
         {
             InitializeComponent();

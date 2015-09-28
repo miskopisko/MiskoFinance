@@ -132,6 +132,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
   </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <ItemGroup>
     <ProjectReference Include="..\MiskoFinanceCore\MiskoFinanceCore.csproj">
       <Project>{B821B2C4-D983-4F40-90E6-F6C3C1702535}</Project>
@@ -142,6 +143,4 @@
       <Name>MiskoPersist</Name>
     </ProjectReference>
   </ItemGroup>
-  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
 </Project>

@@ -8,6 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System;
 namespace MiskoFinance.Properties {
 	
 	
@@ -27,9 +28,9 @@ namespace MiskoFinance.Properties {
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("")]
 		[global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-		public string DefaultUsername {
+		public String DefaultUsername {
 			get {
-				return ((string)(this["DefaultUsername"]));
+				return ((String)(this["DefaultUsername"]));
 			}
 			set {
 				this["DefaultUsername"] = value;
@@ -39,9 +40,9 @@ namespace MiskoFinance.Properties {
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("localhost")]
-		public string Hostname {
+		public String Hostname {
 			get {
-				return ((string)(this["Hostname"]));
+				return ((String)(this["Hostname"]));
 			}
 			set {
 				this["Hostname"] = value;
@@ -51,9 +52,9 @@ namespace MiskoFinance.Properties {
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("")]
-		public string LocalDatabase {
+		public String LocalDatabase {
 			get {
-				return ((string)(this["LocalDatabase"]));
+				return ((String)(this["LocalDatabase"]));
 			}
 			set {
 				this["LocalDatabase"] = value;
@@ -76,9 +77,9 @@ namespace MiskoFinance.Properties {
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("25")]
 		[global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-		public int RowsPerPage {
+		public Int32 RowsPerPage {
 			get {
-				return ((int)(this["RowsPerPage"]));
+				return ((Int32)(this["RowsPerPage"]));
 			}
 			set {
 				this["RowsPerPage"] = value;
@@ -88,9 +89,9 @@ namespace MiskoFinance.Properties {
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("/Service.asmx/ProcessRequest")]
-		public string Script {
+		public String Script {
 			get {
-				return ((string)(this["Script"]));
+				return ((String)(this["Script"]));
 			}
 			set {
 				this["Script"] = value;
@@ -100,9 +101,9 @@ namespace MiskoFinance.Properties {
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("Online")]
-		public string ServerLocation {
+		public String ServerLocation {
 			get {
-				return ((string)(this["ServerLocation"]));
+				return ((String)(this["ServerLocation"]));
 			}
 			set {
 				this["ServerLocation"] = value;
@@ -112,9 +113,9 @@ namespace MiskoFinance.Properties {
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("False")]
-		public bool UseSSL {
+		public Boolean UseSSL {
 			get {
-				return ((bool)(this["UseSSL"]));
+				return ((Boolean)(this["UseSSL"]));
 			}
 			set {
 				this["UseSSL"] = value;

@@ -8,6 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System;
 namespace MiskoFinanceCore.Resources
 {
 
@@ -38,7 +39,7 @@ namespace MiskoFinanceCore.Resources
 		[global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
 		public static global::System.Resources.ResourceManager ResourceManager {
 			get {
-				if (object.ReferenceEquals(resourceMan, null)) {
+				if (Object.ReferenceEquals(resourceMan, null)) {
 					global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MiskoFinanceCore.Resources.ErrorStrings", typeof(ErrorStrings).Assembly);
 					resourceMan = temp;
 				}
@@ -61,176 +62,176 @@ namespace MiskoFinanceCore.Resources
 		}
 		
 		/// <summary>
-		///   Looks up a localized string similar to Account {0} not found.
+		///   Looks up a localized String similar to Account {0} not found.
 		/// </summary>
-		public static string errAccountNotFound {
+		public static String errAccountNotFound {
 			get {
 				return ResourceManager.GetString("errAccountNotFound", resourceCulture);
 			}
 		}
 		
 		/// <summary>
-		///   Looks up a localized string similar to Account number is mandatory.
+		///   Looks up a localized String similar to Account number is mandatory.
 		/// </summary>
-		public static string errAccountNumberMandatory {
+		public static String errAccountNumberMandatory {
 			get {
 				return ResourceManager.GetString("errAccountNumberMandatory", resourceCulture);
 			}
 		}
 		
 		/// <summary>
-		///   Looks up a localized string similar to Account type is mandatory.
+		///   Looks up a localized String similar to Account type is mandatory.
 		/// </summary>
-		public static string errAccountTypeMandatory {
+		public static String errAccountTypeMandatory {
 			get {
 				return ResourceManager.GetString("errAccountTypeMandatory", resourceCulture);
 			}
 		}
 		
 		/// <summary>
-		///   Looks up a localized string similar to Bank name is mandatory.
+		///   Looks up a localized String similar to Bank name is mandatory.
 		/// </summary>
-		public static string errBankNameMandatory {
+		public static String errBankNameMandatory {
 			get {
 				return ResourceManager.GetString("errBankNameMandatory", resourceCulture);
 			}
 		}
 		
 		/// <summary>
-		///   Looks up a localized string similar to Category name cannot be blank.
+		///   Looks up a localized String similar to Category name cannot be blank.
 		/// </summary>
-		public static string errCategoryNameNull {
+		public static String errCategoryNameNull {
 			get {
 				return ResourceManager.GetString("errCategoryNameNull", resourceCulture);
 			}
 		}
 		
 		/// <summary>
-		///   Looks up a localized string similar to Category status is not set.
+		///   Looks up a localized String similar to Category status is not set.
 		/// </summary>
-		public static string errCategoryStatusNull {
+		public static String errCategoryStatusNull {
 			get {
 				return ResourceManager.GetString("errCategoryStatusNull", resourceCulture);
 			}
 		}
 		
 		/// <summary>
-		///   Looks up a localized string similar to Category type is not set.
+		///   Looks up a localized String similar to Category type is not set.
 		/// </summary>
-		public static string errCategoryTypeNull {
+		public static String errCategoryTypeNull {
 			get {
 				return ResourceManager.GetString("errCategoryTypeNull", resourceCulture);
 			}
 		}
 		
 		/// <summary>
-		///   Looks up a localized string similar to Must choose an existing account.
+		///   Looks up a localized String similar to Must choose an existing account.
 		/// </summary>
-		public static string errChooseExistingAccount {
+		public static String errChooseExistingAccount {
 			get {
 				return ResourceManager.GetString("errChooseExistingAccount", resourceCulture);
 			}
 		}
 		
 		/// <summary>
-		///   Looks up a localized string similar to Must choose only one existing account.
+		///   Looks up a localized String similar to Must choose only one existing account.
 		/// </summary>
-		public static string errChooseOnlyOneExistingAccount {
+		public static String errChooseOnlyOneExistingAccount {
 			get {
 				return ResourceManager.GetString("errChooseOnlyOneExistingAccount", resourceCulture);
 			}
 		}
 		
 		/// <summary>
-		///   Looks up a localized string similar to Error!.
+		///   Looks up a localized String similar to Error!.
 		/// </summary>
-		public static string errError {
+		public static String errError {
 			get {
 				return ResourceManager.GetString("errError", resourceCulture);
 			}
 		}
 		
 		/// <summary>
-		///   Looks up a localized string similar to Invalid account.
+		///   Looks up a localized String similar to Invalid account.
 		/// </summary>
-		public static string errInvalidAccount {
+		public static String errInvalidAccount {
 			get {
 				return ResourceManager.GetString("errInvalidAccount", resourceCulture);
 			}
 		}
 		
 		/// <summary>
-		///   Looks up a localized string similar to Nickname is mandatory.
+		///   Looks up a localized String similar to Nickname is mandatory.
 		/// </summary>
-		public static string errNicknameMandatory {
+		public static String errNicknameMandatory {
 			get {
 				return ResourceManager.GetString("errNicknameMandatory", resourceCulture);
 			}
 		}
 		
 		/// <summary>
-		///   Looks up a localized string similar to No category selected to delete.
+		///   Looks up a localized String similar to No category selected to delete.
 		/// </summary>
-		public static string errNoCategorySelected {
+		public static String errNoCategorySelected {
 			get {
 				return ResourceManager.GetString("errNoCategorySelected", resourceCulture);
 			}
 		}
 		
 		/// <summary>
-		///   Looks up a localized string similar to No transactions found.
+		///   Looks up a localized String similar to No transactions found.
 		/// </summary>
-		public static string errNotTxnsFound {
+		public static String errNotTxnsFound {
 			get {
 				return ResourceManager.GetString("errNotTxnsFound", resourceCulture);
 			}
 		}
 		
 		/// <summary>
-		///   Looks up a localized string similar to Opening balance cannot be blank and must be a numerical value.
+		///   Looks up a localized String similar to Opening balance cannot be blank and must be a numerical value.
 		/// </summary>
-		public static string errOpeningBalance {
+		public static String errOpeningBalance {
 			get {
 				return ResourceManager.GetString("errOpeningBalance", resourceCulture);
 			}
 		}
 		
 		/// <summary>
-		///   Looks up a localized string similar to Operator {0} not found.
+		///   Looks up a localized String similar to Operator {0} not found.
 		/// </summary>
-		public static string errOperatorNotFound {
+		public static String errOperatorNotFound {
 			get {
 				return ResourceManager.GetString("errOperatorNotFound", resourceCulture);
 			}
 		}
 		
 		/// <summary>
-		///   Looks up a localized string similar to Operator not found. Cannot continue.
+		///   Looks up a localized String similar to Operator not found. Cannot continue.
 		/// </summary>
-		public static string errOperatorNotFoundMustExit {
+		public static String errOperatorNotFoundMustExit {
 			get {
 				return ResourceManager.GetString("errOperatorNotFoundMustExit", resourceCulture);
 			}
 		}
 		
 		/// <summary>
-		///   Looks up a localized string similar to Unexpected Application Error
+		///   Looks up a localized String similar to Unexpected Application Error
 		///
 		///{0}
 		///
 		///Class: {1}
 		///Method :{2}.
 		/// </summary>
-		public static string errUnexpectedApplicationErrorLong {
+		public static String errUnexpectedApplicationErrorLong {
 			get {
 				return ResourceManager.GetString("errUnexpectedApplicationErrorLong", resourceCulture);
 			}
 		}
 		
 		/// <summary>
-		///   Looks up a localized string similar to Unexpected Application Error : {0}.
+		///   Looks up a localized String similar to Unexpected Application Error : {0}.
 		/// </summary>
-		public static string errUnexpectedApplicationErrorShort {
+		public static String errUnexpectedApplicationErrorShort {
 			get {
 				return ResourceManager.GetString("errUnexpectedApplicationErrorShort", resourceCulture);
 			}

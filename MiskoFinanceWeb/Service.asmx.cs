@@ -2,6 +2,7 @@
 using System.Web.Script.Services;
 using System.Web.Services;
 using MiskoPersist.Core;
+using MiskoPersist.Data;
 using MiskoPersist.Enums;
 using MiskoPersist.Message.Response;
 

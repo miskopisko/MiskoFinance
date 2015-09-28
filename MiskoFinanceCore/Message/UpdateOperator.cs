@@ -40,10 +40,6 @@ namespace MiskoFinanceCore.Message
                 {
                     session.Error(ErrorLevel.Error, "Username {0} is already taken.", new Object[] { Request.Operator.Username });
                 }
-                else
-                {
-                	session.Error(ErrorLevel.Confirmation, "You are about to create a new user {0}. Are you sure?", new Object[] { Request.Operator.Username });
-                }
             }
 
             // Only reset the password of a new password was sent
@@ -51,6 +47,9 @@ namespace MiskoFinanceCore.Message
             {
             	Request.Operator.Password = Utils.GenerateHash(Request.Password1);
             }
+            
+            // Ask the user of they are sure
+            session.Error(ErrorLevel.Confirmation, "You are about to create a new user {0}. Are you sure?", new Object[] { Request.Operator.Username });
 
             Request.Operator.Update(session);
 
