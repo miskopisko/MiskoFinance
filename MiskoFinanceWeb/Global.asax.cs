@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Configuration;
 using MiskoPersist.Core;
+using MiskoPersist.Data;
 using MiskoPersist.Enums;
 
 namespace MiskoFinanceWeb
@@ -10,26 +11,26 @@ namespace MiskoFinanceWeb
     {
         protected void Application_Start(object sender, EventArgs e)
         {
-            ConnectionType[] allowableConnectionTypes = {ConnectionType.MySql, ConnectionType.SQLite};
+            DatabaseType[] allowableConnectionTypes = { DatabaseType.MySql, DatabaseType.SQLite };
 
-            ConnectionType connectionType = ConnectionType.GetElement(WebConfigurationManager.AppSettings["ConnectionType"]);
+            DatabaseType connectionType = DatabaseType.GetElement(WebConfigurationManager.AppSettings["ConnectionType"]);
 
             if(connectionType == null || !allowableConnectionTypes.Contains(connectionType))
             {
                 throw new MiskoException("Invalid server location. Must be one of 'Online' or 'Local'");
             }
-            else if(connectionType.Equals(ConnectionType.MySql))
+            else if(connectionType.Equals(DatabaseType.MySql))
             {
                 String host = WebConfigurationManager.AppSettings["Hostname"];
                 String database = WebConfigurationManager.AppSettings["Database"];
                 String username = WebConfigurationManager.AppSettings["Username"];
                 String password = WebConfigurationManager.AppSettings["Password"];
 
-                ConnectionSettings.AddMySqlConnection(host, database, username, password);    
+                DatabaseConnections.AddMySqlConnection(host, database, username, password);    
             }
-            else if(connectionType.Equals(ConnectionType.SQLite))
+            else if(connectionType.Equals(DatabaseType.SQLite))
             {
-                ConnectionSettings.AddSqliteConnection(WebConfigurationManager.AppSettings["SqliteDB"]);
+                DatabaseConnections.AddSqliteConnection(WebConfigurationManager.AppSettings["SqliteDB"]);
             }
         }
 

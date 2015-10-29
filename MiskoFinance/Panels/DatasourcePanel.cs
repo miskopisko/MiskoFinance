@@ -24,6 +24,8 @@ namespace MiskoFinance.Panels
 			
 			mServerLocation_.DataSource = new ServerLocation[] {ServerLocation.Online, ServerLocation.Local};
 			mServerLocation_.SelectedValueChanged += mServerLocation_SelectedValueChanged;
+			
+			mSerializationType_.DataSource = new SerializationType [] {SerializationType.Xml, SerializationType.Json};
 		}
 		
 		#region Override Methods
@@ -33,6 +35,7 @@ namespace MiskoFinance.Panels
 			base.OnLoad(e);
 			
 			mServerLocation_.SelectedItem = ServerLocation.GetElement(Settings.Default.ServerLocation);
+			mSerializationType_.SelectedItem = SerializationType.GetElement(Settings.Default.SerializationType);
 			mHostname_.Text = Settings.Default.Hostname;
 			mPort_.Value = Settings.Default.Port;
 			mScript_.Text = Settings.Default.Script;
@@ -40,11 +43,14 @@ namespace MiskoFinance.Panels
 			mLocalDatabase_.Text = Settings.Default.LocalDatabase;
 			
 			Parent.AcceptButton = mSave_;
+			
+			toggleEnabled();
 		}
 		
 		private void mSave__Click(Object sender, EventArgs e)
 		{
-			Settings.Default.ServerLocation = ((ServerLocation)mServerLocation_.SelectedItem).ToString();
+			Settings.Default.ServerLocation = ((ServerLocation)mServerLocation_.SelectedItem).Value;
+			Settings.Default.SerializationType = ((SerializationType)mSerializationType_.SelectedItem).Value;
 			Settings.Default.Hostname = mHostname_.Text.Trim();
 			Settings.Default.Port = (short)mPort_.Value;
 			Settings.Default.Script = mScript_.Text.Trim();
@@ -57,8 +63,8 @@ namespace MiskoFinance.Panels
 		}		
 		
 		#endregion
-
-		private void mServerLocation_SelectedValueChanged(Object sender, EventArgs e)
+		
+		private void toggleEnabled()
 		{
 			mHostname_.Enabled = ((ServerLocation)mServerLocation_.SelectedItem).Equals(ServerLocation.Online);
 			mPort_.Enabled = ((ServerLocation)mServerLocation_.SelectedItem).Equals(ServerLocation.Online);
@@ -67,6 +73,11 @@ namespace MiskoFinance.Panels
 			
 			mLocalDatabase_.Enabled = ((ServerLocation)mServerLocation_.SelectedItem).Equals(ServerLocation.Local);
 			mFileChooser_.Enabled = ((ServerLocation)mServerLocation_.SelectedItem).Equals(ServerLocation.Local);
+		}
+
+		private void mServerLocation_SelectedValueChanged(Object sender, EventArgs e)
+		{
+			toggleEnabled();
 		}
 		
 		private void mFileChooser__Click(Object sender, EventArgs e)
@@ -81,6 +92,11 @@ namespace MiskoFinance.Panels
 		{
 			Parent.Controls.Clear();
 			Parent.Controls.Add(new LoginPanel(Parent));
+		}
+		
+		private void mUseSSL__CheckedChanged(object sender, EventArgs e)
+		{
+			mPort_.Value = mUseSSL_.Checked ? 443 : 80;
 		}
 	}
 }

@@ -12,6 +12,5 @@ namespace MiskoFinanceWeb {
 	
 	
 	public partial class Default {
-		
 	}
 }

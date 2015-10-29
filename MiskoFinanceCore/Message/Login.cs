@@ -1,4 +1,5 @@
 using System;
+using MiskoPersist.Tools;
 using MiskoFinanceCore.Data.Viewed;
 using MiskoFinanceCore.Enums;
 using MiskoFinanceCore.Message.Requests;
@@ -26,7 +27,7 @@ namespace MiskoFinanceCore.Message
 
         public override void Execute(Session session)
         {
-            if (String.IsNullOrEmpty(Request.Username))
+        	if (String.IsNullOrEmpty(Request.Username))
             {
                 session.Error(ErrorLevel.Error, "Invalid username.");
             }             
@@ -35,10 +36,10 @@ namespace MiskoFinanceCore.Message
 
             if (o != null && o.IsSet)
             {
-                if (!o.Password.Equals(Request.Password))
-                {
-                    session.Error(ErrorLevel.Error, "Invalid username or password. Please try again.");
-                }
+            	if(!PasswordHash.ValidatePassword(Request.Password, o.Password))
+            	{
+            		session.Error(ErrorLevel.Error, "Invalid username or password. Please try again.");
+            	}
                 
                 o.BankAccounts.FetchByOperator(session, o.OperatorId);
                 o.Categories.FetchByComposite(session, o.OperatorId, Status.Active);

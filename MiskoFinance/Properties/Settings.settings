@@ -22,8 +22,11 @@
     <Setting Name="Script" Type="System.String" Scope="User" Roaming="false">
       <Value Profile="(Default)">/Service.asmx/ProcessRequest</Value>
     </Setting>
-    <Setting Name="ServerLocation" Type="System.String" Scope="User" Roaming="false">
-      <Value Profile="(Default)">Online</Value>
+    <Setting Name="SerializationType" Type="System.Int64" Scope="User" Roaming="false">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="ServerLocation" Type="System.Int64" Scope="User" Roaming="false">
+      <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="UseSSL" Type="System.Boolean" Scope="User" Roaming="false">
       <Value Profile="(Default)">False</Value>

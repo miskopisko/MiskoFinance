@@ -26,7 +26,7 @@ namespace MiskoFinanceCore.Message
 
         public override void Execute(Session session)
         {
-            if (!Request.Password1.Equals(Request.Password2))
+            if (!String.IsNullOrEmpty(Request.Password1) && !String.IsNullOrEmpty(Request.Password2) && !Request.Password1.Equals(Request.Password2))
             {
                 session.Error(ErrorLevel.Error, "Passwords do not match. Try again");
             }
@@ -40,16 +40,16 @@ namespace MiskoFinanceCore.Message
                 {
                     session.Error(ErrorLevel.Error, "Username {0} is already taken.", new Object[] { Request.Operator.Username });
                 }
+                
+                // Ask the user of they are sure
+            	session.Error(ErrorLevel.Confirmation, "You are about to create a new user {0}. Are you sure?", new Object[] { Request.Operator.Username });
             }
 
             // Only reset the password of a new password was sent
             if(!String.IsNullOrEmpty(Request.Password1))
             {
-            	Request.Operator.Password = Utils.GenerateHash(Request.Password1);
+            	Request.Operator.Password = PasswordHash.CreateHash(Request.Password1);
             }
-            
-            // Ask the user of they are sure
-            session.Error(ErrorLevel.Confirmation, "You are about to create a new user {0}. Are you sure?", new Object[] { Request.Operator.Username });
 
             Request.Operator.Update(session);
 

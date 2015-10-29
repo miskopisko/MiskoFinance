@@ -16,7 +16,7 @@
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <WarningLevel>4</WarningLevel>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
@@ -131,6 +131,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Message\TestDBConnection.cs" />
+    <Compile Include="Message\Requests\TestDBConnectionRQ.cs" />
+    <Compile Include="Message\Responses\TestDBConnectionRS.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <ItemGroup>
@@ -142,5 +145,10 @@
       <Project>{F538732A-122B-40BB-86B0-199F99B0386C}</Project>
       <Name>MiskoPersist</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Message\" />
+    <Folder Include="Message\Requests\" />
+    <Folder Include="Message\Responses\" />
   </ItemGroup>
 </Project>

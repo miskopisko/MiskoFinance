@@ -92,7 +92,7 @@ namespace MiskoFinance.Panels
         	
             LoginRQ request = new LoginRQ();
             request.Username = mUsername_.Text.Trim();
-            request.Password = Utils.GenerateHash(mPassword_.Text.Trim());
+            request.Password = mPassword_.Text.Trim();
             ServerConnection.SendRequest(request, LoginSuccess, LoginError);
         }
 

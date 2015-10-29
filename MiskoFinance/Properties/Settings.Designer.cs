@@ -8,12 +8,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System;
 namespace MiskoFinance.Properties {
 	
 	
 	[global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-	[global::System.CodeDom.Compiler.GeneratedCodeAttribute("ICSharpCode.SettingsEditor.SettingsCodeGeneratorTool", "5.1.0.5071")]
+	[global::System.CodeDom.Compiler.GeneratedCodeAttribute("ICSharpCode.SettingsEditor.SettingsCodeGeneratorTool", "5.1.0.5134")]
 	internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
 		
 		private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -28,9 +27,9 @@ namespace MiskoFinance.Properties {
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("")]
 		[global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-		public String DefaultUsername {
+		public string DefaultUsername {
 			get {
-				return ((String)(this["DefaultUsername"]));
+				return ((string)(this["DefaultUsername"]));
 			}
 			set {
 				this["DefaultUsername"] = value;
@@ -40,9 +39,9 @@ namespace MiskoFinance.Properties {
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("localhost")]
-		public String Hostname {
+		public string Hostname {
 			get {
-				return ((String)(this["Hostname"]));
+				return ((string)(this["Hostname"]));
 			}
 			set {
 				this["Hostname"] = value;
@@ -52,9 +51,9 @@ namespace MiskoFinance.Properties {
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("")]
-		public String LocalDatabase {
+		public string LocalDatabase {
 			get {
-				return ((String)(this["LocalDatabase"]));
+				return ((string)(this["LocalDatabase"]));
 			}
 			set {
 				this["LocalDatabase"] = value;
@@ -77,9 +76,9 @@ namespace MiskoFinance.Properties {
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("25")]
 		[global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-		public Int32 RowsPerPage {
+		public int RowsPerPage {
 			get {
-				return ((Int32)(this["RowsPerPage"]));
+				return ((int)(this["RowsPerPage"]));
 			}
 			set {
 				this["RowsPerPage"] = value;
@@ -89,9 +88,9 @@ namespace MiskoFinance.Properties {
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("/Service.asmx/ProcessRequest")]
-		public String Script {
+		public string Script {
 			get {
-				return ((String)(this["Script"]));
+				return ((string)(this["Script"]));
 			}
 			set {
 				this["Script"] = value;
@@ -100,10 +99,22 @@ namespace MiskoFinance.Properties {
 		
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-		[global::System.Configuration.DefaultSettingValueAttribute("Online")]
-		public String ServerLocation {
+		[global::System.Configuration.DefaultSettingValueAttribute("0")]
+		public long SerializationType {
 			get {
-				return ((String)(this["ServerLocation"]));
+				return ((long)(this["SerializationType"]));
+			}
+			set {
+				this["SerializationType"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("0")]
+		public long ServerLocation {
+			get {
+				return ((long)(this["ServerLocation"]));
 			}
 			set {
 				this["ServerLocation"] = value;
@@ -113,9 +124,9 @@ namespace MiskoFinance.Properties {
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("False")]
-		public Boolean UseSSL {
+		public bool UseSSL {
 			get {
-				return ((Boolean)(this["UseSSL"]));
+				return ((bool)(this["UseSSL"]));
 			}
 			set {
 				this["UseSSL"] = value;

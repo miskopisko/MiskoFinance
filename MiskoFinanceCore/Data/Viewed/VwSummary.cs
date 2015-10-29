@@ -75,6 +75,8 @@ namespace MiskoFinanceCore.Data.Viewed
 
         public void Fetch(Session session, PrimaryKey Operator, PrimaryKey BankAccount, DateTime? FromDate, DateTime? ToDate, PrimaryKey Category, String Description)
         {
+        	IsSet = true;
+        	
             String sql1 = "SELECT SUM(B.OpeningBalance) OpeningBalance, MAX(B.Nickname) Nickname " +
                           "FROM   Account A, BankAccount B " +
                           "WHERE  A.Id = B.Id ";

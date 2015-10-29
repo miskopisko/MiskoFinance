@@ -173,7 +173,7 @@ namespace MiskoFinance.Forms
 			#if (DEBUG)
 				LoginRQ request = new LoginRQ();
             	request.Username = "miskopisko";
-            	request.Password = Utils.GenerateHash("secret");
+            	request.Password = "secret";
             	ServerConnection.SendRequest(request, LoginSuccess, LoginError);
 			#else
 				new LoginDialog().ShowDialog(this);
@@ -255,22 +255,22 @@ namespace MiskoFinance.Forms
 
 		public void Error(ErrorMessage message)
 		{
-			MessageBox.Show(this, message.Message, ErrorStrings.errError, MessageBoxButtons.OK, MessageBoxIcon.Error);
+			MessageBox.Show(this, message.ToString(), ErrorStrings.errError, MessageBoxButtons.OK, MessageBoxIcon.Error);
 		}
 
 		public void Warning(ErrorMessage message)
 		{
-			MessageBox.Show(this, message.Message, WarningStrings.warnWarning, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			MessageBox.Show(this, message.ToString(), WarningStrings.warnWarning, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 		}
 
 		public void Info(ErrorMessage message)
 		{
-			MessageBox.Show(this, message.Message, WarningStrings.infoInformation, MessageBoxButtons.OK, MessageBoxIcon.Information);
+			MessageBox.Show(this, message.ToString(), WarningStrings.infoInformation, MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
 		public Boolean Confirm(ErrorMessage message)
 		{
-			DialogResult result = MessageBox.Show(this, message.Message, ConfirmStrings.conConfirmation, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+			DialogResult result = MessageBox.Show(this, message.ToString(), ConfirmStrings.conConfirmation, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 			return result.Equals(DialogResult.Yes);
 		}
 
@@ -294,7 +294,7 @@ namespace MiskoFinance.Forms
             	}
             	else if(serverLocation.Equals(ServerLocation.Local))
             	{
-            		ConnectionSettings.AddSqliteConnection(Settings.Default.LocalDatabase);
+            		DatabaseConnections.AddSqliteConnection(Settings.Default.LocalDatabase);
             	}
             	
                 return serverLocation;
@@ -332,6 +332,14 @@ namespace MiskoFinance.Forms
                 return Settings.Default.UseSSL;
             }
         }
+        
+       	public SerializationType SerializationType
+       	{
+       		get
+       		{
+       			return SerializationType.GetElement(Settings.Default.SerializationType);
+       		}
+       	}
         
 		#endregion
     }
