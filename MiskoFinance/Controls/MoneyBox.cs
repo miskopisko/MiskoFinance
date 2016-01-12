@@ -3,12 +3,11 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using MiskoPersist.Core;
 using MiskoPersist.MoneyType;
 
 namespace MiskoFinance.Controls
 {
-    public partial class MoneyBox : TextBox
+	public partial class MoneyBox : TextBox
     {
         [DllImport("user32.dll")]
         static extern Boolean HideCaret(IntPtr hWnd);
@@ -31,7 +30,7 @@ namespace MiskoFinance.Controls
             }
             set 
             {
-                mValue_ = value ?? Money.ZERO;
+                mValue_ = value;
                 Text = mValue_.ToString();
             }
         }

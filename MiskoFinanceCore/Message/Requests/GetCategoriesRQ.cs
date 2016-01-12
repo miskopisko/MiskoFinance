@@ -5,7 +5,7 @@ using MiskoPersist.Message.Request;
 
 namespace MiskoFinanceCore.Message.Requests
 {
-    public class GetCategoriesRQ : RequestMessage
+	public class GetCategoriesRQ : RequestMessage
     {
         private static Logger Log = Logger.GetInstance(typeof(GetCategoriesRQ));
 

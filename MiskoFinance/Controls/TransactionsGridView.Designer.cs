@@ -1,7 +1,7 @@
 ﻿using System;
 namespace MiskoFinance.Controls
 {
-    partial class TransactionsGridView
+	partial class TransactionsGridView
     {
         /// <summary> 
         /// Required designer variable.

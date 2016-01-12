@@ -9,7 +9,7 @@ using MiskoPersist.MoneyType;
 
 namespace MiskoFinanceCore.OFX
 {
-    public class OfxDocument
+	public class OfxDocument
     {
         private static Logger Log = Logger.GetInstance(typeof(OfxDocument));
 

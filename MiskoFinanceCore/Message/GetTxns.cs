@@ -7,7 +7,7 @@ using MiskoPersist.Message;
 
 namespace MiskoFinanceCore.Message
 {
-    public class GetTxns : MessageWrapper
+	public class GetTxns : MessageWrapper
     {
         private static Logger Log = Logger.GetInstance(typeof(GetTxns));
 

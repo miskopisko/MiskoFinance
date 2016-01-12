@@ -8,50 +8,52 @@ using MiskoPersist.MoneyType;
 
 namespace MiskoFinanceCore.Data.Viewed
 {
-    public class VwTxn : AbstractViewedData
-    {
-        private static Logger Log = Logger.GetInstance(typeof(VwTxn));
+	public class VwTxn : AbstractViewedData
+	{
+		private static Logger Log = Logger.GetInstance(typeof(VwTxn));
 
-        #region Fields
+		#region Fields
 
-        
+		
 
-        #endregion
+		#endregion
 
-        #region Viewed Properties
+		#region Viewed Properties
 
-        [Viewed]
-        public PrimaryKey TxnId { get; set; }
-        [Viewed]
-        public PrimaryKey OperatorId { get; set; }
-        [Viewed]
-        public PrimaryKey AccountId { get; set; }
-        [Viewed]
-        public Money Amount { get; set; }
-        [Viewed]
-        public DateTime DatePosted { get ; set; }
-        [Viewed]
-        public String Description { get; set; }
-        [Viewed]
-        public DrCr DrCr { get; set; }
-        [Viewed]
-        public PrimaryKey Category { get; set; }        
-        [Viewed]
-        public Boolean Transfer { get; set; }
 		[Viewed]
-        public Boolean OneTime { get; set; }           
-        [Viewed]
-        public String HashCode { get; set; }
+		public PrimaryKey TxnId { get; set; }
+		[Viewed]
+		public PrimaryKey OperatorId { get; set; }
+		[Viewed]
+		public PrimaryKey AccountId { get; set; }
+		[Viewed]
+		public Money Amount { get; set; }
+		[Viewed]
+		public String Account { get; set; }
+		[Viewed]
+		public DateTime DatePosted { get ; set; }
+		[Viewed]
+		public String Description { get; set; }
+		[Viewed]
+		public DrCr DrCr { get; set; }
+		[Viewed]
+		public PrimaryKey Category { get; set; }        
+		[Viewed]
+		public Boolean Transfer { get; set; }
+		[Viewed]
+		public Boolean OneTime { get; set; }           
+		[Viewed]
+		public String HashCode { get; set; }
 
-        #endregion
+		#endregion
 
-        #region Other Properties
+		#region Other Properties
 
 		public Money Debit 
 		{ 
 			get
 			{
-				return DrCr.Equals(DrCr.Debit) ? Amount : null;
+				return DrCr.Equals(DrCr.Debit) ? Amount : Money.ZERO;
 			}
 		}
 		
@@ -59,49 +61,49 @@ namespace MiskoFinanceCore.Data.Viewed
 		{ 
 			get
 			{
-				return DrCr.Equals(DrCr.Credit) ? Amount : null;
+				return DrCr.Equals(DrCr.Credit) ? Amount : Money.ZERO;
 			}
 		}
 
-        #endregion
+		#endregion
 
-        #region Constructors
+		#region Constructors
 
-        public VwTxn()
-        {
-        }
+		public VwTxn()
+		{
+		}
 
-        public VwTxn(Session session, Persistence persistence) : base (session, persistence)
-        {
-        }
+		public VwTxn(Session session, Persistence persistence) : base (session, persistence)
+		{
+		}
 
-        #endregion
+		#endregion
 
-        #region Override Methods
+		#region Override Methods
 
-        
+		
 
-        #endregion
+		#endregion
 
-        #region Private Methods
+		#region Private Methods
 
 
 
-        #endregion
+		#endregion
 
-        #region Public Methods
+		#region Public Methods
 
-        public void Update(Session session)
-        {
-            Txn txn = new Txn();
-            txn.FetchById(session, TxnId);
+		public void Update(Session session)
+		{
+			Txn txn = new Txn();
+			txn.FetchById(session, TxnId);
 
-            txn.OneTime = OneTime;
-            txn.Transfer = Transfer;
-            txn.Category = Category;
-            txn.Save(session);
-        }
+			txn.OneTime = OneTime;
+			txn.Transfer = Transfer;
+			txn.Category = Category;
+			txn.Save(session);
+		}
 
-        #endregion
-    }
+		#endregion
+	}
 }

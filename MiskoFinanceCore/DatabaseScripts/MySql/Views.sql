@@ -35,9 +35,11 @@ SELECT  T.Id TxnId,
 		T.Category,
 		T.Transfer,
 		T.OneTime,
-        T.Amount                
-FROM    Txn T, Account A, Operator O
+        T.Amount,
+		B.NickName Account             
+FROM    Txn T, Account A, BankAccount B, Operator O
 WHERE   T.Account = A.Id
+AND		A.Id = B.Id
 AND     A.Operator = O.Id
 ORDER BY T.DatePosted, T.Id;
 

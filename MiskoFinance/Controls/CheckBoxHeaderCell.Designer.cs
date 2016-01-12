@@ -1,7 +1,7 @@
 ﻿using System;
 namespace MiskoFinance.Controls
 {
-    partial class CheckBoxHeaderCell
+	partial class CheckBoxHeaderCell
     {
         /// <summary> 
         /// Required designer variable.

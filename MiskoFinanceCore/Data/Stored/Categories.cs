@@ -3,7 +3,7 @@ using MiskoPersist.Data;
 
 namespace MiskoFinanceCore.Data.Stored
 {
-    public class Categories : AbstractStoredDataList<Category>
+	public class Categories : AbstractStoredDataList<Category>
     {
         private static Logger Log = Logger.GetInstance(typeof(Categories));
 

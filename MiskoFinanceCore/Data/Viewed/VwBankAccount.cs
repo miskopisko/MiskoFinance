@@ -8,7 +8,7 @@ using MiskoPersist.MoneyType;
 
 namespace MiskoFinanceCore.Data.Viewed
 {
-    public class VwBankAccount : AbstractViewedData
+	public class VwBankAccount : AbstractViewedData
     {
         private static Logger Log = Logger.GetInstance(typeof(VwBankAccount));
 

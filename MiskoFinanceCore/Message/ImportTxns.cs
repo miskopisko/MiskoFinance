@@ -10,7 +10,7 @@ using MiskoPersist.Message;
 
 namespace MiskoFinanceCore.Message
 {
-    public class ImportTxns : MessageWrapper
+	public class ImportTxns : MessageWrapper
     {
         private static Logger Log = Logger.GetInstance(typeof(ImportTxns));
 
@@ -45,7 +45,7 @@ namespace MiskoFinanceCore.Message
             Int32 noTxnsAdded = 0;
 
             // Save each txn
-            foreach (VwTxn vwTxn in Request.VwTxns)
+            foreach (VwTxn vwTxn in Request.Txns)
             {
             	if (!existingTxnHashes.ContainsKey(vwTxn.HashCode))
                 {

@@ -4,7 +4,7 @@ using MiskoFinance.Forms;
 
 namespace MiskoFinance
 {
-    public class Program
+	public class Program
     {
         [STAThread]
         public static void Main()

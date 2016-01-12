@@ -8,7 +8,7 @@ using MiskoPersist.MoneyType;
 
 namespace MiskoFinanceCore.Data.Stored
 {
-    public class BankAccount : Account
+	public class BankAccount : Account
     {
         private static Logger Log = Logger.GetInstance(typeof(BankAccount));
 

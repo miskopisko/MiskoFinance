@@ -6,7 +6,7 @@ using MiskoPersist.Core;
 
 namespace MiskoFinance.Controls
 {
-    public partial class CategoriesGridView : DataGridView
+	public partial class CategoriesGridView : DataGridView
     {
         private static Logger Log = Logger.GetInstance(typeof(CategoriesGridView));
 

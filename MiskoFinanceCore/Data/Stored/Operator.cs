@@ -4,11 +4,10 @@ using MiskoPersist.Attributes;
 using MiskoPersist.Core;
 using MiskoPersist.Data;
 using MiskoPersist.Enums;
-using MiskoFinanceCore.Resources;
 
 namespace MiskoFinanceCore.Data.Stored
 {
-    public class Operator : AbstractStoredData
+	public class Operator : AbstractStoredData
     {
         private static Logger Log = Logger.GetInstance(typeof(Operator));
 

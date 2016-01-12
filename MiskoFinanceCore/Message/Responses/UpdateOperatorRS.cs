@@ -4,7 +4,7 @@ using MiskoPersist.Message.Response;
 
 namespace MiskoFinanceCore.Message.Responses
 {
-    public class UpdateOperatorRS : ResponseMessage
+	public class UpdateOperatorRS : ResponseMessage
     {
         private static Logger Log = Logger.GetInstance(typeof(UpdateOperatorRS));
 

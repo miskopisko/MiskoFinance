@@ -9,7 +9,7 @@ using MiskoPersist.Message.Response;
 
 namespace MiskoFinance.Forms
 {
-    public partial class SettingsDialog : Form
+	public partial class SettingsDialog : Form
     {
         private static Logger Log = Logger.GetInstance(typeof(SettingsDialog));
 

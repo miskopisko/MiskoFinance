@@ -5,7 +5,7 @@ using MiskoPersist.Enums;
 
 namespace MiskoFinanceCore.Data.Viewed
 {
-    public class VwTxns : AbstractViewedDataList<VwTxn>
+	public class VwTxns : AbstractViewedDataList<VwTxn>
     {
         private static Logger Log = Logger.GetInstance(typeof(VwTxns));
 

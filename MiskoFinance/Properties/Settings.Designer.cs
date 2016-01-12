@@ -8,9 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MiskoFinance.Properties {
-	
-	
+namespace MiskoFinance.Properties
+{
+
+
 	[global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
 	[global::System.CodeDom.Compiler.GeneratedCodeAttribute("ICSharpCode.SettingsEditor.SettingsCodeGeneratorTool", "5.1.0.5134")]
 	internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {

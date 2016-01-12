@@ -1,7 +1,7 @@
 ﻿using System;
 namespace MiskoFinance.Controls
 {
-    partial class MoneyBox
+	partial class MoneyBox
     {
         /// <summary> 
         /// Required designer variable.

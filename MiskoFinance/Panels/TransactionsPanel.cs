@@ -12,7 +12,7 @@ using MiskoPersist.Tools;
 
 namespace MiskoFinance.Panels
 {
-    public partial class TransactionsPanel : UserControl
+	public partial class TransactionsPanel : UserControl
     {
         private static Logger Log = Logger.GetInstance(typeof(TransactionsPanel));
         
@@ -53,8 +53,12 @@ namespace MiskoFinance.Panels
 		protected override void OnLoad(EventArgs e)
 		{
 			base.OnLoad(e);
-			
-			DataGridViewColumn dgvColumn = mTransactionsGridView_.Columns["Date"];
+
+			DataGridViewColumn dgvColumn = mTransactionsGridView_.Columns["Account"];
+			mSummaryRow_.ColumnStyles[dgvColumn.Index].SizeType = SizeType.Absolute;
+			mSummaryRow_.ColumnStyles[dgvColumn.Index].Width = dgvColumn.Width;
+
+			dgvColumn = mTransactionsGridView_.Columns["Date"];
             mSummaryRow_.ColumnStyles[dgvColumn.Index].SizeType = SizeType.Absolute;
         	mSummaryRow_.ColumnStyles[dgvColumn.Index].Width = dgvColumn.Width;
         	
@@ -179,7 +183,9 @@ namespace MiskoFinance.Panels
 			
             MiskoFinanceMain.Instance.SummaryPanel.Summary = ((GetTxnsRS)response).Summary;
             MiskoFinanceMain.Instance.SearchPanel.Enable(mTransactionsGridView_.Page.HasNext);
-            
+
+			MiskoFinanceMain.Instance.mGraphingPanel_.Populate(mTransactionsGridView_.DataSource);
+
             UpdateSummary(((GetTxnsRS)response).Summary);
         } 
         

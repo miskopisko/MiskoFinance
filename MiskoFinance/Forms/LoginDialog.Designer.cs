@@ -1,7 +1,7 @@
 ﻿using System;
 namespace MiskoFinance.Forms
 {
-    partial class LoginDialog
+	partial class LoginDialog
     {
         /// <summary>
         /// Required designer variable.

@@ -8,7 +8,7 @@ using MiskoPersist.Enums;
 
 namespace MiskoFinanceCore.Data.Stored
 {
-    public class Category : AbstractStoredData
+	public class Category : AbstractStoredData
     {
         private static Logger Log = Logger.GetInstance(typeof(Category));
 

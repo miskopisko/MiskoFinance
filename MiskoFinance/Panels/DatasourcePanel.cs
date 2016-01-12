@@ -6,7 +6,7 @@ using MiskoPersist.Enums;
 
 namespace MiskoFinance.Panels
 {
-    public partial class DatasourcePanel : UserControl
+	public partial class DatasourcePanel : UserControl
 	{
 		private new LoginDialog Parent 
 		{

@@ -7,7 +7,7 @@ using MiskoPersist.Data;
 
 namespace MiskoFinanceCore.Data.Viewed
 {
-    public class VwOperator : AbstractViewedData
+	public class VwOperator : AbstractViewedData
     {
         private static Logger Log = Logger.GetInstance(typeof(VwOperator));
 

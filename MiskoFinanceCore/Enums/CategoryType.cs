@@ -3,7 +3,7 @@ using MiskoPersist.Enums;
 
 namespace MiskoFinanceCore.Enums
 {
-    public class CategoryType : AbstractEnum
+	public class CategoryType : AbstractEnum
     {
         #region Fields
 

@@ -9,7 +9,7 @@ using MiskoPersist.Message.Response;
 
 namespace MiskoFinance.Forms
 {
-    public partial class EditAccountsDialog : Form
+	public partial class EditAccountsDialog : Form
     {
         private static Logger Log = Logger.GetInstance(typeof(EditAccountsDialog));
 

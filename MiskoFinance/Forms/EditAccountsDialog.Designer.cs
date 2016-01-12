@@ -1,7 +1,7 @@
 ﻿using System;
 namespace MiskoFinance.Forms
 {
-    partial class EditAccountsDialog
+	partial class EditAccountsDialog
     {
         /// <summary>
         /// Required designer variable.
@@ -104,12 +104,7 @@ namespace MiskoFinance.Forms
         	this.mOpeningBalance_.Size = new System.Drawing.Size(194, 20);
         	this.mOpeningBalance_.TabIndex = 6;
         	this.mOpeningBalance_.Text = "$0.00";
-        	this.mOpeningBalance_.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-        	money1.Value = new decimal(new int[] {
-			0,
-			0,
-			0,
-			0});
+        	this.mOpeningBalance_.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;        	
         	this.mOpeningBalance_.Value = money1;
         	// 
         	// mTableLayoutPanel_

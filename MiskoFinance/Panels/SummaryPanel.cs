@@ -6,66 +6,66 @@ using MiskoPersist.MoneyType;
 
 namespace MiskoFinance.Panels
 {
-    public partial class SummaryPanel : UserControl
-    {
-        private static Logger Log = Logger.GetInstance(typeof(SummaryPanel));
-        
-        #region Fields
+	public partial class SummaryPanel : UserControl
+	{
+		private static Logger Log = Logger.GetInstance(typeof(SummaryPanel));
+		
+		#region Fields
 
 
 
-        #endregion
+		#endregion
 
-        #region Parameters
+		#region Parameters
 
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
 		public VwSummary Summary
 		{
 			set
 			{
-	            mSelectionOpeningBalance_.Value = value != null ? value.SelectionOpeningBalance : Money.ZERO;
-	            mSelectionClosingBalance_.Value = value != null ? value.SelectionCurrentBalance : Money.ZERO;
-	            mSelectionBalanceDifference_.Value = value != null ? value.SelectionBalanceDifference : Money.ZERO;
+				mSelectionOpeningBalance_.Value = value != null ? value.SelectionOpeningBalance : Money.ZERO;
+				mSelectionClosingBalance_.Value = value != null ? value.SelectionCurrentBalance : Money.ZERO;
+				mSelectionBalanceDifference_.Value = value != null ? value.SelectionBalanceDifference : Money.ZERO;
 	
-	            mOpeningBalance_.Value = value != null ? value.AllTimeOpeningBalance : Money.ZERO;
-	            mCurrentBalance_.Value = value != null ? value.AllTimeCurrentBalance : Money.ZERO;
-	            mBalanceDiff_.Value = value != null ? value.AllTimeBalanceDifference : Money.ZERO;
+				mOpeningBalance_.Value = value != null ? value.AllTimeOpeningBalance : Money.ZERO;
+				mCurrentBalance_.Value = value != null ? value.AllTimeCurrentBalance : Money.ZERO;
+				mBalanceDiff_.Value = value != null ? value.AllTimeBalanceDifference : Money.ZERO;
 			}
 		}
 
-        #endregion
+		#endregion
 
-        #region Constructor
+		#region Constructor
 
-        public SummaryPanel()
-        {
-            InitializeComponent();
-        }
+		public SummaryPanel()
+		{
+			InitializeComponent();
+		}
 
-        #endregion
+		#endregion
 
-        #region Event Listenners
-
-
-
-        #endregion
-
-        #region Override Methods
+		#region Event Listenners
 
 
 
-        #endregion
+		#endregion
 
-        #region Public Methods
+		#region Override Methods
+
+
+
+		#endregion
+
+		#region Public Methods
 
 		
 
-        #endregion
+		#endregion
 
-        #region Private Methods
+		#region Private Methods
 
 
 
-        #endregion        
-    }
+		#endregion        
+	}
 }

@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Windows.Forms;
+using MiskoFinance.Controls;
 using MiskoFinanceCore.Data.Viewed;
 using MiskoFinanceCore.Enums;
 using MiskoFinanceCore.Message.Requests;
 using MiskoFinanceCore.Message.Responses;
 using MiskoPersist.Core;
 using MiskoPersist.Message.Response;
-using MiskoFinance.Controls;
 
 namespace MiskoFinance.Forms
 {
-    public partial class EditCategoriesDialog : Form
+	public partial class EditCategoriesDialog : Form
     {
         private static Logger Log = Logger.GetInstance(typeof(EditCategoriesDialog));
 

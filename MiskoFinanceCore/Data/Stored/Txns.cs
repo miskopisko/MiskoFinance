@@ -4,7 +4,7 @@ using MiskoPersist.Data;
 
 namespace MiskoFinanceCore.Data.Stored
 {
-    public class Txns : AbstractStoredDataList<Txn>
+	public class Txns : AbstractStoredDataList<Txn>
     {
         private static Logger Log = Logger.GetInstance(typeof(Txns));
 

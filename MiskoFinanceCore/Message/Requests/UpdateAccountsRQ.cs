@@ -4,7 +4,7 @@ using MiskoPersist.Message.Request;
 
 namespace MiskoFinanceCore.Message.Requests
 {
-    public class UpdateAccountsRQ : RequestMessage
+	public class UpdateAccountsRQ : RequestMessage
     {
         private static Logger Log = Logger.GetInstance(typeof(UpdateAccountsRQ));
 

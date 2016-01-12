@@ -13,7 +13,7 @@ using MiskoPersist.MoneyType;
 
 namespace MiskoFinance.Forms
 {
-    public partial class ImportTransactionsDialog : Form
+	public partial class ImportTransactionsDialog : Form
     {
         private static Logger Log = Logger.GetInstance(typeof(ImportTransactionsDialog));
 
@@ -203,7 +203,7 @@ namespace MiskoFinance.Forms
 			ImportTxnsRQ request = new ImportTxnsRQ();
             request.BankAccount = GetAccount();
             request.Operator = MiskoFinanceMain.Instance.Operator;
-            request.VwTxns = mOfxDocument_.Transactions;
+            request.Txns = mOfxDocument_.Transactions;
             request.FromDate = mOfxDocument_.StartDate;
             request.ToDate = mOfxDocument_.EndDate;
             ServerConnection.SendRequest(request, ImportTxnsSuccess, ImportTxnsError);

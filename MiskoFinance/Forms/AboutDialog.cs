@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace MiskoFinance.Forms
 {
-    partial class AboutDialog : Form
+	partial class AboutDialog : Form
     {
         public AboutDialog()
         {

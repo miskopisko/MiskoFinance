@@ -9,7 +9,7 @@ using MiskoPersist.Tools;
 
 namespace MiskoFinanceCore.Message
 {
-    public class UpdateOperator : MessageWrapper
+	public class UpdateOperator : MessageWrapper
     {
         private static Logger Log = Logger.GetInstance(typeof(UpdateOperator));
 

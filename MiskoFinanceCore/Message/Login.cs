@@ -1,5 +1,4 @@
 using System;
-using MiskoPersist.Tools;
 using MiskoFinanceCore.Data.Viewed;
 using MiskoFinanceCore.Enums;
 using MiskoFinanceCore.Message.Requests;
@@ -7,10 +6,11 @@ using MiskoFinanceCore.Message.Responses;
 using MiskoPersist.Core;
 using MiskoPersist.Enums;
 using MiskoPersist.Message;
+using MiskoPersist.Tools;
 
 namespace MiskoFinanceCore.Message
 {
-    public class Login : MessageWrapper
+	public class Login : MessageWrapper
     {
         private static Logger Log = Logger.GetInstance(typeof(Login));
 

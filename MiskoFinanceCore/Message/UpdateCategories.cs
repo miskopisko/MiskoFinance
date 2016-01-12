@@ -8,7 +8,7 @@ using MiskoPersist.Message;
 
 namespace MiskoFinanceCore.Message
 {
-    public class UpdateCategories : MessageWrapper
+	public class UpdateCategories : MessageWrapper
     {
         private static Logger Log = Logger.GetInstance(typeof(UpdateCategories));
 
