@@ -33,10 +33,10 @@ namespace MiskoFinanceCore.Message
 
             // If the OperatorId is not set then we are adding a new operator
             // Check if that operator already exists
-            if (Request.Operator == null || Request.Operator.IsNotSet)
+            if (Request.Operator == null || Request.Operator.OperatorId.IsNotSet)
             {
                 VwOperator alreadyExists = VwOperator.GetInstanceByUsername(session, Request.Operator.Username);
-                if (alreadyExists != null && alreadyExists.IsSet)
+                if (alreadyExists != null && alreadyExists.OperatorId.IsSet)
                 {
                     session.Error(ErrorLevel.Error, "Username {0} is already taken.", new Object[] { Request.Operator.Username });
                 }

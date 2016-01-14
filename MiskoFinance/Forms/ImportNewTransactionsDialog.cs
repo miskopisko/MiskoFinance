@@ -175,7 +175,7 @@ namespace MiskoFinance.Forms
 		{
 			mExistingAccounts_.Enabled = mExistingAccount_.Checked;
 			
-			if(mExistingAccounts_.Enabled && mAccount_ != null && mAccount_.IsSet)
+			if(mExistingAccounts_.Enabled && mAccount_ != null && mAccount_.BankAccountId.IsSet)
 			{
 				mExistingAccounts_.SelectedIndex = mExistingAccounts_.FindStringExact(mAccount_.Nickname);
 			}

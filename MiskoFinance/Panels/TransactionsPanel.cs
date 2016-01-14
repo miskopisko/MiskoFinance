@@ -184,7 +184,7 @@ namespace MiskoFinance.Panels
             MiskoFinanceMain.Instance.SummaryPanel.Summary = ((GetTxnsRS)response).Summary;
             MiskoFinanceMain.Instance.SearchPanel.Enable(mTransactionsGridView_.Page.HasNext);
 
-			MiskoFinanceMain.Instance.mGraphingPanel_.Populate(mTransactionsGridView_.DataSource);
+			//MiskoFinanceMain.Instance.mGraphingPanel_.Populate(mTransactionsGridView_.DataSource);
 
             UpdateSummary(((GetTxnsRS)response).Summary);
         } 

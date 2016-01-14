@@ -34,7 +34,7 @@ namespace MiskoFinanceCore.Message
             
             VwOperator o = VwOperator.GetInstanceByUsername(session, Request.Username);
 
-            if (o != null && o.IsSet)
+            if (o != null && o.OperatorId.IsSet)
             {
             	if(!PasswordHash.ValidatePassword(Request.Password, o.Password))
             	{

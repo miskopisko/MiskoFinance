@@ -43,7 +43,7 @@ namespace MiskoFinanceCore.Data.Viewed
 
             foreach (VwCategory category in this)
             {
-                if (category.IsSet && category.CategoryType.Equals(type))
+                if (category.CategoryId.IsSet && category.CategoryType.Equals(type))
                 {
                     result.Add(category);
                 }

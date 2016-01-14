@@ -78,13 +78,13 @@ namespace MiskoFinance.Forms
 				mOperator_ = value ?? new VwOperator();
 				SearchPanel.Accounts = Operator.BankAccounts;
 				SearchPanel.Categories = Operator.Categories;
-				mLogoutToolStripMenuItem_.Enabled = Operator.IsSet;
-				mSettingsToolStripMenuItem_.Enabled = Operator.IsSet;
-				mAccountsToolStripMenuItem_.Enabled = Operator.IsSet;
-				mCatagoriesToolStripMenuItem_.Enabled = Operator.IsSet;
-				mImportToolStripMenuItem_.Enabled = Operator.IsSet;
+				mLogoutToolStripMenuItem_.Enabled = Operator.OperatorId.IsSet;
+				mSettingsToolStripMenuItem_.Enabled = Operator.OperatorId.IsSet;
+				mAccountsToolStripMenuItem_.Enabled = Operator.OperatorId.IsSet;
+				mCatagoriesToolStripMenuItem_.Enabled = Operator.OperatorId.IsSet;
+				mImportToolStripMenuItem_.Enabled = Operator.OperatorId.IsSet;
 				
-				if(Operator.IsSet)
+				if(Operator.OperatorId.IsSet)
 				{
 					MiskoFinanceMain.Instance.TransactionsPanel.Search();	
 				}

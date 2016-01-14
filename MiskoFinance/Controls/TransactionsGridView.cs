@@ -160,7 +160,7 @@ namespace MiskoFinance.Controls
 				// If the Transfer or One Time checkbox was changed then change the category
 				if (e.ColumnIndex.Equals(Columns.IndexOf(mTransfer_)) || e.ColumnIndex.Equals(Columns.IndexOf(mOneTime_)))
 				{
-					vwTxn.Category = null;               
+					vwTxn.Category = PrimaryKey.ZERO;               
 	
 					if(vwTxn.Transfer)
 					{

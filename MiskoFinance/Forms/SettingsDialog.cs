@@ -55,7 +55,7 @@ namespace MiskoFinance.Forms
 
         protected override void OnLoad(EventArgs e)
         {
-            if (mOperator_ == null || mOperator_.IsNotSet)
+            if (mOperator_ == null || mOperator_.OperatorId.IsNotSet)
             {
                 Text = "Create new user";
                 mUsername_.Enabled = true;
