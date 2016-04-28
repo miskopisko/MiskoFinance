@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
+using log4net;
 using MiskoFinance.Panels;
-using MiskoFinance.Properties;
 using MiskoFinanceCore.Data.Viewed;
 using MiskoFinanceCore.Message.Requests;
 using MiskoFinanceCore.Message.Responses;
@@ -11,18 +10,17 @@ using MiskoFinanceCore.Resources;
 using MiskoPersist.Core;
 using MiskoPersist.Data;
 using MiskoPersist.Enums;
-using MiskoPersist.Interfaces;
 using MiskoPersist.Message.Response;
 
 namespace MiskoFinance.Forms
 {
-	public partial class MiskoFinanceMain : Form, IOController
+	public partial class MiskoFinanceMain : Form
 	{
-		private static Logger Log = Logger.GetInstance(typeof(MiskoFinanceMain));
+		private static ILog Log = LogManager.GetLogger(typeof(MiskoFinanceMain));
 
 		#region Fields
 		
-		private static MiskoFinanceMain mInstance_;  
+		private static MiskoFinanceMain mInstance_;
 		
 		private VwOperator mOperator_ = new VwOperator();
 
@@ -37,7 +35,6 @@ namespace MiskoFinance.Forms
 				if(mInstance_ == null)
 				{
 					mInstance_ = new MiskoFinanceMain();
-					ServerConnection.IOController = mInstance_;
 				}
 				return mInstance_;
 			}
@@ -78,13 +75,13 @@ namespace MiskoFinance.Forms
 				mOperator_ = value ?? new VwOperator();
 				SearchPanel.Accounts = Operator.BankAccounts;
 				SearchPanel.Categories = Operator.Categories;
-				mLogoutToolStripMenuItem_.Enabled = Operator.OperatorId.IsSet;
-				mSettingsToolStripMenuItem_.Enabled = Operator.OperatorId.IsSet;
-				mAccountsToolStripMenuItem_.Enabled = Operator.OperatorId.IsSet;
-				mCatagoriesToolStripMenuItem_.Enabled = Operator.OperatorId.IsSet;
-				mImportToolStripMenuItem_.Enabled = Operator.OperatorId.IsSet;
+				mLogoutToolStripMenuItem_.Enabled = Operator.IsSet;
+				mSettingsToolStripMenuItem_.Enabled = Operator.IsSet;
+				mAccountsToolStripMenuItem_.Enabled = Operator.IsSet;
+				mCatagoriesToolStripMenuItem_.Enabled = Operator.IsSet;
+				mImportToolStripMenuItem_.Enabled = Operator.IsSet;
 				
-				if(Operator.OperatorId.IsSet)
+				if(Operator.IsSet)
 				{
 					MiskoFinanceMain.Instance.TransactionsPanel.Search();	
 				}
@@ -104,8 +101,6 @@ namespace MiskoFinance.Forms
 			{
 				WindowState = FormWindowState.Maximized;
 			}
-			
-			Reset();
 		}
 
 		#endregion
@@ -149,7 +144,7 @@ namespace MiskoFinance.Forms
 		{
 			SettingsDialog settings = new SettingsDialog(mOperator_);
 			
-			if (settings.ShowDialog(this) == DialogResult.OK)
+			if(settings.ShowDialog(this) == DialogResult.OK)
 			{
 				Operator = settings.Operator;
 			}
@@ -169,11 +164,11 @@ namespace MiskoFinance.Forms
 		{
 			base.OnShown(e);
 			
-			#if (DEBUG)
+			#if(DEBUG)
 				LoginRQ request = new LoginRQ();
 				request.Username = "miskopisko";
 				request.Password = "secret";
-				ServerConnection.SendRequest(request, LoginSuccess, LoginError);
+				Server.SendRequest(request, LoginSuccess, LoginError);
 			#else
 				new LoginDialog().ShowDialog(this);
 			#endif
@@ -192,15 +187,20 @@ namespace MiskoFinance.Forms
 		
 		private void Reset()
 		{
-			Operator = null;
-			SummaryPanel.Summary = null;
+			Operator = new VwOperator();
+			SummaryPanel.Summary = new VwSummary();
 			TransactionsPanel.Clear();
+			SearchPanel.Reset();
 			SearchPanel.Disable();
 		}
 
 		private void LoginSuccess(ResponseMessage response)
 		{
-			Operator = ((LoginRS)response).Operator;
+			LoginRS rs = response as LoginRS;
+			if(rs != null)
+			{
+				Operator = rs.Operator;	
+			}
 		}
 
 		private void LoginError(ResponseMessage response)
@@ -210,7 +210,11 @@ namespace MiskoFinance.Forms
 
 		private void UpdateOperatorSuccess(ResponseMessage response)
 		{
-			Operator = ((UpdateOperatorRS)response).Operator;
+			UpdateOperatorRS rs = response as UpdateOperatorRS;
+			if(rs != null)
+			{
+				Operator = rs.Operator;	
+			}			
 		}
 		
 		#endregion
@@ -220,7 +224,7 @@ namespace MiskoFinance.Forms
 
 		#endregion
 
-		#region IOController implementation
+		#region Server events
 
 		public void Status(MessageStatus status)
 		{
@@ -235,21 +239,6 @@ namespace MiskoFinance.Forms
 		public void MessageSent()
 		{
 			mMessageStatusBar_.Increment(mMessageStatusBar_.Step);
-		}
-
-		public void Exception(Object sender, System.Threading.ThreadExceptionEventArgs e)
-		{
-			#if DEBUG
-				Debug.WriteLine(e.Exception.StackTrace);
-			#endif
-			
-			Exception ex = e.Exception;
-			while (ex.InnerException != null)
-			{
-				ex = ex.InnerException;
-			}
-			
-			Error(new ErrorMessage(ex));
 		}
 
 		public void Error(ErrorMessage message)
@@ -267,77 +256,10 @@ namespace MiskoFinance.Forms
 			MessageBox.Show(this, message.ToString(), WarningStrings.infoInformation, MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
-		public Boolean Confirm(ErrorMessage message)
+		public void Confirm(ErrorMessage message, ConfirmationEventArgs args)
 		{
 			DialogResult result = MessageBox.Show(this, message.ToString(), ConfirmStrings.conConfirmation, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-			return result.Equals(DialogResult.Yes);
-		}
-
-		public Int32 RowsPerPage
-		{
-			get
-			{
-				return Settings.Default.RowsPerPage;
-			}
-		}
-
-		public ServerLocation ServerLocation
-		{
-			get
-			{
-				ServerLocation serverLocation = ServerLocation.GetElement(Settings.Default.ServerLocation);
-				
-				if(serverLocation == null)
-				{
-					throw new MiskoException("Invalid server location in settings");
-				}
-				else if(serverLocation.Equals(ServerLocation.Local))
-				{
-					DatabaseConnections.AddSqliteConnection(Settings.Default.LocalDatabase);
-				}
-				
-				return serverLocation;
-			}
-		}
-
-		public String Host
-		{
-			get
-			{
-				return Settings.Default.Hostname;
-			}
-		}
-
-		public Int16 Port
-		{
-			get
-			{
-				return (short)Settings.Default.Port;
-			}
-		}
-
-		public String Script
-		{
-			get
-			{
-				return Settings.Default.Script;
-			}
-		}
-
-		public Boolean UseSSL
-		{
-			get
-			{
-				return Settings.Default.UseSSL;
-			}
-		}
-		
-		public SerializationType SerializationType
-		{
-			get
-			{
-				return SerializationType.GetElement(Settings.Default.SerializationType);
-			}
+			args.Confirmed = result.Equals(DialogResult.Yes);
 		}
 		
 		#endregion

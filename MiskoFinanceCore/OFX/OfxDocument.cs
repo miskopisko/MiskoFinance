@@ -2,16 +2,16 @@ using System;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Web;
+using log4net;
 using MiskoFinanceCore.Data.Viewed;
 using MiskoFinanceCore.Enums;
-using MiskoPersist.Core;
 using MiskoPersist.MoneyType;
 
 namespace MiskoFinanceCore.OFX
 {
 	public class OfxDocument
     {
-        private static Logger Log = Logger.GetInstance(typeof(OfxDocument));
+        private static ILog Log = LogManager.GetLogger(typeof(OfxDocument));
 
         #region Variable Declarations
 
@@ -48,9 +48,9 @@ namespace MiskoFinanceCore.OFX
                 while (!reader.EndOfStream)
                 {
                     String temp = reader.ReadLine();
-                    if (inHeader)
+                    if(inHeader)
                     {
-                        if (temp.ToLower().Contains("<ofx>"))
+                        if(temp.ToLower().Contains("<ofx>"))
                         {
                             inHeader = false;
                         }
@@ -141,19 +141,19 @@ namespace MiskoFinanceCore.OFX
                     txn.DatePosted = DateTime.ParseExact(dt.Substring(0, 8), "yyyyMMdd", null);
                     txn.HashCode = AccountID + "-" + Regex.Match(capture.Value, @"(?<=<fitid>).+?(?=<)", RegexOptions.Multiline | RegexOptions.IgnoreCase).Value;
 
-                    if (Regex.Match(capture.Value, @"(?<=<trntype>).+?(?=<)", RegexOptions.Multiline | RegexOptions.IgnoreCase).Value.ToLower().Equals("credit"))
+                    if(Regex.Match(capture.Value, @"(?<=<trntype>).+?(?=<)", RegexOptions.Multiline | RegexOptions.IgnoreCase).Value.ToLower().Equals("credit"))
                     {
                         txn.DrCr = DrCr.Credit;
                     }
-                    if (Regex.Match(capture.Value, @"(?<=<trntype>).+?(?=<)", RegexOptions.Multiline | RegexOptions.IgnoreCase).Value.ToLower().Equals("debit"))
+                    if(Regex.Match(capture.Value, @"(?<=<trntype>).+?(?=<)", RegexOptions.Multiline | RegexOptions.IgnoreCase).Value.ToLower().Equals("debit"))
                     {
                         txn.DrCr = DrCr.Debit;
                     }
-                    if (Regex.Match(capture.Value, @"(?<=<trntype>).+?(?=<)", RegexOptions.Multiline | RegexOptions.IgnoreCase).Value.ToLower().Equals("srvchg"))
+                    if(Regex.Match(capture.Value, @"(?<=<trntype>).+?(?=<)", RegexOptions.Multiline | RegexOptions.IgnoreCase).Value.ToLower().Equals("srvchg"))
                     {
                         txn.DrCr = DrCr.Debit;
                     }
-                    if (Regex.Match(capture.Value, @"(?<=<trntype>).+?(?=<)", RegexOptions.Multiline | RegexOptions.IgnoreCase).Value.ToLower().Equals("check"))
+                    if(Regex.Match(capture.Value, @"(?<=<trntype>).+?(?=<)", RegexOptions.Multiline | RegexOptions.IgnoreCase).Value.ToLower().Equals("check"))
                     {
                         txn.DrCr = DrCr.Debit;
                     }

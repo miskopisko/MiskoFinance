@@ -30,7 +30,7 @@ namespace MiskoFinance.Controls
             }
             set 
             {
-                mValue_ = value;
+                mValue_ = value ?? Money.ZERO;
                 Text = mValue_.ToString();
             }
         }
@@ -77,7 +77,7 @@ namespace MiskoFinance.Controls
 
             if (!ReadOnly)
             {
-                if (MouseButtons == MouseButtons.None)
+                if(MouseButtons == MouseButtons.None)
                 {
                     Text = Text.Replace("$", "");                    
                     mFocused_ = true;
@@ -111,7 +111,7 @@ namespace MiskoFinance.Controls
         {
             base.OnTextChanged(e);
 
-            if (mValue_ != null && mValue_.lessThen(Money.ZERO))
+            if(mValue_ < Money.ZERO)
             {
                 ForeColor = Color.Red;
             }
@@ -127,14 +127,14 @@ namespace MiskoFinance.Controls
 
             if (!ReadOnly)
             {
-                if (Char.IsDigit(e.KeyChar) || e.KeyChar.Equals('-') || e.KeyChar.Equals('.') || e.KeyChar.Equals('\b'))
+                if(Char.IsDigit(e.KeyChar) || e.KeyChar.Equals('-') || e.KeyChar.Equals('.') || e.KeyChar.Equals('\b'))
                 {
-                    if (e.KeyChar.Equals('-') && SelectionStart != 0)
+                    if(e.KeyChar.Equals('-') && SelectionStart != 0)
                     {
                         e.Handled = true;
                     }
 
-                    if (Regex.IsMatch(Text, @"\.\d\d") && SelectionStart > Text.LastIndexOf('.') && !e.KeyChar.Equals('\b'))
+                    if(Regex.IsMatch(Text, @"\.\d\d") && SelectionStart > Text.LastIndexOf('.') && !e.KeyChar.Equals('\b'))
                     {
                         e.Handled = true;
                     }

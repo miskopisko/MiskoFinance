@@ -1,23 +1,22 @@
 using System;
-using MiskoPersist.Core;
+using log4net;
+using MiskoPersist.Attributes;
 using MiskoPersist.Data;
 using MiskoPersist.Message.Request;
 
 namespace MiskoFinanceCore.Message.Requests
 {
 	public class GetAccountRQ : RequestMessage
-    {
-        private static Logger Log = Logger.GetInstance(typeof(GetAccountRQ));
+	{
+		private static ILog Log = LogManager.GetLogger(typeof(GetAccountRQ));
 
-        #region Parameters
+		#region Parameters
 
-        public PrimaryKey Operator { get; set;}
-        public String AccountNo { get; set; }
+		[Viewed]
+		public PrimaryKey Operator { get; set;}
+		[Viewed]
+		public String AccountNo { get; set; }
 
-        #endregion
-
-        public GetAccountRQ()
-        {
-        }
-    }
+		#endregion
+	}
 }

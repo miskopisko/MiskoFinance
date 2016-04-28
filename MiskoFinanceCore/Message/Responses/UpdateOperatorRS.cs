@@ -1,21 +1,19 @@
+using log4net;
 using MiskoFinanceCore.Data.Viewed;
-using MiskoPersist.Core;
+using MiskoPersist.Attributes;
 using MiskoPersist.Message.Response;
 
 namespace MiskoFinanceCore.Message.Responses
 {
 	public class UpdateOperatorRS : ResponseMessage
-    {
-        private static Logger Log = Logger.GetInstance(typeof(UpdateOperatorRS));
+	{
+		private static ILog Log = LogManager.GetLogger(typeof(UpdateOperatorRS));
 
-        #region Parameters
+		#region Parameters
 
-        public VwOperator Operator { get; set; }
+		[Viewed]
+		public VwOperator Operator { get; set; }
 
-        #endregion
-
-        public UpdateOperatorRS()
-        {
-        }
-    }
+		#endregion
+	}
 }

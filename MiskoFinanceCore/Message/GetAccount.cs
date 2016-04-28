@@ -1,4 +1,6 @@
 using System;
+using log4net;
+using MiskoFinanceCore.Data.Viewed;
 using MiskoFinanceCore.Message.Requests;
 using MiskoFinanceCore.Message.Responses;
 using MiskoFinanceCore.Resources;
@@ -10,7 +12,7 @@ namespace MiskoFinanceCore.Message
 {
 	public class GetAccount : MessageWrapper
     {
-        private static Logger Log = Logger.GetInstance(typeof(GetAccount));
+        private static ILog Log = LogManager.GetLogger(typeof(GetAccount));
 
         #region Properties
 
@@ -25,11 +27,11 @@ namespace MiskoFinanceCore.Message
 
         public override void Execute(Session session)
         {
-            Response.BankAccount.FetchByAccountNo(session, Request.AccountNo);
+            Response.BankAccount = VwBankAccount.GetInstanceByAccountNo(session, Request.AccountNo);
             
-            if(Response.BankAccount.BankAccountId == null || Response.BankAccount.BankAccountId.IsNotSet)
+            if(!Response.BankAccount.IsSet)
             {
-            	session.Error(ErrorLevel.Error, ErrorStrings.errAccountNotFound, new Object[] { Request.AccountNo });
+            	session.Error(ErrorLevel.Error, ErrorStrings.errAccountNotFound, Request.AccountNo);
             }
         }
     }

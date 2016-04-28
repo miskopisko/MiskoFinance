@@ -26,7 +26,7 @@
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="ServerLocation" Type="System.Int64" Scope="User" Roaming="false">
-      <Value Profile="(Default)">0</Value>
+      <Value Profile="(Default)">1</Value>
     </Setting>
     <Setting Name="UseSSL" Type="System.Boolean" Scope="User" Roaming="false">
       <Value Profile="(Default)">False</Value>

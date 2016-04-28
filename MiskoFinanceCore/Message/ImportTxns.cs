@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using log4net;
 using MiskoFinanceCore.Data.Stored;
 using MiskoFinanceCore.Data.Viewed;
 using MiskoFinanceCore.Message.Requests;
@@ -12,7 +13,7 @@ namespace MiskoFinanceCore.Message
 {
 	public class ImportTxns : MessageWrapper
     {
-        private static Logger Log = Logger.GetInstance(typeof(ImportTxns));
+        private static ILog Log = LogManager.GetLogger(typeof(ImportTxns));
 
         #region Properties
 
@@ -66,7 +67,7 @@ namespace MiskoFinanceCore.Message
             	}
             }
             
-            session.Error(ErrorLevel.Information, "Added {0} transactions to account {1}.", new Object[] { noTxnsAdded, Response.BankAccount.AccountNumber });
+            session.Error(ErrorLevel.Information, "Added {0} transactions to account {1}.", noTxnsAdded, Response.BankAccount.AccountNumber);
         }
     }
 }

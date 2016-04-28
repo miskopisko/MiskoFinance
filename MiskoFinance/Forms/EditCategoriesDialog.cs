@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using log4net;
 using MiskoFinance.Controls;
 using MiskoFinanceCore.Data.Viewed;
 using MiskoFinanceCore.Enums;
@@ -12,7 +13,7 @@ namespace MiskoFinance.Forms
 {
 	public partial class EditCategoriesDialog : Form
     {
-        private static Logger Log = Logger.GetInstance(typeof(EditCategoriesDialog));
+        private static ILog Log = LogManager.GetLogger(typeof(EditCategoriesDialog));
 
         #region Fields
 
@@ -52,7 +53,7 @@ namespace MiskoFinance.Forms
 
             GetCategoriesRQ request = new GetCategoriesRQ();
             request.Operator = MiskoFinanceMain.Instance.Operator.OperatorId;
-            ServerConnection.SendRequest(request, GetCategoriesSuccess);
+            Server.SendRequest(request, GetCategoriesSuccess);
             
             CenterToParent();
         }
@@ -76,8 +77,12 @@ namespace MiskoFinance.Forms
 
         private void UpdateCategoriesSuccess(ResponseMessage response)
         {
-            MiskoFinanceMain.Instance.Operator.Categories = ((UpdateCategoriesRS)response).Categories.GetByStatus(Status.Active);
-            MiskoFinanceMain.Instance.SearchPanel.Categories = ((UpdateCategoriesRS)response).Categories;
+        	UpdateCategoriesRS rs = response as UpdateCategoriesRS;
+        	if(rs != null)
+        	{
+        		MiskoFinanceMain.Instance.Operator.Categories = rs.Categories.GetByStatus(Status.Active);
+            	MiskoFinanceMain.Instance.SearchPanel.Categories = rs.Categories;	
+        	}            
             
             Dispose();
         }
@@ -98,7 +103,7 @@ namespace MiskoFinance.Forms
 
         private void mAddExpense__Click(Object sender, EventArgs e)
         {
-            VwCategory newCategory = mExistingExpenses_.DataSource.AddNew();
+        	VwCategory newCategory = (VwCategory)((VwCategories)mExistingExpenses_.DataSource).AddNew();
             newCategory.CategoryType = CategoryType.Expense;
             newCategory.Status = Status.Active;
             mExistingExpenses_.CurrentCell = mExistingExpenses_.Rows[mExistingExpenses_.Rows.Count - 1].Cells["Name"];
@@ -108,7 +113,7 @@ namespace MiskoFinance.Forms
 
         private void mAddTransfer__Click(Object sender, EventArgs e)
         {
-            VwCategory newCategory = mExistingTransfers_.DataSource.AddNew();
+        	VwCategory newCategory = (VwCategory)((VwCategories)mExistingTransfers_.DataSource).AddNew();
             newCategory.CategoryType = CategoryType.Transfer;
             newCategory.Status = Status.Active;
             mExistingTransfers_.CurrentCell = mExistingTransfers_.Rows[mExistingTransfers_.Rows.Count - 1].Cells["Name"];
@@ -118,7 +123,7 @@ namespace MiskoFinance.Forms
 
         private void mAddIncome__Click(Object sender, EventArgs e)
         {
-            VwCategory newCategory = mExistingIncome_.DataSource.AddNew();
+        	VwCategory newCategory = (VwCategory)((VwCategories)mExistingIncome_.DataSource).AddNew();
             newCategory.CategoryType = CategoryType.Income;
             newCategory.Status = Status.Active;
             mExistingIncome_.CurrentCell = mExistingIncome_.Rows[mExistingIncome_.Rows.Count - 1].Cells["Name"];
@@ -128,7 +133,7 @@ namespace MiskoFinance.Forms
         
         private void mAddOneTime__Click(Object sender, EventArgs e)
         {
-        	VwCategory newCategory = mExistingOneTime_.DataSource.AddNew();
+        	VwCategory newCategory = (VwCategory)((VwCategories)mExistingOneTime_.DataSource).AddNew();
             newCategory.CategoryType = CategoryType.OneTime;
             newCategory.Status = Status.Active;
             mExistingOneTime_.CurrentCell = mExistingOneTime_.Rows[mExistingOneTime_.Rows.Count - 1].Cells["Name"];
@@ -139,18 +144,18 @@ namespace MiskoFinance.Forms
         private void DoneBtn_Click(Object sender, EventArgs e)
         {
             VwCategories categories = new VwCategories();
-            categories.AddRange(((VwCategories)mExistingIncome_.DataSource));
-            categories.AddRange((VwCategories)mExistingExpenses_.DataSource);
-            categories.AddRange((VwCategories)mExistingTransfers_.DataSource);
-            categories.AddRange((VwCategories)mExistingOneTime_.DataSource);
+            categories.Concatenate(((VwCategories)mExistingIncome_.DataSource));
+            categories.Concatenate((VwCategories)mExistingExpenses_.DataSource);
+            categories.Concatenate((VwCategories)mExistingTransfers_.DataSource);
+            categories.Concatenate((VwCategories)mExistingOneTime_.DataSource);
 
-            if (categories.Count > 0)
+            if(categories.Count > 0)
             {
             	Enabled = false;
             	
                 UpdateCategoriesRQ request = new UpdateCategoriesRQ();
                 request.Categories = categories;
-                ServerConnection.SendRequest(request, UpdateCategoriesSuccess, UpdateCategoriesError);
+                Server.SendRequest(request, UpdateCategoriesSuccess, UpdateCategoriesError);
             }
             else
             {

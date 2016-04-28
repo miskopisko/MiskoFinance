@@ -1,21 +1,19 @@
+using log4net;
 using MiskoFinanceCore.Data.Viewed;
-using MiskoPersist.Core;
+using MiskoPersist.Attributes;
 using MiskoPersist.Message.Request;
 
 namespace MiskoFinanceCore.Message.Requests
 {
 	public class UpdateAccountsRQ : RequestMessage
-    {
-        private static Logger Log = Logger.GetInstance(typeof(UpdateAccountsRQ));
+	{
+		private static ILog Log = LogManager.GetLogger(typeof(UpdateAccountsRQ));
 
-        #region Parameters
+		#region Parameters
 
-        public VwBankAccounts BankAccounts { get; set; }
+		[Viewed]
+		public VwBankAccounts BankAccounts { get; set; }
 
-        #endregion
-
-        public UpdateAccountsRQ()
-        {
-        }
-    }
+		#endregion
+	}
 }

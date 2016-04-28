@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Windows.Forms;
+using log4net;
 using MiskoFinance.Panels;
-using MiskoPersist.Core;
 
 namespace MiskoFinance.Forms
 {
 	public partial class LoginDialog : Form
     {
-        private static Logger Log = Logger.GetInstance(typeof(LoginDialog));
+        private static ILog Log = LogManager.GetLogger(typeof(LoginDialog));
         
         public LoginDialog()
         {
@@ -34,7 +34,7 @@ namespace MiskoFinance.Forms
 		{
 			base.OnFormClosing(e);
 
-        	if (this.DialogResult == DialogResult.Cancel)
+        	if(this.DialogResult == DialogResult.Cancel)
         	{
         		Application.Exit();
         	}

@@ -1,13 +1,14 @@
 using System;
+using log4net;
 using MiskoPersist.Core;
 using MiskoPersist.Data;
 using MiskoPersist.Enums;
 
 namespace MiskoFinanceCore.Data.Viewed
 {
-	public class VwTxns : AbstractViewedDataList<VwTxn>
+	public class VwTxns : ViewedDataList
     {
-        private static Logger Log = Logger.GetInstance(typeof(VwTxns));
+        private static ILog Log = LogManager.GetLogger(typeof(VwTxns));
 
         #region Fields
 
@@ -23,7 +24,7 @@ namespace MiskoFinanceCore.Data.Viewed
 
         #region Constructors
 
-        public VwTxns()
+        public VwTxns() : base(typeof(VwTxn))
         {
         }
 
@@ -41,13 +42,13 @@ namespace MiskoFinanceCore.Data.Viewed
         {
             Persistence p = Persistence.GetInstance(session);
             p.SetSql("SELECT * FROM VwTxn");
-            p.SqlWhere(op != null && op > 0, "OperatorId = ?", new Object[]{ op });
-            p.SqlWhere(account != null && account > 0, "AccountId = ?", new Object[] { account });
-            p.SqlWhere(from.HasValue, "DatePosted >= ?", new Object[] { from });
-            p.SqlWhere(to.HasValue, "DatePosted <= ?", new Object[] { to });
-            p.SqlWhere(category != null && category > 0, "Category = ?", new Object[] { category });
-            p.SqlWhere(!String.IsNullOrEmpty(description), "Description LIKE ?", new Object[] { "%" + description + "%" });
-            p.SqlOrderBy("DatePosted", SortDirection.Descending);            
+            p.SqlWhere(op != null && op.IsSet, "OperatorId = ?",  op);
+            p.SqlWhere(account != null && account.IsSet, "AccountId = ?", account);
+            p.SqlWhere(from.HasValue, "DatePosted >= ?", from);
+            p.SqlWhere(to.HasValue, "DatePosted <= ?", to);
+            p.SqlWhere(category != null && category.IsSet, "Category = ?", category);
+            p.SqlWhere(!String.IsNullOrEmpty(description), "Description LIKE ?", "%" + description + "%");
+            p.SqlOrderBy("DatePosted", SqlSortDirection.Descending);            
             p.ExecuteQuery();
             Set(session, p, page);
             p.Close();

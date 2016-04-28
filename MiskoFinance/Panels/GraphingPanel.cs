@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
-using System.Windows.Forms.DataVisualization.Charting;
 using MiskoFinanceCore.Data.Viewed;
-using MiskoPersist.MoneyType;
 
 namespace MiskoFinance.Panels
 {

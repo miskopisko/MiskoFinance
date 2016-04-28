@@ -1,12 +1,13 @@
 using System;
+using log4net;
 using MiskoPersist.Core;
 using MiskoPersist.Data;
 
 namespace MiskoFinanceCore.Data.Stored
 {
-	public class Txns : AbstractStoredDataList<Txn>
+	public class Txns : StoredDataList
     {
-        private static Logger Log = Logger.GetInstance(typeof(Txns));
+        private static ILog Log = LogManager.GetLogger(typeof(Txns));
 
         #region Fields
 
@@ -22,7 +23,7 @@ namespace MiskoFinanceCore.Data.Stored
 
         #region Constructors
 
-        public Txns()
+        public Txns() : base(typeof(Txn))
         {
         }
 
@@ -38,13 +39,13 @@ namespace MiskoFinanceCore.Data.Stored
 
         public static void RemoveTxnCategory(Session session, Category category)
         {
-            Persistence.ExecuteUpdate(session, "UPDATE Txn SET Category = ? WHERE Category = ?", new Object[] { null, category });
+            Persistence.ExecuteUpdate(session, "UPDATE Txn SET Category = ? WHERE Category = ?", null, category);
         }
 
         public void FetchByAccountAndDate(Session sessiom, PrimaryKey account, DateTime fromDate, DateTime toDate)
         {
             Persistence persistence = Persistence.GetInstance(sessiom);
-            persistence.ExecuteQuery("SELECT * FROM Txn WHERE Account = ? AND DatePosted BETWEEN ? AND ?", new Object[] { account, fromDate, toDate });
+            persistence.ExecuteQuery("SELECT * FROM Txn WHERE Account = ? AND DatePosted BETWEEN ? AND ?", account, fromDate, toDate);
             Set(sessiom, persistence);
             persistence.Close();
             persistence = null;

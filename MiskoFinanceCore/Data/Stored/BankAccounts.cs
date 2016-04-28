@@ -1,11 +1,10 @@
-using MiskoPersist.Core;
-using MiskoPersist.Data;
+using log4net;
 
 namespace MiskoFinanceCore.Data.Stored
 {
-	public class BankAccounts : AbstractStoredDataList<BankAccount>
+	public class BankAccounts : Accounts
     {
-        private static Logger Log = Logger.GetInstance(typeof(BankAccounts));
+        private static ILog Log = LogManager.GetLogger(typeof(BankAccounts));
 
         #region Fields
 

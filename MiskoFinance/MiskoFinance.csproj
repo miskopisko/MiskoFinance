@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MiskoFinance</RootNamespace>
     <AssemblyName>MiskoFinance</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <TargetFrameworkProfile>
@@ -84,9 +84,9 @@
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Controls\AbstractEnumComboBoxCell.cs" />
-    <Compile Include="Controls\AbstractEnumComboBoxCell.Designer.cs">
-      <DependentUpon>AbstractEnumComboBoxCell.cs</DependentUpon>
+    <Compile Include="Controls\MiskoEnumComboBoxCell.cs" />
+    <Compile Include="Controls\MiskoEnumComboBoxCell.Designer.cs">
+      <DependentUpon>MiskoEnumComboBoxCell.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\AboutDialog.cs">
       <SubType>Form</SubType>
@@ -226,6 +226,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>Libraries\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />

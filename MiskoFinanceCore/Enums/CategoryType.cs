@@ -3,7 +3,7 @@ using MiskoPersist.Enums;
 
 namespace MiskoFinanceCore.Enums
 {
-	public class CategoryType : AbstractEnum
+	public class CategoryType : MiskoEnum
     {
         #region Fields
 
@@ -43,7 +43,7 @@ namespace MiskoFinanceCore.Enums
         {
             for (Int32 i = 0; Elements != null && i < Elements.Length; i++)
             {
-                if (Elements[i].Value == index)
+                if(Elements[i].Value == index)
                 {
                     return Elements[i];
                 }
@@ -56,7 +56,7 @@ namespace MiskoFinanceCore.Enums
         {
             for (Int32 i = 0; descriptionCode != null && Elements != null && i < Elements.Length; i++)
             {
-                if (Elements[i].Description.ToLower().Equals(descriptionCode.ToLower()) || Elements[i].Code.ToLower().Equals(descriptionCode.ToLower()))
+                if(Elements[i].Description.ToLower().Equals(descriptionCode.ToLower()) || Elements[i].Code.ToLower().Equals(descriptionCode.ToLower()))
                 {
                     return Elements[i];
                 }

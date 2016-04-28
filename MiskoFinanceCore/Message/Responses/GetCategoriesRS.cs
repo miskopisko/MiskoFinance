@@ -1,21 +1,19 @@
+using log4net;
 using MiskoFinanceCore.Data.Viewed;
-using MiskoPersist.Core;
+using MiskoPersist.Attributes;
 using MiskoPersist.Message.Response;
 
 namespace MiskoFinanceCore.Message.Responses
 {
 	public class GetCategoriesRS : ResponseMessage
-    {
-        private static Logger Log = Logger.GetInstance(typeof(GetCategoriesRS));
+	{
+		private static ILog Log = LogManager.GetLogger(typeof(GetCategoriesRS));
 
-        #region Parameters
+		#region Parameters
 
-        public VwCategories Categories { get; set; }
+		[Viewed]
+		public VwCategories Categories { get; set; }
 
-        #endregion
-
-        public GetCategoriesRS()
-        {
-        }
-    }
+		#endregion
+	}
 }

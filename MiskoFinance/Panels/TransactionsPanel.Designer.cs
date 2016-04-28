@@ -14,7 +14,7 @@ namespace MiskoFinance.Panels
 		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
 		protected override void Dispose(Boolean disposing)
 		{
-			if (disposing && (components != null))
+			if(disposing && (components != null))
 			{
 				components.Dispose();
 			}
@@ -32,18 +32,18 @@ namespace MiskoFinance.Panels
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-			MiskoPersist.MoneyType.Money money1 = new MiskoPersist.MoneyType.Money();
-			MiskoPersist.MoneyType.Money money2 = new MiskoPersist.MoneyType.Money();
-			MiskoPersist.MoneyType.Money money3 = new MiskoPersist.MoneyType.Money();
-			MiskoPersist.MoneyType.Money money4 = new MiskoPersist.MoneyType.Money();
-			MiskoPersist.MoneyType.Money money5 = new MiskoPersist.MoneyType.Money();
-			MiskoPersist.MoneyType.Money money6 = new MiskoPersist.MoneyType.Money();
-			MiskoPersist.MoneyType.Money money7 = new MiskoPersist.MoneyType.Money();
-			MiskoPersist.MoneyType.Money money8 = new MiskoPersist.MoneyType.Money();
-			MiskoPersist.MoneyType.Money money9 = new MiskoPersist.MoneyType.Money();
 			this.mSummaryRow_ = new System.Windows.Forms.TableLayoutPanel();
+			this.mCreditTotal_ = new MiskoFinance.Controls.MoneyBox();
 			this.mPageCountLbl_ = new System.Windows.Forms.Label();
+			this.mTotalTransferIn_ = new MiskoFinance.Controls.MoneyBox();
+			this.mTotalTransferOut_ = new MiskoFinance.Controls.MoneyBox();
+			this.mTransferDiff_ = new MiskoFinance.Controls.MoneyBox();
+			this.mTotalOneTimeIn_ = new MiskoFinance.Controls.MoneyBox();
+			this.mTotalOneTimeOut_ = new MiskoFinance.Controls.MoneyBox();
+			this.mOneTimeDiff_ = new MiskoFinance.Controls.MoneyBox();
+			this.mDebitTotal_ = new MiskoFinance.Controls.MoneyBox();
 			this.mTransactionCountLbl_ = new System.Windows.Forms.Label();
+			this.mCreditDebitDiff_ = new MiskoFinance.Controls.MoneyBox();
 			this.mTransactionsGridView_ = new MiskoFinance.Controls.TransactionsGridView();
 			this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -53,15 +53,6 @@ namespace MiskoFinance.Panels
 			this.dataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
 			this.dataGridViewCheckBoxColumn2 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
 			this.dataGridViewComboBoxColumn1 = new System.Windows.Forms.DataGridViewComboBoxColumn();
-			this.mCreditTotal_ = new MiskoFinance.Controls.MoneyBox();
-			this.mTotalTransferIn_ = new MiskoFinance.Controls.MoneyBox();
-			this.mTotalTransferOut_ = new MiskoFinance.Controls.MoneyBox();
-			this.mTransferDiff_ = new MiskoFinance.Controls.MoneyBox();
-			this.mTotalOneTimeIn_ = new MiskoFinance.Controls.MoneyBox();
-			this.mTotalOneTimeOut_ = new MiskoFinance.Controls.MoneyBox();
-			this.mOneTimeDiff_ = new MiskoFinance.Controls.MoneyBox();
-			this.mDebitTotal_ = new MiskoFinance.Controls.MoneyBox();
-			this.mCreditDebitDiff_ = new MiskoFinance.Controls.MoneyBox();
 			this.mSummaryRow_.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.mTransactionsGridView_)).BeginInit();
 			this.SuspendLayout();
@@ -102,6 +93,26 @@ namespace MiskoFinance.Panels
 			this.mSummaryRow_.Size = new System.Drawing.Size(500, 63);
 			this.mSummaryRow_.TabIndex = 1;
 			// 
+			// mCreditTotal_
+			// 
+			this.mCreditTotal_.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			| System.Windows.Forms.AnchorStyles.Left) 
+			| System.Windows.Forms.AnchorStyles.Right)));
+			this.mCreditTotal_.BackColor = System.Drawing.SystemColors.Window;
+			this.mCreditTotal_.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.mCreditTotal_.CausesValidation = false;
+			this.mCreditTotal_.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+			this.mCreditTotal_.Cursor = System.Windows.Forms.Cursors.Default;
+			this.mCreditTotal_.ForeColor = System.Drawing.Color.Black;
+			this.mCreditTotal_.Location = new System.Drawing.Point(73, 0);
+			this.mCreditTotal_.Margin = new System.Windows.Forms.Padding(2, 0, 0, 1);
+			this.mCreditTotal_.Name = "mCreditTotal_";
+			this.mCreditTotal_.ReadOnly = true;
+			this.mCreditTotal_.Size = new System.Drawing.Size(71, 20);
+			this.mCreditTotal_.TabIndex = 2;
+			this.mCreditTotal_.Text = "$0.00";
+			this.mCreditTotal_.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			// 
 			// mPageCountLbl_
 			// 
 			this.mPageCountLbl_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -113,6 +124,146 @@ namespace MiskoFinance.Panels
 			this.mPageCountLbl_.TabIndex = 6;
 			this.mPageCountLbl_.Text = "Page Count";
 			this.mPageCountLbl_.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// mTotalTransferIn_
+			// 
+			this.mTotalTransferIn_.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			| System.Windows.Forms.AnchorStyles.Left) 
+			| System.Windows.Forms.AnchorStyles.Right)));
+			this.mTotalTransferIn_.BackColor = System.Drawing.SystemColors.Window;
+			this.mTotalTransferIn_.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.mTotalTransferIn_.CausesValidation = false;
+			this.mTotalTransferIn_.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+			this.mTotalTransferIn_.Cursor = System.Windows.Forms.Cursors.Default;
+			this.mTotalTransferIn_.ForeColor = System.Drawing.Color.Black;
+			this.mTotalTransferIn_.Location = new System.Drawing.Point(222, 0);
+			this.mTotalTransferIn_.Margin = new System.Windows.Forms.Padding(2, 0, 0, 1);
+			this.mTotalTransferIn_.Name = "mTotalTransferIn_";
+			this.mTotalTransferIn_.ReadOnly = true;
+			this.mTotalTransferIn_.Size = new System.Drawing.Size(71, 20);
+			this.mTotalTransferIn_.TabIndex = 9;
+			this.mTotalTransferIn_.Text = "$0.00";
+			this.mTotalTransferIn_.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			// 
+			// mTotalTransferOut_
+			// 
+			this.mTotalTransferOut_.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			| System.Windows.Forms.AnchorStyles.Left) 
+			| System.Windows.Forms.AnchorStyles.Right)));
+			this.mTotalTransferOut_.BackColor = System.Drawing.SystemColors.Window;
+			this.mTotalTransferOut_.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.mTotalTransferOut_.CausesValidation = false;
+			this.mTotalTransferOut_.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+			this.mTotalTransferOut_.Cursor = System.Windows.Forms.Cursors.Default;
+			this.mTotalTransferOut_.ForeColor = System.Drawing.Color.Black;
+			this.mTotalTransferOut_.Location = new System.Drawing.Point(222, 21);
+			this.mTotalTransferOut_.Margin = new System.Windows.Forms.Padding(2, 0, 0, 1);
+			this.mTotalTransferOut_.Name = "mTotalTransferOut_";
+			this.mTotalTransferOut_.ReadOnly = true;
+			this.mTotalTransferOut_.Size = new System.Drawing.Size(71, 20);
+			this.mTotalTransferOut_.TabIndex = 15;
+			this.mTotalTransferOut_.Text = "$0.00";
+			this.mTotalTransferOut_.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			// 
+			// mTransferDiff_
+			// 
+			this.mTransferDiff_.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			| System.Windows.Forms.AnchorStyles.Left) 
+			| System.Windows.Forms.AnchorStyles.Right)));
+			this.mTransferDiff_.BackColor = System.Drawing.SystemColors.Window;
+			this.mTransferDiff_.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.mTransferDiff_.CausesValidation = false;
+			this.mTransferDiff_.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+			this.mTransferDiff_.Cursor = System.Windows.Forms.Cursors.Default;
+			this.mTransferDiff_.ForeColor = System.Drawing.Color.Black;
+			this.mTransferDiff_.Location = new System.Drawing.Point(222, 42);
+			this.mTransferDiff_.Margin = new System.Windows.Forms.Padding(2, 0, 0, 1);
+			this.mTransferDiff_.Name = "mTransferDiff_";
+			this.mTransferDiff_.ReadOnly = true;
+			this.mTransferDiff_.Size = new System.Drawing.Size(71, 20);
+			this.mTransferDiff_.TabIndex = 4;
+			this.mTransferDiff_.Text = "$0.00";
+			this.mTransferDiff_.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			// 
+			// mTotalOneTimeIn_
+			// 
+			this.mTotalOneTimeIn_.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			| System.Windows.Forms.AnchorStyles.Left) 
+			| System.Windows.Forms.AnchorStyles.Right)));
+			this.mTotalOneTimeIn_.BackColor = System.Drawing.SystemColors.Window;
+			this.mTotalOneTimeIn_.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.mTotalOneTimeIn_.CausesValidation = false;
+			this.mTotalOneTimeIn_.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+			this.mTotalOneTimeIn_.Cursor = System.Windows.Forms.Cursors.Default;
+			this.mTotalOneTimeIn_.ForeColor = System.Drawing.Color.Black;
+			this.mTotalOneTimeIn_.Location = new System.Drawing.Point(295, 0);
+			this.mTotalOneTimeIn_.Margin = new System.Windows.Forms.Padding(2, 0, 0, 1);
+			this.mTotalOneTimeIn_.Name = "mTotalOneTimeIn_";
+			this.mTotalOneTimeIn_.ReadOnly = true;
+			this.mTotalOneTimeIn_.Size = new System.Drawing.Size(71, 20);
+			this.mTotalOneTimeIn_.TabIndex = 8;
+			this.mTotalOneTimeIn_.Text = "$0.00";
+			this.mTotalOneTimeIn_.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			// 
+			// mTotalOneTimeOut_
+			// 
+			this.mTotalOneTimeOut_.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			| System.Windows.Forms.AnchorStyles.Left) 
+			| System.Windows.Forms.AnchorStyles.Right)));
+			this.mTotalOneTimeOut_.BackColor = System.Drawing.SystemColors.Window;
+			this.mTotalOneTimeOut_.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.mTotalOneTimeOut_.CausesValidation = false;
+			this.mTotalOneTimeOut_.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+			this.mTotalOneTimeOut_.Cursor = System.Windows.Forms.Cursors.Default;
+			this.mTotalOneTimeOut_.ForeColor = System.Drawing.Color.Black;
+			this.mTotalOneTimeOut_.Location = new System.Drawing.Point(295, 21);
+			this.mTotalOneTimeOut_.Margin = new System.Windows.Forms.Padding(2, 0, 0, 1);
+			this.mTotalOneTimeOut_.Name = "mTotalOneTimeOut_";
+			this.mTotalOneTimeOut_.ReadOnly = true;
+			this.mTotalOneTimeOut_.Size = new System.Drawing.Size(71, 20);
+			this.mTotalOneTimeOut_.TabIndex = 13;
+			this.mTotalOneTimeOut_.Text = "$0.00";
+			this.mTotalOneTimeOut_.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			// 
+			// mOneTimeDiff_
+			// 
+			this.mOneTimeDiff_.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			| System.Windows.Forms.AnchorStyles.Left) 
+			| System.Windows.Forms.AnchorStyles.Right)));
+			this.mOneTimeDiff_.BackColor = System.Drawing.SystemColors.Window;
+			this.mOneTimeDiff_.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.mOneTimeDiff_.CausesValidation = false;
+			this.mOneTimeDiff_.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+			this.mOneTimeDiff_.Cursor = System.Windows.Forms.Cursors.Default;
+			this.mOneTimeDiff_.ForeColor = System.Drawing.Color.Black;
+			this.mOneTimeDiff_.Location = new System.Drawing.Point(295, 42);
+			this.mOneTimeDiff_.Margin = new System.Windows.Forms.Padding(2, 0, 0, 1);
+			this.mOneTimeDiff_.Name = "mOneTimeDiff_";
+			this.mOneTimeDiff_.ReadOnly = true;
+			this.mOneTimeDiff_.Size = new System.Drawing.Size(71, 20);
+			this.mOneTimeDiff_.TabIndex = 5;
+			this.mOneTimeDiff_.Text = "$0.00";
+			this.mOneTimeDiff_.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			// 
+			// mDebitTotal_
+			// 
+			this.mDebitTotal_.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			| System.Windows.Forms.AnchorStyles.Left) 
+			| System.Windows.Forms.AnchorStyles.Right)));
+			this.mDebitTotal_.BackColor = System.Drawing.SystemColors.Window;
+			this.mDebitTotal_.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.mDebitTotal_.CausesValidation = false;
+			this.mDebitTotal_.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+			this.mDebitTotal_.Cursor = System.Windows.Forms.Cursors.Default;
+			this.mDebitTotal_.ForeColor = System.Drawing.Color.Black;
+			this.mDebitTotal_.Location = new System.Drawing.Point(146, 0);
+			this.mDebitTotal_.Margin = new System.Windows.Forms.Padding(2, 0, 0, 1);
+			this.mDebitTotal_.Name = "mDebitTotal_";
+			this.mDebitTotal_.ReadOnly = true;
+			this.mDebitTotal_.Size = new System.Drawing.Size(74, 20);
+			this.mDebitTotal_.TabIndex = 3;
+			this.mDebitTotal_.Text = "$0.00";
+			this.mDebitTotal_.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
 			// mTransactionCountLbl_
 			// 
@@ -126,6 +277,27 @@ namespace MiskoFinance.Panels
 			this.mTransactionCountLbl_.TabIndex = 7;
 			this.mTransactionCountLbl_.Text = "Txn Count";
 			this.mTransactionCountLbl_.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// mCreditDebitDiff_
+			// 
+			this.mCreditDebitDiff_.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			| System.Windows.Forms.AnchorStyles.Left) 
+			| System.Windows.Forms.AnchorStyles.Right)));
+			this.mCreditDebitDiff_.BackColor = System.Drawing.SystemColors.Window;
+			this.mCreditDebitDiff_.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.mCreditDebitDiff_.CausesValidation = false;
+			this.mCreditDebitDiff_.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+			this.mSummaryRow_.SetColumnSpan(this.mCreditDebitDiff_, 2);
+			this.mCreditDebitDiff_.Cursor = System.Windows.Forms.Cursors.Default;
+			this.mCreditDebitDiff_.ForeColor = System.Drawing.Color.Black;
+			this.mCreditDebitDiff_.Location = new System.Drawing.Point(73, 21);
+			this.mCreditDebitDiff_.Margin = new System.Windows.Forms.Padding(2, 0, 0, 1);
+			this.mCreditDebitDiff_.Name = "mCreditDebitDiff_";
+			this.mCreditDebitDiff_.ReadOnly = true;
+			this.mCreditDebitDiff_.Size = new System.Drawing.Size(147, 20);
+			this.mCreditDebitDiff_.TabIndex = 12;
+			this.mCreditDebitDiff_.Text = "$0.00";
+			this.mCreditDebitDiff_.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
 			// mTransactionsGridView_
 			// 
@@ -205,203 +377,11 @@ namespace MiskoFinance.Panels
 			// dataGridViewComboBoxColumn1
 			// 
 			this.dataGridViewComboBoxColumn1.DataPropertyName = "Category";
-			this.dataGridViewComboBoxColumn1.DisplayMember = "Name";
 			this.dataGridViewComboBoxColumn1.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
 			this.dataGridViewComboBoxColumn1.HeaderText = "Category";
 			this.dataGridViewComboBoxColumn1.Name = "dataGridViewComboBoxColumn1";
 			this.dataGridViewComboBoxColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-			this.dataGridViewComboBoxColumn1.ValueMember = "CategoryId";
 			this.dataGridViewComboBoxColumn1.Width = 150;
-			// 
-			// mCreditTotal_
-			// 
-			this.mCreditTotal_.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-			| System.Windows.Forms.AnchorStyles.Left) 
-			| System.Windows.Forms.AnchorStyles.Right)));
-			this.mCreditTotal_.BackColor = System.Drawing.SystemColors.Window;
-			this.mCreditTotal_.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.mCreditTotal_.CausesValidation = false;
-			this.mCreditTotal_.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-			this.mCreditTotal_.Cursor = System.Windows.Forms.Cursors.Default;
-			this.mCreditTotal_.ForeColor = System.Drawing.Color.Black;
-			this.mCreditTotal_.Location = new System.Drawing.Point(73, 0);
-			this.mCreditTotal_.Margin = new System.Windows.Forms.Padding(2, 0, 0, 1);
-			this.mCreditTotal_.Name = "mCreditTotal_";
-			this.mCreditTotal_.ReadOnly = true;
-			this.mCreditTotal_.Size = new System.Drawing.Size(71, 20);
-			this.mCreditTotal_.TabIndex = 2;
-			this.mCreditTotal_.Text = "$0.00";
-			this.mCreditTotal_.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.mCreditTotal_.Value = money1;
-			// 
-			// mTotalTransferIn_
-			// 
-			this.mTotalTransferIn_.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-			| System.Windows.Forms.AnchorStyles.Left) 
-			| System.Windows.Forms.AnchorStyles.Right)));
-			this.mTotalTransferIn_.BackColor = System.Drawing.SystemColors.Window;
-			this.mTotalTransferIn_.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.mTotalTransferIn_.CausesValidation = false;
-			this.mTotalTransferIn_.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-			this.mTotalTransferIn_.Cursor = System.Windows.Forms.Cursors.Default;
-			this.mTotalTransferIn_.ForeColor = System.Drawing.Color.Black;
-			this.mTotalTransferIn_.Location = new System.Drawing.Point(222, 0);
-			this.mTotalTransferIn_.Margin = new System.Windows.Forms.Padding(2, 0, 0, 1);
-			this.mTotalTransferIn_.Name = "mTotalTransferIn_";
-			this.mTotalTransferIn_.ReadOnly = true;
-			this.mTotalTransferIn_.Size = new System.Drawing.Size(71, 20);
-			this.mTotalTransferIn_.TabIndex = 9;
-			this.mTotalTransferIn_.Text = "$0.00";
-			this.mTotalTransferIn_.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.mTotalTransferIn_.Value = money2;
-			// 
-			// mTotalTransferOut_
-			// 
-			this.mTotalTransferOut_.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-			| System.Windows.Forms.AnchorStyles.Left) 
-			| System.Windows.Forms.AnchorStyles.Right)));
-			this.mTotalTransferOut_.BackColor = System.Drawing.SystemColors.Window;
-			this.mTotalTransferOut_.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.mTotalTransferOut_.CausesValidation = false;
-			this.mTotalTransferOut_.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-			this.mTotalTransferOut_.Cursor = System.Windows.Forms.Cursors.Default;
-			this.mTotalTransferOut_.ForeColor = System.Drawing.Color.Black;
-			this.mTotalTransferOut_.Location = new System.Drawing.Point(222, 21);
-			this.mTotalTransferOut_.Margin = new System.Windows.Forms.Padding(2, 0, 0, 1);
-			this.mTotalTransferOut_.Name = "mTotalTransferOut_";
-			this.mTotalTransferOut_.ReadOnly = true;
-			this.mTotalTransferOut_.Size = new System.Drawing.Size(71, 20);
-			this.mTotalTransferOut_.TabIndex = 15;
-			this.mTotalTransferOut_.Text = "$0.00";
-			this.mTotalTransferOut_.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.mTotalTransferOut_.Value = money3;
-			// 
-			// mTransferDiff_
-			// 
-			this.mTransferDiff_.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-			| System.Windows.Forms.AnchorStyles.Left) 
-			| System.Windows.Forms.AnchorStyles.Right)));
-			this.mTransferDiff_.BackColor = System.Drawing.SystemColors.Window;
-			this.mTransferDiff_.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.mTransferDiff_.CausesValidation = false;
-			this.mTransferDiff_.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-			this.mTransferDiff_.Cursor = System.Windows.Forms.Cursors.Default;
-			this.mTransferDiff_.ForeColor = System.Drawing.Color.Black;
-			this.mTransferDiff_.Location = new System.Drawing.Point(222, 42);
-			this.mTransferDiff_.Margin = new System.Windows.Forms.Padding(2, 0, 0, 1);
-			this.mTransferDiff_.Name = "mTransferDiff_";
-			this.mTransferDiff_.ReadOnly = true;
-			this.mTransferDiff_.Size = new System.Drawing.Size(71, 20);
-			this.mTransferDiff_.TabIndex = 4;
-			this.mTransferDiff_.Text = "$0.00";
-			this.mTransferDiff_.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.mTransferDiff_.Value = money4;
-			// 
-			// mTotalOneTimeIn_
-			// 
-			this.mTotalOneTimeIn_.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-			| System.Windows.Forms.AnchorStyles.Left) 
-			| System.Windows.Forms.AnchorStyles.Right)));
-			this.mTotalOneTimeIn_.BackColor = System.Drawing.SystemColors.Window;
-			this.mTotalOneTimeIn_.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.mTotalOneTimeIn_.CausesValidation = false;
-			this.mTotalOneTimeIn_.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-			this.mTotalOneTimeIn_.Cursor = System.Windows.Forms.Cursors.Default;
-			this.mTotalOneTimeIn_.ForeColor = System.Drawing.Color.Black;
-			this.mTotalOneTimeIn_.Location = new System.Drawing.Point(295, 0);
-			this.mTotalOneTimeIn_.Margin = new System.Windows.Forms.Padding(2, 0, 0, 1);
-			this.mTotalOneTimeIn_.Name = "mTotalOneTimeIn_";
-			this.mTotalOneTimeIn_.ReadOnly = true;
-			this.mTotalOneTimeIn_.Size = new System.Drawing.Size(71, 20);
-			this.mTotalOneTimeIn_.TabIndex = 8;
-			this.mTotalOneTimeIn_.Text = "$0.00";
-			this.mTotalOneTimeIn_.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.mTotalOneTimeIn_.Value = money5;
-			// 
-			// mTotalOneTimeOut_
-			// 
-			this.mTotalOneTimeOut_.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-			| System.Windows.Forms.AnchorStyles.Left) 
-			| System.Windows.Forms.AnchorStyles.Right)));
-			this.mTotalOneTimeOut_.BackColor = System.Drawing.SystemColors.Window;
-			this.mTotalOneTimeOut_.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.mTotalOneTimeOut_.CausesValidation = false;
-			this.mTotalOneTimeOut_.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-			this.mTotalOneTimeOut_.Cursor = System.Windows.Forms.Cursors.Default;
-			this.mTotalOneTimeOut_.ForeColor = System.Drawing.Color.Black;
-			this.mTotalOneTimeOut_.Location = new System.Drawing.Point(295, 21);
-			this.mTotalOneTimeOut_.Margin = new System.Windows.Forms.Padding(2, 0, 0, 1);
-			this.mTotalOneTimeOut_.Name = "mTotalOneTimeOut_";
-			this.mTotalOneTimeOut_.ReadOnly = true;
-			this.mTotalOneTimeOut_.Size = new System.Drawing.Size(71, 20);
-			this.mTotalOneTimeOut_.TabIndex = 13;
-			this.mTotalOneTimeOut_.Text = "$0.00";
-			this.mTotalOneTimeOut_.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.mTotalOneTimeOut_.Value = money6;
-			// 
-			// mOneTimeDiff_
-			// 
-			this.mOneTimeDiff_.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-			| System.Windows.Forms.AnchorStyles.Left) 
-			| System.Windows.Forms.AnchorStyles.Right)));
-			this.mOneTimeDiff_.BackColor = System.Drawing.SystemColors.Window;
-			this.mOneTimeDiff_.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.mOneTimeDiff_.CausesValidation = false;
-			this.mOneTimeDiff_.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-			this.mOneTimeDiff_.Cursor = System.Windows.Forms.Cursors.Default;
-			this.mOneTimeDiff_.ForeColor = System.Drawing.Color.Black;
-			this.mOneTimeDiff_.Location = new System.Drawing.Point(295, 42);
-			this.mOneTimeDiff_.Margin = new System.Windows.Forms.Padding(2, 0, 0, 1);
-			this.mOneTimeDiff_.Name = "mOneTimeDiff_";
-			this.mOneTimeDiff_.ReadOnly = true;
-			this.mOneTimeDiff_.Size = new System.Drawing.Size(71, 20);
-			this.mOneTimeDiff_.TabIndex = 5;
-			this.mOneTimeDiff_.Text = "$0.00";
-			this.mOneTimeDiff_.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.mOneTimeDiff_.Value = money7;
-			// 
-			// mDebitTotal_
-			// 
-			this.mDebitTotal_.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-			| System.Windows.Forms.AnchorStyles.Left) 
-			| System.Windows.Forms.AnchorStyles.Right)));
-			this.mDebitTotal_.BackColor = System.Drawing.SystemColors.Window;
-			this.mDebitTotal_.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.mDebitTotal_.CausesValidation = false;
-			this.mDebitTotal_.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-			this.mDebitTotal_.Cursor = System.Windows.Forms.Cursors.Default;
-			this.mDebitTotal_.ForeColor = System.Drawing.Color.Black;
-			this.mDebitTotal_.Location = new System.Drawing.Point(146, 0);
-			this.mDebitTotal_.Margin = new System.Windows.Forms.Padding(2, 0, 0, 1);
-			this.mDebitTotal_.Name = "mDebitTotal_";
-			this.mDebitTotal_.ReadOnly = true;
-			this.mDebitTotal_.Size = new System.Drawing.Size(74, 20);
-			this.mDebitTotal_.TabIndex = 3;
-			this.mDebitTotal_.Text = "$0.00";
-			this.mDebitTotal_.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.mDebitTotal_.Value = money8;
-			// 
-			// mCreditDebitDiff_
-			// 
-			this.mCreditDebitDiff_.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-			| System.Windows.Forms.AnchorStyles.Left) 
-			| System.Windows.Forms.AnchorStyles.Right)));
-			this.mCreditDebitDiff_.BackColor = System.Drawing.SystemColors.Window;
-			this.mCreditDebitDiff_.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.mCreditDebitDiff_.CausesValidation = false;
-			this.mCreditDebitDiff_.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-			this.mSummaryRow_.SetColumnSpan(this.mCreditDebitDiff_, 2);
-			this.mCreditDebitDiff_.Cursor = System.Windows.Forms.Cursors.Default;
-			this.mCreditDebitDiff_.ForeColor = System.Drawing.Color.Black;
-			this.mCreditDebitDiff_.Location = new System.Drawing.Point(73, 21);
-			this.mCreditDebitDiff_.Margin = new System.Windows.Forms.Padding(2, 0, 0, 1);
-			this.mCreditDebitDiff_.Name = "mCreditDebitDiff_";
-			this.mCreditDebitDiff_.ReadOnly = true;
-			this.mCreditDebitDiff_.Size = new System.Drawing.Size(147, 20);
-			this.mCreditDebitDiff_.TabIndex = 12;
-			this.mCreditDebitDiff_.Text = "$0.00";
-			this.mCreditDebitDiff_.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.mCreditDebitDiff_.Value = money9;
 			// 
 			// TransactionsPanel
 			// 

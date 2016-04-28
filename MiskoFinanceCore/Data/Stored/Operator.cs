@@ -1,4 +1,5 @@
 using System;
+using log4net;
 using MiskoFinanceCore.Enums;
 using MiskoPersist.Attributes;
 using MiskoPersist.Core;
@@ -7,9 +8,9 @@ using MiskoPersist.Enums;
 
 namespace MiskoFinanceCore.Data.Stored
 {
-	public class Operator : AbstractStoredData
+	public class Operator : StoredData
     {
-        private static Logger Log = Logger.GetInstance(typeof(Operator));
+        private static ILog Log = LogManager.GetLogger(typeof(Operator));
 
         #region Fields
 
@@ -56,7 +57,7 @@ namespace MiskoFinanceCore.Data.Stored
 
         #region Override Methods
 
-        public override AbstractStoredData Create(Session session)
+        public override StoredData Create(Session session)
         {
             PreSave(session, UpdateMode.Insert);
             Persistence.ExecuteInsert(session, this, typeof(Operator));
@@ -64,7 +65,7 @@ namespace MiskoFinanceCore.Data.Stored
             return this;
         }
 
-        public override AbstractStoredData Store(Session session)
+        public override StoredData Store(Session session)
         {
             PreSave(session, UpdateMode.Update);
             Persistence.ExecuteUpdate(session, this, typeof(Operator));
@@ -72,7 +73,7 @@ namespace MiskoFinanceCore.Data.Stored
             return this;
         }
 
-        public override AbstractStoredData Remove(Session session)
+        public override StoredData Remove(Session session)
         {
             Persistence.ExecuteDelete(session, this, typeof(Operator));
             PostSave(session, UpdateMode.Delete);
@@ -91,22 +92,22 @@ namespace MiskoFinanceCore.Data.Stored
         		session.Error(ErrorLevel.Error, "Cannot have blank password");
         	}
         	
-            if (String.IsNullOrEmpty(FirstName))
+            if(String.IsNullOrEmpty(FirstName))
             {
                 session.Error(ErrorLevel.Error, "First name cannot be blank");
             }
 
-            if (String.IsNullOrEmpty(LastName))
+            if(String.IsNullOrEmpty(LastName))
             {
                 session.Error(ErrorLevel.Error, "Last name cannot be blank");
             }
 
-            if (String.IsNullOrEmpty(Email))
+            if(String.IsNullOrEmpty(Email))
             {
                 session.Error(ErrorLevel.Error, "Email cannot be blank");
             }
 
-            if (Gender == null || Gender.IsNotSet)
+            if(Gender == null || Gender.IsNotSet)
             {
                 session.Error(ErrorLevel.Error, "Gender must be set");
             }

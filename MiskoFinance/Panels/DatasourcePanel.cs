@@ -58,6 +58,8 @@ namespace MiskoFinance.Panels
 			Settings.Default.LocalDatabase = mLocalDatabase_.Text.Trim();
 			Settings.Default.Save();
 			
+			Program.SetServerParameters();
+			
 			Parent.Controls.Clear();
 			Parent.Controls.Add(new LoginPanel(Parent));
 		}		
@@ -94,7 +96,7 @@ namespace MiskoFinance.Panels
 			Parent.Controls.Add(new LoginPanel(Parent));
 		}
 		
-		private void mUseSSL__CheckedChanged(object sender, EventArgs e)
+		private void mUseSSL__CheckedChanged(Object sender, EventArgs e)
 		{
 			mPort_.Value = mUseSSL_.Checked ? 443 : 80;
 		}

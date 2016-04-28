@@ -10,12 +10,13 @@ using MiskoFinanceCore.Resources;
 using MiskoPersist.Core;
 using MiskoPersist.Message.Response;
 using MiskoPersist.MoneyType;
+using log4net;
 
 namespace MiskoFinance.Forms
 {
 	public partial class ImportTransactionsDialog : Form
     {
-        private static Logger Log = Logger.GetInstance(typeof(ImportTransactionsDialog));
+        private static ILog Log = LogManager.GetLogger(typeof(ImportTransactionsDialog));
 
         #region Fields
 
@@ -55,7 +56,7 @@ namespace MiskoFinance.Forms
         {
             base.OnLoad(e);
 
-            if (mOpenFileDialog_.ShowDialog(MiskoFinanceMain.Instance).Equals(DialogResult.OK))
+            if(mOpenFileDialog_.ShowDialog(MiskoFinanceMain.Instance).Equals(DialogResult.OK))
             {
                 mOfxDocument_ = new OfxDocument(new FileStream(mOpenFileDialog_.FileName, FileMode.Open));                
                 
@@ -64,7 +65,7 @@ namespace MiskoFinance.Forms
                 GetAccountRQ request = new GetAccountRQ();
             	request.AccountNo = mOfxDocument_.AccountID;
             	request.Operator = MiskoFinanceMain.Instance.Operator.OperatorId;
-            	ServerConnection.SendRequest(request, GetAccountSuccess, GetAccountError);
+            	Server.SendRequest(request, GetAccountSuccess, GetAccountError);
             	
             	CenterToParent();
             }
@@ -86,7 +87,7 @@ namespace MiskoFinance.Forms
         
         private VwBankAccount GetAccount()
         {
-            if (mCreateNewAccount_.Checked)
+            if(mCreateNewAccount_.Checked)
             {
                 VwBankAccount bankAccount = new VwBankAccount();
                 bankAccount.OperatorId = MiskoFinanceMain.Instance.Operator.OperatorId;
@@ -97,9 +98,9 @@ namespace MiskoFinance.Forms
                 bankAccount.OpeningBalance = mOpeningBalance_.Value;
                 return bankAccount;
             }
-            else if (mExistingAccount_.Checked)
+            else if(mExistingAccount_.Checked)
             {
-                if (mExistingAccounts_.SelectedItems.Count == 1)
+                if(mExistingAccounts_.SelectedItems.Count == 1)
                 {
                 	return (VwBankAccount)mExistingAccounts_.SelectedItem;
                 }
@@ -112,9 +113,13 @@ namespace MiskoFinance.Forms
         {
 			Enabled = true;
 			
-			mAccount_ = ((GetAccountRS)response).BankAccount;
-			mExistingAccounts_.SelectedIndex = mExistingAccounts_.FindStringExact(mAccount_.Nickname);
-			mExistingAccount_.Checked = true;
+			GetAccountRS rs = response as GetAccountRS;
+			if(rs != null)
+			{
+				mAccount_ = rs.BankAccount;
+				mExistingAccounts_.SelectedIndex = mExistingAccounts_.FindStringExact(mAccount_.Nickname);
+				mExistingAccount_.Checked = true;
+			}
 		}
 		
 		private void GetAccountError(ResponseMessage response)
@@ -206,7 +211,7 @@ namespace MiskoFinance.Forms
             request.Txns = mOfxDocument_.Transactions;
             request.FromDate = mOfxDocument_.StartDate;
             request.ToDate = mOfxDocument_.EndDate;
-            ServerConnection.SendRequest(request, ImportTxnsSuccess, ImportTxnsError);
+            Server.SendRequest(request, ImportTxnsSuccess, ImportTxnsError);
 		}
 		
 		#endregion

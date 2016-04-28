@@ -1,14 +1,13 @@
 ﻿using System.ComponentModel;
 using System.Windows.Forms;
 using MiskoFinanceCore.Data.Viewed;
-using MiskoPersist.Core;
-using MiskoPersist.MoneyType;
+using log4net;
 
 namespace MiskoFinance.Panels
 {
 	public partial class SummaryPanel : UserControl
 	{
-		private static Logger Log = Logger.GetInstance(typeof(SummaryPanel));
+		private static ILog Log = LogManager.GetLogger(typeof(SummaryPanel));
 		
 		#region Fields
 
@@ -23,13 +22,13 @@ namespace MiskoFinance.Panels
 		{
 			set
 			{
-				mSelectionOpeningBalance_.Value = value != null ? value.SelectionOpeningBalance : Money.ZERO;
-				mSelectionClosingBalance_.Value = value != null ? value.SelectionCurrentBalance : Money.ZERO;
-				mSelectionBalanceDifference_.Value = value != null ? value.SelectionBalanceDifference : Money.ZERO;
+				mSelectionOpeningBalance_.Value = value.SelectionOpeningBalance;
+				mSelectionClosingBalance_.Value = value.SelectionCurrentBalance;
+				mSelectionBalanceDifference_.Value = value.SelectionCurrentBalance - value.SelectionOpeningBalance;
 	
-				mOpeningBalance_.Value = value != null ? value.AllTimeOpeningBalance : Money.ZERO;
-				mCurrentBalance_.Value = value != null ? value.AllTimeCurrentBalance : Money.ZERO;
-				mBalanceDiff_.Value = value != null ? value.AllTimeBalanceDifference : Money.ZERO;
+				mOpeningBalance_.Value = value.AllTimeOpeningBalance;
+				mCurrentBalance_.Value = value.AllTimeCurrentBalance;
+				mBalanceDiff_.Value = value.AllTimeCurrentBalance - value.AllTimeOpeningBalance;
 			}
 		}
 

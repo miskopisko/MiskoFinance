@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using log4net;
 using MiskoFinance.Properties;
 using MiskoFinanceCore.Data.Viewed;
 using MiskoFinanceCore.Enums;
@@ -11,7 +12,7 @@ namespace MiskoFinance.Forms
 {
 	public partial class SettingsDialog : Form
     {
-        private static Logger Log = Logger.GetInstance(typeof(SettingsDialog));
+        private static ILog Log = LogManager.GetLogger(typeof(SettingsDialog));
 
         #region Fields
 
@@ -55,7 +56,7 @@ namespace MiskoFinance.Forms
 
         protected override void OnLoad(EventArgs e)
         {
-            if (mOperator_ == null || mOperator_.OperatorId.IsNotSet)
+            if(mOperator_ == null || !mOperator_.IsSet)
             {
                 Text = "Create new user";
                 mUsername_.Enabled = true;
@@ -103,7 +104,7 @@ namespace MiskoFinance.Forms
             request.Operator = mOperator_;
             request.Password1 = mPassword1_.Text;
             request.Password2 = mPassword2_.Text;
-            ServerConnection.SendRequest(request, UpdateOperatorSuccess, UpdateOperatorError);
+            Server.SendRequest(request, UpdateOperatorSuccess, UpdateOperatorError);
         }
 
         private void mCancel__Click(Object sender, EventArgs e)

@@ -3,12 +3,13 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using MiskoPersist.Core;
+using log4net;
 
 namespace MiskoFinance.Controls
 {
 	public partial class CheckBoxHeaderCell : DataGridViewColumnHeaderCell
 	{
-		private static Logger Log = Logger.GetInstance(typeof(CheckBoxHeaderCell));
+		private static ILog Log = LogManager.GetLogger(typeof(CheckBoxHeaderCell));
 
 		#region Delegate Functions
 
@@ -63,7 +64,7 @@ namespace MiskoFinance.Controls
 			mCheckBoxLocation_ = p;
 			mCheckBoxSize_ = s;
 
-			if (mChecked_ && mEnabled_)
+			if(mChecked_ && mEnabled_)
 			{
 				mState_ = CheckBoxState.CheckedNormal;
 			}
@@ -83,10 +84,10 @@ namespace MiskoFinance.Controls
 		protected override void OnMouseClick(DataGridViewCellMouseEventArgs e)
 		{
 			Point p = new Point(e.X + mCellLocation_.X, e.Y + mCellLocation_.Y);
-			if (p.X >= mCheckBoxLocation_.X && p.X <= mCheckBoxLocation_.X + mCheckBoxSize_.Width && p.Y >= mCheckBoxLocation_.Y && p.Y <= mCheckBoxLocation_.Y + mCheckBoxSize_.Height)
+			if(p.X >= mCheckBoxLocation_.X && p.X <= mCheckBoxLocation_.X + mCheckBoxSize_.Width && p.Y >= mCheckBoxLocation_.Y && p.Y <= mCheckBoxLocation_.Y + mCheckBoxSize_.Height)
 			{
 				mChecked_ = !mChecked_;
-				if (OnCheckBoxClicked != null)
+				if(OnCheckBoxClicked != null)
 				{
 					OnCheckBoxClicked(this, new CheckBoxHeaderCellClickedArgs() { Checked = mChecked_ });
 					DataGridView.InvalidateCell(this);

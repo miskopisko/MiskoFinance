@@ -13,7 +13,7 @@ namespace MiskoFinance.Forms
         /// </summary>
         protected override void Dispose(Boolean disposing)
         {
-            if (disposing && (components != null))
+            if(disposing && (components != null))
             {
                 components.Dispose();
             }

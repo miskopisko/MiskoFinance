@@ -9,7 +9,7 @@
 using System;
 namespace MiskoFinance.Controls
 {
-	partial class AbstractEnumComboBoxCell
+	partial class MiskoEnumComboBoxCell
 	{
 		/// <summary>
 		/// Designer variable used to keep track of non-visual components.
@@ -22,8 +22,8 @@ namespace MiskoFinance.Controls
 		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
 		protected override void Dispose(Boolean disposing)
 		{
-			if (disposing) {
-				if (components != null) {
+			if(disposing) {
+				if(components != null) {
 					components.Dispose();
 				}
 			}

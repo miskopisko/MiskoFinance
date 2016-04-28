@@ -1,4 +1,5 @@
 using System;
+using log4net;
 using MiskoFinanceCore.Data.Viewed;
 using MiskoFinanceCore.Enums;
 using MiskoFinanceCore.Message.Requests;
@@ -12,7 +13,7 @@ namespace MiskoFinanceCore.Message
 {
 	public class Login : MessageWrapper
     {
-        private static Logger Log = Logger.GetInstance(typeof(Login));
+        private static ILog Log = LogManager.GetLogger(typeof(Login));
 
         #region Properties
 
@@ -27,21 +28,23 @@ namespace MiskoFinanceCore.Message
 
         public override void Execute(Session session)
         {
-        	if (String.IsNullOrEmpty(Request.Username))
+        	if(String.IsNullOrEmpty(Request.Username))
             {
                 session.Error(ErrorLevel.Error, "Invalid username.");
             }             
             
             VwOperator o = VwOperator.GetInstanceByUsername(session, Request.Username);
 
-            if (o != null && o.OperatorId.IsSet)
+            if(o != null && o.IsSet)
             {
             	if(!PasswordHash.ValidatePassword(Request.Password, o.Password))
             	{
             		session.Error(ErrorLevel.Error, "Invalid username or password. Please try again.");
             	}
                 
+            	o.BankAccounts = new VwBankAccounts();            	
                 o.BankAccounts.FetchByOperator(session, o.OperatorId);
+                o.Categories = new VwCategories();
                 o.Categories.FetchByComposite(session, o.OperatorId, Status.Active);
 
                 Response.Operator = o;

@@ -1,4 +1,5 @@
 using System;
+using log4net;
 using MiskoFinanceCore.Resources;
 using MiskoPersist.Attributes;
 using MiskoPersist.Core;
@@ -10,7 +11,7 @@ namespace MiskoFinanceCore.Data.Stored
 {
 	public class BankAccount : Account
     {
-        private static Logger Log = Logger.GetInstance(typeof(BankAccount));
+        private static ILog Log = LogManager.GetLogger(typeof(BankAccount));
 
         #region Fields
 
@@ -51,7 +52,7 @@ namespace MiskoFinanceCore.Data.Stored
 
         #region Override Methods
 
-        public override AbstractStoredData Create(Session session)
+        public override StoredData Create(Session session)
         {
             PreSave(session, UpdateMode.Insert);
             base.Create(session);
@@ -60,7 +61,7 @@ namespace MiskoFinanceCore.Data.Stored
             return this;
         }
 
-        public override AbstractStoredData Store(Session session)
+        public override StoredData Store(Session session)
         {
             PreSave(session, UpdateMode.Update);
             base.Store(session);
@@ -69,7 +70,7 @@ namespace MiskoFinanceCore.Data.Stored
             return this;
         }
 
-        public override AbstractStoredData Remove(Session session)
+        public override StoredData Remove(Session session)
         {
             base.Remove(session);
             Persistence.ExecuteDelete(session, this, typeof(BankAccount));
@@ -79,24 +80,19 @@ namespace MiskoFinanceCore.Data.Stored
         
         public new void PreSave(Session session, UpdateMode mode)
         {        	
-            if (String.IsNullOrEmpty(BankNumber))
+            if(String.IsNullOrEmpty(BankNumber))
             {
                 session.Error(ErrorLevel.Error, ErrorStrings.errBankNameMandatory);
             }
 
-            if (String.IsNullOrEmpty(AccountNumber))
+            if(String.IsNullOrEmpty(AccountNumber))
             {
                 session.Error(ErrorLevel.Error, ErrorStrings.errAccountNumberMandatory);
             }            
 
-            if (String.IsNullOrEmpty(Nickname))
+            if(String.IsNullOrEmpty(Nickname))
             {
                 session.Error(ErrorLevel.Error, ErrorStrings.errNicknameMandatory);
-            }
-
-            if (OpeningBalance == null)
-            {
-                session.Error(ErrorLevel.Error, ErrorStrings.errOpeningBalance);
             }
             
             // Check to see if another bank account already exists
@@ -106,7 +102,7 @@ namespace MiskoFinanceCore.Data.Stored
         	   	
         	   	if(bankAccount.IsSet)
         	   	{
-        	   		session.Error(ErrorLevel.Confirmation, "Account {0} already exists. Are you sure you want to create this account?", new Object[] { AccountNumber });
+        	   		session.Error(ErrorLevel.Confirmation, "Account {0} already exists. Are you sure you want to create this account?", AccountNumber);
         	   	}
         	}
         }
@@ -136,7 +132,7 @@ namespace MiskoFinanceCore.Data.Stored
                          "AND    B.AccountNumber = ?";
 
             Persistence p = Persistence.GetInstance(session);
-            p.ExecuteQuery(sql, new Object[] { op, accountNo });
+            p.ExecuteQuery(sql, op, accountNo);
             result.Set(session, p);
             p.Close();
             p = null;

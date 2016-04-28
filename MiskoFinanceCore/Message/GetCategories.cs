@@ -1,3 +1,5 @@
+using log4net;
+using MiskoFinanceCore.Data.Viewed;
 using MiskoFinanceCore.Message.Requests;
 using MiskoFinanceCore.Message.Responses;
 using MiskoPersist.Core;
@@ -7,7 +9,7 @@ namespace MiskoFinanceCore.Message
 {
 	public class GetCategories : MessageWrapper
     {
-        private static Logger Log = Logger.GetInstance(typeof(GetCategories));
+        private static ILog Log = LogManager.GetLogger(typeof(GetCategories));
 
         #region Properties
 
@@ -22,7 +24,8 @@ namespace MiskoFinanceCore.Message
 
         public override void Execute(Session session)
         {
-            Response.Categories.FetchByComposite(session, Request.Operator, Request.Status);
+        	Response.Categories = new VwCategories();
+        	Response.Categories.FetchByComposite(session, Request.Operator, Request.Status);
         }
     }
 }

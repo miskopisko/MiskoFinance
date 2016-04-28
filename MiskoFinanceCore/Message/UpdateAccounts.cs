@@ -1,3 +1,4 @@
+using log4net;
 using MiskoFinanceCore.Data.Viewed;
 using MiskoFinanceCore.Message.Requests;
 using MiskoFinanceCore.Message.Responses;
@@ -10,7 +11,7 @@ namespace MiskoFinanceCore.Message
 {
 	public class UpdateAccounts : MessageWrapper
     {
-        private static Logger Log = Logger.GetInstance(typeof(UpdateAccounts));
+        private static ILog Log = LogManager.GetLogger(typeof(UpdateAccounts));
 
         #region Properties
 

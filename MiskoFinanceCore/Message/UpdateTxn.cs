@@ -1,3 +1,5 @@
+using log4net;
+using MiskoFinanceCore.Data.Viewed;
 using MiskoFinanceCore.Message.Requests;
 using MiskoFinanceCore.Message.Responses;
 using MiskoPersist.Core;
@@ -7,7 +9,7 @@ namespace MiskoFinanceCore.Message
 {
 	public class UpdateTxn : MessageWrapper
     {
-        private static Logger Log = Logger.GetInstance(typeof(UpdateTxn));
+        private static ILog Log = LogManager.GetLogger(typeof(UpdateTxn));
 
         #region Properties
 
@@ -23,6 +25,8 @@ namespace MiskoFinanceCore.Message
         public override void Execute(Session session)
         {
             Request.Txn.Update(session);
+            
+            Response.Summary = new VwSummary();
             Response.Summary.Fetch(session, Request.Operator, Request.Account, Request.FromDate, Request.ToDate, Request.Category, Request.Description);
         }
     }

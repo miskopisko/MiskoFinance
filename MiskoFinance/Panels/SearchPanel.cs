@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Windows.Forms;
+using log4net;
 using MiskoFinance.Forms;
 using MiskoFinanceCore.Data.Viewed;
-using MiskoPersist.Core;
 
 namespace MiskoFinance.Panels
 {
 	public partial class SearchPanel : UserControl
 	{
-		private static Logger Log = Logger.GetInstance(typeof(SearchPanel));
+		private static ILog Log = LogManager.GetLogger(typeof(SearchPanel));
 
         #region Fields
         
@@ -27,8 +27,8 @@ namespace MiskoFinance.Panels
         	set
         	{
         		VwBankAccounts dataSource = new VwBankAccounts();
-        		dataSource.Insert(0, new VwBankAccount() { Nickname = "All" });
-        		dataSource.AddRange(value);
+        		dataSource.Add(new VwBankAccount() { Nickname = "All" });
+        		dataSource.Concatenate(value);
         		mAccounts_.DataSource = dataSource;
         	}
         }
@@ -66,8 +66,8 @@ namespace MiskoFinance.Panels
         	set
         	{
         		VwCategories dataSource = new VwCategories();
-        		dataSource.Insert(0, new VwCategory());
-        		dataSource.AddRange(value);
+        		dataSource.Add(new VwCategory());
+        		dataSource.Concatenate(value);
         		mCategories_.DataSource = dataSource;
         	}
         }
@@ -94,16 +94,10 @@ namespace MiskoFinance.Panels
 		{
 			InitializeComponent();
 			
-			mCategories_.ValueMember = "CategoryId";
-			mCategories_.DisplayMember = "Name";
-			
-			mAccounts_.ValueMember = "BankAccountId";
-			mAccounts_.DisplayMember = "Nickname";
-			
-			mFromDate_.Value = new DateTime(DateTime.Now.Year, 1, 1);
-			
 			mSearch_.Click += DoSearch;
 			mMore_.Click += DoMore;
+			
+			Reset();
         }
 
         #region Private Methods
@@ -121,6 +115,21 @@ namespace MiskoFinance.Panels
 		#endregion	
 
 		#region Public Methods
+		
+		public void Reset()
+		{
+			mAccounts_.DataSource = null;
+			mFromDate_.Value = new DateTime(DateTime.Now.Year, 1, 1);
+			mToDate_.Value = DateTime.Today;
+			mDescription_.Text = null;
+			mCategories_.DataSource = null;
+			
+			mCategories_.ValueMember = "CategoryId";
+			mCategories_.DisplayMember = "Name";
+			
+			mAccounts_.ValueMember = "BankAccountId";
+			mAccounts_.DisplayMember = "Nickname";
+		}
 		
 		public void Disable()
 		{

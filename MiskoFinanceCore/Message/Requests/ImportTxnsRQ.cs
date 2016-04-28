@@ -1,26 +1,28 @@
 using System;
+using log4net;
 using MiskoFinanceCore.Data.Viewed;
-using MiskoPersist.Core;
+using MiskoPersist.Attributes;
 using MiskoPersist.Message.Request;
 
 namespace MiskoFinanceCore.Message.Requests
 {
 	public class ImportTxnsRQ : RequestMessage
-    {
-        private static Logger Log = Logger.GetInstance(typeof(ImportTxnsRQ));
+	{
+		private static ILog Log = LogManager.GetLogger(typeof(ImportTxnsRQ));
 
-        #region Parameters
+		#region Parameters
 
-        public VwOperator Operator { get; set; }
-        public VwBankAccount BankAccount { get; set; }
-        public VwTxns Txns { get; set; }
-        public DateTime FromDate { get; set; }
-        public DateTime ToDate { get; set; }
+		[Viewed]
+		public VwOperator Operator { get; set; }
+		[Viewed]
+		public VwBankAccount BankAccount { get; set; }
+		[Viewed]
+		public VwTxns Txns { get; set; }
+		[Viewed]
+		public DateTime FromDate { get; set; }
+		[Viewed]
+		public DateTime ToDate { get; set; }
 
-        #endregion
-
-        public ImportTxnsRQ()
-        {
-        }
-    }
+		#endregion
+	}
 }

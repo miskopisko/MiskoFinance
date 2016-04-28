@@ -1,3 +1,4 @@
+using log4net;
 using MiskoFinanceCore.Enums;
 using MiskoFinanceCore.Resources;
 using MiskoPersist.Attributes;
@@ -7,9 +8,9 @@ using MiskoPersist.Enums;
 
 namespace MiskoFinanceCore.Data.Stored
 {
-	public class Account : AbstractStoredData
+	public class Account : StoredData
     {
-        private static Logger Log = Logger.GetInstance(typeof(Account));
+        private static ILog Log = LogManager.GetLogger(typeof(Account));
 
         #region Fields
 
@@ -46,7 +47,7 @@ namespace MiskoFinanceCore.Data.Stored
 
         #region Override Methods
 
-        public override AbstractStoredData Create(Session session)
+        public override StoredData Create(Session session)
         {
             PreSave(session, UpdateMode.Insert);
             Persistence.ExecuteInsert(session, this, typeof(Account));
@@ -54,7 +55,7 @@ namespace MiskoFinanceCore.Data.Stored
             return this;
         }
 
-        public override AbstractStoredData Store(Session session)
+        public override StoredData Store(Session session)
         {
             PreSave(session, UpdateMode.Update);
             Persistence.ExecuteUpdate(session, this, typeof(Account));
@@ -62,7 +63,7 @@ namespace MiskoFinanceCore.Data.Stored
             return this;
         }
 
-        public override AbstractStoredData Remove(Session session)
+        public override StoredData Remove(Session session)
         {
             Persistence.ExecuteDelete(session, this, typeof(Account));
             PostSave(session, UpdateMode.Delete);
@@ -71,12 +72,12 @@ namespace MiskoFinanceCore.Data.Stored
 
         public void PreSave(Session session, UpdateMode mode)
         {
-            if (Operator == null || Operator.IsNotSet)
+            if(Operator.IsNotSet)
             {
                 session.Error(ErrorLevel.Error, "Operator is not set");
             }
 
-            if (AccountType == null || AccountType.Equals(AccountType.NULL))
+            if(AccountType == null || AccountType.Equals(AccountType.NULL))
             {
                 session.Error(ErrorLevel.Error, ErrorStrings.errAccountTypeMandatory);
             }

@@ -6,12 +6,13 @@ using MiskoFinanceCore.Message.Requests;
 using MiskoFinanceCore.Message.Responses;
 using MiskoPersist.Core;
 using MiskoPersist.Message.Response;
+using log4net;
 
 namespace MiskoFinance.Forms
 {
 	public partial class EditAccountsDialog : Form
     {
-        private static Logger Log = Logger.GetInstance(typeof(EditAccountsDialog));
+        private static ILog Log = LogManager.GetLogger(typeof(EditAccountsDialog));
 
         #region Fields
 
@@ -74,13 +75,13 @@ namespace MiskoFinance.Forms
 
         private void Done_Click(Object sender, EventArgs e)
         {
-            if (mExistingAccounts_.Items.Count > 0)
+            if(mExistingAccounts_.Items.Count > 0)
             {
             	Enabled = false;
             	
                 UpdateAccountsRQ request = new UpdateAccountsRQ();
                 request.BankAccounts = (VwBankAccounts)mExistingAccounts_.DataSource;
-                ServerConnection.SendRequest(request, UpdateAccountsSuccess, UpdateAccountsError);
+                Server.SendRequest(request, UpdateAccountsSuccess, UpdateAccountsError);
             }
             else
             {
@@ -94,8 +95,12 @@ namespace MiskoFinance.Forms
 
         private void UpdateAccountsSuccess(ResponseMessage response)
         {
-            MiskoFinanceMain.Instance.Operator.BankAccounts = ((UpdateAccountsRS)response).BankAccounts;
-            MiskoFinanceMain.Instance.SearchPanel.Accounts = ((UpdateAccountsRS)response).BankAccounts;
+        	UpdateAccountsRS rs = response as UpdateAccountsRS;
+        	if(rs != null)
+        	{
+        		MiskoFinanceMain.Instance.Operator.BankAccounts = rs.BankAccounts;
+            	MiskoFinanceMain.Instance.SearchPanel.Accounts = rs.BankAccounts;	
+        	}           
             
             Dispose();
         }

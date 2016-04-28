@@ -1,22 +1,22 @@
 using System;
-using MiskoPersist.Core;
+using log4net;
+using MiskoPersist.Attributes;
 using MiskoPersist.Message.Request;
 
 namespace MiskoFinanceCore.Message.Requests
 {
+	[Serializable]
 	public class LoginRQ : RequestMessage
-    {
-        private static Logger Log = Logger.GetInstance(typeof(LoginRQ));
+	{
+		private static ILog Log = LogManager.GetLogger(typeof(LoginRQ));
 
-        #region Parameters
+		#region Parameters
 
-        public String Username { get; set; }
-        public String Password { get; set; }
+		[Viewed]
+		public String Username { get; set; }
+		[Viewed]
+		public String Password { get; set; }
 
-        #endregion
-
-        public LoginRQ()
-        {
-        }
-    }
+		#endregion
+	}
 }

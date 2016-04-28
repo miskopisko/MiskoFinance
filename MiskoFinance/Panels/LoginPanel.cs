@@ -70,7 +70,12 @@ namespace MiskoFinance.Panels
 
         private void LoginSuccess(ResponseMessage response)
         {
-        	MiskoFinanceMain.Instance.Operator = ((LoginRS)response).Operator;
+        	LoginRS rs = response as LoginRS;
+        	if(rs != null)
+        	{
+        		MiskoFinanceMain.Instance.Operator = rs.Operator;
+        	}        	
+        	
         	Settings.Default.DefaultUsername = MiskoFinanceMain.Instance.Operator.Username;
         	Settings.Default.Save();
         	Parent.DialogResult = DialogResult.OK;
@@ -92,7 +97,7 @@ namespace MiskoFinance.Panels
             LoginRQ request = new LoginRQ();
             request.Username = mUsername_.Text.Trim();
             request.Password = mPassword_.Text.Trim();
-            ServerConnection.SendRequest(request, LoginSuccess, LoginError);
+            Server.SendRequest(request, LoginSuccess, LoginError);
         }
 
         private void mCancel__Click(Object sender, EventArgs e)
@@ -110,7 +115,7 @@ namespace MiskoFinance.Panels
         	VwOperator o = new VwOperator();
             SettingsDialog settings = new SettingsDialog(o);
 
-            if (settings.ShowDialog(this) == DialogResult.OK)
+            if(settings.ShowDialog(this) == DialogResult.OK)
             {
                 o = settings.Operator;
 
@@ -126,7 +131,7 @@ namespace MiskoFinance.Panels
 			Parent.Controls.Add(new DatasourcePanel(Parent));
 		}
 		
-		private void mMore__Click(object sender, EventArgs e)
+		private void mMore__Click(Object sender, EventArgs e)
 		{
 			mMenu_.Show(mMore_, 0, mMore_.Height);
 		}

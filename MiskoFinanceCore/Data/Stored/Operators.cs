@@ -1,11 +1,11 @@
-using MiskoPersist.Core;
+using log4net;
 using MiskoPersist.Data;
 
 namespace MiskoFinanceCore.Data.Stored
 {
-	public class Operators : AbstractStoredDataList<Operator>
+	public class Operators : StoredDataList
     {
-        private static Logger Log = Logger.GetInstance(typeof(Operators));
+        private static ILog Log = LogManager.GetLogger(typeof(Operators));
 
         #region Fields
 
@@ -21,7 +21,7 @@ namespace MiskoFinanceCore.Data.Stored
 
         #region Constructors
 
-        public Operators()
+        public Operators() : base(typeof(Operator))
         {
         }
 

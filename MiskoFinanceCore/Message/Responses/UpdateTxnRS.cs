@@ -1,21 +1,19 @@
+using log4net;
 using MiskoFinanceCore.Data.Viewed;
-using MiskoPersist.Core;
+using MiskoPersist.Attributes;
 using MiskoPersist.Message.Response;
 
 namespace MiskoFinanceCore.Message.Responses
 {
 	public class UpdateTxnRS : ResponseMessage
-    {
-        private static Logger Log = Logger.GetInstance(typeof(UpdateTxnRS));
+	{
+		private static ILog Log = LogManager.GetLogger(typeof(UpdateTxnRS));
 
-        #region Parameters
+		#region Parameters
 
-        public VwSummary Summary { get; set; }
+		[Viewed]
+		public VwSummary Summary { get; set; }
 
-        #endregion
-
-        public UpdateTxnRS()
-        {
-        }
-    }
+		#endregion
+	}
 }

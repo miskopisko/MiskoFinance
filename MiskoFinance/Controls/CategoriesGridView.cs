@@ -2,13 +2,13 @@
 using System.Windows.Forms;
 using MiskoFinanceCore.Data.Viewed;
 using MiskoFinanceCore.Enums;
-using MiskoPersist.Core;
+using log4net;
 
 namespace MiskoFinance.Controls
 {
 	public partial class CategoriesGridView : DataGridView
     {
-        private static Logger Log = Logger.GetInstance(typeof(CategoriesGridView));
+        private static ILog Log = LogManager.GetLogger(typeof(CategoriesGridView));
 
         #region Fields
 		
@@ -20,17 +20,7 @@ namespace MiskoFinance.Controls
 
         #region Properties
 
-        public new VwCategories DataSource
-        {
-        	get
-        	{
-        		return (VwCategories)base.DataSource ?? new VwCategories();
-        	}
-        	set
-        	{
-        		base.DataSource = value ?? new VwCategories();
-        	}
-        }
+		
 
         #endregion
 
@@ -62,13 +52,13 @@ namespace MiskoFinance.Controls
             {
                 VwCategory category = GetItemAt(e.RowIndex);
 
-                if (category.CategoryId != null && Math.Abs(category.CategoryId.Value) >= 0)
+                if(category.CategoryId.IsSet)
                 {
                     category.CategoryId = -category.CategoryId;
                 }
                 else
                 {
-                    DataSource.Remove(category);
+                	((VwCategories)DataSource).Remove(category);
                 }
             }
         }
@@ -84,7 +74,7 @@ namespace MiskoFinance.Controls
         {
             base.OnCellFormatting(e);
 
-            if (e.RowIndex >= 0 && e.RowIndex < DataSource.Count && e.ColumnIndex.Equals(Columns.IndexOf(mDelete_)))
+            if(e.RowIndex >= 0 && e.RowIndex < ((VwCategories)DataSource).Count && e.ColumnIndex.Equals(Columns.IndexOf(mDelete_)))
             {
                 Rows[e.RowIndex].Cells[e.ColumnIndex].Value = GetItemAt(e.RowIndex).CategoryId >= 0 ? "Delete" : "Undelete";
             }
@@ -108,7 +98,7 @@ namespace MiskoFinance.Controls
             mCategoryName_.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             
             mStatus_.ValueType = typeof(Status);
-            mStatus_.CellTemplate = new AbstractEnumComboBoxCell();
+            mStatus_.CellTemplate = new MiskoEnumComboBoxCell();
             mStatus_.HeaderText = "Status";
             mStatus_.Name = "Status";
             mStatus_.Width = 100;

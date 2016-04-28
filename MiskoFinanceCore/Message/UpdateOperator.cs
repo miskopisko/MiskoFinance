@@ -1,4 +1,5 @@
 using System;
+using log4net;
 using MiskoFinanceCore.Data.Viewed;
 using MiskoFinanceCore.Message.Requests;
 using MiskoFinanceCore.Message.Responses;
@@ -11,7 +12,7 @@ namespace MiskoFinanceCore.Message
 {
 	public class UpdateOperator : MessageWrapper
     {
-        private static Logger Log = Logger.GetInstance(typeof(UpdateOperator));
+        private static ILog Log = LogManager.GetLogger(typeof(UpdateOperator));
 
         #region Properties
 
@@ -33,16 +34,16 @@ namespace MiskoFinanceCore.Message
 
             // If the OperatorId is not set then we are adding a new operator
             // Check if that operator already exists
-            if (Request.Operator == null || Request.Operator.OperatorId.IsNotSet)
+            if(Request.Operator == null || !Request.Operator.IsSet)
             {
                 VwOperator alreadyExists = VwOperator.GetInstanceByUsername(session, Request.Operator.Username);
-                if (alreadyExists != null && alreadyExists.OperatorId.IsSet)
+                if(alreadyExists != null && alreadyExists.IsSet)
                 {
-                    session.Error(ErrorLevel.Error, "Username {0} is already taken.", new Object[] { Request.Operator.Username });
+                    session.Error(ErrorLevel.Error, "Username {0} is already taken.", Request.Operator.Username);
                 }
                 
                 // Ask the user of they are sure
-            	session.Error(ErrorLevel.Confirmation, "You are about to create a new user {0}. Are you sure?", new Object[] { Request.Operator.Username });
+            	session.Error(ErrorLevel.Confirmation, "You are about to create a new user {0}. Are you sure?", Request.Operator.Username);
             }
 
             // Only reset the password of a new password was sent

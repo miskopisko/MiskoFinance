@@ -1,4 +1,5 @@
 using System;
+using log4net;
 using MiskoFinanceCore.Data.Stored;
 using MiskoFinanceCore.Enums;
 using MiskoPersist.Attributes;
@@ -8,9 +9,9 @@ using MiskoPersist.MoneyType;
 
 namespace MiskoFinanceCore.Data.Viewed
 {
-	public class VwTxn : AbstractViewedData
+	public class VwTxn : ViewedData
 	{
-		private static Logger Log = Logger.GetInstance(typeof(VwTxn));
+		private static ILog Log = LogManager.GetLogger(typeof(VwTxn));
 
 		#region Fields
 
@@ -41,19 +42,19 @@ namespace MiskoFinanceCore.Data.Viewed
 		[Viewed]
 		public Boolean Transfer { get; set; }
 		[Viewed]
-		public Boolean OneTime { get; set; }           
-		[Viewed]
-		public String HashCode { get; set; }
+		public Boolean OneTime { get; set; }
 
 		#endregion
 
 		#region Other Properties
+		
+		public String HashCode { get; set; }
 
 		public Money Debit 
 		{ 
 			get
 			{
-				return DrCr.Equals(DrCr.Debit) ? Amount : Money.ZERO;
+				return DrCr.Equals(DrCr.Debit) ? Amount : null;
 			}
 		}
 		
@@ -61,7 +62,31 @@ namespace MiskoFinanceCore.Data.Viewed
 		{ 
 			get
 			{
-				return DrCr.Equals(DrCr.Credit) ? Amount : Money.ZERO;
+				return DrCr.Equals(DrCr.Credit) ? Amount : null;
+			}
+		}
+		
+		public CategoryType CategoryType
+		{
+			get
+			{
+				if(DrCr.Equals(DrCr.Credit) && !Transfer && !OneTime)
+				{
+					return CategoryType.Income;
+				}
+				if(DrCr.Equals(DrCr.Debit) && !Transfer && !OneTime)
+				{
+					return CategoryType.Expense;
+				}
+				if(Transfer && !OneTime)
+				{
+					return CategoryType.Transfer;
+				}
+				if (!Transfer && OneTime)
+				{
+					return CategoryType.OneTime;
+				}
+				return CategoryType.NULL;
 			}
 		}
 
@@ -69,13 +94,7 @@ namespace MiskoFinanceCore.Data.Viewed
 
 		#region Constructors
 
-		public VwTxn()
-		{
-		}
-
-		public VwTxn(Session session, Persistence persistence) : base (session, persistence)
-		{
-		}
+		
 
 		#endregion
 

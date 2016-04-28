@@ -1,4 +1,5 @@
 using System;
+using log4net;
 using MiskoFinanceCore.Enums;
 using MiskoPersist.Attributes;
 using MiskoPersist.Core;
@@ -8,9 +9,9 @@ using MiskoPersist.MoneyType;
 
 namespace MiskoFinanceCore.Data.Stored
 {
-	public class Txn : AbstractStoredData
+	public class Txn : StoredData
     {
-        private static Logger Log = Logger.GetInstance(typeof(Txn));
+        private static ILog Log = LogManager.GetLogger(typeof(Txn));
 
         #region Fields
 
@@ -61,7 +62,7 @@ namespace MiskoFinanceCore.Data.Stored
 
         #region Override Methods
 
-        public override AbstractStoredData Create(Session session)
+        public override StoredData Create(Session session)
         {
             PreSave(session, UpdateMode.Insert);
             Persistence.ExecuteInsert(session, this, typeof(Txn));
@@ -69,7 +70,7 @@ namespace MiskoFinanceCore.Data.Stored
             return this;
         }
 
-        public override AbstractStoredData Store(Session session)
+        public override StoredData Store(Session session)
         {
             PreSave(session, UpdateMode.Update);
             Persistence.ExecuteUpdate(session, this, typeof(Txn));
@@ -77,7 +78,7 @@ namespace MiskoFinanceCore.Data.Stored
             return this;
         }
 
-        public override AbstractStoredData Remove(Session session)
+        public override StoredData Remove(Session session)
         {
             Persistence.ExecuteDelete(session, this, typeof(Txn));
             PostSave(session, UpdateMode.Delete);
