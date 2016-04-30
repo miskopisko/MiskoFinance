@@ -16,13 +16,13 @@
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <WarningLevel>4</WarningLevel>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>4.0</OldToolsVersion>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>True</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -57,7 +57,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>bin</OutputPath>
     <ConsolePause>false</ConsolePause>
-    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
     <DefineConstants>DEBUG;</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -94,17 +94,16 @@
       </Properties>
     </MonoDevelop>
     <VisualStudio>
-      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+      <FlavorProperties GUID="{349C5851-65DF-11DA-9384-00065B846F21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerPort>5555</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:59219/</IISUrl>
+          <IISUrl>http://localhost:5555/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
-          <CustomServerUrl>
-          </CustomServerUrl>
+          <CustomServerUrl></CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
@@ -137,18 +136,18 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <ItemGroup>
-    <ProjectReference Include="..\MiskoFinanceCore\MiskoFinanceCore.csproj">
-      <Project>{B821B2C4-D983-4F40-90E6-F6C3C1702535}</Project>
-      <Name>MiskoFinanceCore</Name>
-    </ProjectReference>
+    <Folder Include="Message\" />
+    <Folder Include="Message\Requests\" />
+    <Folder Include="Message\Responses\" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\MiskoPersist\MiskoPersist.csproj">
       <Project>{F538732A-122B-40BB-86B0-199F99B0386C}</Project>
       <Name>MiskoPersist</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Message\" />
-    <Folder Include="Message\Requests\" />
-    <Folder Include="Message\Responses\" />
+    <ProjectReference Include="..\MiskoFinanceCore\MiskoFinanceCore.csproj">
+      <Project>{B821B2C4-D983-4F40-90E6-F6C3C1702535}</Project>
+      <Name>MiskoFinanceCore</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

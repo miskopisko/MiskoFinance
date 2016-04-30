@@ -1,9 +1,12 @@
 ﻿using System;
+using System.IO;
 using System.Reflection;
+using System.Text;
 using System.Web;
 using System.Web.Script.Services;
 using System.Web.Services;
 using Message;
+using MiskoPersist.Serialization;
 using MiskoFinanceWeb.Message.Requests;
 using MiskoFinanceWeb.Message.Responses;
 using MiskoPersist.Core;
@@ -11,7 +14,6 @@ using MiskoPersist.Data;
 using MiskoPersist.Enums;
 using MiskoPersist.Message.Request;
 using MiskoPersist.Message.Response;
-using MiskoPersist.Tools;
 
 namespace MiskoFinanceWeb
 {
@@ -20,24 +22,18 @@ namespace MiskoFinanceWeb
 	[ScriptService]
 	public class Service : System.Web.Services.WebService
 	{
-		private static readonly Logger Log = Logger.GetInstance(typeof(Service));
-
 		[WebMethod(Description = "Accepts a RequestMessage, process it it on the server and returns a ResponseMessage")]
-		public void ProcessRequest(String message)
+		public void ProcessRequest()
 		{
-			ResponseMessage response = new ResponseMessage();
-			SerializationType serializationType = SerializationType.Xml;
-
+			ResponseMessage response = null;
+			SerializationType serializationType = SerializationType.FromHttpContentType(HttpContext.Current.Request.ContentType);
 			try
 			{
-				serializationType = message.GetSerializationType();
-				RequestMessage request = (RequestMessage)CoreMessage.Read(message);
+				RequestMessage request = (RequestMessage)Serializer.Deserialize(HttpContext.Current.Request.InputStream, serializationType);
 				response = MessageProcessor.Process(request);
 			}
 			catch(Exception ex)
 			{
-				Log.Error("Error processing message", ex);
-
 				response = new ResponseMessage();
 				response.Status = ErrorLevel.Error;
 				response.Errors.Add(new ErrorMessage(ex));
@@ -50,21 +46,20 @@ namespace MiskoFinanceWeb
 			}
 			finally
 			{
-				HttpContext.Current.Response.Write(response.Write(serializationType));
+				HttpContext.Current.Response.Write(Serializer.Serialize(response, serializationType));
 			}
 		}
 
 		[WebMethod(Description = "Tests the connection to the database and reports status")]
 		public void TestDBConnection()
 		{
-			SerializationType serializationType = SerializationType.Xml;
+			SerializationType serializationType = SerializationType.Json;
 			TestDBConnectionRS response = new TestDBConnectionRS();
 
 			try
 			{
 				TestDBConnectionRQ request = new TestDBConnectionRQ();
 				request.Connections = DatabaseConnections.Connections;
-
 				response = (TestDBConnectionRS)MessageProcessor.Process(request);
 			}
 			catch(Exception ex)
@@ -73,8 +68,6 @@ namespace MiskoFinanceWeb
 				{
 					ex = ex.InnerException;
 				}
-
-				Log.Error("Error testing DB connection", ex);
 
 				response = new TestDBConnectionRS();
 				response.Status = ErrorLevel.Error;
@@ -88,7 +81,7 @@ namespace MiskoFinanceWeb
 			}
 			finally
 			{
-				HttpContext.Current.Response.Write(response.Write(serializationType));    
+				HttpContext.Current.Response.Write(Serializer.Serialize(response, serializationType));
 			}
 		}
 	}

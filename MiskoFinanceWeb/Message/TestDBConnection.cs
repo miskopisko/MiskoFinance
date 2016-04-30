@@ -8,8 +8,6 @@ namespace MiskoFinanceWeb.Message
 {
     public class TestDBConnection : MessageWrapper
     {
-        private static Logger Log = Logger.GetInstance(typeof(TestDBConnection));
-
         #region Properties
 
         public new TestDBConnectionRQ Request { get { return (TestDBConnectionRQ)base.Request; } }
