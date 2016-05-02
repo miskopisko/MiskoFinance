@@ -43,12 +43,12 @@ namespace MiskoFinanceCore.Data.Viewed
 		public Boolean Transfer { get; set; }
 		[Viewed]
 		public Boolean OneTime { get; set; }
+		[Viewed]
+		public String HashCode { get; set; }
 
 		#endregion
 
 		#region Other Properties
-		
-		public String HashCode { get; set; }
 
 		public Money Debit 
 		{ 

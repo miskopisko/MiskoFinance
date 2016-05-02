@@ -40,7 +40,7 @@ namespace MiskoFinanceCore.Message
             Dictionary<String, Txn> existingTxnHashes = new Dictionary<String, Txn>();            
             foreach (Txn txn in txnsToChackAgainst)
 	        {
-                existingTxnHashes.Add(txn.HashCode, txn);
+				existingTxnHashes.Add(txn.HashCode, txn);
 	        }
             
             Int32 noTxnsAdded = 0;

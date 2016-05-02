@@ -15,37 +15,37 @@ using MiskoFinance.Properties;
 namespace MiskoFinance
 {
 	public class Program
-    {
+	{
 		[STAThread]
-        public static void Main()
-        {
-        	// Set application parameters
-        	Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(true);
-            Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
-        	Application.ThreadException += ThreadException;
-            
-        	// Configure the logger
-        	XmlConfigurator.Configure();
-        	        	
-        	// Set server event handlers
-        	Server.MessageSent += MiskoFinanceMain.Instance.MessageSent;
-        	Server.MessageReceived += MiskoFinanceMain.Instance.MessageReceived;
-        	Server.Status += MiskoFinanceMain.Instance.Status;
-        	Server.Error += MiskoFinanceMain.Instance.Error;
-        	Server.Warning += MiskoFinanceMain.Instance.Warning;
-        	Server.Info += MiskoFinanceMain.Instance.Info;
-        	Server.Confirm += MiskoFinanceMain.Instance.Confirm;
-        	Server.Debug += Server_Debug;
-        	
-        	// Setup server parameters from the settings file
-        	SetServerParameters();
-            
-        	// Run the application
+		public static void Main()
+		{
+			// Set application parameters
+			Application.EnableVisualStyles();
+			Application.SetCompatibleTextRenderingDefault(true);
+			Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
+			Application.ThreadException += ThreadException;
+			
+			// Configure the logger
+			XmlConfigurator.Configure();
+						
+			// Set server event handlers
+			Server.MessageSent += MiskoFinanceMain.Instance.MessageSent;
+			Server.MessageReceived += MiskoFinanceMain.Instance.MessageReceived;
+			Server.Status += MiskoFinanceMain.Instance.Status;
+			Server.Error += MiskoFinanceMain.Instance.Error;
+			Server.Warning += MiskoFinanceMain.Instance.Warning;
+			Server.Info += MiskoFinanceMain.Instance.Info;
+			Server.Confirm += MiskoFinanceMain.Instance.Confirm;
+			Server.Debug += Server_Debug;
+			
+			// Setup server parameters from the settings file
+			SetServerParameters();
+			
+			// Run the application
 			Application.Run(MiskoFinanceMain.Instance);
-        }
-        
-        private static void ThreadException(Object sender, ThreadExceptionEventArgs e)
+		}
+		
+		private static void ThreadException(Object sender, ThreadExceptionEventArgs e)
 		{
 			#if DEBUG
 				Debug.WriteLine(e.Exception.StackTrace);
@@ -84,18 +84,21 @@ namespace MiskoFinance
 			}
 		}
 		
-        public static void SetServerParameters()
-        {
-        	// Add a database connection for local server
-        	DatabaseConnections.Connections.Clear();
-        	DatabaseConnections.AddSqliteConnection(Settings.Default.LocalDatabase);
-        	
-        	Server.Location = ServerLocation.GetElement(Settings.Default.ServerLocation);
-        	Server.SerializationType = SerializationType.GetElement(Settings.Default.SerializationType);
-        	Server.Host = Settings.Default.Hostname;
-        	Server.Port = Settings.Default.Port;
-        	Server.Script = Settings.Default.Script;
-        	Server.UseSSL = Settings.Default.UseSSL;  
-        }
+		public static void SetServerParameters()
+		{
+			// Add a database connection for local server
+			DatabaseConnections.Connections.Clear();
+			DatabaseConnections.AddSqliteConnection(Settings.Default.LocalDatabase);
+
+			//DatabaseConnections.AddMySqlConnection("piskuric.ca","mpfinance","mpfinance","mpfinance");
+			//Server.Location = ServerLocation.Local;
+
+			Server.Location = ServerLocation.GetElement(Settings.Default.ServerLocation);
+			Server.SerializationType = SerializationType.GetElement(Settings.Default.SerializationType);
+			Server.Host = Settings.Default.Hostname;
+			Server.Port = Settings.Default.Port;
+			Server.Script = Settings.Default.Script;
+			Server.UseSSL = Settings.Default.UseSSL;  
+		}
 	}
 }

@@ -1,11 +1,8 @@
 ﻿using System;
-using System.IO;
 using System.Reflection;
-using System.Text;
 using System.Web;
 using System.Web.Script.Services;
 using System.Web.Services;
-using Message;
 using MiskoPersist.Serialization;
 using MiskoFinanceWeb.Message.Requests;
 using MiskoFinanceWeb.Message.Responses;
@@ -20,7 +17,7 @@ namespace MiskoFinanceWeb
 	[WebService(Namespace="http://miskofinance.piskuric.ca", Description = "Service provides message processing for MiskoFinance application")]
 	[WebServiceBinding(ConformsTo = WsiProfiles.None)]
 	[ScriptService]
-	public class Service : System.Web.Services.WebService
+	public class Service : WebService
 	{
 		[WebMethod(Description = "Accepts a RequestMessage, process it it on the server and returns a ResponseMessage")]
 		public void ProcessRequest()
@@ -64,11 +61,6 @@ namespace MiskoFinanceWeb
 			}
 			catch(Exception ex)
 			{
-				if(ex is TargetInvocationException)
-				{
-					ex = ex.InnerException;
-				}
-
 				response = new TestDBConnectionRS();
 				response.Status = ErrorLevel.Error;
 				response.Errors.Add(new ErrorMessage(ex));

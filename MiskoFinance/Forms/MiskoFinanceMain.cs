@@ -111,7 +111,7 @@ namespace MiskoFinance.Forms
 		private void mLogoutToolStripMenuItem__Click(Object sender, EventArgs e)
 		{
 			Reset();
-
+			mServerLocation_.Text = "";
 			new LoginDialog().ShowDialog(this);
 		}
 
@@ -194,13 +194,14 @@ namespace MiskoFinance.Forms
 			SearchPanel.Disable();
 		}
 
-		private void LoginSuccess(ResponseMessage response)
+		public void LoginSuccess(ResponseMessage response)
 		{
 			LoginRS rs = response as LoginRS;
 			if(rs != null)
 			{
 				Operator = rs.Operator;	
 			}
+			mServerLocation_.Text = String.Format("Connected to: {0}", Server.ConnectedTo);
 		}
 
 		private void LoginError(ResponseMessage response)
