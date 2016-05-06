@@ -16,7 +16,7 @@
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <WarningLevel>4</WarningLevel>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
@@ -73,18 +73,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libraries\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.ApplicationServices" />
-    <Reference Include="System.Web.DynamicData" />
-    <Reference Include="System.Web.Entity" />
-    <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Web.Extensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Xml" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Web.Mobile" />
-    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web.Services" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -121,6 +116,8 @@
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\Viewed\VwDatabaseConnection.cs" />
+    <Compile Include="Data\Viewed\VwDatabaseConnections.cs" />
     <Compile Include="Service.asmx.cs">
       <DependentUpon>Service.asmx</DependentUpon>
       <SubType>Component</SubType>
@@ -140,7 +137,10 @@
     <Compile Include="Message\Responses\TestDBConnectionRS.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Data" />
+    <Folder Include="Data\Viewed" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\MiskoPersist\MiskoPersist.csproj">
       <Project>{F538732A-122B-40BB-86B0-199F99B0386C}</Project>

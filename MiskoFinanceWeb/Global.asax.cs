@@ -17,20 +17,21 @@ namespace MiskoFinanceWeb
 
 			DatabaseType connectionType = DatabaseType.GetElement(WebConfigurationManager.AppSettings["ConnectionType"]);
 
-			if(connectionType == null || !allowableConnectionTypes.Contains(connectionType))
+			if (connectionType == null || !allowableConnectionTypes.Contains(connectionType))
 			{
 				throw new MiskoException("Invalid server location. Must be one of 'Online' or 'Local'");
 			}
-			else if(connectionType.Equals(DatabaseType.MySql))
+			
+			if (connectionType.Equals(DatabaseType.MySql))
 			{
 				String host = WebConfigurationManager.AppSettings["Hostname"];
 				String database = WebConfigurationManager.AppSettings["Database"];
 				String username = WebConfigurationManager.AppSettings["Username"];
 				String password = WebConfigurationManager.AppSettings["Password"];
 
-				DatabaseConnections.AddMySqlConnection(host, database, username, password);    
+				DatabaseConnections.AddMySqlConnection(host, database, username, password);
 			}
-			else if(connectionType.Equals(DatabaseType.SQLite))
+			else if (connectionType.Equals(DatabaseType.SQLite))
 			{
 				DatabaseConnections.AddSqliteConnection(WebConfigurationManager.AppSettings["SqliteDB"]);
 			}

@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Reflection;
+using System.IO;
 using System.Web;
 using System.Web.Script.Services;
 using System.Web.Services;
 using MiskoPersist.Serialization;
 using MiskoFinanceWeb.Message.Requests;
-using MiskoFinanceWeb.Message.Responses;
 using MiskoPersist.Core;
 using MiskoPersist.Data;
 using MiskoPersist.Enums;
@@ -14,67 +13,61 @@ using MiskoPersist.Message.Response;
 
 namespace MiskoFinanceWeb
 {
-	[WebService(Namespace="http://miskofinance.piskuric.ca", Description = "Service provides message processing for MiskoFinance application")]
+	[WebService(Namespace = "http://miskofinance.piskuric.ca", Description = "Service provides message processing for MiskoFinance application")]
 	[WebServiceBinding(ConformsTo = WsiProfiles.None)]
 	[ScriptService]
 	public class Service : WebService
 	{
+		#region Public Methods
+		
 		[WebMethod(Description = "Accepts a RequestMessage, process it it on the server and returns a ResponseMessage")]
+		public void Process(String message)
+		{
+			SerializationType serializationType = Serializer.GetSerializationType(message);
+			ResponseMessage response = Process((RequestMessage)Serializer.Deserialize(message));
+			
+			HttpContext.Current.Response.Write(Serializer.Serialize(response, serializationType));
+		}
+		
+		[WebMethod(Description = "Reads a request message from the POST body, process it it on the server and returns a response message")]
 		public void ProcessRequest()
 		{
-			ResponseMessage response = null;
-			SerializationType serializationType = SerializationType.FromHttpContentType(HttpContext.Current.Request.ContentType);
-			try
+			using (StreamReader sr = new StreamReader(HttpContext.Current.Request.InputStream))
 			{
-				RequestMessage request = (RequestMessage)Serializer.Deserialize(HttpContext.Current.Request.InputStream, serializationType);
-				response = MessageProcessor.Process(request);
-			}
-			catch(Exception ex)
-			{
-				response = new ResponseMessage();
-				response.Status = ErrorLevel.Error;
-				response.Errors.Add(new ErrorMessage(ex));
-
-				while(ex.InnerException != null)
-				{
-					ex = ex.InnerException;
-					response.Errors.Add(new ErrorMessage(ex));
-				}
-			}
-			finally
-			{
-				HttpContext.Current.Response.Write(Serializer.Serialize(response, serializationType));
+				Process(sr.ReadToEnd());
 			}
 		}
 
 		[WebMethod(Description = "Tests the connection to the database and reports status")]
 		public void TestDBConnection()
 		{
-			SerializationType serializationType = SerializationType.Json;
-			TestDBConnectionRS response = new TestDBConnectionRS();
-
+			HttpContext.Current.Response.Write(Serializer.Serialize(Process(new TestDBConnectionRQ() { Connection = "NULL" }), SerializationType.Xml));
+		}
+		
+		#endregion
+		
+		#region Private Methods
+		
+		private ResponseMessage Process(RequestMessage request)
+		{
 			try
 			{
-				TestDBConnectionRQ request = new TestDBConnectionRQ();
-				request.Connections = DatabaseConnections.Connections;
-				response = (TestDBConnectionRS)MessageProcessor.Process(request);
+				return MessageProcessor.Process(request);
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
-				response = new TestDBConnectionRS();
+				ResponseMessage response = new ResponseMessage();
 				response.Status = ErrorLevel.Error;
-				response.Errors.Add(new ErrorMessage(ex));
 
-				while(ex.InnerException != null)
+				while (ex.InnerException != null)
 				{
-					ex = ex.InnerException;
 					response.Errors.Add(new ErrorMessage(ex));
+					ex = ex.InnerException;
 				}
-			}
-			finally
-			{
-				HttpContext.Current.Response.Write(Serializer.Serialize(response, serializationType));
+				return response;
 			}
 		}
+		
+		#endregion
 	}
 }

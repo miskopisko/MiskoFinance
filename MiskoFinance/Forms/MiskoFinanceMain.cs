@@ -201,7 +201,7 @@ namespace MiskoFinance.Forms
 			{
 				Operator = rs.Operator;	
 			}
-			mServerLocation_.Text = String.Format("Connected to: {0}", Server.ConnectedTo);
+			mServerLocation_.Text = String.Format("Connected to: {0}", Server.Datasource);
 		}
 
 		private void LoginError(ResponseMessage response)
