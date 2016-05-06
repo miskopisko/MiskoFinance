@@ -4,3 +4,4 @@ MiskoFinance_DB.sqlite3
 *.userprefs
 GENERAL_LOG.xml
 .vs
+MiskoFinanceWeb/MiskoFinanceLog.txt
