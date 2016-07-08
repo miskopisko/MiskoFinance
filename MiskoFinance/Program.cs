@@ -66,12 +66,12 @@ namespace MiskoFinance
 
 		private static void Server_Debug(CoreMessage message)
 		{
-			String originalSerializedString = Serializer.Serialize(message, Server.SerializationType);
+			String originalSerializedString = Serializer.Serialize(message);
 			
 			Log.Debug(Environment.NewLine + originalSerializedString);
 			
 			CoreMessage newMessage = (CoreMessage)Serializer.Deserialize(originalSerializedString);
-			String newSerializedString = Serializer.Serialize(newMessage, Server.SerializationType);
+			String newSerializedString = Serializer.Serialize(newMessage);
 			
 			if (!originalSerializedString.Equals(newSerializedString))
 			{
