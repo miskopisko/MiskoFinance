@@ -39,10 +39,6 @@ namespace MiskoFinance
 			Server.Warning += MiskoFinanceMain.Instance.Warning;
 			Server.Info += MiskoFinanceMain.Instance.Info;
 			Server.Confirm += MiskoFinanceMain.Instance.Confirm;
-			if (Log.IsDebugEnabled)
-			{
-				Server.Debug += Server_Debug;
-			}
 			
 			// Setup server parameters from the settings file
 			SetServerParameters();
@@ -62,30 +58,6 @@ namespace MiskoFinance
 			}
 			
 			MiskoFinanceMain.Instance.Error(new ErrorMessage(ex));
-		}
-
-		private static void Server_Debug(CoreMessage message)
-		{
-			String originalSerializedString = Serializer.Serialize(message);
-			
-			Log.Debug(Environment.NewLine + originalSerializedString);
-			
-			CoreMessage newMessage = (CoreMessage)Serializer.Deserialize(originalSerializedString);
-			String newSerializedString = Serializer.Serialize(newMessage);
-			
-			if (!originalSerializedString.Equals(newSerializedString))
-			{
-				String left = Environment.GetEnvironmentVariable("TEMP") + Path.DirectorySeparatorChar + Guid.NewGuid().ToString().Substring(0, 8);
-				String right = Environment.GetEnvironmentVariable("TEMP") + Path.DirectorySeparatorChar + Guid.NewGuid().ToString().Substring(0, 8);
-				
-				System.IO.File.WriteAllText(left, originalSerializedString);
-				System.IO.File.WriteAllText(right, newSerializedString);
-				
-				Process process = new Process();
-				process.StartInfo.FileName = @"C:\Users\mpiskuric\Desktop\Beyond Compare 4\BComp.exe";
-				process.StartInfo.Arguments = left + " " + right + " /title1=Original Response /title2=New Response /ro";
-				process.Start();
-			}
 		}
 		
 		public static void SetServerParameters()

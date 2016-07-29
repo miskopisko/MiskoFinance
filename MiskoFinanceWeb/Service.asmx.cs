@@ -17,32 +17,38 @@ namespace MiskoFinanceWeb
 	{
 		[WebMethod(Description = "Accepts a request message as a string, process it it on the server and returns a response string")]
 		public void ProcessRequestString(String message)
-		{   
+        {   
             RequestMessage request = (RequestMessage)Serializer.Deserialize(message);
-            Process(request);
-		}
+            if(message.StartsWith("<", StringComparison.OrdinalIgnoreCase))
+            {
+                Process(request, SerializationType.Xml);
+            }
+            else if(message.StartsWith("{", StringComparison.OrdinalIgnoreCase))
+            {
+                Process(request, SerializationType.Json);
+            }
+        }
 		
 		[WebMethod(Description = "Reads a request message from the POST body, process it it on the server and returns a response message")]
 		public void ProcessRequest()
 		{
             RequestMessage request = (RequestMessage)Serializer.Deserialize(Context.Request.InputStream);
-            Process(request);
+            Process(request, SerializationType.FromHttpContentType(Context.Request.ContentType));
         }
 
 		[WebMethod(Description = "Tests the connection to the database and reports status")]
 		public void TestDBConnection()
 		{
             TestDBConnectionRQ request = new TestDBConnectionRQ();
-            request.SerializationType = SerializationType.Xml;
-            Process(request);
+            Process(request, SerializationType.Json);
 		}
 
-        private void Process(RequestMessage request)
+        private void Process(RequestMessage request, SerializationType serializationType)
         {
             ResponseMessage response = MessageProcessor.Process(request);
             Context.Response.ContentEncoding = Serializer.ENCODING;
-            Context.Response.ContentType = response.SerializationType.ToHttpContentType();
-            Context.Response.Write(Serializer.Serialize(response));
+            Context.Response.ContentType = serializationType.ToHttpContentType();
+            Context.Response.Write(Serializer.Serialize(response, serializationType));
         }
 	}
 }
