@@ -2,6 +2,7 @@ using System;
 using log4net;
 using MiskoPersist.Core;
 using MiskoPersist.Data;
+using MiskoPersist.Data.Stored;
 
 namespace MiskoFinanceCore.Data.Stored
 {

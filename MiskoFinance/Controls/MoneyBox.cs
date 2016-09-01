@@ -21,7 +21,7 @@ namespace MiskoFinance.Controls
 
         #region Properties
 
-        public Money Value 
+        public Money? Value 
         {
             get 
             {

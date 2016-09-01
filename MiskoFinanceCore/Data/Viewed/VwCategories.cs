@@ -2,6 +2,7 @@ using log4net;
 using MiskoFinanceCore.Enums;
 using MiskoPersist.Core;
 using MiskoPersist.Data;
+using MiskoPersist.Data.Viewed;
 
 namespace MiskoFinanceCore.Data.Viewed
 {

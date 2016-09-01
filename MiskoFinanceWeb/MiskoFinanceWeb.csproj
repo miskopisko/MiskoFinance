@@ -69,16 +69,15 @@
     </DebugType>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Libraries\log4net.dll</HintPath>
-    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions">
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Web.Services" />
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -101,7 +100,8 @@
           <IISUrl>http://localhost:8080/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
-          <CustomServerUrl></CustomServerUrl>
+          <CustomServerUrl>
+          </CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
@@ -112,6 +112,7 @@
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
     <Content Include="web.config" />
+    <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\Viewed\VwDatabaseConnection.cs" />
@@ -135,18 +136,29 @@
     <Compile Include="Message\Responses\TestDBConnectionRS.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Import Project="..\packages\System.Data.SQLite.Core.1.0.102.0\build\net451\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.102.0\build\net451\System.Data.SQLite.Core.targets')" />
   <ItemGroup>
+    <Folder Include="App_Browsers" />
+    <Folder Include="App_Data" />
+    <Folder Include="App_GlobalResources" />
+    <Folder Include="App_LocalResources" />
     <Folder Include="Data" />
-    <Folder Include="Data\Viewed" />
+    <Folder Include="Data\" />
+    <Folder Include="App_Data\" />
+    <Folder Include="App_GlobalResources\" />
+    <Folder Include="App_Browsers\" />
+    <Folder Include="Theme" />
+    <Folder Include="Theme\" />
+    <Folder Include="App_LocalResources\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\MiskoPersist\MiskoPersist.csproj">
-      <Project>{F538732A-122B-40BB-86B0-199F99B0386C}</Project>
-      <Name>MiskoPersist</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MiskoFinanceCore\MiskoFinanceCore.csproj">
       <Project>{B821B2C4-D983-4F40-90E6-F6C3C1702535}</Project>
       <Name>MiskoFinanceCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\MiskoPersist\MiskoPersist\MiskoPersist.csproj">
+      <Project>{F538732A-122B-40BB-86B0-199F99B0386C}</Project>
+      <Name>MiskoPersist</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

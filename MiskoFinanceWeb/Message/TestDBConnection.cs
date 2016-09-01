@@ -2,11 +2,11 @@
 using System.Data;
 using System.Data.Common;
 using MiskoFinanceWeb.Data.Viewed;
-using MiskoPersist.Data;
-using MiskoPersist.Message;
-using MiskoPersist.Core;
 using MiskoFinanceWeb.Message.Requests;
 using MiskoFinanceWeb.Message.Responses;
+using MiskoPersist.Core;
+using MiskoPersist.Data.Viewed;
+using MiskoPersist.Message;
 
 namespace MiskoFinanceWeb.Message
 {

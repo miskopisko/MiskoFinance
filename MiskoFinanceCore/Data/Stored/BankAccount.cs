@@ -3,13 +3,13 @@ using log4net;
 using MiskoFinanceCore.Resources;
 using MiskoPersist.Attributes;
 using MiskoPersist.Core;
-using MiskoPersist.Data;
+using MiskoPersist.Data.Stored;
 using MiskoPersist.Enums;
 using MiskoPersist.MoneyType;
 
 namespace MiskoFinanceCore.Data.Stored
 {
-	public class BankAccount : Account
+    public class BankAccount : Account
     {
         private static ILog Log = LogManager.GetLogger(typeof(BankAccount));
 

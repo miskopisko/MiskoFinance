@@ -12,6 +12,7 @@ using MiskoFinance.Forms;
 using MiskoFinanceCore.Data.Viewed;
 using MiskoPersist.Data;
 using MiskoPersist.MoneyType;
+using MiskoPersist.Data.Viewed;
 
 namespace MiskoFinance.Controls
 {

@@ -1,23 +1,20 @@
 ﻿using System;
-using System.Diagnostics;
-using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 using log4net;
-using Message;
+using MiskoFinance.Properties;
 using MiskoPersist.Core;
-using MiskoPersist.Data;
 using MiskoPersist.Enums;
-using MiskoPersist.Serialization;
 using log4net.Config;
 using MiskoFinance.Forms;
-using MiskoFinance.Properties;
+using MiskoPersist.Data.Viewed;
+using MiskoPersist.Serialization;
 
 namespace MiskoFinance
 {
-	public class Program
+    public class Program
 	{
-		private static ILog Log = LogManager.GetLogger(typeof(Program));
+		private static readonly ILog Log = LogManager.GetLogger(typeof(Program));
 		
 		[STAThread]
 		public static void Main()
@@ -49,15 +46,8 @@ namespace MiskoFinance
 		
 		private static void ThreadException(Object sender, ThreadExceptionEventArgs e)
 		{
-			Log.Error(e.Exception.StackTrace);
-			
-			Exception ex = e.Exception;
-			while (ex.InnerException != null)
-			{
-				ex = ex.InnerException;
-			}
-			
-			MiskoFinanceMain.Instance.Error(new ErrorMessage(ex));
+            Log.Error(e.Exception.ToString());			
+			MiskoFinanceMain.Instance.Error(new ErrorMessage(e.Exception));
 		}
 		
 		public static void SetServerParameters()
@@ -65,12 +55,13 @@ namespace MiskoFinance
 			DatabaseConnections.Connections.Clear();
 
 			// Set server properties
-			Server.Location = ServerLocation.GetElement(Settings.Default.ServerLocation);
-			Server.SerializationType = SerializationType.GetElement(Settings.Default.SerializationType);
+			Server.Location = MiskoEnum.Parse<ServerLocation>(Settings.Default.ServerLocation);
+			Server.SerializationType = MiskoEnum.Parse<SerializationType>(Settings.Default.SerializationType);
 			Server.Host = Settings.Default.Hostname;
-			Server.Port = Settings.Default.Port;
+			Server.Port = (short)Settings.Default.Port;
 			Server.Script = Settings.Default.Script;
 			Server.UseSSL = Settings.Default.UseSSL;
+			Server.WriteMessagesToLog = Settings.Default.WriteMessagesToLog;
 			
 			// Add a database connection for local server
 			if (Server.Location.Equals(ServerLocation.Local))

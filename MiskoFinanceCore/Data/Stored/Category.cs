@@ -5,6 +5,7 @@ using MiskoFinanceCore.Resources;
 using MiskoPersist.Attributes;
 using MiskoPersist.Core;
 using MiskoPersist.Data;
+using MiskoPersist.Data.Stored;
 using MiskoPersist.Enums;
 
 namespace MiskoFinanceCore.Data.Stored

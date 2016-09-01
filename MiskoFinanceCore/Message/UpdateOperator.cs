@@ -34,10 +34,10 @@ namespace MiskoFinanceCore.Message
 
             // If the OperatorId is not set then we are adding a new operator
             // Check if that operator already exists
-            if(Request.Operator == null || !Request.Operator.IsSet)
+            if (Request.Operator == null || !Request.Operator.IsSet)
             {
                 VwOperator alreadyExists = VwOperator.GetInstanceByUsername(session, Request.Operator.Username);
-                if(alreadyExists != null && alreadyExists.IsSet)
+                if (alreadyExists != null && alreadyExists.IsSet)
                 {
                     session.Error(ErrorLevel.Error, "Username {0} is already taken.", Request.Operator.Username);
                 }
@@ -47,7 +47,7 @@ namespace MiskoFinanceCore.Message
             }
 
             // Only reset the password of a new password was sent
-            if(!String.IsNullOrEmpty(Request.Password1))
+            if (!String.IsNullOrEmpty(Request.Password1))
             {
             	Request.Operator.Password = PasswordHash.CreateHash(Request.Password1);
             }

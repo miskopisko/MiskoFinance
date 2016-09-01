@@ -1,7 +1,7 @@
 using System;
 using log4net;
 using MiskoPersist.Core;
-using MiskoPersist.Data;
+using MiskoPersist.Data.Viewed;
 using MiskoPersist.Enums;
 
 namespace MiskoFinanceCore.Data.Viewed

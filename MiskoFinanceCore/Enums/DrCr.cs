@@ -26,44 +26,23 @@ namespace MiskoFinanceCore.Enums
 		public static DrCr Debit { get { return mDebit_; } }
 
 		#endregion
+		
+		#region Constructors
 
 		public DrCr()
 		{
 		}
 
-		public DrCr(Int64 value, String code, String description) : base(value, code, description)
+		public DrCr(Int64 value, String code, String description) 
+			: base(value, code, description)
 		{
 		}
+		
+		#endregion
 
 		public int Sign()
 		{
 			return this == Credit ? 1 : -1;
-		}
-
-		public static DrCr GetElement(long index)
-		{
-			for (Int32 i = 0; Elements != null && i < Elements.Length; i++)
-			{
-				if(Elements[i].Value == index)
-				{
-					return Elements[i];
-				}
-			}
-
-			return null;
-		}
-
-		public static DrCr GetElement(String descriptionCode)
-		{
-			for (Int32 i = 0; descriptionCode != null && Elements != null && i < Elements.Length; i++)
-			{
-				if(Elements[i].Description.ToLower().Equals(descriptionCode.ToLower()) || Elements[i].Code.ToLower().Equals(descriptionCode.ToLower()))
-				{
-					return Elements[i];
-				}
-			}
-
-			return null;
 		}
 	}
 }

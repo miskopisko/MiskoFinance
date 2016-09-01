@@ -4,7 +4,7 @@ using MiskoFinanceCore.Data.Stored;
 using MiskoFinanceCore.Enums;
 using MiskoPersist.Attributes;
 using MiskoPersist.Core;
-using MiskoPersist.Data;
+using MiskoPersist.Data.Viewed;
 using MiskoPersist.MoneyType;
 
 namespace MiskoFinanceCore.Data.Viewed
@@ -44,7 +44,7 @@ namespace MiskoFinanceCore.Data.Viewed
 		{
 			get
 			{
-				return BankAccountId != null && BankAccountId.IsSet;
+				return BankAccountId.IsSet;
 			}
 		}
 

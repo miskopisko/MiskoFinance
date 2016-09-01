@@ -4,7 +4,7 @@ using MiskoFinanceCore.Data.Stored;
 using MiskoFinanceCore.Enums;
 using MiskoPersist.Attributes;
 using MiskoPersist.Core;
-using MiskoPersist.Data;
+using MiskoPersist.Data.Viewed;
 
 namespace MiskoFinanceCore.Data.Viewed
 {

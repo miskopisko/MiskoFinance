@@ -9,6 +9,7 @@ using MiskoFinanceCore.Message.Responses;
 using MiskoFinanceCore.Resources;
 using MiskoPersist.Core;
 using MiskoPersist.Data;
+using MiskoPersist.Data.Viewed;
 using MiskoPersist.Enums;
 using MiskoPersist.Message.Response;
 
@@ -111,7 +112,6 @@ namespace MiskoFinance.Forms
 		private void mLogoutToolStripMenuItem__Click(Object sender, EventArgs e)
 		{
 			Reset();
-			mServerLocation_.Text = "";
 			new LoginDialog().ShowDialog(this);
 		}
 
@@ -201,7 +201,6 @@ namespace MiskoFinance.Forms
 			{
 				Operator = rs.Operator;	
 			}
-			mServerLocation_.Text = String.Format("Connected to: {0}", Server.Datasource);
 		}
 
 		private void LoginError(ResponseMessage response)

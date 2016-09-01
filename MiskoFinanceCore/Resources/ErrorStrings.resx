@@ -159,17 +159,6 @@
   <data name="errOperatorNotFoundMustExit" xml:space="preserve">
     <value>Operator not found. Cannot continue</value>
   </data>
-  <data name="errUnexpectedApplicationErrorLong" xml:space="preserve">
-    <value>Unexpected Application Error
-
-{0}
-
-Class: {1}
-Method :{2}</value>
-  </data>
-  <data name="errUnexpectedApplicationErrorShort" xml:space="preserve">
-    <value>Unexpected Application Error : {0}</value>
-  </data>
   <data name="errAccountNotFound" xml:space="preserve">
     <value>Account {0} not found</value>
   </data>

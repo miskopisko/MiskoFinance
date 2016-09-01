@@ -34,8 +34,8 @@ namespace MiskoFinance.Panels
 		{
 			base.OnLoad(e);
 			
-			mServerLocation_.SelectedItem = ServerLocation.GetElement(Settings.Default.ServerLocation);
-			mSerializationType_.SelectedItem = SerializationType.GetElement(Settings.Default.SerializationType);
+			mServerLocation_.SelectedItem = MiskoEnum.Parse<ServerLocation>(Settings.Default.ServerLocation);
+			mSerializationType_.SelectedItem = MiskoEnum.Parse<SerializationType>(Settings.Default.SerializationType);
 			mHostname_.Text = Settings.Default.Hostname;
 			mPort_.Value = Settings.Default.Port;
 			mScript_.Text = Settings.Default.Script;

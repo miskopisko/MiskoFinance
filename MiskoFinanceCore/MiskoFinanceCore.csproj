@@ -56,7 +56,7 @@
   <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
     <BaseAddress>4194304</BaseAddress>
     <RegisterForComInterop>False</RegisterForComInterop>
-    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Data\Stored\Account.cs" />
@@ -110,7 +110,6 @@
     <Compile Include="Message\UpdateCategories.cs" />
     <Compile Include="Message\UpdateOperator.cs" />
     <Compile Include="Message\UpdateTxn.cs" />
-    <Compile Include="OFX\OfxDocument.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\ConfirmStrings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -132,6 +131,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>WarningStrings.resx</DependentUpon>
     </Compile>
+    <Compile Include="OFX\OfxDocument.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="DatabaseScripts\MySql\Tables.sql" />
@@ -164,12 +164,12 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="log4net">
-      <HintPath>Libraries\log4net.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Web" />
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -180,7 +180,10 @@
   </Target>
   -->
   <ItemGroup>
-    <ProjectReference Include="..\..\MiskoPersist\MiskoPersist.csproj">
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\MiskoPersist\MiskoPersist\MiskoPersist.csproj">
       <Project>{F538732A-122B-40BB-86B0-199F99B0386C}</Project>
       <Name>MiskoPersist</Name>
     </ProjectReference>

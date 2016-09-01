@@ -32,39 +32,18 @@ namespace MiskoFinanceCore.Enums
         public static AccountType CreditCard { get { return mCreditCard_; } }
 
         #endregion
+        
+        #region Constructors
 
         public AccountType()
         {
         }
 
-        public AccountType(Int64 value, String code, String description) : base(value, code, description)
+        public AccountType(Int64 value, String code, String description) 
+        	: base(value, code, description)
         {
         }
 
-        public static AccountType GetElement(long index)
-        {
-            for (Int32 i = 0; Elements != null && i < Elements.Length; i++)
-            {
-                if(Elements[i].Value == index)
-                {
-                    return Elements[i];
-                }
-            }
-
-            return null;
-        }
-
-        public static AccountType GetElement(String descriptionCode)
-        {
-            for (Int32 i = 0; descriptionCode != null && Elements != null && i < Elements.Length; i++)
-            {
-                if(Elements[i].Description.ToLower().Equals(descriptionCode.ToLower()) || Elements[i].Code.ToLower().Equals(descriptionCode.ToLower()))
-                {
-                    return Elements[i];
-                }
-            }
-
-            return null;
-        }
+        #endregion
     }
 }

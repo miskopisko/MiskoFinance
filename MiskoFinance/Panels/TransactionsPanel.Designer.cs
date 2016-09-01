@@ -310,7 +310,6 @@ namespace MiskoFinance.Panels
 			this.mTransactionsGridView_.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.mTransactionsGridView_.Location = new System.Drawing.Point(0, 0);
 			this.mTransactionsGridView_.Name = "mTransactionsGridView_";
-			this.mTransactionsGridView_.Page = null;
 			this.mTransactionsGridView_.RowHeadersVisible = false;
 			this.mTransactionsGridView_.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
 			this.mTransactionsGridView_.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data;
 using MiskoPersist.Attributes;
-using MiskoPersist.Data;
+using MiskoPersist.Data.Viewed;
 using MiskoPersist.Enums;
 
 namespace MiskoFinanceWeb.Data.Viewed

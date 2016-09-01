@@ -2,7 +2,7 @@ using System;
 using log4net;
 using MiskoPersist.Attributes;
 using MiskoPersist.Core;
-using MiskoPersist.Data;
+using MiskoPersist.Data.Viewed;
 using MiskoPersist.MoneyType;
 
 namespace MiskoFinanceCore.Data.Viewed

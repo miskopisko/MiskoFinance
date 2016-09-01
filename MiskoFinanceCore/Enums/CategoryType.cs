@@ -30,39 +30,18 @@ namespace MiskoFinanceCore.Enums
         public static CategoryType OneTime { get { return mOneTime_; } }
 
         #endregion
+        
+        #region Constructors
 
         public CategoryType()
         {
         }
 
-        public CategoryType(Int64 value, String code, String description): base(value, code, description)
+        public CategoryType(Int64 value, String code, String description)
+        	: base(value, code, description)
         {
         }
-
-        public static CategoryType GetElement(long index)
-        {
-            for (Int32 i = 0; Elements != null && i < Elements.Length; i++)
-            {
-                if(Elements[i].Value == index)
-                {
-                    return Elements[i];
-                }
-            }
-
-            return null;
-        }
-
-        public static CategoryType GetElement(String descriptionCode)
-        {
-            for (Int32 i = 0; descriptionCode != null && Elements != null && i < Elements.Length; i++)
-            {
-                if(Elements[i].Description.ToLower().Equals(descriptionCode.ToLower()) || Elements[i].Code.ToLower().Equals(descriptionCode.ToLower()))
-                {
-                    return Elements[i];
-                }
-            }
-
-            return null;
-        }
+        
+        #endregion
     }
 }

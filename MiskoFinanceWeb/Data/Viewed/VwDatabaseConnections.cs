@@ -1,5 +1,5 @@
 ﻿using System;
-using MiskoPersist.Data;
+using MiskoPersist.Data.Viewed;
 
 namespace MiskoFinanceWeb.Data.Viewed
 {

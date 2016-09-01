@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Windows.Forms;
-using MiskoPersist.Data;
 using log4net;
 using MiskoFinance.Forms;
+using MiskoFinance.Properties;
 using MiskoFinanceCore.Data.Viewed;
 using MiskoFinanceCore.Message.Requests;
 using MiskoFinanceCore.Message.Responses;
 using MiskoFinanceCore.Resources;
 using MiskoPersist.Core;
 using MiskoPersist.Message.Response;
-using MiskoFinance.Properties;
+using MiskoPersist.Data.Viewed;
 
 namespace MiskoFinance.Panels
 {
@@ -115,7 +115,7 @@ namespace MiskoFinance.Panels
         public void Clear()
         {
         	mTransactionsGridView_.DataSource = null;
-        	mTransactionsGridView_.Page = new Page();
+        	mTransactionsGridView_.Page = new Page(1, Settings.Default.RowsPerPage, true);
         	Summary = new VwSummary();
         }
 
@@ -142,9 +142,7 @@ namespace MiskoFinance.Panels
             request.ToDate = MiskoFinanceMain.Instance.SearchPanel.ToDate.Date;
             request.Category = MiskoFinanceMain.Instance.SearchPanel.Category.CategoryId;
             request.Description = MiskoFinanceMain.Instance.SearchPanel.Description;
-            request.Page = mTransactionsGridView_.Page.Next;
-            request.Page.RowsPerPage = Settings.Default.RowsPerPage;
-            request.Page.IncludeRecordCount = true;
+            request.Page = mTransactionsGridView_.Page.Next;            
             Server.SendRequest(request, GetTxnsSuccess, GetTxnsError);
         }
 

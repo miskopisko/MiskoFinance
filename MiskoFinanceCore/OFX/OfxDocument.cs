@@ -5,6 +5,7 @@ using System.Web;
 using log4net;
 using MiskoFinanceCore.Data.Viewed;
 using MiskoFinanceCore.Enums;
+using MiskoPersist.Enums;
 using MiskoPersist.MoneyType;
 
 namespace MiskoFinanceCore.OFX
@@ -113,7 +114,7 @@ namespace MiskoFinanceCore.OFX
 		{
 			BankID = Regex.Match(text, @"(?<=bankid>).+?(?=<)", RegexOptions.Multiline | RegexOptions.IgnoreCase).Value;
 			AccountID = Regex.Match(text, @"(?<=acctid>).+?(?=<)", RegexOptions.Multiline | RegexOptions.IgnoreCase).Value;
-			AccountType = AccountType.GetElement(Regex.Match(text, @"(?<=accttype>).+?(?=<)", RegexOptions.Multiline | RegexOptions.IgnoreCase).Value);
+			AccountType = MiskoEnum.Parse<AccountType>(Regex.Match(text, @"(?<=accttype>).+?(?=<)", RegexOptions.Multiline | RegexOptions.IgnoreCase).Value);
 			StartDate = DateTime.ParseExact(Regex.Match(text, @"(?<=dtstart>).+?(?=<)", RegexOptions.Multiline | RegexOptions.IgnoreCase).Value.Substring(0,8),"yyyyMMdd", null);
 			EndDate = DateTime.ParseExact(Regex.Match(text, @"(?<=dtend>).+?(?=<)", RegexOptions.Multiline | RegexOptions.IgnoreCase).Value.Substring(0, 8), "yyyyMMdd", null);
 		}

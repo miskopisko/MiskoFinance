@@ -95,7 +95,7 @@ namespace MiskoFinance.Forms
                 bankAccount.BankNumber = mBankName_.Text.Trim();
                 bankAccount.Nickname = mNickname_.Text.Trim();
                 bankAccount.AccountType = (AccountType)mAccountType_.SelectedItem;
-                bankAccount.OpeningBalance = mOpeningBalance_.Value;
+                bankAccount.OpeningBalance = mOpeningBalance_.Value.Value;
                 return bankAccount;
             }
             else if(mExistingAccount_.Checked)

@@ -1,5 +1,6 @@
 using log4net;
 using MiskoPersist.Data;
+using MiskoPersist.Data.Viewed;
 
 namespace MiskoFinanceCore.Data.Viewed
 {

@@ -4,7 +4,7 @@ using MiskoFinanceCore.Data.Stored;
 using MiskoFinanceCore.Enums;
 using MiskoPersist.Attributes;
 using MiskoPersist.Core;
-using MiskoPersist.Data;
+using MiskoPersist.Data.Viewed;
 using MiskoPersist.MoneyType;
 
 namespace MiskoFinanceCore.Data.Viewed
@@ -50,19 +50,19 @@ namespace MiskoFinanceCore.Data.Viewed
 
 		#region Other Properties
 
-		public Money Debit 
+		public Money? Debit 
 		{ 
 			get
 			{
-				return DrCr.Equals(DrCr.Debit) ? Amount : null;
+				return DrCr.Equals(DrCr.Debit) ? (Money?)Amount : null;
 			}
 		}
 		
-		public Money Credit 
+		public Money? Credit 
 		{ 
 			get
 			{
-				return DrCr.Equals(DrCr.Credit) ? Amount : null;
+				return DrCr.Equals(DrCr.Credit) ? (Money?)Amount : null;
 			}
 		}
 		
