@@ -2,7 +2,6 @@
 using System.Drawing;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
-using MiskoPersist.Core;
 using log4net;
 
 namespace MiskoFinance.Controls

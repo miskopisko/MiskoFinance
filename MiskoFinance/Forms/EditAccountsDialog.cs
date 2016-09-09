@@ -5,7 +5,7 @@ using MiskoFinanceCore.Enums;
 using MiskoFinanceCore.Message.Requests;
 using MiskoFinanceCore.Message.Responses;
 using MiskoPersist.Core;
-using MiskoPersist.Message.Response;
+using MiskoPersist.Message.Responses;
 using log4net;
 
 namespace MiskoFinance.Forms

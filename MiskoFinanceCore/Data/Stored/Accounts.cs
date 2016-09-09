@@ -1,10 +1,9 @@
 using log4net;
-using MiskoPersist.Data;
 using MiskoPersist.Data.Stored;
 
 namespace MiskoFinanceCore.Data.Stored
 {
-	public class Accounts : StoredDataList
+	public class Accounts : StoredDataList<Account>
     {
         private static ILog Log = LogManager.GetLogger(typeof(Accounts));
 
@@ -22,9 +21,7 @@ namespace MiskoFinanceCore.Data.Stored
 
         #region Constructors
 
-        public Accounts() : base(typeof(Account))
-        {
-        }
+        
 
         #endregion
 

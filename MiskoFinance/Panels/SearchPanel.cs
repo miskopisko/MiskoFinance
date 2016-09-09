@@ -28,7 +28,7 @@ namespace MiskoFinance.Panels
         	{
         		VwBankAccounts dataSource = new VwBankAccounts();
         		dataSource.Add(new VwBankAccount() { Nickname = "All" });
-        		dataSource.Concatenate(value);
+        		dataSource.Add(value);
         		mAccounts_.DataSource = dataSource;
         	}
         }
@@ -65,10 +65,7 @@ namespace MiskoFinance.Panels
         	}
         	set
         	{
-        		VwCategories dataSource = new VwCategories();
-        		dataSource.Add(new VwCategory());
-        		dataSource.Concatenate(value);
-        		mCategories_.DataSource = dataSource;
+        		mCategories_.DataSource = value;
         	}
         }
         

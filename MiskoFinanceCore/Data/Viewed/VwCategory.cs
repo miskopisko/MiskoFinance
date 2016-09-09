@@ -41,7 +41,13 @@ namespace MiskoFinanceCore.Data.Viewed
 
 		#region Constructors
 
-		
+		public VwCategory()
+        {
+        }
+
+        public VwCategory(Session session, Persistence persistence) : base(session, persistence)
+        {
+        }
 		
 		#endregion
 

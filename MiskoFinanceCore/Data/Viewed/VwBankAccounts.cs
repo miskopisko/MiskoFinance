@@ -4,7 +4,7 @@ using MiskoPersist.Data.Viewed;
 
 namespace MiskoFinanceCore.Data.Viewed
 {
-	public class VwBankAccounts : ViewedDataList
+	public class VwBankAccounts : ViewedDataList<VwBankAccount>
 	{
 		private static ILog Log = LogManager.GetLogger(typeof(VwBankAccounts));
 
@@ -22,9 +22,7 @@ namespace MiskoFinanceCore.Data.Viewed
 
 		#region Constructors
 
-		public VwBankAccounts() : base(typeof(VwBankAccount))
-		{
-		}
+		
 
 		#endregion
 
@@ -38,11 +36,11 @@ namespace MiskoFinanceCore.Data.Viewed
 
 		public void FetchByOperator(Session session, PrimaryKey o)
 		{
-			Persistence p = Persistence.GetInstance(session);
-			p.ExecuteQuery("SELECT * FROM VwBankAccount WHERE OperatorId = ?", o);
-			Set(session, p);
-			p.Close();
-			p = null;
+			Persistence persistence = Persistence.GetInstance(session);
+			persistence.ExecuteQuery("SELECT * FROM VwBankAccount WHERE OperatorId = ?", o);
+			Set(session, persistence);
+			persistence.Close();
+			persistence = null;
 		}
 
 		#endregion

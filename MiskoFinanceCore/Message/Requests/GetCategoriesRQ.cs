@@ -2,8 +2,7 @@ using log4net;
 using MiskoFinanceCore.Enums;
 using MiskoPersist.Attributes;
 using MiskoPersist.Core;
-using MiskoPersist.Data;
-using MiskoPersist.Message.Request;
+using MiskoPersist.Message.Requests;
 
 namespace MiskoFinanceCore.Message.Requests
 {

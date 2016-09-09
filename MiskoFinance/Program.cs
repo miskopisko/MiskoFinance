@@ -2,13 +2,12 @@
 using System.Threading;
 using System.Windows.Forms;
 using log4net;
-using MiskoFinance.Properties;
-using MiskoPersist.Core;
-using MiskoPersist.Enums;
 using log4net.Config;
 using MiskoFinance.Forms;
+using MiskoFinance.Properties;
+using MiskoPersist.Core;
 using MiskoPersist.Data.Viewed;
-using MiskoPersist.Serialization;
+using MiskoPersist.Enums;
 
 namespace MiskoFinance
 {
@@ -31,7 +30,7 @@ namespace MiskoFinance
 			// Set server event handlers
 			Server.MessageSent += MiskoFinanceMain.Instance.MessageSent;
 			Server.MessageReceived += MiskoFinanceMain.Instance.MessageReceived;
-			Server.Status += MiskoFinanceMain.Instance.Status;
+			Server.Status += MiskoFinanceMain.Instance.ServerStatus;
 			Server.Error += MiskoFinanceMain.Instance.Error;
 			Server.Warning += MiskoFinanceMain.Instance.Warning;
 			Server.Info += MiskoFinanceMain.Instance.Info;
@@ -58,7 +57,7 @@ namespace MiskoFinance
 			Server.Location = MiskoEnum.Parse<ServerLocation>(Settings.Default.ServerLocation);
 			Server.SerializationType = MiskoEnum.Parse<SerializationType>(Settings.Default.SerializationType);
 			Server.Host = Settings.Default.Hostname;
-			Server.Port = (short)Settings.Default.Port;
+			Server.Port = Settings.Default.Port;
 			Server.Script = Settings.Default.Script;
 			Server.UseSSL = Settings.Default.UseSSL;
 			Server.WriteMessagesToLog = Settings.Default.WriteMessagesToLog;

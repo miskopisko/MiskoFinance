@@ -1,12 +1,12 @@
+using System;
 using log4net;
 using MiskoFinanceCore.Enums;
 using MiskoPersist.Core;
-using MiskoPersist.Data;
 using MiskoPersist.Data.Viewed;
 
 namespace MiskoFinanceCore.Data.Viewed
 {
-	public class VwCategories : ViewedDataList
+	public class VwCategories : ViewedDataList<VwCategory>
 	{
 		private static ILog Log = LogManager.GetLogger(typeof(VwCategories));
 
@@ -18,15 +18,13 @@ namespace MiskoFinanceCore.Data.Viewed
 
 		#region Properties
 
-
+		
 
 		#endregion
 
 		#region Constructors
 
-		public VwCategories() : base(typeof(VwCategory))
-		{
-		}
+		
 
 		#endregion
 
@@ -38,9 +36,14 @@ namespace MiskoFinanceCore.Data.Viewed
 
 		#region Public Methods
 
-		public VwCategories GetByType(CategoryType type)
+		public VwCategories GetByType(CategoryType type, Boolean addBlank = false)
 		{
 			VwCategories result = new VwCategories();
+			
+			if (addBlank)
+			{
+				result.Add(new VwCategory());
+			}
 
 			foreach (VwCategory category in this)
 			{
@@ -53,9 +56,14 @@ namespace MiskoFinanceCore.Data.Viewed
 			return result;
 		}
 
-		public VwCategories GetByStatus(Status status)
+		public VwCategories GetByStatus(Status status, Boolean addBlank = false)
 		{
 			VwCategories result = new VwCategories();
+			
+			if (addBlank)
+			{
+				result.Add(new VwCategory());
+			}
 
 			foreach (VwCategory category in this)
 			{
@@ -70,14 +78,14 @@ namespace MiskoFinanceCore.Data.Viewed
 
 		public void FetchByComposite(Session session, PrimaryKey o, Status status)
 		{
-			Persistence p = Persistence.GetInstance(session);
-			p.SetSql("SELECT * FROM VwCategory");
-			p.SqlWhere(true, "OperatorId = ?",  o);
-			p.SqlWhere(status != null && status.IsSet, "Status = ?", status);
-			p.ExecuteQuery();
-			Set(session, p);
-			p.Close();
-			p = null;
+			Persistence persistence = Persistence.GetInstance(session);
+			persistence.SetSql("SELECT * FROM VwCategory");
+			persistence.SqlWhere(true, "OperatorId = ?",  o);
+			persistence.SqlWhere(status != null && status.IsSet, "Status = ?", status);
+			persistence.ExecuteQuery();
+			Set(session, persistence);
+			persistence.Close();
+			persistence = null;
 		}
 
 		#endregion

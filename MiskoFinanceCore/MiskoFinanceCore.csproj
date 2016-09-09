@@ -65,8 +65,7 @@
     <Compile Include="Data\Stored\BankAccounts.cs" />
     <Compile Include="Data\Stored\Categories.cs" />
     <Compile Include="Data\Stored\Category.cs" />
-    <Compile Include="Data\Stored\Operator.cs" />
-    <Compile Include="Data\Stored\Operators.cs" />
+    <Compile Include="Data\Stored\Person.cs" />
     <Compile Include="Data\Stored\Txn.cs" />
     <Compile Include="Data\Stored\Txns.cs" />
     <Compile Include="Data\Viewed\VwBankAccount.cs" />
@@ -87,12 +86,12 @@
     <Compile Include="Message\GetCategories.cs" />
     <Compile Include="Message\GetTxns.cs" />
     <Compile Include="Message\ImportTxns.cs" />
-    <Compile Include="Message\Login.cs" />
+    <Compile Include="Message\Logon.cs" />
     <Compile Include="Message\Requests\GetAccountRQ.cs" />
     <Compile Include="Message\Requests\GetCategoriesRQ.cs" />
     <Compile Include="Message\Requests\GetTxnsRQ.cs" />
     <Compile Include="Message\Requests\ImportTxnsRQ.cs" />
-    <Compile Include="Message\Requests\LoginRQ.cs" />
+    <Compile Include="Message\Requests\LogonRQ.cs" />
     <Compile Include="Message\Requests\UpdateAccountsRQ.cs" />
     <Compile Include="Message\Requests\UpdateCategoriesRQ.cs" />
     <Compile Include="Message\Requests\UpdateOperatorRQ.cs" />
@@ -101,7 +100,7 @@
     <Compile Include="Message\Responses\GetCategoriesRS.cs" />
     <Compile Include="Message\Responses\GetTxnsRS.cs" />
     <Compile Include="Message\Responses\ImportTxnsRS.cs" />
-    <Compile Include="Message\Responses\LoginRS.cs" />
+    <Compile Include="Message\Responses\LogonRS.cs" />
     <Compile Include="Message\Responses\UpdateAccountsRS.cs" />
     <Compile Include="Message\Responses\UpdateCategoriesRS.cs" />
     <Compile Include="Message\Responses\UpdateOperatorRS.cs" />

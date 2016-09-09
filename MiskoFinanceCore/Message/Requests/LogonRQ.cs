@@ -1,14 +1,13 @@
 using System;
 using log4net;
 using MiskoPersist.Attributes;
-using MiskoPersist.Message.Request;
+using MiskoPersist.Message.Requests;
 
 namespace MiskoFinanceCore.Message.Requests
 {
-	[Serializable]
-	public class LoginRQ : RequestMessage
+	public class LogonRQ : RequestMessage
 	{
-		private static ILog Log = LogManager.GetLogger(typeof(LoginRQ));
+		private static ILog Log = LogManager.GetLogger(typeof(LogonRQ));
 
 		#region Parameters
 

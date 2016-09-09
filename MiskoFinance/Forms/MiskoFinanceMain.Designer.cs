@@ -1,5 +1,4 @@
 ﻿using System;
-using MiskoPersist.MoneyType;
 namespace MiskoFinance.Forms
 {
     partial class MiskoFinanceMain

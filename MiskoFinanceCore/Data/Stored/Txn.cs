@@ -3,7 +3,6 @@ using log4net;
 using MiskoFinanceCore.Enums;
 using MiskoPersist.Attributes;
 using MiskoPersist.Core;
-using MiskoPersist.Data;
 using MiskoPersist.Data.Stored;
 using MiskoPersist.Enums;
 using MiskoPersist.MoneyType;
@@ -63,36 +62,36 @@ namespace MiskoFinanceCore.Data.Stored
 
         #region Override Methods
 
-        public override StoredData Create(Session session)
-        {
-            PreSave(session, UpdateMode.Insert);
-            Persistence.ExecuteInsert(session, this, typeof(Txn));
-            PostSave(session, UpdateMode.Insert);
-            return this;
-        }
+		public override StoredData Create(Session session)
+		{
+			PreSave(session, UpdateMode.Insert);
+			Persistence.ExecuteInsert(session, this, typeof(Txn));
+			PostSave(session, UpdateMode.Insert);
+			return this;
+		}
 
-        public override StoredData Store(Session session)
-        {
-            PreSave(session, UpdateMode.Update);
-            Persistence.ExecuteUpdate(session, this, typeof(Txn));
-            PostSave(session, UpdateMode.Update);
-            return this;
-        }
+		public override StoredData Store(Session session)
+		{
+			PreSave(session, UpdateMode.Update);
+			Persistence.ExecuteUpdate(session, this, typeof(Txn));
+			PostSave(session, UpdateMode.Update);
+			return this;
+		}
 
-        public override StoredData Remove(Session session)
-        {
-            Persistence.ExecuteDelete(session, this, typeof(Txn));
-            PostSave(session, UpdateMode.Delete);
-            return this;
-        }
+		public override StoredData Remove(Session session)
+		{
+			Persistence.ExecuteDelete(session, this, typeof(Txn));
+			PostSave(session, UpdateMode.Delete);
+			return this;
+		}
 
-        public void PreSave(Session session, UpdateMode mode)
-        {
-        }
+		public override void PreSave(Session session, UpdateMode mode)
+		{
+		}
 
-        public void PostSave(Session session, UpdateMode mode)
-        {
-        }
+		public override void PostSave(Session session, UpdateMode mode)
+		{
+		}
 
         #endregion
 

@@ -1,10 +1,9 @@
 using log4net;
-using MiskoPersist.Data;
 using MiskoPersist.Data.Stored;
 
 namespace MiskoFinanceCore.Data.Stored
 {
-	public class Categories : StoredDataList
+	public class Categories : StoredDataList<Category>
     {
         private static ILog Log = LogManager.GetLogger(typeof(Categories));
 
@@ -22,9 +21,7 @@ namespace MiskoFinanceCore.Data.Stored
 
         #region Constructors
 
-        public Categories() : base(typeof(Category))
-        {
-        }
+        
 
         #endregion
 

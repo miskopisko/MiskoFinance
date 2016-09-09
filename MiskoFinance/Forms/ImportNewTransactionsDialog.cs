@@ -8,7 +8,7 @@ using MiskoFinanceCore.Message.Responses;
 using MiskoFinanceCore.OFX;
 using MiskoFinanceCore.Resources;
 using MiskoPersist.Core;
-using MiskoPersist.Message.Response;
+using MiskoPersist.Message.Responses;
 using MiskoPersist.MoneyType;
 using log4net;
 

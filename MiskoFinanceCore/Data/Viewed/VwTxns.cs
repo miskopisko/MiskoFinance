@@ -6,7 +6,7 @@ using MiskoPersist.Enums;
 
 namespace MiskoFinanceCore.Data.Viewed
 {
-	public class VwTxns : ViewedDataList
+	public class VwTxns : ViewedDataList<VwTxn>
     {
         private static ILog Log = LogManager.GetLogger(typeof(VwTxns));
 
@@ -24,9 +24,7 @@ namespace MiskoFinanceCore.Data.Viewed
 
         #region Constructors
 
-        public VwTxns() : base(typeof(VwTxn))
-        {
-        }
+        
 
         #endregion
 
@@ -40,19 +38,19 @@ namespace MiskoFinanceCore.Data.Viewed
 
         public void Fetch(Session session, Page page, PrimaryKey op, PrimaryKey account, DateTime? from, DateTime? to, PrimaryKey category, String description)
         {
-            Persistence p = Persistence.GetInstance(session);
-            p.SetSql("SELECT * FROM VwTxn");
-            p.SqlWhere(op != null && op.IsSet, "OperatorId = ?",  op);
-            p.SqlWhere(account != null && account.IsSet, "AccountId = ?", account);
-            p.SqlWhere(from.HasValue, "DatePosted >= ?", from);
-            p.SqlWhere(to.HasValue, "DatePosted <= ?", to);
-            p.SqlWhere(category != null && category.IsSet, "Category = ?", category);
-            p.SqlWhere(!String.IsNullOrEmpty(description), "Description LIKE ?", "%" + description + "%");
-            p.SqlOrderBy("DatePosted", SqlSortDirection.Descending);            
-            p.ExecuteQuery();
-            Set(session, p, page);
-            p.Close();
-            p = null;
+            Persistence persistence = Persistence.GetInstance(session);
+            persistence.SetSql("SELECT * FROM VwTxn");
+            persistence.SqlWhere(op.IsSet, "OperatorId = ?",  op);
+            persistence.SqlWhere(account.IsSet, "AccountId = ?", account);
+            persistence.SqlWhere(from.HasValue, "DatePosted >= ?", from);
+            persistence.SqlWhere(to.HasValue, "DatePosted <= ?", to);
+            persistence.SqlWhere(category.IsSet, "Category = ?", category);
+            persistence.SqlWhere(!String.IsNullOrEmpty(description), "Description LIKE ?", "%" + description + "%");
+            persistence.SqlOrderBy("DatePosted", SqlSortDirection.Descending);            
+            persistence.ExecuteQuery();
+            Set(session, persistence, page);
+            persistence.Close();
+            persistence = null;
         } 
 
         #endregion

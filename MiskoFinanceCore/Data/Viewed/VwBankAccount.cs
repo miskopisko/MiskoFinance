@@ -40,7 +40,7 @@ namespace MiskoFinanceCore.Data.Viewed
 
 		#region Other Properties
 
-		public Boolean IsSet
+		public override Boolean IsSet
 		{
 			get
 			{
@@ -52,7 +52,13 @@ namespace MiskoFinanceCore.Data.Viewed
 
 		#region Constructors
 
-		
+		public VwBankAccount()
+        {
+        }
+
+        public VwBankAccount(Session session, Persistence persistence) : base(session, persistence)
+        {
+        }
 
 		#endregion
 
@@ -89,11 +95,13 @@ namespace MiskoFinanceCore.Data.Viewed
 		public static VwBankAccount GetInstanceByAccountNo(Session session, String accountNo)
 		{
 			VwBankAccount result = new VwBankAccount();
-			Persistence p = Persistence.GetInstance(session);
-			p.ExecuteQuery("SELECT * FROM VwBankAccount WHERE AccountNumber = ?", accountNo);
-			result.Set(session, p);
-			p.Close();
-			p = null;
+			
+			Persistence persistence = Persistence.GetInstance(session);
+			persistence.ExecuteQuery("SELECT * FROM VwBankAccount WHERE AccountNumber = ?", accountNo);
+			result.Set(session, persistence);
+			persistence.Close();
+			persistence = null;
+			
 			return result;
 		}
 

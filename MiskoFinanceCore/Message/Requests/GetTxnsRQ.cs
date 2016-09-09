@@ -2,9 +2,8 @@ using System;
 using log4net;
 using MiskoPersist.Attributes;
 using MiskoPersist.Core;
-using MiskoPersist.Data;
 using MiskoPersist.Data.Viewed;
-using MiskoPersist.Message.Request;
+using MiskoPersist.Message.Requests;
 
 namespace MiskoFinanceCore.Message.Requests
 {

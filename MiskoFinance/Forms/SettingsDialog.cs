@@ -6,7 +6,7 @@ using MiskoFinanceCore.Data.Viewed;
 using MiskoFinanceCore.Enums;
 using MiskoFinanceCore.Message.Requests;
 using MiskoPersist.Core;
-using MiskoPersist.Message.Response;
+using MiskoPersist.Message.Responses;
 
 namespace MiskoFinance.Forms
 {

@@ -8,7 +8,7 @@ using MiskoFinanceCore.Message.Requests;
 using MiskoFinanceCore.Message.Responses;
 using MiskoFinanceCore.Resources;
 using MiskoPersist.Core;
-using MiskoPersist.Message.Response;
+using MiskoPersist.Message.Responses;
 using MiskoPersist.Data.Viewed;
 
 namespace MiskoFinance.Panels
@@ -114,7 +114,7 @@ namespace MiskoFinance.Panels
         
         public void Clear()
         {
-        	mTransactionsGridView_.DataSource = null;
+        	mTransactionsGridView_.DataSource.Clear();
         	mTransactionsGridView_.Page = new Page(1, Settings.Default.RowsPerPage, true);
         	Summary = new VwSummary();
         }
@@ -157,9 +157,7 @@ namespace MiskoFinance.Panels
         	
         	if(rs != null)
         	{
-        		VwTxns txns = (VwTxns)mTransactionsGridView_.DataSource ?? new VwTxns();
-        		txns.Concatenate(rs.Txns);
-        		mTransactionsGridView_.DataSource = txns;
+        		mTransactionsGridView_.DataSource.Add(rs.Txns);
         		mTransactionsGridView_.Page = rs.Page;
 	        	
         		MiskoFinanceMain.Instance.SummaryPanel.Summary = rs.Summary;

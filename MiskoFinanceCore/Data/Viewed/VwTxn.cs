@@ -94,7 +94,13 @@ namespace MiskoFinanceCore.Data.Viewed
 
 		#region Constructors
 
-		
+		public VwTxn()
+        {
+        }
+
+        public VwTxn(Session session, Persistence persistence) : base(session, persistence)
+        {
+        }
 
 		#endregion
 

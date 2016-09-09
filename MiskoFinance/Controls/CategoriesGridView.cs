@@ -11,6 +11,8 @@ namespace MiskoFinance.Controls
         private static ILog Log = LogManager.GetLogger(typeof(CategoriesGridView));
 
         #region Fields
+        
+		private readonly VwCategories mDataSource_ = new VwCategories();
 		
         private readonly DataGridViewTextBoxColumn mCategoryName_ = new DataGridViewTextBoxColumn();
         private readonly DataGridViewComboBoxColumn mStatus_ = new DataGridViewComboBoxColumn();
@@ -20,7 +22,13 @@ namespace MiskoFinance.Controls
 
         #region Properties
 
-		
+		public new VwCategories DataSource
+		{
+			get
+			{
+				return mDataSource_;
+			}
+		}
 
         #endregion
 
@@ -31,6 +39,8 @@ namespace MiskoFinance.Controls
             InitializeComponent();
             AutoGenerateColumns = false;            
             FillColumns();
+            
+			base.DataSource = mDataSource_;
         }
 
         #endregion
@@ -58,7 +68,7 @@ namespace MiskoFinance.Controls
                 }
                 else
                 {
-                	((VwCategories)DataSource).Remove(category);
+                	DataSource.Remove(category);
                 }
             }
         }
@@ -74,7 +84,7 @@ namespace MiskoFinance.Controls
         {
             base.OnCellFormatting(e);
 
-            if(e.RowIndex >= 0 && e.RowIndex < ((VwCategories)DataSource).Count && e.ColumnIndex.Equals(Columns.IndexOf(mDelete_)))
+            if(e.RowIndex >= 0 && e.RowIndex < DataSource.Count && e.ColumnIndex.Equals(Columns.IndexOf(mDelete_)))
             {
                 Rows[e.RowIndex].Cells[e.ColumnIndex].Value = GetItemAt(e.RowIndex).CategoryId >= 0 ? "Delete" : "Undelete";
             }

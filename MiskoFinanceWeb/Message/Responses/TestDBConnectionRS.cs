@@ -1,6 +1,6 @@
 ﻿using MiskoFinanceWeb.Data.Viewed;
 using MiskoPersist.Attributes;
-using MiskoPersist.Message.Response;
+using MiskoPersist.Message.Responses;
 
 namespace MiskoFinanceWeb.Message.Responses
 {

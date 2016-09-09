@@ -1,9 +1,8 @@
 using log4net;
 using MiskoFinanceCore.Data.Viewed;
 using MiskoPersist.Attributes;
-using MiskoPersist.Data;
 using MiskoPersist.Data.Viewed;
-using MiskoPersist.Message.Response;
+using MiskoPersist.Message.Responses;
 
 namespace MiskoFinanceCore.Message.Responses
 {

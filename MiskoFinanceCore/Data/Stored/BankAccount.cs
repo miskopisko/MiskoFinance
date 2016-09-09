@@ -52,64 +52,58 @@ namespace MiskoFinanceCore.Data.Stored
 
         #region Override Methods
 
-        public override StoredData Create(Session session)
-        {
-            PreSave(session, UpdateMode.Insert);
-            base.Create(session);
-            Persistence.ExecuteInsert(session, this, typeof(BankAccount));
-            PostSave(session, UpdateMode.Insert);
-            return this;
-        }
+		public override StoredData Create(Session session)
+		{
+			base.Create(session);
+			PreSave(session, UpdateMode.Insert);
+			Persistence.ExecuteInsert(session, this, typeof(BankAccount));
+			PostSave(session, UpdateMode.Insert);
+			return this;
+		}
 
-        public override StoredData Store(Session session)
-        {
-            PreSave(session, UpdateMode.Update);
-            base.Store(session);
-            Persistence.ExecuteUpdate(session, this, typeof(BankAccount));
-            PostSave(session, UpdateMode.Update);
-            return this;
-        }
+		public override StoredData Store(Session session)
+		{
+			base.Store(session);
+			PreSave(session, UpdateMode.Update);
+			Persistence.ExecuteUpdate(session, this, typeof(BankAccount));
+			PostSave(session, UpdateMode.Update);
+			return this;
+		}
 
-        public override StoredData Remove(Session session)
-        {
-            base.Remove(session);
-            Persistence.ExecuteDelete(session, this, typeof(BankAccount));
-            PostSave(session, UpdateMode.Delete);
-            return this;
-        }
+		public override StoredData Remove(Session session)
+		{
+			base.Remove(session);
+			Persistence.ExecuteDelete(session, this, typeof(BankAccount));
+			PostSave(session, UpdateMode.Delete);
+			return this;
+		}
         
-        public new void PreSave(Session session, UpdateMode mode)
-        {        	
-            if(String.IsNullOrEmpty(BankNumber))
-            {
-                session.Error(ErrorLevel.Error, ErrorStrings.errBankNameMandatory);
-            }
-
-            if(String.IsNullOrEmpty(AccountNumber))
-            {
-                session.Error(ErrorLevel.Error, ErrorStrings.errAccountNumberMandatory);
-            }            
-
-            if(String.IsNullOrEmpty(Nickname))
-            {
-                session.Error(ErrorLevel.Error, ErrorStrings.errNicknameMandatory);
-            }
-            
-            // Check to see if another bank account already exists
-        	if(mode.Equals(UpdateMode.Insert))
-        	{
-        	   	BankAccount bankAccount = BankAccount.GetInstanceByComposite(session, Operator, AccountNumber);
-        	   	
-        	   	if(bankAccount.IsSet)
-        	   	{
-        	   		session.Error(ErrorLevel.Confirmation, "Account {0} already exists. Are you sure you want to create this account?", AccountNumber);
-        	   	}
-        	}
-        }
-
-        public new void PostSave(Session session, UpdateMode mode)
-        {
-        }
+		public override void PreSave(Session session, UpdateMode mode)
+		{
+			base.PreSave(session, mode);
+			
+			if (String.IsNullOrEmpty(BankNumber))
+			{
+				session.Error(ErrorLevel.Error, ErrorStrings.errBankNameMandatory);
+			}
+			if (String.IsNullOrEmpty(AccountNumber))
+			{
+				session.Error(ErrorLevel.Error, ErrorStrings.errAccountNumberMandatory);
+			}
+			if (String.IsNullOrEmpty(Nickname))
+			{
+				session.Error(ErrorLevel.Error, ErrorStrings.errNicknameMandatory);
+			}
+			// Check to see if another bank account already exists
+			if (mode.Equals(UpdateMode.Insert))
+			{
+				BankAccount bankAccount = BankAccount.GetInstanceByComposite(session, Operator, AccountNumber);
+				if (bankAccount.IsSet)
+				{
+					session.Error(ErrorLevel.Confirmation, "Account {0} already exists. Are you sure you want to create this account?", AccountNumber);
+				}
+			}
+		}
 
         #endregion
 
@@ -131,11 +125,11 @@ namespace MiskoFinanceCore.Data.Stored
                          "AND    A.Operator = ? " +
                          "AND    B.AccountNumber = ?";
 
-            Persistence p = Persistence.GetInstance(session);
-            p.ExecuteQuery(sql, op, accountNo);
-            result.Set(session, p);
-            p.Close();
-            p = null;
+            Persistence persistence = Persistence.GetInstance(session);
+            persistence.ExecuteQuery(sql, op, accountNo);
+            result.Set(session, persistence);
+            persistence.Close();
+            persistence = null;
 
             return result;
         }

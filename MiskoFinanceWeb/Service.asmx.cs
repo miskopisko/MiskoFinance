@@ -6,8 +6,8 @@ using MiskoFinanceWeb.Message.Requests;
 using MiskoPersist.Core;
 using MiskoPersist.Data.Viewed;
 using MiskoPersist.Enums;
-using MiskoPersist.Message.Request;
-using MiskoPersist.Message.Response;
+using MiskoPersist.Message.Requests;
+using MiskoPersist.Message.Responses;
 using MiskoPersist.Serialization;
 
 namespace MiskoFinanceWeb
@@ -18,34 +18,19 @@ namespace MiskoFinanceWeb
     public class Service : WebService
 	{
     	private static ILog Log = LogManager.GetLogger(typeof(Service));
-    	
-        private static readonly SerializationType DEFAULTSERIALIZATIONTYPE = SerializationType.Xml;
 
 		[WebMethod(Description = "Accepts a request message as a string, process it it on the server and returns a response string")]
 		public void ProcessRequestString(String message)
         {   
-            SerializationType serializationType = DEFAULTSERIALIZATIONTYPE;
             try
             {
-                if (message.StartsWith("<", StringComparison.OrdinalIgnoreCase))
-                {
-                    serializationType = SerializationType.Xml;
-                }
-                else if (message.StartsWith("{", StringComparison.OrdinalIgnoreCase))
-                {
-                    serializationType = SerializationType.Json;
-                }
-                else
-                {
-                    throw new MiskoException("Unrecognized string format");
-                }    
-                RequestMessage request = (RequestMessage)Serializer.Deserialize(message);
+            	RequestMessage request = (RequestMessage)Serializer.Deserialize(message);
                 ResponseMessage response = MessageProcessor.Process(request);
-                SendResponse(response, serializationType);
+                SendResponse(response, message.GetSerializationType());
             }
             catch(Exception e)
             {
-                SendResponse(HandleException(e), serializationType);
+                SendResponse(HandleException(e), Global.DefaultSerializationType);
             }
         }
 		
@@ -69,11 +54,11 @@ namespace MiskoFinanceWeb
 		{
             try
             {
-				SendResponse(MessageProcessor.Process(new TestDBConnectionRQ()), DEFAULTSERIALIZATIONTYPE);
+				SendResponse(MessageProcessor.Process(new TestDBConnectionRQ()), Global.DefaultSerializationType);
             }
             catch (Exception e)
             {
-                SendResponse(HandleException(e), DEFAULTSERIALIZATIONTYPE);
+                SendResponse(HandleException(e), Global.DefaultSerializationType);
             }
 		}
 

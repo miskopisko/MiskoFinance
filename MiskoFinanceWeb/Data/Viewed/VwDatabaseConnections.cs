@@ -3,11 +3,7 @@ using MiskoPersist.Data.Viewed;
 
 namespace MiskoFinanceWeb.Data.Viewed
 {
-	public class VwDatabaseConnections : ViewedDataList
+	public class VwDatabaseConnections : ViewedDataList<VwDatabaseConnection>
 	{
-		public VwDatabaseConnections()
-			: base(typeof(VwDatabaseConnection))
-		{
-		}
 	}
 }

@@ -1,29 +1,31 @@
+﻿using System;
 using log4net;
 using MiskoFinanceCore.Enums;
-using MiskoFinanceCore.Resources;
-using MiskoPersist.Attributes;
 using MiskoPersist.Core;
 using MiskoPersist.Data.Stored;
 using MiskoPersist.Enums;
+using MiskoPersist.Attributes;
 
 namespace MiskoFinanceCore.Data.Stored
 {
-    public class Account : StoredData
-    {
-        private static ILog Log = LogManager.GetLogger(typeof(Account));
+	public class Person : Operator
+	{
+		private static ILog Log = LogManager.GetLogger(typeof(Person));
+		
+		#region Fields
 
-        #region Fields
-
-
+        
 
         #endregion
 
         #region Stored Properties
 
+        [Stored(Length = 128)]
+        public String Email { get; set; }
         [Stored]
-        public PrimaryKey Operator { get; set; }
+        public DateTime? Birthday { get; set; }
         [Stored]
-        public AccountType AccountType { get; set; }        
+        public Gender Gender { get; set; }
 
         #endregion
 
@@ -35,55 +37,60 @@ namespace MiskoFinanceCore.Data.Stored
 
         #region Constructors
 
-        public Account()
+        public Person()
         {
         }
 
-        public Account(Session session, Persistence persistence) : base(session, persistence)
+        public Person(Session session, Persistence persistence) : base(session, persistence)
         {
         }
 
         #endregion
 
         #region Override Methods
-        
+
 		public override StoredData Create(Session session)
 		{
+			base.Create(session);
 			PreSave(session, UpdateMode.Insert);
-			Persistence.ExecuteInsert(session, this, typeof(Account));
+			Persistence.ExecuteInsert(session, this, typeof(Person));
 			PostSave(session, UpdateMode.Insert);
 			return this;
 		}
 
 		public override StoredData Store(Session session)
 		{
+			base.Store(session);
 			PreSave(session, UpdateMode.Update);
-			Persistence.ExecuteUpdate(session, this, typeof(Account));
+			Persistence.ExecuteUpdate(session, this, typeof(Person));
 			PostSave(session, UpdateMode.Update);
 			return this;
 		}
 
 		public override StoredData Remove(Session session)
 		{
-			Persistence.ExecuteDelete(session, this, typeof(Account));
+			base.Remove(session);
+			Persistence.ExecuteDelete(session, this, typeof(Person));
 			PostSave(session, UpdateMode.Delete);
 			return this;
 		}
 
 		public override void PreSave(Session session, UpdateMode mode)
 		{
-			if (!Operator.IsSet)
+			base.PreSave(session, mode);
+			
+			if (String.IsNullOrEmpty(Email))
 			{
-				session.Error(ErrorLevel.Error, "Operator is not set");
+				session.Error(ErrorLevel.Error, "Email cannot be blank");
 			}
-			if (AccountType == null || AccountType.Equals(AccountType.NULL))
+			if (Gender == null || Gender.IsNotSet)
 			{
-				session.Error(ErrorLevel.Error, ErrorStrings.errAccountTypeMandatory);
+				session.Error(ErrorLevel.Error, "Gender must be set");
 			}
-		}
-
-		public override void PostSave(Session session, UpdateMode mode)
-		{
+			if (Birthday == null || !Birthday.HasValue || Birthday.Value == DateTime.MinValue)
+			{
+				session.Error(ErrorLevel.Error, "Birthday must be set");
+			}
 		}
 
         #endregion
@@ -96,8 +103,8 @@ namespace MiskoFinanceCore.Data.Stored
 
         #region Public Methods
 
-        
+                
 
         #endregion
-    }
+	}
 }

@@ -1,4 +1,4 @@
-﻿using MiskoPersist.Message.Request;
+﻿using MiskoPersist.Message.Requests;
 
 namespace MiskoFinanceWeb.Message.Requests
 {

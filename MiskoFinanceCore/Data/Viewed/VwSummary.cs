@@ -50,7 +50,13 @@ namespace MiskoFinanceCore.Data.Viewed
 
 		#region Constructors
 
-		
+		public VwSummary()
+        {
+        }
+
+        public VwSummary(Session session, Persistence persistence) : base(session, persistence)
+        {
+        }
 
 		#endregion
 		
@@ -74,38 +80,38 @@ namespace MiskoFinanceCore.Data.Viewed
 						  "FROM   Account A, BankAccount B " +
 						  "WHERE  A.Id = B.Id ";
 
-			Persistence p = Persistence.GetInstance(session);
-			p.SetSql(sql1);
-			p.SqlWhere(true, "A.Operator = ?", o);
-			p.SqlWhere(bankAccount != null && bankAccount.IsSet, "A.Id = ?", bankAccount);
-			p.ExecuteQuery();           
+			Persistence persistence = Persistence.GetInstance(session);
+			persistence.SetSql(sql1);
+			persistence.SqlWhere(true, "A.Operator = ?", o);
+			persistence.SqlWhere(bankAccount.IsSet, "A.Id = ?", bankAccount);
+			persistence.ExecuteQuery();           
 
-			if (!p.IsEof)
+			if (!persistence.IsEof)
 			{
-				AllTimeOpeningBalance = p.GetMoney("OpeningBalance");
+				AllTimeOpeningBalance = persistence.GetMoney("OpeningBalance");
 			}
 
-			p.Close();
-			p = null;
+			persistence.Close();
+			persistence = null;
 
 			String sql2 = "SELECT SUM(CASE WHEN C.DrCr = 0 THEN C.Amount ELSE -C.Amount END) ClosingBalance " +
 						  "FROM   Account A, BankAccount B, Txn C " +
 						  "WHERE  A.Id = B.Id " +
 						  "AND    B.Id = C.Account";
 
-			p = Persistence.GetInstance(session);
-			p.SetSql(sql2);
-			p.SqlWhere(true, "A.Operator = ?", o);
-			p.SqlWhere(bankAccount != null && bankAccount.IsSet, "A.Id = ?", bankAccount);
-			p.ExecuteQuery();
+			persistence = Persistence.GetInstance(session);
+			persistence.SetSql(sql2);
+			persistence.SqlWhere(true, "A.Operator = ?", o);
+			persistence.SqlWhere(bankAccount.IsSet, "A.Id = ?", bankAccount);
+			persistence.ExecuteQuery();
 
-			if (!p.IsEof)
+			if (!persistence.IsEof)
 			{
-				AllTimeCurrentBalance = AllTimeOpeningBalance + p.GetMoney("ClosingBalance");
+				AllTimeCurrentBalance = AllTimeOpeningBalance + persistence.GetMoney("ClosingBalance");
 			}
 
-			p.Close();
-			p = null;
+			persistence.Close();
+			persistence = null;
 
 			String sql3 = "SELECT SUM(CASE WHEN DrCr = 0 AND Transfer = 0 AND OneTime = 0 THEN Amount ELSE 0 END) SumCredit, " +
 						  "       SUM(CASE WHEN DrCr = 1 AND Transfer = 0 AND OneTime = 0 THEN Amount ELSE 0 END) SumDebit, " +
@@ -115,28 +121,28 @@ namespace MiskoFinanceCore.Data.Viewed
 						  "       SUM(CASE WHEN DrCr = 1 AND OneTime = 1 THEN Amount ELSE 0 END) SumOneTimeOut " +
 						  "FROM   VwTxn";
 
-			p = Persistence.GetInstance(session);
-			p.SetSql(sql3);
-			p.SqlWhere(true, "OperatorId = ?", o);
-			p.SqlWhere(bankAccount != null && bankAccount.IsSet, "AccountId = ?", bankAccount);
-			p.SqlWhere(fromDate.HasValue, "DatePosted >= ?", fromDate);
-			p.SqlWhere(toDate.HasValue, "DatePosted <= ?", toDate);
-			p.SqlWhere(category != null && category.IsSet, "Category = ?", category);
-			p.SqlWhere(!String.IsNullOrEmpty(description), "Description LIKE ?", "%" + description + "%");
-			p.ExecuteQuery();
+			persistence = Persistence.GetInstance(session);
+			persistence.SetSql(sql3);
+			persistence.SqlWhere(true, "OperatorId = ?", o);
+			persistence.SqlWhere(bankAccount.IsSet, "AccountId = ?", bankAccount);
+			persistence.SqlWhere(fromDate.HasValue, "DatePosted >= ?", fromDate);
+			persistence.SqlWhere(toDate.HasValue, "DatePosted <= ?", toDate);
+			persistence.SqlWhere(category.IsSet, "Category = ?", category);
+			persistence.SqlWhere(!String.IsNullOrEmpty(description), "Description LIKE ?", "%" + description + "%");
+			persistence.ExecuteQuery();
 
-			if (!p.IsEof)
+			if (!persistence.IsEof)
 			{
-				SelectionTotalCredits = p.GetMoney("SumCredit");
-				SelectionTotalDebits = p.GetMoney("SumDebit");
-				SelectionTotalTransfersIn = p.GetMoney("SumTransferIn");
-				SelectionTotalTransfersOut = p.GetMoney("SumTransferOut");
-				SelectionTotalOneTimeIn = p.GetMoney("SumOneTimeIn");
-				SelectionTotalOneTimeOut = p.GetMoney("SumOneTimeOut");
+				SelectionTotalCredits = persistence.GetMoney("SumCredit");
+				SelectionTotalDebits = persistence.GetMoney("SumDebit");
+				SelectionTotalTransfersIn = persistence.GetMoney("SumTransferIn");
+				SelectionTotalTransfersOut = persistence.GetMoney("SumTransferOut");
+				SelectionTotalOneTimeIn = persistence.GetMoney("SumOneTimeIn");
+				SelectionTotalOneTimeOut = persistence.GetMoney("SumOneTimeOut");
 			}
 
-			p.Close();
-			p = null;
+			persistence.Close();
+			persistence = null;
 
 			String sql4 = "SELECT SUM(DISTINCT B.OpeningBalance) + SUM(CASE WHEN C.DatePosted < ? THEN CASE WHEN C.DrCr = 0 THEN C.Amount ELSE -C.Amount END ELSE 0 END) OpeningBalance, " +
 						  "       SUM(DISTINCT B.OpeningBalance) + SUM(CASE WHEN C.DatePosted <= ? THEN CASE WHEN C.DrCr = 0 THEN C.Amount ELSE -C.Amount END ELSE 0 END) ClosingBalance " +
@@ -145,20 +151,20 @@ namespace MiskoFinanceCore.Data.Viewed
 						  "AND    B.Id = C.Account " +
 						  "AND    C.DatePosted <= ? ";
 
-			p = Persistence.GetInstance(session);
-			p.SetSql(sql4, fromDate.Value, toDate.Value, toDate.Value);
-			p.SqlWhere(true, "A.Operator = ?", o);
-			p.SqlWhere(bankAccount != null && bankAccount.IsSet, "A.Id = ?", bankAccount);
-			p.ExecuteQuery();
+			persistence = Persistence.GetInstance(session);
+			persistence.SetSql(sql4, fromDate.Value, toDate.Value, toDate.Value);
+			persistence.SqlWhere(true, "A.Operator = ?", o);
+			persistence.SqlWhere(bankAccount.IsSet, "A.Id = ?", bankAccount);
+			persistence.ExecuteQuery();
 
-			if (!p.IsEof)
+			if (!persistence.IsEof)
 			{
-				SelectionOpeningBalance = p.GetMoney("OpeningBalance");
-				SelectionCurrentBalance = p.GetMoney("ClosingBalance");
+				SelectionOpeningBalance = persistence.GetMoney("OpeningBalance");
+				SelectionCurrentBalance = persistence.GetMoney("ClosingBalance");
 			}
 
-			p.Close();
-			p = null;
+			persistence.Close();
+			persistence = null;
 		} 
 
 		#endregion

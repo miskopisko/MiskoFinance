@@ -4,7 +4,6 @@ using MiskoFinanceCore.Enums;
 using MiskoFinanceCore.Resources;
 using MiskoPersist.Attributes;
 using MiskoPersist.Core;
-using MiskoPersist.Data;
 using MiskoPersist.Data.Stored;
 using MiskoPersist.Enums;
 
@@ -53,55 +52,53 @@ namespace MiskoFinanceCore.Data.Stored
 
         #region Override Methods
 
-        public override StoredData Create(Session session)
-        {
-            PreSave(session, UpdateMode.Insert);
-            Persistence.ExecuteInsert(session, this, typeof(Category));
-            PostSave(session, UpdateMode.Insert);
-            return this;
-        }
+		public override StoredData Create(Session session)
+		{
+			PreSave(session, UpdateMode.Insert);
+			Persistence.ExecuteInsert(session, this, typeof(Category));
+			PostSave(session, UpdateMode.Insert);
+			return this;
+		}
 
-        public override StoredData Store(Session session)
-        {
-            PreSave(session, UpdateMode.Update);
-            Persistence.ExecuteUpdate(session, this, typeof(Category));
-            PostSave(session, UpdateMode.Update);
-            return this;
-        }
+		public override StoredData Store(Session session)
+		{
+			PreSave(session, UpdateMode.Update);
+			Persistence.ExecuteUpdate(session, this, typeof(Category));
+			PostSave(session, UpdateMode.Update);
+			return this;
+		}
         
-        public override StoredData Remove(Session session)
-        {
-            Persistence.ExecuteDelete(session, this, typeof(Category));
-            PostSave(session, UpdateMode.Delete);
-            return this;
-        }
+		public override StoredData Remove(Session session)
+		{
+			Persistence.ExecuteDelete(session, this, typeof(Category));
+			PostSave(session, UpdateMode.Delete);
+			return this;
+		}
 
-        public void PreSave(Session session, UpdateMode mode)
-        {
-            if(String.IsNullOrEmpty(Name))
-            {
-                session.Error(ErrorLevel.Error, ErrorStrings.errCategoryNameNull);
-            }
+		public override void PreSave(Session session, UpdateMode mode)
+		{
+			if (String.IsNullOrEmpty(Name))
+			{
+				session.Error(ErrorLevel.Error, ErrorStrings.errCategoryNameNull);
+			}
+			if (CategoryType == null || CategoryType.IsNotSet)
+			{
+				session.Error(ErrorLevel.Error, ErrorStrings.errCategoryTypeNull);
+			}
+			if (Status == null || Status.IsNotSet)
+			{
+				session.Error(ErrorLevel.Error, ErrorStrings.errCategoryStatusNull);
+			}
+		}
 
-            if(CategoryType == null || CategoryType.IsNotSet)
-            {
-                session.Error(ErrorLevel.Error, ErrorStrings.errCategoryTypeNull);
-            }
-
-            if(Status == null || Status.IsNotSet)
-            {
-                session.Error(ErrorLevel.Error, ErrorStrings.errCategoryStatusNull);
-            }
-        }
-
-        public void PostSave(Session session, UpdateMode mode)
-        {
-            // If a category is deleted or inactivated reset all txns that were in that category
-            if(mode.Equals(UpdateMode.Delete) || Status.Equals(Status.Inactive))
-            {
-                Txns.RemoveTxnCategory(session, this);
-            }
-        }
+		public override void PostSave(Session session, UpdateMode mode)
+		{
+			// If a category is deleted or inactivated reset all txns that were in that category
+			if (mode.Equals(UpdateMode.Delete) || Status.Equals(Status.Inactive))
+			{
+				Txns.RemoveTxnCategory(session, this);
+			}
+		}
 
         #endregion
 

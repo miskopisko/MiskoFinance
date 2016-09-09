@@ -1,12 +1,11 @@
 using System;
 using log4net;
 using MiskoPersist.Core;
-using MiskoPersist.Data;
 using MiskoPersist.Data.Stored;
 
 namespace MiskoFinanceCore.Data.Stored
 {
-	public class Txns : StoredDataList
+	public class Txns : StoredDataList<Txn>
     {
         private static ILog Log = LogManager.GetLogger(typeof(Txns));
 
@@ -24,9 +23,7 @@ namespace MiskoFinanceCore.Data.Stored
 
         #region Constructors
 
-        public Txns() : base(typeof(Txn))
-        {
-        }
+        
 
         #endregion
 

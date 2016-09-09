@@ -44,7 +44,7 @@ namespace MiskoFinanceCore.Data.Viewed
 		
 		#region Properties
 		
-		public Boolean IsSet
+		public override Boolean IsSet
 		{
 			get
 			{
@@ -56,7 +56,13 @@ namespace MiskoFinanceCore.Data.Viewed
 
 		#region Constructors
 
-		
+		public VwOperator()
+        {
+        }
+
+        public VwOperator(Session session, Persistence persistence) : base(session, persistence)
+        {
+        }
 		
 		#endregion
 
@@ -66,36 +72,46 @@ namespace MiskoFinanceCore.Data.Viewed
 
 		#endregion
 
-		#region Public Methods
-
-		public Operator Update(Session session)
+		#region Public Methods	
+		
+		public override void Fetch(Session session)
 		{
-			Operator o = new Operator();
-			o.FetchById(session, OperatorId);
-			
-			o.Username = Username;
-			o.Password = Password;
-			o.FirstName = FirstName;
-			o.LastName = LastName;
-			o.Email = Email;
-			o.Gender = Gender;
-			o.Birthday = Birthday;
-			o.Save(session);
-
-			return o;
+			Persistence persistence = Persistence.GetInstance(session);
+			persistence.ExecuteQuery("SELECT * FROM VwOperator WHERE OperatorId = ?", OperatorId);
+			Set(session, persistence);
+			persistence.Close();
+			persistence = null;
+		}
+		
+		public override void Fetch(Session session, Boolean deep)
+		{
+			Fetch(session);
+			FetchDeep(session);
+		}
+		
+		public override void FetchDeep(Session session)
+		{
+			BankAccounts = new VwBankAccounts();
+			BankAccounts.FetchByOperator(session, OperatorId);
+			Categories = new VwCategories();
+			Categories.FetchByComposite(session, OperatorId, Status.Active);
 		}
 
-		public static VwOperator GetInstanceByUsername(Session session, String username)
+		public Person Update(Session session)
 		{
-			VwOperator result = new VwOperator();
+			Person p = new Person();
+			p.FetchById(session, OperatorId);
+			
+			p.Username = Username;
+			p.Password = Password;
+			p.FirstName = FirstName;
+			p.LastName = LastName;
+			p.Email = Email;
+			p.Gender = Gender;
+			p.Birthday = Birthday;
+			p.Save(session);
 
-			Persistence p = Persistence.GetInstance(session);
-			p.ExecuteQuery("SELECT * FROM VwOperator WHERE Username = ?", username);
-			result.Set(session, p);
-			p.Close();
-			p = null;
-
-			return result;
+			return p;
 		}
 
 		#endregion

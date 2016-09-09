@@ -5,7 +5,7 @@ using MiskoFinance.Properties;
 using MiskoFinanceCore.Data.Viewed;
 using MiskoFinanceCore.Message.Requests;
 using MiskoPersist.Core;
-using MiskoPersist.Message.Response;
+using MiskoPersist.Message.Responses;
 
 namespace MiskoFinance.Panels
 {
@@ -89,7 +89,7 @@ namespace MiskoFinance.Panels
 		{        	
 			Parent.Enabled = false;
 			
-			LoginRQ request = new LoginRQ();
+			LogonRQ request = new LogonRQ();
 			request.Username = mUsername_.Text.Trim();
 			request.Password = mPassword_.Text.Trim();
 			Server.SendRequest(request, LoginSuccess, LoginError);

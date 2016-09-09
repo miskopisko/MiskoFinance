@@ -4,14 +4,14 @@ using System.Windows.Forms;
 using log4net;
 using MiskoFinance.Panels;
 using MiskoFinanceCore.Data.Viewed;
+using MiskoFinanceCore.Enums;
 using MiskoFinanceCore.Message.Requests;
 using MiskoFinanceCore.Message.Responses;
 using MiskoFinanceCore.Resources;
 using MiskoPersist.Core;
-using MiskoPersist.Data;
 using MiskoPersist.Data.Viewed;
 using MiskoPersist.Enums;
-using MiskoPersist.Message.Response;
+using MiskoPersist.Message.Responses;
 
 namespace MiskoFinance.Forms
 {
@@ -75,7 +75,7 @@ namespace MiskoFinance.Forms
 			{
 				mOperator_ = value ?? new VwOperator();
 				SearchPanel.Accounts = Operator.BankAccounts;
-				SearchPanel.Categories = Operator.Categories;
+				SearchPanel.Categories = Operator.Categories.GetByStatus(Status.Active, true);
 				mLogoutToolStripMenuItem_.Enabled = Operator.IsSet;
 				mSettingsToolStripMenuItem_.Enabled = Operator.IsSet;
 				mAccountsToolStripMenuItem_.Enabled = Operator.IsSet;
@@ -165,7 +165,7 @@ namespace MiskoFinance.Forms
 			base.OnShown(e);
 			
 			#if(DEBUG)
-				LoginRQ request = new LoginRQ();
+				LogonRQ request = new LogonRQ();
 				request.Username = "miskopisko";
 				request.Password = "secret";
 				Server.SendRequest(request, LoginSuccess, LoginError);
@@ -196,7 +196,7 @@ namespace MiskoFinance.Forms
 
 		public void LoginSuccess(ResponseMessage response)
 		{
-			LoginRS rs = response as LoginRS;
+			LogonRS rs = response as LogonRS;
 			if(rs != null)
 			{
 				Operator = rs.Operator;	
@@ -226,7 +226,7 @@ namespace MiskoFinance.Forms
 
 		#region Server events
 
-		public void Status(MessageStatus status)
+		public void ServerStatus(MessageStatus status)
 		{
 			mMessageStatusLbl_.Text = status.ToString();
 		}
