@@ -139,7 +139,7 @@ namespace MiskoFinance.Controls
 			if(CurrentCell.OwningColumn == mTransfer_ || CurrentCell.OwningColumn == mOneTime_)
 			{
 				((DataGridViewComboBoxCell)Rows[CurrentCell.RowIndex].Cells["Category"]).DataSource = MiskoFinanceMain.Instance.Operator.Categories.GetByType(((VwTxn)Rows[e.RowIndex].DataBoundItem).CategoryType, true);	
-				((VwTxn)Rows[e.RowIndex].DataBoundItem).Category = PrimaryKey.NULL;
+				((VwTxn)Rows[e.RowIndex].DataBoundItem).Category = null;
 			}
 			
 			EndEdit();

@@ -27,7 +27,7 @@ namespace MiskoFinanceWeb.Message
 		public override void Execute(Session session)
 		{
 			Response.Connections = new VwDatabaseConnections();
-			foreach (DatabaseConnection databaseConnection in DatabaseConnections.Connections.Values)
+			foreach (DatabaseConnection databaseConnection in DatabaseConnections.GetConnections())
 			{
 				VwDatabaseConnection connection = new VwDatabaseConnection();
 				connection.ConnectionString = databaseConnection.ConnectionString;
@@ -41,9 +41,9 @@ namespace MiskoFinanceWeb.Message
 				
 				try
 				{
-					DbConnection dbConn = DatabaseConnections.GetConnection(connection.Name);
-					dbConn.Open();
-					connection.State = dbConn.State;
+					DbConnection conn = databaseConnection.GetConnection();
+					conn.Open();
+					connection.State = conn.State;
 				}
 				catch (Exception e)
 				{

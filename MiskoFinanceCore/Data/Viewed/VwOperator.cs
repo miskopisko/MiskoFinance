@@ -58,6 +58,8 @@ namespace MiskoFinanceCore.Data.Viewed
 
 		public VwOperator()
         {
+			BankAccounts = new VwBankAccounts();
+			Categories = new VwCategories();
         }
 
         public VwOperator(Session session, Persistence persistence) : base(session, persistence)

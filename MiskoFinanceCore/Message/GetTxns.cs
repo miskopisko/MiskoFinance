@@ -26,18 +26,19 @@ namespace MiskoFinanceCore.Message
 
         public override void Execute(Session session)
         {
-        	Response.Txns = new VwTxns();
+			Response.Txns = new VwTxns();
         	Response.Txns.Fetch(session, Request.Page, Request.Operator, Request.Account, Request.FromDate, Request.ToDate, Request.Category, Request.Description);
-        	
-        	Response.Summary = new VwSummary();
-        	Response.Summary.Fetch(session, Request.Operator, Request.Account, Request.FromDate, Request.ToDate, Request.Category, Request.Description);
-            
-        	Response.Page = Request.Page;
-        	
-            if(Response.Txns == null || Response.Txns.Count == 0)
+        	if(Response.Txns == null || Response.Txns.Count == 0)
             {
             	session.Error(ErrorLevel.Information, ErrorStrings.errNotTxnsFound);
-            }           
+            }
+        	
+        	Response.Page = Request.Page;        	
+        	if (Response.Page.PageNo.Equals(1))
+        	{
+				Response.Summary = new VwSummary();
+	        	Response.Summary.Fetch(session, Request.Operator, Request.Account, Request.FromDate, Request.ToDate, Request.Category, Request.Description);	
+        	}
         }
     }
 }

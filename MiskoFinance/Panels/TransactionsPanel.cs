@@ -30,16 +30,9 @@ namespace MiskoFinance.Panels
         	set
         	{
         		mCreditTotal_.Value = value.SelectionTotalCredits;
-	        	mDebitTotal_.Value = value.SelectionTotalDebits;
-	        	mCreditDebitDiff_.Value = value.SelectionTotalCredits - value.SelectionTotalDebits;
-	        	
-	        	mTotalTransferIn_.Value = value.SelectionTotalTransfersIn;
-	        	mTotalTransferOut_.Value = value.SelectionTotalTransfersOut;
-	        	mTransferDiff_.Value = value.SelectionTotalTransfersIn - value.SelectionTotalTransfersOut;
-	        	
-	        	mTotalOneTimeIn_.Value = value.SelectionTotalOneTimeIn;
-	        	mTotalOneTimeOut_.Value = value.SelectionTotalOneTimeOut;
-	        	mOneTimeDiff_.Value = value.SelectionTotalOneTimeIn - value.SelectionTotalOneTimeOut;
+	        	mDebitTotal_.Value = value.SelectionTotalDebits;	        	
+	        	mTransfersTotal_.Value = value.SelectionTotalTransfers;	        	
+	        	mOneTimeTotal_.Value = value.SelectionTotalOneTime;
         	}
         }
 
@@ -117,6 +110,7 @@ namespace MiskoFinance.Panels
         	mTransactionsGridView_.DataSource.Clear();
         	mTransactionsGridView_.Page = new Page(1, Settings.Default.RowsPerPage, true);
         	Summary = new VwSummary();
+			MiskoFinanceMain.Instance.SummaryPanel.Summary = new VwSummary();
         }
 
 		public void More()
@@ -160,11 +154,15 @@ namespace MiskoFinance.Panels
         		mTransactionsGridView_.DataSource.Add(rs.Txns);
         		mTransactionsGridView_.Page = rs.Page;
 	        	
-        		MiskoFinanceMain.Instance.SummaryPanel.Summary = rs.Summary;
-	            MiskoFinanceMain.Instance.SearchPanel.Enable(mTransactionsGridView_.Page.HasNext);
+        		MiskoFinanceMain.Instance.SearchPanel.Enable(mTransactionsGridView_.Page.HasNext);
 	            mPageCountLbl_.Text = String.Format(Strings.strPageCounts, mTransactionsGridView_.Page.PageNo, mTransactionsGridView_.Page.TotalPageCount);
         		mTransactionCountLbl_.Text = String.Format(Strings.strTransactionCounts, mTransactionsGridView_.RowCount, mTransactionsGridView_.Page.TotalRowCount);
-	            Summary = rs.Summary;
+        		
+        		if (rs.Summary != null)
+        		{
+        			MiskoFinanceMain.Instance.SummaryPanel.Summary = rs.Summary;
+        			Summary = rs.Summary;
+        		}
         	}
         } 
         

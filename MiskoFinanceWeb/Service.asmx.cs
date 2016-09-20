@@ -24,13 +24,13 @@ namespace MiskoFinanceWeb
         {   
             try
             {
-            	RequestMessage request = (RequestMessage)Serializer.Deserialize(message);
+            	RequestMessage request = Serializer.Deserialize(message) as RequestMessage;
                 ResponseMessage response = MessageProcessor.Process(request);
-                SendResponse(response, message.GetSerializationType());
+                SendResponse(response, message.GetSerializationType(), false);
             }
             catch(Exception e)
             {
-                SendResponse(HandleException(e), Global.DefaultSerializationType);
+                SendResponse(HandleException(e), Global.DefaultSerializationType, false);
             }
         }
 		
@@ -39,13 +39,13 @@ namespace MiskoFinanceWeb
 		{
             try
             {
-                RequestMessage request = (RequestMessage)Serializer.Deserialize(Context.Request.InputStream);
+                RequestMessage request = Serializer.Deserialize(Context.Request.InputStream) as RequestMessage;
                 ResponseMessage response = MessageProcessor.Process(request);
-                SendResponse(response, SerializationType.FromHttpContentType(Context.Request.ContentType));
+                SendResponse(response, SerializationType.FromHttpContentType(Context.Request.ContentType), false);
             }
             catch (Exception e)
             {
-                SendResponse(HandleException(e), SerializationType.FromHttpContentType(Context.Request.ContentType));
+                SendResponse(HandleException(e), SerializationType.FromHttpContentType(Context.Request.ContentType), false);
             }
         }
 
@@ -54,11 +54,11 @@ namespace MiskoFinanceWeb
 		{
             try
             {
-				SendResponse(MessageProcessor.Process(new TestDBConnectionRQ()), Global.DefaultSerializationType);
+				SendResponse(MessageProcessor.Process(new TestDBConnectionRQ()), Global.DefaultSerializationType, true);
             }
             catch (Exception e)
             {
-                SendResponse(HandleException(e), Global.DefaultSerializationType);
+                SendResponse(HandleException(e), Global.DefaultSerializationType, true);
             }
 		}
 
@@ -78,11 +78,11 @@ namespace MiskoFinanceWeb
             return response;
         }
 
-        private void SendResponse(ResponseMessage response, SerializationType serializationType)
+        private void SendResponse(ResponseMessage response, SerializationType serializationType, Boolean indent)
         {
             Context.Response.ContentEncoding = Serializer.Encoding;
             Context.Response.ContentType = serializationType.ToHttpContentType();
-            Context.Response.Write(Serializer.Serialize(response, serializationType));	
+            Context.Response.Write(Serializer.Serialize(response, serializationType, indent));	
         }
 	}
 }

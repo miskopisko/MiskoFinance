@@ -38,7 +38,7 @@ namespace MiskoFinanceCore.Data.Viewed
 		[Viewed]
 		public DrCr DrCr { get; set; }
 		[Viewed]
-		public PrimaryKey Category { get; set; }        
+		public PrimaryKey? Category { get; set; }        
 		[Viewed]
 		public Boolean Transfer { get; set; }
 		[Viewed]

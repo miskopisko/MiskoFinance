@@ -23,12 +23,12 @@ namespace MiskoFinance.Panels
 			set
 			{
 				mSelectionOpeningBalance_.Value = value.SelectionOpeningBalance;
-				mSelectionClosingBalance_.Value = value.SelectionCurrentBalance;
-				mSelectionBalanceDifference_.Value = value.SelectionCurrentBalance - value.SelectionOpeningBalance;
+				mSelectionClosingBalance_.Value = value.SelectionClosingBalance;
+				mSelectionBalanceDifference_.Value = value.SelectionClosingBalance - value.SelectionOpeningBalance;
 	
 				mOpeningBalance_.Value = value.AllTimeOpeningBalance;
-				mCurrentBalance_.Value = value.AllTimeCurrentBalance;
-				mBalanceDiff_.Value = value.AllTimeCurrentBalance - value.AllTimeOpeningBalance;
+				mCurrentBalance_.Value = value.AllTimeClosingBalance;
+				mBalanceDiff_.Value = value.AllTimeClosingBalance - value.AllTimeOpeningBalance;
 			}
 		}
 

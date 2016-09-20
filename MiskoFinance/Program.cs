@@ -51,7 +51,7 @@ namespace MiskoFinance
 		
 		public static void SetServerParameters()
 		{
-			DatabaseConnections.Connections.Clear();
+			DatabaseConnections.Clear();
 
 			// Set server properties
 			Server.Location = MiskoEnum.Parse<ServerLocation>(Settings.Default.ServerLocation);

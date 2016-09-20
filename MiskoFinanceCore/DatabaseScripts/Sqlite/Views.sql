@@ -2,15 +2,16 @@
 
 DROP VIEW IF EXISTS VwOperator;
 CREATE VIEW VwOperator AS
-SELECT  O.Id OperatorId,
-        O.Username,
-        O.Password,
-        O.FirstName,
-        O.LastName,
-        O.Email,
-        O.Birthday,
-        O.Gender
-FROM    Operator O;
+SELECT 	O.Id OperatorId,
+       	O.Username,
+       	O.Password,
+       	O.FirstName,
+       	O.LastName,
+       	P.Email,
+       	P.Birthday,
+       	P.Gender
+FROM 	Operator O, Person P
+WHERE 	O.Id = P.Id;
 
 DROP VIEW IF EXISTS VwBankAccount;
 CREATE VIEW VwBankAccount AS

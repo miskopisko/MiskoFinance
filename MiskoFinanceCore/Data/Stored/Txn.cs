@@ -36,7 +36,7 @@ namespace MiskoFinanceCore.Data.Stored
         [Stored(Length = 128)]
         public String Description { get; set; }
         [Stored]
-        public PrimaryKey Category { get; set; }
+        public PrimaryKey? Category { get; set; }
         [Stored(Length = 512)]
         public String HashCode { get; set; }
 
