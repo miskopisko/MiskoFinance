@@ -5,9 +5,9 @@ using MiskoPersist.Message.Responses;
 
 namespace MiskoFinanceCore.Message.Responses
 {
-	public class LogonRS : ResponseMessage
+	public class MiskoFinanceLogonRS : LogonRS
 	{
-		private static ILog Log = LogManager.GetLogger(typeof(LogonRS));
+		private static ILog Log = LogManager.GetLogger(typeof(MiskoFinanceLogonRS));
 
 		#region Parameters
 

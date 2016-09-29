@@ -5,6 +5,7 @@ using log4net;
 using log4net.Config;
 using MiskoFinance.Forms;
 using MiskoFinance.Properties;
+using MiskoFinanceCore;
 using MiskoPersist.Core;
 using MiskoPersist.Data.Viewed;
 using MiskoPersist.Enums;
@@ -27,6 +28,12 @@ namespace MiskoFinance
 			// Configure the logger
 			XmlConfigurator.Configure();
 			
+			// Load the security policy
+			MiskoFinanceSecurityPolicy.Load();
+			
+			// Setup server parameters from the settings file
+			SetServerParameters();
+			
 			// Set server event handlers
 			Server.MessageSent += MiskoFinanceMain.Instance.MessageSent;
 			Server.MessageReceived += MiskoFinanceMain.Instance.MessageReceived;
@@ -35,9 +42,6 @@ namespace MiskoFinance
 			Server.Warning += MiskoFinanceMain.Instance.Warning;
 			Server.Info += MiskoFinanceMain.Instance.Info;
 			Server.Confirm += MiskoFinanceMain.Instance.Confirm;
-			
-			// Setup server parameters from the settings file
-			SetServerParameters();
 			
 			// Run the application
 			Application.Run(MiskoFinanceMain.Instance);

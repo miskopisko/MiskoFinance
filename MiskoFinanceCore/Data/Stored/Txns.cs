@@ -40,11 +40,11 @@ namespace MiskoFinanceCore.Data.Stored
             Persistence.ExecuteUpdate(session, "UPDATE Txn SET Category = ? WHERE Category = ?", null, category);
         }
 
-        public void FetchByAccountAndDate(Session sessiom, PrimaryKey account, DateTime fromDate, DateTime toDate)
+        public void FetchByAccountAndDate(Session session, PrimaryKey account, DateTime fromDate, DateTime toDate)
         {
-            Persistence persistence = Persistence.GetInstance(sessiom);
+            Persistence persistence = session.GetPersistence();
             persistence.ExecuteQuery("SELECT * FROM Txn WHERE Account = ? AND DatePosted BETWEEN ? AND ?", account, fromDate, toDate);
-            Set(sessiom, persistence);
+            Set(session, persistence);
             persistence.Close();
             persistence = null;
         }

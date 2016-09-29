@@ -78,7 +78,7 @@ namespace MiskoFinanceCore.Data.Viewed
 		
 		public override void Fetch(Session session)
 		{
-			Persistence persistence = Persistence.GetInstance(session);
+			Persistence persistence = session.GetPersistence();
 			persistence.ExecuteQuery("SELECT * FROM VwOperator WHERE OperatorId = ?", OperatorId);
 			Set(session, persistence);
 			persistence.Close();
@@ -88,7 +88,10 @@ namespace MiskoFinanceCore.Data.Viewed
 		public override void Fetch(Session session, Boolean deep)
 		{
 			Fetch(session);
-			FetchDeep(session);
+			if (deep)
+			{
+				FetchDeep(session);
+			}
 		}
 		
 		public override void FetchDeep(Session session)

@@ -38,7 +38,7 @@ namespace MiskoFinanceCore.Data.Viewed
 
         public void Fetch(Session session, Page page, PrimaryKey op, PrimaryKey account, DateTime? from, DateTime? to, PrimaryKey category, String description)
         {
-            Persistence persistence = Persistence.GetInstance(session);
+            Persistence persistence = session.GetPersistence();
             persistence.SetSql("SELECT * FROM VwTxn");
             persistence.SqlWhere(op.IsSet, "OperatorId = ?",  op);
             persistence.SqlWhere(account.IsSet, "AccountId = ?", account);

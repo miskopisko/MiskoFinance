@@ -89,7 +89,7 @@ namespace MiskoFinance.Panels
 		{        	
 			Parent.Enabled = false;
 			
-			LogonRQ request = new LogonRQ();
+			MiskoFinanceLogonRQ request = new MiskoFinanceLogonRQ();
 			request.Username = mUsername_.Text.Trim();
 			request.Password = mPassword_.Text.Trim();
 			Server.SendRequest(request, LoginSuccess, LoginError);

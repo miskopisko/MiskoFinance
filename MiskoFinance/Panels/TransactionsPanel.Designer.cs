@@ -84,7 +84,7 @@ namespace MiskoFinance.Panels
 			this.mCreditTotal_.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
 			this.mCreditTotal_.Cursor = System.Windows.Forms.Cursors.Default;
 			this.mCreditTotal_.ForeColor = System.Drawing.Color.Black;
-			this.mCreditTotal_.Location = new System.Drawing.Point(67, 0);
+			this.mCreditTotal_.Location = new System.Drawing.Point(65, 0);
 			this.mCreditTotal_.Margin = new System.Windows.Forms.Padding(2, 0, 0, 1);
 			this.mCreditTotal_.Name = "mCreditTotal_";
 			this.mCreditTotal_.ReadOnly = true;
@@ -99,13 +99,12 @@ namespace MiskoFinance.Panels
 			| System.Windows.Forms.AnchorStyles.Left) 
 			| System.Windows.Forms.AnchorStyles.Right)));
 			this.mPageCountLbl_.AutoSize = true;
-			this.mPageCountLbl_.BackColor = System.Drawing.SystemColors.Window;
-			this.mPageCountLbl_.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.mPageCountLbl_.BackColor = System.Drawing.SystemColors.Control;
 			this.mPageCountLbl_.CausesValidation = false;
 			this.mPageCountLbl_.Location = new System.Drawing.Point(0, 0);
 			this.mPageCountLbl_.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
 			this.mPageCountLbl_.Name = "mPageCountLbl_";
-			this.mPageCountLbl_.Size = new System.Drawing.Size(65, 20);
+			this.mPageCountLbl_.Size = new System.Drawing.Size(63, 20);
 			this.mPageCountLbl_.TabIndex = 6;
 			this.mPageCountLbl_.Text = "Page Count";
 			this.mPageCountLbl_.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -121,7 +120,7 @@ namespace MiskoFinance.Panels
 			this.mTransfersTotal_.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
 			this.mTransfersTotal_.Cursor = System.Windows.Forms.Cursors.Default;
 			this.mTransfersTotal_.ForeColor = System.Drawing.Color.Black;
-			this.mTransfersTotal_.Location = new System.Drawing.Point(216, 0);
+			this.mTransfersTotal_.Location = new System.Drawing.Point(214, 0);
 			this.mTransfersTotal_.Margin = new System.Windows.Forms.Padding(2, 0, 0, 1);
 			this.mTransfersTotal_.Name = "mTransfersTotal_";
 			this.mTransfersTotal_.ReadOnly = true;
@@ -141,7 +140,7 @@ namespace MiskoFinance.Panels
 			this.mOneTimeTotal_.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
 			this.mOneTimeTotal_.Cursor = System.Windows.Forms.Cursors.Default;
 			this.mOneTimeTotal_.ForeColor = System.Drawing.Color.Black;
-			this.mOneTimeTotal_.Location = new System.Drawing.Point(289, 0);
+			this.mOneTimeTotal_.Location = new System.Drawing.Point(287, 0);
 			this.mOneTimeTotal_.Margin = new System.Windows.Forms.Padding(2, 0, 0, 1);
 			this.mOneTimeTotal_.Name = "mOneTimeTotal_";
 			this.mOneTimeTotal_.ReadOnly = true;
@@ -161,7 +160,7 @@ namespace MiskoFinance.Panels
 			this.mDebitTotal_.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
 			this.mDebitTotal_.Cursor = System.Windows.Forms.Cursors.Default;
 			this.mDebitTotal_.ForeColor = System.Drawing.Color.Black;
-			this.mDebitTotal_.Location = new System.Drawing.Point(140, 0);
+			this.mDebitTotal_.Location = new System.Drawing.Point(138, 0);
 			this.mDebitTotal_.Margin = new System.Windows.Forms.Padding(2, 0, 0, 1);
 			this.mDebitTotal_.Name = "mDebitTotal_";
 			this.mDebitTotal_.ReadOnly = true;
@@ -175,13 +174,12 @@ namespace MiskoFinance.Panels
 			this.mTransactionCountLbl_.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
 			| System.Windows.Forms.AnchorStyles.Left) 
 			| System.Windows.Forms.AnchorStyles.Right)));
-			this.mTransactionCountLbl_.BackColor = System.Drawing.SystemColors.Window;
-			this.mTransactionCountLbl_.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.mTransactionCountLbl_.BackColor = System.Drawing.SystemColors.Control;
 			this.mTransactionCountLbl_.CausesValidation = false;
-			this.mTransactionCountLbl_.Location = new System.Drawing.Point(362, 0);
+			this.mTransactionCountLbl_.Location = new System.Drawing.Point(360, 0);
 			this.mTransactionCountLbl_.Margin = new System.Windows.Forms.Padding(2, 0, 0, 1);
 			this.mTransactionCountLbl_.Name = "mTransactionCountLbl_";
-			this.mTransactionCountLbl_.Size = new System.Drawing.Size(138, 20);
+			this.mTransactionCountLbl_.Size = new System.Drawing.Size(140, 20);
 			this.mTransactionCountLbl_.TabIndex = 7;
 			this.mTransactionCountLbl_.Text = "Txn Count";
 			this.mTransactionCountLbl_.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

@@ -36,7 +36,7 @@ namespace MiskoFinanceCore.Data.Viewed
 
 		public void FetchByOperator(Session session, PrimaryKey o)
 		{
-			Persistence persistence = Persistence.GetInstance(session);
+			Persistence persistence = session.GetPersistence();
 			persistence.ExecuteQuery("SELECT * FROM VwBankAccount WHERE OperatorId = ?", o);
 			Set(session, persistence);
 			persistence.Close();

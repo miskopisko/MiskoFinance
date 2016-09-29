@@ -165,7 +165,7 @@ namespace MiskoFinance.Forms
 			base.OnShown(e);
 			
 			#if(DEBUG)
-				LogonRQ request = new LogonRQ();
+				MiskoFinanceLogonRQ request = new MiskoFinanceLogonRQ();
 				request.Username = "miskopisko";
 				request.Password = "secret";
 				Server.SendRequest(request, LoginSuccess, LoginError);
@@ -196,7 +196,7 @@ namespace MiskoFinance.Forms
 
 		public void LoginSuccess(ResponseMessage response)
 		{
-			LogonRS rs = response as LogonRS;
+			MiskoFinanceLogonRS rs = response as MiskoFinanceLogonRS;
 			if(rs != null)
 			{
 				Operator = rs.Operator;	

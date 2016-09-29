@@ -78,7 +78,7 @@ namespace MiskoFinanceCore.Data.Viewed
 
 		public void FetchByComposite(Session session, PrimaryKey o, Status status)
 		{
-			Persistence persistence = Persistence.GetInstance(session);
+			Persistence persistence = session.GetPersistence();
 			persistence.SetSql("SELECT * FROM VwCategory");
 			persistence.SqlWhere(true, "OperatorId = ?",  o);
 			persistence.SqlWhere(status != null && status.IsSet, "Status = ?", status);

@@ -76,7 +76,7 @@ namespace MiskoFinanceCore.Data.Viewed
 						  "FROM   Account A, BankAccount B " +
 						  "WHERE  A.Id = B.Id ";
 
-			Persistence persistence = Persistence.GetInstance(session);
+			Persistence persistence = session.GetPersistence();
 			persistence.SetSql(sql1);
 			persistence.SqlWhere(true, "A.Operator = ?", o);
 			persistence.SqlWhere(bankAccount.IsSet, "A.Id = ?", bankAccount);
@@ -95,7 +95,7 @@ namespace MiskoFinanceCore.Data.Viewed
 						  "WHERE  A.Id = B.Id " +
 						  "AND    B.Id = C.Account";
 
-			persistence = Persistence.GetInstance(session);
+			persistence = session.GetPersistence();
 			persistence.SetSql(sql2);
 			persistence.SqlWhere(true, "A.Operator = ?", o);
 			persistence.SqlWhere(bankAccount.IsSet, "A.Id = ?", bankAccount);
@@ -117,7 +117,7 @@ namespace MiskoFinanceCore.Data.Viewed
 						  "       SUM(CASE WHEN DrCr = 1 AND OneTime = 1 THEN Amount ELSE 0 END) SumOneTimeOut " +
 						  "FROM   VwTxn";
 
-			persistence = Persistence.GetInstance(session);
+			persistence = session.GetPersistence();
 			persistence.SetSql(sql3);
 			persistence.SqlWhere(true, "OperatorId = ?", o);
 			persistence.SqlWhere(bankAccount.IsSet, "AccountId = ?", bankAccount);
@@ -145,7 +145,7 @@ namespace MiskoFinanceCore.Data.Viewed
 						  "AND    B.Id = C.Account " +
 						  "AND    C.DatePosted <= ? ";
 
-			persistence = Persistence.GetInstance(session);
+			persistence = session.GetPersistence();
 			persistence.SetSql(sql4, fromDate.Value, toDate.Value, toDate.Value);
 			persistence.SqlWhere(true, "A.Operator = ?", o);
 			persistence.SqlWhere(bankAccount.IsSet, "A.Id = ?", bankAccount);

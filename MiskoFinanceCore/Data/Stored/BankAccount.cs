@@ -125,7 +125,7 @@ namespace MiskoFinanceCore.Data.Stored
                          "AND    A.Operator = ? " +
                          "AND    B.AccountNumber = ?";
 
-            Persistence persistence = Persistence.GetInstance(session);
+            Persistence persistence = session.GetPersistence();
             persistence.ExecuteQuery(sql, op, accountNo);
             result.Set(session, persistence);
             persistence.Close();

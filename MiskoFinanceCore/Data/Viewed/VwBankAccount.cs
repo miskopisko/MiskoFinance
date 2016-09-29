@@ -96,7 +96,7 @@ namespace MiskoFinanceCore.Data.Viewed
 		{
 			VwBankAccount result = new VwBankAccount();
 			
-			Persistence persistence = Persistence.GetInstance(session);
+			Persistence persistence = session.GetPersistence();
 			persistence.ExecuteQuery("SELECT * FROM VwBankAccount WHERE AccountNumber = ?", accountNo);
 			result.Set(session, persistence);
 			persistence.Close();
