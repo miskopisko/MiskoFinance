@@ -2,7 +2,7 @@
 using System.Web.Script.Services;
 using System.Web.Services;
 using log4net;
-using MiskoFinanceWeb.Message.Requests;
+using MiskoFinanceWeb.Data.Viewed;
 using MiskoPersist.Core;
 using MiskoPersist.Data.Viewed;
 using MiskoPersist.Enums;
@@ -26,11 +26,11 @@ namespace MiskoFinanceWeb
             {
             	RequestMessage request = Serializer.Deserialize(message) as RequestMessage;
                 ResponseMessage response = MessageProcessor.Process(request);
-                SendResponse(response, message.GetSerializationType(), false);
+                SendResponse(response, message.GetSerializationType(), true);
             }
             catch(Exception e)
             {
-                SendResponse(HandleException(e), Global.DefaultSerializationType, false);
+                SendResponse(HandleException(e), Global.DefaultSerializationType, true);
             }
         }
 		
@@ -49,12 +49,27 @@ namespace MiskoFinanceWeb
             }
         }
 
-		[WebMethod(Description = "Tests the connection to the database and reports status")]
-		public void TestDBConnection()
+		[WebMethod(Description = "Gets all the database connections reports status")]
+		public void DatabaseConnections()
 		{
             try
             {
-				SendResponse(MessageProcessor.Process(new TestDBConnectionRQ()), Global.DefaultSerializationType, true);
+				VwDatabaseConnections databaseConnections = new VwDatabaseConnections();
+				SendResponse(databaseConnections, Global.DefaultSerializationType, true);
+            }
+            catch (Exception e)
+            {
+                SendResponse(HandleException(e), Global.DefaultSerializationType, true);
+            }
+		}
+		
+		[WebMethod(Description = "Outputs the current server security policy configuration")]
+		public void CurrentSecurityPolicy()
+		{
+            try
+            {
+				VwSecurityPolicy securityPolicy = new VwSecurityPolicy();
+				SendResponse(securityPolicy, Global.DefaultSerializationType, true);
             }
             catch (Exception e)
             {
@@ -78,7 +93,7 @@ namespace MiskoFinanceWeb
             return response;
         }
 
-        private void SendResponse(ResponseMessage response, SerializationType serializationType, Boolean indent)
+        private void SendResponse(Object response, SerializationType serializationType, Boolean indent)
         {
             Context.Response.ContentEncoding = Serializer.Encoding;
             Context.Response.ContentType = serializationType.ToHttpContentType();

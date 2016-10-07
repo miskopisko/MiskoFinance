@@ -38,19 +38,19 @@ namespace MiskoFinanceCore.Data.Viewed
 
         public void Fetch(Session session, Page page, PrimaryKey op, PrimaryKey account, DateTime? from, DateTime? to, PrimaryKey category, String description)
         {
-            Persistence persistence = session.GetPersistence();
-            persistence.SetSql("SELECT * FROM VwTxn");
-            persistence.SqlWhere(op.IsSet, "OperatorId = ?",  op);
-            persistence.SqlWhere(account.IsSet, "AccountId = ?", account);
-            persistence.SqlWhere(from.HasValue, "DatePosted >= ?", from);
-            persistence.SqlWhere(to.HasValue, "DatePosted <= ?", to);
-            persistence.SqlWhere(category.IsSet, "Category = ?", category);
-            persistence.SqlWhere(!String.IsNullOrEmpty(description), "Description LIKE ?", "%" + description + "%");
-            persistence.SqlOrderBy("DatePosted", SqlSortDirection.Descending);            
-            persistence.ExecuteQuery();
-            Set(session, persistence, page);
-            persistence.Close();
-            persistence = null;
+			using (Persistence persistence = session.GetPersistence())
+			{
+				persistence.SetSql("SELECT * FROM VwTxn");
+				persistence.SqlWhere(op.IsSet, "OperatorId = ?", op);
+				persistence.SqlWhere(account.IsSet, "AccountId = ?", account);
+				persistence.SqlWhere(from.HasValue, "DatePosted >= ?", from);
+				persistence.SqlWhere(to.HasValue, "DatePosted <= ?", to);
+				persistence.SqlWhere(category.IsSet, "Category = ?", category);
+				persistence.SqlWhere(!String.IsNullOrEmpty(description), "Description LIKE ?", "%" + description + "%");
+				persistence.SqlOrderBy("DatePosted", SqlSortDirection.Descending);            
+				persistence.ExecuteQuery();
+				Set(session, persistence, page);
+			}
         } 
 
         #endregion

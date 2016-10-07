@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -117,6 +117,7 @@
   <ItemGroup>
     <Compile Include="Data\Viewed\VwDatabaseConnection.cs" />
     <Compile Include="Data\Viewed\VwDatabaseConnections.cs" />
+    <Compile Include="Data\Viewed\VwSecurityPolicy.cs" />
     <Compile Include="Service.asmx.cs">
       <DependentUpon>Service.asmx</DependentUpon>
       <SubType>Component</SubType>
@@ -131,9 +132,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Message\TestDBConnection.cs" />
-    <Compile Include="Message\Requests\TestDBConnectionRQ.cs" />
-    <Compile Include="Message\Responses\TestDBConnectionRS.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <Import Project="..\packages\System.Data.SQLite.Core.1.0.103\build\net451\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.103\build\net451\System.Data.SQLite.Core.targets')" />

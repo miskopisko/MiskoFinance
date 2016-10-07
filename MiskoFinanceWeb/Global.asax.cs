@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Web.Configuration;
+using log4net;
+using log4net.Config;
+using MiskoFinanceCore;
 using MiskoPersist.Core;
 using MiskoPersist.Enums;
 
@@ -7,6 +10,8 @@ namespace MiskoFinanceWeb
 {
 	public class Global : System.Web.HttpApplication
 	{
+		private static readonly ILog Log = LogManager.GetLogger(typeof(Global));
+		
 		public static SerializationType DefaultSerializationType
 		{
 			get
@@ -17,12 +22,18 @@ namespace MiskoFinanceWeb
 		
 		protected void Application_Start(object sender, EventArgs e)
 		{
-			log4net.Config.XmlConfigurator.Configure();
+			// Configure the logger
+			XmlConfigurator.Configure();
+			
+			// Configure the security policy
+			MiskoFinanceSecurityPolicy.Load();
+			SecurityPolicy.LoginRequired = Boolean.Parse(WebConfigurationManager.AppSettings["LoginRequired"]); // TODO: remove this later once login code is complete
 
+			// Get a database connection
 			DatabaseType connectionType;
 			if (!MiskoEnum.TryParse<DatabaseType>(WebConfigurationManager.AppSettings["ConnectionType"], out connectionType) || !connectionType.InArray(new[] { DatabaseType.MySql, DatabaseType.SQLite }))
 			{
-				throw new MiskoException("Invalid server location. Must be one of 'Online' or 'Local'");
+				throw new MiskoException("Invalid connection type. Must be one of 'MySql' or 'Sqlite'");
 			}
 			
 			if (connectionType.Equals(DatabaseType.MySql))

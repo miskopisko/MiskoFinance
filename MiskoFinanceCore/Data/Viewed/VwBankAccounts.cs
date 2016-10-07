@@ -36,11 +36,11 @@ namespace MiskoFinanceCore.Data.Viewed
 
 		public void FetchByOperator(Session session, PrimaryKey o)
 		{
-			Persistence persistence = session.GetPersistence();
-			persistence.ExecuteQuery("SELECT * FROM VwBankAccount WHERE OperatorId = ?", o);
-			Set(session, persistence);
-			persistence.Close();
-			persistence = null;
+			using (Persistence persistence = session.GetPersistence())
+			{
+				persistence.ExecuteQuery("SELECT * FROM VwBankAccount WHERE OperatorId = ?", o);
+				Set(session, persistence);
+			}
 		}
 
 		#endregion

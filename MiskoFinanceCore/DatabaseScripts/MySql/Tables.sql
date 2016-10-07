@@ -44,7 +44,24 @@ CREATE TABLE BankAccount
 	RowVer 			int(10) NOT NULL DEFAULT '0',
 	PRIMARY KEY (Id),
 	CONSTRAINT FK_AccountId FOREIGN KEY (Id) REFERENCES Account (Id)
-) ENGINE=InnoDB AUTO_INCREMENT=1000001 DEFAULT CHARSET=utf8 
+) ENGINE=InnoDB AUTO_INCREMENT=1000001 DEFAULT CHARSET=utf8;
+
+-- Category - The transaction category user defined
+DROP TABLE IF EXISTS Category;
+CREATE TABLE Category 
+(
+	Id 				int(10) NOT NULL AUTO_INCREMENT,
+	Operator 		int(10) NOT NULL,
+	Name 			varchar(128) NOT NULL,
+	CategoryType 	int(3) NOT NULL,
+	Status 			int(3) NOT NULL,
+	DtCreated 		datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	DtModified 		datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	RowVer 			int(10) NOT NULL DEFAULT '0',
+	PRIMARY KEY (Id),
+	KEY Operator (Operator),
+	CONSTRAINT FK_CategoryOperator FOREIGN KEY (Operator) REFERENCES Operator (Id)
+) ENGINE=InnoDB AUTO_INCREMENT=1000001 DEFAULT CHARSET=utf8;
 
 -- Transaction - Used to store transactions
 DROP TABLE IF EXISTS Txn;
@@ -71,23 +88,6 @@ CREATE TABLE Txn
 	KEY Description (Description),
 	CONSTRAINT FK_TxnAccount FOREIGN KEY (Account) REFERENCES Account (Id),
 	CONSTRAINT FK_TxnCategory FOREIGN KEY (Category) REFERENCES Category (Id)
-) ENGINE=InnoDB AUTO_INCREMENT=1000001 DEFAULT CHARSET=utf8 
-
--- Category - The transaction category user defined
-DROP TABLE IF EXISTS Category;
-CREATE TABLE Category 
-(
-	Id 				int(10) NOT NULL AUTO_INCREMENT,
-	Operator 		int(10) NOT NULL,
-	Name 			varchar(128) NOT NULL,
-	CategoryType 	int(3) NOT NULL,
-	Status 			int(3) NOT NULL,
-	DtCreated 		datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	DtModified 		datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	RowVer 			int(10) NOT NULL DEFAULT '0',
-	PRIMARY KEY (Id),
-	KEY Operator (Operator),
-	CONSTRAINT FK_CategoryOperator FOREIGN KEY (Operator) REFERENCES Operator (Id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1000001 DEFAULT CHARSET=utf8;
 
 /*

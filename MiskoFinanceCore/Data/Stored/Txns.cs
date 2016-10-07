@@ -42,11 +42,11 @@ namespace MiskoFinanceCore.Data.Stored
 
         public void FetchByAccountAndDate(Session session, PrimaryKey account, DateTime fromDate, DateTime toDate)
         {
-            Persistence persistence = session.GetPersistence();
-            persistence.ExecuteQuery("SELECT * FROM Txn WHERE Account = ? AND DatePosted BETWEEN ? AND ?", account, fromDate, toDate);
-            Set(session, persistence);
-            persistence.Close();
-            persistence = null;
+			using (Persistence persistence = session.GetPersistence())
+        	{
+        		persistence.ExecuteQuery("SELECT * FROM Txn WHERE Account = ? AND DatePosted BETWEEN ? AND ?", account, fromDate, toDate);
+	            Set(session, persistence);	
+        	}
         }
 
         #endregion

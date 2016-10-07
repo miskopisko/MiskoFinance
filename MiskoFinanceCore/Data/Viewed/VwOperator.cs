@@ -78,11 +78,11 @@ namespace MiskoFinanceCore.Data.Viewed
 		
 		public override void Fetch(Session session)
 		{
-			Persistence persistence = session.GetPersistence();
-			persistence.ExecuteQuery("SELECT * FROM VwOperator WHERE OperatorId = ?", OperatorId);
-			Set(session, persistence);
-			persistence.Close();
-			persistence = null;
+			using (Persistence persistence = session.GetPersistence())
+			{
+				persistence.ExecuteQuery("SELECT * FROM VwOperator WHERE OperatorId = ?", OperatorId);
+				Set(session, persistence);
+			}
 		}
 		
 		public override void Fetch(Session session, Boolean deep)
