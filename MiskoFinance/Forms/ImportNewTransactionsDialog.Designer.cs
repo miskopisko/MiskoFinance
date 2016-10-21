@@ -29,13 +29,10 @@ namespace MiskoFinance.Forms
         /// </summary>
         private void InitializeComponent()
         {
-        	MiskoPersist.MoneyType.Money money1 = new MiskoPersist.MoneyType.Money();
         	System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ImportTransactionsDialog));
         	this.mCancel_ = new System.Windows.Forms.Button();
         	this.mImport_ = new System.Windows.Forms.Button();
         	this.mOpenFileDialog_ = new System.Windows.Forms.OpenFileDialog();
-        	this.mMainTableLayoutPanel_ = new System.Windows.Forms.TableLayoutPanel();
-        	this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
         	this.mExistingAccount_ = new System.Windows.Forms.RadioButton();
         	this.mCreateNewAccount_ = new System.Windows.Forms.RadioButton();
         	this.mFieldsLayoutTable_ = new System.Windows.Forms.TableLayoutPanel();
@@ -50,16 +47,18 @@ namespace MiskoFinance.Forms
         	this.mBankName_ = new System.Windows.Forms.TextBox();
         	this.mAccountType_ = new System.Windows.Forms.ComboBox();
         	this.mExistingAccounts_ = new System.Windows.Forms.ListBox();
-        	this.mMainTableLayoutPanel_.SuspendLayout();
-        	this.tableLayoutPanel1.SuspendLayout();
+        	this.mFlowLayoutPanel_ = new System.Windows.Forms.FlowLayoutPanel();
+        	this.mTableLayoutPanel_ = new System.Windows.Forms.TableLayoutPanel();
         	this.mFieldsLayoutTable_.SuspendLayout();
+        	this.mFlowLayoutPanel_.SuspendLayout();
+        	this.mTableLayoutPanel_.SuspendLayout();
         	this.SuspendLayout();
         	// 
         	// mCancel_
         	// 
+        	this.mCancel_.AutoSize = true;
         	this.mCancel_.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-        	this.mCancel_.Dock = System.Windows.Forms.DockStyle.Fill;
-        	this.mCancel_.Location = new System.Drawing.Point(84, 3);
+        	this.mCancel_.Location = new System.Drawing.Point(367, 3);
         	this.mCancel_.Name = "mCancel_";
         	this.mCancel_.Size = new System.Drawing.Size(75, 23);
         	this.mCancel_.TabIndex = 0;
@@ -69,8 +68,8 @@ namespace MiskoFinance.Forms
         	// 
         	// mImport_
         	// 
-        	this.mImport_.Dock = System.Windows.Forms.DockStyle.Fill;
-        	this.mImport_.Location = new System.Drawing.Point(3, 3);
+        	this.mImport_.AutoSize = true;
+        	this.mImport_.Location = new System.Drawing.Point(286, 3);
         	this.mImport_.Name = "mImport_";
         	this.mImport_.Size = new System.Drawing.Size(75, 23);
         	this.mImport_.TabIndex = 2;
@@ -82,51 +81,13 @@ namespace MiskoFinance.Forms
         	// 
         	this.mOpenFileDialog_.Filter = "OFX Files|*.ofx";
         	// 
-        	// mMainTableLayoutPanel_
-        	// 
-        	this.mMainTableLayoutPanel_.AutoSize = true;
-        	this.mMainTableLayoutPanel_.ColumnCount = 2;
-        	this.mMainTableLayoutPanel_.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-        	this.mMainTableLayoutPanel_.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-        	this.mMainTableLayoutPanel_.Controls.Add(this.tableLayoutPanel1, 0, 2);
-        	this.mMainTableLayoutPanel_.Controls.Add(this.mExistingAccount_, 0, 0);
-        	this.mMainTableLayoutPanel_.Controls.Add(this.mCreateNewAccount_, 1, 0);
-        	this.mMainTableLayoutPanel_.Controls.Add(this.mFieldsLayoutTable_, 1, 1);
-        	this.mMainTableLayoutPanel_.Controls.Add(this.mExistingAccounts_, 0, 1);
-        	this.mMainTableLayoutPanel_.Location = new System.Drawing.Point(0, 0);
-        	this.mMainTableLayoutPanel_.Name = "mMainTableLayoutPanel_";
-        	this.mMainTableLayoutPanel_.RowCount = 3;
-        	this.mMainTableLayoutPanel_.RowStyles.Add(new System.Windows.Forms.RowStyle());
-        	this.mMainTableLayoutPanel_.RowStyles.Add(new System.Windows.Forms.RowStyle());
-        	this.mMainTableLayoutPanel_.RowStyles.Add(new System.Windows.Forms.RowStyle());
-        	this.mMainTableLayoutPanel_.Size = new System.Drawing.Size(479, 195);
-        	this.mMainTableLayoutPanel_.TabIndex = 1;
-        	// 
-        	// tableLayoutPanel1
-        	// 
-        	this.tableLayoutPanel1.AutoSize = true;
-        	this.tableLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-        	this.tableLayoutPanel1.ColumnCount = 2;
-        	this.mMainTableLayoutPanel_.SetColumnSpan(this.tableLayoutPanel1, 2);
-        	this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-        	this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-        	this.tableLayoutPanel1.Controls.Add(this.mCancel_, 1, 0);
-        	this.tableLayoutPanel1.Controls.Add(this.mImport_, 0, 0);
-        	this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Right;
-        	this.tableLayoutPanel1.Location = new System.Drawing.Point(314, 163);
-        	this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-        	this.tableLayoutPanel1.RowCount = 1;
-        	this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-        	this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
-        	this.tableLayoutPanel1.Size = new System.Drawing.Size(162, 29);
-        	this.tableLayoutPanel1.TabIndex = 2;
-        	// 
         	// mExistingAccount_
         	// 
         	this.mExistingAccount_.AutoSize = true;
+        	this.mExistingAccount_.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.mExistingAccount_.Location = new System.Drawing.Point(3, 3);
         	this.mExistingAccount_.Name = "mExistingAccount_";
-        	this.mExistingAccount_.Size = new System.Drawing.Size(104, 17);
+        	this.mExistingAccount_.Size = new System.Drawing.Size(144, 17);
         	this.mExistingAccount_.TabIndex = 0;
         	this.mExistingAccount_.TabStop = true;
         	this.mExistingAccount_.Text = "Existing Account";
@@ -135,10 +96,11 @@ namespace MiskoFinance.Forms
         	// mCreateNewAccount_
         	// 
         	this.mCreateNewAccount_.AutoSize = true;
+        	this.mCreateNewAccount_.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.mCreateNewAccount_.FlatAppearance.BorderSize = 2;
-        	this.mCreateNewAccount_.Location = new System.Drawing.Point(181, 3);
+        	this.mCreateNewAccount_.Location = new System.Drawing.Point(153, 3);
         	this.mCreateNewAccount_.Name = "mCreateNewAccount_";
-        	this.mCreateNewAccount_.Size = new System.Drawing.Size(124, 17);
+        	this.mCreateNewAccount_.Size = new System.Drawing.Size(295, 17);
         	this.mCreateNewAccount_.TabIndex = 1;
         	this.mCreateNewAccount_.TabStop = true;
         	this.mCreateNewAccount_.Text = "Create New Account";
@@ -150,7 +112,7 @@ namespace MiskoFinance.Forms
         	this.mFieldsLayoutTable_.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
         	this.mFieldsLayoutTable_.ColumnCount = 2;
         	this.mFieldsLayoutTable_.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-        	this.mFieldsLayoutTable_.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 200F));
+        	this.mFieldsLayoutTable_.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
         	this.mFieldsLayoutTable_.Controls.Add(this.mAccountTypeLbl_, 0, 2);
         	this.mFieldsLayoutTable_.Controls.Add(this.mAccountNumberLbl_, 0, 1);
         	this.mFieldsLayoutTable_.Controls.Add(this.mBankNameLbl_, 0, 0);
@@ -161,7 +123,8 @@ namespace MiskoFinance.Forms
         	this.mFieldsLayoutTable_.Controls.Add(this.mAccountNumber_, 1, 1);
         	this.mFieldsLayoutTable_.Controls.Add(this.mBankName_, 1, 0);
         	this.mFieldsLayoutTable_.Controls.Add(this.mAccountType_, 1, 2);
-        	this.mFieldsLayoutTable_.Location = new System.Drawing.Point(181, 26);
+        	this.mFieldsLayoutTable_.Dock = System.Windows.Forms.DockStyle.Fill;
+        	this.mFieldsLayoutTable_.Location = new System.Drawing.Point(153, 26);
         	this.mFieldsLayoutTable_.Name = "mFieldsLayoutTable_";
         	this.mFieldsLayoutTable_.RowCount = 5;
         	this.mFieldsLayoutTable_.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -239,7 +202,6 @@ namespace MiskoFinance.Forms
         	this.mOpeningBalance_.TabIndex = 5;
         	this.mOpeningBalance_.Text = "$0.00";
         	this.mOpeningBalance_.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-        	this.mOpeningBalance_.Value = money1;
         	// 
         	// mNickname_
         	// 
@@ -284,8 +246,43 @@ namespace MiskoFinance.Forms
         	this.mExistingAccounts_.FormattingEnabled = true;
         	this.mExistingAccounts_.Location = new System.Drawing.Point(3, 26);
         	this.mExistingAccounts_.Name = "mExistingAccounts_";
-        	this.mExistingAccounts_.Size = new System.Drawing.Size(172, 131);
+        	this.mExistingAccounts_.Size = new System.Drawing.Size(144, 131);
         	this.mExistingAccounts_.TabIndex = 4;
+        	// 
+        	// mFlowLayoutPanel_
+        	// 
+        	this.mFlowLayoutPanel_.AutoSize = true;
+        	this.mFlowLayoutPanel_.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+        	this.mTableLayoutPanel_.SetColumnSpan(this.mFlowLayoutPanel_, 2);
+        	this.mFlowLayoutPanel_.Controls.Add(this.mCancel_);
+        	this.mFlowLayoutPanel_.Controls.Add(this.mImport_);
+        	this.mFlowLayoutPanel_.Dock = System.Windows.Forms.DockStyle.Fill;
+        	this.mFlowLayoutPanel_.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
+        	this.mFlowLayoutPanel_.Location = new System.Drawing.Point(3, 163);
+        	this.mFlowLayoutPanel_.Name = "mFlowLayoutPanel_";
+        	this.mFlowLayoutPanel_.Size = new System.Drawing.Size(445, 29);
+        	this.mFlowLayoutPanel_.TabIndex = 2;
+        	// 
+        	// mTableLayoutPanel_
+        	// 
+        	this.mTableLayoutPanel_.AutoSize = true;
+        	this.mTableLayoutPanel_.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+        	this.mTableLayoutPanel_.ColumnCount = 2;
+        	this.mTableLayoutPanel_.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+        	this.mTableLayoutPanel_.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+        	this.mTableLayoutPanel_.Controls.Add(this.mExistingAccount_, 0, 0);
+        	this.mTableLayoutPanel_.Controls.Add(this.mExistingAccounts_, 0, 1);
+        	this.mTableLayoutPanel_.Controls.Add(this.mFieldsLayoutTable_, 1, 1);
+        	this.mTableLayoutPanel_.Controls.Add(this.mCreateNewAccount_, 1, 0);
+        	this.mTableLayoutPanel_.Controls.Add(this.mFlowLayoutPanel_, 0, 2);
+        	this.mTableLayoutPanel_.Location = new System.Drawing.Point(1, 3);
+        	this.mTableLayoutPanel_.Name = "mTableLayoutPanel_";
+        	this.mTableLayoutPanel_.RowCount = 3;
+        	this.mTableLayoutPanel_.RowStyles.Add(new System.Windows.Forms.RowStyle());
+        	this.mTableLayoutPanel_.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+        	this.mTableLayoutPanel_.RowStyles.Add(new System.Windows.Forms.RowStyle());
+        	this.mTableLayoutPanel_.Size = new System.Drawing.Size(451, 195);
+        	this.mTableLayoutPanel_.TabIndex = 5;
         	// 
         	// ImportTransactionsDialog
         	// 
@@ -295,8 +292,8 @@ namespace MiskoFinance.Forms
         	this.AutoSize = true;
         	this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
         	this.CancelButton = this.mCancel_;
-        	this.ClientSize = new System.Drawing.Size(585, 397);
-        	this.Controls.Add(this.mMainTableLayoutPanel_);
+        	this.ClientSize = new System.Drawing.Size(501, 243);
+        	this.Controls.Add(this.mTableLayoutPanel_);
         	this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
         	this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
         	this.MaximizeBox = false;
@@ -306,11 +303,12 @@ namespace MiskoFinance.Forms
         	this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
         	this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
         	this.Text = "Import Transactions";
-        	this.mMainTableLayoutPanel_.ResumeLayout(false);
-        	this.mMainTableLayoutPanel_.PerformLayout();
-        	this.tableLayoutPanel1.ResumeLayout(false);
         	this.mFieldsLayoutTable_.ResumeLayout(false);
         	this.mFieldsLayoutTable_.PerformLayout();
+        	this.mFlowLayoutPanel_.ResumeLayout(false);
+        	this.mFlowLayoutPanel_.PerformLayout();
+        	this.mTableLayoutPanel_.ResumeLayout(false);
+        	this.mTableLayoutPanel_.PerformLayout();
         	this.ResumeLayout(false);
         	this.PerformLayout();
 
@@ -321,7 +319,6 @@ namespace MiskoFinance.Forms
         private System.Windows.Forms.Button mImport_;
         private System.Windows.Forms.Button mCancel_;
         private System.Windows.Forms.OpenFileDialog mOpenFileDialog_;
-        private System.Windows.Forms.TableLayoutPanel mMainTableLayoutPanel_;
         private System.Windows.Forms.RadioButton mExistingAccount_;
         private System.Windows.Forms.RadioButton mCreateNewAccount_;
         private System.Windows.Forms.ListBox mExistingAccounts_;
@@ -336,7 +333,8 @@ namespace MiskoFinance.Forms
         private System.Windows.Forms.TextBox mAccountNumber_;
         private System.Windows.Forms.TextBox mBankName_;
         private System.Windows.Forms.ComboBox mAccountType_;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.FlowLayoutPanel mFlowLayoutPanel_;
+        private System.Windows.Forms.TableLayoutPanel mTableLayoutPanel_;
 
     }
 }

@@ -46,7 +46,7 @@ namespace MiskoFinance.Controls
         #endregion
 
         #region Override Methods
-
+		
         protected override void OnCellClick(DataGridViewCellEventArgs e)
         {
             base.OnCellClick(e);
@@ -111,7 +111,7 @@ namespace MiskoFinance.Controls
             mStatus_.CellTemplate = new MiskoEnumComboBoxCell();
             mStatus_.HeaderText = "Status";
             mStatus_.Name = "Status";
-            mStatus_.Width = 100;
+            mStatus_.Width = 50;
 			mStatus_.DisplayMember = "Description";
             mStatus_.DataPropertyName = "Status";
             mStatus_.DataSource = MiskoFinanceCore.Enums.Status.NonNullElements;
@@ -120,7 +120,7 @@ namespace MiskoFinance.Controls
             
             mDelete_.ValueType = typeof(String);
             mDelete_.HeaderText = "";
-            mDelete_.FlatStyle = FlatStyle.Flat;
+            mDelete_.FlatStyle = FlatStyle.System;
             mDelete_.Width = 75;
             mDelete_.SortMode = DataGridViewColumnSortMode.Automatic;
             mDelete_.ReadOnly = false;

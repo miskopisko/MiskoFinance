@@ -20,5 +20,17 @@ namespace MiskoFinanceCore.Message.Requests
 		public String Password2 { get; set; }
 
 		#endregion
+
+		#region Other Properties
+
+		public override Boolean SecurityExempt
+		{
+			get
+			{
+				return !Operator.IsSet;
+			}
+		}
+
+		#endregion
 	}
 }

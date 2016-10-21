@@ -11,6 +11,7 @@ using MiskoFinanceCore.Resources;
 using MiskoPersist.Core;
 using MiskoPersist.Data.Viewed;
 using MiskoPersist.Enums;
+using MiskoPersist.Message.Requests;
 using MiskoPersist.Message.Responses;
 
 namespace MiskoFinance.Forms
@@ -38,6 +39,16 @@ namespace MiskoFinance.Forms
 					mInstance_ = new MiskoFinanceMain();
 				}
 				return mInstance_;
+			}
+		}
+		
+		public String ConnectedTo
+		{
+			set
+			{
+				mConnectedToLbl_.Visible = !String.IsNullOrEmpty(value);
+				mConnectedTo_.Visible = !String.IsNullOrEmpty(value);
+				mConnectedTo_.Text = value;
 			}
 		}
 		
@@ -111,14 +122,20 @@ namespace MiskoFinance.Forms
 		// Change users, show the login dialog
 		private void mLogoutToolStripMenuItem__Click(Object sender, EventArgs e)
 		{
-			Reset();
+			Server.SendRequest(new LogoffRQ());
+			
+			Operator = new VwOperator();
+			SummaryPanel.Summary = new VwSummary();
+			TransactionsPanel.Clear();
+			SearchPanel.Reset();
+			SearchPanel.Disable();
 			new LoginDialog().ShowDialog(this);
 		}
 
 		// Exit the application
 		private void mExitToolStripMenuItem_Click(Object sender, EventArgs e)
 		{
-			Dispose();
+			Application.Exit();
 		}
 
 		// Open file chooser and import new OFX file
@@ -173,27 +190,11 @@ namespace MiskoFinance.Forms
 				new LoginDialog().ShowDialog(this);
 			#endif
 		}
-		
-		protected override void OnFormClosing(FormClosingEventArgs e)
-		{
-			base.OnFormClosing(e);
-			
-			Application.Exit();
-		}
 
 		#endregion
 
 		#region Private Methods
 		
-		private void Reset()
-		{
-			Operator = new VwOperator();
-			SummaryPanel.Summary = new VwSummary();
-			TransactionsPanel.Clear();
-			SearchPanel.Reset();
-			SearchPanel.Disable();
-		}
-
 		public void LoginSuccess(ResponseMessage response)
 		{
 			MiskoFinanceLogonRS rs = response as MiskoFinanceLogonRS;

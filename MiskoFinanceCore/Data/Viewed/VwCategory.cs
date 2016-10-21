@@ -73,7 +73,6 @@ namespace MiskoFinanceCore.Data.Viewed
 			Category category = new Category();
 			category.FetchById(session, CategoryId);
 
-			category.Operator = OperatorId;
 			category.Name = Name;
 			category.CategoryType = CategoryType;            
 			category.Status = Status;

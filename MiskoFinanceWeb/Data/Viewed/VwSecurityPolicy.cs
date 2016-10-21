@@ -17,7 +17,7 @@ namespace MiskoFinanceWeb.Data.Viewed
 		{
 			get
 			{
-				return SecurityPolicy.LoginRequired;
+				return SecurityPolicy.Instance.LoginRequired;
 			}
 			set { }
 		}
@@ -27,7 +27,7 @@ namespace MiskoFinanceWeb.Data.Viewed
 		{
 			get
 			{
-				return SecurityPolicy.MinimumPasswordAge;
+				return SecurityPolicy.Instance.MinimumPasswordAge;
 			}
 			set { }
 		}
@@ -37,7 +37,7 @@ namespace MiskoFinanceWeb.Data.Viewed
 		{
 			get
 			{
-				return SecurityPolicy.MaximumPasswordAge;
+				return SecurityPolicy.Instance.MaximumPasswordAge;
 			}
 			set { }
 		}
@@ -47,7 +47,7 @@ namespace MiskoFinanceWeb.Data.Viewed
 		{
 			get
 			{
-				return SecurityPolicy.MinimumPasswordLength;
+				return SecurityPolicy.Instance.MinimumPasswordLength;
 			}
 			set { }
 		}
@@ -57,7 +57,7 @@ namespace MiskoFinanceWeb.Data.Viewed
 		{
 			get
 			{
-				return SecurityPolicy.LockOutAttempts;
+				return SecurityPolicy.Instance.LockOutAttempts;
 			}
 			set { }
 		}
@@ -67,7 +67,7 @@ namespace MiskoFinanceWeb.Data.Viewed
 		{
 			get
 			{
-				return SecurityPolicy.LockOutDuration;
+				return SecurityPolicy.Instance.LockOutDuration;
 			}
 			set { }
 		}
@@ -77,7 +77,7 @@ namespace MiskoFinanceWeb.Data.Viewed
 		{
 			get
 			{
-				return SecurityPolicy.ResetLoginCount;
+				return SecurityPolicy.Instance.ResetLoginCount;
 			}
 			set { }
 		}
@@ -87,7 +87,7 @@ namespace MiskoFinanceWeb.Data.Viewed
 		{
 			get
 			{
-				return SecurityPolicy.SessionTokenExpiry;
+				return SecurityPolicy.Instance.SessionTokenExpiry;
 			}
 			set { }
 		}

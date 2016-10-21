@@ -2,9 +2,7 @@ using log4net;
 using MiskoFinanceCore.Data.Viewed;
 using MiskoFinanceCore.Message.Requests;
 using MiskoFinanceCore.Message.Responses;
-using MiskoFinanceCore.Resources;
 using MiskoPersist.Core;
-using MiskoPersist.Enums;
 using MiskoPersist.Message;
 
 namespace MiskoFinanceCore.Message
@@ -26,14 +24,13 @@ namespace MiskoFinanceCore.Message
 
         public override void Execute(Session session)
         {
+			Response.BankAccounts = new VwBankAccounts();
+        	
             foreach (VwBankAccount bankAccount in Request.BankAccounts)
             {
                 bankAccount.Update(session);
+				Response.BankAccounts.Add(bankAccount);
             }
-
-            Response.BankAccounts = Request.BankAccounts;
-
-            session.Error(ErrorLevel.Information, WarningStrings.warnAccountUpdateSuccess);
         }
     }
 }

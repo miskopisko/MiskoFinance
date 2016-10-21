@@ -49,15 +49,15 @@ namespace MiskoFinance.Forms
         	this.mBirthday_ = new System.Windows.Forms.DateTimePicker();
         	this.mRowPerPage_ = new System.Windows.Forms.NumericUpDown();
         	this.mSettingsTableLayoutPanel_ = new System.Windows.Forms.TableLayoutPanel();
+        	this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+        	this.mCancel_ = new System.Windows.Forms.Button();
+        	this.mOK_ = new System.Windows.Forms.Button();
         	this.mFlowLayoutPanel_ = new System.Windows.Forms.FlowLayoutPanel();
         	this.mZeroEqallLbl_ = new System.Windows.Forms.Label();
-        	this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-        	this.mOK_ = new System.Windows.Forms.Button();
-        	this.mCancel_ = new System.Windows.Forms.Button();
         	((System.ComponentModel.ISupportInitialize)(this.mRowPerPage_)).BeginInit();
         	this.mSettingsTableLayoutPanel_.SuspendLayout();
+        	this.flowLayoutPanel1.SuspendLayout();
         	this.mFlowLayoutPanel_.SuspendLayout();
-        	this.tableLayoutPanel1.SuspendLayout();
         	this.SuspendLayout();
         	// 
         	// mLastNameLbl
@@ -175,7 +175,7 @@ namespace MiskoFinance.Forms
         	this.mPassword2_.Location = new System.Drawing.Point(76, 55);
         	this.mPassword2_.Name = "mPassword2_";
         	this.mPassword2_.PasswordChar = '*';
-        	this.mPassword2_.Size = new System.Drawing.Size(194, 20);
+        	this.mPassword2_.Size = new System.Drawing.Size(171, 20);
         	this.mPassword2_.TabIndex = 3;
         	// 
         	// mGender_
@@ -186,7 +186,7 @@ namespace MiskoFinance.Forms
         	this.mGender_.FormattingEnabled = true;
         	this.mGender_.Location = new System.Drawing.Point(76, 159);
         	this.mGender_.Name = "mGender_";
-        	this.mGender_.Size = new System.Drawing.Size(194, 21);
+        	this.mGender_.Size = new System.Drawing.Size(171, 21);
         	this.mGender_.TabIndex = 7;
         	this.mGender_.ValueMember = "Value";
         	// 
@@ -196,7 +196,7 @@ namespace MiskoFinance.Forms
         	this.mEmail_.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
         	this.mEmail_.Location = new System.Drawing.Point(76, 133);
         	this.mEmail_.Name = "mEmail_";
-        	this.mEmail_.Size = new System.Drawing.Size(194, 20);
+        	this.mEmail_.Size = new System.Drawing.Size(171, 20);
         	this.mEmail_.TabIndex = 6;
         	// 
         	// mLastName_
@@ -205,7 +205,7 @@ namespace MiskoFinance.Forms
         	this.mLastName_.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
         	this.mLastName_.Location = new System.Drawing.Point(76, 107);
         	this.mLastName_.Name = "mLastName_";
-        	this.mLastName_.Size = new System.Drawing.Size(194, 20);
+        	this.mLastName_.Size = new System.Drawing.Size(171, 20);
         	this.mLastName_.TabIndex = 5;
         	// 
         	// mFirstName_
@@ -214,7 +214,7 @@ namespace MiskoFinance.Forms
         	this.mFirstName_.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
         	this.mFirstName_.Location = new System.Drawing.Point(76, 81);
         	this.mFirstName_.Name = "mFirstName_";
-        	this.mFirstName_.Size = new System.Drawing.Size(194, 20);
+        	this.mFirstName_.Size = new System.Drawing.Size(171, 20);
         	this.mFirstName_.TabIndex = 4;
         	// 
         	// mPassword1_
@@ -224,7 +224,7 @@ namespace MiskoFinance.Forms
         	this.mPassword1_.Location = new System.Drawing.Point(76, 29);
         	this.mPassword1_.Name = "mPassword1_";
         	this.mPassword1_.PasswordChar = '*';
-        	this.mPassword1_.Size = new System.Drawing.Size(194, 20);
+        	this.mPassword1_.Size = new System.Drawing.Size(171, 20);
         	this.mPassword1_.TabIndex = 2;
         	// 
         	// mUsername_
@@ -235,7 +235,7 @@ namespace MiskoFinance.Forms
         	this.mUsername_.Location = new System.Drawing.Point(76, 3);
         	this.mUsername_.Name = "mUsername_";
         	this.mUsername_.ReadOnly = true;
-        	this.mUsername_.Size = new System.Drawing.Size(194, 20);
+        	this.mUsername_.Size = new System.Drawing.Size(171, 20);
         	this.mUsername_.TabIndex = 1;
         	// 
         	// mBirthday_
@@ -246,7 +246,7 @@ namespace MiskoFinance.Forms
         	this.mBirthday_.Location = new System.Drawing.Point(76, 186);
         	this.mBirthday_.MinDate = new System.DateTime(1900, 1, 1, 0, 0, 0, 0);
         	this.mBirthday_.Name = "mBirthday_";
-        	this.mBirthday_.Size = new System.Drawing.Size(194, 20);
+        	this.mBirthday_.Size = new System.Drawing.Size(171, 20);
         	this.mBirthday_.TabIndex = 8;
         	// 
         	// mRowPerPage_
@@ -269,7 +269,8 @@ namespace MiskoFinance.Forms
         	this.mSettingsTableLayoutPanel_.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
         	this.mSettingsTableLayoutPanel_.ColumnCount = 2;
         	this.mSettingsTableLayoutPanel_.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-        	this.mSettingsTableLayoutPanel_.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 200F));
+        	this.mSettingsTableLayoutPanel_.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+        	this.mSettingsTableLayoutPanel_.Controls.Add(this.flowLayoutPanel1, 0, 9);
         	this.mSettingsTableLayoutPanel_.Controls.Add(this.mRowsLbl_, 0, 8);
         	this.mSettingsTableLayoutPanel_.Controls.Add(this.mPassword2Lbl_, 0, 2);
         	this.mSettingsTableLayoutPanel_.Controls.Add(this.mBirthdayLbl_, 0, 7);
@@ -288,7 +289,7 @@ namespace MiskoFinance.Forms
         	this.mSettingsTableLayoutPanel_.Controls.Add(this.mLastName_, 1, 4);
         	this.mSettingsTableLayoutPanel_.Controls.Add(this.mFirstName_, 1, 3);
         	this.mSettingsTableLayoutPanel_.Controls.Add(this.mFlowLayoutPanel_, 1, 8);
-        	this.mSettingsTableLayoutPanel_.Controls.Add(this.tableLayoutPanel1, 1, 9);
+        	this.mSettingsTableLayoutPanel_.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.mSettingsTableLayoutPanel_.Location = new System.Drawing.Point(0, 0);
         	this.mSettingsTableLayoutPanel_.Name = "mSettingsTableLayoutPanel_";
         	this.mSettingsTableLayoutPanel_.RowCount = 10;
@@ -302,8 +303,44 @@ namespace MiskoFinance.Forms
         	this.mSettingsTableLayoutPanel_.RowStyles.Add(new System.Windows.Forms.RowStyle());
         	this.mSettingsTableLayoutPanel_.RowStyles.Add(new System.Windows.Forms.RowStyle());
         	this.mSettingsTableLayoutPanel_.RowStyles.Add(new System.Windows.Forms.RowStyle());
-        	this.mSettingsTableLayoutPanel_.Size = new System.Drawing.Size(273, 276);
+        	this.mSettingsTableLayoutPanel_.Size = new System.Drawing.Size(250, 281);
         	this.mSettingsTableLayoutPanel_.TabIndex = 1;
+        	// 
+        	// flowLayoutPanel1
+        	// 
+        	this.flowLayoutPanel1.AutoSize = true;
+        	this.flowLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+        	this.mSettingsTableLayoutPanel_.SetColumnSpan(this.flowLayoutPanel1, 2);
+        	this.flowLayoutPanel1.Controls.Add(this.mCancel_);
+        	this.flowLayoutPanel1.Controls.Add(this.mOK_);
+        	this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+        	this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
+        	this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 244);
+        	this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+        	this.flowLayoutPanel1.Size = new System.Drawing.Size(244, 34);
+        	this.flowLayoutPanel1.TabIndex = 2;
+        	// 
+        	// mCancel_
+        	// 
+        	this.mCancel_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+        	this.mCancel_.Location = new System.Drawing.Point(166, 3);
+        	this.mCancel_.Name = "mCancel_";
+        	this.mCancel_.Size = new System.Drawing.Size(75, 23);
+        	this.mCancel_.TabIndex = 1;
+        	this.mCancel_.Text = "Cancel";
+        	this.mCancel_.UseVisualStyleBackColor = true;
+        	this.mCancel_.Click += new System.EventHandler(this.mCancel__Click);
+        	// 
+        	// mOK_
+        	// 
+        	this.mOK_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+        	this.mOK_.Location = new System.Drawing.Point(85, 3);
+        	this.mOK_.Name = "mOK_";
+        	this.mOK_.Size = new System.Drawing.Size(75, 23);
+        	this.mOK_.TabIndex = 0;
+        	this.mOK_.Text = "OK";
+        	this.mOK_.UseVisualStyleBackColor = true;
+        	this.mOK_.Click += new System.EventHandler(this.mOK__Click);
         	// 
         	// mFlowLayoutPanel_
         	// 
@@ -314,7 +351,7 @@ namespace MiskoFinance.Forms
         	this.mFlowLayoutPanel_.Controls.Add(this.mZeroEqallLbl_);
         	this.mFlowLayoutPanel_.Location = new System.Drawing.Point(76, 212);
         	this.mFlowLayoutPanel_.Name = "mFlowLayoutPanel_";
-        	this.mFlowLayoutPanel_.Size = new System.Drawing.Size(194, 26);
+        	this.mFlowLayoutPanel_.Size = new System.Drawing.Size(171, 26);
         	this.mFlowLayoutPanel_.TabIndex = 20;
         	// 
         	// mZeroEqallLbl_
@@ -328,53 +365,13 @@ namespace MiskoFinance.Forms
         	this.mZeroEqallLbl_.Text = "0 = All ";
         	this.mZeroEqallLbl_.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
         	// 
-        	// tableLayoutPanel1
-        	// 
-        	this.tableLayoutPanel1.AutoSize = true;
-        	this.tableLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-        	this.tableLayoutPanel1.ColumnCount = 2;
-        	this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-        	this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-        	this.tableLayoutPanel1.Controls.Add(this.mOK_, 0, 0);
-        	this.tableLayoutPanel1.Controls.Add(this.mCancel_, 1, 0);
-        	this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Right;
-        	this.tableLayoutPanel1.Location = new System.Drawing.Point(108, 244);
-        	this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-        	this.tableLayoutPanel1.RowCount = 1;
-        	this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-        	this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
-        	this.tableLayoutPanel1.Size = new System.Drawing.Size(162, 29);
-        	this.tableLayoutPanel1.TabIndex = 21;
-        	// 
-        	// mOK_
-        	// 
-        	this.mOK_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-        	this.mOK_.Location = new System.Drawing.Point(3, 3);
-        	this.mOK_.Name = "mOK_";
-        	this.mOK_.Size = new System.Drawing.Size(75, 23);
-        	this.mOK_.TabIndex = 0;
-        	this.mOK_.Text = "OK";
-        	this.mOK_.UseVisualStyleBackColor = true;
-        	this.mOK_.Click += new System.EventHandler(this.mOK__Click);
-        	// 
-        	// mCancel_
-        	// 
-        	this.mCancel_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-        	this.mCancel_.Location = new System.Drawing.Point(84, 3);
-        	this.mCancel_.Name = "mCancel_";
-        	this.mCancel_.Size = new System.Drawing.Size(75, 23);
-        	this.mCancel_.TabIndex = 1;
-        	this.mCancel_.Text = "Cancel";
-        	this.mCancel_.UseVisualStyleBackColor = true;
-        	this.mCancel_.Click += new System.EventHandler(this.mCancel__Click);
-        	// 
         	// SettingsDialog
         	// 
         	this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
         	this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
         	this.AutoSize = true;
         	this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-        	this.ClientSize = new System.Drawing.Size(342, 340);
+        	this.ClientSize = new System.Drawing.Size(250, 281);
         	this.Controls.Add(this.mSettingsTableLayoutPanel_);
         	this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
         	this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -387,9 +384,9 @@ namespace MiskoFinance.Forms
         	((System.ComponentModel.ISupportInitialize)(this.mRowPerPage_)).EndInit();
         	this.mSettingsTableLayoutPanel_.ResumeLayout(false);
         	this.mSettingsTableLayoutPanel_.PerformLayout();
+        	this.flowLayoutPanel1.ResumeLayout(false);
         	this.mFlowLayoutPanel_.ResumeLayout(false);
         	this.mFlowLayoutPanel_.PerformLayout();
-        	this.tableLayoutPanel1.ResumeLayout(false);
         	this.ResumeLayout(false);
         	this.PerformLayout();
 
@@ -418,8 +415,8 @@ namespace MiskoFinance.Forms
         private System.Windows.Forms.TableLayoutPanel mSettingsTableLayoutPanel_;
         private System.Windows.Forms.FlowLayoutPanel mFlowLayoutPanel_;
         private System.Windows.Forms.Label mZeroEqallLbl_;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Button mOK_;
         private System.Windows.Forms.Button mCancel_;
-    }
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+	}
 }

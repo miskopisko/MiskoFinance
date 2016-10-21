@@ -24,8 +24,6 @@ namespace MiskoFinanceCore.Data.Viewed
 		[Viewed]
 		public String Username { get; set; }
 		[Viewed]
-		public String Password { get; set; }
-		[Viewed]
 		public String FirstName { get; set; }
 		[Viewed]
 		public String LastName { get; set; }
@@ -57,14 +55,14 @@ namespace MiskoFinanceCore.Data.Viewed
 		#region Constructors
 
 		public VwOperator()
-        {
+		{
 			BankAccounts = new VwBankAccounts();
 			Categories = new VwCategories();
-        }
+		}
 
-        public VwOperator(Session session, Persistence persistence) : base(session, persistence)
-        {
-        }
+		public VwOperator(Session session, Persistence persistence) : base(session, persistence)
+		{
+		}
 		
 		#endregion
 
@@ -108,7 +106,6 @@ namespace MiskoFinanceCore.Data.Viewed
 			p.FetchById(session, OperatorId);
 			
 			p.Username = Username;
-			p.Password = Password;
 			p.FirstName = FirstName;
 			p.LastName = LastName;
 			p.Email = Email;

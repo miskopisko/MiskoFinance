@@ -5,6 +5,7 @@ using MiskoFinance.Properties;
 using MiskoFinanceCore.Data.Viewed;
 using MiskoFinanceCore.Message.Requests;
 using MiskoPersist.Core;
+using MiskoPersist.Data.Viewed;
 using MiskoPersist.Message.Responses;
 
 namespace MiskoFinance.Panels
@@ -16,11 +17,11 @@ namespace MiskoFinance.Panels
 		private readonly ToolStripDropDownMenu mMenu_ = new ToolStripDropDownMenu();
 		private ToolStripMenuItem mDatasource_ = new ToolStripMenuItem();
 		private ToolStripMenuItem mNewUser_ = new ToolStripMenuItem();
-		
+
 		#endregion
-		
+
 		#region Properties
-		
+
 		private new LoginDialog Parent 
 		{
 			get;
@@ -38,14 +39,14 @@ namespace MiskoFinance.Panels
 			Parent.Text = "Login";
 			
 			mUsername_.TextChanged += mUsername_TextChanged;
-			
+
 			mDatasource_.Text = "Datasource";
 			mDatasource_.Click += mDatasource__Click;
 			mMenu_.Items.Add(mDatasource_);
 			
 			mNewUser_.Text = "New User";
 			mNewUser_.Click += mNewUser__Click;
-			mMenu_.Items.Add(mNewUser_);
+			mMenu_.Items.Add(mNewUser_);			
 		}
 		
 		#region Override Methods
@@ -79,6 +80,15 @@ namespace MiskoFinance.Panels
 		private void LoginError(ResponseMessage response)
 		{
 			Parent.Enabled = true;
+			
+			foreach (ErrorMessage errorMessage in response.Errors) 
+			{
+				if (errorMessage.Message.Equals("Password has expired."))
+				{
+					Parent.Controls.Clear();
+					Parent.Controls.Add(new ChangePasswordPanel(Parent, mUsername_.Text.Trim()));
+				}
+			}
 		}
 
 		#endregion
@@ -107,14 +117,11 @@ namespace MiskoFinance.Panels
 		
 		private void mNewUser__Click(Object sender, EventArgs e)
 		{
-			VwOperator o = new VwOperator();
-			SettingsDialog settings = new SettingsDialog(o);
+			SettingsDialog settings = new SettingsDialog(new VwOperator());
 
 			if(settings.ShowDialog(this) == DialogResult.OK)
 			{
-				o = settings.Operator;
-
-				mUsername_.Text = o.Username;
+				mUsername_.Text = settings.Operator.Username;
 				mPassword_.Text = "";
 				mPassword_.Focus();
 			}

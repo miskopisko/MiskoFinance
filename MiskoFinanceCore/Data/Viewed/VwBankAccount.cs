@@ -94,15 +94,11 @@ namespace MiskoFinanceCore.Data.Viewed
 
 		public static VwBankAccount GetInstanceByAccountNo(Session session, String accountNo)
 		{
-			VwBankAccount result = new VwBankAccount();
-			
 			using (Persistence persistence = session.GetPersistence())
 			{
 				persistence.ExecuteQuery("SELECT * FROM VwBankAccount WHERE AccountNumber = ?", accountNo);
-				result.Set(session, persistence);	
+				return new VwBankAccount(session, persistence);
 			}
-			
-			return result;
 		}
 
 		#endregion

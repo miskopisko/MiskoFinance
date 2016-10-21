@@ -117,21 +117,11 @@ namespace MiskoFinanceCore.Data.Stored
 
         public static BankAccount GetInstanceByComposite(Session session, PrimaryKey op, String accountNo)
         {
-            BankAccount result = new BankAccount();
-
-            String sql = "SELECT * " +
-                         "FROM   Account A, BankAccount B " +
-                         "WHERE  A.Id = B.Id " +
-                         "AND    A.Operator = ? " +
-                         "AND    B.AccountNumber = ?";
-
-			using (Persistence persistence = session.GetPersistence())
+        	using (Persistence persistence = session.GetPersistence())
 			{
-				persistence.ExecuteQuery(sql, op, accountNo);
-				result.Set(session, persistence);
+				persistence.ExecuteQuery("SELECT * FROM Account A, BankAccount B WHERE A.Id = B.Id AND A.Operator = ? AND B.AccountNumber = ?", op, accountNo);
+				return new BankAccount(session, persistence);
 			}
-
-            return result;
         }
 
         #endregion

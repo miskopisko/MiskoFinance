@@ -2,7 +2,6 @@
 using System.Web.Configuration;
 using log4net;
 using log4net.Config;
-using MiskoFinanceCore;
 using MiskoPersist.Core;
 using MiskoPersist.Enums;
 
@@ -24,10 +23,6 @@ namespace MiskoFinanceWeb
 		{
 			// Configure the logger
 			XmlConfigurator.Configure();
-			
-			// Configure the security policy
-			MiskoFinanceSecurityPolicy.Load();
-			SecurityPolicy.LoginRequired = Boolean.Parse(WebConfigurationManager.AppSettings["LoginRequired"]); // TODO: remove this later once login code is complete
 
 			// Get a database connection
 			DatabaseType connectionType;

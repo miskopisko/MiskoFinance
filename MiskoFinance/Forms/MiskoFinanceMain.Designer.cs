@@ -29,8 +29,6 @@ namespace MiskoFinance.Forms
         /// </summary>
         private void InitializeComponent()
         {
-        	MiskoFinanceCore.Data.Viewed.VwBankAccount vwBankAccount1 = new MiskoFinanceCore.Data.Viewed.VwBankAccount();
-        	MiskoFinanceCore.Data.Viewed.VwCategory vwCategory1 = new MiskoFinanceCore.Data.Viewed.VwCategory();
         	System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MiskoFinanceMain));
         	this.mToolStripSeparator1_ = new System.Windows.Forms.ToolStripSeparator();
         	this.mToolStripSeparator3_ = new System.Windows.Forms.ToolStripSeparator();
@@ -56,6 +54,8 @@ namespace MiskoFinance.Forms
         	this.mTransactionsPanel_ = new MiskoFinance.Panels.TransactionsPanel();
         	this.mSearchPanel_ = new MiskoFinance.Panels.SearchPanel();
         	this.mSummaryPanel_ = new MiskoFinance.Panels.SummaryPanel();
+        	this.mConnectedToLbl_ = new System.Windows.Forms.ToolStripStatusLabel();
+        	this.mConnectedTo_ = new System.Windows.Forms.ToolStripStatusLabel();
         	this.mStatusStrip_.SuspendLayout();
         	this.mMenuStrip_.SuspendLayout();
         	this.mMainLayoutTable_.SuspendLayout();
@@ -120,11 +120,13 @@ namespace MiskoFinance.Forms
         	// 
         	this.mStatusStrip_.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.mMessageStatusBar_,
-			this.mMessageStatusLbl_});
+			this.mMessageStatusLbl_,
+			this.mConnectedToLbl_,
+			this.mConnectedTo_});
         	this.mStatusStrip_.Location = new System.Drawing.Point(0, 698);
         	this.mStatusStrip_.Name = "mStatusStrip_";
         	this.mStatusStrip_.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-        	this.mStatusStrip_.Size = new System.Drawing.Size(1184, 22);
+        	this.mStatusStrip_.Size = new System.Drawing.Size(1238, 22);
         	this.mStatusStrip_.TabIndex = 2;
         	this.mStatusStrip_.Text = "statusStrip1";
         	// 
@@ -149,7 +151,7 @@ namespace MiskoFinance.Forms
         	this.mMenuStrip_.Location = new System.Drawing.Point(0, 0);
         	this.mMenuStrip_.Name = "mMenuStrip_";
         	this.mMenuStrip_.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-        	this.mMenuStrip_.Size = new System.Drawing.Size(1184, 24);
+        	this.mMenuStrip_.Size = new System.Drawing.Size(1238, 24);
         	this.mMenuStrip_.TabIndex = 3;
         	this.mMenuStrip_.Text = "menuStrip";
         	// 
@@ -234,7 +236,7 @@ namespace MiskoFinance.Forms
         	this.mMainLayoutTable_.RowStyles.Add(new System.Windows.Forms.RowStyle());
         	this.mMainLayoutTable_.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
         	this.mMainLayoutTable_.RowStyles.Add(new System.Windows.Forms.RowStyle());
-        	this.mMainLayoutTable_.Size = new System.Drawing.Size(1184, 674);
+        	this.mMainLayoutTable_.Size = new System.Drawing.Size(1238, 674);
         	this.mMainLayoutTable_.TabIndex = 4;
         	// 
         	// mTransactionsPanel_
@@ -245,26 +247,19 @@ namespace MiskoFinance.Forms
         	this.mTransactionsPanel_.Location = new System.Drawing.Point(3, 38);
         	this.mTransactionsPanel_.MinimumSize = new System.Drawing.Size(500, 250);
         	this.mTransactionsPanel_.Name = "mTransactionsPanel_";
-        	this.mTransactionsPanel_.Size = new System.Drawing.Size(1202, 472);
+        	this.mTransactionsPanel_.Size = new System.Drawing.Size(1232, 472);
         	this.mTransactionsPanel_.TabIndex = 1;
         	// 
         	// mSearchPanel_
         	// 
-        	vwBankAccount1.AccountNumber = null;
-        	vwBankAccount1.AccountType = null;
-        	vwBankAccount1.BankNumber = null;
-        	vwBankAccount1.Nickname = "All";
-        	new MiskoFinanceCore.Data.Viewed.VwBankAccounts().Add(vwBankAccount1);
+        	this.mSearchPanel_.Accounts = null;
         	this.mSearchPanel_.AutoSize = true;
         	this.mSearchPanel_.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-        	vwCategory1.CategoryType = null;
-        	vwCategory1.Name = null;
-        	vwCategory1.Status = null;
-        	new MiskoFinanceCore.Data.Viewed.VwCategories().Add(vwCategory1);
+        	this.mSearchPanel_.Categories = null;
         	this.mSearchPanel_.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.mSearchPanel_.Location = new System.Drawing.Point(3, 3);
         	this.mSearchPanel_.Name = "mSearchPanel_";
-        	this.mSearchPanel_.Size = new System.Drawing.Size(1202, 29);
+        	this.mSearchPanel_.Size = new System.Drawing.Size(1232, 29);
         	this.mSearchPanel_.TabIndex = 2;
         	// 
         	// mSummaryPanel_
@@ -277,12 +272,26 @@ namespace MiskoFinance.Forms
         	this.mSummaryPanel_.Size = new System.Drawing.Size(190, 155);
         	this.mSummaryPanel_.TabIndex = 0;
         	// 
+        	// mConnectedToLbl_
+        	// 
+        	this.mConnectedToLbl_.Name = "mConnectedToLbl_";
+        	this.mConnectedToLbl_.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
+        	this.mConnectedToLbl_.Size = new System.Drawing.Size(1090, 17);
+        	this.mConnectedToLbl_.Spring = true;
+        	this.mConnectedToLbl_.Text = "Connected To: ";
+        	this.mConnectedToLbl_.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+        	// 
+        	// mConnectedTo_
+        	// 
+        	this.mConnectedTo_.Name = "mConnectedTo_";
+        	this.mConnectedTo_.Size = new System.Drawing.Size(0, 17);
+        	// 
         	// MiskoFinanceMain
         	// 
         	this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
         	this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
         	this.AutoSize = true;
-        	this.ClientSize = new System.Drawing.Size(1184, 720);
+        	this.ClientSize = new System.Drawing.Size(1238, 720);
         	this.Controls.Add(this.mMainLayoutTable_);
         	this.Controls.Add(this.mStatusStrip_);
         	this.Controls.Add(this.mMenuStrip_);
@@ -329,5 +338,7 @@ namespace MiskoFinance.Forms
         private MiskoFinance.Panels.SummaryPanel mSummaryPanel_;
         private MiskoFinance.Panels.TransactionsPanel mTransactionsPanel_;
         private MiskoFinance.Panels.SearchPanel mSearchPanel_;
+        private System.Windows.Forms.ToolStripStatusLabel mConnectedToLbl_;
+        private System.Windows.Forms.ToolStripStatusLabel mConnectedTo_;
 	}
 }

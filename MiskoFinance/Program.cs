@@ -5,10 +5,10 @@ using log4net;
 using log4net.Config;
 using MiskoFinance.Forms;
 using MiskoFinance.Properties;
-using MiskoFinanceCore;
 using MiskoPersist.Core;
 using MiskoPersist.Data.Viewed;
 using MiskoPersist.Enums;
+using MiskoPersist.Message.Requests;
 
 namespace MiskoFinance
 {
@@ -24,12 +24,10 @@ namespace MiskoFinance
 			Application.SetCompatibleTextRenderingDefault(true);
 			Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
 			Application.ThreadException += ThreadException;
+			Application.ApplicationExit += Application_ApplicationExit;
 			
 			// Configure the logger
 			XmlConfigurator.Configure();
-			
-			// Load the security policy
-			MiskoFinanceSecurityPolicy.Load();
 			
 			// Setup server parameters from the settings file
 			SetServerParameters();
@@ -45,6 +43,14 @@ namespace MiskoFinance
 			
 			// Run the application
 			Application.Run(MiskoFinanceMain.Instance);
+		}
+
+		private static void Application_ApplicationExit(Object sender, EventArgs e)
+		{
+			if (MiskoFinanceMain.Instance.Operator.IsSet)
+			{
+				Server.SendRequest(new LogoffRQ());
+			}
 		}
 		
 		private static void ThreadException(Object sender, ThreadExceptionEventArgs e)
@@ -70,6 +76,15 @@ namespace MiskoFinance
 			if (Server.Location.Equals(ServerLocation.Local))
 			{
 				DatabaseConnections.AddSqliteConnection(Settings.Default.LocalDatabase);
+			}
+			
+			if (Server.Location.Equals(ServerLocation.Local))
+			{
+				MiskoFinanceMain.Instance.ConnectedTo = Settings.Default.LocalDatabase;
+			}
+			else if (Server.Location.Equals(ServerLocation.Online))
+			{
+				MiskoFinanceMain.Instance.ConnectedTo = Settings.Default.Hostname;
 			}
 		}
 	}

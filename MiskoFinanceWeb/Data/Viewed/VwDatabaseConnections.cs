@@ -22,7 +22,7 @@ namespace MiskoFinanceWeb.Data.Viewed
 				
 				try
 				{
-					DbConnection conn = databaseConnection.GetConnection();
+					DbConnection conn = databaseConnection.Connect();
 					connection.State = conn.State;
 				}
 				catch (Exception e)
