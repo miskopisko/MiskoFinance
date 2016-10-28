@@ -81,11 +81,11 @@ namespace MiskoFinanceCore.Data.Stored
 			{
 				session.Error(ErrorLevel.Error, ErrorStrings.errCategoryNameNull);
 			}
-			if (CategoryType == null || CategoryType.IsNotSet)
+			if (CategoryType == null || !CategoryType.IsSet)
 			{
 				session.Error(ErrorLevel.Error, ErrorStrings.errCategoryTypeNull);
 			}
-			if (Status == null || Status.IsNotSet)
+			if (Status == null || !Status.IsSet)
 			{
 				session.Error(ErrorLevel.Error, ErrorStrings.errCategoryStatusNull);
 			}

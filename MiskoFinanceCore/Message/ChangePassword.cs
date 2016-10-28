@@ -27,7 +27,13 @@ namespace MiskoFinanceCore.Message
 		{
 			Operator o = new Operator();
 			o.FetchByUsername(session, Request.Username);
-			o.ChangePassword(session, Request.OldPassword, Request.NewPassword, Request.ConfirmPassword);
+			
+			if (!o.ValidatePassword(Request.OldPassword))
+		    {
+				session.Error(ErrorLevel.Error, "Invalid password.");
+		    }
+			
+			o.SetPassword(session, Request.NewPassword, Request.ConfirmPassword);
 			o.Save(session);
 		}
 	}

@@ -11,7 +11,6 @@ using MiskoFinanceCore.Resources;
 using MiskoPersist.Core;
 using MiskoPersist.Data.Viewed;
 using MiskoPersist.Enums;
-using MiskoPersist.Message.Requests;
 using MiskoPersist.Message.Responses;
 
 namespace MiskoFinance.Forms
@@ -182,7 +181,7 @@ namespace MiskoFinance.Forms
 			base.OnShown(e);
 			
 			#if(DEBUG)
-				MiskoFinanceLogonRQ request = new MiskoFinanceLogonRQ();
+				LogonRQ request = new LogonRQ();
 				request.Username = "miskopisko";
 				request.Password = "secret";
 				Server.SendRequest(request, LoginSuccess, LoginError);
@@ -197,7 +196,7 @@ namespace MiskoFinance.Forms
 		
 		public void LoginSuccess(ResponseMessage response)
 		{
-			MiskoFinanceLogonRS rs = response as MiskoFinanceLogonRS;
+			LogonRS rs = response as LogonRS;
 			if(rs != null)
 			{
 				Operator = rs.Operator;	

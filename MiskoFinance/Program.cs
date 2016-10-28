@@ -5,14 +5,14 @@ using log4net;
 using log4net.Config;
 using MiskoFinance.Forms;
 using MiskoFinance.Properties;
+using MiskoFinanceCore.Message.Requests;
 using MiskoPersist.Core;
 using MiskoPersist.Data.Viewed;
 using MiskoPersist.Enums;
-using MiskoPersist.Message.Requests;
 
 namespace MiskoFinance
 {
-    public class Program
+	public class Program
 	{
 		private static readonly ILog Log = LogManager.GetLogger(typeof(Program));
 		
@@ -55,7 +55,7 @@ namespace MiskoFinance
 		
 		private static void ThreadException(Object sender, ThreadExceptionEventArgs e)
 		{
-            Log.Error(e.Exception.ToString());			
+			Log.Error(e.Exception.ToString());
 			MiskoFinanceMain.Instance.Error(new ErrorMessage(e.Exception));
 		}
 		

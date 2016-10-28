@@ -83,7 +83,7 @@ namespace MiskoFinanceCore.Data.Stored
 			{
 				session.Error(ErrorLevel.Error, "Email cannot be blank");
 			}
-			if (Gender == null || Gender.IsNotSet)
+			if (Gender == null || !Gender.IsSet)
 			{
 				session.Error(ErrorLevel.Error, "Gender must be set");
 			}

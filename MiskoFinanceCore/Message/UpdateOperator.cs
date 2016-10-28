@@ -42,18 +42,13 @@ namespace MiskoFinanceCore.Message
 				// Ask the user of they are sure
 				session.Error(ErrorLevel.Confirmation, "You are about to create a new user {0}. Are you sure?", Request.Operator.Username);
 			}
-			
-			if (!String.Equals(Request.Password1, Request.Password2))
-			{
-				session.Error(ErrorLevel.Error, "Passwords do not match.");
-			}
 
 			Person person = Request.Operator.Update(session);
 			
 			// Only reset the password of a new password was sent
-			if (!String.IsNullOrEmpty(Request.Password1))
+			if (!String.IsNullOrEmpty(Request.Password1) || !String.IsNullOrEmpty(Request.Password2))
 			{
-				person.ChangePassword(session, person.Password, Request.Password1, Request.Password2);
+				person.SetPassword(session, Request.Password1, Request.Password2);
 				person.Save(session);
 			}
 

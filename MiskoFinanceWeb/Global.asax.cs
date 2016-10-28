@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Web.Configuration;
 using log4net;
 using log4net.Config;
@@ -44,6 +45,10 @@ namespace MiskoFinanceWeb
 			{
 				DatabaseConnections.AddSqliteConnection(WebConfigurationManager.AppSettings["SqliteDB"]);
 			}
+			
+			String path = Environment.GetEnvironmentVariable("PATH");
+			String binDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Bin");
+			Environment.SetEnvironmentVariable("PATH", path + ";" + binDir);
 		}
 	}
 }
