@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -29,7 +29,9 @@
     <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Controls\CategoriesGridView.cs" />
+    <Compile Include="Controls\CategoriesGridView.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\CategoriesGridView.Designer.cs">
       <DependentUpon>CategoriesGridView.cs</DependentUpon>
     </Compile>
@@ -41,63 +43,93 @@
     <Compile Include="Controls\MiskoEnumComboBoxCell.Designer.cs">
       <DependentUpon>MiskoEnumComboBoxCell.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\MoneyBox.cs" />
+    <Compile Include="Controls\MoneyBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\MoneyBox.Designer.cs">
       <DependentUpon>MoneyBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\TransactionsGridView.cs" />
+    <Compile Include="Controls\TransactionsGridView.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\TransactionsGridView.Designer.cs">
       <DependentUpon>TransactionsGridView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\AboutDialog.cs" />
+    <Compile Include="Forms\AboutDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\AboutDialog.Designer.cs">
       <DependentUpon>AboutDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\EditAccountsDialog.cs" />
+    <Compile Include="Forms\EditAccountsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\EditAccountsDialog.Designer.cs">
       <DependentUpon>EditAccountsDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\EditCategoriesDialog.cs" />
+    <Compile Include="Forms\EditCategoriesDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\EditCategoriesDialog.Designer.cs">
       <DependentUpon>EditCategoriesDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\LoginDialog.cs" />
+    <Compile Include="Forms\LoginDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\LoginDialog.Designer.cs">
       <DependentUpon>LoginDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\MiskoFinanceMain.cs" />
+    <Compile Include="Forms\MiskoFinanceMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\MiskoFinanceMain.Designer.cs">
       <DependentUpon>MiskoFinanceMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\SettingsDialog.cs" />
+    <Compile Include="Forms\SettingsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\SettingsDialog.Designer.cs">
       <DependentUpon>SettingsDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Panels\ChangePasswordPanel.cs" />
+    <Compile Include="Panels\ChangePasswordPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Panels\ChangePasswordPanel.Designer.cs">
       <DependentUpon>ChangePasswordPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Panels\DatasourcePanel.cs" />
+    <Compile Include="Panels\DatasourcePanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Panels\DatasourcePanel.Designer.cs">
       <DependentUpon>DatasourcePanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Panels\GraphingPanel.cs" />
+    <Compile Include="Panels\GraphingPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Panels\GraphingPanel.Designer.cs">
       <DependentUpon>GraphingPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Panels\LoginPanel.cs" />
+    <Compile Include="Panels\LoginPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Panels\LoginPanel.Designer.cs">
       <DependentUpon>LoginPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Panels\SearchPanel.cs" />
+    <Compile Include="Panels\SearchPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Panels\SearchPanel.Designer.cs">
       <DependentUpon>SearchPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Panels\SummaryPanel.cs" />
+    <Compile Include="Panels\SummaryPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Panels\SummaryPanel.Designer.cs">
       <DependentUpon>SummaryPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Panels\TransactionsPanel.cs" />
+    <Compile Include="Panels\TransactionsPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Panels\TransactionsPanel.Designer.cs">
       <DependentUpon>TransactionsPanel.cs</DependentUpon>
     </Compile>
@@ -106,7 +138,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
-    <Compile Include="Forms\ImportNewTransactionsDialog.cs" />
+    <Compile Include="Forms\ImportNewTransactionsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\ImportNewTransactionsDialog.Designer.cs">
       <DependentUpon>ImportNewTransactionsDialog.cs</DependentUpon>
     </Compile>

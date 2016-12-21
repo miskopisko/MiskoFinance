@@ -42,6 +42,5 @@ CREATE OR REPLACE VIEW VwCategory AS
 SELECT  C.Id CategoryId,
         C.Operator OperatorId,
         C.Name,
-        C.CategoryType,
-        C.Status
+        C.CategoryType
 FROM    Category C;

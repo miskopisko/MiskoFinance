@@ -85,7 +85,7 @@ namespace MiskoFinance.Forms
 			{
 				mOperator_ = value ?? new VwOperator();
 				SearchPanel.Accounts = Operator.BankAccounts;
-				SearchPanel.Categories = Operator.Categories.GetByStatus(Status.Active, true);
+                SearchPanel.Categories = Operator.Categories;
 				mLogoutToolStripMenuItem_.Enabled = Operator.IsSet;
 				mSettingsToolStripMenuItem_.Enabled = Operator.IsSet;
 				mAccountsToolStripMenuItem_.Enabled = Operator.IsSet;

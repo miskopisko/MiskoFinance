@@ -14,8 +14,6 @@ namespace MiskoFinanceCore.Message.Requests
 
 		[Viewed]
 		public PrimaryKey Operator { get; set; }
-		[Viewed]
-		public Status Status { get; set; }
 
 		#endregion
 	}

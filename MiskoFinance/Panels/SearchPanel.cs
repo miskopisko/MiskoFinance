@@ -64,7 +64,10 @@ namespace MiskoFinance.Panels
         	}
         	set
         	{
-        		mCategories_.DataSource = value;
+                VwCategories categories = new VwCategories();
+                categories.Add(new VwCategory());
+                categories.Add(value);
+        		mCategories_.DataSource = categories;
         	}
         }
         

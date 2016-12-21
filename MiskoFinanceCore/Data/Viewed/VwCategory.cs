@@ -28,8 +28,6 @@ namespace MiskoFinanceCore.Data.Viewed
 		public String Name { get; set; }
 		[Viewed]
 		public CategoryType CategoryType { get; set; }
-		[Viewed]
-		public Status Status { get; set; }
 
 		#endregion
 
@@ -73,9 +71,9 @@ namespace MiskoFinanceCore.Data.Viewed
 			Category category = new Category();
 			category.FetchById(session, CategoryId);
 
+            category.Operator = OperatorId;
 			category.Name = Name;
 			category.CategoryType = CategoryType;            
-			category.Status = Status;
 			category.Save(session);
 
 			return category;

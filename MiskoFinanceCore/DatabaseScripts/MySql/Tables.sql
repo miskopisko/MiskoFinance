@@ -54,7 +54,6 @@ CREATE TABLE Category
 	Operator 		int(10) NOT NULL,
 	Name 			varchar(128) NOT NULL,
 	CategoryType 	int(3) NOT NULL,
-	Status 			int(3) NOT NULL,
 	DtCreated 		datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	DtModified 		datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	RowVer 			int(10) NOT NULL DEFAULT '0',

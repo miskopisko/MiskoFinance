@@ -50,8 +50,6 @@ namespace MiskoFinance.Forms
 		/// </summary>
 		private void InitializeComponent()
 		{
-			MiskoFinanceCore.Enums.Status status1 = new MiskoFinanceCore.Enums.Status();
-			MiskoFinanceCore.Enums.Status status2 = new MiskoFinanceCore.Enums.Status();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditCategoriesDialog));
 			this.mIncomeTableLayout_ = new System.Windows.Forms.TableLayoutPanel();
 			this.mAddIncome_ = new System.Windows.Forms.Button();

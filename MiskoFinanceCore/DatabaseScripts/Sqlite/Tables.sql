@@ -74,7 +74,6 @@ CREATE TABLE Category
     Operator     INTEGER NOT NULL REFERENCES Operator (Id),
     Name         VARCHAR (128) NOT NULL,
     CategoryType INTEGER NOT NULL,
-    Status       INTEGER NOT NULL,
     DtCreated    DATETIME NOT NULL DEFAULT (DATETIME('NOW')),
     DtModified   DATETIME NOT NULL DEFAULT (DATETIME('NOW')),
     RowVer       INTEGER NOT NULL DEFAULT (0) 

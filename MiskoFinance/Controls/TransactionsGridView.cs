@@ -244,7 +244,7 @@ namespace MiskoFinance.Controls
 			mCategory_.CellTemplate = new DataGridViewComboBoxCell();
 			mCategory_.HeaderText = "Category";
 			mCategory_.Name = "Category";
-			mCategory_.Width = 150;
+			mCategory_.Width = 200;
 			mCategory_.DataPropertyName = "Category";
 			mCategory_.ValueMember = "CategoryId";
 			mCategory_.DisplayMember = "Name";

@@ -83,7 +83,7 @@ namespace MiskoFinance.Forms
         	if(rs != null)
         	{
         		MiskoFinanceMain.Instance.Operator.Categories = rs.Categories;
-        		MiskoFinanceMain.Instance.SearchPanel.Categories = rs.Categories.GetByStatus(Status.Active, true);
+                MiskoFinanceMain.Instance.SearchPanel.Categories = rs.Categories;
         	}            
             
             Dispose();
@@ -107,7 +107,6 @@ namespace MiskoFinance.Forms
         {
         	VwCategory newCategory = mExistingExpenses_.DataSource.AddNew();
             newCategory.CategoryType = CategoryType.Expense;
-            newCategory.Status = Status.Active;
             newCategory.OperatorId = MiskoFinanceMain.Instance.Operator.OperatorId;
             mExistingExpenses_.CurrentCell = mExistingExpenses_.Rows[mExistingExpenses_.Rows.Count - 1].Cells["Name"];
             mExistingExpenses_.BeginEdit(true);            
@@ -117,7 +116,6 @@ namespace MiskoFinance.Forms
         {
         	VwCategory newCategory = mExistingTransfers_.DataSource.AddNew();
             newCategory.CategoryType = CategoryType.Transfer;
-            newCategory.Status = Status.Active;
             newCategory.OperatorId = MiskoFinanceMain.Instance.Operator.OperatorId;
             mExistingTransfers_.CurrentCell = mExistingTransfers_.Rows[mExistingTransfers_.Rows.Count - 1].Cells["Name"];
             mExistingTransfers_.BeginEdit(true);
@@ -127,7 +125,6 @@ namespace MiskoFinance.Forms
         {
         	VwCategory newCategory = mExistingIncome_.DataSource.AddNew();
             newCategory.CategoryType = CategoryType.Income;
-            newCategory.Status = Status.Active;
             newCategory.OperatorId = MiskoFinanceMain.Instance.Operator.OperatorId;
             mExistingIncome_.CurrentCell = mExistingIncome_.Rows[mExistingIncome_.Rows.Count - 1].Cells["Name"];
             mExistingIncome_.BeginEdit(true);
@@ -137,7 +134,6 @@ namespace MiskoFinance.Forms
         {
         	VwCategory newCategory = mExistingOneTime_.DataSource.AddNew();
             newCategory.CategoryType = CategoryType.OneTime;
-            newCategory.Status = Status.Active;
             newCategory.OperatorId = MiskoFinanceMain.Instance.Operator.OperatorId;
             mExistingOneTime_.CurrentCell = mExistingOneTime_.Rows[mExistingOneTime_.Rows.Count - 1].Cells["Name"];
             mExistingOneTime_.BeginEdit(true);

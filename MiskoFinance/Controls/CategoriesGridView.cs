@@ -15,7 +15,6 @@ namespace MiskoFinance.Controls
 		private readonly VwCategories mDataSource_ = new VwCategories();
 		
         private readonly DataGridViewTextBoxColumn mCategoryName_ = new DataGridViewTextBoxColumn();
-        private readonly DataGridViewComboBoxColumn mStatus_ = new DataGridViewComboBoxColumn();
         private readonly DataGridViewButtonColumn mDelete_ = new DataGridViewButtonColumn();
 
         #endregion
@@ -105,18 +104,7 @@ namespace MiskoFinance.Controls
             mCategoryName_.DataPropertyName = "Name";
             mCategoryName_.HeaderText = "Name";
             mCategoryName_.Name = "Name";
-            mCategoryName_.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            
-            mStatus_.ValueType = typeof(Status);
-            mStatus_.CellTemplate = new MiskoEnumComboBoxCell();
-            mStatus_.HeaderText = "Status";
-            mStatus_.Name = "Status";
-            mStatus_.Width = 50;
-			mStatus_.DisplayMember = "Description";
-            mStatus_.DataPropertyName = "Status";
-            mStatus_.DataSource = MiskoFinanceCore.Enums.Status.NonNullElements;
-            mStatus_.DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing;
-            mStatus_.SortMode = DataGridViewColumnSortMode.Automatic;            
+            mCategoryName_.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;         
             
             mDelete_.ValueType = typeof(String);
             mDelete_.HeaderText = "";
@@ -127,7 +115,6 @@ namespace MiskoFinance.Controls
 
             Columns.AddRange(new DataGridViewColumn[] {
                             mCategoryName_,
-                            mStatus_,
                             mDelete_});
             
         }

@@ -25,7 +25,7 @@ namespace MiskoFinanceCore.Message
         public override void Execute(Session session)
         {
         	Response.Categories = new VwCategories();
-        	Response.Categories.FetchByComposite(session, Request.Operator, Request.Status);
+        	Response.Categories.FetchByComposite(session, Request.Operator);
         }
     }
 }

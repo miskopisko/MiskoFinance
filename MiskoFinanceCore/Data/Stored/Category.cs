@@ -27,8 +27,6 @@ namespace MiskoFinanceCore.Data.Stored
         public String Name { get; set; }
         [Stored]
         public CategoryType CategoryType { get; set; }
-        [Stored]
-        public Status Status { get; set; }
 
         #endregion
 
@@ -85,16 +83,12 @@ namespace MiskoFinanceCore.Data.Stored
 			{
 				session.Error(ErrorLevel.Error, ErrorStrings.errCategoryTypeNull);
 			}
-			if (Status == null || !Status.IsSet)
-			{
-				session.Error(ErrorLevel.Error, ErrorStrings.errCategoryStatusNull);
-			}
 		}
 
 		public override void PostSave(Session session, UpdateMode mode)
 		{
 			// If a category is deleted or inactivated reset all txns that were in that category
-			if (mode.Equals(UpdateMode.Delete) || Status.Equals(Status.Inactive))
+			if (mode.Equals(UpdateMode.Delete))
 			{
 				Txns.RemoveTxnCategory(session, this);
 			}

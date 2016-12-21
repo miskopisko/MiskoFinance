@@ -3,6 +3,7 @@ using log4net;
 using MiskoFinanceCore.Enums;
 using MiskoPersist.Core;
 using MiskoPersist.Data.Viewed;
+using MiskoPersist.Enums;
 
 namespace MiskoFinanceCore.Data.Viewed
 {
@@ -56,33 +57,13 @@ namespace MiskoFinanceCore.Data.Viewed
 			return result;
 		}
 
-		public VwCategories GetByStatus(Status status, Boolean addBlank = false)
-		{
-			VwCategories result = new VwCategories();
-			
-			if (addBlank)
-			{
-				result.Add(new VwCategory());
-			}
-
-			foreach (VwCategory category in this)
-			{
-				if(category.CategoryId > 0 && category.Status.Equals(status))
-				{
-					result.Add(category);
-				}
-			}
-
-			return result;
-		}
-
-		public void FetchByComposite(Session session, PrimaryKey o, Status status)
+		public void FetchByComposite(Session session, PrimaryKey o)
 		{
 			using (Persistence persistence = session.GetPersistence())
 			{
 				persistence.SetSql("SELECT * FROM VwCategory");
 				persistence.SqlWhere(true, "OperatorId = ?", o);
-				persistence.SqlWhere(status != null && status.IsSet, "Status = ?", status);
+                persistence.SqlOrderBy("Name", SqlSortDirection.Ascending);
 				persistence.ExecuteQuery();
 				Set(session, persistence);
 			}

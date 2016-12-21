@@ -74,7 +74,7 @@ namespace MiskoFinanceCore.Data.Viewed
 		{
 			using (Persistence persistence = session.GetPersistence())
 			{
-				String sql = "SELECT SUM(B.OpeningBalance) OpeningBalance, MAX(B.Nickname) Nickname " +
+				String sql = "SELECT SUM(B.OpeningBalance) OpeningBalance " +
 						     "FROM   Account A, BankAccount B " +
 						  	 "WHERE  A.Id = B.Id ";
 				

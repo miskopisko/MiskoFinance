@@ -97,7 +97,7 @@ namespace MiskoFinanceCore.Data.Viewed
 			BankAccounts = new VwBankAccounts();
 			BankAccounts.FetchByOperator(session, OperatorId);
 			Categories = new VwCategories();
-			Categories.FetchByComposite(session, OperatorId, Status.Active);
+			Categories.FetchByComposite(session, OperatorId);
 		}
 
 		public Person Update(Session session)
