@@ -37,10 +37,6 @@ namespace MiskoFinanceCore.Data.Viewed
 		public Money SelectionOpeningBalance { get; set; }
 		[Viewed]
 		public Money SelectionClosingBalance { get; set; }
-		[Viewed]
-		public Money AllTimeOpeningBalance { get; set; }
-		[Viewed]
-		public Money AllTimeClosingBalance { get; set; }
 
 		#endregion
 
@@ -74,47 +70,12 @@ namespace MiskoFinanceCore.Data.Viewed
 		{
 			using (Persistence persistence = session.GetPersistence())
 			{
-				String sql = "SELECT SUM(B.OpeningBalance) OpeningBalance " +
-						     "FROM   Account A, BankAccount B " +
-						  	 "WHERE  A.Id = B.Id ";
-				
-				persistence.SetSql(sql);
-				persistence.SqlWhere(true, "A.Operator = ?", o);
-				persistence.SqlWhere(bankAccount.IsSet, "A.Id = ?", bankAccount);
-				persistence.ExecuteQuery();           
-
-				if (!persistence.IsEof)
-				{
-					AllTimeOpeningBalance = persistence.GetMoney("OpeningBalance");
-				}
-			}
-
-			using (Persistence persistence = session.GetPersistence())
-			{
-				String sql = "SELECT SUM(CASE WHEN C.DrCr = 0 THEN C.Amount ELSE -C.Amount END) ClosingBalance " +
-						  	 "FROM   Account A, BankAccount B, Txn C " +
-						  	 "WHERE  A.Id = B.Id " +
-						  	 "AND    B.Id = C.Account";
-				
-				persistence.SetSql(sql);
-				persistence.SqlWhere(true, "A.Operator = ?", o);
-				persistence.SqlWhere(bankAccount.IsSet, "A.Id = ?", bankAccount);
-				persistence.ExecuteQuery();
-	
-				if (!persistence.IsEof)
-				{
-					AllTimeClosingBalance = AllTimeOpeningBalance + persistence.GetMoney("ClosingBalance");
-				}	
-			}
-
-			using (Persistence persistence = session.GetPersistence())
-			{
-				String sql = "SELECT SUM(CASE WHEN DrCr = 0 THEN Amount ELSE 0 END) SumCredit, " +
-						  	 "       SUM(CASE WHEN DrCr = 1 THEN Amount ELSE 0 END) SumDebit, " +
+				String sql = "SELECT SUM(CASE WHEN DrCr = 0 AND Transfer = 0 THEN Amount ELSE 0 END) SumCredit, " +
+						  	 "       SUM(CASE WHEN DrCr = 1 AND Transfer = 0 THEN Amount ELSE 0 END) SumDebit, " +
 						  	 "       SUM(CASE WHEN DrCr = 0 AND Transfer = 1 THEN Amount ELSE 0 END) SumTransferIn, " +
-						  	 "       SUM(CASE WHEN DrCr = 1 AND Transfer = 1 THEN Amount ELSE 0 END) SumTransferOut, " +
+						  	 "       SUM(CASE WHEN DrCr = 1 AND Transfer = 1 THEN -Amount ELSE 0 END) SumTransferOut, " +
 						  	 "       SUM(CASE WHEN DrCr = 0 AND OneTime = 1 THEN Amount ELSE 0 END) SumOneTimeIn, " +
-						  	 "       SUM(CASE WHEN DrCr = 1 AND OneTime = 1 THEN Amount ELSE 0 END) SumOneTimeOut " +
+						  	 "       SUM(CASE WHEN DrCr = 1 AND OneTime = 1 THEN -Amount ELSE 0 END) SumOneTimeOut " +
 						  	 "FROM   VwTxn";
 				
 				persistence.SetSql(sql);
@@ -130,8 +91,8 @@ namespace MiskoFinanceCore.Data.Viewed
 				{
 					SelectionTotalCredits = persistence.GetMoney("SumCredit");
 					SelectionTotalDebits = persistence.GetMoney("SumDebit");
-					SelectionTotalTransfers = persistence.GetMoney("SumTransferIn") - persistence.GetMoney("SumTransferOut");
-					SelectionTotalOneTime = persistence.GetMoney("SumOneTimeIn") - persistence.GetMoney("SumOneTimeOut");
+					SelectionTotalTransfers = persistence.GetMoney("SumTransferIn") + persistence.GetMoney("SumTransferOut");
+					SelectionTotalOneTime = persistence.GetMoney("SumOneTimeIn") + persistence.GetMoney("SumOneTimeOut");
 				}
 			}
 

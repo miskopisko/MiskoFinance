@@ -66,18 +66,19 @@ namespace MiskoFinanceCore.Data.Viewed
 
 		#region Public Methods
 
-		public Category Update(Session session)
+		public void Update(Session session)
 		{
 			Category category = new Category();
 			category.FetchById(session, CategoryId);
 
+            category.Id = CategoryId;
             category.Operator = OperatorId;
 			category.Name = Name;
 			category.CategoryType = CategoryType;            
 			category.Save(session);
 
-			return category;
-		}
+            CategoryId = category.Id;
+        }
 
 		#endregion
 	}

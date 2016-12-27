@@ -100,20 +100,28 @@ namespace MiskoFinanceCore.Data.Viewed
 			Categories.FetchByComposite(session, OperatorId);
 		}
 
-		public Person Update(Session session)
+		public void Update(Session session, String password1, String password2)
 		{
 			Person p = new Person();
 			p.FetchById(session, OperatorId);
-			
+
+            p.Id = OperatorId;
 			p.Username = Username;
 			p.FirstName = FirstName;
 			p.LastName = LastName;
 			p.Email = Email;
 			p.Gender = Gender;
 			p.Birthday = Birthday;
-			p.Save(session);
 
-			return p;
+            // Only reset the password of a new password was sent
+            if (!String.IsNullOrEmpty(password1) || !String.IsNullOrEmpty(password2))
+            {
+                p.SetPassword(session, password1, password2);
+            }
+
+            p.Save(session);
+
+            OperatorId = p.Id;
 		}
 
 		#endregion

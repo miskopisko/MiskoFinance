@@ -81,6 +81,7 @@ namespace MiskoFinanceCore.Data.Viewed
 			BankAccount bankAccount = new BankAccount();
 			bankAccount.FetchById(session, BankAccountId);
 
+            bankAccount.Id = BankAccountId;
 			bankAccount.Operator = OperatorId;            
 			bankAccount.AccountType = AccountType;
 			bankAccount.AccountNumber = AccountNumber;

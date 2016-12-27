@@ -63,11 +63,26 @@ namespace MiskoFinance.Forms
         private void GetCategoriesSuccess(ResponseMessage response)
         {
         	Enabled = true;
-        	
-        	mExistingIncome_.DataSource.Add(((GetCategoriesRS)response).Categories.GetByType(CategoryType.Income));
-        	mExistingExpenses_.DataSource.Add(((GetCategoriesRS)response).Categories.GetByType(CategoryType.Expense));
-        	mExistingTransfers_.DataSource.Add(((GetCategoriesRS)response).Categories.GetByType(CategoryType.Transfer));
-        	mExistingOneTime_.DataSource.Add(((GetCategoriesRS)response).Categories.GetByType(CategoryType.OneTime));
+
+            foreach (VwCategory category in ((GetCategoriesRS)response).Categories)
+            {
+                if (category.CategoryType.Equals(CategoryType.Income))
+                {
+                    mExistingIncome_.DataSource.Add(category);
+                }
+                if (category.CategoryType.Equals(CategoryType.Expense))
+                {
+                    mExistingExpenses_.DataSource.Add(category);
+                }
+                if (category.CategoryType.Equals(CategoryType.Transfer))
+                {
+                    mExistingTransfers_.DataSource.Add(category);
+                }
+                if (category.CategoryType.Equals(CategoryType.OneTime))
+                {
+                    mExistingOneTime_.DataSource.Add(category);
+                }
+            }
             
             mExistingIncome_.ClearSelection();
         }

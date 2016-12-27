@@ -123,11 +123,20 @@ namespace MiskoFinanceCore.Data.Viewed
 			Txn txn = new Txn();
 			txn.FetchById(session, TxnId);
 
-			txn.OneTime = OneTime;
-			txn.Transfer = Transfer;
-			txn.Category = Category;
-			txn.Save(session);
-		}
+            txn.Id = TxnId;
+            txn.Account = AccountId;
+            txn.DrCr = DrCr;
+            txn.Transfer = Transfer;
+            txn.OneTime = OneTime;
+            txn.DatePosted = DatePosted;
+            txn.Amount = Amount;
+            txn.Description = Description;
+            txn.Category = Category;
+            txn.HashCode = HashCode;
+            txn.Save(session);
+
+            TxnId = txn.Id;
+        }
 
 		#endregion
 	}

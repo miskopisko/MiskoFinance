@@ -43,18 +43,8 @@ namespace MiskoFinanceCore.Message
 				session.Error(ErrorLevel.Confirmation, "You are about to create a new user {0}. Are you sure?", Request.Operator.Username);
 			}
 
-			Person person = Request.Operator.Update(session);
-			
-			// Only reset the password of a new password was sent
-			if (!String.IsNullOrEmpty(Request.Password1) || !String.IsNullOrEmpty(Request.Password2))
-			{
-				person.SetPassword(session, Request.Password1, Request.Password2);
-				person.Save(session);
-			}
-
-			Response.Operator = new VwOperator();
-			Response.Operator.OperatorId = person.Id;
-			Response.Operator.Fetch(session);
+			Request.Operator.Update(session, Request.Password1, Request.Password2);
+            Response.Operator = Request.Operator;
 		}
 	}
 }

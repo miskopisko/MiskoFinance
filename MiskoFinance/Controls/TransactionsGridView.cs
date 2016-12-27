@@ -107,7 +107,7 @@ namespace MiskoFinance.Controls
 			{
 				VwTxn txn = (VwTxn)row.DataBoundItem;
 				
-				((DataGridViewComboBoxCell)row.Cells["Category"]).DataSource = MiskoFinanceMain.Instance.Operator.Categories.GetByType(txn.CategoryType, true);
+				((DataGridViewComboBoxCell)row.Cells["Category"]).DataSource = MiskoFinanceMain.Instance.Operator.Categories.GetByType(txn.CategoryType);
 				((DataGridViewComboBoxCell)row.Cells["Category"]).Value = txn.Category;
 			}
 		}
@@ -138,7 +138,7 @@ namespace MiskoFinance.Controls
 			
 			if(CurrentCell.OwningColumn == mTransfer_ || CurrentCell.OwningColumn == mOneTime_)
 			{
-				((DataGridViewComboBoxCell)Rows[CurrentCell.RowIndex].Cells["Category"]).DataSource = MiskoFinanceMain.Instance.Operator.Categories.GetByType(((VwTxn)Rows[e.RowIndex].DataBoundItem).CategoryType, true);	
+				((DataGridViewComboBoxCell)Rows[CurrentCell.RowIndex].Cells["Category"]).DataSource = MiskoFinanceMain.Instance.Operator.Categories.GetByType(((VwTxn)Rows[e.RowIndex].DataBoundItem).CategoryType);	
 				((VwTxn)Rows[e.RowIndex].DataBoundItem).Category = null;
 			}
 			
@@ -244,7 +244,7 @@ namespace MiskoFinance.Controls
 			mCategory_.CellTemplate = new DataGridViewComboBoxCell();
 			mCategory_.HeaderText = "Category";
 			mCategory_.Name = "Category";
-			mCategory_.Width = 200;
+			mCategory_.Width = 250;
 			mCategory_.DataPropertyName = "Category";
 			mCategory_.ValueMember = "CategoryId";
 			mCategory_.DisplayMember = "Name";

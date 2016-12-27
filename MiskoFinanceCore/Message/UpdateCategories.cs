@@ -29,7 +29,10 @@ namespace MiskoFinanceCore.Message
             foreach (VwCategory category in Request.Categories)
             {
 				category.Update(session);
-            	Response.Categories.Add(category);
+                if (category.CategoryId > 0)
+                {
+                    Response.Categories.Add(category);
+                }
             }
         }
     }

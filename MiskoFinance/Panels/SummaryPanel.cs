@@ -25,10 +25,6 @@ namespace MiskoFinance.Panels
 				mSelectionOpeningBalance_.Value = value.SelectionOpeningBalance;
 				mSelectionClosingBalance_.Value = value.SelectionClosingBalance;
 				mSelectionBalanceDifference_.Value = value.SelectionClosingBalance - value.SelectionOpeningBalance;
-	
-				mOpeningBalance_.Value = value.AllTimeOpeningBalance;
-				mCurrentBalance_.Value = value.AllTimeClosingBalance;
-				mBalanceDiff_.Value = value.AllTimeClosingBalance - value.AllTimeOpeningBalance;
 			}
 		}
 

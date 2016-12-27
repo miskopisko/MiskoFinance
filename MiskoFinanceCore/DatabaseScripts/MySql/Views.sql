@@ -32,16 +32,17 @@ SELECT  T.Id TxnId,
         O.Id OperatorId,
         T.DatePosted,
         T.Description,
-		T.DrCr,
-		T.Category,
-		T.Transfer,
-		T.OneTime,
-        T.Amount,
-		B.NickName Account             
-FROM    Txn T, Account A, BankAccount B, Operator O
-WHERE   T.Account = A.Id
-AND		A.Id = B.Id
-AND     A.Operator = O.Id
+	T.DrCr,
+	T.Category,
+	T.Transfer,
+	T.OneTime,
+	T.Amount,
+        B.NickName Account,
+        T.HashCode
+FROM	Txn T, Account A, BankAccount B, Operator O
+WHERE	T.Account = A.Id
+AND	A.Id = B.Id
+AND	A.Operator = O.Id
 ORDER BY T.DatePosted, T.Id;
 
 DROP VIEW IF EXISTS VwCategory;

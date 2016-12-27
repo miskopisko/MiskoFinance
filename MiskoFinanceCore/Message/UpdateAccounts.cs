@@ -29,7 +29,10 @@ namespace MiskoFinanceCore.Message
             foreach (VwBankAccount bankAccount in Request.BankAccounts)
             {
                 bankAccount.Update(session);
-				Response.BankAccounts.Add(bankAccount);
+                if (bankAccount.BankAccountId > 0)
+                {
+                    Response.BankAccounts.Add(bankAccount);
+                }				
             }
         }
     }
