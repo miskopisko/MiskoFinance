@@ -24,7 +24,6 @@ namespace MiskoFinance
 			Application.SetCompatibleTextRenderingDefault(true);
 			Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
 			Application.ThreadException += ThreadException;
-			Application.ApplicationExit += Application_ApplicationExit;
 			
 			// Configure the logger
 			XmlConfigurator.Configure();
@@ -44,19 +43,12 @@ namespace MiskoFinance
 			// Run the application
 			Application.Run(MiskoFinanceMain.Instance);
 		}
-
-		private static void Application_ApplicationExit(Object sender, EventArgs e)
-		{
-			if (MiskoFinanceMain.Instance.Operator.IsSet)
-			{
-				Server.SendRequest(new LogoffRQ());
-			}
-		}
 		
 		private static void ThreadException(Object sender, ThreadExceptionEventArgs e)
 		{
 			Log.Error(e.Exception.ToString());
-			MiskoFinanceMain.Instance.Error(new ErrorMessage(e.Exception));
+            ErrorMessage errorMessage = new ErrorMessage(e.Exception);
+            MiskoFinanceMain.Instance.Error(errorMessage.ToString());
 		}
 		
 		public static void SetServerParameters()

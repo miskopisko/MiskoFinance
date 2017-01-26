@@ -121,14 +121,20 @@ namespace MiskoFinance.Forms
 		// Change users, show the login dialog
 		private void mLogoutToolStripMenuItem__Click(Object sender, EventArgs e)
 		{
-			Server.SendRequest(new LogoffRQ());
-			
-			Operator = new VwOperator();
-			SummaryPanel.Summary = new VwSummary();
-			TransactionsPanel.Clear();
-			SearchPanel.Reset();
-			SearchPanel.Disable();
-			new LoginDialog().ShowDialog(this);
+            ConfirmationEventArgs confirm = new ConfirmationEventArgs();
+            Confirm("Logout. Are you sure?", confirm);
+
+            if (confirm.Confirmed)
+            {
+                Server.SendRequest(new LogoffRQ());
+
+                Operator = new VwOperator();
+                SummaryPanel.Summary = new VwSummary();
+                TransactionsPanel.Clear();
+                SearchPanel.Reset();
+                SearchPanel.Disable();
+                new LoginDialog().ShowDialog(this);
+            }
 		}
 
 		// Exit the application
@@ -190,11 +196,28 @@ namespace MiskoFinance.Forms
 			#endif
 		}
 
-		#endregion
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            ConfirmationEventArgs confirm = new ConfirmationEventArgs();
+            Confirm("Exit application. Are you sure?", confirm);
 
-		#region Private Methods
-		
-		public void LoginSuccess(ResponseMessage response)
+            if (confirm.Confirmed)
+            {
+                Server.SendRequest(new LogoffRQ());
+            }
+            else
+            {
+                e.Cancel = true;
+            }
+
+            base.OnFormClosing(e);
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        public void LoginSuccess(ResponseMessage response)
 		{
 			LogonRS rs = response as LogonRS;
 			if(rs != null)
@@ -241,24 +264,24 @@ namespace MiskoFinance.Forms
 			mMessageStatusBar_.Increment(mMessageStatusBar_.Step);
 		}
 
-		public void Error(ErrorMessage message)
+		public void Error(String message)
 		{
-			MessageBox.Show(this, message.ToString(), ErrorStrings.errError, MessageBoxButtons.OK, MessageBoxIcon.Error);
+			MessageBox.Show(this, message, ErrorStrings.errError, MessageBoxButtons.OK, MessageBoxIcon.Error);
 		}
 
-		public void Warning(ErrorMessage message)
+		public void Warning(String message)
 		{
-			MessageBox.Show(this, message.ToString(), WarningStrings.warnWarning, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			MessageBox.Show(this, message, WarningStrings.warnWarning, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 		}
 
-		public void Info(ErrorMessage message)
+		public void Info(String message)
 		{
-			MessageBox.Show(this, message.ToString(), WarningStrings.infoInformation, MessageBoxButtons.OK, MessageBoxIcon.Information);
+			MessageBox.Show(this, message, WarningStrings.infoInformation, MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
-		public void Confirm(ErrorMessage message, ConfirmationEventArgs args)
+		public void Confirm(String message, ConfirmationEventArgs args)
 		{
-			DialogResult result = MessageBox.Show(this, message.ToString(), ConfirmStrings.conConfirmation, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+			DialogResult result = MessageBox.Show(this, message, ConfirmStrings.conConfirmation, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 			args.Confirmed = result.Equals(DialogResult.Yes);
 		}
 		
